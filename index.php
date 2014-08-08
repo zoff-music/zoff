@@ -68,9 +68,9 @@ if(isset($_GET['v'])){
 				eventlistener for når playeren endres
 				*/
 				function onytplayerStateChange(newState) {
-					if(newState == 0) //newState = 0 når videoen er ferdig
+					if(newState == 0) 
 					{
-						$.ajax({		//snutt for å kjøre save.php som lagrer til jsonfilen neste sang og denne sangen. Endrer rekkefølge altså.
+						$.ajax({
 						type: "POST",
 						url: "save.php",
 						data: "thisUrl="+response,
@@ -81,7 +81,7 @@ if(isset($_GET['v'])){
 							}
 						});
 
-						setTimeout(function(){	//har en timeout for at den skal klare å fetche hva den neste sangen er etter at save.php har endret på ting
+						setTimeout(function(){	
 							response = $.ajax({ type: "GET",   
 							url: "videos.json",   
 							async: false
@@ -94,7 +94,7 @@ if(isset($_GET['v'])){
 					}
 				}
 
-				function errorHandler(newState)		//errorhandler. Fjerner urlen til en "dårlig" video og går til neste
+				function errorHandler(newState)		
 				{
 					$.ajax({
 						type: "POST",
@@ -117,9 +117,9 @@ if(isset($_GET['v'])){
 							ytplayer.loadVideoById(response);
 							},100);
 				}
-				function onYouTubePlayerReady(playerId) {	//funksjon som kjøres når playeren er klar
+				function onYouTubePlayerReady(playerId) {	
 					  ytplayer = document.getElementById("myytplayer");
-					  ytplayer.addEventListener("onStateChange", "onytplayerStateChange");	//eventlistenere
+					  ytplayer.addEventListener("onStateChange", "onytplayerStateChange");	
 					  //ytplayer.addEventListener("onError", "errorHandler");
 					  ytplayer.seekTo(ytplayer.getDuration()-10);
 					  ytplayer.setVolume(100);
