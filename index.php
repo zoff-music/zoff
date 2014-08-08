@@ -119,7 +119,7 @@ if(isset($_GET['v'])){
 				function onYouTubePlayerReady(playerId) {	//funksjon som kjøres når playeren er klar
 					  ytplayer = document.getElementById("myytplayer");
 					  ytplayer.addEventListener("onStateChange", "onytplayerStateChange");	//eventlistenere
-					  ytplayer.addEventListener("onError", "errorHandler");
+					  //ytplayer.addEventListener("onError", "errorHandler");
 					  //ytplayer.seekTo(ytplayer.getDuration()-10);
 					  ytplayer.setVolume(100);
 					  ytplayer.playVideo();
