@@ -25,7 +25,7 @@
 	</div>
 	<script type="text/javascript" src="static/swfobject.js"></script>    
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript" scr="./main.js"></script>
+	<script type="text/javascript" scr="static/main.js"></script>
 	<script>
 		$(document).ready(function(){  }) 
 	</script>
