@@ -7,6 +7,9 @@
 		$data = json_decode($file);
 		unset($file);//prevent memory leaks for large json.
 		//insert data here
+		<script>
+		console.log("in save.php");
+		</script>
 		if($data[0] == $string)
 		{
 			array_push($data, $string);
