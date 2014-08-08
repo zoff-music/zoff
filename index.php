@@ -17,15 +17,13 @@
 			</form>
 		</div>
 		   
-		<div id="ytapiplayer">
-			You need Flash player 8+ and JavaScript enabled to view this video :(
-		</div>
+       <?php include('vidhandling.php'); ?>
+		
 		<br>
 		<?php print_r($data); ?>
 	</div>
 	<script type="text/javascript" src="static/swfobject.js"></script>    
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript" src="main.js"></script>
 	<script>
 		$(document).ready(function(){  }) 
 	</script>
