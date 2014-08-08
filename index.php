@@ -52,7 +52,8 @@ if(isset($_GET['v'])){
                       }).responseText;
 				
 				var url = $.parseJSON(response);
-				response = url[0];
+				response = url[0][0];
+
 				  
 				/**
 				
@@ -87,7 +88,7 @@ if(isset($_GET['v'])){
 							async: false
 							}).responseText;
 							var url = $.parseJSON(response);
-							response = url[0];
+							response = url[0][0];
 							console.log(response);
 							ytplayer.loadVideoById(response);
 							},500);
