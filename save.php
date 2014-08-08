@@ -20,9 +20,11 @@
 			array_shift($data);
 		}
 		file_put_contents("videos.json", json_encode($data));
+		echo $data;
 		unset($data);
 	}else
 	{
 		echo "You're a bad boy";
 	}
+	die();
 ?>

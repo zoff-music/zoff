@@ -70,7 +70,7 @@ if(isset($_GET['v'])){
 				function onytplayerStateChange(newState) {
 					if(newState == 0) 
 					{
-						$.ajax({
+						/*$.ajax({
 						type: "POST",
 						url: "save.php",
 						data: "thisUrl="+response,
@@ -79,7 +79,21 @@ if(isset($_GET['v'])){
 								console.log("saved");
 								console.log(response);
 							}
-						});
+						});*/
+						
+						$.ajax({
+			                type : 'post',
+			                //dataType : '', // http://en.wikipedia.org/wiki/JSON
+			                url : 'save.php',
+			                data : "thisUrl="+response,
+			                success: function(ans) {
+			                    if( ans.type == 'success' ) {
+			                        alert('Bravo! ' + ans.result);
+			                    } else {
+			                        alert('Error!');
+			                    };
+			                }
+			            });
 
 						setTimeout(function(){	
 							response = $.ajax({ type: "GET",   
