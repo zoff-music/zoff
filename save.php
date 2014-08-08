@@ -1,3 +1,6 @@
+<script>
+	console.log("utenfor if")
+</script>
 <?php
 	if(isset($_POST['thisUrl']))
 	{
