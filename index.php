@@ -77,6 +77,7 @@ if(isset($_GET['v'])){
 		 
 							success: function() {
 								console.log("saved");
+								console.log(response);
 							}
 						});
 
@@ -87,7 +88,7 @@ if(isset($_GET['v'])){
 							}).responseText;
 							var url = $.parseJSON(response);
 							response = url[0];
-							
+							console.log(response);
 							ytplayer.loadVideoById(response);
 							},500);
 					}
