@@ -1,8 +1,10 @@
 <?php echo "hello"; ?> 
+
 <div id="ytapiplayer">
 	You need Flash player 8+ and JavaScript enabled to view this video :(
 </div>
-
+<script type="text/javascript" src="static/swfobject.js"></script>    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
     $(document).ready(function()
 {
