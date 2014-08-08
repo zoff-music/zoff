@@ -17,7 +17,7 @@
 			</form>
 		</div>
 		   
-       <?php include('vidhandling.php'); ?>
+       <?php include 'vidhandling.php'; ?>
 		
 		<br>
 		<?php print_r($data); ?>
