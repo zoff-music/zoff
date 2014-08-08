@@ -11,5 +11,6 @@ body{background:#444; overflow: hidden;}
 .small a:hover{color:#ed207f;}
 .daform{margin-bottom: 20px;}
 .big{font-size:180vh; position:absolute; top:-100%; color:#000 !important; z-index:-1;}
+.noselect{-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
