@@ -67,6 +67,7 @@
 			
 			    success: function() {
 				    console.log("saved");
+                    console.log(response);
 			    }
 		    });
 
@@ -76,6 +77,7 @@
 				    async: false
 			    }).responseText;
 			    var url = $.parseJSON(response);
+                console.log(url[0]);
 			    response = url[0];
 			
 			    ytplayer.loadVideoById(response);
