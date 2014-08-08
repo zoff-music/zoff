@@ -1,8 +1,8 @@
 <?php
-
 	if(isset($_POST['thisUrl']))
 	{
 		$string = $_POST['thisUrl'];
+		
 		$file = file_get_contents('videos.json');
 		$data = json_decode($file);
 		unset($file);//prevent memory leaks for large json.
