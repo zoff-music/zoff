@@ -1,136 +1,47 @@
-<?php
-/*$host = 'http://'.$_SERVER['HTTP_HOST'].'/+';    
-$short = $_SERVER['QUERY_STRING'];*/
-$video = htmlspecialchars($_GET['v']);
-$name = htmlspecialchars($_GET['n']);
-
-$list = json_decode(file_get_contents('videos.json'));
-if(isset($_GET['v'])){
-	$file = file_get_contents('videos.json');
-	$data = json_decode($file);
-	unset($file);//prevent memory leaks for large json.
-}
-?>
-
 <html>
-    <head>
-        <title>Zöff</title>
-        <link rel="stylesheet" type="text/css" href="style.css" title="Default" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    </head>
-    <body>
-
-        <div class="top vcent centered">
-         <div id="change" class="small">
-         	<div class="big">Zöff</div>
-          Zöff
-          <form name="ufo" action="" class="daform" id="base" method="get" onsubmit="return submitform();">
-                    <input id="longurl" name="v" type="text" class="innbox" />
-                </form>
-          </div>
-            <script type="text/javascript" src="swfobject.js"></script>    
-			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>   
-            <div id="ytapiplayer">
-				You need Flash player 8+ and JavaScript enabled to view this video.
-			  </div>
-
-			  <script>
-				/**
-				TODO:
-				-legge til timer når man trykker pause for at når man "unpauser", går den dit den ville vært, hvis videoen ville blitt ferdig, load en ny video men ha den på pause
-				-legge til tid når en video ble påbegynt, for at hvis folk joiner midt i en video, hopper den dit
-				*/
-				/**
-				
-				Fetcher sangen som spilles fra JSON filen
-				
-				*/
+<head>
+	<title>Zöff</title>
+	<meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen">
+	<link rel="stylesheet" type="text/css" href="/style.css" title="Default" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" type="image/png" href="/static/favicon.png"/>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="top vcent centered">
+		<div id="change" class="small"><?php 
 			
-				var response = $.ajax({ type: "GET",   
-                        url: "videos.json",   
-                        async: false
-                      }).responseText;
-				
-				var url = $.parseJSON(response);
-				response = url[0][0];
+			if(isset($_GET['chan'])) header('Location: '.$_GET['chan']);
+			$list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+			if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('nochan.php');die();}
+			else $list=$list[1];?>
+			<a id="toptitle" href="/">Zöff</a>
+			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></div>
+			<input id="search" name="v" type="text" class="search_input innbox" spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off"/>
+			<div id="results"></div>
+			<div class="main">
+				<div id="player" class="ytplayer"></div>
 
-				  
-				/**
-				
-				Legger sangen inn i <div>en, via swfobject
-				
-				*/
-				var params = { allowScriptAccess: "always"};
-				var atts = { id: "myytplayer" };
-				swfobject.embedSWF("http://www.youtube.com/v/"+response+"?enablejsapi=1&playerapiid=ytplayer&version=3&controls=1&iv_load_policy=3",
-				   "ytapiplayer", "825", "462", "8", null, null, params, atts);
-				
-				/**
-				eventlistener for når playeren endres
-				*/
-				function onytplayerStateChange(newState) {
-					if(newState == 0) 
-					{
-						$.ajax({
-						type: "POST",
-						url: "save.php",
-						data: "thisUrl="+response,
-		 
-							success: function() {
-								console.log("saved");
-								console.log(response);
-							}
-						});
+				<div class="playlist" >
+				<div id="buttons" class="result">
+					<img src="/static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
+				</div>
+					<div id="playlist">
+						<div id="wrapper">
 
-						setTimeout(function(){	
-							response = $.ajax({ type: "GET",   
-							url: "videos.json",   
-							async: false
-							}).responseText;
-							var url = $.parseJSON(response);
-							response = url[0][0];
-							console.log(response);
-							ytplayer.loadVideoById(response);
-							},500);
-					}
-				}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer small centered top anim">&copy; 2014 <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT</a> </div>
 
-				function errorHandler(newState)		
-				{
-					$.ajax({
-						type: "POST",
-						url: "delete.php",
-						data: "thisUrl="+response,
-		 
-							success: function() {
-								console.log("deleted");
-							}
-						});
-
-						setTimeout(function(){
-							response = $.ajax({ type: "GET",   
-							url: "videos.json",   
-							async: false
-							}).responseText;
-							var url = $.parseJSON(response);
-							response = url[0];
-							
-							ytplayer.loadVideoById(response);
-							},100);
-				}
-				function onYouTubePlayerReady(playerId) {	
-					  ytplayer = document.getElementById("myytplayer");
-					  ytplayer.addEventListener("onStateChange", "onytplayerStateChange");	
-					  //ytplayer.addEventListener("onError", "errorHandler");
-					  ytplayer.seekTo(ytplayer.getDuration()-10);
-					  ytplayer.setVolume(100);
-					  ytplayer.playVideo();
-					}
-				
-			  </script>
-          <br>
-          <?php print_r($list); ?>
-        </div>
-        
-    </body>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/swfobject.js"></script>
+		<script type="text/javascript" src="/iscroll.js"></script>  
+		<script type="text/javascript" src="/list.js"></script>  
+		<script type="text/javascript" src="/youtube.js"></script>
+		<script type="text/javascript" src="/search.js"></script> 
+		<script type="text/javascript" src="/visualize.js"></script> 
+</body>
 </html>
