@@ -3,10 +3,10 @@ Zoff
 
 The shared youtube radio
 
-* About the specific files
+## About the specific files
 
-*** change.php
+### change.php
 Does all the serverside handling, updating lists, voting, serving the list, adding songs etc.
 
-*** Everything else
+### Everything else
 Is pretty much self explanatory. :D
