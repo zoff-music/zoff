@@ -10,3 +10,10 @@ Does all the serverside handling, updating lists, voting, serving the list, addi
 
 ### Everything else
 Is pretty much self explanatory. :D
+The important files are:
+  * youtube.js
+  * list.js
+  * search.js
+  * change.php
+  * index.php
+
