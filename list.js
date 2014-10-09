@@ -38,21 +38,24 @@ function updateList()
 		});
 		if($("#playlist").height() > $("#player").height())
 		{
-			if(!window.mobilecheck()){ $("#playlist").css({height: $("#player").height() - $("#buttons").height()-4});}
-			if(scroller == false)
+			if(!window.mobilecheck())
 			{
-				myScroll = new IScroll('#playlist', {
-					mouseWheel: true,
-					scrollbars: false,
-					scrollY: true,
-					interactiveScrollbars: false
-				});
-				scroller = true;
-			}else
-			{
-				myScroll.refresh();
+				$("#playlist").css({height: $("#player").height() - $("#buttons").height()-4});
+				$("#playlist").css({overflow: "hidden"});
+				if(scroller == false)
+				{
+					myScroll = new IScroll('#playlist', {
+						mouseWheel: true,
+						scrollbars: false,
+						scrollY: true,
+						interactiveScrollbars: false
+					});
+					scroller = true;
+				}else
+				{
+					myScroll.refresh();
+				}
 			}
-			
 		}
 		if(window.mobilecheck())
 		{

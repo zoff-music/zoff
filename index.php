@@ -9,12 +9,13 @@
 </head>
 <body>
 	<div class="top vcent centered">
-		<div id="change" class="small"><?php 
-			
-			if(isset($_GET['chan'])) header('Location: '.$_GET['chan']);
-			$list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
-			if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('nochan.php');die();}
-			else $list=$list[1];?>
+		<div id="change" class="small">
+			<?php 
+				if(isset($_GET['chan'])) header('Location: '.$_GET['chan']);
+				$list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+				if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('nochan.php');die();}
+				else $list=$list[1];
+			?>
 			<a id="toptitle" href="/">Zöff</a>
 			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></div>
 			<input id="search" name="v" type="text" class="search_input innbox" spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off"/>

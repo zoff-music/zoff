@@ -75,7 +75,8 @@ else if(isset($_GET['vote'])){ //add vote
 		unset($data[3][$i]);
 		unset($data[0][$i]);
 		unset($data[2][$i]);
-		$underVote = array_search($votes-1, $data[2]);
+		$underVote = array_search($votes-1, $data[2]); #nenennenenen feiiiiiiiiiiiiiiiiil
+
 		if($underVote == 0)$underVote=1;
         else if($underVote == false)$underVote=count($data[2]);
         array_splice($data[3], $underVote, 0, array($name));

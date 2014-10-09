@@ -59,9 +59,14 @@ $(document).ready(function()
 	tag.src = "https://www.youtube.com/iframe_api";
 	firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	syncInterval = setInterval(getTime, 5000);
-	listInterval = setInterval(updateList, 10000);
-	if(window.mobilecheck()){document.getElementById("search").blur();}
+	if(window.mobilecheck()){
+		syncInterval = setInterval(getTime, 50000);
+		listInterval = setInterval(updateList, 50000);
+		document.getElementById("search").blur();
+	}else{
+		syncInterval = setInterval(getTime, 5000);
+		listInterval = setInterval(updateList, 10000);
+	}
 });
 
 function onYouTubeIframeAPIReady() {
@@ -100,11 +105,13 @@ function onPlayerStateChange(newState) {
 		console.log("nummer 1");
 		startNextSong();
 		ytplayer.pauseVideo();
+		wasPaused = false;
 	}else if(newState.data == 1 && (wasPaused && !beginning))
 	{
 		console.log("unpaused");
 		beginning = false;
 		wasPaused = false;
+		syncInterval = setInterval(getTime, 5000);
 		getTime();
 	}else if(newState.data == 2)
 	{
@@ -136,7 +143,7 @@ function checkEnd()
 
 function startNextSong()
 {
-		clearInterval(syncInterval);
+
 		//console.log(getTime());
 		if(checkEnd() && !changed)
 		{
@@ -156,74 +163,79 @@ function startNextSong()
 				getTitle(response);
 				ytplayer.loadVideoById(response);
 				beginning = true;
-				syncInterval = setInterval(getTime, 5000);
+				
 			},2500);
 			updateList();
 			changed = true
 			setTimeout(function() {
 				changed = false;
+				syncInterval = setInterval(getTime, 5000);
+				interval = true;
+				console.log("starter intervallen. Interval: " + interval);
 			}, 2500);
 		}
+		
 }
 
 function getTime()
 {
+	console.log("utenfor if test" + wasPaused);
 	if(!wasPaused)
 	{
-	console.log("sjekker om brukeren spolte");
+		console.log("sjekker om brukeren spolte");
 
-	$.ajax({
-		type: 'get',
-		url: 'timedifference.php',
-		data: "abcde",
-		async: false,
-		success: function(data) {
-			timeDifference = $.parseJSON(data);
-		}
-	});
-	console.log("current song: "+response);
-	console.log("song in database: "+timeDifference[1]);
-		if(parseInt(timeDifference[2]) + 1> ytplayer.getCurrentTime() + parseInt(timeDifference[3]) && ytplayer.getPlayerState() == 0)
-		{
-			return true;
-		}else if(ytplayer.getCurrentTime() + parseInt(timeDifference[3]) > parseInt(timeDifference[2]) + 5 || (ytplayer.getCurrentTime() + parseInt(timeDifference[3]) < parseInt(timeDifference[2]) - 5 && ytplayer.getPlayerState() != 0 && ytplayer.getPlayerState() != 3))
-		{
-			if(parseInt(timeDifference[0]) > ytplayer.getDuration())
-			{
-				console.log("burde ikke søke, men hoppe til neste sang");
+		$.ajax({
+			type: 'get',
+			url: 'timedifference.php',
+			data: "abcde",
+			async: false,
+			success: function(data) {
+				timeDifference = $.parseJSON(data);
 			}
-			ytplayer.seekTo(timeDifference[0]);
-			ytplayer.pauseVideo();
-			ytplayer.playVideo();
-			getTitle();
-			return false;
-		}
-		//if(interval){syncInterval = setInterval(getTime, 5000);interval = false;}
-		
-		if(response != timeDifference[1])
-		{
-			clearInterval(syncInterval);
-			console.log("forskjellige videoer!!");
-			ytplayer.pauseVideo();
-			ytplayer.loadVideoById(timeDifference[1]);
-			setTimeout(function(){
-				//console.log(response);
-				diffVideo = true;
-				beginning = true;
-				$.ajax({
-					type: "POST",
-					url: "change.php",
-					async: false,
-					data: "thisUrl=123abcprompeprompe&act=save",
-					success: function(data)
-					{
-						response = timeDifference[1];
-						getTitle();
-					}
-				});
-				syncInterval = setInterval(getTime, 5000);
-			},2500);
-		}
+		});
+		console.log("current song: "+response);
+		console.log("song in database: "+timeDifference[1]);
+			if(parseInt(timeDifference[2]) + 1> ytplayer.getCurrentTime() + parseInt(timeDifference[3]) && ytplayer.getPlayerState() == 0)
+			{
+				return true;
+			}else if(ytplayer.getCurrentTime() + parseInt(timeDifference[3]) > parseInt(timeDifference[2]) + 5 || (ytplayer.getCurrentTime() + parseInt(timeDifference[3]) < parseInt(timeDifference[2]) - 5 && ytplayer.getPlayerState() != 0 && ytplayer.getPlayerState() != 3))
+			{
+				if(parseInt(timeDifference[0]) > ytplayer.getDuration())
+				{
+					console.log("burde ikke søke, men hoppe til neste sang");
+				}
+				ytplayer.seekTo(timeDifference[0]);
+				ytplayer.pauseVideo();
+				ytplayer.playVideo();
+				getTitle();
+				return false;
+			}
+			//if(interval){syncInterval = setInterval(getTime, 5000);interval = false;}
+			
+			if(response != timeDifference[1])
+			{
+				clearInterval(syncInterval);
+				console.log("forskjellige videoer!!");
+				ytplayer.pauseVideo();
+				ytplayer.loadVideoById(timeDifference[1]);
+				setTimeout(function(){
+					//console.log(response);
+					diffVideo = true;
+					beginning = true;
+					$.ajax({
+						type: "POST",
+						url: "change.php",
+						async: false,
+						data: "thisUrl=123abcprompeprompe&act=save",
+						success: function(data)
+						{
+							response = timeDifference[1];
+							getTitle();
+						}
+					});
+					syncInterval = setInterval(getTime, 5000);
+				},2500);
+			}
 		}
 }
 
