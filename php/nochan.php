@@ -1,7 +1,8 @@
 <?php
 
 if(isset($_GET['chan'])){
-	header('Location: '.$_GET['chan']);
+	$chan = htmlspecialchars($_GET['chan']);
+	header('Location: '.$chan);
 }
 
 $dir = scandir('./lists');
@@ -21,14 +22,14 @@ foreach($dir as $files){
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
 					<input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
-					  <?php foreach($channels as $channel){echo "<option value='".urldecode($channel)."'> ";} ?>
+					  <?php foreach($channels as $channel){echo "<option value='".htmlspecialchars(urldecode($channel))."'> ";} ?>
 					</datalist>
 				</form>
 
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='/".$channel."'>".urldecode($channel)."</a>";} ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='/".$channel."'>".htmlspecialchars(urldecode($channel))."</a>";} ?>
 			</div>
 			</center>
 		</div>
