@@ -16,6 +16,10 @@ $(document).ready(function()
 				$(".search_input").keyup(function() 
 				{
 					var search_input = $(this).val();
+					if(search_input.length < 3){
+						$("#results").html("");
+					}
+
 					if(search_input != old_input){
 						old_input=search_input;
 						$("#results").html('');
