@@ -39,9 +39,10 @@ $(document).ready(function()
 		url: "change.php",   
 		async: false
 	}).responseText;
-
-	url = $.parseJSON(response);
-
+	//console.log(response);
+	response = $.parseJSON(response);
+	for(first in response["nowPlaying"]) break;
+	console.log(first);
 	$.ajax({
 		type: 'get',
 		url: 'timedifference.php',
@@ -53,7 +54,7 @@ $(document).ready(function()
 	});
 	console.log("timediff:"+timeDifference[0]);
 
-	response = url[0][0];
+	response = first;
 
 	tag = document.createElement('script');
 	tag.src = "https://www.youtube.com/iframe_api";
