@@ -10,6 +10,7 @@
 		{
 			$file = file_get_contents("oldFiles/".$list);
 			$data = json_decode($file);
+			$array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => 0, "skips" => array()));
 			for($i = 0; $i < count($data[0]); $i++)
 			{
 				if($i > 0)
