@@ -19,7 +19,7 @@ foreach($dir as $files){
 
 				<div class="bigchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
-					<input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" placeholder="Type Channel Name" autofocus/>
+					<input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
 					  <?php foreach($channels as $channel){echo "<option value='".urldecode($channel)."'> ";} ?>
 					</datalist>
