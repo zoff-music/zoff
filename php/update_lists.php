@@ -4,11 +4,11 @@
 </head>
 <body>
 <?php
-	$files = scandir('oldFiles/');
+	$files = scandir('../oldFiles/');
 	foreach($files as $list) {
 		if($list != "." && $list != "..")
 		{
-			$file = file_get_contents("oldFiles/".$list);
+			$file = file_get_contents("../oldFiles/".$list);
 			$data = json_decode($file);
 			if(count($data) > 0)
 			{
@@ -27,7 +27,7 @@
 					array_shift($data[0]);
 					array_shift($data[3]);
 				}
-				file_put_contents("oldFiles/".$list, json_encode($array));
+				file_put_contents("../oldFiles/".$list, json_encode($array));
 				echo $list."\n";
 			}
 		}
