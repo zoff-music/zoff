@@ -96,9 +96,17 @@ else if(isset($_GET['vote'])){ //add vote
     $id=$_GET['id'];
     //$i = array_search($id, $data["songs"]);
     //$i = array_search($id, array_keys($data["songs"]))
-	if($vote == 'neg'){$voteAdd = -1;}
-	else if($vote == 'pos'){$voteAdd = 1;}
-	//$name = $data[3][$i];
+	if($vote == 'neg'){$voteAdd = -1; $guid = "n".$guid;}
+    else if($vote == 'pos'){$voteAdd = 1; $guid = "p".$guid;}
+    if(in_array("p".$guid, $data["songs"][$id]["guids"]) && $vote == "neg")
+    {
+        unset($data[array_search("p".$guid, $data["songs"][$id]["guids"])]);
+        $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + 1;
+    }else if(in_array("n".$guid, $data["songs"][$id]["guids"]) && $vote == "pos")
+    {
+        unset($data[array_search("n".$guid, $data["songs"][$id]["guids"])]);
+        $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] - 1;
+    }
 	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
     {
         $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
