@@ -10,22 +10,26 @@
 		{
 			$file = file_get_contents("oldFiles/".$list);
 			$data = json_decode($file);
-			for($i = 0; $i < count($data[0]); $i++)
+			if(count($data) > 0)
 			{
-				if($i > 0)
+				$array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => 0, "skips" => array()));
+				for($i = 0; $i < count($data[0]); $i++)
 				{
+					if($i > 0)
+					{
 
-					$arr = "songs";
+						$arr = "songs";
+					}
+					else{
+						$arr = "nowPlaying";
+					}
+					$array[$arr][$data[0][0]] = array("id" => $data[0][0], "title" => str_replace("\"", "\'", $data[3][0]), "votes" => 0, "added" => time(), "guids" => array());
+					array_shift($data[0]);
+					array_shift($data[3]);
 				}
-				else{
-					$arr = "nowPlaying";
-				}
-				$array[$arr][$data[0][0]] = array("id" => $data[0][0], "title" => str_replace("\"", "\'", $data[3][0]), "votes" => 0, "added" => time(), "guids" => array());
-				array_shift($data[0]);
-				array_shift($data[3]);
+				file_put_contents("oldFiles/".$list, json_encode($array));
+				echo $list."\n";
 			}
-			file_put_contents("oldFiles/".$list, json_encode($array));
-			echo $list."\n";
 		}
 	}
 ?>	
