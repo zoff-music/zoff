@@ -63,8 +63,8 @@ if(isset($_REQUEST['thisUrl'])){
      echo $newPlaying[0]["id"];
 }
 else if(isset($_GET['v'])){ //add
-        $video = htmlspecialchars($_GET['v']);
-        $name = htmlspecialchars($_GET['n']);
+    $video = htmlspecialchars($_GET['v']);
+    $name = htmlspecialchars($_GET['n']);
     if(!in_array($video, $data["songs"]))
     {
         //$arrayAdd = array("id" => array("id" => $video, "title" => $name, "votes" => array()));
@@ -152,6 +152,11 @@ else if(isset($_GET['skip'])){ //skip song request
     echo($data); 
 }else{ 
     echo json_encode($data); 
+}
+
+function addSong($name, $id, $title)
+{
+
 }
 
 function nextSong(){
