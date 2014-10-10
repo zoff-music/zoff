@@ -97,21 +97,22 @@ else if(isset($_GET['vote'])){ //add vote
     //$i = array_search($id, $data["songs"]);
     //$i = array_search($id, array_keys($data["songs"]))
 	if($vote == 'neg'){$voteAdd = -1;}
-	else if($vote == 'pos'){$voteAdd = 1;}
-	//$name = $data[3][$i];
+    else if($vote == 'pos'){$voteAdd = 1;}
 	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
     {
         $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
-        $data["songs"][$id]["added"] = time();
-        array_push($data["songs"][$id]["guids"], $guid);
-        foreach($data["songs"] as $k=>$v) {
-            $sort['votes'][$k] = $v['votes'];
-            $sort['added'][$k] = $v['added'];
+        if($data["songs"][$id]["votes"] > -1)
+        {
+            $data["songs"][$id]["added"] = time();
+            array_push($data["songs"][$id]["guids"], $guid);
+            foreach($data["songs"] as $k=>$v) {
+                $sort['votes'][$k] = $v['votes'];
+                $sort['added'][$k] = $v['added'];
+            }
+            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+            file_put_contents($list, json_encode($data));
+            echo "Vote registrated. I hope";
         }
-        array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
-        print_r($data);
-        file_put_contents($list, json_encode($data));
-        echo "Vote registrated. I hope";
     }else
     {
         echo array_key_exists($id, $data["songs"]);
