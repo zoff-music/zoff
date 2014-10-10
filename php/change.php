@@ -11,7 +11,8 @@ if(isset($_REQUEST['test'])){
 $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
 if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list=$list[1];
-$list="lists/".$list.".json";
+
+$list="../lists/".$list.".json";
 $array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => 0, "skips" => array()));
 $f = @fopen($list,"x");
 if($f){ fwrite($f,$array); fclose($f); }

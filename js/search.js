@@ -67,7 +67,7 @@ $(document).ready(function()
 				function submit(id,title){
 					console.log($.ajax({
 						type: "GET",
-						url: "change.php",
+						url: "php/change.php",
 						async: false,
 						data: "v="+id+"&n="+title,
 						success: function() {

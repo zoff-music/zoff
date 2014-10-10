@@ -36,7 +36,7 @@ $(document).ready(function()
 	diffVideo = false;
 	interval = false;
 	response = $.ajax({ type: "GET",   
-		url: "change.php",   
+		url: "php/change.php",   
 		async: false
 	}).responseText;
 	//console.log(response);
@@ -45,7 +45,7 @@ $(document).ready(function()
 	console.log(first);
 	$.ajax({
 		type: 'get',
-		url: 'timedifference.php',
+		url: 'php/timedifference.php',
 		data: "abcde",
 		async: false,
 		success: function(data) {
@@ -128,7 +128,7 @@ function checkEnd()
 	console.log("sjekker om brukeren spolte");
 	$.ajax({
 		type: 'get',
-		url: 'timedifference.php',
+		url: 'php/timedifference.php',
 		data: "abcde",
 		async: false,
 		success: function(data) {
@@ -151,7 +151,7 @@ function startNextSong()
 			setTimeout(function(){
 				response = $.ajax({
 					type: "POST",
-					url: "change.php",
+					url: "php/change.php",
 					async: false,
 					data: "thisUrl="+response+"&act=save",
 
@@ -187,7 +187,7 @@ function getTime()
 
 		$.ajax({
 			type: 'get',
-			url: 'timedifference.php',
+			url: 'php/timedifference.php',
 			data: "abcde",
 			async: false,
 			success: function(data) {
@@ -225,7 +225,7 @@ function getTime()
 					beginning = true;
 					$.ajax({
 						type: "POST",
-						url: "change.php",
+						url: "php/change.php",
 						async: false,
 						data: "thisUrl=123abcprompeprompe&act=save",
 						success: function(data)
@@ -243,7 +243,7 @@ function getTime()
 function getTitle()
 {
     $.ajax({ type: "GET",   
-		url: "timedifference.php",   
+		url: "php/timedifference.php",   
 		async: false,
 		success: function(data) {
 			viewers = $.parseJSON(data);
@@ -261,7 +261,7 @@ function errorHandler(newState)
 	setTimeout(function(){
 		response = $.ajax({
 			type: "POST",
-			url: "change.php",
+			url: "php/change.php",
 			async: false,
 			data: "thisUrl="+response+"&act=delete",
 

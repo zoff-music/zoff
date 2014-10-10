@@ -10,7 +10,7 @@ function updateList()
 {
 	console.log("updating list");
 	list = $.ajax({ type: "GET",   
-		url: "change.php",   
+		url: "php/change.php",   
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
@@ -68,7 +68,7 @@ function updateList()
 function vote(id, vote){
 	console.log($.ajax({
 		type: "GET",
-		url: "change.php",
+		url: "php/change.php",
 		async: false,
 		data: "vote="+vote+"&id="+id,
 		success: function() {
@@ -86,7 +86,7 @@ function vote(id, vote){
 function skip(){
 	console.log($.ajax({
 		type: "GET",
-		url: "change.php",
+		url: "php/change.php",
 		async: false,
 		data: "skip",
 		success: function() {
