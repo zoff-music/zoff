@@ -26,7 +26,7 @@
 				array_shift($data[3]);
 			}
 			file_put_contents("oldFiles/".$list, json_encode($array));
-			echo $list."\n";
+			echo $array."\n";
 		}
 	}
 ?>	
