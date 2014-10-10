@@ -14,25 +14,25 @@ function updateList()
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
-	list[0].shift();
+	/*list[0].shift();
 	list[3].shift();
-	list[2].shift();
+	list[2].shift();*/
 
 	setTimeout(function()
 	{
 
 		$("#wrapper").empty();
 
-		$.each(list[0], function(j, listeID){
+		$.each(list["songs"], function(j, listeID){
 
-			var video_title=list[3][j].replace(/\\\'/, "'");
-			var video_id = list[0][j];
+			var video_title=listeID["title"].replace(/\\\'/, "'");
+			var video_id = listeID["id"];
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/default.jpg";
 			var odd = ""; if(j%2==0)odd=" oddlist";
 			var finalhtml="<div id='result' class='result lresult"+odd+"'>"+
 			"<img src='"+video_thumb+"' class='thumb lthumb'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
-			"<div class='votes'>"+list[2][j]+"<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a><a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a></div>"+
+			"<div class='votes'>"+listeID["votes"]+"<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a><a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a></div>"+
 			"</div>";
 			$("#wrapper").append(finalhtml);
 		});
