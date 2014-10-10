@@ -2,7 +2,7 @@
 	$list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
 	if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 	else $list=$list[1];
-	$list="..lists/".$list.".json";
+	$list="../lists/".$list.".json";
 	$data = json_decode(file_get_contents($list), true);
 	$songs = $data["nowPlaying"];
 	$id = array_values($songs);
