@@ -14,6 +14,7 @@ else $list=$list[1];
 
 $list="../lists/".$list.".json";
 $array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => 0, "skips" => array()));
+$array = json_encode($array);
 $f = @fopen($list,"x");
 if($f){ fwrite($f,$array); fclose($f); }
 $file = file_get_contents($list);
@@ -35,10 +36,14 @@ if(isset($_REQUEST['thisUrl'])){
             $save = true;
             //array_shift($data["songs"]);
             //array_shift($data["nowPlaying"]);
-            array_shift($data["songs"]);
-            $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
-            array_shift($data["nowPlaying"]);
-            $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
+            if(!is_null($np[0]["id"])){
+                array_shift($data["songs"]);
+                $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+                array_shift($data["nowPlaying"]);
+                $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
+            
+            }
+            
             //array_push($data["songs"], $add);
             $data["conf"]["skips"] = array();
             $data["conf"]["startTime"] = time();
@@ -53,6 +58,13 @@ if(isset($_REQUEST['thisUrl'])){
             array_shift($firstSong[0]);
         }*/
         file_put_contents($list, json_encode($data));
+     }else if(is_null($np[0]["id"]))
+     {
+        array_shift($data["songs"]);
+        //$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+        array_shift($data["nowPlaying"]);
+        $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
+            
      }
      if($action == "save" && !$save) 			//count views
      {
@@ -67,25 +79,20 @@ else if(isset($_GET['v'])){ //add
     $name = htmlspecialchars($_GET['n']);
     if(!in_array($video, $data["songs"]))
     {
-        //$arrayAdd = array("id" => array("id" => $video, "title" => $name, "votes" => array()));
-        //array_push($data[0], $video);
-        $data["songs"][$video] = array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array());
-        $data["songs"][$video]["votes"] = 1;
-        array_push($data["songs"][$video]["guids"], $guid);
+        if(count($data["nowPlaying"]) > 0) $place = "songs";
+        else $place = "nowPlaying";
+        $data[$place][$video] = array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array());
+        $data[$place][$video]["votes"] = 1;
+        array_push($data[$place][$video]["guids"], $guid);
         $sort = array();
-        foreach($data["songs"] as $k=>$v) {
-            $sort['votes'][$k] = $v['votes'];
-            $sort['added'][$k] = $v['added'];
+        if($place != "nowPlaying")
+        {
+            foreach($data["songs"] as $k=>$v) {
+                $sort['votes'][$k] = $v['votes'];
+                $sort['added'][$k] = $v['added'];
+            }
+            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
         }
-        array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
-        //array_push($data["songs"], $arrayAdd); 
-        /*$i = array_search(0, $data[2]);
-        if($i == 0)$i=1;
-        else if($i == false)$i=count($data[2]);
-        array_splice($data[3], $i, 0, array($name));
-        array_splice($data[2], $i, 0, array(1));
-        array_splice($data[0],   $i, 0, array($video));
-        file_put_contents($list, json_encode($data));*/
         file_put_contents($list, json_encode($data));
         print("added");
     }
