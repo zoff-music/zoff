@@ -25,6 +25,7 @@
 
 				<div class="playlist" >
 				<div id="buttons" class="result">
+					<a href="admin.php" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>
 					<img src="/static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
 				</div>
 					<div id="playlist">
