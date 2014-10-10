@@ -44,7 +44,7 @@ body{background:#FFF; margin:0;}
 .lresult{padding:0; height: 60px; border-top: none; cursor: default;  background-color: #DADADA;}
 .lthumb{height: 60px; margin-right: 10px; display: inline;}
 .ltitle{ color:#ed207f; overflow: hidden; height: 60px; }
-.oddlist{background-color: #EEE;}
+#result:nth-child(odd){background-color: #EEE;}
 
 .votes{float: right; position: relative; margin-top: -1.4em; padding:0 3 0 4; background-color: rgba(50,50,50,0.45); color:#000; border-radius: 1px;}
 #plus, #minus {text-decoration: none; color:white; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
