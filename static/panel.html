@@ -1,6 +1,6 @@
 <b>Admin Panel</b>
 <br>
-<form id="adminForm" name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
+<form id="adminForm" name="ufo" action="" class="daform nomargin" id="base">
 	<label>Anyone can vote:
 		<label> <input class="adminBox" type="checkbox" name="vote" value="1"></input></label>
 	</label><br>
@@ -13,5 +13,5 @@
 	<label>Allow only music:
 		<label><input class="adminBox" type="checkbox" name="onlyMusic" value="1"></input></label>
 	</label><br>
-	<input type="button" value="Save Settings">    
+	<input type="button" value="Save Settings" onclick="submitAdmin(this.form)">   
 </form>
