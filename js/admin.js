@@ -14,8 +14,8 @@ function admin()
 		});
 	}else
 	{
-		setTimeout(function(){document.getElementById("adminPanel").innerHTML = "";}, 1000);
-		$("#adminPanel").fadeOut(1000);
+		setTimeout(function(){document.getElementById("adminPanel").innerHTML = "";}, 500);
+		$("#adminPanel").fadeOut(500);
 	}
 	$("#playlist").toggleClass("lowOpacity");
 }
