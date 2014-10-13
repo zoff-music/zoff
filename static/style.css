@@ -51,6 +51,8 @@ body{background:#FFF; margin:0;}
 #plus:hover,#minus:hover{background-color: #111;}
 
 #player{height: 68%; height: calc(87% - 183px); width: 78%; border-radius: 3px; border-bottom:solid #c9c9c9 4px;}
+#adminForm{text-align:left;}
+.adminBox{float:right;}
 #adminPanel{color:black;background-color:rgba(218,218,218,1);position:absolute;z-index:1;}
 .lowOpacity{opacity:0.5;}
 #playlist{-webkit-transition: opacity 1s;transition: opacity 1s;}
