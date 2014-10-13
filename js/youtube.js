@@ -271,7 +271,7 @@ function errorHandler(newState)
 			type: "POST",
 			url: "php/change.php",
 			async: false,
-			data: "thisUrl="+response+"&act=delete",
+			data: "thisUrl="+response+"&act=empty",
 
 			success: function() {
 				console.log("error! deleted video");
