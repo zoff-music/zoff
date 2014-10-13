@@ -32,11 +32,11 @@ if(isset($_REQUEST['thisUrl'])){
     $firstToAdd = $firstSong[0]["id"];
     if($np[0]["id"] == $string)
     {
-        if($action=="save"){ 					//next song
+        if($action=="save" || $action == "empty"){ 					//next song
             $save = true;
             //array_shift($data["songs"]);
             //array_shift($data["nowPlaying"]);
-            if(!is_null($np[0]["id"])){
+            if(!is_null($np[0]["id"]) && !is_null($firstToAdd)){
                 array_shift($data["songs"]);
                 $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
                 array_shift($data["nowPlaying"]);
