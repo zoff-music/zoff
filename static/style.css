@@ -31,7 +31,7 @@ body{background:#FFF; margin:0;}
 #buttons{cursor: default; text-align: right;}
 .skip{cursor: pointer; height: 25px; padding:8px 21px 0 0;}
 
-#results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 1; font-family: sans-serif;}
+#results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
 .result{border-bottom:none; padding: 3px 0 3px 10%; text-align: left; height: 55px; cursor: pointer;}
 .result:hover{background-color: #DDD;}
 #title{ padding-left: 20%; padding-top:10px; max-width: 76%; color:#ed207f; height: 36px;}
