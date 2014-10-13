@@ -20,10 +20,11 @@
 
 				<div class="playlist" >
 				<div id="buttons" class="result">
-					<a href="php/admin.php?list=<?php echo $list; ?>" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>
+					<!--<a href="/php/admin.php?list=<?php echo $list; ?>" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>-->
+					<img src="/static/settings2.png" class="skip middle" alt="Settings" title="Settings" onclick="admin();"/>
 					<img src="/static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
 				</div>
-					<div id="playlist">
+					<div id="adminPanel"></div>
 						<div id="wrapper">
 
 						</div>
