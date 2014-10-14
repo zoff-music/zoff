@@ -25,6 +25,7 @@
 					<img src="/static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
 				</div>
 					<div id="adminPanel"></div>
+					<div id="playlist">
 						<div id="wrapper">
 
 						</div>
