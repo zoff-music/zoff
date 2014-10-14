@@ -7,7 +7,7 @@ if(isset($_GET['chan'])){
 
 $dir = scandir('./lists');
 $channels = array();
-$time = 60*60*24*7*1; //1 uke
+$time = 60*60*24*3; //3 dager
 foreach($dir as $files){
 	if(strpos($files, '.json') !== FALSE){
 		if(time() - filemtime('./lists/'.$files) < $time){
