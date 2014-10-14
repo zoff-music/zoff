@@ -39,6 +39,7 @@
 		<script type="text/javascript" src="/js/list.js"></script>  
 		<script type="text/javascript" src="/js/youtube.js"></script>
 		<script type="text/javascript" src="/js/search.js"></script> 
+		<script type="text/javascript" src="/js/admin.js"></script>
 		<script type="text/javascript" src="/js/visualize.js"></script> 
 </body>
 </html>
