@@ -1,7 +1,10 @@
 Zöff
 ====
 
-The shared youtube radio!
+The shared youtube radio
 
-Its built around youtube and the youtube API, where the database where songs/videoes are stored are made up by several JSON files.
 
+Zöff is built around the youtube search and video API, and enables the creation of collaboratiive and shared live playlists, with billions of videos and songs to choose from, all for free and without registration.
+
+
+The project is currently under development and runs on http://zoff.no
