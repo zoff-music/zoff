@@ -30,6 +30,7 @@ body{background:#FFF; margin:0;}
 
 #buttons{cursor: default; text-align: right;}
 .skip{cursor: pointer; height: 25px; padding:8px 21px 0 0;}
+.skip:hover{ -webkit-filter: brightness(0.6);}
 
 #results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
 .result{border-bottom:none; padding: 3px 0 3px 10%; text-align: left; height: 55px; cursor: pointer;}
@@ -52,9 +53,9 @@ body{background:#FFF; margin:0;}
 #player{height: 68%; height: calc(87% - 183px); width: 78%; border-radius: 3px; border-bottom:solid #c9c9c9 4px;}
 #adminForm{text-align:left;}
 .adminBox{float:right;}
-#adminPanel{color:black;background-color:rgba(218,218,218,1);position:absolute;z-index:1;width:18%;}
-.lowOpacity{opacity:0.5;}
-#playlist{-webkit-transition: opacity 1s;transition: opacity 1s;}
+#adminPanel{color:black;background-color:#EEE;position:absolute;z-index:1;width:18%; margin-top: -1px; padding-top: 15px; display: none;}
+.lowOpacity{opacity:0.5; -webkit-filter: blur(5px);}
+#playlist{-webkit-transition: opacity 0.5s;transition: opacity 0.5s;}
 .nomargin{padding: 0;margin:0;}
 
 @media (max-width: 1000px) {

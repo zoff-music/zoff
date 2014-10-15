@@ -9,13 +9,13 @@ function admin()
 			context: document.body, 
 			success: function(response){
 				//$(response).hide().appendTo("#adminPanel").fadeIn(1000);
-				$("#adminPanel").append(response).hide().fadeIn(1000);
+				$("#adminPanel").append(response).hide().fadeIn(300);
 			}
 		});
 	}else
 	{
-		setTimeout(function(){document.getElementById("adminPanel").innerHTML = "";}, 500);
-		$("#adminPanel").fadeOut(500);
+		setTimeout(function(){document.getElementById("adminPanel").innerHTML = "";}, 300);
+		$("#adminPanel").fadeOut(300);
 	}
 	$("#playlist").toggleClass("lowOpacity");
 }
