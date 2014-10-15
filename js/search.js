@@ -40,17 +40,18 @@ $(document).ready(function()
 										$.each(response.data.items, function(i,data)
 										{
 											if(data.duration > 720){return;}
-											var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
-											var views=data.viewCount;
-											var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
-											var length = Math.floor(data.duration/60)+":"+(data.duration-Math.floor(data.duration / 60)*60);
-											var finalhtml="<div id='result' class='result' onclick=\"submit('"+data.id+"','"+video_title+"');\">"+
-											"<img src='"+video_thumb+"' class='thumb'>"+
-											"<div id='title'>"+data.title+""+
-											"<span class='result_info'>"+data.uploader+" • "+views+" views • "+length+"</span></div></div>";
+											if(data["category"] == "Music"){
+												var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
+												var views=data.viewCount;
+												var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
+												var length = Math.floor(data.duration/60)+":"+(data.duration-Math.floor(data.duration / 60)*60);
+												var finalhtml="<div id='result' class='result' onclick=\"submit('"+data.id+"','"+video_title+"');\">"+
+												"<img src='"+video_thumb+"' class='thumb'>"+
+												"<div id='title'>"+data.title+""+
+												"<span class='result_info'>"+data.uploader+" • "+views+" views • "+length+"</span></div></div>";
 
-											$("#results").append(finalhtml);
-
+												$("#results").append(finalhtml);
+											}
 										});
 
 
