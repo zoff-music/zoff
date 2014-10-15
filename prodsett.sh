@@ -1,0 +1,1 @@
+git ftp push -u u6917557 -p - ftp://zoff.no/www
