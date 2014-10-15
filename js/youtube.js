@@ -122,6 +122,13 @@ function onPlayerStateChange(newState) {
 		wasPaused = false;
 		syncInterval = setInterval(getTime, 5000);
 		getTime();
+	}else if(newState.data == 1 && wasPaused)
+	{
+		console.log("unpaused");
+		beginning = false;
+		wasPaused = false;
+		//syncInterval = setInterval(getTime, 5000);
+		//getTime();
 	}else if(newState.data == 2)
 	{
 		clearInterval(syncInterval);
