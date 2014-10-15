@@ -256,9 +256,9 @@ function getTitle()
 		success: function(data) {
 			viewers = $.parseJSON(data);
 			var outPutWord = viewers[5] > 1 ? "viewers" : "viewer";
-			var title= viewers[4].replace(/\\\'/, "'");
-			document.title = viewers[4] + " • Zöff";
-			document.getElementsByName('v')[0].placeholder = viewers[4] + " • " + viewers[5] + " " + outPutWord;
+			var title= viewers[4].replace(/\\\'/g, "'");
+			document.title = title + " • Zöff";
+			document.getElementsByName('v')[0].placeholder = title + " • " + viewers[5] + " " + outPutWord;
 		}
 	});
 
