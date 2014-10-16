@@ -1,20 +1,11 @@
-<<<<<<< HEAD
-Options +FollowSymLinks
-RewriteEngine on
-RewriteBase /
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
-
-RewriteCond %{REQUEST_URI} !(/$|\.) 
-RewriteRule (.*) %{REQUEST_URI}/ [R=301,L] 
-
-=======
 # Mod rewrite
 RewriteEngine On
-RewriteBase /Zoff
+RewriteBase /
 
 # Route all requests to index.php unless real file or folder
->>>>>>> Some changes
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule /(.*)$ /$1 [L]
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+# Disallow directory listing
+Options -Indexes
