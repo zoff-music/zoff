@@ -3,6 +3,7 @@
 	[[+include file="header.tpl]]
 </head>
 <body>
+<<<<<<< HEAD
 	<div class="top vcent centered">
 		<div id="change" class="small">
 			<?php 
@@ -42,5 +43,34 @@
 		<script type="text/javascript" src="static/js/search.js"></script> 
 		<script type="text/javascript" src="static/js/admin.js"></script>
 		<script type="text/javascript" src="static/js/visualize.js"></script> 
+=======
+<div class="top vcent centered">
+    <div id="change" class="small">
+        <div class="bigchan nomargin">Zöff</div>
+        <form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
+            <input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
+            <datalist id="searches">
+                [[+$SEARCH_STRING]]
+            </datalist>
+        </form>
+
+    </div>
+    <center>
+        <div class="channels" id="channels">Active Channels<br>
+           [[+$DISPLAY_STRING]]
+        </div>
+    </center>
+</div>
+<div class="footer small centered top anim">
+    &copy; 2014 <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT </a>&amp; David
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="static/js/iscroll.js"></script>  
+<script type="text/javascript" src="static/js/list.js"></script>  
+<script type="text/javascript" src="static/js/youtube.js"></script>
+<script type="text/javascript" src="static/js/search.js"></script> 
+<script type="text/javascript" src="static/js/admin.js"></script>
+<script type="text/javascript" src="static/js/visualize.js"></script> 
+>>>>>>> Fixed template for the frontpage
 </body>
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 <head>
 	<?php include("php/header.php"); ?>
@@ -44,3 +45,61 @@
 		<script type="text/javascript" src="/js/visualize.js"></script> 
 </body>
 </html>
+=======
+<?php
+/*
+ * Herpa derp
+ *
+ *
+ */
+
+// Require the autoloader
+require 'vendor/autoload.php';
+
+// New instance of smarty
+$template = new Smarty();
+
+// Set smarty options
+$template->left_delimiter = '[[+'; 
+$template->right_delimiter = ']]';
+
+// Check if we are in a room or not
+if (!isset($_GET['q'])) {
+    // Not in a room, fetch active rooms
+    
+    $dir = scandir('./lists');
+    $channels = [];
+    $time = 60 * 60 * 24 * 3;
+    
+    foreach ($dir as $files) {
+        if (strpos($files, '.json') !== false) {
+            if (time() - filemtime('./lists/' . $files) < $time) {
+                $channels[] = ucfirst(str_replace('.json', '', $files));
+            }
+        }
+    }
+    
+    // Build string for search
+    $search_string = '';
+    foreach ($channels as $channel) {
+        $search_string .= '<option value="' . htmlspecialchars(urldecode($channel)) . '">';
+    }
+    
+    // Build string for displaying active rooms
+    $display_string = '';
+    foreach ($channels as $channel) {
+        $display_string .= '<a class="channel" href="' . htmlspecialchars($channel) . '">' . htmlspecialchars(urldecode($channel)) . '</a>';
+    }
+    
+    // Assign to Smarty
+    $template->assign('SEARCH_STRING', $search_string);
+    $template->assign('DISPLAY_STRING', $display_string);
+    
+    // Display template
+    $template->display('index.tpl');
+}
+else {
+    // In a room, check if it is a valid room or not
+    $template->display('chan.tpl');
+}
+>>>>>>> Fixed template for the frontpage
