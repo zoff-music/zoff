@@ -1,0 +1,11 @@
+# Mod rewrite
+RewriteEngine On
+RewriteBase /
+
+# Route all requests to index.php unless real file or folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+# Disallow directory listing
+Options -Indexes
