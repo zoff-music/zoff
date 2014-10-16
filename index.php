@@ -55,7 +55,8 @@
  */
 
 // Require the autoloader
-require 'vendor/autoload.php';
+require 'base.php';
+require ZOFF_BASE_PATH . '/vendor/autoload.php';
 
 // New instance of smarty
 $template = new Smarty();
@@ -68,13 +69,13 @@ $template->right_delimiter = ']]';
 if (!isset($_GET['q'])) {
     // Not in a room, fetch active rooms
     
-    $dir = scandir('./lists');
+    $dir = scandir(ZOFF_BASE_PATH . '/lists');
     $channels = [];
     $time = 60 * 60 * 24 * 3;
     
     foreach ($dir as $files) {
         if (strpos($files, '.json') !== false) {
-            if (time() - filemtime('./lists/' . $files) < $time) {
+            if (time() - filemtime(ZOFF_BASE_PATH . '/lists/' . $files) < $time) {
                 $channels[] = ucfirst(str_replace('.json', '', $files));
             }
         }
