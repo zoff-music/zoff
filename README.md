@@ -18,4 +18,4 @@ This projects uses composer. Install composer by typing:
 
 After that, fetch project dependencies:
 
-    composer.phar install
+    php composer.phar update
