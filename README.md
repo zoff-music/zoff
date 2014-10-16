@@ -8,3 +8,14 @@ Zöff is built around the youtube search and video API, and enables the creation
 
 
 The project is currently under development and runs on http://zoff.no
+
+Install notes
+=============
+
+This projects uses composer. Install composer by typing:
+
+    curl -sS https://getcomposer.org/installer | php
+
+After that, fetch project dependencies:
+
+    composer.phar install
