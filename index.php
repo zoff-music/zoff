@@ -89,7 +89,8 @@ if (!isset($_GET['q'])) {
     // Build string for displaying active rooms
     $display_string = '';
     foreach ($channels as $channel) {
-        $display_string .= '<a class="channel" href="' . htmlspecialchars($channel) . '">' . htmlspecialchars(urldecode($channel)) . '</a>';
+        $display_string .= '<a class="channel" href="' . htmlspecialchars($channel) . '">' . 
+                           htmlspecialchars(urldecode($channel)) . '</a>';
     }
     
     // Assign to Smarty
