@@ -48,8 +48,9 @@
 =======
 <?php
 /*
- * Herpa derp
- *
+ * 
+ * File: index.php
+ * Description: Main controller
  *
  */
 
