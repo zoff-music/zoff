@@ -1,6 +1,6 @@
 <html>
 <head>
-	<?php include("php/header.php"); ?>
+	[[+include file="header.tpl]]
 </head>
 <body>
 	<div class="top vcent centered">
@@ -36,11 +36,11 @@
 		<div class="footer small centered top anim">&copy; 2014 <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT </a>&amp; David  </div>
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/iscroll.js"></script>  
-		<script type="text/javascript" src="/js/list.js"></script>  
-		<script type="text/javascript" src="/js/youtube.js"></script>
-		<script type="text/javascript" src="/js/search.js"></script> 
-		<script type="text/javascript" src="/js/admin.js"></script>
-		<script type="text/javascript" src="/js/visualize.js"></script> 
+		<script type="text/javascript" src="static/js/iscroll.js"></script>  
+		<script type="text/javascript" src="static/js/list.js"></script>  
+		<script type="text/javascript" src="static/js/youtube.js"></script>
+		<script type="text/javascript" src="static/js/search.js"></script> 
+		<script type="text/javascript" src="static/js/admin.js"></script>
+		<script type="text/javascript" src="static/js/visualize.js"></script> 
 </body>
 </html>
