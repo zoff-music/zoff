@@ -7,12 +7,14 @@ if(isset($_GET['chan'])){
 
 $dir = scandir('./lists');
 $channels = array();
-$time = 60*60*24*3; //3 dager
+$all_channels = array();
+$time = 60*60*24*4; //4 dager
 foreach($dir as $files){
 	if(strpos($files, '.json') !== FALSE){
 		if(time() - filemtime('./lists/'.$files) < $time){
 			array_push($channels, ucfirst(str_replace(".json", "", $files)));
 		}
+		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
 	}
 }
 
@@ -22,7 +24,7 @@ foreach($dir as $files){
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
 					<input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
-					  <?php foreach($channels as $channel){echo "<option value='".htmlspecialchars(urldecode($channel))."'> ";} ?>
+					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars(urldecode($channel))."'> ";} ?>
 					</datalist>
 				</form>
 
