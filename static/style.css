@@ -42,26 +42,27 @@ body{background:#000; margin:0;}
 .chan{color:#CCC; cursor:pointer; display: inline;}
 .bigchan{color: #ed207f; font-size: 10vw; padding-top: 25%;}
 
-#buttons{cursor: default; text-align: right;}
+#buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 18px;}
+#buttons:hover{background-color: none !important;}
 .skip{cursor: pointer; height: 25px; padding:8px 21px 0 0;}
 .skip:hover{ -webkit-filter: brightness(0.6);}
 
 #results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
 .result{border-bottom:none; padding: 3px 0 3px 10%; text-align: left; height: 55px; cursor: pointer;}
-.result:hover{background-color: #DDD;}
+.result:hover{background-color: rgba(0,0,0,0.2);}
 #title{ padding-left: 20%; padding-top:10px; max-width: 76%; color:#ed207f; height: 36px;}
 .result_info{color:#888; font-size: 12px; float:right;}
 .thumb{height: 40px; width:80px; float: left;}
 
 .main{width:90%; margin: 0 auto 0 auto;}
 .playlist{background-color: none; width:37%; margin-left: 0px; display: inline-block; font-size: 14px; border-radius: 3px; vertical-align: top; /*overflow: hidden;*/ height: calc(87% - 183px);}
-.lresult{padding:0; height: 60px; border-top: none; cursor: default;}
-.lthumb{height: 35px; margin-right: 10px; display: inline;}
-.ltitle{ color:#FFF; overflow: hidden; height: 60px; }
+.lresult{padding:10px 0 10px 0; height: 70px; border-top: none; cursor: default; border-bottom: solid 1px rgba(255,255,255,0.2);}
+.lthumb{height: 70px; margin-right: 10px; display: inline; width: 109px; border-radius: 3px;}
+.ltitle{ color:#FFF; overflow: hidden; height: 40px; }
 
-.votes{float: right; position: relative; margin-top: -1.4em; padding:0 3 0 4; background-color: rgba(50,50,50,0.45); color:#000; border-radius: 1px;}
-#plus, #minus {text-decoration: none; color:white; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
-#plus:hover,#minus:hover{background-color: #111;}
+.votes{position: relative; margin-top: -0-5em; font-size: 18px; color:#fff;}
+#plus, #minus {text-decoration: none; color:#eee; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
+#plus:hover,#minus:hover{color:#000;}
 
 #player{height: 68%; height: calc(87% - 183px); width: 60%; border-radius: 3px; }
 #adminForm{text-align:left;}
@@ -72,15 +73,18 @@ body{background:#000; margin:0;}
 .nomargin{padding: 0;margin:0;}
 
 @media (max-width: 1000px) {
+    body{background-color: #fff;}
+    .bgimage{display: none;}
     #player{width: 100%; height:45%; margin-bottom: 20px;}
     .playlist{width: 100%;}
     .lresult{font-size: 40px; height: 90px; font-size: 50px;}
-    .votes{font-size: 42px; padding-right: 8px; height: 89px; line-height: 89px; padding-left: 20px; border-radius: 1px;}
+    .votes{float: right; background-color: rgba(0,0,0,0.9); margin-top: -1.5em;font-size: 42px; padding-right: 8px; height: 89px; line-height: 89px; padding-left: 20px; border-radius: 1px;}
     .lthumb{height: 90px;}
+    .ltitle{height: 70px; color: #000;}
     #plus,#minus{padding-left: 24px; margin-left: 0; padding-right: 24px;}
     #plus{border-right:solid 3px rgb(172, 172, 172);}
     #search{text-align: left; height: 100px; font-size: 40px; border: solid 2px #ccc;}
-    #buttons{text-align: center; height: 80px;}
+    #buttons{text-align: center; height: 80px; margin: 0;}
     .skip{height: 50px;}
     .vcent{
    	 	top: inherit; 
@@ -97,5 +101,5 @@ body{background:#000; margin:0;}
 }
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
-@-webkit-keyframes fadecol{from {background-color:#00FF00;}to{background-color: #FFF;}}@keyframes fadecol{background-color: #00FF00;}to{background-color: #FFF;}}@-moz-keyframes fadecol{from{background-color: #00FF00;}to{background-color: #FFF;}}@-o-keyframes fadecol{background-color: #00FF00;}to{background-color: #FFF;}}
-@-webkit-keyframes fadewrong{from {background-color:#FF0000;}to{background-color: #FFF;}}@keyframes fadewrong{background-color: #FF0000;}to{background-color: #FFF;}}@-moz-keyframes fadewrong{from{background-color: #FF0000;}to{background-color: #FFF;}}@-o-keyframes fadewrong{background-color: #FF0000;}to{background-color: #FFF;}}
+@-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}
+@-webkit-keyframes fadewrong{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadewrong{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadewrong{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadewrong{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}

@@ -40,7 +40,7 @@ function updateList()
 		{
 			if(!window.mobilecheck())
 			{
-				$("#playlist").css({height: $("#player").height() - $("#buttons").height()-4});
+				$("#playlist").css({height: $("#player").height()});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller == false)
 				{
