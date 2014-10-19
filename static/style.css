@@ -49,7 +49,7 @@ body{background:#000; margin:0;}
 .chan{color:#CCC; cursor:pointer; display: inline;}
 .bigchan{color: #ed207f; font-size: 10vw; padding-top: 25%;}
 
-#buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 18px;}
+#buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 28px;}
 #buttons:hover{background-color: none !important;}
 .skip{cursor: pointer; height: 25px; padding:8px 21px 0 0;}
 .skip:hover{ -webkit-filter: brightness(0.6);}
@@ -71,7 +71,7 @@ body{background:#000; margin:0;}
 #plus, #minus {text-decoration: none; color:#eee; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
 #plus:hover,#minus:hover{color:#000;}
 
-#player{height: 68%; height: calc(87% - 183px); width: 60%; border-radius: 3px; }
+#player{height: 68%; height: calc(87% - 183px); width: 60%; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}
 #adminForm{text-align:left;}
 .adminBox{float:right;}
 #adminPanel{color:black;background-color:#EEE;position:absolute;z-index:1;width:18%; margin-top: -1px; padding-top: 15px; display: none;}
@@ -82,11 +82,11 @@ body{background:#000; margin:0;}
 @media (max-width: 1000px) {
     body{background-color: #fff;}
     .bgimage{display: none;}
-    #player{width: 100%; height:45%; margin-bottom: 20px;}
+    #player{width: 100%; height:45%; margin-bottom: 20px; box-shadow: none;}
     .playlist{width: 100%;}
     .lresult{font-size: 40px; height: 90px; font-size: 50px;}
     .votes{float: right; background-color: rgba(0,0,0,0.9); margin-top: -1.5em;font-size: 42px; padding-right: 8px; height: 89px; line-height: 89px; padding-left: 20px; border-radius: 1px;}
-    .lthumb{height: 90px;}
+    .lthumb{height: 90px; box-shadow: none;}
     .ltitle{height: 70px; color: #000;}
     #plus,#minus{padding-left: 24px; margin-left: 0; padding-right: 24px;}
     #plus{border-right:solid 3px rgb(172, 172, 172);}
