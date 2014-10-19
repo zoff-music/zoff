@@ -35,6 +35,7 @@ body{background:#000; margin:0;}
     -ms-filter:blur(50px) brightness(0.8);
     -o-filter: blur(50px) brightness(0.8);
     filter: blur(50px) brightness(0.8);
+    filter: url(blur.svg#blur);
     position: absolute;
     top: 40px;
     left: 0;
