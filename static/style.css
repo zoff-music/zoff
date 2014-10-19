@@ -7,6 +7,8 @@ body{background:#000; margin:0;}
 .vcent{position: relative; top: 50%; -webkit-transform: translateY(-50%);}
 
 ::-webkit-input-placeholder{color: #FEFEFE;}
+::-moz-input-placeholder{color: #FEFEFE;}
+::input-placeholder{color: #FEFEFE;}
 .innbox, .innbox a{
 	width:90%; height: 50px; border-radius:7px; border:none; font-family: 'Open Sans', sans-serif; font-size: 25px; margin-bottom: 20px;
 	color:#f15; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
@@ -60,8 +62,8 @@ body{background:#000; margin:0;}
 
 .main{width:90%; margin: 0 auto 0 auto;}
 .playlist{background-color: none; width:37%; margin-left: 0px; display: inline-block; font-size: 14px; border-radius: 3px; vertical-align: top; /*overflow: hidden;*/ height: calc(87% - 183px);}
-.lresult{padding:10px 0 10px 0; height: 70px; border-top: none; cursor: default; border-bottom: solid 1px rgba(255,255,255,0.2);}
-.lthumb{height: 70px; margin-right: 10px; display: inline; width: 109px; border-radius: 3px;}
+.lresult{padding:10px 0 10px 5px; height: 70px; border-top: none; cursor: default; border-bottom: solid 1px rgba(255,255,255,0.2);}
+.lthumb{height: 70px; margin-right: 10px; display: inline; width: 109px; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}
 .ltitle{ color:#FFF; overflow: hidden; height: 40px; }
 
 .votes{position: relative; margin-top: -0-5em; font-size: 18px; color:#fff;}
