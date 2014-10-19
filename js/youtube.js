@@ -20,6 +20,7 @@ var syncInterval;
 var title;
 var interval;
 var viewers;
+var video_id;
 var changed = false;
 
 $(document).ready(function()
@@ -172,10 +173,12 @@ function startNextSong()
 				getTitle(response);
 				ytplayer.loadVideoById(response);
 				beginning = true;
+				$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
 				
 			},2500);
 			updateList();
 			changed = true
+
 			setTimeout(function() {
 				changed = false;
 				syncInterval = setInterval(getTime, 5000);
@@ -227,6 +230,7 @@ function getTime()
 				console.log("forskjellige videoer!!");
 				ytplayer.pauseVideo();
 				ytplayer.loadVideoById(timeDifference[1]);
+				$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+timeDifference[1]+"/0.jpg)");
 				setTimeout(function(){
 					//console.log(response);
 					diffVideo = true;
@@ -278,6 +282,7 @@ function errorHandler(newState)
 			}
 		}).responseText;
 		ytplayer.loadVideoById(response);
+		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
 	},2500);
 /*
 	setTimeout(function(){
@@ -298,4 +303,5 @@ function onPlayerReady(event) {
 		getTime();
 		ytplayer.playVideo();
 		getTitle();
+		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
 	}

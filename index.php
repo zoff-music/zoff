@@ -3,6 +3,7 @@
 	<?php include("php/header.php"); ?>
 </head>
 <body>
+    <div class="bgimage" id="bgimage"></div>
 	<div class="top vcent centered">
 		<div id="change" class="small">
 			<?php 
