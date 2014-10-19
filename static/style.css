@@ -29,6 +29,10 @@ body{background:#000; margin:0;}
     background-position: center center;
     background-color: #000;
     -webkit-filter: blur(50px) brightness(0.8);
+    -moz-filter:blur(50px) brightness(0.8);
+    -ms-filter:blur(50px) brightness(0.8);
+    -o-filter: blur(50px) brightness(0.8);
+    filter: blur(50px) brightness(0.8);
     position: absolute;
     top: 40px;
     left: 0;
