@@ -2,7 +2,10 @@ var adminTogg;
 
 function admin()
 {
+	adminTogg = !adminTogg;
+	if(!adminTogg) $("#playlist").height($("#playlist").height()+$("#adminPanel").outerHeight(true));
 	$("#adminPanel").toggleClass("hiddenAdmin");
+	if(adminTogg) $("#playlist").height($("#playlist").height()-$("#adminPanel").outerHeight(true));
 }
 
 
