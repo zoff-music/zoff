@@ -2,22 +2,7 @@ var adminTogg;
 
 function admin()
 {
-	adminTogg = !adminTogg;
-	if(adminTogg){
-		$.ajax({
-			url:"../static/panel.html",
-			context: document.body, 
-			success: function(response){
-				//$(response).hide().appendTo("#adminPanel").fadeIn(1000);
-				$("#adminPanel").append(response).hide().fadeIn(300);
-			}
-		});
-	}else
-	{
-		setTimeout(function(){document.getElementById("adminPanel").innerHTML = "";}, 300);
-		$("#adminPanel").fadeOut(300);
-	}
-	$("#playlist").toggleClass("lowOpacity");
+	$("#adminPanel").toggleClass("hiddenAdmin");
 }
 
 

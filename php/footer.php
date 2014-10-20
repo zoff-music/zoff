@@ -7,3 +7,4 @@
 <script type="text/javascript" src="static/js/youtube.js"></script>
 <script type="text/javascript" src="static/js/search.js"></script> 
 <script type="text/javascript" src="static/js/admin.js"></script>
+<script type="text/javascript" src="static/js/toggler.js"></script>
