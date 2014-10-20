@@ -173,7 +173,7 @@ function startNextSong()
 				getTitle(response);
 				ytplayer.loadVideoById(response);
 				beginning = true;
-				$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
+				setBGimage(response);
 				
 			},2500);
 			updateList();
@@ -230,7 +230,7 @@ function getTime()
 				console.log("forskjellige videoer!!");
 				ytplayer.pauseVideo();
 				ytplayer.loadVideoById(timeDifference[1]);
-				$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+timeDifference[1]+"/0.jpg)");
+				setBGimage(timeDifference[1]);
 				setTimeout(function(){
 					//console.log(response);
 					diffVideo = true;
@@ -254,6 +254,7 @@ function getTime()
 
 function getTitle()
 {
+
     $.ajax({ type: "GET",   
 		url: "php/timedifference.php",   
 		async: false,
@@ -282,7 +283,7 @@ function errorHandler(newState)
 			}
 		}).responseText;
 		ytplayer.loadVideoById(response);
-		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
+		setBGimage(response);
 	},2500);
 /*
 	setTimeout(function(){
@@ -303,5 +304,12 @@ function onPlayerReady(event) {
 		getTime();
 		ytplayer.playVideo();
 		getTitle();
-		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+response+"/0.jpg)");
+		setBGimage(response);
 	}
+
+function setBGimage(id){
+	if(window.mozInnerScreenX == null){
+		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
+	}
+
+}

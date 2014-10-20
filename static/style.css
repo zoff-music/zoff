@@ -30,18 +30,19 @@ body{background:#000; margin:0;}
     background-repeat: no-repeat;
     background-position: center center;
     background-color: #000;
+    background-image: url(bg.jpg);
     -webkit-filter: blur(50px) brightness(0.8);
     -moz-filter:blur(50px) brightness(0.8);
     -ms-filter:blur(50px) brightness(0.8);
     -o-filter: blur(50px) brightness(0.8);
     filter: blur(50px) brightness(0.8);
-    filter: url(blur.svg#blur);
+    /*filter: url(blur.svg#blur); lagger! */
     position: absolute;
-    top: 40px;
+    top: 0px;
     left: 0;
     width: 100%;
-    height: 90%;
-
+    height: 100%;
+    /*transition: background-image 0.5s ease-in-out; lagger! */
 }
 
 
