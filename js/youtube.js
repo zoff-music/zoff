@@ -72,10 +72,12 @@ $(document).ready(function()
 	if(window.mobilecheck()){
 		syncInterval = setInterval(getTime, 50000);
 		listInterval = setInterval(updateList, 50000);
+		//listKillInterval = setInterval(ks, 50000);
 		document.getElementById("search").blur();
 	}else{
 		syncInterval = setInterval(getTime, 5000);
 		listInterval = setInterval(updateList, 10000);
+		//listKillInterval = setInterval(ks, 50000);
 	}
 });
 

@@ -57,6 +57,7 @@ function updateList()
 				}
 			}
 		}
+		myScroll.refresh();
 		if(window.mobilecheck())
 		{
 			document.getElementById("player").style.display="none";
@@ -111,4 +112,25 @@ function show(){
     	$("#chan").removeClass("bigChan");
     	$("#chan").html(chan);
    }
+}
+
+
+function ks()
+{
+	list = $.ajax({ type: "GET",   
+		url: "php/change.php",   
+		async: false
+	}).responseText;
+	list = $.parseJSON(list);
+	myScroll.destroy();
+	myScroll = null;
+	$("#playlist").css({height: $("#player").height()});
+	$("#playlist").css({overflow: "hidden"});
+	myScroll = new IScroll('#playlist', {
+		mouseWheel: true,
+		scrollbars: false,
+		scrollY: true,
+		interactiveScrollbars: false
+	});
+	scroller = true; 
 }
