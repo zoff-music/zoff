@@ -38,7 +38,12 @@ if(isset($_REQUEST['thisUrl'])){
             //array_shift($data["nowPlaying"]);
             if(!is_null($np[0]["id"]) && !is_null($firstToAdd)){
                 array_shift($data["songs"]);
-                $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+                $q = $data["conf"];
+		$q = array_key_exists("delsongs", $q);
+		if(!$data["conf"]["delsongs"] || $q != 1)
+		{
+			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+		}
                 array_shift($data["nowPlaying"]);
                 $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
             
