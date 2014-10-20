@@ -112,3 +112,24 @@ function show(){
     	$("#chan").html(chan);
    }
 }
+
+
+function ks()
+{
+	list = $.ajax({ type: "GET",   
+		url: "php/change.php",   
+		async: false
+	}).responseText;
+	list = $.parseJSON(list);
+	myScroll.destroy();
+	myScroll = null;
+	$("#playlist").css({height: $("#player").height()});
+	$("#playlist").css({overflow: "hidden"});
+	myScroll = new IScroll('#playlist', {
+		mouseWheel: true,
+		scrollbars: false,
+		scrollY: true,
+		interactiveScrollbars: false
+	});
+	scroller = true; 
+}
