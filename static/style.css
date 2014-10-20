@@ -49,9 +49,9 @@ body{background:#000; margin:0;}
 .chan{color:#CCC; cursor:pointer; display: inline;}
 .bigchan{color: #ed207f; font-size: 10vw; padding-top: 25%;}
 
-#buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 28px;}
+#buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 28px; pointer-events:none;}
 #buttons:hover{background-color: none !important;}
-.skip{cursor: pointer; height: 25px; padding:8px 21px 0 0;}
+.skip{cursor: pointer; height: 25px; padding:8px 21px 0 0; pointer-events:auto;}
 .skip:hover{ -webkit-filter: brightness(0.6);}
 
 #results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
