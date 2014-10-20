@@ -20,6 +20,14 @@ foreach($dir as $files){
 
 ?>
 
+<html>
+<head>
+	<?php include("php/header.php"); ?>
+</head>
+<body>
+    <div class="bgimage" id="bgimage"></div>
+	<div class="top centered nochanvcent">
+		<div id="change" class="small">
 				<div class="bigchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
 					<input list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>

@@ -5,6 +5,7 @@ body{background:#000; margin:0;}
 }
 .top, .top a{color:#ed207f; text-decoration: none;}
 .vcent{position: relative; top: 50%; -webkit-transform: translateY(-50%);}
+.nochanvcent{position: relative; top: 46%; -webkit-transform: translateY(-54%);}
 
 ::-webkit-input-placeholder{color: #FEFEFE;}
 ::-moz-input-placeholder{color: #FEFEFE;}
@@ -23,7 +24,7 @@ body{background:#000; margin:0;}
 .footer{font-size: 15px; position:absolute; width:99%;color:#c0c0c0 !important; margin-top: 0; word-spacing: 2px;}
 .bottom{bottom:10px;}
 #channels{width:40%; min-width: 300px; padding-top: 4%; font-size: 25px;}
-.channel{padding: 7px; display: inline-block; font-weight: bold; color: #646464 !important;font-size: 18px;}
+.channel{padding: 7px; display: inline-block; font-weight: bold; color: #C4C4C4 !important;font-size: 18px;}
 .channel:hover{color:#ed207f !important;}
 .bgimage{
     background-size: 180%;
