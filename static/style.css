@@ -4,7 +4,7 @@ body{background:#000; margin:0; }
     animation: fadein .5s; -moz-animation: fadein .5s; -webkit-animation: fadein .5s; -o-animation: fadein .5s;
 }
 .top, .top a{color:#ed207f; text-decoration: none;}
-.vcent{position: relative; /*display: table; height: 100%; width: 100%;*/}
+.vcent{position: relative; top: 50%; -webkit-transform: translateY(-50%);}
 .nochanvcent{position: relative; top: 46%; -webkit-transform: translateY(-54%);}
 /*#change{ display: table-cell; vertical-align: middle;}*/
 ::-webkit-input-placeholder{color: #FEFEFE;}
@@ -80,7 +80,7 @@ body{background:#000; margin:0; }
 #adminForm{text-align:left;}
 #adminForm label{display: block; cursor: pointer;}
 .adminBox{float:right;}
-#adminPanel{color:white; height:180px; padding: 10px; transition: all 0.5s ease-in-out; overflow:hidden; background-color: rgba(0,0,0,0.2);}
+#adminPanel{color:white; height:180px; padding: 10px; overflow:hidden; background-color: rgba(0,0,0,0.2);}
 .hiddenAdmin{padding:0 !important; margin:0 !important; height: 0 !important;}
 .button{background-color: rgba(255,255,255,0.2); border-radius: 4px; border: none;color: white;padding: 5px 15px; margin-top: 15px; transition: all 0.1s ease-in-out;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
