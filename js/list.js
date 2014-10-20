@@ -57,6 +57,7 @@ function updateList()
 				}
 			}
 		}
+		myScroll.refresh();
 		if(window.mobilecheck())
 		{
 			document.getElementById("player").style.display="none";
