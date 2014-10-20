@@ -23,8 +23,8 @@
 				<div class="playlist" >
 				<div id="buttons" class="">
 					<!--<a href="/php/admin.php?list=<?php echo $list; ?>" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>-->
-					<img src="/static/settings2.png" class="skip middle" alt="Settings" title="Settings" onclick="admin();"/>
-					<img src="/static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
+					<img src="static/settings2.png" class="skip middle" alt="Settings" title="Settings" onclick="admin();"/>
+					<img src="static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
 				</div>
 					<div id="adminPanel"></div>
 					<div id="playlist">
@@ -35,14 +35,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer small centered top anim">&copy; 2014 <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT </a></div>
-
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/iscroll.js"></script>  
-		<script type="text/javascript" src="/js/list.js"></script>  
-		<script type="text/javascript" src="/js/youtube.js"></script>
-		<script type="text/javascript" src="/js/search.js"></script> 
-		<script type="text/javascript" src="/js/admin.js"></script>
-		<script type="text/javascript" src="/js/visualize.js"></script> 
+		<?php include("php/footer.php"); ?>
 </body>
 </html>

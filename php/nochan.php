@@ -39,7 +39,7 @@ foreach($dir as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='/".htmlspecialchars($channel)."'>".htmlspecialchars(urldecode($channel))."</a>";} ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars(urldecode($channel))."</a>";} ?>
 			</div>
 			</center>
 		</div>
