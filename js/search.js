@@ -95,6 +95,7 @@ $(document).ready(function()
 						$("#search").removeClass("success");
 						$("#search").removeClass("error");
 					},1500);
+					updateList();
 				}
 
 				 // if(reply=="added"){$("#search").removeClass('success'); $("#search").addClass('success');}
