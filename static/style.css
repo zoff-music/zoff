@@ -72,7 +72,7 @@ body{background:#000; margin:0; }
 .votes{position: relative; margin-top: -0-5em; font-size: 18px; color:#fff;}
 #plus, #minus {text-decoration: none; color:#eee; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
 #plus:hover,#minus:hover{color:#000;}
-#del{float: right; font-weight: bold; margin-right: 20px; margin-top:0px; border-radius: 2px;}
+#del{float: right; font-weight: bold; margin-right: 20px; margin-top:0px; border-radius: 2px; display:none;}
 #del:hover{color:red;}
 
 #player{height: 68%; height: calc(87% - 183px); width: 60%; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}

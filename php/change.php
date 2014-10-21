@@ -103,31 +103,47 @@ else if(isset($_GET['v'])){ //add
     }
    
 }
+
 else if(isset($_GET['vote'])){ //add vote
     $vote=$_GET['vote'];
     $id=$_GET['id'];
     //$i = array_search($id, $data["songs"]);
     //$i = array_search($id, array_keys($data["songs"]))
-	if($vote == 'neg'){$voteAdd = -1;}
-    else if($vote == 'pos'){$voteAdd = 1;}
-	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
-    {
-        $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
-        if($data["songs"][$id]["votes"] > -1)
-        {
-            $data["songs"][$id]["added"] = time();
-            array_push($data["songs"][$id]["guids"], $guid);
-            foreach($data["songs"] as $k=>$v) {
-                $sort['votes'][$k] = $v['votes'];
-                $sort['added'][$k] = $v['added'];
-            }
-            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+    if($vote=='del'){
+        $pass=$_GET['pass'];
+        $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+        $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+        $adminpass='$6$rounds=9001$tritoenFuck0ffuS$si2Hi95ghCxSbVAfgeBN0dVzf5DTn1mQoizOuLEzr0N2q6fclGLrapscJQA0PsA2F0TlG5q0YAYrPHy9dZxpj0';          //$data["conf"]["admin"];
+        
+        if($adminpass == $pass){  
+            unset($data["songs"][$id]);
             file_put_contents($list, json_encode($data));
-            echo "Vote registrated. I hope";
+            echo "removed song with ID: ".$id." from list: ".$list;
         }
+
     }else
     {
-        echo array_key_exists($id, $data["songs"]);
+    	if($vote == 'neg'){$voteAdd = -1;}
+        else if($vote == 'pos'){$voteAdd = 1;}
+    	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
+        {
+            $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
+            if($data["songs"][$id]["votes"] > -1)
+            {
+                $data["songs"][$id]["added"] = time();
+                array_push($data["songs"][$id]["guids"], $guid);
+                foreach($data["songs"] as $k=>$v) {
+                    $sort['votes'][$k] = $v['votes'];
+                    $sort['added'][$k] = $v['added'];
+                }
+                array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+                file_put_contents($list, json_encode($data));
+                echo "Vote registrated. I hope";
+            }
+        }else
+        {
+            echo array_key_exists($id, $data["songs"]);
+        }
     }
 }
 else if(isset($_GET['skip'])){ //skip song request
