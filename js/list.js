@@ -80,6 +80,7 @@ function vote(id, vote){
 			console.log("voted "+vote+" on "+id);
 			if(vote=="pos"){ $("#playlist").addClass("success");}
 			else{ $("#playlist").addClass("error");}
+			updateList();
 		},
 	}).responseText);
 	setTimeout(function(){
@@ -97,6 +98,7 @@ function skip(){
 		success: function() {
 			console.log("voted to skip song");
 			 $("#buttons").addClass("success");
+			updateList();
 		},
 	}).responseText);
 	setTimeout(function(){
