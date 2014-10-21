@@ -32,7 +32,11 @@ function updateList()
 			var finalhtml="<div id='result' class='result lresult"+odd+"'>"+
 			"<img src='"+video_thumb+"' class='thumb lthumb'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
-			"<div class='votes'>"+listeID["votes"]+"<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a><a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a></div>"+
+			"<div class='votes'>"+listeID["votes"]+
+                    "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
+                    "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
+                    "<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">"+
+                    "</div>"+
 			"</div>";
 			$("#wrapper").append(finalhtml);
 		});
