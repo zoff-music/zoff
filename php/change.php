@@ -185,7 +185,13 @@ else if(isset($_GET['skip'])){ //skip song request
 	$frontpage = $_POST['frontpage'];
 	$onlymusic = $_POST['onlymusic'];
 	$removeplay = $_POST['removeplay'];
-	echo "vote: ".$vote.", addsongs: ".$addsongs.", longsongs: ".$longsongs.", frontpage: ".$frontpage.", onlymusic: ".$removeplay;
+	$pass = $_POST['pass'];
+	$x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+	$pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+	$data['conf']['adminpass'] = $pass;
+	print_r($data);
+	file_put_contents($list, json_encode($data));
+	echo "vote: ".$vote.", addsongs: ".$addsongs.", longsongs: ".$longsongs.", frontpage: ".$frontpage.", onlymusic: ".$removeplay." pass: ".$pass;
 }else if(isset($_GET['timedifference'])){ 
 
     $diff = (time() - $data["conf"]["startTime"]);
