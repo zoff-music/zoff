@@ -39,8 +39,8 @@ if(isset($_REQUEST['thisUrl'])){
             if(!is_null($np[0]["id"]) && !is_null($firstToAdd)){
                 array_shift($data["songs"]);
                 $q = $data["conf"];
-        		$q = array_key_exists("delsongs", $q);
-        		if(!$data["conf"]["delsongs"] || $q != 1)
+        		$q = array_key_exists("removeplay", $q);
+        		if(!$data["conf"]["removeplay"] || $q != 1)
         		{
         			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
         		}
@@ -80,7 +80,9 @@ if(isset($_REQUEST['thisUrl'])){
      echo $newPlaying[0]["id"];
 }
 else if(isset($_GET['v'])){ //add
-    if($data["conf"]["addsongs"] == "false")
+    $q = $data["conf"];
+    $q = array_key_exists("addsongs", $q);
+    if($q != 1 || $data["conf"]["addsongs"] == "false")
     {
         $video = htmlspecialchars($_GET['v']);
         $name = htmlspecialchars($_GET['n']);
@@ -157,9 +159,9 @@ else if(isset($_GET['skip'])){ //skip song request
 		//$data["conf"]["skips"]=$skips;
 		if($skips>=$viewers/2){
 			array_shift($data["songs"]);
-	        	$q = $data["conf"];
-			$q = array_key_exists("delsongs", $q);
-			if(!$data["conf"]["delsongs"] || $q != 1)
+	        $q = $data["conf"];
+			$q = array_key_exists("removeplay", $q);
+			if(!$data["conf"]["removeplay"] || $q != 1)
 			{
 				$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
 			}
