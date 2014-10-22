@@ -39,11 +39,11 @@ if(isset($_REQUEST['thisUrl'])){
             if(!is_null($np[0]["id"]) && !is_null($firstToAdd)){
                 array_shift($data["songs"]);
                 $q = $data["conf"];
-		$q = array_key_exists("delsongs", $q);
-		if(!$data["conf"]["delsongs"] || $q != 1)
-		{
-			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
-		}
+        		$q = array_key_exists("delsongs", $q);
+        		if(!$data["conf"]["delsongs"] || $q != 1)
+        		{
+        			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+        		}
                 array_shift($data["nowPlaying"]);
                 $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
             
@@ -80,28 +80,30 @@ if(isset($_REQUEST['thisUrl'])){
      echo $newPlaying[0]["id"];
 }
 else if(isset($_GET['v'])){ //add
-    $video = htmlspecialchars($_GET['v']);
-    $name = htmlspecialchars($_GET['n']);
-    if(!in_array($video, $data["songs"]))
+    if($data["conf"]["addsongs"] == "false")
     {
-        if(count($data["nowPlaying"]) > 0) $place = "songs";
-        else $place = "nowPlaying";
-        $data[$place][$video] = array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array());
-        $data[$place][$video]["votes"] = 1;
-        array_push($data[$place][$video]["guids"], $guid);
-        $sort = array();
-        if($place != "nowPlaying")
+        $video = htmlspecialchars($_GET['v']);
+        $name = htmlspecialchars($_GET['n']);
+        if(!in_array($video, $data["songs"]))
         {
-            foreach($data["songs"] as $k=>$v) {
-                $sort['votes'][$k] = $v['votes'];
-                $sort['added'][$k] = $v['added'];
+            if(count($data["nowPlaying"]) > 0) $place = "songs";
+            else $place = "nowPlaying";
+            $data[$place][$video] = array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array());
+            $data[$place][$video]["votes"] = 1;
+            array_push($data[$place][$video]["guids"], $guid);
+            $sort = array();
+            if($place != "nowPlaying")
+            {
+                foreach($data["songs"] as $k=>$v) {
+                    $sort['votes'][$k] = $v['votes'];
+                    $sort['added'][$k] = $v['added'];
+                }
+                array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
             }
-            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+            file_put_contents($list, json_encode($data));
+            print("added");
         }
-        file_put_contents($list, json_encode($data));
-        print("added");
     }
-   
 }
 
 else if(isset($_GET['vote'])){ //add vote
@@ -179,18 +181,25 @@ else if(isset($_GET['skip'])){ //skip song request
 
 }else if(isset($_POST['conf']))
 {
-	$vote = $_POST['vote'];
-	$addsongs = $_POST['addsongs'];
-	$longsongs = $_POST['longsongs'];
-	$frontpage = $_POST['frontpage'];
-	$onlymusic = $_POST['onlymusic'];
-	$removeplay = $_POST['removeplay'];
+	$data["conf"]["vote"] = $_POST['vote'];
+	$data["conf"]["addsongs"] = $_POST['addsongs'];
+	$data["conf"]["longsongs"] = $_POST['longsongs'];
+	$$data["conf"]["frontpage"] = $_POST['frontpage'];
+	$data["conf"]["onlymusic"] = $_POST['onlymusic'];
+	$data["conf"]["removeplay"] = $_POST['removeplay'];
 	$pass = $_POST['pass'];
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
 	$data['conf']['adminpass'] = $pass;
 	$q = $data["conf"];
 	$q = array_key_exists("adminpass", $q);
+
+    //$data["conf"]["vote"] = $vote;
+    //$data["conf"]["addsongs"] = $addsongs;
+    //$data["conf"]["longsongs"] = $longsongs;
+    //$data["conf"]["frontpage"] = $frontpage;
+    //$data["conf"]["onlymusic"] = $onlymusic;
+    //$data["conf"]["removeplay"] = $removeplay;
 	if($data["conf"]["adminpass"] == $pass || $q != 1)
 	{
 		echo "correct";
