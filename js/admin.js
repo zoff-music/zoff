@@ -16,20 +16,14 @@ function submitAdmin(form)
 	longSongs = form.longSongs.checked,
 	frontpage = form.frontPage.checked,
 	onlyMusic = form.onlyMusic.checked,
-	removePlay = form.removePlay.checked;
-	
-	console.log("Vote: "+vote);
-	console.log("Add Songs: "+addSongs);
-	console.log("Long Songs: "+longSongs);
-	console.log("Frontpage: "+frontpage);
-	console.log("Only music: "+onlyMusic);
-	console.log("Remove after play:"+removePlay);
-	
+	removePlay = form.removePlay.checked,
+	pass = form.pass.value;
+
 	conf = $.ajax({
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+vote+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&onlymusic="+onlyMusic+"&removeplay="+removePlay,
+		data: "conf=start&vote="+vote+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&onlymusic="+onlyMusic+"&removeplay="+removePlay+"&pass="+pass,
 
 		success: function() {
 			console.log("configurations response: "+response);
