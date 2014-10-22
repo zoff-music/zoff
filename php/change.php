@@ -177,6 +177,15 @@ else if(isset($_GET['skip'])){ //skip song request
 	}
 	echo($skips."/".$viewers);
 
+}else if(isset($_POST['conf']))
+{
+	$vote = $_POST['vote'];
+	$addsongs = $_POST['addsongs'];
+	$longsongs = $_POST['longsongs'];
+	$frontpage = $_POST['frontpage'];
+	$onlymusic = $_POST['onlymusic'];
+	$removeplay = $_POST['removeplay'];
+	echo "vote: ".$vote.", addsongs: ".$addsongs.", longsongs: ".$longsongs.", frontpage: ".$frontpage.", onlymusic: ".$removeplay;
 }else if(isset($_GET['timedifference'])){ 
 
     $diff = (time() - $data["conf"]["startTime"]);
