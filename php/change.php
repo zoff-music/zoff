@@ -163,17 +163,17 @@ else if(isset($_GET['skip'])){                                          //skip, 
 				$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
 			}
 			array_shift($data["nowPlaying"]);
-	           	$data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
-	            	//array_push($data["songs"], $add);
-	            	$data["conf"]["skips"] = array();
-	            	$data["conf"]["startTime"] = time();
-	            	$data["conf"]["views"] = 1; 
-	            	foreach($data["songs"] as $k=>$v) {
-	                	$sort['votes'][$k] = $v['votes'];
-	                	$sort['added'][$k] = $v['added'];
-	            	}
-            	    	array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
-		}
+           	$data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
+        	//array_push($data["songs"], $add);
+        	$data["conf"]["skips"] = array();
+        	$data["conf"]["startTime"] = time();
+        	$data["conf"]["views"] = 1; 
+        	foreach($data["songs"] as $k=>$v) {
+            	$sort['votes'][$k] = $v['votes'];
+            	$sort['added'][$k] = $v['added'];
+        	}
+	    	array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+	    }
 		file_put_contents($list, json_encode($data));
 	}
 	echo($skips."/".$viewers);                                             //always printing out the skip/viewer ratio
