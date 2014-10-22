@@ -6,9 +6,11 @@
 	$data = json_decode(file_get_contents($list), true);
 	$songs = $data["nowPlaying"];
 	$id = array_values($songs);
-	$diff = (time() - $data["conf"]["startTime"]);
-	$returnArray = array($diff, $id[0]["id"], time(), $data["conf"]["startTime"], $id[0]["title"], $data["conf"]["views"]);
-	$returnArray = json_encode($returnArray);
-
-	echo $returnArray;
+	if(count($id)>0){
+		$diff = (time() - $data["conf"]["startTime"]);
+		$returnArray = array($diff, $id[0]["id"], time(), $data["conf"]["startTime"], $id[0]["title"], $data["conf"]["views"]);
+		$returnArray = json_encode($returnArray);
+		echo $returnArray;
+	}
+	echo("[0,0,0,0,0,0]");
 ?>
