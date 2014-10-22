@@ -11,6 +11,7 @@
 		$returnArray = array($diff, $id[0]["id"], time(), $data["conf"]["startTime"], $id[0]["title"], $data["conf"]["views"]);
 		$returnArray = json_encode($returnArray);
 		echo $returnArray;
+	}else{
+		echo("[0,0,0,0,0,0]");
 	}
-	echo("[0,0,0,0,0,0]");
 ?>
