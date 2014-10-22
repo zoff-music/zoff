@@ -1,6 +1,6 @@
 <b>Admin Panel</b>
 <br>
-<form id="adminForm" name="ufo" action="" class="daform nomargin" id="base">
+<form id="adminForm" onsubmit="return false" name="ufo" action="" class="daform nomargin" id="base">
 
 	<label>Only admin can vote 				<input type="checkbox" name="vote" value="1"></input></label>
 	<label>Only admin can add songs		<input type="checkbox" name="addSongs" value="1"></input></label>
