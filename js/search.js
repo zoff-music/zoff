@@ -80,7 +80,7 @@ $(document).ready(function()
 							document.getElementById("search").value = "";
 							$("#search").addClass("success");
 							$("#results").html('');
-							updateList();
+							//updateList();
 						},
 						error: function(){
 							console.log("error in adding");
