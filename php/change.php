@@ -2,18 +2,13 @@
                                                                 //making our guid, its unique and coooooool
 $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8);
 
-if(isset($_REQUEST['test'])){   
-    echo($guid);
-    exit;
-}
-
 //save or delete(oid)                                             //getting the list we are in
 $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
 if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list=$list[1];
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
-$array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => 0, "skips" => array()));
+$array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
 $array = json_encode($array);                                      //encoding the array
 $f = @fopen($list,"x");                                            //opening a file, ignoring warnings
 if($f){ fwrite($f,$array); fclose($f); }                           //if the file doesn't exist, we create a new one, and adds the newly made array there
@@ -24,6 +19,12 @@ $np = $data["nowPlaying"];
 $np = array_values($np);
 $firstSong = array_values($songs);
 $save = false;                                                      //declares the save variable, see further down for why
+
+
+if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
+    array_push($data["conf"]["views"], $guid);
+    file_put_contents($list, json_encode($data));
+}
 
 //If test for either saving when the song is done, or an error has occured
 if(isset($_REQUEST['thisUrl'])){
@@ -52,7 +53,7 @@ if(isset($_REQUEST['thisUrl'])){
             //array_push($data["songs"], $add);
             $data["conf"]["skips"] = array();                        //resets the skip count
             $data["conf"]["startTime"] = time();                     //resets the starttime of the song so it will be sorted accordingly
-            $data["conf"]["views"] = 1;	                             //resets the views ??must be fixed..
+            $data["conf"]["views"]= array($guid);                    //reset the viewers so you dont count old viewers
             foreach($data["songs"] as $k=>$v) {                      //the next 5 lines of code is just for sorting the array with highest votes at the top, and the lowest time added at the top, so that the voting will be alot more fair
                 $sort['votes'][$k] = $v['votes'];
                 $sort['added'][$k] = $v['added'];
@@ -72,7 +73,6 @@ if(isset($_REQUEST['thisUrl'])){
      }
      if($action == "save" && !$save) 			                        //count views
      {
-        $data["conf"]["views"] = $data["conf"]["views"] + 1;
         file_put_contents($list, json_encode($data));
      }
      $newPlaying = array_values($data["nowPlaying"]);                   //returning the new songs id to the javascript so it gets what song to start next
@@ -161,7 +161,7 @@ else if(isset($_GET['vote'])){                                           //if th
     }
 }
 else if(isset($_GET['skip'])){                                          //skip, really similar to the save function, not going in depth here.
-	$viewers=$data["conf"]["views"];
+	$viewers=count($data["conf"]["views"]);
 	$skips=count($data["conf"]["skips"]);                               //Counting how many GUIDS there are under the skip key
 	if(!in_array($guid, $data["conf"]["skips"])){                       //If the users GUID isn't in the array, its added
 		array_push($data["conf"]["skips"], $guid);
@@ -179,8 +179,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
            	$data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
         	//array_push($data["songs"], $add);
         	$data["conf"]["skips"] = array();
-        	$data["conf"]["startTime"] = time();
-        	$data["conf"]["views"] = 1; 
+        	$data["conf"]["startTime"] = time(); 
         	foreach($data["songs"] as $k=>$v) {
             	$sort['votes'][$k] = $v['votes'];
             	$sort['added'][$k] = $v['added'];
@@ -220,12 +219,6 @@ else if(isset($_GET['skip'])){                                          //skip, 
     {
         echo "wrong";
     }
-}else if(isset($_GET['timedifference'])){                                   //deprecated i think
-
-    $diff = (time() - $data["conf"]["startTime"]);
-    $returnArray = array($diff, $firstSong[0]["id"], time(), $data["conf"]["startTime"], $firstSong[0]["title"], $data["conf"]["views"]);
-    $returnArray = json_encode($returnArray);
-    echo($data);    
 }else{                                                                      //printing the whole data array json encoded for youtube.js or list.js to pick up
     echo json_encode($data); 
 }
