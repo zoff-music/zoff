@@ -39,8 +39,8 @@ body{background:#000; margin:0; }
 
 #buttons{cursor: default; text-align: right; -webkit-filter: brightness(1.6);margin-top: -65px; margin-bottom: 28px; pointer-events:none;}
 #buttons:hover{background-color: none !important;}
-.skip{cursor: pointer; height: 25px; padding:8px 21px 0 0; -webkit-filter: brightness(0.6); pointer-events:auto;}
-.skip:hover{ -webkit-filter: brightness(0.3);}
+.skip{cursor: pointer; height: 25px; padding:8px 21px 0 0; -webkit-filter: brightness(0.1); pointer-events:auto; opacity: 0.7; transition: all ease-in-out 0.2s;}
+.skip:hover{ -webkit-filter: brightness(1.7);}
 
 #results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
 .result{border-bottom:none; padding: 3px 0 3px 10%; text-align: left; height: 55px; cursor: pointer; border-radius: 3px;}
