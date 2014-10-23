@@ -10,5 +10,5 @@
 	<label>Remove song after playing 	<input type="checkbox" name="removePlay" value="1"></label>
 	<label>Admin Password <input type="password" name="pass"></label>
 
-	<input type="button" class="button" value="Save Settings" onclick="submitAdmin(this.form)">   
+	<input type="button" class="button" value="Save Settings" onclick="submitAdmin(this.form);">   
 </form>

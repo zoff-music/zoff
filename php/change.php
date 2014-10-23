@@ -40,7 +40,7 @@ if(isset($_REQUEST['thisUrl'])){
                 array_shift($data["songs"]);                        //already shifts the array of songs, because we have the first in the queue saved
                 $q = $data["conf"];
         		$q = array_key_exists("removeplay", $q);            
-        		if(!$data["conf"]["removeplay"] || $q != 1)         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
+        		if($data["conf"]["removeplay"] == "false" || $q != 1)         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
         		{   //here we just adds the song that was just played into the queue in the songs array, take note here we set added as the current time it was added. This is because of the multisort further down
         			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
         		}
@@ -81,7 +81,10 @@ if(isset($_REQUEST['thisUrl'])){
 else if(isset($_GET['v'])){                                             //if it gets v, we start our add "function"
     $q = $data["conf"];
     $q = array_key_exists("addsongs", $q);
-    if($q != 1 || $data["conf"]["addsongs"] == "false")                 //checking wether it has been set so only admins can add songs. If its false, or the value doesn't exist, we continue
+    $pass = htmlspecialchars($_GET['pass']);
+    $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+    $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+    if($pass == $data['conf']['adminpass'] || $data['conf']['addsongs'] == "false" || $q != 1) //checking wether it has been set so only admins can add songs. If its false, or the value doesn't exist, we continue
     {
         $video = htmlspecialchars($_GET['v']);                          //id of the video
         $name = htmlspecialchars($_GET['n']);                           //name of the video
@@ -124,27 +127,37 @@ else if(isset($_GET['vote'])){                                           //if th
 
     }else                                                               //if we don't get the del, we're voting, WOHO!
     {
-    	if($vote == 'neg'){$voteAdd = -1;}                              //setting the votetoadd to the array depending of what way you swing.
-        else if($vote == 'pos'){$voteAdd = 1;}                          //checking if the key exists in the array, and if we're already voted
-    	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
-        {                                                               //finally adding the vote to the votings
-            $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
-            if($data["songs"][$id]["votes"] > -1)                       //but only if we're still above or equal to 0
-            {
-                $data["songs"][$id]["added"] = time();                  //updating the added time, so it comes on the bottom of its own "level" of votes
-                array_push($data["songs"][$id]["guids"], $guid);        //pushing the users guid to the array so he/she can't vote again
-                foreach($data["songs"] as $k=>$v) {
-                    $sort['votes'][$k] = $v['votes'];                   //again, sorting
-                    $sort['added'][$k] = $v['added'];
-                }
-                array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
-                file_put_contents($list, json_encode($data));
-                echo "Vote registrated. I hope";                        
-            }
-        }else
+        $q = $data["conf"];
+        $q = array_key_exists("vote", $q);
+        $pass = htmlspecialchars($_GET['pass']);
+        $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+        $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+        if($pass == $data['conf']['adminpass'] || $data['conf']['vote'] == "false" || $q != 1)
         {
-            echo array_key_exists($id, $data["songs"]);                 //not in use..i think..
+        	if($vote == 'neg'){$voteAdd = -1;}                              //setting the votetoadd to the array depending of what way you swing.
+            else if($vote == 'pos'){$voteAdd = 1;}                          //checking if the key exists in the array, and if we're already voted
+        	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
+            {                                                               //finally adding the vote to the votings
+                $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
+                if($data["songs"][$id]["votes"] > -1)                       //but only if we're still above or equal to 0
+                {
+                    $data["songs"][$id]["added"] = time();                  //updating the added time, so it comes on the bottom of its own "level" of votes
+                    array_push($data["songs"][$id]["guids"], $guid);        //pushing the users guid to the array so he/she can't vote again
+                    foreach($data["songs"] as $k=>$v) {
+                        $sort['votes'][$k] = $v['votes'];                   //again, sorting
+                        $sort['added'][$k] = $v['added'];
+                    }
+                    array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+                    file_put_contents($list, json_encode($data));
+                    echo "Vote registrated. I hope";                        
+                }
+            }else
+            {
+                echo array_key_exists($id, $data["songs"]);                 //not in use..i think..
+            }
         }
+        echo $pass."\n".$data['conf']['adminpass'];
+
     }
 }
 else if(isset($_GET['skip'])){                                          //skip, really similar to the save function, not going in depth here.
@@ -158,7 +171,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
 			array_shift($data["songs"]);
 	        $q = $data["conf"];
 			$q = array_key_exists("removeplay", $q);
-			if(!$data["conf"]["removeplay"] || $q != 1)
+			if($data["conf"]["removeplay"] == "false" || $q != 1)
 			{
 				$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
 			}
@@ -183,14 +196,14 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	$data["conf"]["vote"] = $_POST['vote'];                                //setting all the settings from the post gotten from admin.js
 	$data["conf"]["addsongs"] = $_POST['addsongs'];
 	$data["conf"]["longsongs"] = $_POST['longsongs'];
-	$$data["conf"]["frontpage"] = $_POST['frontpage'];
+	$data["conf"]["frontpage"] = $_POST['frontpage'];
 	$data["conf"]["onlymusic"] = $_POST['onlymusic'];
 	$data["conf"]["removeplay"] = $_POST['removeplay'];
-	$pass = $_POST['pass'];
+	$pass = htmlspecialchars($_POST['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
 	$data['conf']['adminpass'] = $pass;
-	$q = $data["conf"];
+    $q = $data["conf"];
 	$q = array_key_exists("adminpass", $q);
 
     //$data["conf"]["vote"] = $vote;
@@ -203,7 +216,10 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	{
 		echo "correct";
 		file_put_contents($list, json_encode($data));
-	}
+	}else
+    {
+        echo "wrong";
+    }
 }else if(isset($_GET['timedifference'])){                                   //deprecated i think
 
     $diff = (time() - $data["conf"]["startTime"]);
