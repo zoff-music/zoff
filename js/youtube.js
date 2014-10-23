@@ -22,6 +22,14 @@ var interval;
 var viewers;
 var video_id;
 var changed = false;
+var conf = [];
+var adminvote = 0;
+var adminadd = 0;
+var adminskip = 0;
+var music = 0;
+var longS = 0;
+var frontpage = 1;
+var adminpass = "";
 
 $(document).ready(function()
 {
@@ -43,6 +51,8 @@ $(document).ready(function()
 	//console.log(response);
 	response = $.parseJSON(response);
 	console.log(response["nowPlaying"].length);
+	conf = response["conf"];
+	console.log(conf);
 	try{	
 		for(first in response["nowPlaying"]) break;
 		console.log(first);

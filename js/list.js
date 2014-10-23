@@ -14,6 +14,15 @@ function updateList()
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
+	conf = list["conf"];
+	if(conf.hasOwnProperty("addsongs") && conf["addsongs"] == "true") adminadd = 1;
+	else adminadd = 0;
+	if(conf.hasOwnProperty("onlymusic") && conf["onlymusic"] == "true") music = 1;
+	else music = 0;
+	if(conf.hasOwnProperty("longsongs") && conf["longsongs"] == "true") longS = 1;
+	else longS = 0;
+	if(conf.hasOwnProperty("vote") && conf["vote"] == "true") adminvote = 1;
+	else adminvote = 0;
 	/*list[0].shift();
 	list[3].shift();
 	list[2].shift();*/
@@ -67,15 +76,22 @@ function updateList()
 			document.getElementById("player").style.display="none";
 			ytplayer.pauseVideo();
 		}
+		document.getElementsByName("vote")[0].checked = (conf["vote"] === "true");
+		document.getElementsByName("addSongs")[0].checked = (conf["addsongs"] === "true");
+		document.getElementsByName("longSongs")[0].checked = (conf["longsongs"] === "true");
+		document.getElementsByName("frontPage")[0].checked = (conf["frontpage"] === "true");
+		document.getElementsByName("onlyMusic")[0].checked = (conf["onlymusic"] === "true");
+		document.getElementsByName("removePlay")[0].checked = (conf["removeplay"] === "true");
 	}, 2500);
 }
 
 function vote(id, vote){
+	console.log(adminpass);
 	console.log($.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
-		data: "vote="+vote+"&id="+id,
+		data: "vote="+vote+"&id="+id+"&pass="+adminpass,
 		success: function() {
 			console.log("voted "+vote+" on "+id);
 			if(vote=="pos"){ $("#playlist").addClass("success");}

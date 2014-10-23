@@ -11,24 +11,26 @@ function admin()
 
 function submitAdmin(form)
 {
-	vote = form.vote.checked,
+	voting = form.vote.checked,
 	addSongs = form.addSongs.checked,
 	longSongs = form.longSongs.checked,
 	frontpage = form.frontPage.checked,
 	onlyMusic = form.onlyMusic.checked,
 	removePlay = form.removePlay.checked,
-	pass = form.pass.value;
+	adminpass = form.pass.value;
 
-	conf = $.ajax({
+	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+vote+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&onlymusic="+onlyMusic+"&removeplay="+removePlay+"&pass="+pass,
+		data: "conf=start&vote="+voting+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&onlymusic="+onlyMusic+"&removeplay="+removePlay+"&pass="+adminpass,
 
 		success: function() {
 			console.log("configurations response: "+response);
 		}
 	}).responseText;
 	
-	console.log(conf);
+	pass = confRes;
+	console.log(pass);
+
 }
