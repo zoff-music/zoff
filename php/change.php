@@ -20,9 +20,13 @@ $np = array_values($np);
 $firstSong = array_values($songs);
 $save = false;                                                      //declares the save variable, see further down for why
 
-
-if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
-    array_push($data["conf"]["views"], $guid);
+try{
+    if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
+        array_push($data["conf"]["views"], $guid);
+        file_put_contents($list, json_encode($data));
+    }
+}catch(Exception $e){
+    $data["conf"]["views"]=array($guid);
     file_put_contents($list, json_encode($data));
 }
 
