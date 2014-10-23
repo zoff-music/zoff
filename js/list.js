@@ -53,7 +53,7 @@ function updateList()
 		{
 			if(!window.mobilecheck())
 			{
-				$("#playlist").css({height: $("#player").height()});
+				$("#playlist").css({height: $("#player").height()-$("#adminPanel").outerHeight(true)});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller == false)
 				{
