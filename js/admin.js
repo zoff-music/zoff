@@ -1,4 +1,4 @@
-var adminTogg;
+var adminTogg = false;
 
 function admin()
 {

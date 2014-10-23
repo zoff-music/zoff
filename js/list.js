@@ -76,12 +76,15 @@ function updateList()
 			document.getElementById("player").style.display="none";
 			ytplayer.pauseVideo();
 		}
-		document.getElementsByName("vote")[0].checked = (conf["vote"] === "true");
-		document.getElementsByName("addSongs")[0].checked = (conf["addsongs"] === "true");
-		document.getElementsByName("longSongs")[0].checked = (conf["longsongs"] === "true");
-		document.getElementsByName("frontPage")[0].checked = (conf["frontpage"] === "true");
-		document.getElementsByName("allvideos")[0].checked = (conf["allvideos"] === "true");
-		document.getElementsByName("removePlay")[0].checked = (conf["removeplay"] === "true");
+		if(!adminTogg)
+		{
+			document.getElementsByName("vote")[0].checked = (conf["vote"] === "true");
+			document.getElementsByName("addSongs")[0].checked = (conf["addsongs"] === "true");
+			document.getElementsByName("longSongs")[0].checked = (conf["longsongs"] === "true");
+			document.getElementsByName("frontPage")[0].checked = (conf["frontpage"] === "true");
+			document.getElementsByName("allvideos")[0].checked = (conf["allvideos"] === "true");
+			document.getElementsByName("removePlay")[0].checked = (conf["removeplay"] === "true");
+		}
 	}, 2500);
 }
 
