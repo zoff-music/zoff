@@ -205,7 +205,6 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	$pass = htmlspecialchars($_POST['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-	$data['conf']['adminpass'] = $pass;
     $q = $data["conf"];
 	$q = array_key_exists("adminpass", $q);
 
