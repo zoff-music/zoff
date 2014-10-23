@@ -6,7 +6,7 @@
 	<label>Only admin can add songs		<input type="checkbox" name="addSongs" value="1"></label>
 	<label>Allow long songs 			<input type="checkbox" name="longSongs" value="1"></label>
 	<label>Show playlist on frontpage 	<input type="checkbox" name="frontPage" value="1"></label>
-	<label>Only music 			<input type="checkbox" name="onlyMusic" value="1"></label>
+	<label>All Videos			<input type="checkbox" name="onlyMusic" value="1"></label>
 	<label>Remove song after playing 	<input type="checkbox" name="removePlay" value="1"></label>
 	<label>Admin Password <input type="password" name="pass"></label>
 
