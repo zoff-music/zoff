@@ -17,7 +17,7 @@ function updateList()
 	conf = list["conf"];
 	if(conf.hasOwnProperty("addsongs") && conf["addsongs"] == "true") adminadd = 1;
 	else adminadd = 0;
-	if(conf.hasOwnProperty("onlymusic") && conf["onlymusic"] == "true") music = 1;
+	if(conf.hasOwnProperty("allvideos") && conf["allvideos"] == "true") music = 1;
 	else music = 0;
 	if(conf.hasOwnProperty("longsongs") && conf["longsongs"] == "true") longS = 1;
 	else longS = 0;
@@ -80,7 +80,7 @@ function updateList()
 		document.getElementsByName("addSongs")[0].checked = (conf["addsongs"] === "true");
 		document.getElementsByName("longSongs")[0].checked = (conf["longsongs"] === "true");
 		document.getElementsByName("frontPage")[0].checked = (conf["frontpage"] === "true");
-		document.getElementsByName("onlyMusic")[0].checked = (conf["onlymusic"] === "true");
+		document.getElementsByName("allvideos")[0].checked = (conf["allvideos"] === "true");
 		document.getElementsByName("removePlay")[0].checked = (conf["removeplay"] === "true");
 	}, 2500);
 }

@@ -197,7 +197,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	$data["conf"]["addsongs"] = $_POST['addsongs'];
 	$data["conf"]["longsongs"] = $_POST['longsongs'];
 	$data["conf"]["frontpage"] = $_POST['frontpage'];
-	$data["conf"]["onlymusic"] = $_POST['onlymusic'];
+	$data["conf"]["allvideos"] = $_POST['allvideos'];
 	$data["conf"]["removeplay"] = $_POST['removeplay'];
 	$pass = htmlspecialchars($_POST['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
@@ -210,7 +210,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
     //$data["conf"]["addsongs"] = $addsongs;
     //$data["conf"]["longsongs"] = $longsongs;
     //$data["conf"]["frontpage"] = $frontpage;
-    //$data["conf"]["onlymusic"] = $onlymusic;
+    //$data["conf"]["allvideos"] = $allvideos;
     //$data["conf"]["removeplay"] = $removeplay;
 	if($data["conf"]["adminpass"] == $pass || $q != 1)                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
 	{
