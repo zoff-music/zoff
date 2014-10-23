@@ -40,7 +40,7 @@ function updateList()
 			"</div>";
 			$("#wrapper").append(finalhtml);
 		});
-		if($("#playlist").height() > $("#player").height())
+		if($("#playlist").height() != $("#player").height())
 		{
 			if(!window.mobilecheck())
 			{
