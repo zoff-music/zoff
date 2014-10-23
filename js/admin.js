@@ -26,11 +26,11 @@ function submitAdmin(form)
 		data: "conf=start&vote="+voting+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removePlay+"&pass="+adminpass,
 
 		success: function() {
-			//console.log("configurations response: "+response);
+			console.log("configurations response: "+response);
 		}
 	}).responseText;
 	
 	pass = confRes;
-	//console.log(pass);
+	console.log(pass);
 
 }
