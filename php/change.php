@@ -214,7 +214,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
     //$data["conf"]["frontpage"] = $frontpage;
     //$data["conf"]["allvideos"] = $allvideos;
     //$data["conf"]["removeplay"] = $removeplay;
-	if($data["conf"]["adminpass"] == $pass || $q != 1)                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
+	if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
 	{
 		echo "correct";
 		file_put_contents($list, json_encode($data));
