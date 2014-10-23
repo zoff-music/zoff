@@ -40,7 +40,7 @@ $(document).ready(function()
 										$.each(response.data.items, function(i,data)
 										{
 											if(data.duration > 720 && longS == 0){return;}
-											if(data["category"] == "Music" || music == 0){
+											if(data["category"] == "Music" || music == 1){
 												var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
 												var views=data.viewCount;
 												var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
