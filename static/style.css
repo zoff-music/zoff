@@ -67,12 +67,13 @@ body{background:#000; margin:0; }
 .nomargin{padding: 0;margin:0;}
 
 #adminForm{text-align:left; padding-top: 15px;}
-#adminForm label{display: inline; cursor: pointer;}
+#adminForm label{display: inline; cursor: pointer; color:#ccc;}
 
 input[type="radio"]{display: none;}
 .toggler label:hover{border-bottom: solid 1px white;}
 .radio:checked + span {
   font-weight: bold;
+  color: #fff;
 }
 .toggles{display: inline; float: left; padding-right: 15px;}
 .toggtext{display: inline;}
@@ -86,8 +87,8 @@ input[type="radio"]{display: none;}
 
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
-@-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}
-@-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}
+@-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
+@-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}
 
 
 @media (max-width: 1000px) {
