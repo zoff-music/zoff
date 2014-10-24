@@ -1,1 +1,7 @@
-git ftp push -u u6917557 -p - ftp://zoff.no/www
+cd /var/www
+if ! git --git-dir=".git" diff --quiet
+then
+    git pull
+    ./setperms.sh
+fi
+

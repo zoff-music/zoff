@@ -1,1 +1,2 @@
-sudo chmod -R ugo+rwx .
+sudo chmod -R ugo+rwx /var/www
+
