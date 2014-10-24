@@ -121,7 +121,7 @@ else if(isset($_GET['vote'])){                                           //if th
         $pass=$_GET['pass'];
         $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
         $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-        $adminpass='$6$rounds=9001$tritoenFuck0ffuS$si2Hi95ghCxSbVAfgeBN0dVzf5DTn1mQoizOuLEzr0N2q6fclGLrapscJQA0PsA2F0TlG5q0YAYrPHy9dZxpj0';          //$data["conf"]["admin"];
+        $adminpass=$data["conf"]["adminpass"];          //$data["conf"]["admin"];
         
         if($adminpass == $pass){                                        //checking if the password is correct, then deleting the song (this is not in use yet.)
             unset($data["songs"][$id]);
@@ -216,6 +216,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
     //$data["conf"]["removeplay"] = $removeplay;
 	if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
 	{
+		$data["conf"]["adminpass"] = $pass;
 		echo "correct";
 		file_put_contents($list, json_encode($data));
 	}else
