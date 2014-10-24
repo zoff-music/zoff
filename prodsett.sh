@@ -1,7 +1,1 @@
-cd /var/www
-if ! git --git-dir=".git" diff --quiet
-then
-    git pull
-    ./setperms.sh
-fi
-
+ssh root@zoff.no '/var/www/getnew.sh'
