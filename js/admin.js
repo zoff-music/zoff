@@ -14,14 +14,15 @@ function admin()
 
 function submitAdmin(form)
 {
-	voting = form.vote.checked,
-	addSongs = form.addSongs.checked,
-	longSongs = form.longSongs.checked,
-	frontpage = form.frontPage.checked,
-	allvideos = form.allvideos.checked,
-	removePlay = form.removePlay.checked,
+	voting = form.vote.value,
+	addSongs = form.addSongs.value,
+	longSongs = form.longSongs.value,
+	frontpage = form.frontPage.value,
+	allvideos = form.allvideos.value,
+	removePlay = form.removePlay.value,
 	adminpass = form.pass.value;
-
+	
+	
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
