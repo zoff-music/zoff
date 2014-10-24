@@ -4,22 +4,25 @@ var pass_corr = "";
 function admin()
 {
 	adminTogg = !adminTogg;
-	if(!adminTogg) $("#playlist").height($("#playlist").height()+$("#adminPanel").outerHeight(true));
+	
+	if(adminTogg) $("#playlist").height($("#playlist").height()-210); //opening
+	if(!adminTogg)setTimeout(function(){$("#playlist").height($("#playlist").height()+210);},501); //closing
+
 	$("#adminPanel").toggleClass("hiddenAdmin");
-	if(adminTogg) $("#playlist").height($("#playlist").height()-$("#adminPanel").outerHeight(true));
 }
 
 
 function submitAdmin(form)
 {
-	voting = form.vote.checked,
-	addSongs = form.addSongs.checked,
-	longSongs = form.longSongs.checked,
-	frontpage = form.frontPage.checked,
-	allvideos = form.allvideos.checked,
-	removePlay = form.removePlay.checked,
+	voting = form.vote.value,
+	addSongs = form.addSongs.value,
+	longSongs = form.longSongs.value,
+	frontpage = form.frontPage.value,
+	allvideos = form.allvideos.value,
+	removePlay = form.removePlay.value,
 	adminpass = form.pass.value;
-
+	
+	
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
@@ -32,6 +35,15 @@ function submitAdmin(form)
 	}).responseText;
 	
 	pass_corr = confRes;
+
+	if(pass_corr=="correct"){
+		$("#adminPanel").addClass("success");
+	}else{ $("#adminPanel").addClass("fadeerror"); alert("Wrong password :(")}
+
 	console.log(pass_corr);
 	updateList();
+	setTimeout(function(){
+		$("#adminPanel").removeClass("success");
+		$("#adminPanel").removeClass("fadeerror");
+	},1500);
 }

@@ -7,7 +7,7 @@ body{background:#000; margin:0; }
 .vcent{position: relative; top: 50%; -webkit-transform: translateY(-50%);}
 .nochanvcent{position: relative; top: 46%; -webkit-transform: translateY(-54%);}
 /*#change{ display: table-cell; vertical-align: middle;}*/
-::-webkit-input-placeholder{color: #FEFEFE;}
+::-webkit-input-placeholder {color: #FEFEFE;}
 ::-moz-input-placeholder{color: #FEFEFE;}
 ::input-placeholder{color: #FEFEFE;}
 .innbox, .innbox a{
@@ -15,8 +15,9 @@ body{background:#000; margin:0; }
 	color:#f15; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
     background-color: rgba(255, 255, 255, 0.22); 
 }
+.passbox{height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;}
 .success{animation: fadecol 1.5s; -moz-animation: fadecol 1.5s; -webkit-animation: fadecol 1.5s; -o-animation: fadecol 1.5s;}
-.error{animation: fadewrong 1.5s; -moz-animation: fadewrong 1.5s; -webkit-animation: fadewrong 1.5s; -o-animation: fadewrong 1.5s;}
+.fadeerror  {animation: fadered 1.5s; -moz-animation: fadered 1.5s; -webkit-animation: fadered 1.5s; -o-animation: fadered 1.5s;}
 .small{font-size: 5vw; color:#E2E2E2; text-decoration: none; }
 /*.small:hover{color: #CCC;}*/
 .big{font-size:180vh; position:absolute; top:-50%; color:#330A00 !important; z-index:-1; width: 100%; overflow: hidden; display: none;}
@@ -65,10 +66,20 @@ body{background:#000; margin:0; }
 #playlist{-webkit-transition: opacity 0.5s;transition: opacity 0.5s;}
 .nomargin{padding: 0;margin:0;}
 
-#adminForm{text-align:left;}
-#adminForm label{display: block; cursor: pointer;}
+#adminForm{text-align:left; padding-top: 15px;}
+#adminForm label{display: inline; cursor: pointer; color:#ccc;}
+
+input[type="radio"]{display: none;}
+.toggler label:hover{border-bottom: solid 1px white;}
+.radio:checked + span {
+  font-weight: bold;
+  color: #fff;
+}
+.toggles{display: inline; float: left; padding-right: 15px;}
+.toggtext{display: inline;}
 .adminBox{float:right;}
-#adminPanel{color:white; height:200px; padding: 10px; overflow:hidden; background-color: rgba(0,0,0,0.2);}
+
+#adminPanel{color:white; height:190px; padding: 10px; overflow:hidden; background-color: rgba(0,0,0,0.2); transition: height 0.5s;}
 .hiddenAdmin{padding:0 !important; margin:0 !important; height: 0 !important;}
 .button{background-color: rgba(255,255,255,0.2); border-radius: 4px; border: none;color: white;padding: 5px 15px; margin-top: 15px; transition: all 0.1s ease-in-out;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
@@ -76,10 +87,34 @@ body{background:#000; margin:0; }
 
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
-@-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}
-@-webkit-keyframes fadewrong{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadewrong{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadewrong{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadewrong{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}
+@-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
+@-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}
 
 
-/* imports */
-@import url("mobile.css");
-/*@import url("toggler.css");*/
+@media (max-width: 1000px) {
+    body{background-color: #fff;}
+    .bgimage{display: none;}
+    #player{width: 100%; height:45%; margin-bottom: 20px; box-shadow: none;}
+    .playlist{width: 100%;}
+    .lresult{font-size: 40px; height: 90px; font-size: 50px;}
+    .votes{float: right; background-color: rgba(0,0,0,0.9); margin-top: -1.5em;font-size: 42px; padding-right: 8px; height: 89px; line-height: 89px; padding-left: 20px; border-radius: 1px;}
+    .lthumb{height: 90px; box-shadow: none;}
+    .ltitle{height: 70px; color: #000;}
+    #plus,#minus{padding-left: 24px; margin-left: 0; padding-right: 24px;}
+    #plus{border-right:solid 3px rgb(172, 172, 172);}
+    #search{text-align: left; height: 100px; font-size: 40px; border: solid 2px #ccc;}
+    #buttons{text-align: center; height: 80px; margin: 0;}
+    .skip{height: 50px;}
+    .vcent{
+        top: inherit; 
+        -webkit-transform: translateY(0%);
+    }
+    #title{
+        font-size: 30px;
+        font-weight: bold;
+        overflow: hidden;
+        padding-left: 2%;
+        padding-top: 0;
+    }
+    .footer{font-size: 40px; margin-top: 150px;}
+}

@@ -273,7 +273,7 @@ function getTitle()
 		success: function(data) {
 			viewers = $.parseJSON(data);
 			var outPutWord = viewers[5].length > 1 ? "viewers" : "viewer";
-			var title= viewers[4].replace(/\\\'/g, "'").replace(/\\\&quot;/g,"'");
+			var title= viewers[4].replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			document.title = title + " • Zöff";
 			document.getElementsByName('v')[0].placeholder = title + " • " + viewers[5].length + " " + outPutWord;
 		}

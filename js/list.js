@@ -34,7 +34,7 @@ function updateList()
 
 		$.each(list["songs"], function(j, listeID){
 
-			var video_title=listeID["title"].replace(/\\\'/g, "'").replace(/\\\&quot;/g,"'");;
+			var video_title=listeID["title"].replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID["id"];
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/default.jpg";
 			var odd = ""; if(j%2==0)odd=" oddlist";
@@ -80,11 +80,17 @@ function updateList()
 		if(!adminTogg)
 		{
 			document.getElementsByName("vote")[0].checked = (conf["vote"] === "true");
+			document.getElementsByName("vote")[1].checked = (conf["vote"] === "false");
 			document.getElementsByName("addSongs")[0].checked = (conf["addsongs"] === "true");
+			document.getElementsByName("addSongs")[1].checked = (conf["addsongs"] === "false");
 			document.getElementsByName("longSongs")[0].checked = (conf["longsongs"] === "true");
+			document.getElementsByName("longSongs")[1].checked = (conf["longsongs"] === "false");
 			document.getElementsByName("frontPage")[0].checked = (conf["frontpage"] === "true");
+			document.getElementsByName("frontPage")[1].checked = (conf["frontpage"] === "false");
 			document.getElementsByName("allvideos")[0].checked = (conf["allvideos"] === "true");
+			document.getElementsByName("allvideos")[1].checked = (conf["allvideos"] === "false");
 			document.getElementsByName("removePlay")[0].checked = (conf["removeplay"] === "true");
+			document.getElementsByName("removePlay")[1].checked = (conf["removeplay"] === "false");
 		}
 	}, 2500);
 }
