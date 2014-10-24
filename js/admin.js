@@ -1,4 +1,5 @@
 var adminTogg = false;
+var pass_corr = "";
 
 function admin()
 {
@@ -30,7 +31,7 @@ function submitAdmin(form)
 		}
 	}).responseText;
 	
-	pass = confRes;
-	console.log(pass);
-
+	pass_corr = confRes;
+	console.log(pass_corr);
+	updateList();
 }
