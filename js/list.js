@@ -34,7 +34,7 @@ function updateList()
 
 		$.each(list["songs"], function(j, listeID){
 
-			var video_title=listeID["title"].replace(/\\\'/g, "'").replace(/\\\&quot;/g,"'");;
+			var video_title=listeID["title"].replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID["id"];
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/default.jpg";
 			var odd = ""; if(j%2==0)odd=" oddlist";
