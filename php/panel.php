@@ -1,14 +1,46 @@
 <b>Admin Panel</b>
-<br>
+
 <form id="adminForm" onsubmit="return false" name="ufo" action="" class="daform nomargin" id="base">
 
-	<label>Only admin can vote 				<input type="checkbox" name="vote" value="1"></label>
-	<label>Only admin can add songs		<input type="checkbox" name="addSongs" value="1"></label>
-	<label>Allow long songs 			<input type="checkbox" name="longSongs" value="1"></label>
-	<label>Show playlist on frontpage 	<input type="checkbox" name="frontPage" value="1"></label>
-	<label>All Videos			<input type="checkbox" name="allvideos" value="1"></label>
-	<label>Remove song after playing 	<input type="checkbox" name="removePlay" value="1"></label>
-	<label>Admin Password <input type="password" name="pass"></label>
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="frontPage" value="1"><span>Display</span></label> / 
+        <label><input type="radio" class="radio"name="frontPage" value="0"><span>Hide</span></label>
+    </div>
 
-	<input type="button" class="button" value="Save Settings" onclick="submitAdmin(this.form);">   
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="vote" value="1"><span>Admin</span></label> / 
+        <label><input type="radio" class="radio"name="vote" value="0"><span>Anyone</span></label>
+    </div>
+
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="addSongs" value="1"><span>Admin</span></label> / 
+        <label><input type="radio" class="radio"name="addSongs" value="0"><span>Anyone</span></label>
+    </div>
+
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="longSongs" value="1"><span>Allow</span></label> / 
+        <label><input type="radio" class="radio"name="longSongs" value="0"><span>Block</span></label>
+    </div>
+
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="allvideos" value="1"><span>All</span></label> / 
+        <label><input type="radio" class="radio"name="allvideos" value="0"><span>Song</span></label>
+    </div>
+        
+    <div class="toggler">
+        <label><input type="radio" class="radio"name="removePlay" value="1"><span>Remove</span></label> / 
+        <label><input type="radio" class="radio"name="removePlay" value="0"><span>Keep</span></label>
+    </div>
+
+    <div>
+        playlist on frontpage
+        can vote
+        can add songs
+        long songs
+        categories allowed
+        song after player
+    </div>
+
+	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Channel password">
+	<input type="submit" class="button" value="Store" onclick="submitAdmin(this.form);">   
 </form>
