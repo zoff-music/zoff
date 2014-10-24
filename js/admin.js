@@ -15,11 +15,11 @@ function admin()
 function submitAdmin(form)
 {
 	voting = form.vote.value,
-	addSongs = form.addSongs.value,
-	longSongs = form.longSongs.value,
-	frontpage = form.frontPage.value,
+	addsongs = form.addsongs.value,
+	longsongs = form.longsongs.value,
+	frontpage = form.frontpage.value,
 	allvideos = form.allvideos.value,
-	removePlay = form.removePlay.value,
+	removeplay = form.removeplay.value,
 	adminpass = form.pass.value;
 	
 	
@@ -27,7 +27,7 @@ function submitAdmin(form)
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+voting+"&addsongs="+addSongs+"&longsongs="+longSongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removePlay+"&pass="+adminpass,
+		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass,
 
 		success: function() {
 			console.log("configurations response: "+response);
