@@ -43,17 +43,17 @@ body{background:#000; margin:0; }
 .skip{cursor: pointer; height: 25px; padding:8px 21px 0 0; -webkit-filter: brightness(0.1); pointer-events:auto; opacity: 0.7; transition: all ease-in-out 0.2s;}
 .skip:hover{ -webkit-filter: brightness(1.7);}
 
-#results{position:absolute; background-color: white; font-size: 14px; width:90%; margin-left: 5%; margin-top:-5px; z-index: 2; font-family: sans-serif;}
-.result{border-bottom:none; padding: 3px 0 3px 10%; text-align: left; height: 55px; cursor: pointer; border-radius: 3px;}
+#results{position:absolute; background-color: white; font-size: 14px; width:90%; border-radius:3px; margin-left: 5%; margin-top:-20px; z-index: 2; font-family: sans-serif;}
+.result{border-bottom:solid 1px #ccc; text-align: left; height: 55px; cursor: pointer; border-radius: 3px;}
 .result:hover{background-color: rgba(0,0,0,0.2);}
-#title{ padding-left: 20%; padding-top:10px; max-width: 76%; color:#ed207f; height: 36px;}
+#title{ padding-left: 20%; padding-top:21px; max-width: 76%; color:#ed207f; height: 36px;}
 .result_info{color:#888; font-size: 12px; float:right;}
-.thumb{height: 40px; width:80px; float: left;}
+.thumb{height: 49px; border-radius:3px; float: left; margin: 3px 0px 3px 15px;}
 
 .main{width:90%; margin: 0 auto 0 auto;}
 .playlist{width:37%; margin-left: 0px; display: inline-block; font-size: 14px; border-radius: 3px; vertical-align: top;  height: calc(87% - 183px);}
 .lresult{padding:10px 0 10px 5px; height: 70px; border-top: none; cursor: default; border-bottom: solid 1px rgba(255,255,255,0.2);}
-.lthumb{height: 70px; margin-right: 10px; display: inline; width: 109px; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}
+.lthumb{height: 70px; margin:0;margin-right: 10px; display: inline; width: 109px; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}
 .ltitle{ color:#FFF; overflow: hidden; height: 40px; }
 
 .votes{position: relative; margin-top: -0-5em; font-size: 18px; color:#fff;}
@@ -79,7 +79,7 @@ input[type="radio"]{display: none;}
 .toggtext{display: inline;}
 .adminBox{float:right;}
 
-#adminPanel{color:white; height:190px; padding: 10px; overflow:hidden; background-color: rgba(0,0,0,0.2); transition: height 0.5s;}
+#adminPanel{border-bottom: none; color:white; height:190px; padding: 10px; overflow:hidden; background-color: rgba(0,0,0,0.2); transition: height 0.5s;}
 .hiddenAdmin{padding:0 !important; margin:0 !important; height: 0 !important;}
 .button{background-color: rgba(255,255,255,0.2); border-radius: 4px; border: none;color: white;padding: 5px 15px; margin-top: 15px; transition: all 0.1s ease-in-out;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
@@ -98,7 +98,7 @@ input[type="radio"]{display: none;}
     .playlist{width: 100%;}
     .lresult{font-size: 40px; height: 90px; font-size: 50px;}
     .votes{float: right; background-color: rgba(0,0,0,0.9); margin-top: -1.5em;font-size: 42px; padding-right: 8px; height: 89px; line-height: 89px; padding-left: 20px; border-radius: 1px;}
-    .lthumb{height: 90px; box-shadow: none;}
+    .lthumb{height: 90px; box-shadow: none; }
     .ltitle{height: 70px; color: #000;}
     #plus,#minus{padding-left: 24px; margin-left: 0; padding-right: 24px;}
     #plus{border-right:solid 3px rgb(172, 172, 172);}
