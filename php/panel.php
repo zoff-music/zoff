@@ -1,4 +1,4 @@
-<b>Admin Panel</b>
+<b>Admin Panel</b> <span id="setpass"></span>
 
 <form id="adminForm" onsubmit="return false" name="ufo" action="" class="daform nomargin" id="base">
     <div class="toggles">

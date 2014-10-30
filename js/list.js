@@ -5,6 +5,7 @@ var myScroll;
 var scroller = false;
 var showToggle =true;
 var chan = $("#chan").html();
+var hasadmin=0;
 
 function updateList()
 {
@@ -23,6 +24,8 @@ function updateList()
 	else longS = 0;
 	if(conf.hasOwnProperty("vote") && conf["vote"] == "true") adminvote = 1;
 	else adminvote = 0;
+	if(conf.hasOwnProperty("adminpass") && conf["adminpass"] != "") hasadmin = 1;
+	else hasadmin = 0;
 	/*list[0].shift();
 	list[3].shift();
 	list[2].shift();*/
@@ -85,6 +88,10 @@ function updateList()
 				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");
 			};
 			
+			if(hasadmin)
+				$("#setpass").text("Channel has admin")
+			else
+				$("#setpass").text("Channel has no admin")
 		}
 	}, 2500);
 }
