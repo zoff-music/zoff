@@ -26,7 +26,7 @@ $(document).ready(function()
 						if(search_input != ""){
 							var keyword= encodeURIComponent(search_input);
 
-							var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&max-results=25&v=2&alt=jsonc'; 
+							var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=25&v=2&alt=jsonc'; 
 
 
 							$.ajax({
@@ -48,8 +48,8 @@ $(document).ready(function()
 												var finalhtml="<div id='result' class='result' onclick=\"submit('"+data.id+"','"+video_title+"');\">"+
 												"<img src='"+video_thumb+"' class='thumb'>"+
 												"<div id='title'>"+data.title+""+
-												"<span class='result_info'>"+data.uploader+" • "+views+" views • "+length+"</span></div></div>";
-
+												"<div class='result_info'>"+views+" views • "+length+"</div></div></div>";
+												//+data.uploader+" • "+
 												$("#results").append(finalhtml);
 											}
 										});

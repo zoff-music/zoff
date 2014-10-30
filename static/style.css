@@ -44,11 +44,11 @@ body{background:#000; margin:0; }
 .skip:hover{ -webkit-filter: brightness(1.7);}
 
 #results{position:absolute; background-color: white; font-size: 14px; width:90%; border-radius:3px; margin-left: 5%; margin-top:-20px; z-index: 2; font-family: sans-serif;}
-.result{border-bottom:solid 1px #ccc; text-align: left; height: 55px; cursor: pointer; border-radius: 3px;}
-.result:hover{background-color: rgba(0,0,0,0.2);}
-#title{ padding-left: 20%; padding-top:21px; max-width: 76%; color:#ed207f; height: 36px;}
-.result_info{color:#888; font-size: 12px; float:right;}
-.thumb{height: 49px; border-radius:3px; float: left; margin: 3px 0px 3px 15px;}
+.result{border-bottom: solid 1px #E5E5E5; text-align: left; height: 70px; cursor: pointer; border-radius: 3px;}
+.result:hover, .result:hover #title, .result:hover .result_info {background-color: rgba(90, 90, 90, 1); color:white !important;}
+#title{ padding-left: 9%; padding-top: 16px; max-width: 76%; color: #000000; height: 36px;}
+.result_info{color:#888; font-size: 12px; /* float:right; */padding-top: 6px;}
+.thumb{height: 55px; border-radius:3px; float: left; margin: 7px 0px 7px 15px;}
 
 .main{width:90%; margin: 0 auto 0 auto;}
 .playlist{width:37%; margin-left: 0px; display: inline-block; font-size: 14px; border-radius: 3px; vertical-align: top;  height: calc(87% - 183px);}
