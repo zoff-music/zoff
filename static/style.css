@@ -47,7 +47,7 @@ body{background:#000; margin:0; }
 .result{border-bottom: solid 1px #E5E5E5; text-align: left; height: 70px; cursor: pointer; border-radius: 3px;}
 .result:hover, .result:hover #title, .result:hover .result_info {color:white !important;}
 .result:hover{background-color: rgba(0, 0, 0, 0.4);}
-#title{ padding-left: 9%; padding-top: 16px; max-width: 76%; color: #000000; height: 36px;}
+#title{ padding-left: 9%; padding-top: 16px; color: #000000; height: 36px;}
 .result_info{color:#888; font-size: 12px; /* float:right; */padding-top: 6px;}
 .thumb{height: 55px; border-radius:3px; float: left; margin: 7px 0px 7px 15px;}
 
@@ -60,8 +60,10 @@ body{background:#000; margin:0; }
 .votes{position: relative; margin-top: -0-5em; font-size: 18px; color:#fff;}
 #plus, #minus {text-decoration: none; color:#eee; margin-left: 2px; padding-left: 3px; padding-right: 3px; }
 #plus:hover,#minus:hover{color:#000;}
-#del{float: right; font-weight: bold; margin-right: 20px; margin-top:0px; border-radius: 2px; }
+#del,#add{float: right; font-weight: bold; margin-right: 20px; margin-top:0px; border-radius: 2px; }
 #del:hover{color:red;}
+#add{font-weight: normal; margin-right: 5%; margin-top: -36px;font-size: 30px;padding: 3px 45px; }
+#add:hover{color:red;}
 
 #player{height: 68%; height: calc(87% - 183px); width: 60%; border-radius: 3px; box-shadow: 0 8px 11px -4px black;}
 #playlist{-webkit-transition: opacity 0.5s;transition: opacity 0.5s;}

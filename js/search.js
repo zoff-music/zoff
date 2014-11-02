@@ -63,10 +63,14 @@ function search(search_input){
 								var views=data.viewCount;
 								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
 								var length = Math.floor(data.duration/60)+":"+(data.duration-Math.floor(data.duration / 60)*60);
-								var finalhtml="<div id='result' class='result' onclick=\"submit('"+data.id+"','"+video_title+"');\">"+
-								"<img src='"+video_thumb+"' class='thumb'>"+
-								"<div id='title'>"+data.title+""+
-								"<div class='result_info'>"+views+" views • "+length+"</div></div></div>";
+								var finalhtml="\
+								<div id='result' class='result' onclick=\"submitAndClose('"+data.id+"','"+video_title+"');\">\
+									<img src='"+video_thumb+"' class='thumb'>\
+									<div id='title'>"+data.title+"\
+										<div class='result_info'>"+views+" views • "+length+"</div>\
+										<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"');\">\
+									</div>\
+								</div>";
 								//+data.uploader+" • "+
 								$("#results").append(finalhtml);
 							}
@@ -80,7 +84,15 @@ function search(search_input){
 
 }
 
+function submitAndClose(id,title){
+	submit(id,title);
+	$("#results").html('');
+	console.log("sub&closed");
+
+}
+
 function submit(id,title){
+
 	console.log($.ajax({
 		type: "GET",
 		url: "php/change.php",
@@ -90,17 +102,14 @@ function submit(id,title){
 			console.log("added "+id);
 			document.getElementById("search").value = "";
 			$("#search").addClass("success");
-			$("#results").html('');
-			//updateList();
 		},
 		error: function(){
 			console.log("error in adding");
 			document.getElementById("search").value = "";
 			$("#search").addClass("error");
-			$("#results").html('');
 		}
 	}).responseText);
-
+	
 	$("#search").focus();
 
 	setTimeout(function(){
@@ -108,6 +117,7 @@ function submit(id,title){
 		$("#search").removeClass("error");
 	},1500);
 	updateList();
+	event.stopPropagation();
 }
 
 				 // if(reply=="added"){$("#search").removeClass('success'); $("#search").addClass('success');}
