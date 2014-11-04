@@ -21,7 +21,7 @@ $firstSong = array_values($songs);
 $save = false;                                                      //declares the save variable, see further down for why
 
 
-/*if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
+if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
 
     $q = $data["conf"];
     $q = array_key_exists("addsongs", $q);
@@ -32,7 +32,7 @@ $save = false;                                                      //declares t
 
         //shuffle($data["songs"]);
         foreach($data["songs"] as $k=>$v) { 
-                $data["songs"][$k]["added"]=rand(0,time());;
+                $data["songs"][$v["id"]]["added"]=rand(0,time());
                 $sort['votes'][$k] = $v['votes'];
                 $sort['added'][$k] = $data["songs"][$k]["added"];
         }
@@ -43,7 +43,7 @@ $save = false;                                                      //declares t
     }else{
         die("wrong!");
     }
-}*/
+}
 
 if(is_array($data["conf"]["views"])){
     if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
