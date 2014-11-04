@@ -21,21 +21,29 @@ $firstSong = array_values($songs);
 $save = false;                                                      //declares the save variable, see further down for why
 
 
-if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
+/*if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
+
     $q = $data["conf"];
     $q = array_key_exists("addsongs", $q);
     $pass = htmlspecialchars($_GET['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-
     if($pass == $data['conf']['adminpass'] || $data['conf']['addsongs'] == "false" || $q != 1) {
-        shuffle($data["songs"]);
+
+        //shuffle($data["songs"]);
+        foreach($data["songs"] as $k=>$v) { 
+                $data["songs"][$k]["added"]=rand(0,time());;
+                $sort['votes'][$k] = $v['votes'];
+                $sort['added'][$k] = $data["songs"][$k]["added"];
+        }
+        array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
         file_put_contents($list, json_encode($data));
-        die("shuffeled");
+        //die("shuffeled");
+
     }else{
         die("wrong!");
     }
-}
+}*/
 
 if(is_array($data["conf"]["views"])){
     if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
