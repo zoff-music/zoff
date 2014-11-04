@@ -20,6 +20,23 @@ $np = array_values($np);
 $firstSong = array_values($songs);
 $save = false;                                                      //declares the save variable, see further down for why
 
+
+if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
+    $q = $data["conf"];
+    $q = array_key_exists("addsongs", $q);
+    $pass = htmlspecialchars($_GET['pass']);
+    $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+    $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+
+    if($pass == $data['conf']['adminpass'] || $data['conf']['addsongs'] == "false" || $q != 1) {
+        shuffle($data["songs"]);
+        file_put_contents($list, json_encode($data));
+        die("shuffeled");
+    }else{
+        die("wrong!");
+    }
+}
+
 if(is_array($data["conf"]["views"])){
     if(!in_array($guid, $data["conf"]["views"])){                       //add viewer in viewers if not already in there
         array_push($data["conf"]["views"], $guid);
@@ -121,7 +138,7 @@ else if(isset($_GET['vote'])){                                           //if th
         $pass=$_GET['pass'];
         $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
         $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-        $adminpass=$data["conf"]["adminpass"];          //$data["conf"]["admin"];
+        $adminpass=$data["conf"]["adminpass"];    
         
         if($adminpass == $pass){                                        //checking if the password is correct, then deleting the song (this is not in use yet.)
             unset($data["songs"][$id]);
