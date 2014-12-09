@@ -204,6 +204,7 @@ function startNextSong()
 function getTime()
 {
 	console.log("utenfor if test" + wasPaused);
+	if(ytplayer.getCurrentTime() > 2 && ytplayer.getPlayerState() == 1) wasPaused = false;
 	if(!wasPaused)
 	{
 		console.log("sjekker om brukeren spolte");
