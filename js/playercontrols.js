@@ -64,7 +64,7 @@ function initControls()
 
 function fitToScreen()
 {
-	document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() -30 + "px";
+	document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() + "px";
 	document.getElementById("controls").style.left = document.getElementById("player").offsetLeft + "px";
 }
 
