@@ -1,6 +1,6 @@
 <?php
 
-$dir = scandir('../lists');
+$dir = scandir('./lists');
 $channels = array();
 $all_channels = array();
 $time = 60*60*24*4; //4 dager
