@@ -19,7 +19,6 @@
 			<div id="results"></div>
 			<div class="main">
 				<div id="player" class="ytplayer"></div>
-
 				<div class="playlist" >
 				<div id="buttons" class="">
 					<!--<a href="/php/admin.php?list=<?php echo $list; ?>" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>-->
@@ -34,6 +33,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="controls"></div>
 			</div>
 		</div>
 		<?php include("php/footer.php"); ?>

@@ -96,11 +96,12 @@ function onYouTubeIframeAPIReady() {
 		height: window.height*0.75,
 		width: window.width*0.6,
 		videoId: response,
-		playerVars: { controls: "1" , iv_load_policy: "3", theme:"light", rel:"0", color:"white" },
+		playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", rel:"0", color:"white"},
 		events: {
 			'onReady': onPlayerReady,
 			'onStateChange': onPlayerStateChange,
-			'onError': errorHandler
+			'onError': errorHandler,
+			'onPlaybackQualityChange': logQ
 		}
 	});
 }
@@ -141,6 +142,11 @@ function onPlayerStateChange(newState) {
 		interval = true;
 		wasPaused = true;
 		beginning = false;
+	}
+	if(newState.data == 1 || newState.data == 2)
+	{
+		$("#playpause").toggleClass("play");
+		$("#playpause").toggleClass("pause");
 	}
 }
 
@@ -316,8 +322,11 @@ function onPlayerReady(event) {
 	  //ytplayer.addEventListener("onError", "errorHandler");
 		getTime();
 		ytplayer.playVideo();
+		initYoutubeControls(ytplayer)
 		getTitle();
 		setBGimage(response);
+		initSlider();
+		durationFixer = setInterval(durationSetter, 1000);
 	}
 
 function setBGimage(id){
