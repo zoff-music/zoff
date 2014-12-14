@@ -22,7 +22,7 @@ body{background:#000; margin:0; }
 /*.small:hover{color: #CCC;}*/
 .big{font-size:180vh; position:absolute; top:-50%; color:#330A00 !important; z-index:-1; width: 100%; overflow: hidden; display: none;}
 .footer a{color:rgba(254, 254, 254, 0.42); text-decoration: none;}.footer a:hover {color:#ed207f;} 
-.footer{font-size: 15px;  position: absolute; width:99%;color:rgba(192, 192, 192, 0.42) !important; margin-top: 13px; word-spacing: 2px;}
+.footer{font-size: 15px;  position: absolute; width:99%;color:rgba(192, 192, 192, 0.42) !important; margin-top: 50px; word-spacing: 2px;}
 .bottom{bottom:10px;}
 #channels{width:40%; min-width: 300px; padding-top: 4%; font-size: 25px;}
 .channel{padding: 7px; display: inline-block; font-weight: bold; color: #C4C4C4 !important;font-size: 18px;}
