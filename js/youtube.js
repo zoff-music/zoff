@@ -325,7 +325,7 @@ function onPlayerReady(event) {
 		initYoutubeControls(ytplayer)
 		getTitle();
 		setBGimage(response);
-		//initSlider();
+		initSlider();
 		//durationFixer = setInterval(durationSetter, 1000);
 	}
 
