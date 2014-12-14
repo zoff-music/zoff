@@ -4,7 +4,7 @@ body{background:#000; margin:0; }
     animation: fadein .5s; -moz-animation: fadein .5s; -webkit-animation: fadein .5s; -o-animation: fadein .5s;
 }
 .top, .top a{color:#ed207f; text-decoration: none;}
-.vcent{position: relative; top: 50%; -webkit-transform: translateY(-50%);}
+.vcent{position: relative; top: 45%; -webkit-transform: translateY(-50%);}
 .nochanvcent{position: relative; top: 46%; -webkit-transform: translateY(-54%);}
 /*#change{ display: table-cell; vertical-align: middle;}*/
 ::-webkit-input-placeholder {color: #FEFEFE;}
