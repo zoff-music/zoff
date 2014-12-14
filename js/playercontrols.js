@@ -99,7 +99,7 @@ function changeQuality()
 function setVolume(vol)
 {
 	ytplayer.setVolume(vol);
-	console.log(vol);
+	/*console.log(vol); //NO LOGS FOR U LOL
 	if(vol == 0){
 		console.log("no volume");
 	}else if(vol < 33){
@@ -108,7 +108,7 @@ function setVolume(vol)
 		console.log("medium-volume");
 	}else if(vol > 66){
 		console.log("full-volume");
-	}
+	}*/
 }
 
 function playPause()

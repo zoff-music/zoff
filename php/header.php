@@ -3,5 +3,4 @@
 <link rel="stylesheet" type="text/css" href="static/style.css" title="Default" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="icon" type="image/png" href="static/favicon.png"/>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="static/controlstyle.css">/

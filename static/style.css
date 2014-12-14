@@ -11,7 +11,7 @@ body{background:#000; margin:0; }
 ::-moz-input-placeholder{color: #FEFEFE;}
 ::input-placeholder{color: #FEFEFE;}
 .innbox, .innbox a{
-	width:90%; height: 50px; border-radius:7px; border:none; font-family: 'Open Sans', sans-serif; font-size: 25px; margin-bottom: 20px;
+	width:90%; height: 50px; border-radius:4px; border:none; font-family: 'Open Sans', sans-serif; font-size: 25px; margin-bottom: 20px;
 	color:#f15; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
     background-color: rgba(255, 255, 255, 0.22); 
 }
@@ -121,4 +121,13 @@ input[type="radio"]{display: none;}
         padding-top: 0;
     }
     .footer{font-size: 40px; margin-top: 150px;}
+}
+
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(open_sans.woff) format('woff');
+  
 }

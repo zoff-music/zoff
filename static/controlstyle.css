@@ -2,7 +2,7 @@
 #controls
 {
 	height:30px;
-	background-color:rgba(255, 255, 255, 0.40);
+	background-color:rgba(255, 255, 255, 0.25);
 	position:absolute;
 	width:54%;
 }
@@ -12,11 +12,16 @@
 	-webkit-filter:brightness(300%);
 }
 
+#q:hover, #fullscreen:hover, #playpause:hover
+{
+	-webkit-filter:brightness(100%);
+}
+
 #q
 {
 	cursor:pointer;
 	float:right;
-	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -1023px;
+	background: no-repeat url(player.webp) 0 -1023px;
 	background-size: auto;
 	width: 30px;
 	height: 27px;
@@ -53,7 +58,7 @@
 #fullscreen
 {
 	cursor:pointer;
-	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -1054px;
+	background: no-repeat url(player.webp) 0 -1054px;
 	background-size: auto;
 	width: 30px;
 	height: 27px;
@@ -78,20 +83,22 @@
     position: absolute;
     left: 200px;
     margin: 12px auto;
-    height:4.5px;
+    height:5px;
     width: 75px;
-    background-color:grey;
+    background-color:rgba(0, 0, 0, 0.5);
     border: none;
     outline: none;
+    border-radius: 2px;
 }
 
 #volume .ui-slider-range-min {
-    height:4.5px;
+    height:5px;
     width: 75px;
     position: absolute;
-    background-color:#ED207F;
+    background-color:rgba(255, 255, 255, 0.7);
 	border: none;
 	outline: none;
+	border-radius: 2px;
 }
 
 #volume .ui-slider-handle {
@@ -102,6 +109,7 @@
     cursor: pointer;
     outline: none;
     border: none;
+    display: none;
 }
 
 .ui-slider-handle
@@ -117,7 +125,7 @@
 
 .play
 {
-	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -496px;
+	background: no-repeat url(player.webp) 0 -496px;
 	background-size: auto;
 	width: 55px;
 	height: 27px;
@@ -125,7 +133,7 @@
 
 .pause
 {
-	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -2139px;
+	background: no-repeat url(player.webp) 0 -2139px;
 	background-size: auto;
 	width: 55px;
 	height: 27px;
