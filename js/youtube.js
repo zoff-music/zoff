@@ -145,8 +145,13 @@ function onPlayerStateChange(newState) {
 	}
 	if(newState.data == 1 || newState.data == 2)
 	{
-		$("#playpause").toggleClass("play");
-		$("#playpause").toggleClass("pause");
+		activeButton = document.getElementById("playpause").className;
+		console.log(activeButton);
+		if((newState.data == 2 && activeButton == "pause") || (newState.data == 1 && activeButton == "play"))
+		{
+			$("#playpause").toggleClass("play");
+			$("#playpause").toggleClass("pause");
+		}
 	}
 }
 
