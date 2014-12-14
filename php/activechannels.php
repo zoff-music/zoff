@@ -13,6 +13,6 @@ foreach($dir as $files){
 	}
 }
 
-print_r(json_encode($channels));
+print_r(json_encode($all_channels));
 
 ?>
