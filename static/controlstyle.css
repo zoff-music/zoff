@@ -100,6 +100,9 @@
 	outline: none;
 	border-radius: 2px;
 }
+#volume .ui-slider-range-min:hover {
+    background-color:rgba(255, 255, 255, 0.9);
+}
 
 #volume .ui-slider-handle {
     height:15px;
