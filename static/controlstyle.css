@@ -1,0 +1,161 @@
+
+#controls
+{
+	height:30px;
+	background-color:rgba(255, 255, 255, 0.40);
+	position:absolute;
+	width:54%;
+}
+
+#q, #fullscreen, #playpause
+{
+	-webkit-filter:brightness(300%);
+}
+
+#q
+{
+	cursor:pointer;
+	float:right;
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -1023px;
+	background-size: auto;
+	width: 30px;
+	height: 27px;
+}
+
+#qS
+{
+	display: block;
+	background-color: white;
+	position: relative;
+	float: right;
+	left: 55px;
+	/* margin-left: -10px; */
+	/* margin-top: -10px; */
+	top: -280%;
+	width:125px;
+}
+
+.qChange
+{
+	font-family:helvetica;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:3px;
+	cursor:pointer;
+	background-color:rgba(0, 0, 0, 0.54);
+}
+
+.qChange:hover
+{
+	background-color:#ED207F;
+}
+
+#fullscreen
+{
+	cursor:pointer;
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -1054px;
+	background-size: auto;
+	width: 30px;
+	height: 27px;
+	float:right;
+}
+
+#duration
+{
+	float:left;
+	margin-top:9px;
+	font-family:helvetica;
+	font-size:12px;
+}
+
+#dash
+{
+	font-weight:bolder;
+}
+
+#volume {
+	cursor:pointer;
+    position: absolute;
+    left: 200px;
+    margin: 12px auto;
+    height:4.5px;
+    width: 75px;
+    background-color:grey;
+    border: none;
+    outline: none;
+}
+
+#volume .ui-slider-range-min {
+    height:4.5px;
+    width: 75px;
+    position: absolute;
+    background-color:#ED207F;
+	border: none;
+	outline: none;
+}
+
+#volume .ui-slider-handle {
+    height:15px;
+    width:5px;
+    background-color:white;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.ui-slider-handle
+{
+	margin-top:-5px;
+}
+
+#playpause
+{
+	cursor:pointer;
+	float:left;
+}
+
+.play
+{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -496px;
+	background-size: auto;
+	width: 55px;
+	height: 27px;
+}
+
+.pause
+{
+	background: no-repeat url(//s.ytimg.com/yts/imgbin/player-lighthh-vflueFmNN.webp) 0 -2139px;
+	background-size: auto;
+	width: 55px;
+	height: 27px;
+}
+
+.hide
+{
+	display:none !important;
+}
+
+.bgimage{
+	z-index: -100;
+background-size: 180%;
+background-repeat: no-repeat;
+background-position: center center;
+background-color: #000;
+background-image: url(bg.jpg);
+-webkit-filter: blur(50px) brightness(0.8);
+-moz-filter: blur(50px) brightness(0.8);
+-ms-filter: blur(50px) brightness(0.8);
+-o-filter: blur(50px) brightness(0.8);
+filter: blur(50px) brightness(0.8);
+position: absolute;
+top: 0px;
+left: 0;
+width: 100%;
+height: 100%;
+}
+
+body
+{
+	background-color:#000;
+}
