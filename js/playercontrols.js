@@ -3,7 +3,7 @@ function initYoutubeControls(player)
 	if(player != undefined)
 	{
 		ytplayer = player;
-		initSlider();
+		//initSlider();
 		durationFixer = setInterval(durationSetter, 1000);
 	}else
 	{	
