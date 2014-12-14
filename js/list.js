@@ -57,7 +57,7 @@ function updateList()
 		{
 			if(!window.mobilecheck())
 			{
-				$("#playlist").css({height: $("#player").height()-$("#adminPanel").outerHeight(true)});
+				$("#playlist").css({height: $("#player").height()-$("#adminPanel").outerHeight(true)+30});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller == false)
 				{
