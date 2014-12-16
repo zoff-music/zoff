@@ -9,11 +9,11 @@ $dir = scandir('./lists');
 $channels = array();
 $all_channels = array();
 $time = 60*60*24*4; //4 dager
-$to = 0;
+$to = 60*60*24*2;
 foreach($dir as $files){
 	if(strpos($files, '.json') !== FALSE){
 		$time_lasted = time() - filemtime('./lists/'.$files);
-		if($time_lasted > $time)
+		if($time_lasted > $to)
 		{
 			clearstatcache();
 			$size = filesize('./lists/'.$files);

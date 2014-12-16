@@ -153,6 +153,17 @@ function onPlayerStateChange(newState) {
 			$("#playpause").toggleClass("pause");
 		}
 	}
+	if(newState.data == 0)
+	{
+		quickFixCountdown = setTimeout(function(){
+			console.log("trying quickfix");
+			if(ytplayer.getPlayerState() == 0 && wasPaused){
+				console.log("quickfixPlay");
+				startNextSong();
+				wasPaused = false;
+			}
+		},5000);
+	}
 }
 
 function checkEnd()
