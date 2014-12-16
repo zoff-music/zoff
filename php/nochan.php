@@ -9,9 +9,20 @@ $dir = scandir('./lists');
 $channels = array();
 $all_channels = array();
 $time = 60*60*24*4; //4 dager
+$to = 0;
 foreach($dir as $files){
 	if(strpos($files, '.json') !== FALSE){
-		if(time() - filemtime('./lists/'.$files) < $time){
+		$time_lasted = time() - filemtime('./lists/'.$files);
+		if($time_lasted > $time)
+		{
+			clearstatcache();
+			$size = filesize('./lists/'.$files);
+			if($size < 100){
+				unlink("./lists/".$files);
+				$size;
+			}
+		}
+		if($time_lasted < $time){
 			array_push($channels, ucfirst(str_replace(".json", "", $files)));
 		}
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
