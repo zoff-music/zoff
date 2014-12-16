@@ -17,7 +17,7 @@ foreach($dir as $files){
 		{
 			clearstatcache();
 			$size = filesize('./lists/'.$files);
-			if($size < 190){
+			if($size < 200){
 				unlink("./lists/".$files);
 				$size;
 			}
