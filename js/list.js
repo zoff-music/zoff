@@ -47,7 +47,7 @@ function updateList()
 			"<div class='ltitle'>"+video_title+"</div>"+
 			"<div class='votes'>"+listeID["votes"]+
                     "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
-                    //"<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
+                    "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
                     delsong+
                     "</div>"+
 			"</div>";
