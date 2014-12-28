@@ -57,6 +57,11 @@ if(is_array($data["conf"]["views"])){
 
 //If test for either saving when the song is done, or an error has occured
 if(isset($_REQUEST['thisUrl'])){
+	if(count($data["nowPlaying"]) == 0 && count($data["songs"]) == 0)
+	{
+		echo "empty";
+		return;
+	}
     $string = $_REQUEST['thisUrl'];                                 //saving string as the id of the song
     $action = isset($_REQUEST['act']);                              //checking the action of the request, either save or del
     $firstToAdd = $firstSong[0]["id"];                              //getting the id of the first in the queue
@@ -249,6 +254,11 @@ else if(isset($_GET['skip'])){                                          //skip, 
         echo "wrong";
     }
 }else{                                                                      //printing the whole data array json encoded for youtube.js or list.js to pick up
+	if(count($data["nowPlaying"]) == 0 && count($data["songs"]) == 0)
+	{
+		echo "empty";
+		return;
+	}
     echo json_encode($data); 
 }
 
