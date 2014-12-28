@@ -28,7 +28,7 @@ body{background:#000; margin:0; }
 .channel{padding: 7px; display: inline-block; font-weight: bold; color: #C4C4C4 !important;font-size: 18px;}
 .channel:hover{color:#ed207f !important;}
 .bgimage{ 
-    background-size: 180%; background-repeat: no-repeat; background-position: center center; background-color: #000; background-image: url(bg2.jpg);
+    background-size: 180%; background-repeat: no-repeat; background-position: center center; background-color: #000; background-image: url(bg5.jpg);
     -webkit-filter: blur(50px) brightness(0.8); -moz-filter:blur(50px) brightness(0.8); -ms-filter:blur(50px) brightness(0.8); -o-filter: blur(50px) brightness(0.8); filter: blur(50px) brightness(0.8);
     position: absolute; top: 0px; left: 0; width: 100%; height: 100%;
 }
