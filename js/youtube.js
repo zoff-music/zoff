@@ -48,19 +48,17 @@ $(document).ready(function()
 		url: "php/change.php",   
 		async: false
 	}).responseText;
-	//console.log(response);
-	response = $.parseJSON(response);
-	console.log(response["nowPlaying"].length);
-	conf = response["conf"];
-	console.log(conf);
+	console.log(response);
+	
+	
 	try{	
+		response = $.parseJSON(response);
+		conf = response["conf"];
 		for(first in response["nowPlaying"]) break;
-		console.log(first);
 		response = first;
 	}catch(err){
-		response = "1";
+		response = "empty";
 	}
-	
 	
 	$.ajax({
 		type: 'get',
@@ -104,21 +102,9 @@ function onYouTubeIframeAPIReady() {
 			'onPlaybackQualityChange': logQ
 		}
 	});
+	if(response == "empty") setOverlay(true);
 }
 
-/**
-
-Legger sangen inn i <div>en, via swfobject
-
-
-var params = { allowScriptAccess: "always"};
-var atts = { id: "myytplayer" };
-swfobject.embedSWF("http://www.youtube.com/v/"+response+"?enablejsapi=1&playerapiid=ytplayer&version=3&controls=1&iv_load_policy=3",
-   "ytapiplayer", "825", "462", "8", null, null, params, atts);
-
-
-eventlistener for når playeren endres
-*/
 function onPlayerStateChange(newState) {
 	console.log("new state: "+newState.data);
 	console.log("beginning: "+beginning);
@@ -317,8 +303,14 @@ function errorHandler(newState)
 				console.log("error! deleted video");
 			}
 		}).responseText;
-		ytplayer.loadVideoById(response);
-		setBGimage(response);
+		if(response != "empty")
+		{
+			ytplayer.loadVideoById(response);
+			setBGimage(response);
+			setOverlay(false);
+		}else{
+			setOverlay(true);
+		}
 	},2500);
 /*
 	setTimeout(function(){
@@ -350,4 +342,18 @@ function setBGimage(id){
 		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
 	}
 
+}
+
+function setOverlay(param){
+	yp = $(".ytplayer");
+	olay = $("#olay");
+	if(param){
+		if(olay.hasClass("hide")) olay.toggleClass("hide");
+		olay.height(yp.height());
+		olay.width(yp.width());
+		document.getElementById("olay").style.top = document.getElementById("player").offsetTop + "px";
+		document.getElementById("olay").style.left = document.getElementById("player").offsetLeft + "px";
+	}else{
+		if(!olay.hasClass("hide")) olay.toggleClass("hide");
+	}	
 }
