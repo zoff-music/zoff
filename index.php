@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div id="controls"></div>
-				<div id="olay" class="hide"><span>Empty Playlist</span></div>
+				
 			</div>
 		</div>
 		<?php include("php/footer.php"); ?>

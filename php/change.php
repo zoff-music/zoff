@@ -57,11 +57,6 @@ if(is_array($data["conf"]["views"])){
 
 //If test for either saving when the song is done, or an error has occured
 if(isset($_REQUEST['thisUrl'])){
-	if(count($data["nowPlaying"]) == 0 && count($data["songs"]) == 0)
-	{
-		echo "empty";
-		return;
-	}
     $string = $_REQUEST['thisUrl'];                                 //saving string as the id of the song
     $action = isset($_REQUEST['act']);                              //checking the action of the request, either save or del
     $firstToAdd = $firstSong[0]["id"];                              //getting the id of the first in the queue
@@ -242,8 +237,8 @@ else if(isset($_GET['skip'])){                                          //skip, 
     //$data["conf"]["addsongs"] = $addsongs;
     //$data["conf"]["longsongs"] = $longsongs;
     //$data["conf"]["frontpage"] = $frontpage;
-    //$data["conf"]["allvideos"] = $allvideos;
-    //$data["conf"]["removeplay"] = $removeplay;
+    //$data["conf"]["allvideos"] = $allvideos;
+    //$data["conf"]["removeplay"] = $removeplay;
 	if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
 	{
 		$data["conf"]["adminpass"] = $pass;
@@ -254,11 +249,6 @@ else if(isset($_GET['skip'])){                                          //skip, 
         echo "wrong";
     }
 }else{                                                                      //printing the whole data array json encoded for youtube.js or list.js to pick up
-	if(count($data["nowPlaying"]) == 0 && count($data["songs"]) == 0)
-	{
-		echo "empty";
-		return;
-	}
     echo json_encode($data); 
 }
 
