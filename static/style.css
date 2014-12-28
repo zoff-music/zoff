@@ -89,9 +89,6 @@ input[type="radio"]{display: none;}
 .button{background-color: rgba(255,255,255,0.2); border-radius: 4px; border: none;color: white;padding: 5px 15px; margin-top: 15px; transition: all 0.1s ease-in-out;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
 
-#olay{background-color:black;position:absolute;display:block;}
-.hide{display:none !important;}
-#olay span{position:absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);}
 
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
