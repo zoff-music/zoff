@@ -349,11 +349,13 @@ function onPlayerReady(event) {
 	}
 
 function setBGimage(id){
+	console.log("change background");
 	if(window.mozInnerScreenX == null && !window.mobilecheck()){
 		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
 	}else if(window.mobilecheck()){
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());
+		console.log("on mobile");
 	}
 
 }
