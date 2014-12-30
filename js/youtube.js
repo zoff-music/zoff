@@ -80,8 +80,9 @@ $(document).ready(function()
 	firstScriptTag = document.getElementsByTagName('script')[0];
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	if(window.mobilecheck()){
-		syncInterval = setInterval(getTime, 50000);
-		listInterval = setInterval(updateList, 50000);
+		//syncInterval = setInterval(getTime, 50000);
+		//listInterval = setInterval(updateList, 50000);
+		mobileSync = setInterval(function(){getTime();updateList();}, 10000);
 		//listKillInterval = setInterval(ks, 50000);
 		document.getElementById("search").blur();
 	}else{
@@ -232,6 +233,7 @@ function getTime()
 		});
 		console.log("current song: "+response);
 		console.log("song in database: "+timeDifference[1]);
+		if(!window.mobilecheck()){ 								//Added so the mobileversion will change banner
 			if(parseInt(timeDifference[2]) + 1> ytplayer.getCurrentTime() + parseInt(timeDifference[3]) && ytplayer.getPlayerState() === 0)
 			{
 				return true;
@@ -250,37 +252,38 @@ function getTime()
 				getTitle();
 				return false;
 			}
+		}
 			//if(interval){syncInterval = setInterval(getTime, 5000);interval = false;}
 			
-			if(response != timeDifference[1])
+		if(response != timeDifference[1])
+		{
+			clearInterval(syncInterval);
+			console.log("forskjellige videoer!!");
+			ytplayer.pauseVideo();
+			if(!window.mobilecheck())
 			{
-				clearInterval(syncInterval);
-				console.log("forskjellige videoer!!");
-				ytplayer.pauseVideo();
-				if(!window.mobilecheck())
-				{
-					ytplayer.loadVideoById(timeDifference[1]);
-				}
-				setBGimage(timeDifference[1]);
-				setTimeout(function(){
-					//console.log(response);
-					diffVideo = true;
-					beginning = true;
-					$.ajax({
-						type: "POST",
-						url: "php/change.php",
-						async: false,
-						data: "thisUrl=123abcprompeprompe&act=save",
-						success: function(data)
-						{
-							response = timeDifference[1];
-							getTitle();
-						}
-					});
-					syncInterval = setInterval(getTime, 5000);
-				},2500);
+				ytplayer.loadVideoById(timeDifference[1]);
 			}
+			setBGimage(timeDifference[1]);
+			setTimeout(function(){
+				//console.log(response);
+				diffVideo = true;
+				beginning = true;
+				$.ajax({
+					type: "POST",
+					url: "php/change.php",
+					async: false,
+					data: "thisUrl=123abcprompeprompe&act=save",
+					success: function(data)
+					{
+						response = timeDifference[1];
+						getTitle();
+					}
+				});
+				syncInterval = setInterval(getTime, 5000);
+			},2500);
 		}
+	}
 }
 
 function getTitle()
