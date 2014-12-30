@@ -8,3 +8,5 @@ Zöff is built around the youtube search and video API, and enables the creation
 
 
 The project is currently under development and runs on http://zoff.no
+
+![alt tag](http://www.quickmeme.com/img/07/075b0c88707e413a2ca33d2265fbe4581b6e35e47d87678f731dc228870e2212.jpg)
