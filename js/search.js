@@ -55,6 +55,7 @@ function search(search_input){
 				{
 					if(response.data.items)
 					{
+						var wrapper = "";
 						$.each(response.data.items, function(i,data)
 						{
 							if(data.duration > 720 && longS == 0){return;}
@@ -72,9 +73,14 @@ function search(search_input){
 									</div>\
 								</div>";
 								//+data.uploader+" • "+
-								$("#results").append(finalhtml);
+								//$("#results").append(finalhtml);
+								wrapper += finalhtml;
 							}
 						});
+						console.log(wrapper);
+						//$("#results").append(wrapper).show("slow");
+						$("<div style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
+					
 					}
 					else{ $("#video").html("<div id='no'>No Video</div>");}
 				}
