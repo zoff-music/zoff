@@ -13,6 +13,7 @@ Screenshot of desktop version:
 ![alt tag](http://puu.sh/dR0nl/d4d066da11.jpg)
 
 Screenshot of the mobile version:
+
 ![alt tag](http://puu.sh/dR0w3/588ddb0d73.jpg)
 
 Mobile App is TBA in the future
