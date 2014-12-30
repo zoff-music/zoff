@@ -13,6 +13,7 @@
     <div class="bgimage" id="bgimage"></div>
 	<div class="top vcent centered">
 		<div id="change" class="small">
+			<div id="mobile-banner"></div>
 			<a id="toptitle" href="/">Zöff</a>
 			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></div>
 			<input id="search" name="v" type="text" class="search_input innbox" spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off"/>
@@ -22,7 +23,7 @@
 				<div class="playlist" >
 				<div id="buttons" class="">
 					<!--<a href="/php/admin.php?list=<?php echo $list; ?>" title="Channel settings" ><img src="/static/settings2.png" class="skip middle" alt="Settings"/></a>-->
-					<img src="static/settings2.png" class="skip middle" alt="Settings" title="Settings" onclick="admin();"/>
+					<img src="static/settings2.png" id="settings" class="skip middle" alt="Settings" title="Settings" onclick="admin();"/>
 					<img src="static/skip.png" class="skip" alt="Skip" title="Skip" onclick="skip();">
 
 				</div>
