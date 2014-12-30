@@ -89,7 +89,7 @@ input[type="radio"]{display: none;}
 .button{background-color: rgba(255,255,255,0.2); border-radius: 4px; border: none;color: white;padding: 5px 15px; margin-top: 15px; transition: all 0.1s ease-in-out;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
 
-
+#loading{display:initial;display: table-cell;vertical-align: bottom;width: 50%;position: absolute;left:25%}
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
 @-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
@@ -155,6 +155,7 @@ input[type="radio"]{display: none;}
 	.bigchan{font-size:150px;}
 	#channels{font-size:60px;width:99%;}
 	.channel{font-size:40px;}
+	#loading{display:block;}
 }
 
 
