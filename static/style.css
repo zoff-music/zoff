@@ -96,7 +96,7 @@ input[type="radio"]{display: none;}
 @-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}
 
 
-@media (max-width: 1000px) {
+@media only screen and (max-device-width: 1000px) {
 	#controls{display:none;}
     body{background-color: #2F2F2F;}
     .bgimage{background-image: none;position:fixed;background-size:500%;background-color:black;-webkit-filter: blur(0px) brightness(0);}
