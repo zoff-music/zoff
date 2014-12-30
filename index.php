@@ -30,7 +30,7 @@
 					<div class="result hiddenAdmin" id="adminPanel"><?php include("php/panel.php");?> </div>
 					<div id="playlist">
 						<div id="wrapper">
-
+							<img src="static/ajax-loader.gif" id="loading" alt="loading">
 						</div>
 					</div>
 				</div>
