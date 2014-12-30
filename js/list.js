@@ -15,16 +15,16 @@ function updateList()
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
-	conf = list["conf"];
-	if(conf.hasOwnProperty("addsongs") && conf["addsongs"] == "true") adminadd = 1;
+	conf = list.conf;
+	if(conf.hasOwnProperty("addsongs") && conf.addsongs == "true") adminadd = 1;
 	else adminadd = 0;
-	if(conf.hasOwnProperty("allvideos") && conf["allvideos"] == "true") music = 1;
+	if(conf.hasOwnProperty("allvideos") && conf.allvideos == "true") music = 1;
 	else music = 0;
-	if(conf.hasOwnProperty("longsongs") && conf["longsongs"] == "true") longS = 1;
+	if(conf.hasOwnProperty("longsongs") && conf.longsongs == "true") longS = 1;
 	else longS = 0;
-	if(conf.hasOwnProperty("vote") && conf["vote"] == "true") adminvote = 1;
+	if(conf.hasOwnProperty("vote") && conf.vote == "true") adminvote = 1;
 	else adminvote = 0;
-	if(conf.hasOwnProperty("adminpass") && conf["adminpass"] != "") hasadmin = 1;
+	if(conf.hasOwnProperty("adminpass") && conf.adminpass !== '') hasadmin = 1;
 	else hasadmin = 0;
 	/*list[0].shift();
 	list[3].shift();
@@ -35,17 +35,17 @@ function updateList()
 
 		$("#wrapper").empty();
 
-		$.each(list["songs"], function(j, listeID){
+		$.each(list.songs, function(j, listeID){
 
-			var video_title=listeID["title"].replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-			var video_id = listeID["id"];
+			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+			var video_id = listeID.id;
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
-			var odd = ""; if(j%2==0)odd=" oddlist";
+			var odd = ""; if(j%2===0)odd=" oddlist";
 			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
 			var finalhtml="<div id='result' class='result lresult"+odd+"'>"+
 			"<img src='"+video_thumb+"' class='thumb lthumb'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
-			"<div class='votes'>"+listeID["votes"]+
+			"<div class='votes'>"+listeID.votes+
                     "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
                     "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
                     delsong+
@@ -59,7 +59,7 @@ function updateList()
 			{
 				$("#playlist").css({height: $("#player").height()-$("#adminPanel").outerHeight(true)+30});
 				$("#playlist").css({overflow: "hidden"});
-				if(scroller == false)
+				if(scroller === false)
 				{
 					myScroll = new IScroll('#playlist', {
 						mouseWheel: true,
@@ -87,12 +87,12 @@ function updateList()
 			for (var i = 0; i < names.length; i++) {
 				document.getElementsByName(names[i])[0].checked = (conf[names[i]] === "true");
 				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");
-			};
+			}
 			
 			if(hasadmin)
-				$("#setpass").text("Channel has admin")
+				$("#setpass").text("Channel has admin");
 			else
-				$("#setpass").text("Channel has no admin")
+				$("#setpass").text("Channel has no admin");
 		}
 	}, 2500);
 }

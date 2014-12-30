@@ -1,5 +1,6 @@
 var old_input="";
 var timer = 0;
+/*jshint multistr: true */
 
 $(document).ready(function()
 {
@@ -31,7 +32,7 @@ $(document).ready(function()
 
 	setInterval(function(){
 		timer--;
-		if(timer==0){
+		if(timer===0){
 			search($(".search_input").val());
 		}
 	}, 1);
@@ -42,7 +43,7 @@ function search(search_input){
 	
 
 		$("#results").html('');
-		if(search_input != ""){
+		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
 			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=25&v=2&alt=jsonc'; 
@@ -58,8 +59,8 @@ function search(search_input){
 						var wrapper = "";
 						$.each(response.data.items, function(i,data)
 						{
-							if(data.duration > 720 && longS == 0){return;}
-							if(data["category"] == "Music" || music == 1){
+							if(data.duration > 720 && longS === 0){return;}
+							if(data.category == "Music" || music == 1){
 								var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
 								var views=data.viewCount;
 								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
