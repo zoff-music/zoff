@@ -14,12 +14,12 @@ function admin()
 
 function submitAdmin(form)
 {
-	voting = form.vote.value,
-	addsongs = form.addsongs.value,
-	longsongs = form.longsongs.value,
-	frontpage = form.frontpage.value,
-	allvideos = form.allvideos.value,
-	removeplay = form.removeplay.value,
+	voting = form.vote.value;
+	addsongs = form.addsongs.value;
+	longsongs = form.longsongs.value;
+	frontpage = form.frontpage.value;
+	allvideos = form.allvideos.value;
+	removeplay = form.removeplay.value;
 	adminpass = form.pass.value;
 	
 	
@@ -38,7 +38,7 @@ function submitAdmin(form)
 
 	if(pass_corr=="correct"){
 		$("#adminPanel").addClass("success");
-	}else{ $("#adminPanel").addClass("fadeerror"); alert("Wrong password :(")}
+	}else{ $("#adminPanel").addClass("fadeerror"); alert("Wrong password :(");}
 
 	console.log(pass_corr);
 	updateList();

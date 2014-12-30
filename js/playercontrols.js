@@ -1,6 +1,6 @@
 function initYoutubeControls(player)
 {
-	if(player != undefined)
+	if(player !== undefined)
 	{
 		ytplayer = player;
 		//initSlider();
@@ -21,9 +21,9 @@ function initYoutubeControls(player)
 	container.appendChild(newElem);
 	for(x = 0; x < elems.length; x++)
 	{
-		var newElem = document.createElement("div");
-		newElem.id = elems[x];
-		container.appendChild(newElem);
+		var newElemFor = document.createElement("div");
+		newElemFor.id = elems[x];
+		container.appendChild(newElemFor);
 	}
 	/*elems = Array("medium", "large", "hd1080", "auto");
 	newElem = document.createElement("div");
@@ -39,7 +39,7 @@ function initYoutubeControls(player)
 		newElem.appendChild(newChild);
 	}
 	container.appendChild(newElem);*/
-	initControls()
+	initControls();
 	fitToScreen();
 	$(window).resize(function(){
 		fitToScreen();
