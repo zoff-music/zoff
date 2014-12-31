@@ -5,7 +5,8 @@
     else $list=$list[1];
 ?>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
 </head>
