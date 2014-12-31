@@ -33,7 +33,7 @@ function updateList()
 	setTimeout(function()
 	{
 
-		$("#wrapper").empty();
+		//$("#wrapper").empty();
 
 		$.each(list.songs, function(j, listeID){
 
@@ -51,7 +51,7 @@ function updateList()
                     delsong+
                     "</div>"+
 			"</div>";
-			$("#wrapper").append(finalhtml);
+			//$("#wrapper").append(finalhtml);
 		});
 		if($("#playlist").height() != $("#player").height())
 		{
