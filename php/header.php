@@ -5,4 +5,4 @@
 <link rel="icon" type="image/png" href="static/favicon.png"/>
 <link rel="stylesheet" type="text/css" href="static/controlstyle.css" />
 <meta property="og:image" content="static/Logo.png" />
-
+<meta name="description" content="The shared YouTube radio.">
