@@ -155,7 +155,7 @@ input[type="radio"]{display: none;}
 	.bigchan{font-size:150px;}
 	#channels{font-size:60px;width:99%;}
 	.channel{font-size:40px;}
-	#loading{display:initial;display: table-cell;vertical-align: bottom;width: 50%;position: absolute;left:25%}
+	#loading{display:initial;display: table-cell;vertical-align: bottom;width: 50%;position: absolute;/*left:25%;*/top: 50%;left: 50%;transform: translate(-50%, -50%);}
 }
 
 
