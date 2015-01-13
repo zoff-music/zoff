@@ -33,23 +33,11 @@ foreach($dir as $files){
 	}
 }
 
-  $bg = array('bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg' ); // array of filenames
-
-  $i = rand(0, count($bg)-1); // generate random number size of the array
-  $selectedBg = "$bg[$i]"; // set variable equal to which random filename was chosen
-
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-	<style type="text/css">
-		<!--
-		.bgimage{
-			background: url(./static/<?php echo $selectedBg; ?>) no-repeat;
-		}
-		-->
-	</style>
 	<?php include("php/header.php"); ?>
 </head>
 <body>
