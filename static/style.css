@@ -12,7 +12,7 @@ body{background:#000; margin:0; }
 ::input-placeholder{color: #FEFEFE;}
 .innbox, .innbox a{
 	width:90%; height: 50px; border-radius:4px; border:none; font-family: 'Open Sans', sans-serif; font-size: 25px; margin-bottom: 20px;
-	color:#f15; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
+	/*color:#f15;*/color:white; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
     background-color: rgba(255, 255, 255, 0.22); 
 }
 .passbox{height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;background-color:rgba(255,255,255,0.2);}
@@ -90,7 +90,7 @@ input[type="radio"]{display: none;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
 
 #loading{display:none;}
-#search{padding-left:50px;background: url(search2.png)no-repeat 10px 13px;background-color: rgba(255,255,255,0.2);background-size:3%;}
+#search{padding-left:50px;background: url(search2.png)no-repeat 10px 50%;background-color: rgba(255,255,255,0.2);background-size:2%;}
 
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
