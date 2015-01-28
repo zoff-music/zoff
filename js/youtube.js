@@ -111,17 +111,6 @@ function onPlayerStateChange(newState) {
 	console.log("new state: "+newState.data);
 	console.log("beginning: "+beginning);
 	//ytplayer.seekTo(15);
-	if(newState.data === 0)
-	{
-		quickFixCountdown = setTimeout(function(){
-			console.log("trying quickfix");
-			if(ytplayer.getPlayerState() === 0 && wasPaused){
-				console.log("quickfixPlay");
-				startNextSong();
-				wasPaused = false;
-			}
-		},5000);
-	}
 	if((newState.data === 0 && checkEnd()) || (newState.data == 1 && checkEnd())) 
 	{
 		console.log("nummer 1");
@@ -151,6 +140,17 @@ function onPlayerStateChange(newState) {
 			$("#playpause").toggleClass("play");
 			$("#playpause").toggleClass("pause");
 		}
+	}
+	if(newState.data === 0)
+	{
+		quickFixCountdown = setTimeout(function(){
+			console.log("trying quickfix");
+			if(ytplayer.getPlayerState() === 0){
+				console.log("quickfixPlay");
+				startNextSong();
+				wasPaused = false;
+			}
+		},5000);
 	}
 }
 
