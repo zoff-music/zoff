@@ -100,22 +100,30 @@ function submitAndClose(id,title){
 
 function submit(id,title){
 
-	console.log($.ajax({
+	serverAns = $.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
 		data: "v="+id+"&n="+title+"&pass="+adminpass,
 		success: function() {
-			console.log("added "+id);
-			document.getElementById("search").value = "";
-			$("#search").addClass("success");
+			
+			//document.getElementById("search").value = "";
+			//$("#search").addClass("success");
 		},
 		error: function(){
 			console.log("error in adding");
 			document.getElementById("search").value = "";
 			$("#search").addClass("error");
 		}
-	}).responseText);
+	}).responseText;
+
+	if(serverAns == "wrong")
+	{
+		alert("Wrong adminpassword");
+		$("#search").addClass("error");
+	}else{
+		$("#search").addClass("success");
+	}
 	
 	$("#search").focus();
 

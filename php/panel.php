@@ -43,5 +43,5 @@
     </div>
 
 	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Channel password">
-	<input type="submit" class="button" value="Store" onclick="submitAdmin(this.form);">   
+	<input type="submit" class="button" value="Login/Save" onclick="submitAdmin(this.form);" title="Save settings/Login">   
 </form>

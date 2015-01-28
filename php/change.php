@@ -136,6 +136,8 @@ else if(isset($_GET['v'])){                                             //if it 
             file_put_contents($list, json_encode($data));
             print("added");                                             //Just telling the javascript that it has been added for some reason...
         }
+    }else{
+        print("wrong");
     }
 }
 
@@ -184,8 +186,10 @@ else if(isset($_GET['vote'])){                                           //if th
             {
                 echo array_key_exists($id, $data["songs"]);                 //not in use..i think..
             }
+        }else{
+            print("wrong");
         }
-        echo $pass."\n".$data['conf']['adminpass'];
+        
 
     }
 }
