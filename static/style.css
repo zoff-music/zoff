@@ -90,6 +90,9 @@ input[type="radio"]{display: none;}
 .button:hover{background-color: rgba(255,255,255,0.4); }
 
 #loading{display:none;}
+#search{background: url(search.png)no-repeat 10px 18px;
+background-color: rgba(255,255,255,0.1);}
+
 
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
 @-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}

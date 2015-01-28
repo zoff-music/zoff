@@ -99,18 +99,28 @@ function updateList()
 
 function vote(id, vote){
 	console.log(adminpass);
-	console.log($.ajax({
+	serverAns = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
 		data: "vote="+vote+"&id="+id+"&pass="+adminpass,
 		success: function() {
 			console.log("voted "+vote+" on "+id);
-			if(vote=="pos"){ $("#playlist").addClass("success");}
+			/*if(vote=="pos"){ $("#playlist").addClass("success");}
 			else{ $("#playlist").addClass("fadeerror");}
-			updateList();
+			updateList();*/
 		},
 	}).responseText);
+
+	if(serverAns == "wrong")
+	{
+		alert("Wrong adminpassword!");
+	}else{
+		if(vote=="pos"){ $("#playlist").addClass("success");}
+		else{ $("#playlist").addClass("fadeerror");}
+		updateList();
+	}
+
 	setTimeout(function(){
 		$("#playlist").removeClass("success");
 		$("#playlist").removeClass("fadeerror");
