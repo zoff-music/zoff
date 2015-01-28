@@ -110,7 +110,11 @@ input[type="radio"]{display: none;}
     .ltitle{height: 70px; /*color: #000;*/}
     #plus,#minus{padding-left: 24px; margin-left: 0; padding-right: 24px;}
     /*#plus{border-right:solid 3px rgb(172, 172, 172);}*/
-    #search{text-align: left; height: 100px; font-size: 40px; /*border: solid 2px #ccc;*/color:white;width:100%;border-radius:0px;font-weight:bold;}
+    #search{text-align: left; height: 100px; font-size: 40px; /*border: solid 2px #ccc;*/color:white;width:100%;border-radius:0px;font-weight:bold;
+        padding-left: 65px;
+        background: url(search2.png)no-repeat 10px 30px;
+        background-color: rgba(255,255,255,0.2);
+        background-size: 5%;}
     #buttons{text-align: center; height: 80px; margin: 0;}
     .skip{height: 50px; -webkit-filter: brightness(300%);}
     .vcent{
