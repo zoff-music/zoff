@@ -86,7 +86,8 @@ $(document).ready(function()
 		//listKillInterval = setInterval(ks, 50000);
 		document.getElementById("search").blur();
 	}else{
-		syncInterval = setInterval(getTime, 5000);
+		if(!syncInterval)
+			syncInterval = setInterval(getTime, 5000);
 		listInterval = setInterval(updateList, 10000);
 		//listKillInterval = setInterval(ks, 50000);
 	}
@@ -122,11 +123,12 @@ function onPlayerStateChange(newState) {
 		console.log("unpaused");
 		beginning = false;
 		wasPaused = false;
-		syncInterval = setInterval(getTime, 5000);
+		if(!syncInterval)
+			syncInterval = setInterval(getTime, 5000);
 		getTime();
 	}else if(newState.data == 2)
 	{
-		clearInterval(syncInterval);
+		//clearInterval(syncInterval);
 		interval = true;
 		wasPaused = true;
 		beginning = false;
@@ -206,7 +208,8 @@ function startNextSong()
 
 			setTimeout(function() {
 				changed = false;
-				syncInterval = setInterval(getTime, 5000);
+				if(!syncInterval)
+					syncInterval = setInterval(getTime, 5000);
 				interval = true;
 				console.log("starter intervallen. Interval: " + interval);
 			}, 2500);
@@ -257,7 +260,8 @@ function getTime()
 			
 		if(response != timeDifference[1])
 		{
-			clearInterval(syncInterval);
+			//clearInterval(syncInterval);
+			wasPaused = true;
 			console.log("forskjellige videoer!!");
 			ytplayer.pauseVideo();
 			if(!window.mobilecheck())
@@ -280,7 +284,9 @@ function getTime()
 						getTitle();
 					}
 				});
-				syncInterval = setInterval(getTime, 5000);
+				wasPaused = false;
+				if(!syncInterval)
+					syncInterval = setInterval(getTime, 5000);
 			},2500);
 		}
 	}
