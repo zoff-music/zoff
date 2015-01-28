@@ -42,6 +42,6 @@
         songs after playing<br>
     </div>
 
-	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Channel password">
+	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Password">
 	<input type="submit" class="button" value="Login/Save" onclick="submitAdmin(this.form);" title="Save settings/Login">   
 </form>

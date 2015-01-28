@@ -15,7 +15,7 @@ body{background:#000; margin:0; }
 	color:#f15; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
     background-color: rgba(255, 255, 255, 0.22); 
 }
-.passbox{height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;}
+.passbox{height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;background-color:rgba(255,255,255,0.2);}
 .success{animation: fadecol 1.5s; -moz-animation: fadecol 1.5s; -webkit-animation: fadecol 1.5s; -o-animation: fadecol 1.5s;}
 .fadeerror  {animation: fadered 1.5s; -moz-animation: fadered 1.5s; -webkit-animation: fadered 1.5s; -o-animation: fadered 1.5s;}
 .small{font-size: 5vw; color:#E2E2E2; text-decoration: none; }
