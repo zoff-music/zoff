@@ -84,7 +84,7 @@ function search(search_input){
 						if(wrapper.length > 0)
 						{
 							$(".main").addClass("blurT");
-							//$("#controls").addClass("blurT");
+							$("#controls").addClass("blurT");
 						}
 
 						$("<div style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
