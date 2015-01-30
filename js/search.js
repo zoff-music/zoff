@@ -57,7 +57,6 @@ $(document).keyup(function(e) {
 	    	if(i > 1)
 	    		i--;
 	    } else if(e.keyCode == 13) {
-	    	console.log($("div.hoverResults"));
 	    	i = 0;
 	    	var elem = document.getElementsByClassName("hoverResults")[0];
 			if (typeof elem.onclick == "function") {
