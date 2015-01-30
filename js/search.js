@@ -19,7 +19,7 @@ $(document).ready(function()
 	
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
-		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13) {
+		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37) {
 			var search_input = $(this).val();
 			if(search_input.length < 3){$("#results").html("");}
 			if(event.keyCode == 13){
@@ -28,6 +28,7 @@ $(document).ready(function()
 				$("#results").html("");
 				$(".main").removeClass("blurT");
 			}else{
+				i = 0;
 				timer=100;
 			}
 		}
@@ -39,7 +40,6 @@ $(document).ready(function()
 		timer--;
 		if(timer===0){
 			search($(".search_input").val());
-			i = 0;
 		}
 	}, 1);
 });
