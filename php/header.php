@@ -1,3 +1,9 @@
+<!--
+	
+	Project is on github: https://github.com/nixolas1/Zoff
+	Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+
+	-->
 <?php
   $bg = array('bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg' ); // array of filenames
 
