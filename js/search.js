@@ -82,7 +82,11 @@ function search(search_input){
 						//console.log(wrapper);
 						//$("#results").append(wrapper).show("slow");
 						if(wrapper.length > 0)
+						{
 							$(".main").addClass("blurT");
+							//$("#controls").addClass("blurT");
+						}
+
 						$("<div style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
 					
 					}
@@ -92,6 +96,7 @@ function search(search_input){
 			});
 		}else{
 			$(".main").removeClass("blurT");
+			$("#controls").removeClass("blurT");
 		}
 
 }

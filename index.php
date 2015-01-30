@@ -35,9 +35,8 @@
 						</div>
 					</div>
 				</div>
-				<div id="controls"></div>
-				
 			</div>
+			<div id="controls"></div>
 		</div>
 	</div>
 	<?php include("php/footer.php"); ?>

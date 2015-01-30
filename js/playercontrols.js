@@ -64,8 +64,12 @@ function initControls()
 
 function fitToScreen()
 {
-	document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() + "px";
-	document.getElementById("controls").style.left = document.getElementById("player").offsetLeft + "px";
+	//document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() + "px";
+	document.getElementById("controls").style.top = $("#player").position()["top"] + $("#player").height() + "px";
+	//document.getElementById("controls").style.left = document.getElementById("player").offsetLeft + "px";
+	document.getElementById("controls").style.left = $("#player").position()["left"] + "px";
+	//document.getElementById("controls").style.left = "10px";
+	$("#controls").width($("#player").width());
 }
 
 function initSlider()
