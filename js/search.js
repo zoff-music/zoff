@@ -4,6 +4,8 @@ var timer = 0;
 
 $(document).ready(function()
 {
+	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = undefined; }, function() { });
+		
 
 	$("#search").focus();
 
@@ -17,15 +19,17 @@ $(document).ready(function()
 	
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
-		var search_input = $(this).val();
-		if(search_input.length < 3){$("#results").html("");}
-		if(event.keyCode == 13){
-		 	search(search_input);
-		}else if(event.keyCode == 27){
-			$("#results").html("");
-			$(".main").removeClass("blurT");
-		}else{
-			timer=100;
+		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13) {
+			var search_input = $(this).val();
+			if(search_input.length < 3){$("#results").html("");}
+			if(event.keyCode == 13){
+			 	search(search_input);
+			}else if(event.keyCode == 27){
+				$("#results").html("");
+				$(".main").removeClass("blurT");
+			}else{
+				timer=100;
+			}
 		}
 
 		
@@ -35,8 +39,37 @@ $(document).ready(function()
 		timer--;
 		if(timer===0){
 			search($(".search_input").val());
+			i = 0;
 		}
 	}, 1);
+});
+
+$(document).keyup(function(e) { 
+	if ($("div.result").length > 2){
+	    if (e.keyCode == 40) {
+	    	if(i < $("div.result").length -2)
+	    		i++;
+	    	$("div.result:nth-child("+(i-1)+")").removeClass("hoverResults");
+	    	$("div.result:nth-child("+i+")").addClass("hoverResults");
+	    } else if (e.keyCode == 38) {
+	    	$("div.result:nth-child("+i+")").removeClass("hoverResults");
+	    	$("div.result:nth-child("+(i-1)+")").addClass("hoverResults");
+	    	if(i > 1)
+	    		i--;
+	    } else if(e.keyCode == 13) {
+	    	console.log($("div.hoverResults"));
+	    	i = 0;
+	    	var elem = document.getElementsByClassName("hoverResults")[0];
+			if (typeof elem.onclick == "function") {
+			    elem.onclick.apply(elem);
+			}
+	    	$("div.hoverResults").removeClass("hoverResults");
+	    	$("#results").html('');
+	    	document.getElementById("search").value = "";
+	    	$(".main").removeClass("blurT");
+			$("#controls").removeClass("blurT");
+	    }
+	}
 });
 
 
@@ -87,7 +120,7 @@ function search(search_input){
 							$("#controls").addClass("blurT");
 						}
 
-						$("<div style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
+						$("<div id='r' style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
 					
 					}
 					else{ $("#video").html("<div id='no'>No Video</div>");}

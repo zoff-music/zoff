@@ -51,6 +51,8 @@ body{background:#000; margin:0; }
 .result_info{color:#D7D7D7; font-size: 12px; /* float:right; */padding-top: 6px;}
 .thumb{height: 55px; border-radius:3px; float: left; margin: 7px 0px 7px 15px;}
 
+.hoverResults{color:white !important;background-color: rgba(0, 0, 0, 0.4);}
+
 .main{width:90%; margin: 0 auto 0 auto;transition: 0.75s -webkit-filter linear; -webkit-transform: translate3d(0,0,0);
   -moz-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
