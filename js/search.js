@@ -47,7 +47,7 @@ function search(search_input){
 		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
-			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=25&v=2&alt=jsonc'; 
+			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=6&v=2&alt=jsonc'; 
 
 			$.ajax({
 				type: "GET",
