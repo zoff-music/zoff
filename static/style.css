@@ -173,6 +173,9 @@ input[type="radio"]{display: none;}
 	.channel{font-size:40px;}
     .channel:hover{color:grey !important;}
 	#loading{display:initial;display: table-cell;vertical-align: bottom;width: 50%;position: absolute;/*left:25%;*/top: 50%;left: 50%;transform: translate(-50%, -50%);}
+    #results{background-color: white;}
+    #title, .result_info{color:#000 !important;}
+    .blurT{-webkit-filter: blur(0px);}
 }
 
 
