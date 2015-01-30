@@ -4,7 +4,7 @@ var timer = 0;
 
 $(document).ready(function()
 {
-	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = undefined; }, function() { });
+	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
 		
 
 	$("#search").focus();
