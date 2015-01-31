@@ -12,7 +12,7 @@ function initYoutubeControls(player)
 		firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
-	elems = Array("volume", "duration", "fullscreen", "q");
+	elems = Array("volume", "duration", "mute", "fullscreen", "q");
 	//elems = Array("volume", "duration", "fullscreen");
 	var container = document.getElementById("controls");
 	var newElem = document.createElement("div");
@@ -43,6 +43,7 @@ function initYoutubeControls(player)
 	container.appendChild(newElem);
 	initControls();
 	fitToScreen();
+	$("#mute").hover(function(){hoverMute(true)}, function(){hoverMute(false)});
 	$(window).resize(function(){
 		fitToScreen();
 	});
@@ -52,6 +53,7 @@ function initControls()
 {
 	document.getElementById("playpause").addEventListener("click", playPause);
 	document.getElementById("q").addEventListener("click", settings);
+	document.getElementById("mute").addEventListener("click", volumeOptions);
 	document.getElementById("fullscreen").addEventListener("click", function()
 	{
 		document.getElementById("player").webkitRequestFullscreen();
@@ -112,16 +114,18 @@ function changeQuality(wantedQ)
 function setVolume(vol)
 {
 	ytplayer.setVolume(vol);
-	/*console.log(vol); //NO LOGS FOR U LOL
+	//console.log(vol); //NO LOGS FOR U LOL
+	if(ytplayer.isMuted())
+		ytplayer.unMute();
 	if(vol == 0){
-		console.log("no volume");
+		$("#mute").css("background","no-repeat url(static/player.webp) -0px -403px");
 	}else if(vol < 33){
-		console.log("low-volume");
+		$("#mute").css("background","no-repeat url(static/player.webp) -0px -1457px");
 	}else if(vol > 33 && vol < 66){
-		console.log("medium-volume");
+		$("#mute").css("background","no-repeat url(static/player.webp) -0px -806px");
 	}else if(vol > 66){
-		console.log("full-volume");
-	}*/
+		$("#mute").css("background","no-repeat url(static/player.webp) -0px -1829px");
+	}
 }
 
 function playPause()
@@ -159,19 +163,60 @@ function pad(n)
 
 function volumeOptions()
 {
-	console.log("volumeOptions");
-	button = document.getElementById("volume");
+	//console.log("volumeOptions");
+	//button = document.getElementById("volume");
 	if(ytplayer.isMuted())
 	{
 		ytplayer.unMute();
-		button.innerHTML = "Mute";
+		vol = ytplayer.getVolume();
+		$("#volume").slider("value", ytplayer.getVolume());
+		if(vol == 0){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
+		}else if(vol < 33){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1395px");
+		}else if(vol > 33 && vol < 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1767px");
+		}else if(vol > 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -2604px");
+		}
 	}
 	else
 	{
 		ytplayer.mute();
-		button.innerHTML = "Unmute";
+		$("#volume").slider("value", 0);
+		$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
 	}
 }
+
+function hoverMute(foo)
+{
+	vol = ytplayer.getVolume();
+	console.log(vol);
+	if(foo)
+	{
+		if(vol == 0 || ytplayer.isMuted()){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
+		}else if(vol < 33){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1395px");
+		}else if(vol > 33 && vol < 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1767px");
+		}else if(vol > 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -2604px");
+		}
+	}else
+	{
+		if(vol == 0 || ytplayer.isMuted()){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -403px");
+		}else if(vol < 33){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1457px");
+		}else if(vol > 33 && vol < 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -806px");
+		}else if(vol > 66){
+			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1829px");
+		}
+	}
+}
+//url(http://localhost/Kasperrt/static/player.webp) 0px -94px no-repeat
 
 function logQ()
 {

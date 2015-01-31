@@ -59,6 +59,17 @@
 	background-color:black;
 }
 
+#mute
+{
+	background: no-repeat url(player.webp) -0px -1829px;
+	background-size:auto;
+	float:left;
+	height:27px;
+	width:30px;
+	-webkit-filter:brightness(300%);
+	margin-left: 40px;
+}
+
 #fullscreen
 {
 	cursor:pointer;
