@@ -29,7 +29,7 @@ body{background:#000; margin:0; }
 .bottom{bottom:10px;}
 #channels{width:40%; min-width: 300px; padding-top: 4%; font-size: 25px;}
 .channel{padding: 7px; display: inline-block; font-weight: bold; color: #C4C4C4 !important;font-size: 18px;}
-.channel:hover{color:#ed207f !important;}
+.channel:hover{color:grey !important;}
 .bgimage{ 
     background-size: 180%; background-repeat: no-repeat; background-position: center center; background-color: #000; /*background-image: url(bg5.jpg);*/
     -webkit-filter: blur(50px) brightness(0.8); -moz-filter:blur(50px) brightness(0.8); -ms-filter:blur(50px) brightness(0.8); -o-filter: blur(50px) brightness(0.8); filter: blur(50px) brightness(0.8);

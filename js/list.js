@@ -135,12 +135,12 @@ function skip(){
 		data: "skip",
 		success: function() {
 			console.log("voted to skip song");
-			 $("#buttons").addClass("success");
+			 $("#search").addClass("success");
 			updateList();
 		},
 	}).responseText);
 	setTimeout(function(){
-		$("#playlist").removeClass("success");
+		$("#search").removeClass("success");
 	},1500);
 }
 
