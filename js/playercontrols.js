@@ -91,6 +91,7 @@ function initSlider()
 	      setVolume(ui.value);
 	    }
 	});
+	$("#volume").slider("value", ytplayer.getVolume());
 }
 
 function settings()
