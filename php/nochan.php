@@ -15,11 +15,11 @@ foreach($dir as $files){
 		$time_lasted = time() - filemtime('./lists/'.$files);
 		if($time_lasted > $to)
 		{
-			clearstatcache();
-			$size = filesize('./lists/'.$files);
-			if($size < 200){
+			$file = file_get_contents('./lists/'.$files); //Checking if the channel has the setting for showing on the frontpage set to true.
+			$data = json_decode($file, TRUE);
+			if(sizeof($data["songs"]) == 0)
+			{
 				unlink("./lists/".$files);
-				$size;
 			}
 		}
 		if($time_lasted < $time){
