@@ -5,8 +5,8 @@ function admin()
 {
 	adminTogg = !adminTogg;
 	
-	if(adminTogg) $("#playlist").height($("#playlist").height()-210); //opening
-	if(!adminTogg)$("#playlist").height($("#playlist").height()+210);; //closing
+	if(adminTogg) $("#playlist").height($("#player").height()-210+30); //opening
+	if(!adminTogg)$("#playlist").height($("#player").height()+30);; //closing
 
 	$("#adminPanel").toggleClass("hiddenAdmin");
 }
