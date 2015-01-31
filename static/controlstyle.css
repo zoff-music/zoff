@@ -61,6 +61,7 @@
 
 #mute
 {
+	cursor: pointer;
 	background: no-repeat url(player.webp) -0px -1829px;
 	background-size:auto;
 	float:left;
