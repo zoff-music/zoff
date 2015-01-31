@@ -36,19 +36,17 @@
 #qS
 {
 	display: block;
-	background-color: white;
-	position: relative;
-	float: right;
-	left: 55px;
-	/* margin-left: -10px; */
-	/* margin-top: -10px; */
-	top: -280%;
+	float:right;
+	background-color: rgba(255,255,255,0.3);
+	position: absolute;
 	width:125px;
+
 }
 
 .qChange
 {
 	font-family:helvetica;
+	font-size:15px;
 	padding-left:5px;
 	padding-right:5px;
 	padding-bottom:3px;
@@ -58,7 +56,7 @@
 
 .qChange:hover
 {
-	background-color:#ED207F;
+	background-color:black;
 }
 
 #fullscreen

@@ -12,8 +12,8 @@ function initYoutubeControls(player)
 		firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
-	//elems = Array("volume", "duration", "fullscreen", "q");
-	elems = Array("volume", "duration", "fullscreen");
+	elems = Array("volume", "duration", "fullscreen", "q");
+	//elems = Array("volume", "duration", "fullscreen");
 	var container = document.getElementById("controls");
 	var newElem = document.createElement("div");
 	newElem.id = "playpause";
@@ -25,7 +25,8 @@ function initYoutubeControls(player)
 		newElemFor.id = elems[x];
 		container.appendChild(newElemFor);
 	}
-	/*elems = Array("medium", "large", "hd1080", "auto");
+	elems = Array("medium", "large", "hd1080", "auto");
+	elemName = Array("Low", "Medium", "High", "Auto");
 	newElem = document.createElement("div");
 	newElem.id = "qS";
 	newElem.className = "hide";
@@ -35,10 +36,11 @@ function initYoutubeControls(player)
 		var newChild = document.createElement("div");
 		newChild.className = "qChange";
 		newChild.name = elems[x];
-		newChild.innerHTML = elems[x];
+		newChild.setAttribute("onclick", "changeQuality('"+elems[x]+"');");
+		newChild.innerHTML = elemName[x];
 		newElem.appendChild(newChild);
 	}
-	container.appendChild(newElem);*/
+	container.appendChild(newElem);
 	initControls();
 	fitToScreen();
 	$(window).resize(function(){
@@ -49,7 +51,7 @@ function initYoutubeControls(player)
 function initControls()
 {
 	document.getElementById("playpause").addEventListener("click", playPause);
-	//document.getElementById("q").addEventListener("click", settings);
+	document.getElementById("q").addEventListener("click", settings);
 	document.getElementById("fullscreen").addEventListener("click", function()
 	{
 		document.getElementById("player").webkitRequestFullscreen();
@@ -70,6 +72,9 @@ function fitToScreen()
 	document.getElementById("controls").style.left = $("#player").position()["left"] + "px";
 	//document.getElementById("controls").style.left = "10px";
 	$("#controls").width($("#player").width());
+	document.getElementById("qS").style.top = "-80px";
+	document.getElementById("qS").style.left =  $("#controls").width()-125+"px";
+
 }
 
 function initSlider()
@@ -91,13 +96,17 @@ function settings()
 	$("#qS").toggleClass("hide");
 }
 
-function changeQuality()
+function changeQuality(wantedQ)
 {
-	wantedQ = this.getAttribute("name");
+	//wantedQ = this.getAttribute("name");
+	//console.log("Change quality");
+	//console.log(wantedQ);
 	if(ytplayer.getPlaybackQuality != wantedQ)
 	{
 		ytplayer.setPlaybackQuality(wantedQ);
+		ytplayer.getPlaybackQuality();
 	}
+	$("#qS").toggleClass("hide");
 }
 
 function setVolume(vol)
