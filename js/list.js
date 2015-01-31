@@ -43,7 +43,7 @@ function updateList()
 			var odd = ""; if(j%2===0)odd=" oddlist";
 			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
 			var finalhtml="<div id='result' class='result lresult"+odd+"'>"+
-			"<img src='"+video_thumb+"' class='thumb lthumb'>"+
+			"<img class='thumb lthumb' src='"+video_thumb+"'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
 			"<div class='votes'>"+listeID.votes+
                     "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
