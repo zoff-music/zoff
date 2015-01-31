@@ -27,6 +27,7 @@ $(document).ready(function()
 			}else if(event.keyCode == 27){
 				$("#results").html("");
 				$(".main").removeClass("blurT");
+				$(".main").removeClass("clickthrough");
 			}else{
 				i = 0;
 				timer=100;
@@ -67,6 +68,7 @@ $(document).keyup(function(e) {
 	    	document.getElementById("search").value = "";
 	    	$(".main").removeClass("blurT");
 			$("#controls").removeClass("blurT");
+			$(".main").removeClass("clickthrough");
 	    }
 	}
 });
@@ -103,7 +105,7 @@ function search(search_input){
 									<img src='"+video_thumb+"' class='thumb'>\
 									<div id='title'>"+data.title+"\
 										<div class='result_info'>"+views+" views • "+length+"</div>\
-										<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"');\">\
+										<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
 									</div>\
 								</div>";
 								//+data.uploader+" • "+
@@ -117,6 +119,7 @@ function search(search_input){
 						{
 							$(".main").addClass("blurT");
 							$("#controls").addClass("blurT");
+							$(".main").addClass("clickthrough");
 						}
 
 						$("<div id='r' style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
@@ -129,18 +132,19 @@ function search(search_input){
 		}else{
 			$(".main").removeClass("blurT");
 			$("#controls").removeClass("blurT");
+			$(".main").removeClass("clickthrough");
 		}
 
 }
 
 function submitAndClose(id,title){
-	submit(id,title);
+	submit(id,title, true);
 	$("#results").html('');
 	console.log("sub&closed");
 
 }
 
-function submit(id,title){
+function submit(id,title,type){
 
 	serverAns = $.ajax({
 		type: "GET",
@@ -148,21 +152,27 @@ function submit(id,title){
 		async: false,
 		data: "v="+id+"&n="+title+"&pass="+adminpass,
 		success: function() {
-			
-			document.getElementById("search").value = "";
-			$("#results").html = "";
-			$(".main").removeClass("blurT");
-			$("#controls").removeClass("blurT");
+			if(type){
+				document.getElementById("search").value = "";
+				$("#results").html = "";
+				$(".main").removeClass("blurT");
+				$("#controls").removeClass("blurT");
+				$(".main").removeClass("clickthrough");
+			}
 			//$("#search").addClass("success");
 		},
 		error: function(){
-			
+
 			console.log("error in adding");
-			document.getElementById("search").value = "";
-			$("#results").html = "";
-			$(".main").removeClass("blurT");
-			$("#controls").removeClass("blurT");
-			$("#search").addClass("error");
+			if(type)
+			{
+				document.getElementById("search").value = "";
+				$("#results").html = "";
+				$(".main").removeClass("blurT");
+				$("#controls").removeClass("blurT");
+				$(".main").removeClass("clickthrough");
+				$("#search").addClass("error");
+			}
 		}
 	}).responseText;
 
