@@ -1,4 +1,7 @@
 body{background:#000; margin:0; }
+::selection {
+  background: grey; /* WebKit/Blink Browsers */
+}
 .top{
     font-family: 'Open Sans', sans-serif; font-weight: 300; text-align: center; 
     animation: fadein .5s; -moz-animation: fadein .5s; -webkit-animation: fadein .5s; -o-animation: fadein .5s;
@@ -15,7 +18,7 @@ body{background:#000; margin:0; }
 	/*color:#f15;*/color:white; text-align: center;-webkit-transition:background 1s;-moz-transition:background 1s;-o-transition:background 1s; transition:background 1s;
     background-color: rgba(255, 255, 255, 0.22); 
 }
-.passbox{height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;background-color:rgba(255,255,255,0.2);}
+.passbox{color:white;height: 24px;font-size: 15px;width: 42%;padding: 4px 0;margin: 5px 0;border-radius: 2px;border: none; text-align: center;background-color:rgba(255,255,255,0.2);}
 .success{animation: fadecol 1.5s; -moz-animation: fadecol 1.5s; -webkit-animation: fadecol 1.5s; -o-animation: fadecol 1.5s;}
 .fadeerror  {animation: fadered 1.5s; -moz-animation: fadered 1.5s; -webkit-animation: fadered 1.5s; -o-animation: fadered 1.5s;}
 .small{font-size: 5vw; color:#E2E2E2; text-decoration: none; }
@@ -74,7 +77,7 @@ body{background:#000; margin:0; }
 #minus{display:none;}
 
 #player{height: 68%; height: calc(87% - 213px); width: 60%; border-radius: 3px; /*box-shadow: 0 8px 11px -4px black;*/}
-#playlist{-webkit-transition: opacity 0.5s;transition: opacity 0.5s;}
+#playlist{-webkit-transition: height 0.5s;transition: height 0.5s;}
 .nomargin{padding: 0;margin:0;}
 
 #adminForm{text-align:left; padding-top: 15px;}

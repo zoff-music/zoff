@@ -149,12 +149,19 @@ function submit(id,title){
 		data: "v="+id+"&n="+title+"&pass="+adminpass,
 		success: function() {
 			
-			//document.getElementById("search").value = "";
+			document.getElementById("search").value = "";
+			$("#results").html = "";
+			$(".main").removeClass("blurT");
+			$("#controls").removeClass("blurT");
 			//$("#search").addClass("success");
 		},
 		error: function(){
+			
 			console.log("error in adding");
 			document.getElementById("search").value = "";
+			$("#results").html = "";
+			$(".main").removeClass("blurT");
+			$("#controls").removeClass("blurT");
 			$("#search").addClass("error");
 		}
 	}).responseText;
