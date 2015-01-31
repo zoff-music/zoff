@@ -19,8 +19,8 @@ $(document).ready(function()
 	
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
+		var search_input = $(this).val();
 		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37) {
-			var search_input = $(this).val();
 			if(search_input.length < 3){$("#results").html("");}
 			if(event.keyCode == 13){
 			 	search(search_input);
@@ -31,6 +31,28 @@ $(document).ready(function()
 			}else{
 				i = 0;
 				timer=100;
+			}
+		}else if(event.keyCode == 13)
+		{
+			//console.log(search_input);
+			//console.log(search_input.split("list=")[1]);
+			pId = search_input.split("list=");
+			if(pId.length > 1)
+			{
+				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=25&v=2&alt=jsonc";
+				$.ajax({
+					type: "GET",
+					url: pListUrl,
+					dataType:"jsonp",
+					success: function(response)
+					{
+						console.log(response.data.items);
+						$.each(response.data.items, function(i,data)
+						{
+							submit(data.video.id, data.video.title, true);
+						});
+					}
+				});
 			}
 		}
 
