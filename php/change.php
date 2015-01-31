@@ -181,10 +181,13 @@ else if(isset($_GET['vote'])){                                           //if th
                     array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
                     file_put_contents($list, json_encode($data));
                     echo "Vote registrated. I hope";                        
+                }else
+                {
+                    print("many");
                 }
             }else
             {
-                echo array_key_exists($id, $data["songs"]);                 //not in use..i think..
+                print("many");                                             //not in use..i think..
             }
         }else{
             print("wrong");

@@ -42,7 +42,7 @@ function updateList()
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
 			var odd = ""; if(j%2===0)odd=" oddlist";
 			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
-			var finalhtml="<div id='result' class='result lresult"+odd+"'>"+
+			var finalhtml="<div id='result' class='"+video_id+" result lresult"+odd+"'>"+
 			"<img class='thumb lthumb' src='"+video_thumb+"'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
 			"<div class='votes'>"+listeID.votes+
@@ -98,7 +98,6 @@ function updateList()
 }
 
 function vote(id, vote){
-	console.log(adminpass);
 	serverAns = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
@@ -116,14 +115,14 @@ function vote(id, vote){
 	{
 		alert("Wrong adminpassword!");
 	}else{
-		if(vote=="pos"){ $("#playlist").addClass("success");}
-		else{ $("#playlist").addClass("fadeerror");}
+		if(vote=="pos" && serverAns != "many"){ $("."+id).addClass("success");}
+		else{ $("."+id).addClass("fadeerror");}
 		updateList();
 	}
 
 	setTimeout(function(){
-		$("#playlist").removeClass("success");
-		$("#playlist").removeClass("fadeerror");
+		$("."+id).removeClass("success");
+		$("."+id).removeClass("fadeerror");
 	},1500);
 }
 
