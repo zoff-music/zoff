@@ -24,7 +24,7 @@ body{background:#000; margin:0; }
 .small{font-size: 5vw; color:#E2E2E2; text-decoration: none; }
 /*.small:hover{color: #CCC;}*/
 .big{font-size:180vh; position:absolute; top:-50%; color:#330A00 !important; z-index:-1; width: 100%; overflow: hidden; display: none;}
-.footer a{color:rgba(254, 254, 254, 0.42); text-decoration: none;}.footer a:hover {color:#ed207f;} 
+.footer a{color:rgba(254, 254, 254, 0.42); text-decoration: none;}.footer a:hover {color:grey;} 
 .footer{font-size: 15px;  position: absolute; width:99%;color:rgba(192, 192, 192, 0.42) !important; /*margin-top: 50px;*/ word-spacing: 2px;bottom:0px;}
 .bottom{bottom:10px;}
 #channels{width:40%; min-width: 300px; padding-top: 4%; font-size: 25px;}
