@@ -72,7 +72,7 @@ body{background:#000; margin:0; }
 #del,#add{float: right; font-weight: bold; margin-right: 20px; margin-top:0px; border-radius: 2px; }
 #del:hover{color:red;}
 #add{font-weight: normal; margin-right: 5%; margin-top: -36px;font-size: 30px;padding: 3px 45px; }
-#add:hover{color:red;}
+#add:hover{color:black;}
 
 #minus{display:none;}
 
