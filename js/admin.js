@@ -45,5 +45,6 @@ function submitAdmin(form)
 	setTimeout(function(){
 		$("#adminPanel").removeClass("success");
 		$("#adminPanel").removeClass("fadeerror");
+		$("#eBar").removeClass("opacityFull");
 	},1500);
 }
