@@ -18,7 +18,7 @@ Screenshot of desktop version:
 
 Screenshot of the mobile version:
 
-![alt tag](http://i.imgur.com/WnOrn0R.png)![alt tag](http://i.imgur.com/F6tN51c.png)
+![alt tag](http://i.imgur.com/WnOrn0R.png)     ![alt tag](http://i.imgur.com/F6tN51c.png)
 
 
 Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
