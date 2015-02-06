@@ -200,8 +200,9 @@ function submit(id,title,type){
 
 	if(serverAns == "wrong")
 	{
-		alert("Wrong adminpassword");
+		//alert("Wrong adminpassword");
 		$("#search").addClass("error");
+		$("#eBar").addClass("opacityFull");
 	}else{
 		$("#search").addClass("success");
 	}
@@ -211,6 +212,7 @@ function submit(id,title,type){
 	setTimeout(function(){
 		$("#search").removeClass("success");
 		$("#search").removeClass("error");
+		$("#eBar").removeClass("opacityFull");
 	},1500);
 	updateList();
 	event.stopPropagation();

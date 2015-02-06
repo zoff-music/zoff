@@ -113,7 +113,8 @@ function vote(id, vote){
 
 	if(serverAns == "wrong")
 	{
-		alert("Wrong adminpassword!");
+		//alert("Wrong adminpassword!");
+		$("#eBar").addClass("opacityFull");
 	}else{
 		if(vote=="pos" && serverAns != "many"){ $("."+id).addClass("success");}
 		else{ $("."+id).addClass("fadeerror");}
@@ -123,6 +124,7 @@ function vote(id, vote){
 	setTimeout(function(){
 		$("."+id).removeClass("success");
 		$("."+id).removeClass("fadeerror");
+		$("#eBar").removeClass("opacityFull");
 	},1500);
 }
 

@@ -11,6 +11,8 @@
 	<?php include("php/header.php"); ?>
 </head>
 <body>
+	<div id="sBar">Success</div>
+	<div id="eBar">Error: Wrong Admin Password</div>
     <div class="bgimage" id="bgimage"></div>
 	<div class="top vcent centered">
 		<div id="change" class="small">
