@@ -177,7 +177,7 @@ input[type="radio"]{display: none;}
 	.lresult{height:120px;font-size: 35px !important;}
 	.lthumb{height:120px;width:initial;}
 	.ltitle{display: table-cell;vertical-align: bottom;width: 100%;position: static;}
-	.nochanvcent{top:50%;}
+	.nochanvcent{top:50%;-webkit-transform: translateY(0%);}
 	.bigchan{font-size:150px;}
 	#channels{font-size:60px;width:99%;}
 	.channel{font-size:40px;}
