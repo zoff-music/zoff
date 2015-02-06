@@ -117,7 +117,7 @@ input[type="radio"]{display: none;}
 @media only screen and (max-device-width: 1000px) {
 	#controls{display:none;}
     body{background-color: #2F2F2F;}
-    .bgimage{background-image: none;position:fixed;background-size:500%;background-color:black;-webkit-filter: blur(0px) brightness(0);}
+    .bgimage{background-image: url(bg4.jpg);position:fixed;background-size:500%;background-color:black;-webkit-filter: brightness(70%);filter: brightness(70%);}
     #player{width: 100%; height:45%; margin-bottom: 20px; box-shadow: none;display:none;}
     .playlist{width: 100%;}
     .lresult{font-size: 40px; height: 90px; font-size: 50px;}
