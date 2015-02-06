@@ -38,7 +38,7 @@ function submitAdmin(form)
 
 	if(pass_corr=="correct"){
 		$("#adminPanel").addClass("success");
-	}else{ $("#adminPanel").addClass("fadeerror"); alert("Wrong password :(");}
+	}else{ $("#eBar").addClass("opacityFull");/*$("#adminPanel").addClass("fadeerror");*/}
 
 	console.log(pass_corr);
 	updateList();
