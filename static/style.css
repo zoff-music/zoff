@@ -109,6 +109,12 @@ input[type="radio"]{display: none;}
 #sBar{background-color:rgb(77, 178, 36);}
 .opacityFull{opacity: 1 !important;}
 
+#zicon{height:30%;width:15%;}
+.fchan{color: #fff;
+font-size: 3vw;
+padding-top: 25%;padding: 0;
+margin: 0;}
+
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
 @-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
 @-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}

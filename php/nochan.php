@@ -44,7 +44,8 @@ foreach($dir as $files){
     <div class="bgimage" id="bgimage"></div>
 	<div class="top centered nochanvcent">
 		<div id="change" class="small">
-				<div class="bigchan nomargin">Zöff</div>
+				<img id="zicon" src="static/favicon.png">
+				<div class="fchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
 					<input title="Type channel name here to create or listen to a channel" list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
