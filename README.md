@@ -6,6 +6,7 @@ The shared youtube radio
 
 Zöff is built around the youtube search and video API, and enables the creation of collaboratiive and shared live playlists, with billions of videos and songs to choose from, all for free and without registration.
 
+This repository is mainly built around playing the videos from a desktop computer, not a mobile device. On a device, the youtubeplayer won't be initialized, and mainly works as a remote for the desktop(s) that is playing from the current channel.
 
 The project is currently under development and runs on http://zoff.no
 
