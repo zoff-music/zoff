@@ -74,18 +74,18 @@ $(document).ready(function()
 	console.log("timediff:"+timeDifference[0]);
 
 	
-
-	tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/iframe_api";
-	firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	if(window.mobilecheck()){
 		//syncInterval = setInterval(getTime, 50000);
 		//listInterval = setInterval(updateList, 50000);
 		mobileSync = setInterval(function(){getTime();updateList();}, 10000);
 		//listKillInterval = setInterval(ks, 50000);
 		document.getElementById("search").blur();
+		readyLooks();
 	}else{
+		tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/iframe_api";
+		firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 		if(!syncInterval)
 			syncInterval = setInterval(getTime, 5000);
 		listInterval = setInterval(updateList, 10000);
@@ -220,7 +220,7 @@ function startNextSong()
 function getTime()
 {
 	console.log("utenfor if test" + wasPaused);
-	if(ytplayer.getCurrentTime() > 2 && ytplayer.getPlayerState() == 1) wasPaused = false;
+	if(!window.mobilecheck() && ytplayer.getCurrentTime() > 2 && ytplayer.getPlayerState() == 1) wasPaused = false;
 	if(!wasPaused)
 	{
 		console.log("sjekker om brukeren spolte");
@@ -263,9 +263,9 @@ function getTime()
 			//clearInterval(syncInterval);
 			wasPaused = true;
 			console.log("forskjellige videoer!!");
-			ytplayer.pauseVideo();
 			if(!window.mobilecheck())
 			{
+				ytplayer.pauseVideo();
 				ytplayer.loadVideoById(timeDifference[1]);
 			}
 			setBGimage(timeDifference[1]);
@@ -350,11 +350,16 @@ function onPlayerReady(event) {
 			ytplayer.playVideo();
 		}
 		initYoutubeControls(ytplayer);
-		getTitle();
-		setBGimage(response);
+		readyLooks();
 		initSlider();
 		//durationFixer = setInterval(durationSetter, 1000);
-	}
+}
+
+function readyLooks()
+{
+	getTitle();
+	setBGimage(response);
+}
 
 function setBGimage(id){
 	if(window.mozInnerScreenX == null && !window.mobilecheck()){

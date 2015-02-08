@@ -76,8 +76,8 @@ function updateList()
 		}
 		if(window.mobilecheck())
 		{
-			document.getElementById("player").style.display="none";
-			ytplayer.pauseVideo();
+			//document.getElementById("player").style.display="none";
+			//ytplayer.pauseVideo();
 		}else{
 			myScroll.refresh();
 		}
