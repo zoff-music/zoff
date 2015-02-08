@@ -10,15 +10,17 @@ Zöff is built around the youtube search and video API, and enables the creation
 The project is currently under development and runs on http://zoff.no
 
 Screenshot of desktop version:
-![alt tag](http://i.imgur.com/SaieuB6.png)
+![alt tag](http://puu.sh/fF6XJ/003fa24349.jpg)
 
-![alt tag](http://i.imgur.com/Ejjocl4.png)
+![alt tag](http://puu.sh/fF77D/628693b995.jpg)
 
-![alt tag](http://i.imgur.com/d8fsw1R.png)
+![alt tag](http://puu.sh/fF7eb/0129dde16f.jpg)
+
+![alt tag](http://puu.sh/fF7jl/2653aada6c.jpg)
 
 Screenshot of the mobile version:
 
-![alt tag](http://i.imgur.com/WnOrn0R.png)     ![alt tag](http://i.imgur.com/F6tN51c.png)
+![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://puu.sh/fF7B3/58b9b3abce.jpg)     ![alt tag](http://puu.sh/fF7ID/e7d65c336b.jpg)
 
 
 Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
