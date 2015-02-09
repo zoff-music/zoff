@@ -157,6 +157,7 @@ function show(){
     	$("#chan").removeClass("bigChan");
     	$("#chan").html(chan);
    }
+   fitToScreen();
 }
 
 
