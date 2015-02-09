@@ -37,7 +37,10 @@ function submitAdmin(form)
 	pass_corr = confRes;
 
 	if(pass_corr=="correct"){
-		$("#adminPanel").addClass("success");
+		//$("#adminPanel").addClass("success");
+		document.getElementById("sBar").innerHTML = "Successfully applied settings.";
+		$("#sBar").addClass("opacityFull");
+		document.getElementById("passbox").value = "";
 	}else{ $("#eBar").addClass("opacityFull");/*$("#adminPanel").addClass("fadeerror");*/}
 
 	console.log(pass_corr);
@@ -46,5 +49,6 @@ function submitAdmin(form)
 		$("#adminPanel").removeClass("success");
 		$("#adminPanel").removeClass("fadeerror");
 		$("#eBar").removeClass("opacityFull");
+		$("#sBar").removeClass("opacityFull");
 	},1500);
 }
