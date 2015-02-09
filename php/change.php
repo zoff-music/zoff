@@ -117,7 +117,14 @@ else if(isset($_GET['v'])){                                             //if it 
     {
         $video = htmlspecialchars($_GET['v']);                          //id of the video
         $name = htmlspecialchars($_GET['n']);                           //name of the video
-        if(!in_array($video, $data["songs"]))                           //checking if the video already is in the array of songs (should check the now playing to)
+        if($np[0]["id"] == "XQu8TTBmGhA")
+        {
+            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
+            $q["nowPlaying"][$video]["votes"] = 1;                         //Upping the votes, so it comes further up than the ones already played
+            array_push($q["nowPlaying"][$video]["guids"], $guid); 
+            file_put_contents($list, json_encode($q));
+            print("added");
+        }else if(!in_array($video, $data["songs"]))                           //checking if the video already is in the array of songs (should check the now playing to)
         {
             if(count($data["nowPlaying"]) > 0) $place = "songs";        //checking if the nowPlaying array is empty, if it is, the "place" to add it is nowPlaying, if not it is songs
             else $place = "nowPlaying";                                 //Adding to the array
