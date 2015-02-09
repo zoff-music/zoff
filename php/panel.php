@@ -1,4 +1,6 @@
-<b>Admin Panel</b> <span id="setpass"></span><input type="button" class="button" value="Shuffle" onclick="shuffle(this.form);" title="Shuffle the playlist">
+<b>Admin Panel</b> <span id="setpass"></span>
+<br>
+<input type="button" class="button" value="Shuffle" onclick="shuffle(this.form);" title="Shuffle the playlist">
 
 <form id="adminForm" onsubmit="return false" name="ufo" action="" class="daform nomargin" id="base">
     <div class="toggles">
