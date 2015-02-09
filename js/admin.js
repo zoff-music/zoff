@@ -4,8 +4,9 @@ var pass_corr = "";
 function admin()
 {
 	adminTogg = !adminTogg;
+	if(adminTogg)
 	
-	if(adminTogg) $("#playlist").height($("#player").height()-210+30); //opening
+	if(adminTogg) $("#playlist").height($("#player").height()-250+30); //opening
 	if(!adminTogg)$("#playlist").height($("#player").height()+30);; //closing
 
 	$("#adminPanel").toggleClass("hiddenAdmin");
@@ -41,10 +42,38 @@ function submitAdmin(form)
 		document.getElementById("sBar").innerHTML = "Successfully applied settings.";
 		$("#sBar").addClass("opacityFull");
 		document.getElementById("passbox").value = "";
-	}else{ $("#eBar").addClass("opacityFull");/*$("#adminPanel").addClass("fadeerror");*/}
+	}else{ $("#eBar").addClass("opacityFull");document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");*/}
 
 	console.log(pass_corr);
 	updateList();
+	setTimeout(function(){
+		$("#adminPanel").removeClass("success");
+		$("#adminPanel").removeClass("fadeerror");
+		$("#eBar").removeClass("opacityFull");
+		$("#sBar").removeClass("opacityFull");
+	},1500);
+}
+
+function shuffle(form)
+{
+	console.log(adminpass);
+	confRes = $.ajax({
+		type: "GET",
+		url: "php/change.php",
+		async: false,
+		data: "shuffle=true&pass="+adminpass,
+
+		success: function() {
+			console.log("configurations response: "+response);
+		}
+	}).responseText;
+	if(confRes == "shuffled")
+	{
+		document.getElementById("sBar").innerHTML = "Successfully shuffled playlist.";
+		$("#sBar").addClass("opacityFull");
+		updateList();
+	}else if(confRes = "wrong!")
+		$("#eBar").addClass("opacityFull");
 	setTimeout(function(){
 		$("#adminPanel").removeClass("success");
 		$("#adminPanel").removeClass("fadeerror");
