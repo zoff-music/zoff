@@ -1,4 +1,4 @@
-<b>Admin Panel</b> <span id="setpass"></span>
+<b>Admin Panel</b> <span id="setpass"></span><input type="button" class="button" value="Shuffle" onclick="shuffle(this.form);" title="Shuffle the playlist">
 
 <form id="adminForm" onsubmit="return false" name="ufo" action="" class="daform nomargin" id="base">
     <div class="toggles">
@@ -41,7 +41,6 @@
         categories allowed<br>
         songs after playing<br>
     </div>
-
 	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Password">
-	<input type="submit" class="button" value="Login/Save" onclick="submitAdmin(this.form);" title="Save settings/Login">   
+	<input type="submit" class="button" value="Login/Save" onclick="submitAdmin(this.form);" title="Save settings/Login">
 </form>

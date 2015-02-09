@@ -24,11 +24,11 @@ $save = false;                                                      //declares t
 if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
 
     $q = $data["conf"];
-    $q = array_key_exists("addsongs", $q);
+    $q = array_key_exists("adminpass", $q);
     $pass = htmlspecialchars($_GET['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-    if($pass == $data['conf']['adminpass'] || $data['conf']['addsongs'] == "false" || $q != 1) {
+    if($pass == $data["conf"]["adminpass"]) {
 
         //shuffle($data["songs"]);
         foreach($data["songs"] as $k=>$v) { 
@@ -39,7 +39,8 @@ if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
         array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
         file_put_contents($list, json_encode($data));
         //die("shuffeled");
-
+        echo "shuffled";
+        die();
     }else{
         die("wrong!");
     }
