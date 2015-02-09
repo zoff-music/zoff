@@ -150,7 +150,7 @@ function show(){
     	showToggle=false;
     	$("#toptitle").empty();
         $("#chan").addClass("bigChan");
-        $("#chan").html("zoff.no/"+chan);
+        $("#chan").html("zoff.no/"+encodeURI(chan));
     }else{
     	showToggle=true;
     	$("#toptitle").html("Zöff");

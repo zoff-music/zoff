@@ -18,7 +18,7 @@
 		<div id="change" class="small">
 			<div id="mobile-banner"></div>
 			<a id="toptitle" href="/">Zöff</a>
-			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></div>
+			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst(urldecode($list)));?></div>
 			<input id="search" name="v" title="Search for songs..." type="text" class="search_input innbox" spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off"/>
 			<div id="results"></div>
 			<div class="main">
