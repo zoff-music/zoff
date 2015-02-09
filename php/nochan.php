@@ -18,7 +18,7 @@ foreach($dir as $files){
 			$file = file_get_contents('./lists/'.$files); //Checking if the channel has the setting for showing on the frontpage set to true.
 			$data = json_decode($file, TRUE);
 			$q = array_values($data["nowPlaying"]);
-			if($q[0]["id"] == "XQu8TTBmGhA");
+			if($q[0]["id"] == "30H2Z8Lr-4c");
 			{
 				unlink("./lists/".$files);
 			}

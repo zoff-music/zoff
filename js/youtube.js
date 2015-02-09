@@ -362,7 +362,10 @@ function readyLooks()
 }
 
 function setBGimage(id){
-	if(window.mozInnerScreenX == null && !window.mobilecheck()){
+	if(id == "30H2Z8Lr-4c")
+	{
+		$("#bgimage").css("background-image", "url(bg4.jpg);");
+	}else if(window.mozInnerScreenX == null && !window.mobilecheck()){
 		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
 	}else if(window.mobilecheck()){
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
