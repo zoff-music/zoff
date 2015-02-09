@@ -204,7 +204,9 @@ function submit(id,title,type){
 		$("#search").addClass("error");
 		$("#eBar").addClass("opacityFull");
 	}else{
-		$("#search").addClass("success");
+		//$("#search").addClass("success");
+		document.getElementById("sBar").innerHTML = "Successfully added song!";
+		$("#sBar").addClass("opacityFull");
 	}
 	
 	$("#search").focus();
@@ -213,6 +215,7 @@ function submit(id,title,type){
 		$("#search").removeClass("success");
 		$("#search").removeClass("error");
 		$("#eBar").removeClass("opacityFull");
+		$("#sBar").removeClass("opacityFull");
 	},1500);
 	updateList();
 	event.stopPropagation();
