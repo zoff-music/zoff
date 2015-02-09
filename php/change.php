@@ -8,7 +8,7 @@ if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list=$list[1];
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
-$array = array("nowPlaying" => array(), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
+$array = array("nowPlaying" => array("XQu8TTBmGhA" => array("id" => "XQu8TTBmGhA", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
 $array = json_encode($array);                                      //encoding the array
 $f = @fopen($list,"x");                                            //opening a file, ignoring warnings
 if($f){ fwrite($f,$array); fclose($f); }                           //if the file doesn't exist, we create a new one, and adds the newly made array there
@@ -70,7 +70,7 @@ if(isset($_REQUEST['thisUrl'])){
                 array_shift($data["songs"]);                        //already shifts the array of songs, because we have the first in the queue saved
                 $q = $data["conf"];
         		$q = array_key_exists("removeplay", $q);            
-        		if($data["conf"]["removeplay"] == "false" || $q != 1)         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
+        		if(($data["conf"]["removeplay"] == "false" || $q != 1) && ($np[0]["id"] != "XQu8TTBmGhA" && !is_null($firstToAdd)))         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
         		{   //here we just adds the song that was just played into the queue in the songs array, take note here we set added as the current time it was added. This is because of the multisort further down
         			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
         		}
