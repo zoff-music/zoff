@@ -28,7 +28,7 @@ if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
     $pass = htmlspecialchars($_GET['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-    if($pass == $data["conf"]["adminpass"] || $q == -1) {
+    if($pass == $data["conf"]["adminpass"]) {
 
         //shuffle($data["songs"]);
         foreach($data["songs"] as $k=>$v) { 
