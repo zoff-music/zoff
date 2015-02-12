@@ -24,8 +24,8 @@ foreach($fil as $files){
 			$file = file_get_contents($files); 
 			$data = json_decode($file, TRUE);
 			$q = array_values($data["nowPlaying"]);
-			if($q[0]["id"] == "30H2Z8Lr-4c");
-				unlink("./lists/".$files);
+			/*if($q[0]["id"] == "30H2Z8Lr-4c");
+				unlink("./lists/".$files);*/
 		}
 		if($time_lasted < $time){
 			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
