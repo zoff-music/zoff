@@ -11,6 +11,7 @@ $all_channels = array();
 $time = 60*60*24*4; //4 dager
 $to = 60*60*24*2;
 $i = 0;
+$tooMany = false;
 
 $dir = "./lists";
 chdir($dir);
@@ -37,7 +38,10 @@ foreach($fil as $files){
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
 		if($i > 13)
+		{	
+			$tooMany = true;
 			break;
+		}
 	}
 }
 
@@ -65,7 +69,7 @@ foreach($fil as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} if($tooMany) echo "<a class='channel' title='Only showing the 12 most active.'>...</a>"; ?>
 			</div>
 			</center>
 		</div>
