@@ -31,17 +31,13 @@ foreach($fil as $files){
 		if($time_lasted < $time){
 			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
 			$data = json_decode($file, TRUE);
-			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true"){ 						  //If it is true, the channelname will be shown on the frontpage
+			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true" && $i <= 16){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
 			}
 		}
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
-		if($i > 16)
-		{	
-			$tooMany = true;
-			break;
-		}
+		
 	}
 }
 
@@ -74,7 +70,7 @@ foreach($fil as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} if($tooMany) echo "<a class='channel' title='Only showing the 12 most active.'>...</a>"; ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} ?>
 			</div>
 			</center>
 		</div>
