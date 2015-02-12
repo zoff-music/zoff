@@ -2,7 +2,7 @@
     if(isset($_GET['chan'])) header('Location: '.$_GET['chan']);
     $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
-    else $list=$list[1];
+    else $list=preg_replace('/[^\da-z]/i', '', urldecode($list[1]));
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
