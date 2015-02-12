@@ -31,7 +31,7 @@ foreach($fil as $files){
 		if($time_lasted < $time){
 			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
 			$data = json_decode($file, TRUE);
-			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true" && $i <= 14){ 						  //If it is true, the channelname will be shown on the frontpage
+			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true" && $i <= 8){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
 			}
 		}
