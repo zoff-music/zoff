@@ -50,12 +50,17 @@ foreach($fil as $files){
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:fb="http://ogp.me/ns/fb#">
 <head>
+	<style>
+		#change {
+			opacity:1 !important;
+		}
+	</style>
 	<?php include("header.php"); ?>
 </head>
 <body>
     <div class="bgimage" id="bgimage"></div>
 	<div class="top centered nochanvcent">
-		<div id="change" class="small" style="opacity:1;">
+		<div id="change" class="small">
 				<img id="zicon" src="static/favicon.png">
 				<div class="fchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
