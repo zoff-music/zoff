@@ -366,7 +366,11 @@ function setBGimage(id){
 	{
 		$("#bgimage").css("background-image", "url(bg4.jpg);");
 	}else if(window.mozInnerScreenX == null && !window.mobilecheck()){
-		$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
+		$("#bgimage").addClass("noopacity");
+		setTimeout(function(){
+			$("#bgimage").css("background-image", "url(http://img.youtube.com/vi/"+id+"/0.jpg)");
+			$("#bgimage").removeClass("noopacity");
+		}, 1000);
 	}else if(window.mobilecheck()){
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());
