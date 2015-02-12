@@ -11,19 +11,24 @@ $all_channels = array();
 $time = 60*60*24*4; //4 dager
 $to = 60*60*24*2;
 $i = 0;
-foreach($dir as $files){
+
+$dir = "./lists";
+chdir($dir);
+array_multisort(array_map('filemtime', ($fil = glob("*.json"))), SORT_DESC, $fil);
+
+foreach($fil as $files){
 	if(strpos($files, '.json') !== FALSE){
-		$time_lasted = time() - filemtime('./lists/'.$files);
+		$time_lasted = time() - filemtime($files);
 		if($time_lasted > $to)
 		{
-			$file = file_get_contents('./lists/'.$files); 
+			$file = file_get_contents($files); 
 			$data = json_decode($file, TRUE);
 			$q = array_values($data["nowPlaying"]);
 			if($q[0]["id"] == "30H2Z8Lr-4c");
 				unlink("./lists/".$files);
 		}
 		if($time_lasted < $time){
-			$file = file_get_contents('./lists/'.$files); //Checking if the channel has the setting for showing on the frontpage set to true.
+			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
 			$data = json_decode($file, TRUE);
 			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true"){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
@@ -41,7 +46,7 @@ foreach($dir as $files){
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-	<?php include("php/header.php"); ?>
+	<?php include("header.php"); ?>
 </head>
 <body>
     <div class="bgimage" id="bgimage"></div>
