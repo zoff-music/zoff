@@ -295,7 +295,9 @@ body {
     font-size:14px;
     border-radius:3px;
     vertical-align:top;
-    height:calc(87% - 183px)
+    height:calc(87% - 183px);
+    opacity:0;
+    -webkit-transition:opacity 1s;
 }
 
 .lresult {

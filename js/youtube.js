@@ -354,6 +354,7 @@ function onPlayerReady(event) {
 		{
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
+			$(".playlist").css("opacity", "1");
 			//$("#player").fadeIn();
 			ytplayer.playVideo();
 		}
