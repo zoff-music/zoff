@@ -36,8 +36,8 @@ body {
 }
 
 #change {
-    opacity:0;
-    -webkit-transition: opacity 1s;
+    opacity:1;
+    /*-webkit-transition: opacity 1s;*/
 }
 
 /*#change{ display: table-cell; vertical-align: middle;}*/

@@ -95,6 +95,7 @@ $(document).ready(function()
 });
 
 function onYouTubeIframeAPIReady() {
+	$("#change").css("-webkit-transition", "opacity 1s");
 	$("#change").css("opacity", "1");
 	ytplayer = new YT.Player('player', {
 		height: window.height*0.75,
