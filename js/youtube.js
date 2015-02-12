@@ -61,7 +61,7 @@ $(document).ready(function()
 		response = "1";
 	}
 	
-	
+	/*
 	$.ajax({
 		type: 'get',
 		url: 'php/timedifference.php',
@@ -72,7 +72,7 @@ $(document).ready(function()
 		}
 	});
 	console.log("timediff:"+timeDifference[0]);
-
+*/
 	
 	if(window.mobilecheck()){
 		//syncInterval = setInterval(getTime, 50000);
@@ -94,6 +94,7 @@ $(document).ready(function()
 });
 
 function onYouTubeIframeAPIReady() {
+	$("#change").css("opacity", "1");
 	ytplayer = new YT.Player('player', {
 		height: window.height*0.75,
 		width: window.width*0.6,
@@ -106,6 +107,8 @@ function onYouTubeIframeAPIReady() {
 			'onPlaybackQualityChange': logQ
 		}
 	});
+	$("#player").css("opacity", "0");
+	initYoutubeControls(ytplayer);
 }
 
 function onPlayerStateChange(newState) {
@@ -347,9 +350,11 @@ function onPlayerReady(event) {
 		getTime();
 		if(!window.mobilecheck())
 		{
+			$("#player").css("opacity", "1");
+			$("#controls").css("opacity", "1");
+			//$("#player").fadeIn();
 			ytplayer.playVideo();
 		}
-		initYoutubeControls(ytplayer);
 		readyLooks();
 		initSlider();
 		//durationFixer = setInterval(durationSetter, 1000);
