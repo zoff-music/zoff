@@ -55,16 +55,17 @@ foreach($fil as $files){
 				<img id="zicon" src="static/favicon.png">
 				<div class="fchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
-					<input title="Type channel name here to create or listen to a channel" list="searches" id="search" name="chan" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
+					<input title="Type channel name here to create or listen to a channel.
+					 Only alphanumerical chars. [a-zA-Z0-9]+" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="15" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
-					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars(urldecode($channel))."'> ";} ?>
+					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
 					</datalist>
 				</form>
 
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars(urldecode($channel))."</a>";} ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} ?>
 			</div>
 			</center>
 		</div>
