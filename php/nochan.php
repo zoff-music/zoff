@@ -10,6 +10,7 @@ $channels = array();
 $all_channels = array();
 $time = 60*60*24*4; //4 dager
 $to = 60*60*24*2;
+$i = 0;
 foreach($dir as $files){
 	if(strpos($files, '.json') !== FALSE){
 		$time_lasted = time() - filemtime('./lists/'.$files);
@@ -28,7 +29,10 @@ foreach($dir as $files){
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
 			}
 		}
+		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
+		if($i > 13)
+			break;
 	}
 }
 
