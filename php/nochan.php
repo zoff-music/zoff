@@ -55,7 +55,7 @@ foreach($fil as $files){
 <body>
     <div class="bgimage" id="bgimage"></div>
 	<div class="top centered nochanvcent">
-		<div id="change" class="small">
+		<div id="change" class="small" style="opacity:1;">
 				<img id="zicon" src="static/favicon.png">
 				<div class="fchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
