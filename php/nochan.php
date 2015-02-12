@@ -37,7 +37,7 @@ foreach($fil as $files){
 		}
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
-		if($i > 13)
+		if($i > 16)
 		{	
 			$tooMany = true;
 			break;
