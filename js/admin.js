@@ -42,7 +42,11 @@ function submitAdmin(form)
 		document.getElementById("sBar").innerHTML = "Successfully applied settings.";
 		$("#sBar").addClass("opacityFull");
 		document.getElementById("passbox").value = "";
-	}else{ $("#eBar").addClass("opacityFull");document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");*/}
+	}else{ 
+		document.getElementById("sBar").innerHTML = "Error: Wrong Admin Password!";
+		$("#eBar").addClass("opacityFull");
+		document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");*/
+	}
 
 	console.log(pass_corr);
 	updateList();
@@ -72,8 +76,13 @@ function shuffle(form)
 		document.getElementById("sBar").innerHTML = "Successfully shuffled playlist.";
 		$("#sBar").addClass("opacityFull");
 		updateList();
-	}else if(confRes = "wrong!")
+	}else if(confRes = "wrong!"){
+		document.getElementById("sBar").innerHTML = "Error: Wrong Admin Password!";
 		$("#eBar").addClass("opacityFull");
+	}else if(confRes = "size"){
+		document.getElementById("sBar").innerHTML = "Error: Empty Playlist!";
+		$("#eBar").addClass("opacityFull");
+	}
 	setTimeout(function(){
 		$("#adminPanel").removeClass("success");
 		$("#adminPanel").removeClass("fadeerror");

@@ -8,7 +8,7 @@ if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list=$list[1];
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
-$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
+$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "adminpass" => ""));
 $array = json_encode($array);                                      //encoding the array
 $f = @fopen($list,"x");                                            //opening a file, ignoring warnings
 if($f){ fwrite($f,$array); fclose($f); }                           //if the file doesn't exist, we create a new one, and adds the newly made array there
@@ -27,8 +27,12 @@ if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
     $q = array_key_exists("adminpass", $q);
     $pass = htmlspecialchars($_GET['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
-    $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
-    if($pass == $data["conf"]["adminpass"]) {
+    if($pass != "")
+        $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+    if(sizeof($data["songs"]) == 0){
+        die("size");
+    }
+    if($pass == $data["conf"]["adminpass"] || $data["conf"]["adminpass"] == "") {
 
         //shuffle($data["songs"]);
         foreach($data["songs"] as $k=>$v) { 
@@ -120,7 +124,8 @@ else if(isset($_GET['v'])){                                             //if it 
         $name = htmlspecialchars($_GET['n']);                           //name of the video
         if($np[0]["id"] == "30H2Z8Lr-4c")
         {
-            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
+            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "adminpass" => ""));
+            //$q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
             $q["nowPlaying"][$video]["votes"] = 1;                         //Upping the votes, so it comes further up than the ones already played
             array_push($q["nowPlaying"][$video]["guids"], $guid); 
             file_put_contents($list, json_encode($q));
@@ -243,17 +248,13 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	$data["conf"]["allvideos"] = $_POST['allvideos'];
 	$data["conf"]["removeplay"] = $_POST['removeplay'];
 	$pass = htmlspecialchars($_POST['pass']);
-    $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
-    $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+    if($pass != ""){
+        $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+        $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
+    }
     $q = $data["conf"];
 	$q = array_key_exists("adminpass", $q);
 
-    //$data["conf"]["vote"] = $vote;
-    //$data["conf"]["addsongs"] = $addsongs;
-    //$data["conf"]["longsongs"] = $longsongs;
-    //$data["conf"]["frontpage"] = $frontpage;
-    //$data["conf"]["allvideos"] = $allvideos;
-    //$data["conf"]["removeplay"] = $removeplay;
 	if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
 	{
 		$data["conf"]["adminpass"] = $pass;

@@ -12,7 +12,7 @@
 </head>
 <body>
 	<div id="sBar"></div>
-	<div id="eBar">Error: Wrong Admin Password</div>
+	<div id="eBar"></div>
     <div class="bgimage" id="bgimage"></div>
 	<div class="top vcent centered">
 		<div id="change" class="small">

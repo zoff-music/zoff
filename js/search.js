@@ -202,6 +202,7 @@ function submit(id,title,type){
 	{
 		//alert("Wrong adminpassword");
 		$("#search").addClass("error");
+		document.getElementById("sBar").innerHTML = "Error: Wrong Admin Password!";
 		$("#eBar").addClass("opacityFull");
 	}else{
 		//$("#search").addClass("success");
