@@ -14,6 +14,7 @@
 		<!--
 		.bgimage{
 			background: url(./static/<?php echo $selectedBg; ?>) no-repeat;
+			opacity:0;
 		}
 		-->
 </style>	
