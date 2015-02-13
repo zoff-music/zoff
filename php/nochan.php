@@ -44,8 +44,6 @@ foreach($fil as $files){
 	}
 }
 
-print_r($viewers[$v]);
-
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
