@@ -109,7 +109,7 @@ function onYouTubeIframeAPIReady() {
 			'onPlaybackQualityChange': logQ
 		}
 	});
-	$("#player").css("opacity", "0");
+	//$("#player").css("opacity", "0");
 	initYoutubeControls(ytplayer);
 }
 
