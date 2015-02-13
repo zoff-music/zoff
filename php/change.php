@@ -5,7 +5,7 @@ $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_AD
 //save or delete(oid)                                             //getting the list we are in
 $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
 if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
-else $list = preg_replace('/[^\da-z]/i', '', urldecode($list[1]));
+else $list = preg_replace('/[^\da-z=?]/i', '', urldecode($list[1]));
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
 $array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "adminpass" => ""));

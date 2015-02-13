@@ -1,9 +1,9 @@
 <?php 
-    if(isset($_GET['chan'])) header('Location: '.$_GET['chan']);
+    if(isset($_GET['chan'])) {header('Location: '.$_GET['chan']); exit;}
     $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
     else if ($list[1] != preg_replace('/[^\da-z]/i', '', urldecode($list[1]))){
-    	header('Location: ../'.preg_replace('/[^\da-z]/i', '', urldecode($list[1])));
+    	header('Location: ../'.preg_replace('/[^\da-z?=]/i', '', urldecode($list[1])));
     	exit;
     }
     else $list=$list[1];
