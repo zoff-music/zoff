@@ -11,11 +11,13 @@ $all_channels = array();
 $time = 60*60*24*4; //4 dager
 $to = 60*60*24*2;
 $i = 0;
+$v = 0;
 $tooMany = false;
 
 $dir = "./lists";
 chdir($dir);
 array_multisort(array_map('filemtime', ($fil = glob("*.json"))), SORT_DESC, $fil);
+$viewers = array();
 
 foreach($fil as $files){
 	if(strpos($files, '.json') !== FALSE){
@@ -33,6 +35,7 @@ foreach($fil as $files){
 			$data = json_decode($file, TRUE);
 			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true" && $i <= 8){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
+				array_push($viewers, sizeof($data["conf"]["views"]));
 			}
 		}
 		$i++;
@@ -40,6 +43,8 @@ foreach($fil as $files){
 		
 	}
 }
+
+print_r($viewers[$v]);
 
 ?>
 
@@ -70,7 +75,7 @@ foreach($fil as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
 			</div>
 			</center>
 		</div>
