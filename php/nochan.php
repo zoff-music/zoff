@@ -85,7 +85,7 @@ foreach($fil as $files){
 				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
 				document.getElementById("zicon").style.width = pr+"%";
 				if(pr >= 60)
-					window.location.href = 'https://www.youtube.com/watch?v=mK2fNG26xFg';
+					window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
 			});
 		</script>
 	</body>
