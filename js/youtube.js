@@ -253,10 +253,7 @@ function getTime()
 				}
 				ytplayer.seekTo(timeDifference[0]);
 				ytplayer.pauseVideo();
-				if(!window.mobilecheck())
-				{
-					ytplayer.playVideo();
-				}
+				ytplayer.playVideo();
 				getTitle();
 				return false;
 			}

@@ -76,5 +76,12 @@ foreach($fil as $files){
 		</div>
 
 		<div class="footer small centered top anim bottom">&copy; <?php echo date("Y"); ?> <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT</a> </div>
+		<script type="text/javascript">
+			var deg = 0;
+			document.getElementById("zicon").addEventListener("click", function(){
+				deg = deg + 360;
+				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
+			});
+		</script>
 	</body>
 </html>
