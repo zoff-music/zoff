@@ -31,17 +31,13 @@ foreach($fil as $files){
 		if($time_lasted < $time){
 			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
 			$data = json_decode($file, TRUE);
-			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true"){ 						  //If it is true, the channelname will be shown on the frontpage
+			if(!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true" && $i <= 8){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
 			}
 		}
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
-		if($i > 13)
-		{	
-			$tooMany = true;
-			break;
-		}
+		
 	}
 }
 
@@ -50,6 +46,11 @@ foreach($fil as $files){
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:fb="http://ogp.me/ns/fb#">
 <head>
+	<style>
+		#change {
+			opacity:1 !important;
+		}
+	</style>
 	<?php include("header.php"); ?>
 </head>
 <body>
@@ -69,11 +70,23 @@ foreach($fil as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} if($tooMany) echo "<a class='channel' title='Only showing the 12 most active.'>...</a>"; ?>
+				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."'>".htmlspecialchars($channel)."</a>";} ?>
 			</div>
 			</center>
 		</div>
 
 		<div class="footer small centered top anim bottom">&copy; <?php echo date("Y"); ?> <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT</a> </div>
+		<script type="text/javascript">
+			var deg = 0;
+			var pr = 15;
+			document.getElementById("zicon").addEventListener("click", function(){
+				deg = deg + 365;
+				pr = pr + 0.5;
+				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
+				document.getElementById("zicon").style.width = pr+"%";
+				if(pr >= 60)
+					window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
+			});
+		</script>
 	</body>
 </html>

@@ -4,7 +4,7 @@ body {
 }
 
 ::selection {
-    background:grey
+    background:#DB17E0;
 /* WebKit/Blink Browsers */
 }
 
@@ -33,6 +33,11 @@ body {
     position:relative;
     top:46%;
     -webkit-transform:translateY(-54%)
+}
+
+#change {
+    opacity:1;
+    /*-webkit-transition: opacity 1s;*/
 }
 
 /*#change{ display: table-cell; vertical-align: middle;}*/
@@ -290,7 +295,9 @@ body {
     font-size:14px;
     border-radius:3px;
     vertical-align:top;
-    height:calc(87% - 183px)
+    height:calc(87% - 183px);
+    opacity:0;
+    -webkit-transition:opacity 1s;
 }
 
 .lresult {
@@ -369,11 +376,17 @@ body {
 }
 
 #player {
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
     height:68%;
     height:calc(87% - 213px);
     width:60%;
     border-radius:3px
-/*box-shadow: 0 8px 11px -4px black;*/
+    /*box-shadow: 0 8px 11px -4px black;*/
+}
+
+iframe {
+    -webkit-transition:opacity 1s;
 }
 
 #playlist {
@@ -501,7 +514,11 @@ input[type="radio"] {
 }
 
 #zicon {
-    width:15%
+    width:15%;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .fchan {
@@ -656,7 +673,7 @@ body {
 #toptitle {
     color:#fff;
     font-weight:700;
-    text-shadow:0 0 12px rgba(0,0,0,0.5)
+    text-shadow:0 0 12px rgba(0,0,0,0.5);
 }
 
 #mobile-banner {
