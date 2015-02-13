@@ -79,7 +79,7 @@ foreach($fil as $files){
 		<script type="text/javascript">
 			var deg = 0;
 			document.getElementById("zicon").addEventListener("click", function(){
-				deg = deg + 360;
+				deg = deg + 365;
 				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
 			});
 		</script>
