@@ -40,6 +40,8 @@ foreach($fil as $files){
 		}
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
+		if($i >= 15)
+			break;
 		
 	}
 }
