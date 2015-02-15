@@ -833,9 +833,9 @@ input[type="radio"] {
     /*#results{background-color: white;}
         #title, .result_info{color:#000 !important;}*/
     /*.blurT{-webkit-filter: blur(0px);}*/
-    #eBar,#sBar {
-        font-size:40px;
-        height:50px;
+    #eBar, #sBar, #pBar {
+        font-size:50px;
+        height:75px;
     }
 
     #zicon {
