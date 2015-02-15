@@ -219,7 +219,7 @@ body {
     transition:all ease-in-out .2s;
 }
 
-.skip:hover {
+.skip:hover, #settings:hover {
     -webkit-filter:brightness(1.7);
 }
 
@@ -529,6 +529,19 @@ input[type="radio"] {
     margin:0;
 }
 
+#settings{
+    visibility: hidden;
+    opacity:0;
+    -webkit-filter:brightness(0.1);
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+
+#wrapper{
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s;
+}
+
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
 @-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
 @-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}
@@ -655,6 +668,8 @@ input[type="radio"] {
     .skip {
         height:50px;
         -webkit-filter:brightness(300%);
+        padding-left: 25px;
+        padding-right: 25px;
     }
 
     .vcent {

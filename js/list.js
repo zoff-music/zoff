@@ -94,6 +94,9 @@ function updateList()
 			else
 				$("#setpass").text("Channel has no admin");
 		}
+		$("#settings").css("visibility", "visible");
+		$("#settings").css("opacity", "0.7");
+		$("#wrapper").css("opacity", "1");
 	}, 2500);
 }
 
