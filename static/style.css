@@ -794,7 +794,7 @@ input[type="radio"] {
         position: absolute;
         top:10%;
         /*top:50%;*/
-        -webkit-transform:translateY(0%);
+        -webkit-transform:translateY(0);
     }
 
     .bigchan {
