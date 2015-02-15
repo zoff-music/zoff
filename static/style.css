@@ -540,6 +540,32 @@ input[type="radio"] {
 }
 
 @media only screen and (max-device-width: 1000px) {
+    .passbox {
+        height:53px;
+        font-size:40px;
+    }
+
+    #adminPanel{
+        height:570px;
+        font-size:40px;
+    }
+
+    .button{
+        font-size:40px;
+    }
+
+    .button[value="Shuffle"]{
+        margin-left:100px;
+    }
+
+    .result b {
+        margin-left:100px;
+    }
+
+    #adminForm {
+        margin-left:100px;
+    }
+
     #controls {
         display:none;
     }
@@ -687,9 +713,9 @@ input[type="radio"] {
         background-size:100%;
     }
 
-    #settings {
+    /*#settings {
         display:none;
-    }
+    }*/
 
     #results {
         position:inherit;
@@ -794,6 +820,7 @@ input[type="radio"] {
     .fchan {
         font-size:7vw;
     }
+
 }
 
 @media only screen and (min-width: 1000px) {
