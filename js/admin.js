@@ -43,7 +43,7 @@ function submitAdmin(form)
 		$("#sBar").addClass("opacityFull");
 		document.getElementById("passbox").value = "";
 	}else{ 
-		document.getElementById("sBar").innerHTML = "Error: Wrong Admin Password!";
+		document.getElementById("eBar").innerHTML = "Error: Wrong Admin Password!";
 		$("#eBar").addClass("opacityFull");
 		document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");*/
 	}
