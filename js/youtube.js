@@ -398,7 +398,7 @@ function setBGimage(id){
 
 function notifyUser(id, title) {
 	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-  	if (Notification.permission === "granted" && !notified && document.hidden) {
+  	if (Notification.permission === "granted" && !notified && document.hidden && id != "30H2Z8Lr-4c") {
 	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
 	    setTimeout(function(){
 	    	notification.close();
