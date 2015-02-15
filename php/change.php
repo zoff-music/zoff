@@ -110,7 +110,7 @@ if(isset($_REQUEST['thisUrl'])){
         file_put_contents($list, json_encode($data));
      }
      $newPlaying = array_values($data["nowPlaying"]);                   //returning the new songs id to the javascript so it gets what song to start next
-     echo $newPlaying[0]["id"];                                      
+     echo json_encode(array( "id" => $newPlaying[0]["id"], "title" => $newPlaying[0]["title"]));                                      
 }
 else if(isset($_GET['v'])){                                             //if it gets v, we start our add "function"
     $q = $data["conf"];

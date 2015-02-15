@@ -30,6 +30,7 @@ var music = 0;
 var longS = 0;
 var frontpage = 1;
 var adminpass = "";
+var notified = false;
 
 $(document).ready(function()
 {
@@ -44,6 +45,7 @@ $(document).ready(function()
 	{
 		$("#change").css("opacity", "0");
 		$("#wrapper").css("opacity", "0");
+		Notification.requestPermission();
 	}
 
 	updateList();
@@ -67,19 +69,6 @@ $(document).ready(function()
 	}catch(err){
 		response = "1";
 	}
-	
-	/*
-	$.ajax({
-		type: 'get',
-		url: 'php/timedifference.php',
-		data: "abcde",
-		async: false,
-		success: function(data) {
-			timeDifference = $.parseJSON(data);
-		}
-	});
-	console.log("timediff:"+timeDifference[0]);
-*/
 	
 	if(window.mobilecheck()){
 		//syncInterval = setInterval(getTime, 50000);
@@ -193,7 +182,7 @@ function startNextSong()
 		if(checkEnd() && !changed)
 		{
 			setTimeout(function(){
-				response = $.ajax({
+				arr = $.ajax({
 					type: "POST",
 					url: "php/change.php",
 					async: false,
@@ -203,12 +192,14 @@ function startNextSong()
 						console.log("saved song-switch - "+response);
 					}
 				}).responseText;
-				
+				arr = $.parseJSON(arr);
+				response = arr.id;
 				console.log("next video: "+response);
 				getTitle(response);
 				if(!window.mobilecheck())
 				{
 					ytplayer.loadVideoById(response);
+					notifyUser(response, arr.title);
 				}
 				beginning = true;
 				setBGimage(response);
@@ -275,10 +266,16 @@ function getTime()
 			{
 				ytplayer.pauseVideo();
 				ytplayer.loadVideoById(timeDifference[1]);
+				notifyUser(timeDifference[1], timeDifference[4]);
+				wasPaused = false;
+				if(!syncInterval)
+					syncInterval = setInterval(getTime, 5000);
 			}
+			response = timeDifference[1];
+			getTitle();
 			setBGimage(timeDifference[1]);
 			updateList();
-			setTimeout(function(){
+			/*setTimeout(function(){
 				//console.log(response);
 				diffVideo = true;
 				beginning = true;
@@ -296,7 +293,7 @@ function getTime()
 				wasPaused = false;
 				if(!syncInterval)
 					syncInterval = setInterval(getTime, 5000);
-			},2500);
+			},2500);*/
 		}
 	}
 }
@@ -321,7 +318,7 @@ function getTitle()
 function errorHandler(newState)		
 {
 	setTimeout(function(){
-		response = $.ajax({
+		arr = $.ajax({
 			type: "POST",
 			url: "php/change.php",
 			async: false,
@@ -331,9 +328,12 @@ function errorHandler(newState)
 				console.log("error! deleted video");
 			}
 		}).responseText;
+		arr = $.parseJSON(arr);
+		response = arr.id;
 		if(!window.mobilecheck())
 		{
 			ytplayer.loadVideoById(response);
+			notifyUser(response);
 		}
 		setBGimage(response);
 	},2500);
@@ -394,4 +394,14 @@ function setBGimage(id){
 		$("#mobile-banner").css("width",$(window).width());
 	}
 
+}
+
+function notifyUser(id, title) {
+	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+  	if (Notification.permission === "granted" && !notified && document.hidden) {
+	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/hqdefault.jpg"});
+	    setTimeout(function(){
+	    	notification.close();
+	    },10000);
+  	}
 }
