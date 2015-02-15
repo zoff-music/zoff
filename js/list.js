@@ -164,19 +164,22 @@ function skip(){
 }
 
 function show(){
-	if(showToggle){
-    	showToggle=false;
-    	$("#toptitle").empty();
-        $("#chan").addClass("bigChan");
-        //$("#chan").html("zoff.no/"+encodeURI(chan));
-        $("#chan").html("zoff.no/"+chan);
-    }else{
-    	showToggle=true;
-    	$("#toptitle").html("Zöff");
-    	$("#chan").removeClass("bigChan");
-    	$("#chan").html(chan);
-   }
-   fitToScreen();
+	if(!window.mobilecheck())
+	{
+		if(showToggle){
+	    	showToggle=false;
+	    	$("#toptitle").empty();
+	        $("#chan").addClass("bigChan");
+	        //$("#chan").html("zoff.no/"+encodeURI(chan));
+	        $("#chan").html("zoff.no/"+chan);
+	    }else{
+	    	showToggle=true;
+	    	$("#toptitle").html("Zöff");
+	    	$("#chan").removeClass("bigChan");
+	    	$("#chan").html(chan);
+	   }
+	   fitToScreen();
+	}
 }
 
 

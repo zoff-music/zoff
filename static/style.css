@@ -546,6 +546,10 @@ input[type="radio"] {
     transition: opacity 1s;
 }
 
+#mobile-banner {
+    display:none;
+}
+
 @-webkit-keyframes fadein{from {opacity:0;}to{opacity:1;}}@keyframes fadein{from{opacity:0;}to{opacity:1;}}@-moz-keyframes fadein{from{opacity:0;}to{opacity:1;}}@-o-keyframes fadein{from{opacity:0;}to{opacity:1;}}
 @-webkit-keyframes fadecol{from {background-color:rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadecol{from{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadecol{background-color: rgba(0,255,0,0.4);}to{background-color: rgba(255,255,255,0);}
 @-webkit-keyframes fadered{from {background-color:rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-moz-keyframes fadered{from{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}}@-o-keyframes fadered{background-color: rgba(255,0,0,0.4);}to{background-color: rgba(255,255,255,0);}
@@ -557,6 +561,45 @@ input[type="radio"] {
 }
 
 @media only screen and (max-device-width: 1000px) {
+    
+    #innerTitle {
+        height:139px;
+        background-color:rgba(0,0,0,0.8);
+        margin:0;
+        border-top:2px solid white;
+        text-align: left;
+        padding-left:10px;
+    }
+
+    .inner{
+        height:160px;
+    }
+
+    #mobileTitle {
+        position:relative;
+        top:-105px;
+        left:200px;
+        font-size:45px;
+        color:white;
+        width:79%;
+        overflow:hidden;
+        white-space: nowrap;
+    }
+
+    #innerChan {
+        color:#CCC;
+        font-size:40px;
+    }
+
+    #viewers {
+        position: relative;
+        top: -120px;
+        font-size: 40px;
+        text-align: right;
+        color: #CCC;
+        margin-right:10px;
+    }
+
     #del {
         margin-top:15px;
     }
@@ -653,7 +696,7 @@ input[type="radio"] {
 
     /*#plus{border-right:solid 3px rgb(172, 172, 172);}*/
     #search {
-        text-align:left;
+        text-align:center;
         height:100px;
         font-size:40px;
     /*border: solid 2px #ccc;*/
@@ -665,6 +708,7 @@ input[type="radio"] {
         background:url(search2.png)no-repeat 10px 30px;
         background-color:rgba(255,255,255,0.2);
         background-size:5%;
+        margin:0 0 20px 0;
     }
 
     #buttons {
@@ -721,24 +765,22 @@ input[type="radio"] {
     }
 
     #toptitle {
-        color:#fff;
+        display:none;
+        /*color:#fff;
         font-weight:700;
-        text-shadow:0 0 12px rgba(0,0,0,0.5);
+        text-shadow:0 0 12px rgba(0,0,0,0.5);*/
     }
 
     #mobile-banner {
+        display:block;
         background-repeat:no-repeat;
         background-position:center center;
-        height:200px;
+        height:300px;
     /*position: absolute;*/
         top:-16px;
         z-index:-100;
         background-size:100%;
     }
-
-    /*#settings {
-        display:none;
-    }*/
 
     #results {
         position:inherit;
@@ -757,7 +799,8 @@ input[type="radio"] {
     }
 
     .chan {
-        font-weight:700;
+        /*font-weight:700;*/
+        display:none;
     }
 
     #playlist {

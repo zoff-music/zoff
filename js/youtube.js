@@ -309,7 +309,14 @@ function getTitle()
 			var outPutWord = viewers[5].length > 1 ? "viewers" : "viewer";
 			var title= viewers[4].replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			document.title = title + " • Zöff";
-			document.getElementsByName('v')[0].placeholder = title + " • " + viewers[5].length + " " + outPutWord;
+			if(!window.mobilecheck())
+				document.getElementsByName('v')[0].placeholder = title + " • " + viewers[5].length + " " + outPutWord;
+			else
+			{
+				document.getElementById("mobileTitle").innerHTML = title + " • " + viewers[5].length + " " + outPutWord;
+				document.getElementsByName('v')[0].placeholder = "Search • " + viewers[5].length + " " + outPutWord;
+				//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
+			}
 		}
 	});
 

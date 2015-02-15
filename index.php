@@ -19,7 +19,15 @@
     <div class="bgimage" id="bgimage"></div>
 	<div class="top vcent centered">
 		<div id="change" class="small">
-			<div id="mobile-banner"></div>
+			<div id="mobile-banner">
+				<div class="inner"></div>
+				<h3 id="innerTitle"><a href="/">Zöff</a>
+					<br>
+					<span id="innerChan"><?php echo(ucfirst($list));?></span>
+				</h3>
+				<div id="mobileTitle"></div>
+				<!--<div id="viewers">2 viewers</div>-->
+			</div>
 			<a id="toptitle" href="/">Zöff</a>
 			<div id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></div>
 			<input id="search" name="v" title="Search for songs..." type="text" class="search_input innbox" spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off"/>
