@@ -23,7 +23,6 @@ Screenshot of desktop version:
 
 Screenshot of the mobile version:
 
-![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://i.imgur.com/YvElLHf.png)     ![alt tag](http://i.imgur.com/AOwJB7y.png)
-
+![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://puu.sh/fF7B3/58b9b3abce.jpg)     ![alt tag](http://puu.sh/fF7ID/e7d65c336b.jpg)
 
 
