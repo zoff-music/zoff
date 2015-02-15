@@ -132,19 +132,34 @@ function vote(id, vote){
 }
 
 function skip(){
-	console.log($.ajax({
+	voteRes = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
 		data: "skip",
 		success: function() {
 			console.log("voted to skip song");
-			 $("#search").addClass("success");
+			//$("#search").addClass("success");
 			updateList();
 		},
 	}).responseText);
+
+	console.log(voteRes.split("/"));
+	skipVotes = voteRes.split("/");
+	if(skipVotes[0]>= skipVotes[1]/2)
+	{
+		document.getElementById("sBar").innerHTML = "Successfully skipped!";
+		$("#sBar").addClass("opacityFull");
+	}else
+	{
+		document.getElementById("pBar").innerHTML = "Vote registrated! "+skipVotes[0]+" of "+skipVotes[1]+" has skipped. "+(Math.ceil(skipVotes[1]/2))+" or more is needed!";
+		$("#pBar").addClass("opacityFull");
+	}
+
 	setTimeout(function(){
 		$("#search").removeClass("success");
+		$("#sBar").removeClass("opacityFull");
+		$("#pBar").removeClass("opacityFull");
 	},1500);
 }
 

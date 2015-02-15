@@ -13,6 +13,7 @@
 	<?php include("php/header.php"); ?>
 </head>
 <body>
+	<div id="pBar"></div>
 	<div id="sBar"></div>
 	<div id="eBar"></div>
     <div class="bgimage" id="bgimage"></div>
