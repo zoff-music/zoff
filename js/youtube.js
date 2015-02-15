@@ -277,6 +277,7 @@ function getTime()
 				ytplayer.loadVideoById(timeDifference[1]);
 			}
 			setBGimage(timeDifference[1]);
+			updateList();
 			setTimeout(function(){
 				//console.log(response);
 				diffVideo = true;
