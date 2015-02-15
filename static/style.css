@@ -665,7 +665,7 @@ input[type="radio"] {
         margin:0;
     }
 
-    .skip {
+    .skip, #settings {
         height:50px;
         -webkit-filter:brightness(300%);
         padding-left: 25px;
