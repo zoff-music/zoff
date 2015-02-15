@@ -399,7 +399,7 @@ function setBGimage(id){
 function notifyUser(id, title) {
 	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
   	if (Notification.permission === "granted" && !notified && document.hidden) {
-	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/hqdefault.jpg"});
+	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
 	    setTimeout(function(){
 	    	notification.close();
 	    },10000);
