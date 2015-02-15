@@ -553,6 +553,10 @@ input[type="radio"] {
 }
 
 @media only screen and (max-device-width: 1000px) {
+    #del {
+        margin-top:15px;
+    }
+
     .passbox {
         height:53px;
         font-size:40px;
