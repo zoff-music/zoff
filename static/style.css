@@ -562,6 +562,7 @@ input[type="radio"] {
 
 @media only screen and (max-device-width: 1000px) {
     
+
     #innerTitle {
         height:139px;
         background-color:rgba(0,0,0,0.8);
@@ -639,10 +640,11 @@ input[type="radio"] {
     }
 
     .bgimage {
-        background-image:url(bg4.jpg);
+        /*background-image:url(bg4.jpg);*/
+        background-image:none;
         position:fixed;
         background-size:500%;
-        background-color:#000;
+        background-color:#4F4F4F;
         -webkit-filter:brightness(70%);
         filter:brightness(70%);
     }
