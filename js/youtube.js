@@ -313,7 +313,7 @@ function getTitle()
 				document.getElementsByName('v')[0].placeholder = title + " • " + viewers[5].length + " " + outPutWord;
 			else
 			{
-				document.getElementById("mobileTitle").innerHTML = title + " • " + viewers[5].length + " " + outPutWord;
+				document.getElementById("mobileTitle").innerHTML = title;
 				document.getElementsByName('v')[0].placeholder = "Search • " + viewers[5].length + " " + outPutWord;
 				//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
 			}
