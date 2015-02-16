@@ -640,12 +640,12 @@ input[type="radio"] {
     }
 
     .bgimage {
-        background-image:url(bg4.jpg);
+        background-image: url(bg6.jpg);
         position:fixed;
         background-size:500%;
-        background-color:#000;
-        -webkit-filter:brightness(70%);
-        filter:brightness(70%);
+        background-color:#FFF;
+        -webkit-filter:brightness(80%);
+        filter:brightness(90%);
     }
 
     #player {
@@ -676,7 +676,7 @@ input[type="radio"] {
         height:89px;
         line-height:89px;
         padding-left:20px;
-        border-radius:1px;
+        border-radius:40px 0 0 40px;
     }
 
     .lthumb {
@@ -686,6 +686,7 @@ input[type="radio"] {
 
     .ltitle {
         height:70px;
+        color:#000;
     /*color: #000;*/
     }
 
@@ -707,7 +708,7 @@ input[type="radio"] {
         font-weight:700;
         padding-left:65px;
         background:url(search2.png)no-repeat 10px 30px;
-        background-color:rgba(255,255,255,0.2);
+        background-color:rgba(0,0,0,0.4);
         background-size:5%;
         margin:0 0 20px 0;
     }
@@ -720,7 +721,7 @@ input[type="radio"] {
 
     .skip, #settings {
         height:50px;
-        -webkit-filter:brightness(300%);
+        -webkit-filter:brightness(0);
         padding-left: 25px;
         padding-right: 25px;
     }
@@ -731,11 +732,19 @@ input[type="radio"] {
     }
 
     #title {
-        font-size:30px;
-        font-weight:700;
+        height:56px;
+        font-size:35px;
+        font-weight:300;
         overflow:hidden;
         padding-left:2%;
         padding-top:0;
+        color:#000;
+        font-family:'Open Sans',sans-serif;
+        /*text-shadow:0 0 12px rgba(0,0,0,0.5);*/
+    }
+
+    .results{
+        height:82px;
     }
 
     .footer {
@@ -786,13 +795,6 @@ input[type="radio"] {
     #results {
         position:inherit;
         background-color:rgba(255,255,255,0.2);
-    }
-
-    #title {
-        color:#fff;
-        font-weight:700;
-        font-family:'Open Sans',sans-serif;
-        text-shadow:0 0 12px rgba(0,0,0,0.5);
     }
 
     #add {
