@@ -628,7 +628,9 @@ input[type="radio"] {
         margin-left:100px;
     }
 
-    
+    .result{
+        height:82px;
+    }    
 
     #adminForm {
         margin-left:100px;
@@ -741,7 +743,7 @@ input[type="radio"] {
 
     #title {
         height:56px;
-        font-size:35px;
+        font-size:40px;
         font-weight:300;
         overflow:hidden;
         padding-left:2%;
