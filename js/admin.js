@@ -77,10 +77,10 @@ function shuffle(form)
 		$("#sBar").addClass("opacityFull");
 		updateList();
 	}else if(confRes = "wrong!"){
-		document.getElementById("sBar").innerHTML = "Error: Wrong Admin Password!";
+		document.getElementById("eBar").innerHTML = "Error: Wrong Admin Password!";
 		$("#eBar").addClass("opacityFull");
 	}else if(confRes = "size"){
-		document.getElementById("sBar").innerHTML = "Error: Empty Playlist!";
+		document.getElementById("eBar").innerHTML = "Error: Empty Playlist!";
 		$("#eBar").addClass("opacityFull");
 	}
 	setTimeout(function(){
