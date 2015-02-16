@@ -63,7 +63,7 @@ foreach($fil as $files){
 				<div class="fchan nomargin">Zöff</div>
 				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
 					<input title="Type channel name here to create or listen to a channel.
-					 Only alphanumerical chars. [a-zA-Z0-9]+" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
+					 Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
 					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
 					</datalist>
