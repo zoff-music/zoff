@@ -409,6 +409,6 @@ function notifyUser(id, title) {
 	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
 	    setTimeout(function(){
 	    	notification.close();
-	    },10000);
+	    },5000);
   	}
 }
