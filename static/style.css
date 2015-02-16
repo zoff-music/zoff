@@ -613,6 +613,7 @@ input[type="radio"] {
     #adminPanel{
         height:570px;
         font-size:40px;
+        background-color:rgba(0,0,0,0.4);
     }
 
     .button{
@@ -626,6 +627,8 @@ input[type="radio"] {
     .result b {
         margin-left:100px;
     }
+
+    
 
     #adminForm {
         margin-left:100px;
@@ -713,10 +716,15 @@ input[type="radio"] {
         margin:0 0 20px 0;
     }
 
+    #search:focus{
+        box-shadow:0 0 0 0 #000;
+    }
+
     #buttons {
         text-align:center;
         height:80px;
         margin:0;
+        background-color:rgba(0,0,0,0.4);
     }
 
     .skip, #settings {
