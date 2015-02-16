@@ -645,12 +645,16 @@ input[type="radio"] {
     }
 
     .bgimage {
-        background-image: url(bg6.jpg);
         position:fixed;
         background-size:500%;
-        background-color:#FFF;
+        background-color:#000;
         -webkit-filter:brightness(80%);
         filter:brightness(90%);
+    }
+
+    .chp {
+        background-image: url(bg6.jpg);
+        background-color:#FFF;
     }
 
     #player {

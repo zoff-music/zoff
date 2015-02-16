@@ -10,7 +10,14 @@
   $i = rand(0, count($bg)-1); // generate random number size of the array
   $selectedBg = "$bg[$i]"; // set variable equal to which random filename was chosen
  ?>
-	
+<style type="text/css">
+		<!--
+		.bgimage{
+			background: url(./static/<?php echo $selectedBg; ?>) no-repeat;
+			opacity:0;
+		}
+		-->
+</style>	
 <title>Zöff</title>
 <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen">
 <meta name="description" content="The shared YouTube radio.">

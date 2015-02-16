@@ -51,32 +51,9 @@ foreach($fil as $files){
 	<style>
 		#change {
 			opacity:1 !important;
-
 		}
 	</style>
 	<?php include("header.php"); ?>
-	<style type="text/css">
-		.bgimage{
-			background: url(./static/<?php echo $selectedBg; ?>) no-repeat;
-			-webkit-transition: opacity 1s;
-			background-size: 500%;
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-color: #000;
-			/* background-image: url(bg5.jpg); */
-			-webkit-filter: blur(50px) brightness(0.8);
-			-moz-filter: blur(50px) brightness(0.8);
-			-ms-filter: blur(50px) brightness(0.8);
-			-o-filter: blur(50px) brightness(0.8);
-			filter: blur(50px) brightness(0.8);
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			opacity: 1;
-		}
-	</style>
 </head>
 <body>
     <div class="bgimage" id="bgimage"></div>
