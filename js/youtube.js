@@ -408,7 +408,7 @@ function setBGimage(id){
 				$("#bgimage").removeClass("noopacity");
 			}, 1000);
 		});
-		$("#bgimage").css("-webkit-filter", "blur(50px) brightness(60%)");
+		$("#bgimage").css("-webkit-filter", "blur(50px) brightness(100%)");
 		$("#bgimage").css("filter", "blur(50px) brightness(70%)");
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());
