@@ -646,10 +646,9 @@ input[type="radio"] {
 
     .bgimage {
         background-image: url(bg6.jpg);
-        background-color:#000;
+        background-color:#FFF;
         position:fixed;
         background-size:500%;
-        background-color:#000;
         -webkit-filter:brightness(80%);
         filter:brightness(90%);
     }
