@@ -397,6 +397,19 @@ function setBGimage(id){
 			}, 1000);
 		});
 	}else if(window.mobilecheck()){
+		var bg = new Image();
+		bg.src = "http://img.youtube.com/vi/"+id+"/0.jpg";
+		$("#bgimage").addClass("noopacity");
+		console.log(bg);
+		bg.addEventListener("load", function(){
+			setTimeout(function(){
+				$("#bgimage").css("background-image", "url("+bg.src+")");
+				//document.getElementById("bgimage").backgroundImage.src = bg.src;
+				$("#bgimage").removeClass("noopacity");
+			}, 1000);
+		});
+		$("#bgimage").css("-webkit-filter", "blur(50px) brightness(60%)");
+		$("#bgimage").css("filter", "blur(50px) brightness(70%)");
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());
 	}
