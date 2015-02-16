@@ -754,7 +754,6 @@ input[type="radio"] {
         padding-top:0;
         color:#000;
         font-family:'Open Sans',sans-serif;
-        /*text-shadow:0 0 12px rgba(0,0,0,0.5);*/
     }
 
     .results{
@@ -764,6 +763,11 @@ input[type="radio"] {
     .footer {
         font-size:40px;
         position:fixed;
+        color:rgba(69,69,69,1) !important;
+    }
+
+    .footer a {
+        color: black !important;
     }
 
     ::-webkit-input-placeholder {
