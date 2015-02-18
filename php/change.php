@@ -268,33 +268,4 @@ else if(isset($_GET['skip'])){                                          //skip, 
     echo json_encode($data); 
 }
 
-//
-//
-//None of these are in use any more/yet
-//
-//
-//
-
-function addSong($name, $id, $title)            
-{
-
-}
-
-function nextSong(){
-	global $data;
-	array_push($data[0], $data[0][0]);
-    array_shift($data[0]);
-
-    array_push($data[2], 0); 		
-    array_shift($data[2]);
-
-    array_push($data[3], $data[3][0]);
-    array_shift($data[3]);
-
-    array_shift($data[4]);
-    array_push($data[4], 1);
-
-    $data[5]=array();
-    $data[1][0] = time();
-}
 ?>
