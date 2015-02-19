@@ -8,7 +8,7 @@ if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list = preg_replace('/[^\da-z=?]/i', '', urldecode($list[1]));
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
-$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "adminpass" => ""));
+$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "adminpass" => ""));
 $array = json_encode($array);                                      //encoding the array
 $f = @fopen($list,"x");                                            //opening a file, ignoring warnings
 if($f){ fwrite($f,$array); fclose($f); }                           //if the file doesn't exist, we create a new one, and adds the newly made array there
@@ -124,7 +124,7 @@ else if(isset($_GET['v'])){                                             //if it 
         $name = htmlspecialchars($_GET['n']);                           //name of the video
         if($np[0]["id"] == "30H2Z8Lr-4c")
         {
-            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "adminpass" => ""));
+            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "adminpass" => ""));
             //$q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
             $q["nowPlaying"][$video]["votes"] = 1;                         //Upping the votes, so it comes further up than the ones already played
             array_push($q["nowPlaying"][$video]["guids"], $guid); 
@@ -210,9 +210,11 @@ else if(isset($_GET['vote'])){                                           //if th
     }
 }
 else if(isset($_GET['skip'])){                                          //skip, really similar to the save function, not going in depth here.
-	$viewers=count($data["conf"]["views"]);
+	$q = $data["conf"];
+    $q = array_key_exists("skip", $q);
+    $viewers=count($data["conf"]["views"]);
 	$skips=count($data["conf"]["skips"]);                               //Counting how many GUIDS there are under the skip key
-	if(!in_array($guid, $data["conf"]["skips"])){                       //If the users GUID isn't in the array, its added
+	if(!in_array($guid, $data["conf"]["skips"]) && ($data["conf"]["skip"] == "true" || $q != 1)){                       //If the users GUID isn't in the array, its added
 		array_push($data["conf"]["skips"], $guid);
 		$skips+=1;                                                      //and the number of skips is upped
 		//$data["conf"]["skips"]=$skips;
@@ -236,8 +238,11 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	    	array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
 	    }
 		file_put_contents($list, json_encode($data));
-	}
-	echo($skips."/".$viewers);                                             //always printing out the skip/viewer ratio
+        echo($skips."/".$viewers);
+	}else if($data["conf"]["skip"] == "false")
+    {
+        echo("wrong!");
+    }
 
 }else if(isset($_POST['conf']))                                            //conf, this is for admin settings/channel settings
 {
@@ -247,6 +252,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
 	$data["conf"]["frontpage"] = $_POST['frontpage'];
 	$data["conf"]["allvideos"] = $_POST['allvideos'];
 	$data["conf"]["removeplay"] = $_POST['removeplay'];
+    $data["conf"]["skip"] = $_POST['skip'];
 	$pass = htmlspecialchars($_POST['pass']);
     if($pass != ""){
         $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));

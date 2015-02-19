@@ -83,7 +83,7 @@ function updateList()
 		}
 		if(!adminTogg)
 		{
-			names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay"];
+			names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip"];
 			for (var i = 0; i < names.length; i++) {
 				document.getElementsByName(names[i])[0].checked = (conf[names[i]] === "true");
 				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");
@@ -144,23 +144,29 @@ function skip(){
 		},
 	}).responseText);
 
-	console.log(voteRes.split("/"));
-	skipVotes = voteRes.split("/");
-	if(skipVotes[0]>= skipVotes[1]/2)
+	if(voteRes == "wrong!")
 	{
-		document.getElementById("sBar").innerHTML = "Successfully skipped!";
-		$("#sBar").addClass("opacityFull");
-	}else
-	{
-		document.getElementById("pBar").innerHTML = "Vote registrated! "+skipVotes[0]+" of "+skipVotes[1]+" has skipped. "+(Math.ceil(skipVotes[1]/2))+" or more is needed!";
-		$("#pBar").addClass("opacityFull");
+		document.getElementById("eBar").innerHTML = "Error: Skipping disabled.";
+		$("#eBar").addClass("opacityFull");
+	}else{
+		skipVotes = voteRes.split("/");
+		if(skipVotes[0]>= skipVotes[1]/2)
+		{
+			document.getElementById("sBar").innerHTML = "Successfully skipped!";
+			$("#sBar").addClass("opacityFull");
+		}else
+		{
+			document.getElementById("pBar").innerHTML = "Vote registrated! "+skipVotes[0]+" of "+skipVotes[1]+" has skipped. "+(Math.ceil(skipVotes[1]/2))+" or more is needed!";
+			$("#pBar").addClass("opacityFull");
+		}
 	}
-
 	setTimeout(function(){
 		$("#search").removeClass("success");
 		$("#sBar").removeClass("opacityFull");
 		$("#pBar").removeClass("opacityFull");
+		$("#eBar").removeClass("opacityFull");
 	},1500);
+
 }
 
 function show(){
