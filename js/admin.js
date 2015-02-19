@@ -6,7 +6,7 @@ function admin()
 	adminTogg = !adminTogg;
 	if(adminTogg)
 	
-	if(adminTogg) $("#playlist").height($("#player").height()-250+30); //opening
+	if(adminTogg) $("#playlist").height($("#player").height()-270+30); //opening
 	if(!adminTogg)$("#playlist").height($("#player").height()+30);; //closing
 
 	$("#adminPanel").toggleClass("hiddenAdmin");
@@ -22,13 +22,14 @@ function submitAdmin(form)
 	allvideos = form.allvideos.value;
 	removeplay = form.removeplay.value;
 	adminpass = form.pass.value;
+	skipping = form.skip.value;
 	
 	
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass,
+		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass+"&skip="+skipping,
 
 		success: function() {
 			console.log("configurations response: "+response);
