@@ -3,7 +3,7 @@
 $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8);
 
 //save or delete(oid)                                             //getting the list we are in
-$list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+$list = explode("/", htmlentities(strtolower($_SERVER["REQUEST_URI"])));
 if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list = preg_replace('/[^\da-z=?]/i', '', urldecode($list[1]));
 

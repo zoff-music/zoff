@@ -41,6 +41,12 @@ function initYoutubeControls(player)
 		newElem.appendChild(newChild);
 	}
 	container.appendChild(newElem);
+
+	newElem = document.createElement("div");
+	newElem.id = "bar";
+
+	container.appendChild(newElem);
+
 	initControls();
 	fitToScreen();
 	$("#mute").hover(function(){hoverMute(true)}, function(){hoverMute(false)});
@@ -155,6 +161,12 @@ function durationSetter()
 	minutes = Math.floor(currDurr / 60);
 	seconds = currDurr - minutes * 60;
 	document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+	per = (100 / duration) * currDurr;
+	if(per >= 100)
+		per = 100;
+	else if(duration == 0)
+		per = 0;
+	$("#bar").width(per+"%");
 }
 
 function pad(n)

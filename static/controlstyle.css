@@ -162,3 +162,11 @@
 {
 	display:none !important;
 }
+
+#bar
+{
+	height:30px;
+	background-color:rgba(0,0,0,0.5);
+	/*-webkit-transition: width 2s;
+    transition: width 2s;*/
+}
