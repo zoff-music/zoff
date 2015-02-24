@@ -27,6 +27,7 @@ $(document).ready(function()
 			}else if(event.keyCode == 27){
 				$("#results").html("");
 				$(".main").removeClass("blurT");
+				$("#controls").removeClass("blurT");
 				$(".main").removeClass("clickthrough");
 			}else{
 				i = 0;
