@@ -158,6 +158,8 @@ function durationSetter()
 	dMinutes = Math.floor(duration / 60);
 	dSeconds = duration - dMinutes * 60;
 	currDurr = ytplayer.getCurrentTime();
+	if(currDurr > duration)
+		currDurr = duration;
 	minutes = Math.floor(currDurr / 60);
 	seconds = currDurr - minutes * 60;
 	document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
