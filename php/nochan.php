@@ -61,7 +61,7 @@ foreach($fil as $files){
 		<div id="change" class="small">
 				<img id="zicon" src="static/favicon.png">
 				<div class="fchan nomargin">Zöff</div>
-				<form name="ufo" action="" class="daform nomargin" id="base" method="get" onsubmit="null;" >
+				<form class="daform nomargin" id="base" method="get">
 					<input title="Type channel name here to create or listen to a channel.
 					 Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
 					<datalist id="searches">
