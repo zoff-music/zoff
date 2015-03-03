@@ -119,6 +119,7 @@ body {
 .footer a {
     color:rgba(254,254,254,0.42);
     text-decoration:none;
+    display: inline;
 }
 
 .footer a:hover {
@@ -133,6 +134,11 @@ body {
 /*margin-top: 50px;*/
     word-spacing:2px;
     bottom:0;
+}
+
+.badge{
+    display: block;
+    padding-bottom: 7px;
 }
 
 .bottom {
