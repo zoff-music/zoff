@@ -29,7 +29,7 @@ body {
     height:0px;
     padding:0px;
     margin:0px;
-    -webkit-transition:height 1s;
+    -webkit-transition:height 0.5s;
 }
 
 #findform-input {

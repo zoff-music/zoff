@@ -24,7 +24,7 @@ $(document).ready(function()
         	if(find) $("#playlist").height($("#player").height()-30+30);
         	if(!find)$("#playlist").height($("#player").height()+30);; //closing
         	myScroll.refresh();
-        	setTimeout(function(){myScroll.refresh();}, 1005);
+        	setTimeout(function(){myScroll.refresh();}, 505);
     	}
 
     });
