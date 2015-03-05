@@ -42,6 +42,9 @@
 
 				</div>
 					<div class="result hiddenAdmin" id="adminPanel"><?php include("php/panel.php");?> </div>
+					<form id="findform">
+							<input id="findform-input" type="text" onsubmit="null;">
+					</form>
 					<div id="playlist">
 						<div id="wrapper">
 							<img src="static/ajax-loader.gif" id="loading" alt="loading">

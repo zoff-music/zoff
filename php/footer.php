@@ -5,6 +5,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="static/js/iscroll-min.js"></script>  
 <script type="text/javascript" src="static/js/list.js"></script>  
+<script type="text/javascript" src="static/js/searchlist.js"></script>
 <script type="text/javascript" src="static/js/playercontrols.js"></script>
 <script type="text/javascript" src="static/js/youtube.js"></script>
 <script type="text/javascript" src="static/js/search.js"></script> 

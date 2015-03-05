@@ -36,13 +36,14 @@ function updateList()
 		$("#wrapper").empty();
 
 		$.each(list.songs, function(j, listeID){
-
 			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID.id;
+			if(find && video_id != bright) brightness = "brightness";
+			else brightness = "";
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
 			var odd = ""; if(j%2===0)odd=" oddlist";
 			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
-			var finalhtml="<div id='result' class='"+video_id+" result lresult"+odd+"'>"+
+			var finalhtml="<div id='result' class='"+video_id+" result "+brightness+" lresult"+odd+"'>"+
 			"<img class='thumb lthumb' src='"+video_thumb+"'>"+
 			"<div class='ltitle'>"+video_title+"</div>"+
 			"<div class='votes'>"+listeID.votes+
