@@ -21,8 +21,16 @@ $(document).ready(function()
         	$("#adminPanel").toggleClass("brightness");
         	$("#findform-input").val("");
         	$("#findform-input").focus();
+        	/*
         	if(find) $("#playlist").height($("#player").height()-30+30);
         	if(!find)$("#playlist").height($("#player").height()+30);; //closing
+			*/
+        	if(adminTogg) extraHeight = -300;
+			else extraHeight = -30;
+
+			if(find) $("#playlist").height($("#player").height()+extraHeight+30); //opening
+			if(!find)$("#playlist").height($("#player").height()+extraHeight+60);; //closing
+
         	myScroll.refresh();
         	setTimeout(function(){myScroll.refresh();}, 505);
     	}
