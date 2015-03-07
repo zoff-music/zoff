@@ -43,7 +43,7 @@
 				</div>
 					<div class="result hiddenAdmin" id="adminPanel"><?php include("php/panel.php");?> </div>
 					<form id="findform">
-							<input id="findform-input" type="text" onsubmit="null;">
+							<input id="findform-input" type="text" onsubmit="null;" placeholder="Search list..">
 					</form>
 					<div id="playlist">
 						<div id="wrapper">

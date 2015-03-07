@@ -5,13 +5,22 @@ function admin()
 {
 	adminTogg = !adminTogg;
 	if(adminTogg)
-	
-	if(find) extraHeight = 0;
-	else extraHeight = 30;
-
-	if(adminTogg) $("#playlist").height($("#player").height()-270+extraHeight); //opening
-	if(!adminTogg)$("#playlist").height($("#player").height()+extraHeight);; //closing
-
+	{
+		if(find)
+		{
+			eH = -10;
+		}else
+			eH = 30;
+		$("#playlist").height($("#player").height()-270+eH); //opening
+	}else if(!adminTogg)
+	{
+		if(find)
+		{
+			eH = -10;
+		}else
+			eH = 30;
+		$("#playlist").height($("#player").height()+eH); //closing
+	}
 	$("#adminPanel").toggleClass("hiddenAdmin");
 }
 

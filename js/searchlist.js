@@ -25,11 +25,30 @@ $(document).ready(function()
         	if(find) $("#playlist").height($("#player").height()-30+30);
         	if(!find)$("#playlist").height($("#player").height()+30);; //closing
 			*/
-        	if(adminTogg) extraHeight = -300;
-			else extraHeight = -30;
+        	/*if(adminTogg) extraHeight = -300;
+			else extraHeight = -30;*/
 
-			if(find) $("#playlist").height($("#player").height()+extraHeight+30); //opening
-			if(!find)$("#playlist").height($("#player").height()+extraHeight+60);; //closing
+			if(find)
+			{
+				if($("#adminPanel").height() != 0)
+				{
+					extraHeight = $("#adminPanel").height()+30;
+				}else
+				{
+					extraHeight = 10;
+				}
+				$("#playlist").height($("#player").height()-extraHeight); //opening
+			}else if(!find)
+			{
+				if($("#adminPanel").height() != 0)
+				{
+					extraHeight = $("#adminPanel").height()-10;
+				}else
+				{
+					extraHeight = -30;
+				}
+				$("#playlist").height($("#player").height()-extraHeight);; //closing
+			}
 
         	myScroll.refresh();
         	setTimeout(function(){myScroll.refresh();}, 505);
@@ -54,8 +73,11 @@ $(document).ready(function()
     		{
     			//found[0].style.backgroundColor = "rgba(0,0,0,0.5)";
     			//found[0].setAttribute("style", "-webkit-filter:brightness(100%)");
-    			found[0].className = found[0].className + " fullbrightness";
-    			bright = found[0].className.split(" ")[0];
+    			for(i = 0; i < found.length; i++)
+    			{
+	    			found[i].className = found[i].className + " fullbrightness";
+	    			bright = found[i].className.split(" ")[i];
+    			}
     			//found[0].style.backgroundColor = "red";
     			myScroll.scrollToElement(found[0], 10, 0, -30);
     		}else
