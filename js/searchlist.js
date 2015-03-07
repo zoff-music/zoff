@@ -15,7 +15,10 @@ $(document).ready(function()
 			if(find)
 				$(".lresult").addClass("brightness");
 			else
+			{
 				$(".lresult").removeClass("brightness");
+				$(".lresult").removeClass("fullbrightness");
+			}
         	event.preventDefault();
         	$("#findform").toggleClass("display");
         	$("#adminPanel").toggleClass("brightness");
@@ -79,7 +82,7 @@ $(document).ready(function()
 	    			bright = found[i].className.split(" ")[i];
     			}
     			//found[0].style.backgroundColor = "red";
-    			myScroll.scrollToElement(found[0], 10, 0, -30);
+    			myScroll.scrollToElement(found[0], 10, 0, -40);
     		}else
     		{
     			$(".lresult").removeClass("fullbrightness");
