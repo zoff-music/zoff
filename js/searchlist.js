@@ -8,7 +8,7 @@ $(document).ready(function()
 	    };
 	});
 	find = false;
-	$("body").keydown(function(event) {
+	$("html").keydown(function(event) {
 		if ((event.keyCode == 13 && find)  || (event.keyCode == 27 && find) || (event.ctrlKey && event.keyCode === 70)) 
 		{ 
 			find = !find;
