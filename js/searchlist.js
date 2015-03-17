@@ -1,6 +1,8 @@
 $(document).ready(function()
 {
 	found = null;
+	znum = 1;
+	elems = [];
 	bright = [];
 	$.expr[":"].contains = $.expr.createPseudo(function(arg) {
     return function( elem ) {
@@ -9,7 +11,7 @@ $(document).ready(function()
 	});
 	find = false;
 	$("html").keydown(function(event) {
-		if ((event.keyCode == 13 && find)  || (event.keyCode == 27 && find) || (event.ctrlKey && event.keyCode === 70)) 
+		if ((event.keyCode == 27 && find) || (event.ctrlKey && event.keyCode === 70)) 
 		{ 
 			find = !find;
 			if(find)
@@ -57,7 +59,6 @@ $(document).ready(function()
         	myScroll.refresh();
         	setTimeout(function(){myScroll.refresh();}, 505);
     	}
-
     });
     $("body").keyup(function(event) {
     	if(find)
@@ -74,15 +75,16 @@ $(document).ready(function()
     			for(i = 0; i < found.length; i++)
     			{
 	    			found[i].className = found[i].className + " fullbrightness";
-	    			console.log(found[i].className.split(" ")[0]);
 	    			bright.push(found[i].className.split(" ")[0]);
-	    			//bright.push(found[i].className.split(" ")[0]);
+	    			elems.push(found[i]);
     			}
-    			myScroll.scrollToElement(found[0], 10, 0, -40);
+    			myScroll.scrollToElement(found[0], 10, 0, 0);
     		}else
     		{
     			$(".lresult").removeClass("fullbrightness");
     			bright.length = 0;
+    			elems.length = 0;
+    			znum = 1;
     		}
     		//console.log($("#wrapper").find(".result:contains('"+$("#findform-input").val()+"')"));
     	}

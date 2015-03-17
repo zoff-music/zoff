@@ -38,7 +38,6 @@ function updateList()
 		$.each(list.songs, function(j, listeID){
 			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID.id;
-			console.log($.inArray(video_id, bright));
 			if(find && $.inArray(video_id, bright) == -1) brightness = "brightness";
 			else if(find && $.inArray(video_id, bright) != -1) brightness = "brightness fullbrightness";
 			else brightness = "";
