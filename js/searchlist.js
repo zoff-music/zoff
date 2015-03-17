@@ -1,7 +1,7 @@
 $(document).ready(function()
 {
 	found = null;
-	bright = "";
+	bright = [];
 	$.expr[":"].contains = $.expr.createPseudo(function(arg) {
     return function( elem ) {
 	        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
@@ -18,6 +18,7 @@ $(document).ready(function()
 			{
 				$(".lresult").removeClass("brightness");
 				$(".lresult").removeClass("fullbrightness");
+				bright.length = 0;
 			}
         	event.preventDefault();
         	$("#findform").toggleClass("display");
@@ -65,28 +66,23 @@ $(document).ready(function()
     		{
 	    		last = found[0];
 	    		if(!(typeof last === "undefined"))
-	    		{
-		    		//last.style.backgroundColor = "none";
 		    		$(".lresult").removeClass("fullbrightness");
-		    		//last.className = last.className + " brightness";
-		    	}
 	    	}
     		found = $("#wrapper").find(".lresult:contains('"+$("#findform-input").val()+"')");
     		if(found != "" && $("#findform-input").val() != "")
     		{
-    			//found[0].style.backgroundColor = "rgba(0,0,0,0.5)";
-    			//found[0].setAttribute("style", "-webkit-filter:brightness(100%)");
     			for(i = 0; i < found.length; i++)
     			{
 	    			found[i].className = found[i].className + " fullbrightness";
-	    			bright = found[i].className.split(" ")[i];
+	    			console.log(found[i].className.split(" ")[0]);
+	    			bright.push(found[i].className.split(" ")[0]);
+	    			//bright.push(found[i].className.split(" ")[0]);
     			}
-    			//found[0].style.backgroundColor = "red";
     			myScroll.scrollToElement(found[0], 10, 0, -40);
     		}else
     		{
     			$(".lresult").removeClass("fullbrightness");
-    			bright = "";
+    			bright.length = 0;
     		}
     		//console.log($("#wrapper").find(".result:contains('"+$("#findform-input").val()+"')"));
     	}

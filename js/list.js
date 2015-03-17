@@ -38,7 +38,9 @@ function updateList()
 		$.each(list.songs, function(j, listeID){
 			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID.id;
-			if(find && video_id != bright) brightness = "brightness";
+			console.log($.inArray(video_id, bright));
+			if(find && $.inArray(video_id, bright) == -1) brightness = "brightness";
+			else if(find && $.inArray(video_id, bright) != -1) brightness = "brightness fullbrightness";
 			else brightness = "";
 			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
 			var odd = ""; if(j%2===0)odd=" oddlist";
