@@ -44,6 +44,7 @@
 					<div class="result hiddenAdmin" id="adminPanel"><?php include("php/panel.php");?> </div>
 					<form id="findform" onsubmit="return false;">
 							<input id="findform-input" type="text" onsubmit="null;" placeholder="Search list..">
+							<label id="numfound"></label>
 					</form>
 					<div id="playlist">
 						<div id="wrapper">
