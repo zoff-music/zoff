@@ -66,9 +66,10 @@ function updateList()
 				{
 					myScroll = new IScroll('#playlist', {
 						mouseWheel: true,
-						scrollbars: false,
+						scrollbars: true,
 						scrollY: true,
-						interactiveScrollbars: false
+						interactiveScrollbars: true,
+						fadeScrollbars: true
 					});
 					scroller = true;
 				}else
