@@ -72,6 +72,8 @@ $(document).ready(function()
     		found = $("#wrapper").find(".lresult:contains('"+$("#findform-input").val()+"')");
     		if(found != "" && $("#findform-input").val() != "")
     		{
+    			elems.length = 0;
+    			bright.length = 0;
     			for(i = 0; i < found.length; i++)
     			{
 	    			found[i].className = found[i].className + " fullbrightness";
