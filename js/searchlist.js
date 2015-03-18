@@ -2,7 +2,7 @@ $(document).ready(function()
 {
 	found = null;
 	znum = 1;
-	elems = [];
+	elem = [];
 	bright = [];
 	$.expr[":"].contains = $.expr.createPseudo(function(arg) {
     return function( elem ) {
@@ -14,6 +14,7 @@ $(document).ready(function()
 		if ((event.keyCode == 27 && find) || (event.ctrlKey && event.keyCode === 70)) 
 		{ 
 			find = !find;
+			znum = 1;
 			if(find)
 				$(".lresult").addClass("brightness");
 			else
@@ -69,12 +70,18 @@ $(document).ready(function()
     			if(found != "" && $("#findform-input").val() != "")
     			{
     				znum+=1;
-    				if(znum >= elems.length) znum = 1;
+    				if(znum > elem.length)
+    				{
+    					znum = 1;
+    					myScroll.scrollToElement(elem[0], 10, 0, 0);
+    				}
+    				console.log(znum);
+    				console.log(elem[znum]);
+    				myScroll.scrollToElement(elem[znum-1], 10, 0, 0);
     				document.getElementById("numfound").innerHTML = znum + " av " + bright.length;
 	    			$("#numfound").css("margin-left", "-"+($("#numfound").width()+8));
 	    			$("#numfound").css("padding-right", 4);
 	    			$("#findform-input").css("padding", "0 "+($("#numfound").width()+8)+"px 0 5px");
-	    			myScroll.scrollToElement(elems[znum-1], 10, 0, 0);
     			}
     		}else
 	    		{
@@ -87,14 +94,14 @@ $(document).ready(function()
 	    		found = $("#wrapper").find(".lresult:contains('"+$("#findform-input").val()+"')");
 	    		if(found != "" && $("#findform-input").val() != "")
 	    		{
-	    			elems.length = 0;
+	    			elem.length = 0;
 	    			bright.length = 0;
 	    			znum = 1;
 	    			for(i = 0; i < found.length; i++)
 	    			{
 		    			found[i].className = found[i].className + " fullbrightness";
 		    			bright.push(found[i].className.split(" ")[0]);
-		    			elems.push(found[i]);
+		    			elem.push(found[i]);
 	    			}
 	    			document.getElementById("numfound").innerHTML = znum + " av " + bright.length;
 	    			$("#numfound").css("margin-left", "-"+($("#numfound").width()+8));
@@ -105,7 +112,7 @@ $(document).ready(function()
 	    		{
 	    			$(".lresult").removeClass("fullbrightness");
 	    			bright.length = 0;
-	    			elems.length = 0;
+	    			elem.length = 0;
 	    			znum = 1;
 	    		}
 	    	}
