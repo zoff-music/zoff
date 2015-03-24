@@ -11,7 +11,7 @@ function admin()
 			eH = -10;
 		}else
 			eH = 30;
-		$("#playlist").height($("#player").height()-270+eH); //opening
+		$("#playlist").height($("#player").height()-290+eH); //opening
 	}else if(!adminTogg)
 	{
 		if(find)
@@ -35,13 +35,13 @@ function submitAdmin(form)
 	removeplay = form.removeplay.value;
 	adminpass = form.pass.value;
 	skipping = form.skip.value;
-	
+	shuffling = form.shuffle.value;
 	
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass+"&skip="+skipping,
+		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass+"&skip="+skipping+"&shuffle="+shuffling,
 
 		success: function() {
 			console.log("configurations response: "+response);

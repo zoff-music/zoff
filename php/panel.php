@@ -37,6 +37,10 @@
         <label><input type="radio" class="radio" name="skip" value="true"><span>Allow</span></label> / 
         <label><input type="radio" class="radio" name="skip" value="false"><span>Block</span></label>
     </div>
+    <div class="toggler">
+        <label><input type="radio" class="radio" name="shuffle" value="true"><span>Allow</span></label> / 
+        <label><input type="radio" class="radio" name="shuffle" value="false"><span>Block</span></label>
+    </div>
     </div>
 
     <div class="toggtext">
@@ -47,6 +51,7 @@
         categories allowed<br>
         songs after playing<br>
         skipping<br>
+        shuffle<br>
     </div>
 	<input type="password" name="pass" id="passbox" class="passbox" placeholder="Password">
 	<input type="submit" class="button" value="Login/Save" onclick="submitAdmin(this.form);" title="Save settings/Login">

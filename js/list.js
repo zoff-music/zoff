@@ -86,7 +86,7 @@ function updateList()
 		}
 		if(!adminTogg)
 		{
-			names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip"];
+			names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 			for (var i = 0; i < names.length; i++) {
 				document.getElementsByName(names[i])[0].checked = (conf[names[i]] === "true");
 				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");

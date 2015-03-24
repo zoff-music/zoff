@@ -8,7 +8,7 @@ if($list[1]==""||!isset($list[1])||count($list)<=1)$list="videos";
 else $list = preg_replace('/[^\da-z=?]/i', '', urldecode($list[1]));
 
 $list="../lists/".$list.".json";                                   //actually setting the list for the target. Under is the array for an empty list being created
-$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "adminpass" => ""));
+$array = array("nowPlaying" => array("30H2Z8Lr-4c" => array("id" => "30H2Z8Lr-4c", "title" => "Empty Channel, search to add a video")), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "shuffle" => "false", "adminpass" => ""));
 $array = json_encode($array);                                      //encoding the array
 $f = @fopen($list,"x");                                            //opening a file, ignoring warnings
 if($f){ fwrite($f,$array); fclose($f); }                           //if the file doesn't exist, we create a new one, and adds the newly made array there
@@ -24,7 +24,7 @@ $save = false;                                                      //declares t
 if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
 
     $q = $data["conf"];
-    $q = array_key_exists("adminpass", $q);
+    $q = array_key_exists("shuffle", $q);
     $pass = htmlspecialchars($_GET['pass']);
     $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($pass != "")
@@ -32,7 +32,8 @@ if(isset($_REQUEST['shuffle'])){ //shuffle songs  in list
     if(sizeof($data["songs"]) == 0){
         die("size");
     }
-    if($pass == $data["conf"]["adminpass"] || $data["conf"]["adminpass"] == "") {
+    if($pass == $data["conf"]["adminpass"] || $data["conf"]["adminpass"] == "" || $q != 1
+        || $data["conf"]["shuffle"] == "true") {
 
         //shuffle($data["songs"]);
         foreach($data["songs"] as $k=>$v) { 
@@ -67,18 +68,18 @@ if(isset($_REQUEST['thisUrl'])){
     $firstToAdd = $firstSong[0]["id"];                              //getting the id of the first in the queue
     if($np[0]["id"] == $string)                                     //if the string we're sending in matches the id of the song playing now, we proceed
     {
-        if($action=="save" || $action == "empty"){ 					//action save or empty, either way goes further
+        if($action=="save" || $action == "empty"){                  //action save or empty, either way goes further
             $save = true;                                           //small fix for the editing of viewers. Explain later in file.
             //array_shift($data["songs"]);
             //array_shift($data["nowPlaying"]);
             if(!is_null($np[0]["id"]) && !is_null($firstToAdd)){    //Checking both the next song and the song playing now is null, if so it just skips the flipping around with songs
                 array_shift($data["songs"]);                        //already shifts the array of songs, because we have the first in the queue saved
                 $q = $data["conf"];
-        		$q = array_key_exists("removeplay", $q);            
-        		if(($data["conf"]["removeplay"] == "false" || $q != 1) && ($np[0]["id"] != "30H2Z8Lr-4c" && !is_null($firstToAdd)))         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
-        		{   //here we just adds the song that was just played into the queue in the songs array, take note here we set added as the current time it was added. This is because of the multisort further down
-        			$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
-        		}
+                $q = array_key_exists("removeplay", $q);            
+                if(($data["conf"]["removeplay"] == "false" || $q != 1) && ($np[0]["id"] != "30H2Z8Lr-4c" && !is_null($firstToAdd)))         //checking if removeplay exists or if its false. If its true, the song we just played won't be added to the queue
+                {   //here we just adds the song that was just played into the queue in the songs array, take note here we set added as the current time it was added. This is because of the multisort further down
+                    $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+                }
                 array_shift($data["nowPlaying"]);                   //shifting the nowPlaying array, and moving the first in line to the nowPlaying array
                 $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
             
@@ -92,7 +93,7 @@ if(isset($_REQUEST['thisUrl'])){
                 $sort['votes'][$k] = $v['votes'];
                 $sort['added'][$k] = $v['added'];
             }
-            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);			
+            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);           
         }
        /* else if($action=="delete"){
             array_shift($firstSong[0]);
@@ -105,7 +106,7 @@ if(isset($_REQUEST['thisUrl'])){
         $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
             
      }
-     if($action == "save" && !$save) 			                        //count views
+     if($action == "save" && !$save)                                    //count views
      {
         file_put_contents($list, json_encode($data));
      }
@@ -124,7 +125,7 @@ else if(isset($_GET['v'])){                                             //if it 
         $name = htmlspecialchars($_GET['n']);                           //name of the video
         if($np[0]["id"] == "30H2Z8Lr-4c")
         {
-            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "adminpass" => ""));
+            $q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array(), "vote" => "false", "addsongs" => "false", "longsongs" => "true", "frontpage" => "true", "allvideos" => "true", "removeplay" => "false", "skip" => "true", "shuffle" => "false", "adminpass" => ""));
             //$q = array("nowPlaying" => array($video => array("id" => $video, "title" => $name, "votes" => 0, "added" => time(), "guids" => array())), "songs" => array(), "conf" => array("startTime" => time(), "views" => array(), "skips" => array()));
             $q["nowPlaying"][$video]["votes"] = 1;                         //Upping the votes, so it comes further up than the ones already played
             array_push($q["nowPlaying"][$video]["guids"], $guid); 
@@ -178,9 +179,9 @@ else if(isset($_GET['vote'])){                                           //if th
         $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
         if($pass == $data['conf']['adminpass'] || $data['conf']['vote'] == "false" || $q != 1)
         {
-        	if($vote == 'neg'){$voteAdd = -1;}                              //setting the votetoadd to the array depending of what way you swing.
+            if($vote == 'neg'){$voteAdd = -1;}                              //setting the votetoadd to the array depending of what way you swing.
             else if($vote == 'pos'){$voteAdd = 1;}                          //checking if the key exists in the array, and if we're already voted
-        	if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
+            if(array_key_exists($id, $data["songs"]) && !in_array($guid, $data["songs"][$id]["guids"]))
             {                                                               //finally adding the vote to the votings
                 $data["songs"][$id]["votes"] = $data["songs"][$id]["votes"] + $voteAdd;
                 if($data["songs"][$id]["votes"] > -1)                       //but only if we're still above or equal to 0
@@ -210,63 +211,64 @@ else if(isset($_GET['vote'])){                                           //if th
     }
 }
 else if(isset($_GET['skip'])){                                          //skip, really similar to the save function, not going in depth here.
-	$q = $data["conf"];
+    $q = $data["conf"];
     $q = array_key_exists("skip", $q);
     $viewers=count($data["conf"]["views"]);
-	$skips=count($data["conf"]["skips"]);                               //Counting how many GUIDS there are under the skip key
-	if(!in_array($guid, $data["conf"]["skips"]) && ($data["conf"]["skip"] == "true" || $q != 1 || $data["conf"]["skip"] == "")){                       //If the users GUID isn't in the array, its added
-		array_push($data["conf"]["skips"], $guid);
-		$skips+=1;                                                      //and the number of skips is upped
-		//$data["conf"]["skips"]=$skips;
-		if($skips>=$viewers/2){                                         //checking if the skips wanted is larger than the viewers/2, if so its skipping, woohooo!
-			array_shift($data["songs"]);
-	        $q = $data["conf"];
-			$q = array_key_exists("removeplay", $q);
-			if($data["conf"]["removeplay"] == "false" || $q != 1)
-			{
-				$data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
-			}
-			array_shift($data["nowPlaying"]);
-           	$data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
-        	//array_push($data["songs"], $add);
-        	$data["conf"]["skips"] = array();
-        	$data["conf"]["startTime"] = time(); 
-        	foreach($data["songs"] as $k=>$v) {
-            	$sort['votes'][$k] = $v['votes'];
-            	$sort['added'][$k] = $v['added'];
-        	}
-	    	array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
-	    }
-		file_put_contents($list, json_encode($data));
+    $skips=count($data["conf"]["skips"]);                               //Counting how many GUIDS there are under the skip key
+    if(!in_array($guid, $data["conf"]["skips"]) && ($data["conf"]["skip"] == "true" || $q != 1 || $data["conf"]["skip"] == "")){                       //If the users GUID isn't in the array, its added
+        array_push($data["conf"]["skips"], $guid);
+        $skips+=1;                                                      //and the number of skips is upped
+        //$data["conf"]["skips"]=$skips;
+        if($skips>=$viewers/2){                                         //checking if the skips wanted is larger than the viewers/2, if so its skipping, woohooo!
+            array_shift($data["songs"]);
+            $q = $data["conf"];
+            $q = array_key_exists("removeplay", $q);
+            if($data["conf"]["removeplay"] == "false" || $q != 1)
+            {
+                $data["songs"][$np[0]["id"]] = array("id" => $np[0]["id"], "title" => $np[0]["title"], "votes" => $np[0]["votes"], "added" => time(), "guids" => array());
+            }
+            array_shift($data["nowPlaying"]);
+            $data["nowPlaying"][$firstSong[0]["id"]] = array("id" => $firstSong[0]["id"], "title" => $firstSong[0]["title"], "votes" => 0, "added" => $firstSong[0]["added"], "guids" => $firstSong[0]["guids"]);
+            //array_push($data["songs"], $add);
+            $data["conf"]["skips"] = array();
+            $data["conf"]["startTime"] = time(); 
+            foreach($data["songs"] as $k=>$v) {
+                $sort['votes'][$k] = $v['votes'];
+                $sort['added'][$k] = $v['added'];
+            }
+            array_multisort($sort['votes'], SORT_DESC, $sort['added'], SORT_ASC, $data["songs"]);
+        }
+        file_put_contents($list, json_encode($data));
         echo($skips."/".$viewers);
-	}else if($data["conf"]["skip"] == "false")
+    }else if($data["conf"]["skip"] == "false")
     {
         echo("wrong!");
     }
 
 }else if(isset($_POST['conf']))                                            //conf, this is for admin settings/channel settings
 {
-	$data["conf"]["vote"] = $_POST['vote'];                                //setting all the settings from the post gotten from admin.js
-	$data["conf"]["addsongs"] = $_POST['addsongs'];
-	$data["conf"]["longsongs"] = $_POST['longsongs'];
-	$data["conf"]["frontpage"] = $_POST['frontpage'];
-	$data["conf"]["allvideos"] = $_POST['allvideos'];
-	$data["conf"]["removeplay"] = $_POST['removeplay'];
+    $data["conf"]["vote"] = $_POST['vote'];                                //setting all the settings from the post gotten from admin.js
+    $data["conf"]["addsongs"] = $_POST['addsongs'];
+    $data["conf"]["longsongs"] = $_POST['longsongs'];
+    $data["conf"]["frontpage"] = $_POST['frontpage'];
+    $data["conf"]["allvideos"] = $_POST['allvideos'];
+    $data["conf"]["removeplay"] = $_POST['removeplay'];
     $data["conf"]["skip"] = $_POST['skip'];
-	$pass = htmlspecialchars($_POST['pass']);
+    $data["conf"]["shuffle"] = $_POST['shuffle'];
+    $pass = htmlspecialchars($_POST['pass']);
     if($pass != ""){
         $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
         $pass=crypt($pass, '$6$rounds=9001$'.$x[1].'Fuck0ffuSn34kyn!ggerzZ$');
     }
     $q = $data["conf"];
-	$q = array_key_exists("adminpass", $q);
+    $q = array_key_exists("adminpass", $q);
 
-	if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
-	{
-		$data["conf"]["adminpass"] = $pass;
-		echo "correct";
-		file_put_contents($list, json_encode($data));
-	}else
+    if($data["conf"]["adminpass"] == $pass || $q != 1 || $data["conf"]["adminpass"] == "")                      //if the password is the same as the one in the jsonfile, we are updating the settings (not in use yet)
+    {
+        $data["conf"]["adminpass"] = $pass;
+        echo "correct";
+        file_put_contents($list, json_encode($data));
+    }else
     {
         echo "wrong";
     }
