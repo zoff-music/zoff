@@ -36,12 +36,13 @@ function submitAdmin(form)
 	adminpass = form.pass.value;
 	skipping = form.skip.value;
 	shuffling = form.shuffle.value;
-	
+
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
 		async: false,
-		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass+"&skip="+skipping+"&shuffle="+shuffling,
+		data: "conf=start&vote="+voting+"&addsongs="+addsongs+"&longsongs="+longsongs+"&frontpage="+frontpage+
+			"&allvideos="+allvideos+"&removeplay="+removeplay+"&pass="+adminpass+"&skip="+skipping+"&shuffling="+shuffling,
 
 		success: function() {
 			console.log("configurations response: "+response);

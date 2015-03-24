@@ -254,7 +254,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
     $data["conf"]["allvideos"] = $_POST['allvideos'];
     $data["conf"]["removeplay"] = $_POST['removeplay'];
     $data["conf"]["skip"] = $_POST['skip'];
-    $data["conf"]["shuffle"] = $_POST['shuffle'];
+    $data["conf"]["shuffle"] = $_POST['shuffling'];
     $pass = htmlspecialchars($_POST['pass']);
     if($pass != ""){
         $x = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
