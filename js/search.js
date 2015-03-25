@@ -11,7 +11,7 @@ $(document).ready(function()
 
 	$('#base').bind("keyup keypress", function(e) {
 		var code = e.keyCode || e.which; 
-		if (code  == 13) {               
+		if (code  == 13) {              
 			e.preventDefault();
 			return false;
 		}
@@ -20,6 +20,23 @@ $(document).ready(function()
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
 		var search_input = $(this).val();
+		console.log(event.keyCode);
+		if(event.keyCode == 13 && search_input == "fireplace")
+		{
+			if(!peis)
+			{
+				peis = true;
+				loadjsfile("js/jazzscript.js");
+				
+			}else
+			{
+				peis = false;
+				document.getElementsByClassName("jp")[0].style.display = "none";
+				document.getElementsByClassName("ytplayer")[0].style.display = "inline";
+				pauseJazz();
+			}
+		}
+
 		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37) {
 			if(search_input.length < 3){$("#results").html("");}
 			if(event.keyCode == 13){

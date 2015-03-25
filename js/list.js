@@ -55,11 +55,11 @@ function updateList()
 			"</div>";
 			$("#wrapper").append(finalhtml);
 		});
-		if($("#playlist").height() != $("#player").height() || ($("#chan").html().toLowerCase() == "jazz" && $("#playlist").height() != $("#jplayer").height()))
+		if($("#playlist").height() != $("#player").height() || (peis && $("#playlist").height() != $("#jplayer").height()))
 		{
 			if(!window.mobilecheck())
 			{
-				if($("#chan").html().toLowerCase() == "jazz")
+				if(peis)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";

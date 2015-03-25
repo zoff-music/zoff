@@ -74,7 +74,7 @@ function initControls()
 
 function fitToScreen()
 {
-	if($("#chan").html().toLowerCase() == "jazz")
+	if(peis)
 	{
 		player_name = "#jplayer";
 	}else player_name = "#player";

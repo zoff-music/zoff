@@ -1,19 +1,33 @@
+setup = false;
 function jazz_setup()
 {
+	console.log(setup);
 	document.getElementsByClassName("ytplayer")[0].style.display = "none";
-
-	jplayer = new YT.Player('jplayer', {
-		height: window.height*0.75,
-		width: window.width*0.6,
-		videoId: response,
-		playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
-		events: {
-			'onReady': onJazzReady,
-			'onStateChange': onJazzState
-		}
-	});
+	if(!setup)
+	{
+		jplayer = new YT.Player('jplayer', {
+			height: window.height*0.75,
+			width: window.width*0.6,
+			videoId: response,
+			playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
+			events: {
+				'onReady': onJazzReady,
+				'onStateChange': onJazzState
+			}
+		});
+		setup = true;
+	}else if(setup)
+	{
+		console.log(1234567890);
+		jplayer.playVideo();
+	}
 	document.getElementsByClassName("jp")[0].style.display = "inline";
 
+}
+
+function pauseJazz()
+{
+	jplayer.pauseVideo();
 }
 
 function onJazzState(state)
@@ -43,3 +57,8 @@ function onJazzReady(event) {
 		initSlider();
 		//durationFixer = setInterval(durationSetter, 1000);
 }
+
+$(document).ready(function()
+{
+	jazz_setup();
+});

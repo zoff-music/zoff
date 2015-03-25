@@ -31,6 +31,8 @@ var longS = 0;
 var frontpage = 1;
 var adminpass = "";
 var notified = false;
+var peis = false;
+var filesadded="";
 
 $(document).ready(function()
 {
@@ -89,16 +91,20 @@ $(document).ready(function()
 		if($("#chan").html().toLowerCase() == "jazz")
 		{
 			loadjsfile("js/jazzscript.js");
+			peis = true;
 		}
 	}
 });
 
 function loadjsfile(filename)
 {
-    var fileref=document.createElement('script');
-    fileref.setAttribute("type","text/javascript");
-    fileref.setAttribute("src", filename);
-    document.getElementsByTagName("head")[0].appendChild(fileref);
+	if (filesadded.indexOf("["+filename+"]")==-1){
+	    var fileref=document.createElement('script');
+	    fileref.setAttribute("type","text/javascript");
+	    fileref.setAttribute("src", filename);
+	    document.getElementsByTagName("head")[0].appendChild(fileref);
+	    filesadded+="["+filename+"]";
+	}else jazz_setup();
 }
 
 function onYouTubeIframeAPIReady() {
@@ -116,7 +122,7 @@ function onYouTubeIframeAPIReady() {
 			'onPlaybackQualityChange': logQ
 		}
 	});
-	if($("#chan").html().toLowerCase() == "jazz")
+	if(peis)
 	{
 		jazz_setup();
 	}
