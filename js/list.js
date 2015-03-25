@@ -55,11 +55,15 @@ function updateList()
 			"</div>";
 			$("#wrapper").append(finalhtml);
 		});
-		if($("#playlist").height() != $("#player").height())
+		if($("#playlist").height() != $("#player").height() || ($("#chan").html().toLowerCase() == "jazz" && $("#playlist").height() != $("#jplayer").height()))
 		{
 			if(!window.mobilecheck())
 			{
-				$("#playlist").css({height: $("#player").height()-$("#adminPanel").outerHeight(true)-$("#findform").outerHeight(true)+30});
+				if($("#chan").html().toLowerCase() == "jazz")
+				{
+					player_name = "#jplayer";
+				}else player_name = "#player";
+				$("#playlist").css({height: $(player_name).height()-$("#adminPanel").outerHeight(true)-$("#findform").outerHeight(true)+30});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller === false)
 				{

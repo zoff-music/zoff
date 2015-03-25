@@ -504,7 +504,7 @@ input[type="radio"] {
     filter:brightness(100%) !important;
 }
 
-.jp {
+#jplayer {
     display:none;
      -webkit-transition: opacity 1s;
     transition: opacity 1s;
