@@ -28,6 +28,8 @@ Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
 
 ###License
 
+Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen contact@zoff.no
+
 Zöff by Nixo and KasperRT is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. Meaning; You must attribute the work in the manner specified by the author or licensor. The licensor permits others to copy, distribute and transmit the work. In return, licensees may not use the work for commercial purposes — unless they get the licensor's permission.
 
 This product is not to be distributed for pay, or to be altered with without permission of the creators. If anything is to be altered with, the Copyright footer is to stand on the bottom of the website, and it shall remain named Zöff
