@@ -82,9 +82,6 @@ foreach($fil as $files){
 				<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
 					<img alt="Get it on Google Play" src="static/google_play.png">
 				</a>
-				<a href="https://github.com/nixolas1/Zoff" class="badge">
-					<img alt="View the project on GitHub" src="static/GitHub_Logo.png">
-				</a>
 			</div>
 			&copy; <?php echo date("Y"); ?>
 			<a class="anim" href="//nixo.no">Nixo</a> &amp; 
