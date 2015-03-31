@@ -215,7 +215,7 @@ else if(isset($_GET['skip'])){                                          //skip, 
     $q = array_key_exists("skip", $q);
     $viewers=count($data["conf"]["views"]);
     $skips=count($data["conf"]["skips"]);                               //Counting how many GUIDS there are under the skip key
-    if(!in_array($guid, $data["conf"]["skips"]) && ($data["conf"]["skip"] == "true" || $q != 1 || $data["conf"]["skip"] == "")){                       //If the users GUID isn't in the array, its added
+    if($data["conf"]["skip"] == "true" || $q != 1){                       //If the users GUID isn't in the array, its added
         array_push($data["conf"]["skips"], $guid);
         $skips+=1;                                                      //and the number of skips is upped
         //$data["conf"]["skips"]=$skips;
