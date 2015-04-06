@@ -92,7 +92,7 @@ $(document).ready(function()
 
 		if($("#chan").html().toLowerCase() == "jazz")
 		{
-			loadjsfile("js/jazzscript.js");
+			loadjsfile("static/js/jazzscript.js");
 			peis = true;
 		}
 	}

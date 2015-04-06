@@ -45,48 +45,40 @@ foreach($fil as $files){
 
 ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:fb="http://ogp.me/ns/fb#">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-	<style>
-		#change {
-			opacity:1 !important;
-		}
-	</style>
 	<?php include("header.php"); ?>
 </head>
 <body>
-    <!--<div class="bgimage" id="bgimage"></div>-->
-	<div class="top centered nochanvcent">
-		<div id="change" class="small">
-				<img id="zicon" src="static/favicon.png">
-				<div class="fchan nomargin">Zöff</div>
-				<form class="daform nomargin" id="base" method="get">
-					<input title="Type channel name here to create or listen to a channel.
-					 Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
-					<datalist id="searches">
-					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
-					</datalist>
-				</form>
+	<div class="valign-wrapper">
+		<img id="zicon" src="static/images/favicon.png">
+		<div class="fchan">Zöff</div>
+		<form id="base" method="get">
+			<input title="Type channel name here to create or listen to a channel.
+			Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
+			<datalist id="searches">
+				<?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
+			</datalist>
+		</form>
+	</div>
 
-			</div>
-			<center>
-			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ~".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
-			</div>
-			</center>
+	<div>
+		<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ~".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
+	</div>
+
+	<div class="footer">
+		<div class="badge">
+			<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
+				<img alt="Get it on Google Play" src="static/images/google_play.png">
+			</a>
 		</div>
+		&copy; <?php echo date("Y"); ?>
+		<a href="//nixo.no">Nixo</a> &amp; 
+		<a href="//kasperrt.no">KasperRT</a> 
+	</div>
 
-		<div class="footer small centered top anim bottom">
-			<div class="badge">
-				<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-					<img alt="Get it on Google Play" src="static/google_play.png">
-				</a>
-			</div>
-			&copy; <?php echo date("Y"); ?>
-			<a class="anim" href="//nixo.no">Nixo</a> &amp; 
-			<a class="anim" href="//kasperrt.no">KasperRT</a> 
-			</div>
+
+
 		<script type="text/javascript">
 			var deg = 0;
 			var pr = 15;
@@ -99,6 +91,7 @@ foreach($fil as $files){
 					window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
 			});
 		</script>
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript">
 		function getCookie(cname) {
@@ -131,6 +124,7 @@ foreach($fil as $files){
          }
         });
 	</script>
+
 	<!-- Piwik tracking -->
 	<script type="text/javascript">
 	  var _paq = _paq || [];
