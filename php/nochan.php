@@ -56,7 +56,7 @@ foreach($fil as $files){
 	<?php include("header.php"); ?>
 </head>
 <body>
-    <div class="bgimage" id="bgimage"></div>
+    <!--<div class="bgimage" id="bgimage"></div>-->
 	<div class="top centered nochanvcent">
 		<div id="change" class="small">
 				<img id="zicon" src="static/favicon.png">

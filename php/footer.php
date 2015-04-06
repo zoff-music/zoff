@@ -10,6 +10,7 @@
 <script type="text/javascript" src="static/js/youtube.js"></script>
 <script type="text/javascript" src="static/js/search.js"></script> 
 <script type="text/javascript" src="static/js/admin.js"></script>
+<script type="text/javascript" src="static/js/color-thief.min.js"></script>
 <!-- Piwik tracking -->
 <script type="text/javascript">
   var _paq = _paq || [];

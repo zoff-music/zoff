@@ -16,7 +16,7 @@
 	<div id="pBar"></div>
 	<div id="sBar"></div>
 	<div id="eBar"></div>
-    <div class="bgimage" id="bgimage"></div>
+    <!--<div class="bgimage" id="bgimage"></div>-->
 	<div class="top vcent centered">
 		<div id="change" class="small">
 			<div id="mobile-banner">

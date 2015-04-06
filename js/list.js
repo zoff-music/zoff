@@ -72,7 +72,7 @@ function updateList()
 						scrollbars: true,
 						scrollY: true,
 						interactiveScrollbars: true,
-						fadeScrollbars: true
+						fadeScrollbars: false
 					});
 					scroller = true;
 				}else

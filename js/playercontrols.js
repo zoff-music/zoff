@@ -158,21 +158,24 @@ function playPause()
 
 function durationSetter()
 {
-	duration = ytplayer.getDuration();
-	dMinutes = Math.floor(duration / 60);
-	dSeconds = duration - dMinutes * 60;
-	currDurr = ytplayer.getCurrentTime();
-	if(currDurr > duration)
-		currDurr = duration;
-	minutes = Math.floor(currDurr / 60);
-	seconds = currDurr - minutes * 60;
-	document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
-	per = (100 / duration) * currDurr;
-	if(per >= 100)
-		per = 100;
-	else if(duration == 0)
-		per = 0;
-	$("#bar").width(per+"%");
+	if(ytplayer !== undefined && ytplayer.getDuration() !== undefined)
+	{
+		duration = ytplayer.getDuration();
+		dMinutes = Math.floor(duration / 60);
+		dSeconds = duration - dMinutes * 60;
+		currDurr = ytplayer.getCurrentTime();
+		if(currDurr > duration)
+			currDurr = duration;
+		minutes = Math.floor(currDurr / 60);
+		seconds = currDurr - minutes * 60;
+		document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+		per = (100 / duration) * currDurr;
+		if(per >= 100)
+			per = 100;
+		else if(duration == 0)
+			per = 0;
+		$("#bar").width(per+"%");
+	}
 }
 
 function pad(n)
