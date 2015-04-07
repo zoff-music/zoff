@@ -50,23 +50,55 @@ foreach($fil as $files){
 	<?php include("header.php"); ?>
 </head>
 <body>
-	<div class="valign-wrapper">
-		<img id="zicon" src="static/images/favicon.png">
-		<div class="fchan">Zöff</div>
-		<form id="base" method="get">
-			<input title="Type channel name here to create or listen to a channel.
-			Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
-			<datalist id="searches">
-				<?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
-			</datalist>
-		</form>
-	</div>
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="zoff.no" class="brand-logo hide-on-small-only"><img id="zicon" src="static/images/favicon.png" alt="zöff"></a>
+				<a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="sass.html">Sass</a></li>
+					<li><a href="components.html">Components</a></li>
+					<li><a href="javascript.html">JavaScript</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
 
-	<div>
-		<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ~".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
-	</div>
+	<main class="center-align container">
+		<div class="section">
+			<form class="row" id="base" method="get">
+        			<div class="input-field col s12">
+						<input 
+							class="input-field"
+							type="text" 
+							id="search" 
+							name="chan" 
+							title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+" 
+							autocomplete="off" 
+							list="searches" 
+							required pattern="[a-zA-Z0-9]+" 
+							spellcheck="false" 
+							maxlength="18" 
+							autofocus
+						/>
+						<label for="search">Channel name</label>
+						<datalist id="searches">
+							<?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
+						</datalist>
+				</div>
+			</form>
+		</div>
+		<div class="divider"></div>
+		<div class="section container">
+			<?php foreach($channels as $channel){
+				$ch=htmlspecialchars($channel);
+				echo "<a class='channel' href='./".$ch."' title='Viewers: ~".$viewers[$v]."'>".$ch."</a>
+			"; $v++;} 
+			?>
+		</div>
+	</main>
 
-	<div class="footer">
+	<footer class="page-footer">
 		<div class="badge">
 			<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
 				<img alt="Get it on Google Play" src="static/images/google_play.png">
@@ -75,55 +107,11 @@ foreach($fil as $files){
 		&copy; <?php echo date("Y"); ?>
 		<a href="//nixo.no">Nixo</a> &amp; 
 		<a href="//kasperrt.no">KasperRT</a> 
-	</div>
+	</footer>
 
-
-
-		<script type="text/javascript">
-			var deg = 0;
-			var pr = 15;
-			document.getElementById("zicon").addEventListener("click", function(){
-				deg = deg + 365;
-				pr = pr + 0.5;
-				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
-				document.getElementById("zicon").style.width = pr+"%";
-				if(pr >= 60)
-					window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
-			});
-		</script>
-
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript">
-		function getCookie(cname) {
-		    var name = cname + "=";
-		    var ca = document.cookie.split(';');
-		    for(var i=0; i<ca.length; i++) {
-		        var c = ca[i];
-		        while (c.charAt(0)==' ') c = c.substring(1);
-		        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-		    }
-		    return "";
-		}
-		$(document).ready(function (){
-         if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
-         	console.log("android");
-         	var ca = document.cookie.split(';');
-         	if(getCookie("show_prompt") == "")
-         	{
-	         	var r = confirm("Do you want to download the native app for this webpage?");
-	         	if(r)
-	            	window.location.href = 'https://play.google.com/store/apps/details?id=no.lqasse.zoff';
-	            else
-	            {
-	            	var d = new Date();
-	   			 	d.setTime(d.getTime() + (10*24*60*60*1000));
-	    			var expires = "expires="+d.toUTCString();
-	            	document.cookie = "show_prompt=false;"+expires;
-	            }
-        	}
-         }
-        });
-	</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="static/js/nochan.js"></script>
+	<script type="text/javascript" src="static/js/lib/materialize.js"></script>
 
 	<!-- Piwik tracking -->
 	<script type="text/javascript">
@@ -140,5 +128,6 @@ foreach($fil as $files){
 	</script>
 	<noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	<!-- End Piwik Code -->
+
 	</body>
 </html>

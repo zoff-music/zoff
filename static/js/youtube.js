@@ -406,10 +406,11 @@ function readyLooks()
 
 function setBGimage(id){
 	if(!window.mobilecheck()){
-		var bg = $(".thumb.lthumb")[0]; //new Image();
-		//bg.src = "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg";
+		/*var bg = $(".thumb.lthumb")[0]; //new Image();
+		bg.src = "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg";
 		var color = colorThief.getColor(bg, 10);
-		var hsl = rgbToHsl(color);
+		var hsl = rgbToHsl(color);*/
+		var hsl=[getRandomInt(0,360), getRandomInt(20,80)]
 		var colorTxt = "hsla("+hsl[0]+", "+hsl[1]+"%, 22%, 0.5);";
 		$("#controls").css("background-color", colorTxt);
 		$("#search").css("background-color", colortxt);
@@ -428,6 +429,10 @@ function notifyUser(id, title) {
 	    	notification.close();
 	    },5000);
   	}
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function rgbToHsl(r, g, b){

@@ -10,4 +10,50 @@
 
 /* GLOBAL STYLES */
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+/* global color */
+footer.page-footer, 
+nav, .tabs .tab a, 
+.side-nav .collapsible-body li.active, 
+.side-nav.fixed .collapsible-body li.active, 
+.pagination li.active{
+    background-color: #2196f3;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.fullwidth{
+    width:100%;
+}
+
+
+/*
+play mdi-av-play-arrow 
+pause mdi-av-pause
+remove mdi-content-clear 
+search mdi-action-search 
+password mdi-communication-vpn-key 
+volume mdi-av-volume-up s
+kip mdi-av-skip-next 
+shuffle mdi-av-shuffle 
+settings mdi-action-settings 
+errors mdi-alert-warning mdi-alert-error mdi-action-info 
+success mdi-action-done
+vote mdi-action-thumb-up 
+hide mdi-action-visibility mdi-action-visibility-off
+*/
+
 /* INDEX PAGE */
+
+#zicon{
+    width: 50px;
+    margin: 7px 20px;
+}
+
