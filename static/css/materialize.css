@@ -4807,7 +4807,7 @@ span.badge {
   margin-right: -0.75rem; }
 
 .section {
-  padding-top: 1rem;
+  padding-top: 3rem;
   padding-bottom: 1rem; }
   .section.no-pad {
     padding: 0; }
@@ -5404,7 +5404,9 @@ small {
       right: 0;
       top: 0;
       bottom: 0;
-      width: 100%; }
+      width: 100%; 
+      height: 18%;
+}
     .card .card-image .card-title {
       position: absolute;
       bottom: 0;
@@ -5420,10 +5422,13 @@ small {
       line-height: 48px; }
   .card .card-action {
     border-top: 1px solid rgba(160, 160, 160, 0.2);
-    padding: 20px; }
+    /* padding: 20px; */ }
     .card .card-action a {
+      padding: 0;
+      width: 100%;
       color: #ffab40;
-      margin-right: 20px;
+      /* background-color: rgba(28, 110, 236, 0.51); */
+      /* margin-right: 20px; */
       -webkit-transition: color .3s ease;
       -moz-transition: color .3s ease;
       -o-transition: color .3s ease;

@@ -33,6 +33,29 @@ main {
     width:100%;
 }
 
+.highlighted{
+    font-weight: 300;
+}
+
+.invisible{
+    opacity: 0;
+}
+
+.cardbg{
+    background-repeat: no-repeat;
+    background-size: 124%;
+    background-position: 50% 50%;
+    background-color: #171717;
+    height: 120px;
+}
+
+.card .card-action a {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+}
+
 
 /*
 play mdi-av-play-arrow 
@@ -57,3 +80,6 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin: 7px 20px;
 }
 
+.section .search {
+    padding-top: 2.5rem;
+}

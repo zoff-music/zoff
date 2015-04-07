@@ -8,6 +8,7 @@ if(isset($_GET['chan'])){
 $dir = scandir('./lists');
 $channels = array();
 $all_channels = array();
+$chan_data = array(); //for all chan data
 $time = 60*60*24*4; //4 dager
 $to = 60*60*24*2;
 $i = 0;
@@ -36,13 +37,14 @@ foreach($fil as $files){
 			if($i <= 12 && (!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true")){ 						  //If it is true, the channelname will be shown on the frontpage
 				array_push($channels, ucfirst(str_replace(".json", "", $files)));
 				array_push($viewers, sizeof($data["conf"]["views"]));
+				array_push($chan_data, $data);
 			}
 		}
 		$i++;
 		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
 	}
-}
 
+}
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
@@ -56,9 +58,9 @@ foreach($fil as $files){
 				<a href="zoff.no" class="brand-logo hide-on-small-only"><img id="zicon" src="static/images/favicon.png" alt="zöff"></a>
 				<a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="sass.html">Sass</a></li>
-					<li><a href="components.html">Components</a></li>
-					<li><a href="javascript.html">JavaScript</a></li>
+					<li><a href="#">About</a></li>
+					<li><a href="#">GitHub</a></li>
+					<li><a href="#">Legal</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -90,11 +92,43 @@ foreach($fil as $files){
 		</div>
 		<div class="divider"></div>
 		<div class="section container">
-			<?php foreach($channels as $channel){
-				$ch=htmlspecialchars($channel);
-				echo "<a class='channel' href='./".$ch."' title='Viewers: ~".$viewers[$v]."'>".$ch."</a>
-			"; $v++;} 
-			?>
+			<div class="row">
+				<?php 
+					foreach ($chan_data as $v => $d)
+					{
+						if(count($d["songs"])>0)
+						{
+							$ch=htmlspecialchars($channels[$v]);
+							$views=$viewers[$v];
+							$now=reset($d["nowPlaying"]);
+							$img="http://img.youtube.com/vi/".$now["id"]."/hqdefault.jpg";
+							//echo "<a class='channel' href='./".$ch."' title='Viewers: ~".$viewers[$v]."'>".$ch."</a>";
+					?>
+					<div class="col s4">
+						<div class="card">
+							<a href="<?php echo $ch; ?>">
+								<div class="card-image cardbg" style="background-image:url('<?php echo $img; ?>')">
+									<img class="invisible" src="<?php echo $img; ?>">
+								</div>
+							</a>
+							<div class="card-content">
+								<p class="left-align">
+									<span class="flow-text truncate"><?php echo $ch; ?></span>
+									<br>
+									<span class="highlighted">Viewers:&nbsp</span><?php echo $views; ?>
+									<span class="highlighted">Songs:&nbsp</span><?php echo(count($d["songs"])+1); ?>
+								</p>
+							</div>
+							<div class="card-action">
+								<a href="<?php echo $ch; ?>" class="waves-effect waves-teal btn-flat">Listen</a>
+							</div>
+						</div>
+					</div>
+					<?php
+						}
+					} 
+				?>
+			</div>
 		</div>
 	</main>
 
