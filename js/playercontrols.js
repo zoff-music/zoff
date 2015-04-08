@@ -101,6 +101,7 @@ function initSlider()
 	      setVolume(ui.value);
 	    }
 	});
+	ytplayer.mute();
 	$("#volume").slider("value", ytplayer.getVolume());
 }
 

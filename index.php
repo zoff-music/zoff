@@ -11,6 +11,14 @@
       xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		var socket = io.connect('http://localhost:3000');
+		var guid = "<? $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8); echo $guid; ?>";
+		socket.emit('list', '<?php echo $list; ?>,'+guid);
+	</script>
+	<script src="js/socket_list.js"></script>
 </head>
 <body>
 	<div id="pBar"></div>

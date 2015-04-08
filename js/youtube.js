@@ -60,12 +60,12 @@ $(document).ready(function()
 	}).responseText;
 	//console.log(response);
 	response = $.parseJSON(response);
-	console.log(response.nowPlaying.length);
+	//console.log(response.nowPlaying.length);
 	conf = response.conf;
-	console.log(conf);
+	//console.log(conf);
 	try{	
 		for(var first in response.nowPlaying) break;
-		console.log(first);
+		//console.log(first);
 		response = first;
 	}catch(err){
 		response = "1";
@@ -131,18 +131,18 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerStateChange(newState) {
-	console.log("new state: "+newState.data);
-	console.log("beginning: "+beginning);
+	//console.log("new state: "+newState.data);
+	//console.log("beginning: "+beginning);
 	//ytplayer.seekTo(15);
 	if((newState.data === 0 && checkEnd()) || (newState.data == 1 && checkEnd())) 
 	{
-		console.log("nummer 1");
+		//console.log("nummer 1");
 		startNextSong();
 		ytplayer.pauseVideo();
 		wasPaused = false;
 	}else if(newState.data == 1 && (wasPaused && !beginning))
 	{
-		console.log("unpaused");
+		//console.log("unpaused");
 		beginning = false;
 		wasPaused = false;
 		if(!syncInterval)
@@ -158,7 +158,7 @@ function onPlayerStateChange(newState) {
 	if(newState.data == 1 || newState.data == 2)
 	{
 		activeButton = document.getElementById("playpause").className;
-		console.log(activeButton);
+		//console.log(activeButton);
 		if((newState.data == 2 && activeButton == "pause") || (newState.data == 1 && activeButton == "play"))
 		{
 			$("#playpause").toggleClass("play");
@@ -168,9 +168,9 @@ function onPlayerStateChange(newState) {
 	if(newState.data === 0)
 	{
 		quickFixCountdown = setTimeout(function(){
-			console.log("trying quickfix");
+			//console.log("trying quickfix");
 			if(ytplayer.getPlayerState() === 0){
-				console.log("quickfixPlay");
+				//console.log("quickfixPlay");
 				startNextSong();
 				wasPaused = false;
 			}
@@ -180,7 +180,7 @@ function onPlayerStateChange(newState) {
 
 function checkEnd()
 {
-	console.log("sjekker om brukeren spolte");
+	//console.log("sjekker om brukeren spolte");
 	$.ajax({
 		type: 'get',
 		url: 'php/timedifference.php',
@@ -211,12 +211,12 @@ function startNextSong()
 					data: "thisUrl="+response+"&act=save",
 
 					success: function() {
-						console.log("saved song-switch - "+response);
+						//console.log("saved song-switch - "+response);
 					}
 				}).responseText;
 				arr = $.parseJSON(arr);
 				response = arr.id;
-				console.log("next video: "+response);
+				//console.log("next video: "+response);
 				getTitle(response);
 				if(!window.mobilecheck())
 				{
@@ -235,7 +235,7 @@ function startNextSong()
 				if(!syncInterval)
 					syncInterval = setInterval(getTime, 5000);
 				interval = true;
-				console.log("starter intervallen. Interval: " + interval);
+				//console.log("starter intervallen. Interval: " + interval);
 			}, 2500);
 		}
 		
@@ -243,11 +243,11 @@ function startNextSong()
 
 function getTime()
 {
-	console.log("utenfor if test" + wasPaused);
+	//console.log("utenfor if test" + wasPaused);
 	if(!window.mobilecheck() && ytplayer.getCurrentTime() > 2 && ytplayer.getPlayerState() == 1) wasPaused = false;
 	if(!wasPaused)
 	{
-		console.log("sjekker om brukeren spolte");
+		//console.log("sjekker om brukeren spolte");
 
 		$.ajax({
 			type: 'get',
@@ -258,8 +258,8 @@ function getTime()
 				timeDifference = $.parseJSON(data);
 			}
 		});
-		console.log("current song: "+response);
-		console.log("song in database: "+timeDifference[1]);
+		//console.log("current song: "+response);
+		//console.log("song in database: "+timeDifference[1]);
 		if(!window.mobilecheck()){ 								//Added so the mobileversion will change banner
 			if(parseInt(timeDifference[2]) + 1> ytplayer.getCurrentTime() + parseInt(timeDifference[3]) && ytplayer.getPlayerState() === 0)
 			{
@@ -268,7 +268,7 @@ function getTime()
 			{
 				if(parseInt(timeDifference[0]) > ytplayer.getDuration())
 				{
-					console.log("burde ikke søke, men hoppe til neste sang");
+					//console.log("burde ikke søke, men hoppe til neste sang");
 				}
 				ytplayer.seekTo(timeDifference[0]);
 				ytplayer.pauseVideo();
@@ -283,7 +283,7 @@ function getTime()
 		{
 			//clearInterval(syncInterval);
 			wasPaused = true;
-			console.log("forskjellige videoer!!");
+			//console.log("forskjellige videoer!!");
 			if(!window.mobilecheck())
 			{
 				ytplayer.pauseVideo();
@@ -354,7 +354,7 @@ function errorHandler(newState)
 			data: "thisUrl="+response+"&act=empty",
 
 			success: function() {
-				console.log("error! deleted video");
+				//console.log("error! deleted video");
 			}
 		}).responseText;
 		arr = $.parseJSON(arr);
@@ -410,7 +410,7 @@ function setBGimage(id){
 		var bg = new Image();
 		bg.src = "http://img.youtube.com/vi/"+id+"/0.jpg";
 		$("#bgimage").addClass("noopacity");
-		console.log(bg);
+		//console.log(bg);
 		bg.addEventListener("load", function(){
 			setTimeout(function(){
 				$("#bgimage").css("background-image", "url("+bg.src+")");

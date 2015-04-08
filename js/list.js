@@ -7,53 +7,64 @@ var showToggle =true;
 var chan = $("#chan").html();
 var hasadmin=0;
 
-function updateList()
+socket.on(guid, function(msg){
+	populate_list(msg);
+});
+
+socket.on("abc", function(){
+	alert("alert");
+});
+
+socket.on(chan.toLowerCase(), function(msg){
+	populate_list(msg);
+});
+
+function populate_list(msg)
 {
-	console.log("updating list");
-	list = $.ajax({ type: "GET",   
-		url: "php/change.php",   
-		async: false
-	}).responseText;
-	list = $.parseJSON(list);
-	conf = list.conf;
-	if(conf.hasOwnProperty("addsongs") && conf.addsongs == "true") adminadd = 1;
-	else adminadd = 0;
-	if(conf.hasOwnProperty("allvideos") && conf.allvideos == "true") music = 1;
-	else music = 0;
-	if(conf.hasOwnProperty("longsongs") && conf.longsongs == "true") longS = 1;
-	else longS = 0;
-	if(conf.hasOwnProperty("vote") && conf.vote == "true") adminvote = 1;
-	else adminvote = 0;
-	if(conf.hasOwnProperty("adminpass") && conf.adminpass !== '') hasadmin = 1;
-	else hasadmin = 0;
-	/*list[0].shift();
-	list[3].shift();
-	list[2].shift();*/
-
-	setTimeout(function()
+	console.log(msg);
+	for(obj in msg)
 	{
+		console.log(msg[obj]);
+	}
+	/*list = msg[0];
+	conf = list.conf;*/
 
-		$("#wrapper").empty();
+	$("#wrapper").empty();
 
-		$.each(list.songs, function(j, listeID){
-			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-			var video_id = listeID.id;
-			if(find && $.inArray(video_id, bright) == -1) brightness = "brightness";
-			else if(find && $.inArray(video_id, bright) != -1) brightness = "brightness fullbrightness";
-			else brightness = "";
-			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
-			var odd = ""; if(j%2===0)odd=" oddlist";
-			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
-			var finalhtml="<div id='result' class='"+video_id+" result "+brightness+" lresult"+odd+"'>"+
-			"<img class='thumb lthumb' src='"+video_thumb+"'>"+
-			"<div class='ltitle'>"+video_title+"</div>"+
-			"<div class='votes'>"+listeID.votes+
-                    "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
-                    "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
-                    delsong+
-                    "</div>"+
-			"</div>";
-			$("#wrapper").append(finalhtml);
+		$.each(msg, function(j, listeID){
+			if(listeID.hasOwnProperty('startTime'))
+			{
+				console.log("startTime");
+				if(listeID.hasOwnProperty("addsongs") && listeID.addsongs == "true") adminadd = 1;
+				else adminadd = 0;
+				if(listeID.hasOwnProperty("allvideos") && listeID.allvideos == "true") music = 1;
+				else music = 0;
+				if(listeID.hasOwnProperty("longsongs") && listeID.longsongs == "true") longS = 1;
+				else longS = 0;
+				if(listeID.hasOwnProperty("vote") && listeID.vote == "true") adminvote = 1;
+				else adminvote = 0;
+				if(listeID.hasOwnProperty("adminpass") && listeID.adminpass !== '') hasadmin = 1;
+				else hasadmin = 0;
+			}else if(!listeID.now_playing){
+				var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+				var video_id = listeID.id;
+				if(find && $.inArray(video_id, bright) == -1) brightness = "brightness";
+				else if(find && $.inArray(video_id, bright) != -1) brightness = "brightness fullbrightness";
+				else brightness = "";
+				var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
+				var odd = ""; if(j%2===0)odd=" oddlist";
+				var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
+				var finalhtml="<div id='result' class='"+video_id+" result "+brightness+" lresult"+odd+"'>"+
+				"<img class='thumb lthumb' src='"+video_thumb+"'>"+
+				"<div class='ltitle'>"+video_title+"</div>"+
+				"<div class='votes'>"+listeID.votes+
+	                    "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
+	                    "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
+	                    delsong+
+	                    "</div>"+
+				"</div>";
+				$("#wrapper").append(finalhtml);
+			}
 		});
 		if($("#playlist").height() != $("#player").height() || (peis && $("#playlist").height() != $("#jplayer").height()))
 		{
@@ -104,17 +115,23 @@ function updateList()
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "0.7");
 		$("#wrapper").css("opacity", "1");
-	}, 2500);
+}
+
+function updateList()
+{
+
 }
 
 function vote(id, vote){
+	socket.emit('vote', [chan, id, vote, guid]);
+
 	serverAns = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
 		data: "vote="+vote+"&id="+id+"&pass="+adminpass,
 		success: function() {
-			console.log("voted "+vote+" on "+id);
+			//console.log("voted "+vote+" on "+id);
 			/*if(vote=="pos"){ $("#playlist").addClass("success");}
 			else{ $("#playlist").addClass("fadeerror");}
 			updateList();*/
@@ -139,13 +156,15 @@ function vote(id, vote){
 }
 
 function skip(){
+	socket.emit('skip', [chan, guid]);
+
 	voteRes = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
 		async: false,
 		data: "skip",
 		success: function() {
-			console.log("voted to skip song");
+			//console.log("voted to skip song");
 			//$("#search").addClass("success");
 			updateList();
 		},
