@@ -11,14 +11,11 @@ function getCookie(cname) {
 
 $(document).ready(function (){
     Materialize.showStaggeredList('#channels');
-    var deg = 0;
-    var pr = 15;
+    var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
-        deg = deg + 365;
-        pr = pr + 0.5;
-        document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
-        document.getElementById("zicon").style.width = pr+"%";
-        if(pr >= 60)
+        pad+=10;
+        document.getElementById("zicon").style.paddingLeft = pad+"%";
+        if(pad >= 100)
             window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
     });
     if(navigator.userAgent.toLowerCase().indexOf("android") > -1){

@@ -1,4 +1,4 @@
-/* 
+/*
 1. Global styles
 2. Entry page
 3. Channel page
@@ -17,10 +17,10 @@ body {
 }
 
 /* global colors */
-footer.page-footer, 
-nav, .tabs .tab a, 
-.side-nav .collapsible-body li.active, 
-.side-nav.fixed .collapsible-body li.active, 
+footer.page-footer,
+nav, .tabs .tab a,
+.side-nav .collapsible-body li.active,
+.side-nav.fixed .collapsible-body li.active,
 .pagination li.active{
     background-color: #2D2D2D;
 }
@@ -38,7 +38,7 @@ span.badge.new,
 .progress .indeterminate,
 .switch label input[type=checkbox]:checked + .lever:after,
 {
-    background-color: #2D2D2D;   
+    background-color: #2D2D2D;
 }
 
 input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
@@ -88,33 +88,58 @@ main {
 
 
 /*
-play mdi-av-play-arrow 
+play mdi-av-play-arrow
 pause mdi-av-pause
-remove mdi-content-clear 
-search mdi-action-search 
-password mdi-communication-vpn-key 
+remove mdi-content-clear
+search mdi-action-search
+password mdi-communication-vpn-key
 volume mdi-av-volume-up s
-kip mdi-av-skip-next 
-shuffle mdi-av-shuffle 
-settings mdi-action-settings 
-errors mdi-alert-warning mdi-alert-error mdi-action-info 
+kip mdi-av-skip-next
+shuffle mdi-av-shuffle
+settings mdi-action-settings
+errors mdi-alert-warning mdi-alert-error mdi-action-info
 success mdi-action-done
-vote mdi-action-thumb-up 
+vote mdi-action-thumb-up
 hide mdi-action-visibility mdi-action-visibility-off
 */
 
 /* INDEX PAGE */
 
 #zicon{
-    /* width: 50px; */
-    /* margin: 7px 20px; */
     height: 100%;
-}
-
-.section .search {
-    padding-top: 2.5rem;
+    transition: padding 1s ease;
 }
 
 #channels li{opacity: 0;}
 
-/* Channel page */
+/*------------------- Channel page ---------------------------------------------------------------------------- */
+
+#searchform{
+    width: 50%;
+    margin-left: 25%;
+    
+}
+
+.main{
+    width: 100%;
+    max-width:99%;
+    margin: 0px;
+    padding:0px;
+}
+.video-container{
+    height: calc(100% - 64px);
+}
+#playlist{
+    padding:0px 15px;
+}
+.nav-btn
+{
+    transition: background-color .2s;
+    min-width: 64px;
+}
+.nav-btn:hover{background-color:rgba(0,0,0,0.5);}
+.hover-text{display:none;}
+.nav-btn:hover > .hover-text {display:inline;}
+
+.list-image{height:40px;}
+.list-title{display:block;}

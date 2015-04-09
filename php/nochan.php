@@ -46,7 +46,6 @@ foreach($fil as $files){
 
 }
 ?>
-
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
     <?php include("header.php"); ?>
@@ -55,7 +54,7 @@ foreach($fil as $files){
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="//zoff.no" class="brand-logo hide-on-small-only">
+                <a href="#" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>

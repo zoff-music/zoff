@@ -11,7 +11,7 @@ var beginning;
 var diffVideo;
 var serverTime;
 var url;
-var response;  
+var response;
 var url;
 var tag;
 var firstScriptTag;
@@ -37,6 +37,7 @@ var colorThief;
 
 $(document).ready(function()
 {
+	$("#settings").sideNav();
 	colorThief = new ColorThief();
 	window.mobilecheck = function() {
 	var check = false;
@@ -46,8 +47,6 @@ $(document).ready(function()
 
 	if(!window.mobilecheck())
 	{
-		$("#change").css("opacity", "0");
-		$("#wrapper").css("opacity", "0");
 		Notification.requestPermission();
 	}
 
@@ -56,8 +55,8 @@ $(document).ready(function()
 	beginning = true;
 	diffVideo = false;
 	interval = false;
-	response = $.ajax({ type: "GET",   
-		url: "php/change.php",   
+	response = $.ajax({ type: "GET",
+		url: "php/change.php",
 		async: false
 	}).responseText;
 	//console.log(response);
@@ -65,14 +64,14 @@ $(document).ready(function()
 	console.log(response.nowPlaying.length);
 	conf = response.conf;
 	console.log(conf);
-	try{	
+	try{
 		for(var first in response.nowPlaying) break;
 		console.log(first);
 		response = first;
 	}catch(err){
 		response = "1";
 	}
-	
+
 	if(window.mobilecheck()){
 		//syncInterval = setInterval(getTime, 50000);
 		//listInterval = setInterval(updateList, 50000);
@@ -135,7 +134,7 @@ function onPlayerStateChange(newState) {
 	console.log("new state: "+newState.data);
 	console.log("beginning: "+beginning);
 	//ytplayer.seekTo(15);
-	if((newState.data === 0 && checkEnd()) || (newState.data == 1 && checkEnd())) 
+	if((newState.data === 0 && checkEnd()) || (newState.data == 1 && checkEnd()))
 	{
 		console.log("nummer 1");
 		startNextSong();
@@ -226,7 +225,7 @@ function startNextSong()
 				}
 				beginning = true;
 				setBGimage(response);
-				
+
 			},2500);
 			updateList();
 			changed = true;
@@ -239,7 +238,7 @@ function startNextSong()
 				console.log("starter intervallen. Interval: " + interval);
 			}, 2500);
 		}
-		
+
 }
 
 function getTime()
@@ -279,7 +278,7 @@ function getTime()
 			}
 		}
 			//if(interval){syncInterval = setInterval(getTime, 5000);interval = false;}
-			
+
 		if(response != timeDifference[1])
 		{
 			//clearInterval(syncInterval);
@@ -324,8 +323,8 @@ function getTime()
 function getTitle()
 {
 
-    $.ajax({ type: "GET",   
-		url: "php/timedifference.php",   
+    $.ajax({ type: "GET",
+		url: "php/timedifference.php",
 		async: false,
 		success: function(data) {
 			viewers = $.parseJSON(data);
@@ -345,7 +344,7 @@ function getTitle()
 
 }
 
-function errorHandler(newState)		
+function errorHandler(newState)
 {
 	setTimeout(function(){
 		arr = $.ajax({
@@ -369,19 +368,19 @@ function errorHandler(newState)
 	},2500);
 /*
 	setTimeout(function(){
-		response = $.ajax({ type: "GET",   
-			url: "change.php",   
+		response = $.ajax({ type: "GET",
+			url: "change.php",
 			async: false
 		}).responseText;
 		var url = $.parseJSON(response);
 		response = url[0][0];
-		
+
 		ytplayer.loadVideoById(response);
 	},2500);*/
 }
-function onPlayerReady(event) {	
+function onPlayerReady(event) {
 	  //ytplayer = document.getElementById("myytplayer");
-	 // ytplayer.addEventListener("onStateChange", "onytplayerStateChange");	
+	 // ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
 	  //ytplayer.addEventListener("onError", "errorHandler");
 		getTime();
 		if(!window.mobilecheck())

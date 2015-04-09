@@ -5,13 +5,14 @@ var myScroll;
 var scroller = false;
 var showToggle =true;
 var chan = $("#chan").html();
+var list_html = $("#list-song-html").html();
 var hasadmin=0;
 
 function updateList()
 {
 	console.log("updating list");
-	list = $.ajax({ type: "GET",   
-		url: "php/change.php",   
+	list = $.ajax({ type: "GET",
+		url: "php/change.php",
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
@@ -38,23 +39,18 @@ function updateList()
 		$.each(list.songs, function(j, listeID){
 			var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 			var video_id = listeID.id;
-			if(find && $.inArray(video_id, bright) == -1) brightness = "brightness";
-			else if(find && $.inArray(video_id, bright) != -1) brightness = "brightness fullbrightness";
-			else brightness = "";
-			var video_thumb = "http://i.ytimg.com/vi/"+video_id+"/mqdefault.jpg";
-			var odd = ""; if(j%2===0)odd=" oddlist";
-			var delsong = ""; if(pass_corr=="correct")delsong="<input id='del' title='Remove' type='button' class='button' value='X' onclick=\"vote('"+video_id+"','del')\">";
-			var finalhtml="<div id='result' class='"+video_id+" result "+brightness+" lresult"+odd+"'>"+
-			"<img class='thumb lthumb' src='"+video_thumb+"'>"+
-			"<div class='ltitle'>"+video_title+"</div>"+
-			"<div class='votes'>"+listeID.votes+
-                    "<a onclick=\"vote('"+video_id+"','pos');\" id='plus'>+</a>"+
-                    "<a onclick=\"vote('"+video_id+"','neg');\" id='minus'>-</a>"+
-                    delsong+
-                    "</div>"+
-			"</div>";
-			$("#wrapper").append(finalhtml);
+			var video_thumb = "background-image:url('http://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+			//var delsong = ""; if(pass_corr=="correct");
+			var video_votes = listeID.votes;
+			$("#wrapper").append(list_html);
+			var song = $("#list-song");
+			song.find(".list-title").text(video_title);
+			song.find(".list-votes").text(video_votes);
+			song.find(".votebg").attr("onclick", "vote('"+video_id+"','pos')");
+			song.find(".list-image").attr("style",video_thumb);
+			song.attr("id",video_id);
 		});
+
 		if($("#playlist").height() != $("#player").height() || (peis && $("#playlist").height() != $("#jplayer").height()))
 		{
 			if(!window.mobilecheck())
@@ -95,15 +91,12 @@ function updateList()
 				document.getElementsByName(names[i])[0].checked = (conf[names[i]] === "true");
 				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");
 			}
-			
+
 			if(hasadmin)
 				$("#setpass").text("Channel has admin");
 			else
 				$("#setpass").text("Channel has no admin");
 		}
-		$("#settings").css("visibility", "visible");
-		$("#settings").css("opacity", "0.7");
-		$("#wrapper").css("opacity", "1");
 	}, 2500);
 }
 
@@ -198,8 +191,8 @@ function show(){
 
 function ks()
 {
-	list = $.ajax({ type: "GET",   
-		url: "php/change.php",   
+	list = $.ajax({ type: "GET",
+		url: "php/change.php",
 		async: false
 	}).responseText;
 	list = $.parseJSON(list);
@@ -213,5 +206,5 @@ function ks()
 		scrollY: true,
 		interactiveScrollbars: false
 	});
-	scroller = true; 
+	scroller = true;
 }
