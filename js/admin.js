@@ -37,6 +37,10 @@ function submitAdmin(form)
 	skipping = form.skip.value;
 	shuffling = form.shuffle.value;
 
+	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
+
+	socket.emit("config", configs);
+
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",

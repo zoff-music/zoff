@@ -186,6 +186,8 @@ function submitAndClose(id,title){
 
 function submit(id,title,type){
 
+	socket.emit("add", [id, title]);
+	/*
 	serverAns = $.ajax({
 		type: "GET",
 		url: "php/change.php",
@@ -237,7 +239,7 @@ function submit(id,title,type){
 		$("#sBar").removeClass("opacityFull");
 	},1500);
 	updateList();
-	event.stopPropagation();
+	event.stopPropagation();*/
 }
 
 				 // if(reply=="added"){$("#search").removeClass('success'); $("#search").addClass('success');}

@@ -35,13 +35,13 @@ function populate_list(msg)
 			if(listeID.hasOwnProperty('startTime'))
 			{
 				console.log("startTime");
-				if(listeID.hasOwnProperty("addsongs") && listeID.addsongs == "true") adminadd = 1;
+				if(listeID.hasOwnProperty("addsongs") && listeID.addsongs) adminadd = 1;
 				else adminadd = 0;
-				if(listeID.hasOwnProperty("allvideos") && listeID.allvideos == "true") music = 1;
+				if(listeID.hasOwnProperty("allvideos") && listeID.allvideos) music = 1;
 				else music = 0;
-				if(listeID.hasOwnProperty("longsongs") && listeID.longsongs == "true") longS = 1;
+				if(listeID.hasOwnProperty("longsongs") && listeID.longsongs) longS = 1;
 				else longS = 0;
-				if(listeID.hasOwnProperty("vote") && listeID.vote == "true") adminvote = 1;
+				if(listeID.hasOwnProperty("vote") && listeID.vote) adminvote = 1;
 				else adminvote = 0;
 				if(listeID.hasOwnProperty("adminpass") && listeID.adminpass !== '') hasadmin = 1;
 				else hasadmin = 0;
@@ -157,7 +157,7 @@ function vote(id, vote){
 
 function skip(){
 	socket.emit('skip', [chan, guid]);
-
+/*
 	voteRes = ($.ajax({
 		type: "GET",
 		url: "php/change.php",
@@ -192,7 +192,7 @@ function skip(){
 		$("#pBar").removeClass("opacityFull");
 		$("#eBar").removeClass("opacityFull");
 	},1500);
-
+*/
 }
 
 function show(){
