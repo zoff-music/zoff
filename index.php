@@ -1,10 +1,10 @@
-<?php 
+<?php
 
     if(isset($_GET['chan'])) {header('Location: '.$_GET['chan']); exit;}
     $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
     else $list=$list[1];
-	
+
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -15,7 +15,7 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
 		var socket = io.connect('http://localhost:3000');
-		var guid = "<? $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8); echo $guid; ?>";
+		var guid = "<?php $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8); echo $guid; ?>";
 		socket.emit('list', '<?php echo $list; ?>,'+guid);
 	</script>
 	<script src="js/socket_list.js"></script>
@@ -66,6 +66,6 @@
 		</div>
 	</div>
 	<?php include("php/footer.php"); ?>
-		
+
 </body>
 </html>

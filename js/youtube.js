@@ -11,7 +11,7 @@ var beginning;
 var diffVideo;
 var serverTime;
 var url;
-var response;  
+var response;
 var url;
 var tag;
 var firstScriptTag;
@@ -37,6 +37,10 @@ var chan = $("#chan").html();
 var player_ready = false;
 var seekTo;
 var arr = []
+var song_title;
+var viewers = 1;
+var paused = false;
+var playing = false;
 
 socket.on(chan.toLowerCase()+",np", function(obj)
 {
@@ -46,13 +50,24 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	conf = obj[1][0];
 	time = obj[2];
 	seekTo = time - conf["startTime"];
-	getTitle(obj[0][0]["title"], 1);
+	song_title = obj[0][0]["title"];
+	getTitle(song_title, viewers);
+	console.log(seekTo);
 	if(player_ready)
 	{
-		ytplayer.loadVideoById(video_id);
-		ytplayer.playVideo();
+		if(!playing){
+			ytplayer.loadVideoById(video_id);
+			ytplayer.playVideo();
+		}
 		ytplayer.seekTo(seekTo);
 	}
+});
+
+socket.on(chan.toLowerCase()+",viewers", function(view)
+{
+	viewers = view;
+	if(song_title !== undefined)
+		getTitle(song_title, viewers);
 });
 
 $(document).ready(function()
@@ -129,17 +144,31 @@ function onPlayerStateChange(newState) {
 			break;
 		case 0:
 			socket.emit("end", video_id);
+			playing = false;
 			console.log("ended");
 			break;
 		case 1:
 			console.log("playing");
-			$("#playpause").toggleClass("play");
-			$("#playpause").toggleClass("pause");
+			playing = true;
+			if(document.getElementById("playpause").className == "play")
+			{
+				$("#playpause").toggleClass("play");
+				$("#playpause").toggleClass("pause");
+			}
+			if(paused)
+			{
+				socket.emit('pos');
+				paused = false;
+			}
 			break;
 		case 2:
 			console.log("paused");
-			$("#playpause").toggleClass("play");
-			$("#playpause").toggleClass("pause");
+			paused = true;
+			if(document.getElementById("playpause").className == "pause")
+			{
+				$("#playpause").toggleClass("play");
+				$("#playpause").toggleClass("pause");
+			}
 			break;
 		case 3:
 			console.log("buffering");
@@ -147,46 +176,30 @@ function onPlayerStateChange(newState) {
 	}
 }
 
-function checkEnd()
+function getTitle(titt, v)
 {
-
-}
-
-function startNextSong()
-{
-
-}
-
-function getTime()
-{
-
-}
-
-function getTitle(titt, viewers)
-{
-	/*var outPutWord = viewers[5].length > 1 ? "viewers" : "viewer";*/
+	var outPutWord = v > 1 ? "viewers" : "viewer";
 	console.log(titt);
 	var title= titt.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 	document.title = title + " • Zöff";
 
 	if(!window.mobilecheck()){
 		console.log("ikke mobil");
-		document.getElementsByName('v')[0].placeholder = title + " • 1 ";
+		document.getElementsByName('v')[0].placeholder = title + " • " + v + " " + outPutWord;
 	}else
 	{
 		document.getElementById("mobileTitle").innerHTML = title;
-		document.getElementsByName('v')[0].placeholder = "Search • 1 " + outPutWord;
+		document.getElementsByName('v')[0].placeholder = "Search • 1 " + v + " " + outPutWord;
 		//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
 	}
 }
 
-function errorHandler(newState)		
+function errorHandler(newState)
 {
 	socket.emit("end", video_id);
 }
-function onPlayerReady(event) {	
+function onPlayerReady(event) {
 	  	player_ready = true;
-		getTime();
 		if(!window.mobilecheck())
 		{
 			$("#player").css("opacity", "1");

@@ -1,6 +1,23 @@
 var adminTogg = false;
 var pass_corr = "";
 
+socket.on("success_settings", function()
+{
+	pass_corr = "correct";
+	document.getElementById("sBar").innerHTML = "Successfully applied settings.";
+	$("#sBar").addClass("opacityFull");
+	document.getElementById("passbox").value = "";
+	remove_bar();
+});
+
+socket.on("error_settings", function(msg){
+	pass_corr = "wrong";
+	document.getElementById("eBar").innerHTML = "Error: " + msg;
+	$("#eBar").addClass("opacityFull");
+	document.getElementById("passbox").value = "";
+	remove_bar();
+});
+
 function admin()
 {
 	adminTogg = !adminTogg;
@@ -39,8 +56,8 @@ function submitAdmin(form)
 
 	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
 
-	socket.emit("config", configs);
-
+	socket.emit("conf", configs);
+	/*
 	confRes = $.ajax({
 		type: "POST",
 		url: "php/change.php",
@@ -52,7 +69,7 @@ function submitAdmin(form)
 			console.log("configurations response: "+response);
 		}
 	}).responseText;
-	
+
 	pass_corr = confRes;
 
 	if(pass_corr=="correct"){
@@ -60,14 +77,24 @@ function submitAdmin(form)
 		document.getElementById("sBar").innerHTML = "Successfully applied settings.";
 		$("#sBar").addClass("opacityFull");
 		document.getElementById("passbox").value = "";
-	}else{ 
+	}else{
 		document.getElementById("eBar").innerHTML = "Error: Wrong Admin Password!";
 		$("#eBar").addClass("opacityFull");
-		document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");*/
+		document.getElementById("passbox").value = "";/*$("#adminPanel").addClass("fadeerror");
 	}
 
 	console.log(pass_corr);
 	updateList();
+	setTimeout(function(){
+		$("#adminPanel").removeClass("success");
+		$("#adminPanel").removeClass("fadeerror");
+		$("#eBar").removeClass("opacityFull");
+		$("#sBar").removeClass("opacityFull");
+	},1500);*/
+}
+
+function remove_bar()
+{
 	setTimeout(function(){
 		$("#adminPanel").removeClass("success");
 		$("#adminPanel").removeClass("fadeerror");
@@ -79,6 +106,7 @@ function submitAdmin(form)
 function shuffle(form)
 {
 	console.log(adminpass);
+	/*
 	confRes = $.ajax({
 		type: "GET",
 		url: "php/change.php",
@@ -107,4 +135,5 @@ function shuffle(form)
 		$("#eBar").removeClass("opacityFull");
 		$("#sBar").removeClass("opacityFull");
 	},1500);
+	*/
 }

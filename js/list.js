@@ -19,6 +19,15 @@ socket.on(chan.toLowerCase(), function(msg){
 	populate_list(msg);
 });
 
+socket.on("skipping", function(obj)
+{
+	document.getElementById("pBar").innerHTML = "Vote registrated! "+obj[0]+" of "+obj[1]+" has skipped. "+(Math.ceil(obj[1]/2))+" or more is needed!";
+	$("#pBar").addClass("opacityFull");
+	setTimeout(function(){
+		$("#pBar").removeClass("opacityFull");
+	},1500);
+});
+
 function populate_list(msg)
 {
 	console.log(msg);
@@ -35,16 +44,20 @@ function populate_list(msg)
 			if(listeID.hasOwnProperty('startTime'))
 			{
 				console.log("startTime");
-				if(listeID.hasOwnProperty("addsongs") && listeID.addsongs) adminadd = 1;
-				else adminadd = 0;
-				if(listeID.hasOwnProperty("allvideos") && listeID.allvideos) music = 1;
-				else music = 0;
-				if(listeID.hasOwnProperty("longsongs") && listeID.longsongs) longS = 1;
-				else longS = 0;
-				if(listeID.hasOwnProperty("vote") && listeID.vote) adminvote = 1;
-				else adminvote = 0;
-				if(listeID.hasOwnProperty("adminpass") && listeID.adminpass !== '') hasadmin = 1;
-				else hasadmin = 0;
+				console.log(listeID.addsongs);
+				if(!adminTogg)
+				{
+					names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+					for (var i = 0; i < names.length; i++) {
+						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === 'true');
+						document.getElementsByName(names[i])[1].checked = (listeID[names[i]] === 'false');
+					}
+
+					if(hasadmin)
+						$("#setpass").text("Channel has admin");
+					else
+						$("#setpass").text("Channel has no admin");
+				}
 			}else if(!listeID.now_playing){
 				var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 				var video_id = listeID.id;
@@ -99,100 +112,17 @@ function populate_list(msg)
 		}else{
 			myScroll.refresh();
 		}
-		if(!adminTogg)
-		{
-			names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-			for (var i = 0; i < names.length; i++) {
-				document.getElementsByName(names[i])[0].checked = (conf[names[i]] === "true");
-				document.getElementsByName(names[i])[1].checked = (conf[names[i]] === "false");
-			}
-			
-			if(hasadmin)
-				$("#setpass").text("Channel has admin");
-			else
-				$("#setpass").text("Channel has no admin");
-		}
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "0.7");
 		$("#wrapper").css("opacity", "1");
 }
 
-function updateList()
-{
-
-}
-
 function vote(id, vote){
-	socket.emit('vote', [chan, id, vote, guid]);
-
-	serverAns = ($.ajax({
-		type: "GET",
-		url: "php/change.php",
-		async: false,
-		data: "vote="+vote+"&id="+id+"&pass="+adminpass,
-		success: function() {
-			//console.log("voted "+vote+" on "+id);
-			/*if(vote=="pos"){ $("#playlist").addClass("success");}
-			else{ $("#playlist").addClass("fadeerror");}
-			updateList();*/
-		},
-	}).responseText);
-
-	if(serverAns == "wrong")
-	{
-		//alert("Wrong adminpassword!");
-		$("#eBar").addClass("opacityFull");
-	}else{
-		if(vote=="pos" && serverAns != "many"){ $("."+id).addClass("success");}
-		else{ $("."+id).addClass("fadeerror");}
-		updateList();
-	}
-
-	setTimeout(function(){
-		$("."+id).removeClass("success");
-		$("."+id).removeClass("fadeerror");
-		$("#eBar").removeClass("opacityFull");
-	},1500);
+	socket.emit('vote', [chan, id, vote, guid, adminpass]);
 }
 
 function skip(){
 	socket.emit('skip', [chan, guid]);
-/*
-	voteRes = ($.ajax({
-		type: "GET",
-		url: "php/change.php",
-		async: false,
-		data: "skip",
-		success: function() {
-			//console.log("voted to skip song");
-			//$("#search").addClass("success");
-			updateList();
-		},
-	}).responseText);
-
-	if(voteRes == "wrong!")
-	{
-		document.getElementById("eBar").innerHTML = "Error: Skipping disabled.";
-		$("#eBar").addClass("opacityFull");
-	}else{
-		skipVotes = voteRes.split("/");
-		if(skipVotes[0]>= skipVotes[1]/2)
-		{
-			document.getElementById("sBar").innerHTML = "Successfully skipped!";
-			$("#sBar").addClass("opacityFull");
-		}else
-		{
-			document.getElementById("pBar").innerHTML = "Vote registrated! "+skipVotes[0]+" of "+skipVotes[1]+" has skipped. "+(Math.ceil(skipVotes[1]/2))+" or more is needed!";
-			$("#pBar").addClass("opacityFull");
-		}
-	}
-	setTimeout(function(){
-		$("#search").removeClass("success");
-		$("#sBar").removeClass("opacityFull");
-		$("#pBar").removeClass("opacityFull");
-		$("#eBar").removeClass("opacityFull");
-	},1500);
-*/
 }
 
 function show(){
@@ -212,25 +142,4 @@ function show(){
 	   }
 	   fitToScreen();
 	}
-}
-
-
-function ks()
-{
-	list = $.ajax({ type: "GET",   
-		url: "php/change.php",   
-		async: false
-	}).responseText;
-	list = $.parseJSON(list);
-	myScroll.destroy();
-	myScroll = null;
-	$("#playlist").css({height: $("#player").height()});
-	$("#playlist").css({overflow: "hidden"});
-	myScroll = new IScroll('#playlist', {
-		mouseWheel: true,
-		scrollbars: false,
-		scrollY: true,
-		interactiveScrollbars: false
-	});
-	scroller = true; 
 }
