@@ -1,8 +1,9 @@
-<!--
-	Zöff
-	Project is on github: https://github.com/nixolas1/Zoff
-	Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
--->
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+|    Zöff                                                         |
+|    Project is on github: https://github.com/nixolas1/Zoff       |
+|    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <title>Zöff</title>
 <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen">

@@ -16,13 +16,40 @@ body {
     flex-direction: column;
 }
 
-/* global color */
+/* global colors */
 footer.page-footer, 
 nav, .tabs .tab a, 
 .side-nav .collapsible-body li.active, 
 .side-nav.fixed .collapsible-body li.active, 
 .pagination li.active{
-    background-color: #2196f3;
+    background-color: #2D2D2D;
+}
+
+.secondary-content,
+.dropdown-content li > a, .dropdown-content li > span,
+.input-field .prefix.active,
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label
+{
+    color: #2D2D2D;
+}
+
+span.badge.new,
+.progress .determinate,
+.progress .indeterminate,
+.switch label input[type=checkbox]:checked + .lever:after,
+{
+    background-color: #2D2D2D;   
+}
+
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #9D9D9D;
+    box-shadow: 0 1px 0 0 #9D9D9D;
+}
+
+/* End global colors */
+
+nav .brand-logo{
+    padding-left: 20px;
 }
 
 main {
@@ -49,6 +76,9 @@ main {
     height: 120px;
 }
 
+.card .card-content {
+    padding: 10px 20px;
+}
 .card .card-action a {
   padding: 0;
   margin: 0;
@@ -76,10 +106,13 @@ hide mdi-action-visibility mdi-action-visibility-off
 /* INDEX PAGE */
 
 #zicon{
-    width: 50px;
-    margin: 7px 20px;
+    /* width: 50px; */
+    /* margin: 7px 20px; */
+    height: 100%;
 }
 
 .section .search {
     padding-top: 2.5rem;
 }
+
+#channels li{opacity: 0;}
