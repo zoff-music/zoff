@@ -1,6 +1,39 @@
-<div class="footer small centered top anim">
-    &copy; <?php echo date("Y"); ?> <a class="anim" href="//nixo.no">Nixo</a> &amp; <a class="anim" href="//kasperrt.no">KasperRT </a>
-</div>
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Zöff</h5>
+                <p class="grey-text text-lighten-4">The shared youtube radio</p>
+                <p class="grey-text text-lighten-4">
+                    Being built around the youtube search and video API
+                    it enables the creation of collaboratiive and shared live playlists, 
+                    with billions of videos and songs to choose from, all for free and without registration.
+                    <br>
+                    Enjoy!
+                </p>
+            </div>
+            <div class="col l4 offset-l2 s12 valign-wrapper">
+                <ul>
+                    <li>
+                        <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
+                            <img title="Get it on Google Play" src="static/images/google_play.png">
+                        </a>
+                        <a href="https://github.com/nixolas1/Zoff">
+                            <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; <?php echo date("Y"); ?>
+            <a href="//nixo.no">Nixo</a> &amp; 
+            <a href="//kasperrt.no">KasperRT</a> 
+        </div>
+    </div>
+</footer>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>  
