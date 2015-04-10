@@ -44,15 +44,12 @@ var playing = false;
 
 socket.on(chan.toLowerCase()+",np", function(obj)
 {
-	console.log("gotten shit");
-	console.log(obj)
 	video_id = obj[0][0]["id"];
 	conf = obj[1][0];
 	time = obj[2];
 	seekTo = time - conf["startTime"];
 	song_title = obj[0][0]["title"];
 	getTitle(song_title, viewers);
-	console.log(seekTo);
 	if(player_ready)
 	{
 		if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
@@ -139,15 +136,12 @@ function onPlayerStateChange(newState) {
 	switch(newState.data)
 	{
 		case -1:
-			console.log("not started");
 			break;
 		case 0:
 			socket.emit("end", video_id);
 			playing = false;
-			console.log("ended");
 			break;
 		case 1:
-			console.log("playing");
 			playing = true;
 			if(document.getElementById("playpause").className == "play")
 			{
@@ -161,7 +155,6 @@ function onPlayerStateChange(newState) {
 			}
 			break;
 		case 2:
-			console.log("paused");
 			paused = true;
 			if(document.getElementById("playpause").className == "pause")
 			{
@@ -170,7 +163,6 @@ function onPlayerStateChange(newState) {
 			}
 			break;
 		case 3:
-			console.log("buffering");
 			break;
 	}
 }
@@ -178,12 +170,10 @@ function onPlayerStateChange(newState) {
 function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
-	console.log(titt);
 	var title= titt.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 	document.title = title + " • Zöff";
 
 	if(!window.mobilecheck()){
-		console.log("ikke mobil");
 		document.getElementsByName('v')[0].placeholder = title + " • " + v + " " + outPutWord;
 	}else
 	{
@@ -225,7 +215,6 @@ function setBGimage(id){
 		var bg = new Image();
 		bg.src = "http://img.youtube.com/vi/"+id+"/0.jpg";
 		$("#bgimage").addClass("noopacity");
-		//console.log(bg);
 		bg.addEventListener("load", function(){
 			setTimeout(function(){
 				$("#bgimage").css("background-image", "url("+bg.src+")");

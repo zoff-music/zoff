@@ -35,8 +35,6 @@ function populate_list(msg)
 	{
 		console.log(msg[obj]);
 	}
-	/*list = msg[0];
-	conf = list.conf;*/
 
 	$("#wrapper").empty();
 
