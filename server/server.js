@@ -205,7 +205,14 @@ io.on('connection', function(socket){
 
 function del(params)
 {
-
+  db.collection(coll).find({adminpass:hash_pass(params[4])}, function(err, docs){
+    if(docs.length == 1)
+    {
+      db.collection(coll).remove({id:params[1]}, function(err, docs){
+        sort_list(coll, undefined, false);
+      })
+    }
+  })
 }
 
 function hash_pass(adminpass)
