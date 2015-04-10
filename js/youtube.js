@@ -55,10 +55,9 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	console.log(seekTo);
 	if(player_ready)
 	{
-		if(!playing){
+		if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
 			ytplayer.loadVideoById(video_id);
-			ytplayer.playVideo();
-		}
+		ytplayer.playVideo();
 		ytplayer.seekTo(seekTo);
 	}
 });

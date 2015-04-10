@@ -1,10 +1,10 @@
 var adminTogg = false;
 var pass_corr = "";
 
-socket.on("success_settings", function()
+socket.on("success_settings", function(msg)
 {
 	pass_corr = "correct";
-	document.getElementById("sBar").innerHTML = "Successfully applied settings.";
+	document.getElementById("sBar").innerHTML = msg;
 	$("#sBar").addClass("opacityFull");
 	document.getElementById("passbox").value = "";
 	remove_bar();
@@ -106,6 +106,7 @@ function remove_bar()
 function shuffle(form)
 {
 	console.log(adminpass);
+	socket.emit('shuffle', adminpass);
 	/*
 	confRes = $.ajax({
 		type: "GET",

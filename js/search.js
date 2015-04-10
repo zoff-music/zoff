@@ -186,7 +186,14 @@ function submitAndClose(id,title){
 
 function submit(id,title,type){
 
-	socket.emit("add", [id, title, adminpass]);
+	socket.emit("add", [id, decodeURI(title), adminpass]);
+	if(type){
+		document.getElementById("search").value = "";
+		$("#results").html = "";
+		$(".main").removeClass("blurT");
+		$("#controls").removeClass("blurT");
+		$(".main").removeClass("clickthrough");
+	}
 	/*
 	serverAns = $.ajax({
 		type: "GET",

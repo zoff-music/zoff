@@ -24,7 +24,7 @@ foreach($fil as $files){
 		$time_lasted = time() - filemtime($files);
 		if($time_lasted > $to)
 		{
-			$file = file_get_contents($files); 
+			$file = file_get_contents($files);
 			$data = json_decode($file, TRUE);
 			$q = array_values($data["nowPlaying"]);
 			/*if($q[0]["id"] == "30H2Z8Lr-4c");
@@ -54,6 +54,8 @@ foreach($fil as $files){
 		}
 	</style>
 	<?php include("header.php"); ?>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 </head>
 <body>
     <div class="bgimage" id="bgimage"></div>
@@ -72,7 +74,7 @@ foreach($fil as $files){
 			</div>
 			<center>
 			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ~".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
+				<div id="fp-chans"></div>
 			</div>
 			</center>
 		</div>
@@ -84,8 +86,8 @@ foreach($fil as $files){
 				</a>
 			</div>
 			&copy; <?php echo date("Y"); ?>
-			<a class="anim" href="//nixo.no">Nixo</a> &amp; 
-			<a class="anim" href="//kasperrt.no">KasperRT</a> 
+			<a class="anim" href="//nixo.no">Nixo</a> &amp;
+			<a class="anim" href="//kasperrt.no">KasperRT</a>
 			</div>
 		<script type="text/javascript">
 			var deg = 0;
@@ -143,6 +145,46 @@ foreach($fil as $files){
 	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
 	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
 	  })();
+	</script>
+	<script>
+		var socket = io.connect('http://localhost:3000');
+		var playlists = [];
+		socket.emit('frontpage_lists');
+		socket.on('playlists', function(msg){
+			populate_channels(msg);
+		})
+
+		function populate_channels(lists)
+		{
+			var output = "";
+
+			lists.sort(sortFunction);
+
+			for(x in lists)
+			{
+				var id = lists[x][1];
+				var title = lists[x][2];
+				var name = lists[x][3];
+				var viewers = lists[x][0];
+				//console.log("Channel name: "+name+", viewers: "+viewers);
+				output += "<a class='channel' href='./"+name+"' title='Viewer(s): "+viewers+"'>"+name.capitalizeFirstLetter()+"</a>";
+			}
+			document.getElementById("fp-chans").innerHTML = output;
+		}
+
+		String.prototype.capitalizeFirstLetter = function() {
+		    return this.charAt(0).toUpperCase() + this.slice(1);
+		}
+
+
+		function sortFunction(a, b) {
+		    if (a[0] === b[0]) {
+		        return 0;
+		    }
+		    else {
+		        return (a[0] < b[0]) ? 1 : -1;
+		    }
+		}
 	</script>
 	<noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	<!-- End Piwik Code -->
