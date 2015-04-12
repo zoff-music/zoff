@@ -6,7 +6,7 @@
                 <p class="grey-text text-lighten-4">The shared youtube radio</p>
                 <p class="grey-text text-lighten-4">
                     Being built around the youtube search and video API
-                    it enables the creation of collaboratiive and shared live playlists, 
+                    it enables the creation of collaboratiive and shared live playlists,
                     with billions of videos and songs to choose from, all for free and without registration.
                     <br>
                     Enjoy!
@@ -29,19 +29,20 @@
     <div class="footer-copyright">
         <div class="container">
             &copy; <?php echo date("Y"); ?>
-            <a href="//nixo.no">Nixo</a> &amp; 
-            <a href="//kasperrt.no">KasperRT</a> 
+            <a href="//nixo.no">Nixo</a> &amp;
+            <a href="//kasperrt.no">KasperRT</a>
         </div>
     </div>
 </footer>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>  
-<script type="text/javascript" src="static/js/list.js"></script>  
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>
+<script type="text/javascript" src="static/js/list.js"></script>
 <script type="text/javascript" src="static/js/searchlist.js"></script>
 <script type="text/javascript" src="static/js/playercontrols.js"></script>
 <script type="text/javascript" src="static/js/youtube.js"></script>
-<script type="text/javascript" src="static/js/search.js"></script> 
+<script type="text/javascript" src="static/js/search.js"></script>
 <script type="text/javascript" src="static/js/admin.js"></script>
 <script type="text/javascript" src="static/js/lib/color-thief.min.js"></script>
 <script type="text/javascript" src="static/js/lib/materialize.js"></script>

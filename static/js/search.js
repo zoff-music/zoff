@@ -5,29 +5,28 @@ var timer = 0;
 $(document).ready(function()
 {
 	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
-		
+
 
 	$("#search").focus();
 
 	$('#base').bind("keyup keypress", function(e) {
-		var code = e.keyCode || e.which; 
-		if (code  == 13) {              
+		var code = e.keyCode || e.which;
+		if (code  == 13) {
 			e.preventDefault();
 			return false;
 		}
 	});
-	
+
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
 		var search_input = $(this).val();
-		console.log(event.keyCode);
 		if(event.keyCode == 13 && search_input == "fireplace")
 		{
 			if(!peis)
 			{
 				peis = true;
 				loadjsfile("js/jazzscript.js");
-				
+
 			}else
 			{
 				peis = false;
@@ -74,7 +73,7 @@ $(document).ready(function()
 			}
 		}
 
-		
+
 	});
 
 	setInterval(function(){
@@ -85,7 +84,7 @@ $(document).ready(function()
 	}, 1);
 });
 
-$(document).keyup(function(e) { 
+$(document).keyup(function(e) {
 	if ($("div.result").length > 2){
 	    if (e.keyCode == 40) {
 	    	if(i < $("div.result").length -2)
@@ -115,13 +114,13 @@ $(document).keyup(function(e) {
 
 
 function search(search_input){
-	
+
 
 		$("#results").html('');
 		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
-			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=6&v=2&alt=jsonc'; 
+			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=6&v=2&alt=jsonc';
 
 			$.ajax({
 				type: "GET",
@@ -163,7 +162,7 @@ function search(search_input){
 						}
 
 						$("<div id='r' style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
-					
+
 					}
 					else{ $("#video").html("<div id='no'>No Video</div>");}
 				}
@@ -186,58 +185,12 @@ function submitAndClose(id,title){
 
 function submit(id,title,type){
 
-	serverAns = $.ajax({
-		type: "GET",
-		url: "php/change.php",
-		async: false,
-		data: "v="+id+"&n="+title+"&pass="+adminpass,
-		success: function() {
-			if(type){
-				document.getElementById("search").value = "";
-				$("#results").html = "";
-				$(".main").removeClass("blurT");
-				$("#controls").removeClass("blurT");
-				$(".main").removeClass("clickthrough");
-			}
-			//$("#search").addClass("success");
-		},
-		error: function(){
-
-			console.log("error in adding");
-			if(type)
-			{
-				document.getElementById("search").value = "";
-				$("#results").html = "";
-				$(".main").removeClass("blurT");
-				$("#controls").removeClass("blurT");
-				$(".main").removeClass("clickthrough");
-				$("#search").addClass("error");
-			}
-		}
-	}).responseText;
-
-	if(serverAns == "wrong")
-	{
-		//alert("Wrong adminpassword");
-		$("#search").addClass("error");
-		document.getElementById("eBar").innerHTML = "Error: Wrong Admin Password!";
-		$("#eBar").addClass("opacityFull");
-	}else{
-		//$("#search").addClass("success");
-		document.getElementById("sBar").innerHTML = "Successfully added song!";
-		$("#sBar").addClass("opacityFull");
+	socket.emit("add", [id, decodeURI(title), adminpass]);
+	if(type){
+		document.getElementById("search").value = "";
+		$("#results").html = "";
+		$(".main").removeClass("blurT");
+		$("#controls").removeClass("blurT");
+		$(".main").removeClass("clickthrough");
 	}
-	
-	$("#search").focus();
-
-	setTimeout(function(){
-		$("#search").removeClass("success");
-		$("#search").removeClass("error");
-		$("#eBar").removeClass("opacityFull");
-		$("#sBar").removeClass("opacityFull");
-	},1500);
-	updateList();
-	event.stopPropagation();
 }
-
-				 // if(reply=="added"){$("#search").removeClass('success'); $("#search").addClass('success');}

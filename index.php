@@ -1,5 +1,6 @@
 <?php
 
+    $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8);
     if(isset($_GET['chan'])) {header('Location: '.$_GET['chan']); exit;}
     $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
@@ -8,7 +9,7 @@
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-    <?php include("php/header.php"); ?>
+	<?php include("php/header.php"); ?>
 </head>
 <body>
     <header>
@@ -83,5 +84,12 @@
     <div id="controls"></div>
 
     <?php include("php/footer.php"); ?>
+
+  	<script>
+  		var socket = io.connect('http://'+window.location.hostname+':3000');
+  	 	var guid = "<?php echo $guid; ?>";
+  		socket.emit('list', '<?php echo $list; ?>,'+guid);
+  	</script>
+
     </body>
 </html>

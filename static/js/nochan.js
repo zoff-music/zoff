@@ -1,3 +1,5 @@
+var list_html;
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -9,7 +11,61 @@ function getCookie(cname) {
     return "";
 }
 
+function populate_channels(lists)
+{
+    var output = "";
+
+    lists.sort(sortFunction);
+
+    for(x in lists)
+    {
+
+        var id = lists[x][1];
+        var nowplaying = lists[x][2];
+        var chan = lists[x][3];
+        var viewers = lists[x][0];
+        var img = "background-image:url('http://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+
+        $("#channel").append(list_html);
+        var card = $("#chan-card");
+        card.find(".chan-name").text(chan);
+        card.find(".chan-views").text(viewers);
+        card.find(".chan-songs").text("666");
+        card.find(".chan-bg").attr("style", img);
+        card.find(".chan-link").attr("href", chan);
+
+        output+="<option value='"+chan+"'> ";
+    }
+    document.getElementById("searches").innerHTML = output;
+}
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? 1 : -1;
+    }
+}
+
 $(document).ready(function (){
+
+    list_html = $("#chan-html").html();
+    $("#channels").empty();
+
+    var socket = io.connect('http://localhost:3000');
+    var playlists = [];
+    socket.emit('frontpage_lists');
+    socket.on('playlists', function(msg){
+        populate_channels(msg);
+    })
+
+
     Materialize.showStaggeredList('#channels');
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
