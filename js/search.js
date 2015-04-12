@@ -20,7 +20,6 @@ $(document).ready(function()
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
 		var search_input = $(this).val();
-		console.log(event.keyCode);
 		if(event.keyCode == 13 && search_input == "fireplace")
 		{
 			if(!peis)

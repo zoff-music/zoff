@@ -87,7 +87,7 @@ io.on('connection', function(socket){
     	}else
     	{
     		db.createCollection(coll, function(err, docs){
-  				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":true, "removeplay": false, "shuffle": false, "skip": true, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
+  				db.collection(coll).insert({"addsongs":"false", "adminpass":"", "allvideos":"true", "frontpage":"true", "longsongs":"true", "removeplay": "false", "shuffle": "false", "skip": "true", "skips": [], "startTime":get_time(), "views": [], "vote": "false"}, function(err, docs)
   				{
             db.collection(coll).find().sort({votes:-1}, function(err, docs) {
     		    	socket.emit(coll, docs);
