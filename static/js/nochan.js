@@ -25,12 +25,13 @@ function populate_channels(lists)
         var chan = lists[x][3];
         var viewers = lists[x][0];
         var img = "background-image:url('http://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+        var song_count = lists[x][4];
 
         $("#channels").append(list_html);
         var card = $("#chan-card");
         card.find(".chan-name").text(chan);
         card.find(".chan-views").text(viewers);
-        card.find(".chan-songs").text("666");
+        card.find(".chan-songs").text(song_count);
         card.find(".chan-bg").attr("style", img);
         card.find(".chan-link").attr("href", chan);
 

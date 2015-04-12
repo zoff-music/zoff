@@ -37,15 +37,17 @@ io.on('connection', function(socket){
         colNames.forEach(function(name){
           if(name != "system.indexes")
           {
-            db.collection(name).find({now_playing:true}, function(err, np){
-              complete(np, i, colNames.length-2, name);
-              i++;
+            db.collection(name).count(function(err, num){
+              db.collection(name).find({now_playing:true}, function(err, np){
+                complete(np, i, colNames.length-2, name, num-1);
+                i++;
+              });
             });
           }
       });
     });
 
-    var complete = function(list, curr, tot, name)
+    var complete = function(list, curr, tot, name, count)
     {
       if(list.length > 0)
       {
@@ -54,7 +56,7 @@ io.on('connection', function(socket){
         try{
           var viewers = lists[name].length;
         }catch(err){var viewers = 0;}
-        var to_push = [viewers, id, title, name];
+        var to_push = [viewers, id, title, name, count];
         playlists_to_send.push(to_push);
       }
       if(curr == tot)
