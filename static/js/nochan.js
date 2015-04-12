@@ -59,15 +59,17 @@ $(document).ready(function (){
     list_html = $("#chan-html").html();
     $("#channels").empty();
 
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('http://'+window.location.hostname+':3000');
     var playlists = [];
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
+        console.log(msg);
         populate_channels(msg);
     })
 
-
+/*
     Materialize.showStaggeredList('#channels');
+*/
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
         pad+=10;
@@ -91,4 +93,5 @@ $(document).ready(function (){
             }
         }
      }
+
 });

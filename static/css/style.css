@@ -110,14 +110,14 @@ hide mdi-action-visibility mdi-action-visibility-off
     transition: padding 1s ease;
 }
 
-#channels li{opacity: 0;}
+/*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
 #searchform{
     width: 50%;
     margin-left: 25%;
-    
+
 }
 
 .main{

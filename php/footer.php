@@ -37,6 +37,12 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script>
+    var socket = io.connect('http://'+window.location.hostname+':3000');
+    var guid = "<?php echo $guid; ?>";
+    socket.emit('list', '<?php echo $list; ?>,'+guid);
+</script>
+
 <script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>
 <script type="text/javascript" src="static/js/list.js"></script>
 <script type="text/javascript" src="static/js/searchlist.js"></script>

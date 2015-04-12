@@ -85,11 +85,5 @@
 
     <?php include("php/footer.php"); ?>
 
-  	<script>
-  		var socket = io.connect('http://'+window.location.hostname+':3000');
-  	 	var guid = "<?php echo $guid; ?>";
-  		socket.emit('list', '<?php echo $list; ?>,'+guid);
-  	</script>
-
     </body>
 </html>

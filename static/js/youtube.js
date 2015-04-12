@@ -172,11 +172,11 @@ function getTitle(titt, v)
 	var title= titt.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
-		document.getElementsByName('v')[0].placeholder = title + " • " + v + " " + outPutWord;
+		document.getElementById('search').placeholder = title + " • " + v + " " + outPutWord;
 	}else
 	{
 		document.getElementById("mobileTitle").innerHTML = title;
-		document.getElementsByName('v')[0].placeholder = "Search • 1 " + v + " " + outPutWord;
+		document.getElementById('search').placeholder = "Search • 1 " + v + " " + outPutWord;
 		//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
 	}
 }
@@ -215,7 +215,7 @@ function setBGimage(id){
 		var hsl=[getRandomInt(0,360), getRandomInt(20,80)]
 		var colorTxt = "hsla("+hsl[0]+", "+hsl[1]+"%, 22%, 0.5);";
 		$("#controls").css("background-color", colorTxt);
-		$("#search").css("background-color", colortxt);
+		$("#search").css("background-color", colorTxt);
 	}else if(window.mobilecheck()){
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());
