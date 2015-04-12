@@ -26,7 +26,7 @@ function populate_channels(lists)
         var viewers = lists[x][0];
         var img = "background-image:url('http://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
 
-        $("#channel").append(list_html);
+        $("#channels").append(list_html);
         var card = $("#chan-card");
         card.find(".chan-name").text(chan);
         card.find(".chan-views").text(viewers);

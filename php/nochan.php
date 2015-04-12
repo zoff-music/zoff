@@ -53,7 +53,7 @@ if(isset($_GET['chan'])){
 
         <div class="section">
             <ul class="row" id="channels">
-                <div id="chan-html">
+                <li id="chan-html">
                     <li id="chan-card" class="col s12 m4 l3">
                         <div class="card">
                             <a class="chan-link">
@@ -75,7 +75,7 @@ if(isset($_GET['chan'])){
                             </div>
                         </div>
                     </li>
-                </div>
+                </li>
             </ul>
         </div>
     </main>
