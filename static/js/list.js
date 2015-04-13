@@ -82,7 +82,7 @@ function populate_list(msg)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";
-				$("#playlist").css({height: $(player_name).height()-$("#adminPanel").outerHeight(true)-$("#findform").outerHeight(true)+30});
+				$("#playlist").css({height: $(".video-container").height()});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller === false)
 				{
