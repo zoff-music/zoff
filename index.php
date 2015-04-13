@@ -14,7 +14,7 @@
 <body>
     <header>
         <div class="navbar-fixed">
-            <nav>
+            <nav id="nav">
                 <div class="nav-wrapper">
                     <a href="//zoff.no" class="brand-logo hide-on-small-only">
                         <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
@@ -63,15 +63,13 @@
                     <div id="list-song-html">
                         <div id="list-song" class="card list-song">
                             <a class="clickable votebg">
-                                <div class="card-image cardbg list-image"></div>
+                                <span class="card-image cardbg list-image"></span>
                             </a>
-                            <div class="card-content">
-                                <p class="left-align">
-                                    <span class="flow-text truncate list-title"></span>
-                                    <span class="highlighted hide">Votes:&nbsp;</span>
-                                    <span class="list-votes hide"></span>
-                                </p>
-                            </div>
+                            <span class="card-content">
+                                <span class="flow-text truncate list-title"></span>
+                                <span class="highlighted hide">Votes:&nbsp;</span>
+                                <span class="list-votes hide"></span>
+                            </span>
                             <div class="card-action hide">
                                 <a id="del" onclick="vote('id','del')" class="clickable" class="waves-effect waves-orange btn-flat">Remove</a>
                             </div>

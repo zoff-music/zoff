@@ -43,6 +43,7 @@ var viewers = 1;
 var paused = false;
 var playing = false;
 
+//play new song
 socket.on(chan.toLowerCase()+",np", function(obj)
 {
 	video_id = obj[0][0]["id"];
@@ -53,8 +54,10 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	getTitle(song_title, viewers);
 	if(player_ready)
 	{
-		if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+		if(ytplayer.getVideoUrl().split('v=')[1] != video_id){
 			ytplayer.loadVideoById(video_id);
+			setBGimage(video_id);
+		}
 		ytplayer.playVideo();
 		ytplayer.seekTo(seekTo);
 	}
@@ -212,10 +215,9 @@ function setBGimage(id){
 		bg.src = "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg";
 		var color = colorThief.getColor(bg, 10);
 		var hsl = rgbToHsl(color);*/
-		var hsl=[getRandomInt(0,360), getRandomInt(20,80)]
-		var colorTxt = "hsla("+hsl[0]+", "+hsl[1]+"%, 22%, 0.5);";
-		$("#controls").css("background-color", colorTxt);
-		$("#search").css("background-color", colorTxt);
+		var hsl=[getRandomInt(0,360), getRandomInt(20,50)]
+		var colorTxt = "hsla("+hsl[0]+", "+hsl[1]+"%, 20%, 1);";
+		$("body").css("background-color", colorTxt);
 	}else if(window.mobilecheck()){
 		$("#mobile-banner").css("background-image", "url(http://img.youtube.com/vi/"+id+"/hqdefault.jpg)");
 		$("#mobile-banner").css("width",$(window).width());

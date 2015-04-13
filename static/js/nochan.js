@@ -67,9 +67,9 @@ $(document).ready(function (){
         populate_channels(msg);
     })
 
-/*
+
     Materialize.showStaggeredList('#channels');
-*/
+
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
         pad+=10;

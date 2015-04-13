@@ -126,6 +126,9 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin: 0px;
     padding:0px;
 }
+nav{
+    background-color:rgba(255,255,255, 0.1);
+}
 .video-container{
     height: calc(100% - 64px);
 }
@@ -141,5 +144,11 @@ hide mdi-action-visibility mdi-action-visibility-off
 .hover-text{display:none;}
 .nav-btn:hover > .hover-text {display:inline;}
 
-.list-image{height:40px;}
-.list-title{display:block;}
+.list-image{
+    width: 34%;
+    height: 11%;
+    float: left;
+}
+.list-song{background-color: rgba(255, 255, 255, 0.1);}
+.card .card-content{padding:0;}
+.list-title{display:block; color:white;}
