@@ -6,7 +6,7 @@ function initYoutubeControls(player)
 		//initSlider();
 		durationFixer = setInterval(durationSetter, 1000);
 	}else
-	{	
+	{
 		tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/iframe_api";
 		firstScriptTag = document.getElementsByTagName('script')[0];
@@ -101,7 +101,7 @@ function initSlider()
 	      setVolume(ui.value);
 	    }
 	});
-	ytplayer.mute();
+	//ytplayer.mute();
 	$("#volume").slider("value", ytplayer.getVolume());
 }
 

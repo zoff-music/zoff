@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Zöff</h5>
-                <p class="grey-text text-lighten-4">The shared youtube radio</p>
+                <p class="grey-text text-lighten-4">The shared YouTube radio</p>
                 <p class="grey-text text-lighten-4">
-                    Being built around the youtube search and video API
+                    Being built around the YouTube search and video API
                     it enables the creation of collaboratiive and shared live playlists,
                     with billions of videos and songs to choose from, all for free and without registration.
                     <br>
