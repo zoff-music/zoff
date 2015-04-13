@@ -1,5 +1,35 @@
-function initYoutubeControls(player)
+function initControls()
 {
+	setInterval(durationSetter, 1000);
+}
+
+function durationSetter()
+{
+	if(ytplayer !== undefined && ytplayer.getDuration() !== undefined)
+	{
+		duration = ytplayer.getDuration();
+		dMinutes = Math.floor(duration / 60);
+		dSeconds = duration - dMinutes * 60;
+		currDurr = ytplayer.getCurrentTime();
+		if(currDurr > duration)
+			currDurr = duration;
+		minutes = Math.floor(currDurr / 60);
+		seconds = currDurr - minutes * 60;
+		document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+		per = (100 / duration) * currDurr;
+		if(per >= 100)
+			per = 100;
+		else if(duration == 0)
+			per = 0;
+		$("#bar").width(per+"%");
+	}
+}
+
+function pad(n)
+{
+	return n < 10 ? "0"+Math.floor(n) : Math.floor(n);
+}
+	/*
 	if(player !== undefined)
 	{
 		ytplayer = player;
@@ -69,7 +99,7 @@ function initControls()
 	/*for(var i=0; i< classname.length;i++)
 	{
 		classname[i].addEventListener("click", changeQuality);
-	}*/
+	}
 }
 
 function fitToScreen()
@@ -129,7 +159,7 @@ function setVolume(vol)
 	//console.log(vol); //NO LOGS FOR U LOL
 	if(ytplayer.isMuted())
 		ytplayer.unMute();
-	if(vol == 0){
+	/*if(vol == 0){
 		$("#mute").css("background","no-repeat url(static/player.webp) -0px -403px");
 	}else if(vol < 33){
 		$("#mute").css("background","no-repeat url(static/player.webp) -0px -1457px");
@@ -193,7 +223,7 @@ function volumeOptions()
 		ytplayer.unMute();
 		vol = ytplayer.getVolume();
 		$("#volume").slider("value", ytplayer.getVolume());
-		if(vol == 0){
+		/*if(vol == 0){
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
 		}else if(vol < 33){
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1395px");
@@ -207,7 +237,7 @@ function volumeOptions()
 	{
 		ytplayer.mute();
 		$("#volume").slider("value", 0);
-		$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
+		//$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
 	}
 }
 
@@ -215,7 +245,7 @@ function hoverMute(foo)
 {
 	vol = ytplayer.getVolume();
 	console.log(vol);
-	if(foo)
+	/*if(foo)
 	{
 		if(vol == 0 || ytplayer.isMuted()){
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -93px");
@@ -244,4 +274,4 @@ function hoverMute(foo)
 function logQ()
 {
 	console.log(ytplayer.getPlaybackQuality());
-}
+}*/

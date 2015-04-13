@@ -12,7 +12,7 @@ if(isset($_GET['chan'])){
 </head>
 <body>
     <header>
-        <nav>
+        <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">

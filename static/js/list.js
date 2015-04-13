@@ -32,10 +32,6 @@ socket.on("skipping", function(obj)
 function populate_list(msg)
 {
 	console.log(msg);
-	for(obj in msg)
-	{
-		console.log(msg[obj]);
-	}
 
 	$("#wrapper").empty();
 

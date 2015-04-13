@@ -10,6 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
+  <link rel="stylesheet" type="text/css" href="static/css/controlstyle.css" />
 </head>
 <body>
     <header>
@@ -52,11 +53,16 @@
             </nav>
         </div>
     </header>
-
     <main class="container center-align main">
         <div class="row">
             <div class="col s12 m9 video-container">
                 <div id="player" class="ytplayer"></div>
+                <div id="controls">
+                  <div id="playpause"><i class="mdi-av-play-arrow"></i></div>
+                  <div id="duration">00:00 / 00:00</div>
+                  <div id="volume-button"><i class="mdi-av-volume-up"></i></div>
+                  <div id="fullscreen"><i class="mdi-navigation-fullscreen"></i></div>
+                </div>
             </div>
             <div id="playlist" class="col s12 m3">
                 <div id="wrapper">
@@ -79,7 +85,6 @@
             </div>
         </div>
     </main>
-    <div id="controls"></div>
 
     <?php include("php/footer.php"); ?>
 

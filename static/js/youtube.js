@@ -128,8 +128,7 @@ function onYouTubeIframeAPIReady() {
 		events: {
 			'onReady': onPlayerReady,
 			'onStateChange': onPlayerStateChange,
-			'onError': errorHandler,
-			'onPlaybackQualityChange': logQ
+			'onError': errorHandler
 		}
 	});
 	if(peis)
@@ -207,7 +206,8 @@ function onPlayerReady(event) {
 			ytplayer.seekTo(seekTo);
 		}
 		readyLooks();
-		initSlider();
+		initControls();
+		//initSlider();
 }
 
 function readyLooks()
