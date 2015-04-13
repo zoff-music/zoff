@@ -17,6 +17,9 @@ function populate_channels(lists)
 
     lists.sort(sortFunction);
 
+
+    pre_card = $(list_html);
+
     for(x in lists)
     {
 
@@ -27,13 +30,20 @@ function populate_channels(lists)
         var img = "background-image:url('http://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
         var song_count = lists[x][4];
 
-        $("#channels").append(list_html);
-        var card = $("#chan-card");
+        //$("#channels").append(list_html);
+
+        var card = pre_card;
         card.find(".chan-name").text(chan);
         card.find(".chan-views").text(viewers);
         card.find(".chan-songs").text(song_count);
         card.find(".chan-bg").attr("style", img);
         card.find(".chan-link").attr("href", chan);
+
+        $("#channels").append(card.html());
+
+        //$("#channels").append(card);
+        console.log(chan);
+
         output+="<option value='"+chan+"'> ";
     }
     document.getElementById("searches").innerHTML = output;
@@ -55,7 +65,7 @@ function sortFunction(a, b) {
 
 $(document).ready(function (){
 
-    list_html = $("#chan-html").html();
+    list_html = $("#channels").html();
     $("#channels").empty();
 
     var socket = io.connect('http://'+window.location.hostname+':3000');
