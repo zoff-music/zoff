@@ -327,18 +327,20 @@ function change_song_post(coll)
       {$match:{now_playing:false}},
       {$sort:{votes:-1, added:1}},
       {$limit:1}], function(err, docs){
-        db.collection(coll).update({id:docs[0]["id"]},
-        {$set:{
-          now_playing:true,
-          votes:0,
-          guids:[],
-          added:get_time()}}, function(err, docs){
-            db.collection(coll).update({views:{$exists:true}},
-              {$set:{startTime:get_time()}}, function(err, docs){
-                sort_list(coll,undefined,true);
-            });
+        if(docs.length > 0){
+          db.collection(coll).update({id:docs[0]["id"]},
+          {$set:{
+            now_playing:true,
+            votes:0,
+            guids:[],
+            added:get_time()}}, function(err, docs){
+              db.collection(coll).update({views:{$exists:true}},
+                {$set:{startTime:get_time()}}, function(err, docs){
+                  sort_list(coll,undefined,true);
+              });
 
-    });
+            });
+        }
   });
 }
 

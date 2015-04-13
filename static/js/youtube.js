@@ -51,11 +51,17 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	seekTo = time - conf["startTime"];
 	song_title = obj[0][0]["title"];
 	getTitle(song_title, viewers);
-	if(player_ready)
+	if(player_ready && !window.mobilecheck())
 	{
 		if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+		{
 			ytplayer.loadVideoById(video_id);
-		ytplayer.playVideo();
+			notifyUser(video_id, song_title);
+			if(paused)
+				ytplayer.pauseVideo();
+		}
+		if(!paused)
+			ytplayer.playVideo();
 		ytplayer.seekTo(seekTo);
 	}
 });
@@ -139,14 +145,15 @@ function onPlayerStateChange(newState) {
 		case 0:
 			socket.emit("end", video_id);
 			playing = false;
+			paused = false;
 			break;
 		case 1:
 			playing = true;
-			if(document.getElementById("playpause").className == "play")
+			/*if(document.getElementById("playpause").className == "play")
 			{
 				$("#playpause").toggleClass("play");
 				$("#playpause").toggleClass("pause");
-			}
+			}*/
 			if(paused)
 			{
 				socket.emit('pos');
@@ -155,11 +162,11 @@ function onPlayerStateChange(newState) {
 			break;
 		case 2:
 			paused = true;
-			if(document.getElementById("playpause").className == "pause")
+			/*if(document.getElementById("playpause").className == "pause")
 			{
 				$("#playpause").toggleClass("play");
 				$("#playpause").toggleClass("pause");
-			}
+			}*/
 			break;
 		case 3:
 			break;

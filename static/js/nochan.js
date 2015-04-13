@@ -34,7 +34,6 @@ function populate_channels(lists)
         card.find(".chan-songs").text(song_count);
         card.find(".chan-bg").attr("style", img);
         card.find(".chan-link").attr("href", chan);
-
         output+="<option value='"+chan+"'> ";
     }
     document.getElementById("searches").innerHTML = output;
