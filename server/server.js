@@ -134,11 +134,11 @@ io.on('connection', function(socket){
       		  	});
             });
           }else{
-            vote(coll, id, guid);
+            vote(coll, id, guid, socket);
           }
         });
       }else
-        socket.emit("error_settings", "Password Protected List!");
+        socket.emit("toast", "Password Protected List!");
     });
   });
 
@@ -155,9 +155,9 @@ io.on('connection', function(socket){
       {
         if((docs[0]["vote"] == "true" && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["vote"] == "false")
         {
-          vote(coll, id, guid);
+          vote(coll, id, guid, socket);
         }else{
-          socket.emit("error_settings", "Password Protected List!");
+          socket.emit("toast", "Password Protected List!");
         }
       });
     }
@@ -178,7 +178,7 @@ io.on('connection', function(socket){
   				});
   			}
   		}else
-        socket.emit("error_settings", "No Skipping!");
+        socket.emit("sucess_settings", "No Skipping!");
   	});
   });
 
@@ -209,13 +209,13 @@ io.on('connection', function(socket){
             shuffle:shuffling,
             longsongs:longsongs,
             adminpass:hash}}, function(err, docs){
-            socket.emit("success_settings", "Successfully applied settings!");
+            socket.emit("toast", "Successfully applied settings!");
             sort_list(coll,undefined,false);
           });
 
       }else
       {
-        socket.emit("error_settings", "Wrong Password!");
+        socket.emit("toast", "Wrong Password!");
       }
     });
   });
@@ -233,12 +233,12 @@ io.on('connection', function(socket){
             num = Math.floor(Math.random()*1000000);
             db.collection(coll).update({id:docs["id"]}, {$set:{added:num}}, function(err, d)
             {
-              socket.emit("success_settings", "Shuffled Playlist!");
+              socket.emit("toast", "Shuffled Playlist!");
             });
           }
         });
       }else
-        socket.emit("error_settings", "Wrong Password!");
+        socket.emit("toast", "Wrong Password!");
     });
   });
 
@@ -268,6 +268,7 @@ function del(params)
     if(docs[0]["adminpass"] == hash_pass(params[4]))
     {
       db.collection(coll).remove({id:params[1]}, function(err, docs){
+        socket.emit("toast", "The song was deleted.");
         sort_list(coll, undefined, false);
       })
     }
@@ -279,7 +280,7 @@ function hash_pass(adminpass)
   return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
 
-function vote(coll, id, guid)
+function vote(coll, id, guid, socket)
 {
 	db.collection(coll).find({id:id}, function(err, docs){
 		if(!contains(docs[0]["guids"], guid))
@@ -288,11 +289,15 @@ function vote(coll, id, guid)
   		{
   			db.collection(coll).update({id:id}, {$push :{guids: guid}}, function(err, docs)
   			{
+          socket.emit("toast", "Voted on song!");
           sort_list(coll, undefined, false);
   			});
   			//sort_list(coll, undefined, false);
   		});
-		}
+		}else
+    {
+      socket.emit("toast", "You've already voted on that song!");
+    }
 	});
 }
 

@@ -1,21 +1,14 @@
 var adminTogg = false;
 var pass_corr = "";
 
-socket.on("success_settings", function(msg)
+socket.on("toast", function(msg)
 {
 	pass_corr = "correct";
-	document.getElementById("sBar").innerHTML = msg;
+	Materialize.toast(msg, 4000);
+	/*document.getElementById("sBar").innerHTML = msg;
 	$("#sBar").addClass("opacityFull");
 	document.getElementById("passbox").value = "";
-	remove_bar();
-});
-
-socket.on("error_settings", function(msg){
-	pass_corr = "wrong";
-	document.getElementById("eBar").innerHTML = "Error: " + msg;
-	$("#eBar").addClass("opacityFull");
-	document.getElementById("passbox").value = "";
-	remove_bar();
+	remove_bar();*/
 });
 
 function admin()
