@@ -1,0 +1,123 @@
+
+#controls
+{
+	opacity:0;
+	height:30px;
+	background-color:rgba(255, 255, 255, 0.25);
+	position:absolute;
+	width:54%;
+	transition: 0.75s -webkit-filter linear;
+	-webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	-ms-transform: translate3d(0,0,0);
+	-o-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	-webkit-transition:opacity 1s;
+	transition: opacity 1s;
+}
+
+#playpause, #duration, #volume-button
+{
+  float:left;
+  color:white;
+}
+
+#playpause, #volume-button
+{
+  margin-left:10px;
+}
+
+#playpause:hover, #volume-button:hover, #fullscreen:hover
+{
+  color:#2D2D2D;
+}
+
+#fullscreen
+{
+  float:right;
+  color:white;
+  margin-right:15px;
+}
+
+#duration
+{
+  margin-top:5px;
+  font-family:"Roboto", sans-serif;
+  font-weight:300;
+  margin-left:15px;
+}
+
+#play, #pause, #volume-button, #fullscreen
+{
+  font-size:20px;
+  cursor:pointer;
+}
+
+#volume {
+	cursor:pointer;
+  float:left;
+    position: relative;
+    left: 10px;
+    margin: 13px auto;
+    height:5px;
+    width: 75px;
+    background-color:rgba(0, 0, 0, 0.5);
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#volume .ui-slider-range-min {
+    height:5px;
+    width: 75px;
+    position: absolute;
+    background-color:rgba(255, 255, 255, 0.8);
+	border: none;
+	outline: none;
+	border-radius: 2px;
+}
+
+#volume .ui-slider-handle {
+    height:15px;
+    width:5px;
+    background-color:white;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    display: none;
+}
+
+.ui-slider-handle
+{
+	margin-top:-5px;
+}
+
+.play
+{
+	/*background: no-repeat url(player.webp) 0 -496px;*/
+	background-size: auto;
+	width: 55px;
+	height: 27px;
+}
+
+.pause
+{
+	/*background: no-repeat url(player.webp) 0 -2139px;*/
+	background-size: auto;
+	width: 55px;
+	height: 27px;
+}
+
+.hide
+{
+	display:none !important;
+}
+
+#bar
+{
+	height:30px;
+	background-color:rgba(0,0,0,0.5);
+	-webkit-transition: width 1s ease;
+    transition: width 1s ease;
+}
