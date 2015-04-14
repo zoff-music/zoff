@@ -42,7 +42,7 @@
                     <ul class="side-nav" id="mobile-demo">
                         <?php include("php/panel.php");?>
                     </ul>
-                    <form id="searchform">
+                    <form id="searchform" onsubmit="return false">
                         <div>
                             <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
                             <!--<label for="search"><i class="mdi-action-search"></i></label>

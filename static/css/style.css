@@ -130,7 +130,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin: 0px;
     padding:0px;
 }
-nav{
+#nav{
     background-color:rgba(255,255,255, 0.1);
 }
 .video-container{
@@ -142,7 +142,9 @@ nav{
 
 #player{
   height:95%;
+  position: relative;
 }
+
 
 .nav-btn
 {
@@ -161,7 +163,12 @@ nav{
 
 .list-song{background-color: rgba(255, 255, 255, 0.1);}
 .card .card-content{padding:0;}
-.list-title{display:block; color:white;font-size:1em; text-align:left;}
+.list-title{
+    display:block;
+    color:white;font-size:1em;
+    text-align:left;
+    padding: 0 10px 0 10px;
+}
 .card-image{cursor:pointer}
 .card{margin:5px 0 5px 0 !important;}
 #result img{float:left;padding-right:20px !important;}

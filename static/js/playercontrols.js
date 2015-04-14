@@ -18,18 +18,9 @@ function initControls()
 function fitToScreen()
 {
 	if(peis)
-	{
 		player_name = "#jplayer";
-	}else player_name = "#player";
-	//document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() + "px";
-	document.getElementById("controls").style.top = $(player_name).height() + "px";
-	//document.getElementById("controls").style.left = document.getElementById("player").offsetLeft + "px";
-	//document.getElementById("controls").style.left = $(player_name).position()["left"] + "px";
-	//document.getElementById("controls").style.left = "10px";
-	$("#controls").width($(player_name).width());
-	//document.getElementById("qS").style.top = "-80px";
-	//document.getElementById("qS").style.left =  $("#controls").width()-125+"px";
-
+	else
+		player_name = "#player";
 }
 
 function initSlider()
