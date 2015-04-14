@@ -150,11 +150,10 @@ function onPlayerStateChange(newState) {
 			break;
 		case 1:
 			playing = true;
-			/*if(document.getElementById("playpause").className == "play")
-			{
-				$("#playpause").toggleClass("play");
-				$("#playpause").toggleClass("pause");
-			}*/
+			if(document.getElementById("play").className.split(" ").length == 1)
+				$("#play").toggleClass("hide");
+			if(document.getElementById("pause").className.split(" ").length == 2)
+				$("#pause").toggleClass("hide");
 			if(paused)
 			{
 				socket.emit('pos');
@@ -163,11 +162,10 @@ function onPlayerStateChange(newState) {
 			break;
 		case 2:
 			paused = true;
-			/*if(document.getElementById("playpause").className == "pause")
-			{
-				$("#playpause").toggleClass("play");
-				$("#playpause").toggleClass("pause");
-			}*/
+			if(document.getElementById("pause").className.split(" ").length == 1)
+				$("#pause").toggleClass("hide");
+			if(document.getElementById("play").className.split(" ").length == 2)
+				$("#play").toggleClass("hide");
 			break;
 		case 3:
 			break;
@@ -206,8 +204,9 @@ function onPlayerReady(event) {
 			ytplayer.seekTo(seekTo);
 		}
 		readyLooks();
-		initControls();
-		//initSlider();
+		initYoutubeControls(ytplayer);
+		initSlider();
+		ytplayer.setVolume(localStorage.getItem("volume"));
 }
 
 function readyLooks()

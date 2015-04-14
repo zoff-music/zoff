@@ -44,11 +44,12 @@
                     </ul>
                     <form id="searchform">
                         <div>
-                            <input id="search" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
+                            <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
                             <!--<label for="search"><i class="mdi-action-search"></i></label>
                             <i class="mdi-navigation-close"></i>-->
                         </div>
                     </form>
+                    <div id="results"></div>
                 </div>
             </nav>
         </div>
@@ -58,23 +59,35 @@
             <div class="col s12 m9 video-container">
                 <div id="player" class="ytplayer"></div>
                 <div id="controls">
-                  <div id="playpause"><i class="mdi-av-play-arrow"></i></div>
+                  <div id="playpause">
+                    <i id="play" class="mdi-av-play-arrow hide"></i>
+                    <i id="pause" class="mdi-av-pause"></i>
+                  </div>
                   <div id="duration">00:00 / 00:00</div>
-                  <div id="volume-button"><i class="mdi-av-volume-up"></i></div>
-                  <div id="fullscreen"><i class="mdi-navigation-fullscreen"></i></div>
+                  <div id="volume-button">
+                    <i id="v-mute" class="mdi-av-volume-off"></i>
+                    <i id="v-low" class="mdi-av-volume-mute"></i>
+                    <i id="v-medium" class="mdi-av-volume-down"></i>
+                    <i id="v-full" class="mdi-av-volume-up"></i>
+                  </div>
+                  <div id="volume"></div>
+                  <div id="fullscreen">
+                    <i class="mdi-navigation-fullscreen"></i>
+                  </div>
+                  <div id="bar"></div>
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
                 <div id="wrapper">
                     <div id="list-song-html">
                         <div id="list-song" class="card list-song">
-                            <a class="clickable votebg">
+                            <a class="clickable votebg" title="Vote!">
                                 <span class="card-image cardbg list-image"></span>
                             </a>
                             <span class="card-content">
                                 <span class="flow-text truncate list-title"></span>
-                                <span class="highlighted hide">Votes:&nbsp;</span>
-                                <span class="list-votes hide"></span>
+                                <span class="highlighted">Votes:&nbsp;</span>
+                                <span class="list-votes"></span>
                             </span>
                             <div class="card-action hide">
                                 <a id="del" onclick="vote('id','del')" class="clickable" class="waves-effect waves-orange btn-flat">Remove</a>

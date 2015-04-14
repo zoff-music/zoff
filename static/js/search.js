@@ -144,9 +144,10 @@ function search(search_input){
 									<img src='"+video_thumb+"' class='thumb'>\
 									<div id='title'>"+data.title+"\
 										<div class='result_info'>"+views+" views • "+length+"</div>\
-										<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
-									</div>\
+										</div>\
 								</div>";
+								//<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
+							
 								//+data.uploader+" • "+
 								//$("#results").append(finalhtml);
 								wrapper += finalhtml;

@@ -78,21 +78,20 @@ function populate_list(msg)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";
-				$("#playlist").css({height: $(".video-container").height()});
+				$("#playlist").css({height: $(".video-container").height()-5});
 				$("#playlist").css({overflow: "hidden"});
 				if(scroller === false)
 				{
 					myScroll = new IScroll('#playlist', {
 						mouseWheel: true,
-						scrollbars: true,
 						scrollY: true,
-						interactiveScrollbars: true,
-						fadeScrollbars: false
 					});
 					scroller = true;
+					myScroll.maxScrollY = myScroll.maxScrollY - 5;
 				}else
 				{
 					myScroll.refresh();
+					myScroll.maxScrollY = myScroll.maxScrollY - 5; //Hackish solution for not being able to scroll fully to the bottom, don't understand why this is fucked
 				}
 			}
 		}
@@ -102,10 +101,11 @@ function populate_list(msg)
 			//ytplayer.pauseVideo();
 		}else{
 			myScroll.refresh();
+			myScroll.maxScrollY = myScroll.maxScrollY - 5;
 		}
 
 		$("#settings").css("visibility", "visible");
-		$("#settings").css("opacity", "0.7");
+		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
 
 }

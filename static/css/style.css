@@ -158,6 +158,24 @@ nav{
     height: 11%;
     float: left;
 }
+
 .list-song{background-color: rgba(255, 255, 255, 0.1);}
 .card .card-content{padding:0;}
-.list-title{display:block; color:white;}
+.list-title{display:block; color:white;font-size:1em; text-align:left;}
+.card-image{cursor:pointer}
+.card{margin:5px 0 5px 0 !important;}
+#result img{float:left;padding-right:20px !important;}
+#result{height:100px;margin-left:40px;}
+#results{margin-top:-12px;background-color: rgba(0,0,0,0.6);}
+.result:hover {
+  background-color: rgba(0,0,0,0.4);}
+  .result {
+  border-bottom: solid 1px #E5E5E5;
+  text-align: left;
+  height: 70px;
+  cursor: pointer;
+  width:93%;
+}
+.result_info{margin-top:-36px;}
+
+#settings-button{color:white !important;}

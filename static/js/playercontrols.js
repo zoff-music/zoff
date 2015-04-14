@@ -1,85 +1,8 @@
-function initControls()
+function initYoutubeControls(player)
 {
-	setInterval(durationSetter, 1000);
-}
-
-function durationSetter()
-{
-	if(ytplayer !== undefined && ytplayer.getDuration() !== undefined)
-	{
-		duration = ytplayer.getDuration();
-		dMinutes = Math.floor(duration / 60);
-		dSeconds = duration - dMinutes * 60;
-		currDurr = ytplayer.getCurrentTime();
-		if(currDurr > duration)
-			currDurr = duration;
-		minutes = Math.floor(currDurr / 60);
-		seconds = currDurr - minutes * 60;
-		document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
-		per = (100 / duration) * currDurr;
-		if(per >= 100)
-			per = 100;
-		else if(duration == 0)
-			per = 0;
-		$("#bar").width(per+"%");
-	}
-}
-
-function pad(n)
-{
-	return n < 10 ? "0"+Math.floor(n) : Math.floor(n);
-}
-	/*
-	if(player !== undefined)
-	{
-		ytplayer = player;
-		//initSlider();
-		durationFixer = setInterval(durationSetter, 1000);
-	}else
-	{
-		tag = document.createElement('script');
-		tag.src = "https://www.youtube.com/iframe_api";
-		firstScriptTag = document.getElementsByTagName('script')[0];
-		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	}
-	elems = Array("volume", "duration", "mute", "fullscreen", "q");
-	//elems = Array("volume", "duration", "fullscreen");
-	var container = document.getElementById("controls");
-	var newElem = document.createElement("div");
-	newElem.id = "playpause";
-	newElem.className = "play";
-	container.appendChild(newElem);
-	for(x = 0; x < elems.length; x++)
-	{
-		var newElemFor = document.createElement("div");
-		newElemFor.id = elems[x];
-		container.appendChild(newElemFor);
-	}
-	elems = Array("medium", "large", "hd1080", "auto");
-	elemName = Array("Low", "Medium", "High", "Auto");
-	newElem = document.createElement("div");
-	newElem.id = "qS";
-	newElem.className = "hide";
-
-	for(x = 0; x < elems.length; x++)
-	{
-		var newChild = document.createElement("div");
-		newChild.className = "qChange";
-		newChild.name = elems[x];
-		newChild.setAttribute("onclick", "changeQuality('"+elems[x]+"');");
-		newChild.innerHTML = elemName[x];
-		newElem.appendChild(newChild);
-	}
-	container.appendChild(newElem);
-
-	newElem = document.createElement("div");
-	newElem.id = "bar";
-
-	container.appendChild(newElem);
-
-	initControls();
 	fitToScreen();
-	$("#mute").hover(function(){hoverMute(true)}, function(){hoverMute(false)});
+	setInterval(durationSetter, 1000);
+	initControls();
 	$(window).resize(function(){
 		fitToScreen();
 	});
@@ -87,19 +10,9 @@ function pad(n)
 
 function initControls()
 {
-	document.getElementById("playpause").addEventListener("click", playPause);
-	document.getElementById("q").addEventListener("click", settings);
-	document.getElementById("mute").addEventListener("click", volumeOptions);
-	document.getElementById("fullscreen").addEventListener("click", function()
-	{
-		document.getElementById("player").webkitRequestFullscreen();
-	});
-	//document.getElementById("controls").style.width= $(window).width()*0.6+"px";
-	var classname = document.getElementsByClassName("qChange");
-	/*for(var i=0; i< classname.length;i++)
-	{
-		classname[i].addEventListener("click", changeQuality);
-	}
+	document.getElementById("volume-button").addEventListener("click", mute_video);
+	document.getElementById("playpause").addEventListener("click", play_pause);
+	document.getElementById("fullscreen").addEventListener("click", fullscreen);
 }
 
 function fitToScreen()
@@ -109,30 +22,56 @@ function fitToScreen()
 		player_name = "#jplayer";
 	}else player_name = "#player";
 	//document.getElementById("controls").style.top = document.getElementById("player").offsetTop + $("#player").height() + "px";
-	document.getElementById("controls").style.top = $(player_name).position()["top"] + $(player_name).height() + "px";
+	document.getElementById("controls").style.top = $(player_name).height() + "px";
 	//document.getElementById("controls").style.left = document.getElementById("player").offsetLeft + "px";
-	document.getElementById("controls").style.left = $(player_name).position()["left"] + "px";
+	//document.getElementById("controls").style.left = $(player_name).position()["left"] + "px";
 	//document.getElementById("controls").style.left = "10px";
 	$("#controls").width($(player_name).width());
-	document.getElementById("qS").style.top = "-80px";
-	document.getElementById("qS").style.left =  $("#controls").width()-125+"px";
+	//document.getElementById("qS").style.top = "-80px";
+	//document.getElementById("qS").style.left =  $("#controls").width()-125+"px";
 
 }
 
 function initSlider()
 {
+	if(localStorage.getItem("volume") !== undefined)
+	{
+		vol = localStorage.getItem("volume");
+	}else
+		vol = 100;
 	$("#volume").slider({
 	    min: 0,
 	    max: 100,
-	    value: ytplayer.getVolume(),
-		range: "min",
-		animate: true,
+	    value: vol,
+			range: "min",
+			animate: true,
 	    slide: function(event, ui) {
 	      setVolume(ui.value);
+				localStorage.setItem("volume", ui.value);
 	    }
 	});
-	//ytplayer.mute();
-	$("#volume").slider("value", ytplayer.getVolume());
+	choose_button(vol, false);
+	//$("#volume").slider("value", ytplayer.getVolume());
+}
+
+function fullscreen()
+{
+	var playerElement = document.getElementById("player");
+	var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
+  if (requestFullScreen) {
+    requestFullScreen.bind(playerElement)();
+  }
+}
+
+function play_pause()
+{
+	if(ytplayer.getPlayerState() == 1)
+	{
+		ytplayer.pauseVideo();
+	}else if(ytplayer.getPlayerState() == 2 || ytplayer.getPlayerState() == 0)
+	{
+		ytplayer.playVideo();
+	}
 }
 
 function settings()
@@ -153,9 +92,16 @@ function changeQuality(wantedQ)
 	$("#qS").toggleClass("hide");
 }
 
+function mute_video()
+{
+	choose_button(0, true);
+	ytplayer.mute();
+}
+
 function setVolume(vol)
 {
 	ytplayer.setVolume(vol);
+	choose_button(vol, false);
 	//console.log(vol); //NO LOGS FOR U LOL
 	if(ytplayer.isMuted())
 		ytplayer.unMute();
@@ -167,6 +113,50 @@ function setVolume(vol)
 		$("#mute").css("background","no-repeat url(static/player.webp) -0px -806px");
 	}else if(vol > 66){
 		$("#mute").css("background","no-repeat url(static/player.webp) -0px -1829px");
+	}*/
+}
+
+function choose_button(vol, mute)
+{
+	if(!mute){
+		if(vol >= 0 && vol <= 33){
+			if(document.getElementById("v-full").className.split(" ").length == 1)
+				$("#v-full").toggleClass("hide");
+			if(document.getElementById("v-medium").className.split(" ").length == 1)
+				$("#v-medium").toggleClass("hide");
+			if(document.getElementById("v-low").className.split(" ").length == 2)
+				$("#v-low").toggleClass("hide");
+			if(document.getElementById("v-mute").className.split(" ").length == 1)
+				$("#v-mute").toggleClass("hide");
+		}else if(vol >= 34 && vol <= 66){
+			if(document.getElementById("v-full").className.split(" ").length == 1)
+				$("#v-full").toggleClass("hide");
+			if(document.getElementById("v-medium").className.split(" ").length == 2)
+				$("#v-medium").toggleClass("hide");
+			if(document.getElementById("v-low").className.split(" ").length == 1)
+				$("#v-low").toggleClass("hide");
+			if(document.getElementById("v-mute").className.split(" ").length == 1)
+				$("#v-mute").toggleClass("hide");
+		}else if(vol >= 67 && vol <= 100){
+			if(document.getElementById("v-full").className.split(" ").length == 2)
+				$("#v-full").toggleClass("hide");
+			if(document.getElementById("v-medium").className.split(" ").length == 1)
+				$("#v-medium").toggleClass("hide");
+			if(document.getElementById("v-low").className.split(" ").length == 1)
+				$("#v-low").toggleClass("hide");
+			if(document.getElementById("v-mute").className.split(" ").length == 1)
+				$("#v-mute").toggleClass("hide");
+		}
+	}else
+	{
+		if(document.getElementById("v-full").className.split(" ").length == 1)
+			$("#v-full").toggleClass("hide");
+		if(document.getElementById("v-medium").className.split(" ").length == 1)
+			$("#v-medium").toggleClass("hide");
+		if(document.getElementById("v-low").className.split(" ").length == 1)
+			$("#v-low").toggleClass("hide");
+		if(document.getElementById("v-mute").className.split(" ").length == 2)
+			$("#v-mute").toggleClass("hide");
 	}
 }
 
@@ -189,24 +179,21 @@ function playPause()
 
 function durationSetter()
 {
-	if(ytplayer !== undefined && ytplayer.getDuration() !== undefined)
-	{
-		duration = ytplayer.getDuration();
-		dMinutes = Math.floor(duration / 60);
-		dSeconds = duration - dMinutes * 60;
-		currDurr = ytplayer.getCurrentTime();
-		if(currDurr > duration)
-			currDurr = duration;
-		minutes = Math.floor(currDurr / 60);
-		seconds = currDurr - minutes * 60;
-		document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
-		per = (100 / duration) * currDurr;
-		if(per >= 100)
-			per = 100;
-		else if(duration == 0)
-			per = 0;
-		$("#bar").width(per+"%");
-	}
+	duration = ytplayer.getDuration();
+	dMinutes = Math.floor(duration / 60);
+	dSeconds = duration - dMinutes * 60;
+	currDurr = ytplayer.getCurrentTime();
+	if(currDurr > duration)
+		currDurr = duration;
+	minutes = Math.floor(currDurr / 60);
+	seconds = currDurr - minutes * 60;
+	document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+	per = (100 / duration) * currDurr;
+	if(per >= 100)
+		per = 100;
+	else if(duration == 0)
+		per = 0;
+	$("#bar").width(per+"%");
 }
 
 function pad(n)
@@ -231,7 +218,7 @@ function volumeOptions()
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1767px");
 		}else if(vol > 66){
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -2604px");
-		}
+		}*/
 	}
 	else
 	{
@@ -267,11 +254,11 @@ function hoverMute(foo)
 		}else if(vol > 66){
 			$("#mute").css("background","no-repeat url(static/player.webp) -0px -1829px");
 		}
-	}
+	}*/
 }
 //url(http://localhost/Kasperrt/static/player.webp) 0px -94px no-repeat
 
 function logQ()
 {
 	console.log(ytplayer.getPlaybackQuality());
-}*/
+}
