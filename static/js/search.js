@@ -147,7 +147,7 @@ function search(search_input){
 										</div>\
 								</div>";
 								//<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
-							
+
 								//+data.uploader+" • "+
 								//$("#results").append(finalhtml);
 								wrapper += finalhtml;
@@ -186,7 +186,7 @@ function submitAndClose(id,title){
 
 function submit(id,title,type){
 
-	socket.emit("add", [id, decodeURI(title), adminpass]);
+	socket.emit("add", [id, decodeURIComponent(title), adminpass]);
 	if(type){
 		document.getElementById("search").value = "";
 		$("#results").html = "";
