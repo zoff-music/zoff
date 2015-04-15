@@ -83,7 +83,7 @@ $(document).ready(function()
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
 	$('#settings-close').sideNav('hide');
-	
+
 	colorThief = new ColorThief();
 	window.mobilecheck = function() {
 	var check = false;
@@ -181,7 +181,7 @@ function onPlayerStateChange(newState) {
 function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
-	var title= titt.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+	var title= decodeURIComponent(titt);
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
 		document.getElementById('search').placeholder = title + " • " + v + " " + outPutWord;
