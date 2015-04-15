@@ -14,45 +14,43 @@
 </head>
 <body>
     <header>
-        <div class="navbar-fixed">
-            <nav id="nav">
-                <div class="nav-wrapper">
-                    <a href="//zoff.no" class="brand-logo hide-on-small-only">
-                        <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
-                    </a>
-                    <div class="brand-logo">
-                        <a href="//zoff.no" class="hide-on-med-and-up">Zöff</a>
-                        <span class="hide-on-med-and-up">/</span>
-                        <span id="chan" class="chan hide" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
-                    </div>
-                    <ul class="right">
-                        <li>
-	                        <a class="nav-btn" href="#" id="skip" onclick="skip();">
-	                            <i class="mdi-av-skip-next"></i>
-                                <span class="hover-text">Skip</span>
-	                        </a>
-                        </li>
-                        <li>
-                            <a class="nav-btn" href="#" data-activates="settings-bar" id="settings">
-                                <i class="mdi-action-settings"></i>
-                                <span class="hover-text">Conf</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="side-nav" id="settings-bar">
-                        <?php include("php/panel.php");?>
-                    </ul>
-                    <form id="searchform" onsubmit="return false">
-                        <div>
-                            <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
-                            <!--<label for="search"><i class="mdi-action-search"></i></label>
-                            <i class="mdi-navigation-close"></i>-->
-                        </div>
-                    </form>
-                    <div id="results"></div>
+        <nav id="nav">
+            <div class="nav-wrapper">
+                <a href="//zoff.no" class="brand-logo hide-on-small-only">
+                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
+                </a>
+                <div class="brand-logo">
+                    <a href="//zoff.no" class="hide-on-med-and-up">Zöff</a>
+                    <span class="hide-on-med-and-up">/</span>
+                    <span id="chan" class="chan hide" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
-            </nav>
-        </div>
+                <ul class="right">
+                    <li>
+                        <a class="nav-btn" href="#" id="skip" onclick="skip();">
+                            <i class="mdi-av-skip-next"></i>
+                            <span class="hover-text">Skip</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-btn" href="#" data-activates="settings-bar" id="settings">
+                            <i class="mdi-action-settings"></i>
+                            <span class="hover-text">Conf</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="side-nav" id="settings-bar">
+                    <?php include("php/panel.php");?>
+                </ul>
+                <form id="searchform" onsubmit="return false">
+                    <div>
+                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
+                        <!--<label for="search"><i class="mdi-action-search"></i></label>
+                        <i class="mdi-navigation-close"></i>-->
+                    </div>
+                </form>
+                <div id="results"></div>
+            </div>
+        </nav>
     </header>
     <main class="container center-align main">
         <div class="row">

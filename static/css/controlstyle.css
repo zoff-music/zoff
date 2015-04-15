@@ -3,16 +3,8 @@
 {
 	opacity:0;
 	height:5%;
-	background-color:rgba(255, 255, 255, 0.25);
+	background-color:rgba(255, 255, 255, 0.1);
 	width:100%;
-	transition: 0.75s -webkit-filter linear;
-	-webkit-transform: translate3d(0,0,0);
-	-moz-transform: translate3d(0,0,0);
-	-ms-transform: translate3d(0,0,0);
-	-o-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
-	-webkit-transition:opacity 1s;
-	transition: opacity 1s;
 }
 
 #playpause, #duration, #volume-button
@@ -28,7 +20,7 @@
 
 #playpause:hover, #volume-button:hover, #fullscreen:hover
 {
-  color:#2D2D2D;
+	color:rgba(255,255,255,0.5);
 }
 
 #fullscreen
@@ -94,7 +86,6 @@
 
 .play
 {
-	/*background: no-repeat url(player.webp) 0 -496px;*/
 	background-size: auto;
 	width: 55px;
 	height: 27px;
@@ -102,7 +93,6 @@
 
 .pause
 {
-	/*background: no-repeat url(player.webp) 0 -2139px;*/
 	background-size: auto;
 	width: 55px;
 	height: 27px;
