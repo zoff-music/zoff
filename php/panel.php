@@ -1,11 +1,11 @@
 <li class="no-padding">
     <ul class="collapsible collapsible-accordion">
         <li>
+          <a class="nav-btn close-settings" title="Close" href="#" onclick="hide_settings()">
+              <i class="mdi-navigation-close right-align"></i>
+          </a>
             <a class="col s9 collapsible-header bold waves-effect active">Channel Settings
                 <i class="mdi-image-tune"></i>
-                <a class="nav-btn close-settings" title="Close" href="#" onclick="hide_settings()">
-                    <i class="mdi-navigation-close"></i>
-                </a>
             </a>
             <div class="collapsible-body">
                 <ul>

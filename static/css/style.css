@@ -122,6 +122,10 @@ hide mdi-action-visibility mdi-action-visibility-off
     transition: padding 1s ease;
 }
 
+.mdi-navigation-close {
+  text-align:right !important;
+}
+
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
