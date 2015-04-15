@@ -31,9 +31,8 @@ if(isset($_GET['chan'])){
                 <p>Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen<br><br>
 
 Creative Commons License<br>
-Zöff by Nixo & KasperRT is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+Zöff by <a href="http://nixo.no">Nixo</a> & <a href="http://kasperrt.no">KasperRT</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
 <br><br>
-This product is not to be distributed for pay, or to be altered with without permission of the creators. If anything is to be altered with, the Copyright footer is to stand on the bottom of the website, and it shall remain named Zöff</p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
