@@ -145,7 +145,7 @@ io.on('connection', function(socket){
   socket.on('vote', function(msg)
   {
     if(msg[2] == "del")
-      del(msg);
+      del(msg, socket);
     else
     {
     	var id = msg[1];
@@ -282,14 +282,14 @@ io.on('connection', function(socket){
   });
 });
 
-function del(params)
+function del(params, socket)
 {
   var coll = params[0].toLowerCase();
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
     if(docs[0]["adminpass"] == hash_pass(params[4]))
     {
       db.collection(coll).remove({id:params[1]}, function(err, docs){
-        socket.emit("toast", "The song was deleted.");
+        socket.emit("toast", "Deleted song!");
         sort_list(coll, undefined, false);
       })
     }

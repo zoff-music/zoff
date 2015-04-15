@@ -74,6 +74,8 @@ function populate_list(msg, conf_only)
 				song.find(".votebg").attr("onclick", "vote('"+video_id+"','pos')");
 				song.find(".list-image").attr("style",video_thumb);
 				song.attr("id",video_id);
+				song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
+				if(!w_p) $(".card-action").removeClass("hide");
 			}
 		});
 
