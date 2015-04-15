@@ -11,26 +11,41 @@ socket.on("toast", function(msg)
 	remove_bar();*/
 });
 
+socket.on(chan.toLowerCase()+",conf", function(msg)
+{
+	populate_list(msg);
+});
+
+$('input[class=conf]').change(function()
+{
+		save();
+});
+
+function pass_save()
+{
+	save();
+}
 
 //function used in html onlick
 function save(){
-	submitAdmin($("#adminForm"));
+	submitAdmin(document.getElementById("adminForm").elements);
 }
 
 function submitAdmin(form)
 {
-	voting = form.vote.value;
-	addsongs = form.addsongs.value;
-	longsongs = form.longsongs.value;
-	frontpage = form.frontpage.value;
-	allvideos = form.allvideos.value;
-	removeplay = form.removeplay.value;
-	adminpass = form.pass.value;
-	skipping = form.skip.value;
-	shuffling = form.shuffle.value;
+	console.log(form);
+	voting = form.vote.checked;
+	addsongs = form.addsongs.checked;
+	longsongs = form.longsongs.checked;
+	frontpage = form.frontpage.checked;
+	allvideos = form.allvideos.checked;
+	removeplay = form.removeplay.checked;
+	adminpass = document.getElementById("password").value;
+	skipping = form.skip.checked;
+	shuffling = form.shuffle.checked;
 
 	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
-	alert(configs)
+	console.log(configs);
 	socket.emit("conf", configs);
 }
 

@@ -89,7 +89,7 @@ io.on('connection', function(socket){
     	}else
     	{
     		db.createCollection(coll, function(err, docs){
-  				db.collection(coll).insert({"addsongs":"false", "adminpass":"", "allvideos":"true", "frontpage":"true", "longsongs":"true", "removeplay": "false", "shuffle": "false", "skip": "true", "skips": [], "startTime":get_time(), "views": [], "vote": "false"}, function(err, docs)
+  				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":true, "removeplay": false, "shuffle": false, "skip": true, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
   				{
             db.collection(coll).find().sort({votes:-1}, function(err, docs) {
     		    	socket.emit(coll, docs);
@@ -117,7 +117,7 @@ io.on('connection', function(socket){
     var hash = hash_pass(arr[2]);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs)
     {
-      if((docs[0]["addsongs"] == "true" && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["addsongs"] == "false")
+      if((docs[0]["addsongs"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["addsongs"] == false)
       {
         db.collection(coll).find({id:id}, function(err, docs){
           if(docs.length == 0)
@@ -153,7 +153,7 @@ io.on('connection', function(socket){
       var hash = hash_pass(msg[4]);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs)
       {
-        if((docs[0]["vote"] == "true" && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["vote"] == "false")
+        if((docs[0]["vote"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["vote"] == false)
         {
           vote(coll, id, guid, socket);
         }else{
@@ -165,7 +165,7 @@ io.on('connection', function(socket){
 
   socket.on('skip', function(list)
   {
-  	db.collection(coll).find({skip: "true"}, function(err, docs){
+  	db.collection(coll).find({skip: true}, function(err, docs){
   		if(docs.length == 1)
   		{
   			if(lists[coll].length/2 <= docs[0]["skips"]+1)
@@ -194,7 +194,10 @@ io.on('connection', function(socket){
   	var skipping = params[7];
   	var shuffling = params[8];
 
-    var hash = hash_pass(adminpass);
+    if(adminpass != "")
+      var hash = hash_pass(adminpass);
+    else
+      var hash = adminpass;
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash)
@@ -209,8 +212,12 @@ io.on('connection', function(socket){
             shuffle:shuffling,
             longsongs:longsongs,
             adminpass:hash}}, function(err, docs){
-            socket.emit("toast", "Successfully applied settings!");
-            sort_list(coll,undefined,false);
+            db.collection(coll).find({views:{$exists:true}}, function(err, docs)
+            {
+              io.sockets.emit(coll+",conf", docs);
+              socket.emit("toast", "Successfully applied settings!");
+            });
+            //sort_list(coll,undefined,false);
           });
 
       }else
@@ -223,7 +230,7 @@ io.on('connection', function(socket){
   socket.on('shuffle', function(pass){
     var hash = hash_pass(pass);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      if((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == "true")
+      if((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == true)
       {
         db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
           if(!docs){
@@ -305,7 +312,7 @@ function vote(coll, id, guid, socket)
 function change_song(coll)
 {
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-    if(docs[0]["removeplay"] == "true")
+    if(docs[0]["removeplay"] == true)
     {
       db.collection(coll).remove({now_playing:true}, function(err, docs)
       {

@@ -39,18 +39,21 @@ function populate_list(msg)
 			if(listeID.hasOwnProperty('startTime')) //check if its config part of list
 			{
 				console.log("startTime");
-				console.log(listeID.addsongs);
 				if(!adminTogg)
 				{
+					if(listeID['adminpass'] == "") hasadmin = false;
+					else hasadmin = true;
 					names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 					for (var i = 0; i < names.length; i++) {
-						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === 'true');
+						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === true);
+						if(hasadmin)
+							$("input[name="+names[i]+"]").attr("disabled", true);
 					}
 
-					if(hasadmin)
+					/*if(hasadmin)
 						$("#setpass").text("Channel has admin");
 					else
-						$("#setpass").text("Channel has no admin");
+						$("#setpass").text("Channel has no admin");*/
 				}
 			}else if(!listeID.now_playing){ //check that the song isnt playing
 
