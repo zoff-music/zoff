@@ -20,6 +20,7 @@ socket.on("pw", function(msg)
 	for (var i = 0; i < names.length; i++) {
 			$("input[name="+names[i]+"]").attr("disabled", false);
 	}
+	$(".card-action").removeClass("hide");
 });
 
 socket.on(chan.toLowerCase()+",conf", function(msg)

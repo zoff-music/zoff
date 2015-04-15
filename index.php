@@ -14,6 +14,7 @@
 </head>
 <body>
     <header>
+      <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
                 <a href="//zoff.no" class="brand-logo hide-on-small-only">
@@ -51,6 +52,7 @@
                 <div id="results"></div>
             </div>
         </nav>
+      </div>
     </header>
     <main class="container center-align main">
         <div class="row">
@@ -88,7 +90,7 @@
                                 <span class="list-votes"></span>
                             </span>
                             <div class="card-action hide">
-                                <a id="del" onclick="vote('id','del')" class="clickable" class="waves-effect waves-orange btn-flat">Remove</a>
+                                <a id="del" onclick="vote('id','del')" class="waves-effect waves-orange btn-flat clickable">Remove</a>
                             </div>
                         </div>
                     </div>
