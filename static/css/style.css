@@ -80,6 +80,14 @@ main {
     height: 120px;
 }
 
+.white-bg{
+    background-color:white;
+}
+
+.white-bg:hover{
+    background-color:white;
+}
+
 .card .card-content {
     padding: 10px 20px;
 }
@@ -161,8 +169,9 @@ hide mdi-action-visibility mdi-action-visibility-off
     float: left;
 }
 
+
 .list-song{background-color: rgba(255, 255, 255, 0.1);}
-.card .card-content{padding:0;}
+.list-song .card-content{padding:0;}
 .list-title{
     display:block;
     color:white;font-size:1em;
@@ -185,4 +194,31 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 .result_info{margin-top:-36px;}
 
+
+/** settings **/
+
 #settings-button{color:white !important;}
+
+.setting-text {
+    font-size: 13px !important;
+    padding: 0 !important;
+}
+.switch{
+    display: inline;
+    float: right;
+}
+.switch label .lever {
+  background-color: #00B2FF;
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: #5ADB74;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+   background-color: white;
+}
+
+.switch label {
+  color:#848484;
+}

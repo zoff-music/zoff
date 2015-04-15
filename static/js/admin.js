@@ -11,29 +11,11 @@ socket.on("toast", function(msg)
 	remove_bar();*/
 });
 
-function admin()
-{
-	adminTogg = !adminTogg;
-	if(adminTogg)
-	{
-		if(find)
-		{
-			eH = -10;
-		}else
-			eH = 30;
-		$("#playlist").height($("#player").height()-290+eH); //opening
-	}else if(!adminTogg)
-	{
-		if(find)
-		{
-			eH = -10;
-		}else
-			eH = 30;
-		$("#playlist").height($("#player").height()+eH); //closing
-	}
-	$("#adminPanel").toggleClass("hiddenAdmin");
-}
 
+//function used in html onlick
+function save(){
+	submitAdmin($("#adminForm"));
+}
 
 function submitAdmin(form)
 {
@@ -48,8 +30,12 @@ function submitAdmin(form)
 	shuffling = form.shuffle.value;
 
 	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
-
+	alert(configs)
 	socket.emit("conf", configs);
+}
+
+function hide_settings(){
+	$('#settings').sideNav('hide');
 }
 
 function remove_bar()

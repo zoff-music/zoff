@@ -33,13 +33,13 @@
 	                        </a>
                         </li>
                         <li>
-                            <a class="nav-btn" href="#" onclick="admin();" data-activates="mobile-demo" id="settings">
+                            <a class="nav-btn" href="#" data-activates="settings-bar" id="settings">
                                 <i class="mdi-action-settings"></i>
                                 <span class="hover-text">Conf</span>
                             </a>
                         </li>
                     </ul>
-                    <ul class="side-nav" id="mobile-demo">
+                    <ul class="side-nav" id="settings-bar">
                         <?php include("php/panel.php");?>
                     </ul>
                     <form id="searchform" onsubmit="return false">

@@ -77,7 +77,13 @@ socket.on(chan.toLowerCase()+",viewers", function(view)
 
 $(document).ready(function()
 {
-	$("#settings").sideNav();
+	$("#settings").sideNav({
+      menuWidth: 300, // Default is 240
+      edge: 'right', // Choose the horizontal origin
+      closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    });
+	$('#settings-close').sideNav('hide');
+	
 	colorThief = new ColorThief();
 	window.mobilecheck = function() {
 	var check = false;

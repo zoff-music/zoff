@@ -45,7 +45,6 @@ function populate_list(msg)
 					names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 					for (var i = 0; i < names.length; i++) {
 						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === 'true');
-						document.getElementsByName(names[i])[1].checked = (listeID[names[i]] === 'false');
 					}
 
 					if(hasadmin)
@@ -63,6 +62,7 @@ function populate_list(msg)
 				$("#wrapper").append(list_html);
 				var song = $("#list-song");
 				song.find(".list-title").text(video_title);
+				song.find(".list-title").attr("title", video_title);
 				song.find(".list-votes").text(video_votes);
 				song.find(".votebg").attr("onclick", "vote('"+video_id+"','pos')");
 				song.find(".list-image").attr("style",video_thumb);
