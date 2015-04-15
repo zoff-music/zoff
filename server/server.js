@@ -165,7 +165,7 @@ io.on('connection', function(socket){
 
   socket.on('skip', function(list)
   {
-  	db.collection(coll).find({skip: true}, function(err, docs){
+  	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
   			if(lists[coll].length/2 <= docs[0]["skips"]+1)
@@ -178,7 +178,7 @@ io.on('connection', function(socket){
   				});
   			}
   		}else
-        socket.emit("sucess_settings", "No Skipping!");
+        socket.emit("toast", "No Skipping!");
   	});
   });
 

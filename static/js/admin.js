@@ -13,7 +13,7 @@ socket.on("toast", function(msg)
 
 socket.on(chan.toLowerCase()+",conf", function(msg)
 {
-	populate_list(msg);
+	populate_list(msg, true);
 });
 
 $('input[class=conf]').change(function()

@@ -9,7 +9,7 @@ var list_html = $("#list-song-html").html();
 var hasadmin=0;
 
 socket.on(guid, function(msg){
-	populate_list(msg);
+	populate_list(msg, false);
 });
 
 socket.on("abc", function(){
@@ -17,7 +17,7 @@ socket.on("abc", function(){
 });
 
 socket.on(chan.toLowerCase(), function(msg){
-	populate_list(msg);
+	populate_list(msg, false);
 });
 
 socket.on("skipping", function(obj)
@@ -29,11 +29,12 @@ socket.on("skipping", function(obj)
 	},1500);
 });
 
-function populate_list(msg)
+function populate_list(msg, conf_only)
 {
 	console.log(msg);
-
-	$("#wrapper").empty();
+	console.log(conf_only);
+	if(!conf_only)
+		$("#wrapper").empty();
 
 		$.each(msg, function(j, listeID){
 			if(listeID.hasOwnProperty('startTime')) //check if its config part of list
