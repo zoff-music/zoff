@@ -1,7 +1,7 @@
 <li class="no-padding">
     <ul class="collapsible collapsible-accordion">
         <li><a class="nav-btn close-settings" title="Close" href="#" onclick="hide_settings()" style="float:right;">
-            <i class="mdi-navigation-close right-align"></i>
+            <i class="mdi-navigation-close center-align"></i>
         </a>
             <a class="col s9 collapsible-header bold waves-effect active">
                 Channel Settings

@@ -28,11 +28,13 @@ if(isset($_GET['chan'])){
         <div id="legal" class="modal">
             <div class="modal-content">
                 <h4>Legal</h4>
-                <p>Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen<br><br>
-
-Creative Commons License<br>
-Zöff by <a href="http://nixo.no">Nixo</a> & <a href="http://kasperrt.no">KasperRT</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
-<br><br>
+                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+                <br><br>
+                Creative Commons License<br>
+                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                <br>
+                Do not redistribute without permission from the development team.
+                <br>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -43,7 +45,7 @@ Zöff by <a href="http://nixo.no">Nixo</a> & <a href="http://kasperrt.no">Kasper
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
                 Zöff is mainly a webbased service, but an Android app is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
-                The website builds mainly on PHP, and NodeJS with Socket.IO and MongoDB on the backend. More about the project itself can be found on GitHub<br><br>
+                The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/nixolas1/Zoff">GitHub</a><br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
                 The team can be reached on either <a href="mailto:kasper@kasperrt.no?Subject=Contact%20Zoff">kasper@kasperrt.no</a> or <a href="mailto:me@nixo.no?Subject=Contact%20Zoff">me@nixo.no</a>
                 </p>
