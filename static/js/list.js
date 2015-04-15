@@ -9,10 +9,6 @@ var list_html = $("#list-song-html").html();
 var hasadmin=0;
 var w_p = true;
 
-socket.on(guid, function(msg){
-	populate_list(msg, false);
-});
-
 socket.on("abc", function(){
 	alert("alert");
 });

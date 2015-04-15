@@ -28,7 +28,12 @@ if(isset($_GET['chan'])){
         <div id="legal" class="modal">
             <div class="modal-content">
                 <h4>Legal</h4>
-                <p>A bunch of text</p>
+                <p>Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen<br><br>
+
+Creative Commons License<br>
+Zöff by Nixo & KasperRT is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+<br><br>
+This product is not to be distributed for pay, or to be altered with without permission of the creators. If anything is to be altered with, the Copyright footer is to stand on the bottom of the website, and it shall remain named Zöff</p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -37,7 +42,12 @@ if(isset($_GET['chan'])){
         <div id="about" class="modal">
             <div class="modal-content">
                 <h4>About</h4>
-                <p>A bunch of text</p>
+                <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
+                Zöff is mainly a webbased service, but an Android app is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
+                The website builds mainly on PHP, and NodeJS with Socket.IO and MongoDB on the backend. More about the project itself can be found on GitHub<br><br>
+                The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
+                The team can be reached on either <a href="mailto:kasper@kasperrt.no?Subject=Contact%20Zoff">kasper@kasperrt.no</a> or <a href="mailto:me@nixo.no?Subject=Contact%20Zoff">me@nixo.no</a>
+                </p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
