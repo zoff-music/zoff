@@ -72,6 +72,8 @@ main {
     opacity: 0;
 }
 
+.clickable, .modal-trigger{cursor:pointer;}
+
 .cardbg{
     background-repeat: no-repeat;
     background-size: 124%;

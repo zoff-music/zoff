@@ -1,8 +1,9 @@
 #!/bin/bash
 apt-get update
-apt-get install npm
-apt-get install nodejs
+apt-get install -y npm
+apt-get install -y nodejs
 npm install -g forever
+ln -s /usr/bin/nodejs /usr/bin/node
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/server
 forever stopall
 CMD="forever start -l /var/log/zoff.log -a --workingDir $DIR $DIR/server.js"

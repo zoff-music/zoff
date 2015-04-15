@@ -19,12 +19,30 @@ if(isset($_GET['chan'])){
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Legal</a></li>
+                    <li><a class="modal-trigger" onclick="$('#about').openModal()">About</a></li>
+                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
+                    <li><a class="modal-trigger" onclick="$('#legal').openModal()">Legal</a></li>
                 </ul>
             </div>
         </nav>
+        <div id="legal" class="modal">
+            <div class="modal-content">
+                <h4>Legal</h4>
+                <p>A bunch of text</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="about" class="modal">
+            <div class="modal-content">
+                <h4>About</h4>
+                <p>A bunch of text</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
     </header>
 
     <main class="center-align container">
