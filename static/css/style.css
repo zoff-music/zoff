@@ -162,6 +162,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 {
     transition: background-color .2s;
     min-width: 64px;
+    float:right;
 }
 .nav-btn:hover{background-color:rgba(0,0,0,0.5);}
 .hover-text{display:none;}
@@ -225,4 +226,8 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .switch label {
   color:#848484;
+}
+
+.collapsible-body ul li.white-bg{
+  background-color:white !important;
 }

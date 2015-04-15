@@ -120,7 +120,7 @@ function search(search_input){
 		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
-			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=6&v=2&alt=jsonc';
+			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=30&v=2&alt=jsonc';
 
 			$.ajax({
 				type: "GET",
@@ -131,10 +131,11 @@ function search(search_input){
 					if(response.data.items)
 					{
 						var wrapper = "";
+						z = 0;
 						$.each(response.data.items, function(i,data)
 						{
-							if(data.duration > 720 && longS === 0){return;}
-							if(data.category == "Music" || music == 1){
+							if(data.duration > 720 && longsongs == true){return;}
+							if(data.category == "Music" || music == false){
 								var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
 								var views=data.viewCount;
 								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
@@ -147,11 +148,12 @@ function search(search_input){
 										</div>\
 								</div>";
 								//<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
-
 								//+data.uploader+" • "+
 								//$("#results").append(finalhtml);
 								wrapper += finalhtml;
+								z++;
 							}
+							return (z !== 6);
 						});
 						//console.log(wrapper);
 						//$("#results").append(wrapper).show("slow");
