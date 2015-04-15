@@ -7,6 +7,7 @@ var showToggle =true;
 var chan = $("#chan").html();
 var list_html = $("#list-song-html").html();
 var hasadmin=0;
+var w_p = true;
 
 socket.on(guid, function(msg){
 	populate_list(msg, false);
@@ -42,8 +43,10 @@ function populate_list(msg, conf_only)
 				console.log("startTime");
 				if(!adminTogg)
 				{
-					if(listeID['adminpass'] == "") hasadmin = false;
+					if(listeID['adminpass'] == "" || w_p == false) hasadmin = false;
 					else hasadmin = true;
+					music = listeID["allvideos"];
+					longsongs = listeID["longsongs"];
 					names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 					for (var i = 0; i < names.length; i++) {
 						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === true);

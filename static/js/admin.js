@@ -1,6 +1,7 @@
 var adminTogg = false;
 var pass_corr = "";
 
+
 socket.on("toast", function(msg)
 {
 	pass_corr = "correct";
@@ -9,6 +10,16 @@ socket.on("toast", function(msg)
 	$("#sBar").addClass("opacityFull");
 	document.getElementById("passbox").value = "";
 	remove_bar();*/
+});
+
+socket.on("pw", function(msg)
+{
+	w_p = false;
+	adminpass = msg;
+	names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+	for (var i = 0; i < names.length; i++) {
+			$("input[name="+names[i]+"]").attr("disabled", false);
+	}
 });
 
 socket.on(chan.toLowerCase()+",conf", function(msg)
@@ -23,7 +34,7 @@ $('input[class=conf]').change(function()
 
 function pass_save()
 {
-	save();
+	socket.emit('password', document.getElementById("password").value);
 }
 
 //function used in html onlick
@@ -40,7 +51,7 @@ function submitAdmin(form)
 	frontpage = form.frontpage.checked;
 	allvideos = form.allvideos.checked;
 	removeplay = form.removeplay.checked;
-	adminpass = document.getElementById("password").value;
+	//adminpass = document.getElementById("password").value;
 	skipping = form.skip.checked;
 	shuffling = form.shuffle.checked;
 

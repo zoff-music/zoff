@@ -163,6 +163,20 @@ io.on('connection', function(socket){
     }
   });
 
+  socket.on('password', function(pw)
+  {
+
+    db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+      if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
+      {
+        db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:hash_pass(pw)}}, function(err, docs)
+        {
+          socket.emit("pw", pw);
+        })
+      }
+    });
+  });
+
   socket.on('skip', function(list)
   {
   	db.collection(coll).find({skip: false}, function(err, docs){
