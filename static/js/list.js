@@ -54,7 +54,7 @@ function populate_list(msg)
 				}
 			}else if(!listeID.now_playing){ //check that the song isnt playing
 
-				var video_title=listeID.title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+				var video_title=decodeURIComponent(listeID.title);
 				var video_id = listeID.id;
 				var video_thumb = "background-image:url('http://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
 				//var delsong = ""; if(pass_corr=="correct");
