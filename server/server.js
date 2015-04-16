@@ -226,6 +226,7 @@ io.on('connection', function(socket){
           socket.emit("pw", pw);
         })
       }
+      socket.emit("toast", "wrongpass");
     });
   });
 
