@@ -17,7 +17,7 @@
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="//zoff.no" class="brand-logo hide-on-small-only">
+                <a href="/" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <div class="brand-logo">
