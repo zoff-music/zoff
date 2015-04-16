@@ -103,34 +103,11 @@ io.on('connection', function(socket){
 
   socket.on('end', function(arg)
   {
-
-    db.collection(coll).find({now_playing:true}, function(err, docs){
-      if(docs.length == 1 && docs[0]["id"] == arg)
-      {
-        var durr = docs[0]["duration"];
-        console.log(docs);
-        console.log()
-        db.collection(coll).find({views:{$exists:true}}, function(err,docs)
-        {
-          if(docs[0]["startTime"]+durr<=get_time()-1)
-          {
-            db.collection(coll).aggregate(
-              [
-                {$match:{now_playing:false}},
-                {$sort:{votes:-1, added:1}},
-                {$limit:1}
-              ], function(err, docs){
-                  db.collection(coll).update({id:docs[0]["id"]}, {$set:{now_playing:true, votes:0, guids:[]}}, {upsert:false}, function(err, docs)
-                  {
-                    db.collection(coll).update({id:arg}, {$set:{now_playing:false, votes:0, guids:[], added:get_time()}}, function(err, docs){
-                      sort_list(coll, undefined, true);
-                    });
-                  });
-              });
-          }
-        });
-      }
-    });
+  	db.collection(coll).find({now_playing:true}, function(err, docs){
+  		if(docs.length > 0 && docs[0]["id"] == arg){
+  			change_song(coll, arg, docs[0]["id"]);
+  		}
+  	})
   });
 
   socket.on('add', function(arr)
@@ -360,8 +337,24 @@ function change_song(coll, id, np_id)
       })
     }else
     {
+      if(id === undefined){
+        console.log("undef");
+        db.collection(coll).update({now_playing:true},
+          {$set:{
+            now_playing:false,
+            votes:0,
+            guids:[]
+          }}, function(err, docs)
+          {
+              console.log(err);
+              console.log(docs);
+              change_song_post(coll);
+        });
+      }else{
         db.collection(coll).find({id:id}, function(err, docs){
-            db.collection(coll).update({now_playing:true},
+          if(startTime+docs[0]["duration"]<=get_time()-1)
+          {
+            db.collection(coll).update({now_playing:true, id:id},
               {$set:{
                 now_playing:false,
                 votes:0,
@@ -370,7 +363,9 @@ function change_song(coll, id, np_id)
               {
                   change_song_post(coll);
             });
+          }
         });
+      }
     }
   })
 }
@@ -387,7 +382,7 @@ function change_song_post(coll)
             now_playing:true,
             votes:0,
             guids:[],
-            added:get_time()}},{upsert:false}, function(err, docs){
+            added:get_time()}}, function(err, docs){
               db.collection(coll).update({views:{$exists:true}},
                 {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
                   sort_list(coll,undefined,true);

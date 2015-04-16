@@ -164,6 +164,7 @@ function onPlayerStateChange(newState) {
 		case -1:
 			break;
 		case 0:
+			console.log("end");
 			socket.emit("end", video_id);
 			playing = false;
 			paused = false;
