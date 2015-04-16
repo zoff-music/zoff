@@ -103,10 +103,10 @@ io.on('connection', function(socket){
 
   socket.on('end', function(id)
   {
-  	db.collection(coll).find({now_playing:true}, function(err, docs){
+  	db.collection(coll).find({now_playing:true}, function(err, np){
       //console.log(docs);
       //console.log(docs.length);
-  		if(docs.length == 1 && docs[0]["id"] == id){
+  		if(np.length == 1 && np[0]["id"] == id){
         db.collection(coll).find({views:{$exists:true}}, function(err, docs){
           var startTime = docs[0]["startTime"];
           if(docs[0]["removeplay"] == true)
@@ -117,44 +117,43 @@ io.on('connection', function(socket){
             })
           }else
           {
-              db.collection(coll).find({id:id}, function(err, docs){
-                if(startTime+docs[0]["duration"]<=get_time()-1)
-                {
-                  db.collection(coll).update({now_playing:true, id:id},
-                    {$set:{
-                      now_playing:false,
-                      votes:0,
-                      guids:[]
-                    }}, function(err, docs)
+
+              if(startTime+np[0]["duration"]<=get_time()-1)
+              {
+                db.collection(coll).update({now_playing:true, id:id},
+                  {$set:{
+                    now_playing:false,
+                    votes:0,
+                    guids:[]
+                  }}, function(err, docs)
+                  {
+                    //console.log(err);
+                    //console.log(docs["n"]);
+                    if(docs["n"] == 1)
                     {
-                      //console.log(err);
-                      //console.log(docs["n"]);
-                      if(docs["n"] == 1)
-                      {
-                        db.collection(coll).aggregate([
-                          {$match:{now_playing:false}},
-                          {$sort:{votes:-1, added:1}},
-                          {$limit:1}], function(err, docs){
-                            if(docs.length > 0){
-                              db.collection(coll).update({id:docs[0]["id"]},
-                              {$set:{
-                                now_playing:true,
-                                votes:0,
-                                guids:[],
-                                added:get_time()}}, function(err, docs){
-                                  db.collection(coll).update({views:{$exists:true}},
-                                    {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
-                                      sort_list(coll, undefined, true, true);
-                                  });
+                      db.collection(coll).aggregate([
+                        {$match:{now_playing:false}},
+                        {$sort:{votes:-1, added:1}},
+                        {$limit:1}], function(err, docs){
+                          if(docs.length > 0){
+                            db.collection(coll).update({id:docs[0]["id"]},
+                            {$set:{
+                              now_playing:true,
+                              votes:0,
+                              guids:[],
+                              added:get_time()}}, function(err, docs){
+                                db.collection(coll).update({views:{$exists:true}},
+                                  {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
+                                    sort_list(coll, undefined, true, true);
                                 });
-                            }
-                      });
-                      }
+                              });
+                          }
+                    });
+                    }
 
-                  });
+                });
 
-                }
-              });
+              }
           }
         });
   		}
