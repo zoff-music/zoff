@@ -336,6 +336,7 @@ function change_song(coll, id)
     }else
     {
       if(id === undefined){
+        console.log("undef");
         db.collection(coll).update({now_playing:true},
           {$set:{
             now_playing:false,
