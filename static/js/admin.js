@@ -18,7 +18,7 @@ socket.on("toast", function(msg)
 		case "deletesong":
 	        msg="Deleted song"
 	        break;
-		case "vote":
+		case "voted":
 			msg="Voted on song"
 			break;
 		case "alreadyvoted":
