@@ -63,10 +63,9 @@ $(document).ready(function()
 					dataType:"jsonp",
 					success: function(response)
 					{
-						console.log(response.data.items);
 						$.each(response.data.items, function(i,data)
 						{
-							submit(data.video.id, data.video.title, true, data.duration);
+							submit(data.video.id, data.video.title, true, data.video.duration);
 						});
 					}
 				});
