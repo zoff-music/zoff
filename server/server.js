@@ -104,8 +104,8 @@ io.on('connection', function(socket){
   socket.on('end', function(arg)
   {
   	db.collection(coll).find({now_playing:true}, function(err, docs){
-  		if(docs.length > 0 && docs[0]["id"] == arg){
-  			change_song(coll);
+  		if(docs.length > 0 && docs[0]["id"] == arg){
+  			change_song(coll, arg);
   		}
   	})
   });
