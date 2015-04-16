@@ -56,7 +56,7 @@ $(document).ready(function()
 			pId = search_input.split("list=");
 			if(pId.length > 1)
 			{
-				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=300&v=2&alt=jsonc";
+				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=50&v=2&alt=jsonc";
 				$.ajax({
 					type: "GET",
 					url: pListUrl,
