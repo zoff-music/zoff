@@ -324,7 +324,7 @@ function vote(coll, id, guid, socket)
 }
 
 
-function change_song(coll)
+function change_song(coll, id)
 {
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
     if(docs[0]["removeplay"] == true)
@@ -335,15 +335,27 @@ function change_song(coll)
       })
     }else
     {
-      db.collection(coll).update({now_playing:true},
-        {$set:{
-          now_playing:false,
-          votes:0,
-          guids:[]
-        }}, function(err, docs)
-        {
-            change_song_post(coll);
-      });
+      if(id === undefined){
+        db.collection(coll).update({now_playing:true},
+          {$set:{
+            now_playing:false,
+            votes:0,
+            guids:[]
+          }}, function(err, docs)
+          {
+              change_song_post(coll);
+        });
+      }else{
+        db.collection(coll).update({now_playing:true, id:id},
+          {$set:{
+            now_playing:false,
+            votes:0,
+            guids:[]
+          }}, function(err, docs)
+          {
+              change_song_post(coll);
+        });
+      }
     }
   })
 }
