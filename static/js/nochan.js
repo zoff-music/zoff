@@ -55,12 +55,17 @@ String.prototype.capitalizeFirstLetter = function() {
 
 
 function sortFunction(a, b) {
-    if (a[0] === b[0]) {
-        return 0;
-    }
-    else {
-        return (a[0] < b[0]) ? 1 : -1;
-    }
+  var o1 = a[0];
+  var o2 = b[0];
+
+  var p1 = a[4];
+  var p2 = b[4];
+
+  if (o1 < o2) return 1;
+  if (o1 > o2) return -1;
+  if (p1 < p2) return 1;
+  if (p1 > p2) return -1;
+  return 0;
 }
 
 $(document).ready(function (){
