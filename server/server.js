@@ -186,9 +186,9 @@ io.on('connection', function(socket){
   			{
   				change_song(coll);
   			}else{
-  				db.collection(coll).update({views:{$exists:true}}, {$push:{guids:guid}}, function(err, d){
+  				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
   					//reply with skips or something
-            socket.emit("skipping", [docs[0]["skips"]+1, lists[coll].length])
+            socket.emit("toast", (docs[0]["skips"]+1) " of "+ Math.floor(lists[coll].length/2) + " are needed to skip!");
   				});
   			}
   		}else
@@ -361,7 +361,7 @@ function change_song_post(coll)
             guids:[],
             added:get_time()}}, function(err, docs){
               db.collection(coll).update({views:{$exists:true}},
-                {$set:{startTime:get_time()}}, function(err, docs){
+                {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
                   sort_list(coll,undefined,true);
               });
 
