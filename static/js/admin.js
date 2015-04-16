@@ -21,6 +21,7 @@ socket.on("pw", function(msg)
 			$("input[name="+names[i]+"]").attr("disabled", false);
 	}
 	$(".card-action").removeClass("hide");
+	localStorage.setItem("passord_i_klartekst_lol", msg);
 });
 
 socket.on(chan.toLowerCase()+",conf", function(msg)
