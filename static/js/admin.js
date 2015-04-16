@@ -5,7 +5,7 @@ var pass_corr = "";
 socket.on("toast", function(msg)
 {
 	pass_corr = "correct";
-	Materialize.toast(msg, 4000);
+	Materialize.toast(msg, 200000);
 	/*document.getElementById("sBar").innerHTML = msg;
 	$("#sBar").addClass("opacityFull");
 	document.getElementById("passbox").value = "";

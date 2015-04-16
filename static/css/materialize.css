@@ -5404,7 +5404,7 @@ small {
       right: 0;
       top: 0;
       bottom: 0;
-      width: 100%; 
+      width: 100%;
       height: 18%;
 }
     .card .card-image .card-title {
@@ -5468,7 +5468,7 @@ small {
     #toast-container {
       min-width: 8%;
       top: 10%;
-      right: 7%; } }
+      left: 2%; } }
 
 .toast {
   border-radius: 2px;
