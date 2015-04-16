@@ -182,15 +182,16 @@ io.on('connection', function(socket){
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"].length+1)
+  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
   			{
   				change_song(coll);
-  			}else{
+  			}else if(!contains(docs[0]["skips"], guid)){
   				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
-  					//reply with skips or something
-            socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length+1) + " more are needed to skip!");
+            socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
   				});
-  			}
+  			}else{
+          socket.emit("toast", "You've already voted to skip!");
+        }
   		}else
         socket.emit("toast", "No Skipping!");
   	});
