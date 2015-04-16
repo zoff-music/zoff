@@ -141,7 +141,7 @@ function search(search_input){
 								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
 								var length = Math.floor(data.duration/60)+":"+(data.duration-Math.floor(data.duration / 60)*60);
 								var finalhtml="\
-								<div id='result' class='result' onclick=\"submitAndClose('"+data.id+"','"+video_title+"');\">\
+								<div id='result' class='result' onclick=\"submitAndClose('"+data.id+"','"+video_title+"', "+data.duration+");\">\
 									<img src='"+video_thumb+"' class='thumb'>\
 									<div id='title'>"+data.title+"\
 										<div class='result_info'>"+views+" views • "+length+"</div>\
@@ -179,16 +179,16 @@ function search(search_input){
 
 }
 
-function submitAndClose(id,title){
-	submit(id,title, true);
+function submitAndClose(id,title,duration){
+	submit(id,title, true, duration);
 	$("#results").html('');
 	console.log("sub&closed");
 
 }
 
-function submit(id,title,type){
+function submit(id,title,type, duration){
 
-	socket.emit("add", [id, decodeURIComponent(title), adminpass]);
+	socket.emit("add", [id, decodeURIComponent(title), adminpass, duration]);
 	if(type){
 		document.getElementById("search").value = "";
 		$("#results").html = "";

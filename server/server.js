@@ -115,6 +115,7 @@ io.on('connection', function(socket){
   	var id = arr[0];
   	var title = arr[1];
     var hash = hash_pass(arr[2]);
+    var duration = arr[3];
     db.collection(coll).find({views:{$exists:true}}, function(err, docs)
     {
       if((docs[0]["addsongs"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["addsongs"] == false)
@@ -129,7 +130,7 @@ io.on('connection', function(socket){
                 np = true;
               else
                 np = false;
-        			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes}, function(err, docs){
+        			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, function(err, docs){
       		  		sort_list(coll, undefined, np);
       		  	});
             });
@@ -327,6 +328,7 @@ function vote(coll, id, guid, socket)
 function change_song(coll, id, np_id)
 {
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+    var startTime = docs[0]["startTime"];
     if(docs[0]["removeplay"] == true)
     {
       db.collection(coll).remove({now_playing:true}, function(err, docs)
@@ -349,18 +351,19 @@ function change_song(coll, id, np_id)
               change_song_post(coll);
         });
       }else{
-        console.log(id);
-        console.log(np_id);
-        db.collection(coll).update({now_playing:true, id:id},
-          {$set:{
-            now_playing:false,
-            votes:0,
-            guids:[]
-          }}, function(err, docs)
+        db.collection(coll).find({id:id}, function(err, docs){
+          if(startTime+docs[0]["duration"]<=get_time()-1)
           {
-              console.log(err);
-              console.log(docs);
-              change_song_post(coll);
+            db.collection(coll).update({now_playing:true, id:id},
+              {$set:{
+                now_playing:false,
+                votes:0,
+                guids:[]
+              }}, function(err, docs)
+              {
+                  change_song_post(coll);
+            });
+          }
         });
       }
     }
