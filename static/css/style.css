@@ -61,8 +61,7 @@ main {
 }
 
 nav .zbrand{
-    display: inline;
-    position: relative;
+    left:90px;
 }
 
 .fullwidth{
@@ -142,6 +141,9 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin-left: 25%;
 
 }
+#channelpage{
+    background-color:#2D2D2D;
+}
 
 .main{
     width: 100%;
@@ -164,6 +166,11 @@ hide mdi-action-visibility mdi-action-visibility-off
   position: relative;
 }
 
+.chan{
+    opacity: 0.9;
+    text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
+
+}
 
 .nav-btn
 {
