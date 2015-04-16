@@ -63,7 +63,8 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 			notifyUser(video_id, song_title);
 			if(paused)
 				ytplayer.pauseVideo();
-		}
+		}else
+			console.log("like");
 		if(!paused)
 			ytplayer.playVideo();
 		if(ytplayer.getDuration() > seekTo)
