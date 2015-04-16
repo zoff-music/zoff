@@ -85,7 +85,7 @@ io.on('connection', function(socket){
     db.getCollectionNames(function(err, docs){
     	if(contains(docs, coll))
     	{
-    		sort_list(coll, socket, true);
+    		sort_list(coll, socket, true, false);
     	}else
     	{
     		db.createCollection(coll, function(err, docs){
@@ -144,7 +144,7 @@ io.on('connection', function(socket){
                                 added:get_time()}}, function(err, docs){
                                   db.collection(coll).update({views:{$exists:true}},
                                     {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
-                                      sort_list(coll, undefined, true);
+                                      sort_list(coll, undefined, true, true);
                                   });
                                 });
                             }
@@ -182,7 +182,7 @@ io.on('connection', function(socket){
               else
                 np = false;
         			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, function(err, docs){
-      		  		sort_list(coll, undefined, np);
+      		  		sort_list(coll, undefined, np, true);
       		  	});
             });
           }else{
@@ -301,7 +301,7 @@ io.on('connection', function(socket){
       {
         db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
           if(!docs){
-            sort_list(coll, undefined, false);
+            sort_list(coll, undefined, false, true);
             return;
           }else{
             num = Math.floor(Math.random()*1000000);
@@ -343,7 +343,7 @@ function del(params, socket)
     {
       db.collection(coll).remove({id:params[1]}, function(err, docs){
         socket.emit("toast", "deletesong");
-        sort_list(coll, undefined, false);
+        sort_list(coll, undefined, false, true);
       })
     }
   })
@@ -364,7 +364,7 @@ function vote(coll, id, guid, socket)
   			db.collection(coll).update({id:id}, {$push :{guids: guid}}, function(err, docs)
   			{
           socket.emit("toast", "voted");
-          sort_list(coll, undefined, false);
+          sort_list(coll, undefined, false, true);
   			});
   			//sort_list(coll, undefined, false);
   		});
@@ -434,7 +434,7 @@ function change_song_post(coll)
             added:get_time()}}, function(err, docs){
               db.collection(coll).update({views:{$exists:true}},
                 {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
-                  sort_list(coll,undefined,true);
+                  sort_list(coll,undefined,true, true);
               });
 
             });
@@ -442,11 +442,15 @@ function change_song_post(coll)
   });
 }
 
-function sort_list(coll, socket, send)
+function sort_list(coll, socket, send, list_send)
 {
   db.collection(coll).aggregate([{$sort:{votes:-1, added:1}}], function(err, docs)
   {
-    io.sockets.emit(coll, docs);
+    //io.sockets.emit(coll, docs);
+    if(list_send)
+      io.sockets.emit(coll, docs);
+    else if(!list_send)
+      socket.emit(coll,docs);
     if(socket === undefined && send)
       send_play(coll);
     else if(send)
