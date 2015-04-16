@@ -354,7 +354,7 @@ function change_song(coll, id, np_id)
         db.collection(coll).find({id:id}, function(err, docs){
           if(startTime+docs[0]["duration"]<=get_time()-1)
           {
-            db.collection(coll).update({now_playing:true, id:id},
+            db.collection(coll).update({id:id},
               {$set:{
                 now_playing:false,
                 votes:0,
