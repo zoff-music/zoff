@@ -56,7 +56,7 @@ $(document).ready(function()
 			pId = search_input.split("list=");
 			if(pId.length > 1)
 			{
-				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=25&v=2&alt=jsonc";
+				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=300&v=2&alt=jsonc";
 				$.ajax({
 					type: "GET",
 					url: pListUrl,
@@ -66,7 +66,7 @@ $(document).ready(function()
 						console.log(response.data.items);
 						$.each(response.data.items, function(i,data)
 						{
-							submit(data.video.id, data.video.title, true);
+							submit(data.video.id, data.video.title, true, data.duration);
 						});
 					}
 				});
