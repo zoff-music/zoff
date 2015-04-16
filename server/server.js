@@ -343,6 +343,8 @@ function change_song(coll, id)
             guids:[]
           }}, function(err, docs)
           {
+              console.log(err);
+              console.log(docs);
               change_song_post(coll);
         });
       }else{
@@ -353,6 +355,8 @@ function change_song(coll, id)
             guids:[]
           }}, function(err, docs)
           {
+              console.log(err);
+              console.log(docs);
               change_song_post(coll);
         });
       }
