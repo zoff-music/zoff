@@ -188,7 +188,7 @@ io.on('connection', function(socket){
   			}else{
   				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
   					//reply with skips or something
-            socket.emit("toast", (docs[0]["skips"]+1) " of "+ Math.floor(lists[coll].length/2) + " are needed to skip!");
+            socket.emit("toast", (docs[0]["skips"]+1) + " of "+ Math.floor(lists[coll].length/2) + " are needed to skip!");
   				});
   			}
   		}else
