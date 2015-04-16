@@ -118,7 +118,7 @@ io.on('connection', function(socket){
           }else
           {
 
-              if(startTime+np[0]["duration"]<=get_time()-1)
+              if(startTime+np[0]["duration"]<=get_time()-5)
               {
                 db.collection(coll).update({now_playing:true, id:id},
                   {$set:{
