@@ -104,8 +104,8 @@ io.on('connection', function(socket){
   socket.on('end', function(arg)
   {
   	db.collection(coll).find({now_playing:true}, function(err, docs){
-  		if(docs.length > 0 && docs[0]["id"] == arg){
-  			change_song(coll);
+  		if(docs.length > 0 && docs[0]["id"] == arg){
+  			change_song(coll, arg);
   		}
   	})
   });
@@ -182,13 +182,13 @@ io.on('connection', function(socket){
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"]+1)
+  			if(lists[coll].length/2 <= docs[0]["skips"].length+1)
   			{
   				change_song(coll);
   			}else{
-  				db.collection(coll).update({views:{$exists:true}}, {$push:{guids:guid}}, function(err, d){
+  				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
   					//reply with skips or something
-            socket.emit("skipping", [docs[0]["skips"]+1, lists[coll].length])
+            socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length+1) + " more are needed to skip!");
   				});
   			}
   		}else
@@ -361,7 +361,7 @@ function change_song_post(coll)
             guids:[],
             added:get_time()}}, function(err, docs){
               db.collection(coll).update({views:{$exists:true}},
-                {$set:{startTime:get_time()}}, function(err, docs){
+                {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
                   sort_list(coll,undefined,true);
               });
 
