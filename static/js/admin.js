@@ -5,11 +5,36 @@ var pass_corr = "";
 socket.on("toast", function(msg)
 {
 	pass_corr = "correct";
+	switch(msg) {
+	    case "savedsettings":
+	        msg="Saved settings"
+	        break;
+	    case "wrongpass":
+	        msg="Wrong password"
+	        break;
+		case "shuffled":
+	        msg="Shuffled playlist"
+	        break;
+		case "deletesong":
+	        msg="Deleted song"
+	        break;
+		case "vote":
+			msg="Voted on song"
+			break;
+		case "alreadyvoted":
+	        msg="You have already voted on that song"
+	        break;
+		case "listhaspass":
+			msg="The list is passwordprotected"
+			break;
+		case "noskip":
+			msg="Only admin can skip songs on this channel"
+			break;
+		case "alreadyskip":
+			msg="You've already voted to skip!"
+			break;
+	}
 	Materialize.toast(msg, 4000);
-	/*document.getElementById("sBar").innerHTML = msg;
-	$("#sBar").addClass("opacityFull");
-	document.getElementById("passbox").value = "";
-	remove_bar();*/
 });
 
 socket.on("pw", function(msg)
@@ -22,7 +47,7 @@ socket.on("pw", function(msg)
 	}
 	$(".card-action").removeClass("hide");
 	localStorage.setItem("passord_i_klartekst_lol", msg);
-	Materialize.toast("Correct Password!", 4000);
+	Materialize.toast("Correct Password. You are now admin", 4000);
 });
 
 socket.on(chan.toLowerCase()+",conf", function(msg)

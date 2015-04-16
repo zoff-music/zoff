@@ -56,6 +56,9 @@ nav .brand-logo{
   background-color:rgba(45,45,45,1);
 }
 
+.footer-copyright a { color: #fff;}
+.footer-copyright a:hover{color:#6699FF}
+
 main {
     flex: 1 0 auto;
 }
@@ -167,9 +170,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .chan{
-    opacity: 0.9;
     text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
-
 }
 
 .nav-btn
@@ -206,8 +207,9 @@ hide mdi-action-visibility mdi-action-visibility-off
 #result{height:100px;margin-left:40px;}
 #results{margin-top:-12px;background-color: rgba(0,0,0,0.6);}
 .result:hover {
-  background-color: rgba(0,0,0,0.4);}
-  .result {
+  background-color: rgba(0,0,0,0.4);
+ }
+.result {
   border-bottom: solid 1px #E5E5E5;
   text-align: left;
   height: 70px;
@@ -239,6 +241,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .switch label input[type=checkbox]:checked + .lever:after {
    background-color: white;
+}
+.switch input[type=checkbox][disabled] + .lever {
+  cursor: default;
+  background-color: #939393;
 }
 
 .switch label {

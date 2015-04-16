@@ -20,8 +20,8 @@ if(isset($_GET['chan'])){
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a class="modal-trigger" onclick="$('#about').openModal()">About</a></li>
-                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
                     <li><a class="modal-trigger" onclick="$('#legal').openModal()">Legal</a></li>
+                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
                 </ul>
             </div>
         </nav>

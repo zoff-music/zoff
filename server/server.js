@@ -138,7 +138,7 @@ io.on('connection', function(socket){
           }
         });
       }else
-        socket.emit("toast", "Password Protected List!");
+        socket.emit("toast", "listhaspass");
     });
   });
 
@@ -157,7 +157,7 @@ io.on('connection', function(socket){
         {
           vote(coll, id, guid, socket);
         }else{
-          socket.emit("toast", "Password Protected List!");
+          socket.emit("toast", "listhaspass");
         }
       });
     }
@@ -190,10 +190,10 @@ io.on('connection', function(socket){
             socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
   				});
   			}else{
-          socket.emit("toast", "You've already voted to skip!");
+          socket.emit("toast", "alreadyskip");
         }
   		}else
-        socket.emit("toast", "No Skipping!");
+        socket.emit("toast", "noskip");
   	});
   });
 
@@ -230,14 +230,14 @@ io.on('connection', function(socket){
             db.collection(coll).find({views:{$exists:true}}, function(err, docs)
             {
               io.sockets.emit(coll+",conf", docs);
-              socket.emit("toast", "Successfully applied settings!");
+              socket.emit("toast", "savedsettings");
             });
             //sort_list(coll,undefined,false);
           });
 
       }else
       {
-        socket.emit("toast", "Wrong Password!");
+        socket.emit("toast", "wrongpass");
       }
     });
   });
@@ -255,12 +255,12 @@ io.on('connection', function(socket){
             num = Math.floor(Math.random()*1000000);
             db.collection(coll).update({id:docs["id"]}, {$set:{added:num}}, function(err, d)
             {
-              socket.emit("toast", "Shuffled Playlist!");
+              socket.emit("toast", "shuffled");
             });
           }
         });
       }else
-        socket.emit("toast", "Wrong Password!");
+        socket.emit("toast", "wrongpass");
     });
   });
 
@@ -290,7 +290,7 @@ function del(params, socket)
     if(docs[0]["adminpass"] == hash_pass(params[4]))
     {
       db.collection(coll).remove({id:params[1]}, function(err, docs){
-        socket.emit("toast", "Deleted song!");
+        socket.emit("toast", "deletesong");
         sort_list(coll, undefined, false);
       })
     }
@@ -311,14 +311,14 @@ function vote(coll, id, guid, socket)
   		{
   			db.collection(coll).update({id:id}, {$push :{guids: guid}}, function(err, docs)
   			{
-          socket.emit("toast", "Voted on song!");
+          socket.emit("toast", "voted");
           sort_list(coll, undefined, false);
   			});
   			//sort_list(coll, undefined, false);
   		});
 		}else
     {
-      socket.emit("toast", "You've already voted on that song!");
+      socket.emit("toast", "alreadyvoted");
     }
 	});
 }
