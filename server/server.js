@@ -118,7 +118,7 @@ io.on('connection', function(socket){
           }else
           {
               console.log(np[0]["title"] + " before if");
-              if(startTime+np[0]["duration"]<=get_time()-5)
+              if(startTime+np[0]["duration"]<=get_time()+2)
               {
                 console.log(np[0]["title"] + " after if");
                 db.collection(coll).update({now_playing:true, id:id},
