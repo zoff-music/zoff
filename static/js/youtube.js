@@ -46,6 +46,8 @@ var playing = false;
 //play new song
 socket.on(chan.toLowerCase()+",np", function(obj)
 {
+	console.log(obj);
+	console.log("gotten new song");
 	video_id = obj[0][0]["id"];
 	conf = obj[1][0];
 	time = obj[2];
