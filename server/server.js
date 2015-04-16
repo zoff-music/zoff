@@ -104,8 +104,8 @@ io.on('connection', function(socket){
   socket.on('end', function(id)
   {
   	db.collection(coll).find({now_playing:true}, function(err, docs){
-      console.log(docs);
-      console.log(docs.length);
+      //console.log(docs);
+      //console.log(docs.length);
   		if(docs.length == 1 && docs[0]["id"] == id){
         db.collection(coll).find({views:{$exists:true}}, function(err, docs){
           var startTime = docs[0]["startTime"];
@@ -127,8 +127,8 @@ io.on('connection', function(socket){
                       guids:[]
                     }}, function(err, docs)
                     {
-                      console.log(err);
-                      console.log(docs["n"]);
+                      //console.log(err);
+                      //console.log(docs["n"]);
                       if(docs["n"] == 1)
                       {
                         db.collection(coll).aggregate([
@@ -389,7 +389,7 @@ function change_song(coll, id, np_id)
     }else
     {
       if(id === undefined){
-        console.log("undef");
+        //console.log("undef");
         db.collection(coll).update({now_playing:true},
           {$set:{
             now_playing:false,
