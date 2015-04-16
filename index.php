@@ -17,13 +17,13 @@
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo hide-on-small-only">
+                <a href="/" class="brand-logo hide-on-small-only zbrand">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
-                <div class="brand-logo">
+                <div class="brand-logo zbrand">
                     <a href="//zoff.no" class="hide-on-med-and-up">Zöff</a>
                     <span class="hide-on-med-and-up">/</span>
-                    <span id="chan" class="chan hide" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
+                    <span id="chan" class="chan" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
                 <ul class="right">
                     <li>
