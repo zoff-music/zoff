@@ -105,7 +105,7 @@ io.on('connection', function(socket){
   {
   	db.collection(coll).find({now_playing:true}, function(err, docs){
   		if(docs.length > 0 && docs[0]["id"] == arg){
-  			change_song(coll, arg);
+  			change_song(coll, arg, docs[0]["id"]);
   		}
   	})
   });
@@ -324,7 +324,7 @@ function vote(coll, id, guid, socket)
 }
 
 
-function change_song(coll)
+function change_song(coll, id, np_id)
 {
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
     if(docs[0]["removeplay"] == true)
@@ -335,15 +335,34 @@ function change_song(coll)
       })
     }else
     {
-      db.collection(coll).update({now_playing:true},
-        {$set:{
-          now_playing:false,
-          votes:0,
-          guids:[]
-        }}, function(err, docs)
-        {
-            change_song_post(coll);
-      });
+      if(id === undefined){
+        console.log("undef");
+        db.collection(coll).update({now_playing:true},
+          {$set:{
+            now_playing:false,
+            votes:0,
+            guids:[]
+          }}, function(err, docs)
+          {
+              console.log(err);
+              console.log(docs);
+              change_song_post(coll);
+        });
+      }else{
+        console.log(id);
+        console.log(np_id);
+        db.collection(coll).update({now_playing:true, id:id},
+          {$set:{
+            now_playing:false,
+            votes:0,
+            guids:[]
+          }}, function(err, docs)
+          {
+              console.log(err);
+              console.log(docs);
+              change_song_post(coll);
+        });
+      }
     }
   })
 }

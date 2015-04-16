@@ -64,7 +64,8 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 		}
 		if(!paused)
 			ytplayer.playVideo();
-		ytplayer.seekTo(seekTo);
+		if(ytplayer.getDuration() > seekTo)
+			ytplayer.seekTo(seekTo);
 	}
 });
 
