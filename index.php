@@ -27,6 +27,12 @@
                 </div>
                 <ul class="right">
                     <li>
+                        <a class="nav-btn" href="#" id="search-btn" onclick="">
+                            <i class="mdi-action-search"></i>
+                            <span class="hover-text">Find</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-btn" href="#" id="skip" onclick="skip();">
                             <i class="mdi-av-skip-next"></i>
                             <span class="hover-text">Skip</span>
@@ -86,14 +92,16 @@
             <div id="playlist" class="col s12 m3">
                 <div id="wrapper">
                     <div id="list-song-html">
-                        <div id="list-song" class="card list-song">
-                            <a class="clickable votebg" title="Vote!">
+                        <div id="list-song" class="card left-align clickable list-song" title="Vote!">
+                            <a class="clickable center-align votebg">
                                 <span class="card-image cardbg list-image"></span>
                             </a>
                             <span class="card-content">
                                 <span class="flow-text truncate list-title"></span>
-                                <span class="highlighted">Votes:&nbsp;</span>
-                                <span class="list-votes"></span>
+                                <span class="vote-span">
+                                    <span class="list-votes"></span>
+                                    <span class="highlighted vote-text">&nbsp;votes</span>
+                                </span>
                             </span>
                             <div class="card-action hide">
                                 <a id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Remove</a>

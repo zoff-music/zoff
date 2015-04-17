@@ -67,11 +67,12 @@ function populate_list(msg, conf_only)
 				song.find(".list-title").text(video_title);
 				song.find(".list-title").attr("title", video_title);
 				song.find(".list-votes").text(video_votes);
-				song.find(".votebg").attr("onclick", "vote('"+video_id+"','pos')");
+				song.find(".list-song").attr("onclick", "vote('"+video_id+"','pos')");
 				song.find(".list-image").attr("style",video_thumb);
 				song.attr("id",video_id);
 				song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 				if(!w_p) $(".card-action").removeClass("hide");
+				if(video_votes==1)song.find(".vote-text").text("vote");
 			}
 		});
 

@@ -79,6 +79,12 @@ nav .zbrand{
     opacity: 0;
 }
 
+.auto-margin{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    float: center !important;
+}
+
 .clickable, .modal-trigger{cursor:pointer;}
 
 .cardbg{
@@ -196,6 +202,32 @@ hide mdi-action-visibility mdi-action-visibility-off
     float: left;
 }
 
+.list-image:after {
+    font-family: "Material-Design-Icons";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\e800";
+    color:white;
+    font-size:44px;
+    position:absolute;
+    width:100%; height:100%;
+    top:0; left:0;
+    background:rgba(0,0,0,0.8);
+    opacity:0;
+    transition: all 0.3s;
+}
+.list-song:hover .list-image:after {
+    opacity:1;
+}
+
+.vote-span{
+    padding: 0 0 0 10px;
+}
 
 .list-song{
     background-color: rgba(255, 255, 255, 0.04);
@@ -208,6 +240,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     color:white;font-size:1em;
     text-align:left;
     padding: 0 10px 0 10px;
+    line-height: 2.6rem;
 }
 .card-image{cursor:pointer}
 .card{margin:5px 0 5px 0 !important;}
@@ -217,6 +250,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 .result:hover {
   background-color: rgba(0,0,0,0.4);
  }
+
 .result {
   border-bottom: solid 1px #E5E5E5;
   text-align: left;
@@ -230,6 +264,18 @@ hide mdi-action-visibility mdi-action-visibility-off
 /** settings **/
 
 #settings-button{color:white !important;}
+
+.admin-settings{
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+}
+
+.close-settings{
+    float: right;
+    width: 73px;
+    text-align: center;
+    display: inline;
+}
 
 .setting-text {
     font-size: 13px !important;
