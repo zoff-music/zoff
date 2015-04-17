@@ -95,8 +95,7 @@ function populate_list(msg, conf_only)
 					myScroll.maxScrollY = myScroll.maxScrollY - 5;
 				}else
 				{
-					myScroll.refresh();
-					myScroll.maxScrollY = myScroll.maxScrollY - 5; //Hackish solution for not being able to scroll fully to the bottom, don't understand why this is fucked
+					refresh_scroll();
 				}
 			}
 		}
@@ -121,6 +120,12 @@ function vote(id, vote){
 
 function skip(){
 	socket.emit('skip', [chan, guid]);
+}
+
+function refresh_scroll()
+{
+	myScroll.refresh();
+	myScroll.maxScrollY = myScroll.maxScrollY - 5;
 }
 
 function show(){

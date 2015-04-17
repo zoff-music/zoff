@@ -46,6 +46,9 @@ socket.on("pw", function(msg)
 			$("input[name="+names[i]+"]").attr("disabled", false);
 	}
 	$(".card-action").removeClass("hide");
+
+	refresh_scroll();
+
 	localStorage.setItem("passord_i_klartekst_lol", msg);
 	Materialize.toast("Correct Password. You are now admin", 4000);
 });
