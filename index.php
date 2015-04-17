@@ -96,7 +96,7 @@
                                 <span class="list-votes"></span>
                             </span>
                             <div class="card-action hide">
-                                <a id="del" onclick="vote('id','del')" class="waves-effect waves-orange btn-flat clickable">Remove</a>
+                                <a id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Remove</a>
                             </div>
                         </div>
                     </div>

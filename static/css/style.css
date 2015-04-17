@@ -104,7 +104,14 @@ nav .zbrand{
   padding: 0;
   margin: 0;
   width: 100%;
+}
 
+.card-action #del {
+  color:white;
+}
+
+.card-action #del:hover {
+  color:grey;
 }
 
 
@@ -192,7 +199,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .list-song{
     background-color: rgba(255, 255, 255, 0.04);
-    height:66px;
+    /*height:66px;*/
 }
 .list-song .card-content{padding:0;}
 .list-title{
@@ -202,7 +209,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     padding: 0 10px 0 10px;
 }
 .card-image{cursor:pointer}
-.card{margin:5px 0 5px 0 !important;}
+.card{margin:5px 0 5px 0 !important;color:white;}
 #result img{float:left;padding-right:20px !important;}
 #result{height:100px;margin-left:40px;}
 #results{margin-top:-12px;background-color: rgba(0,0,0,0.6);}
