@@ -132,6 +132,15 @@ if(isset($_GET['chan'])){
                             <a href="https://github.com/nixolas1/Zoff">
                                 <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
                             </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/','Share Playlist','width=600,height=300')">
+                              Share on Facebook
+                            </a>
+                            <br>
+                            <a href="http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                              Share on Twitter
+                            </a>
+                            <br>
+                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://zoff.no/&choe=UTF-8" alt="QRCode for link" title="QRCode">
                         </li>
                     </ul>
                 </div>
