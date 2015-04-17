@@ -33,6 +33,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-btn" href="#" id="shuffle" onclick="shuffle();">
+                            <i class="mdi-av-shuffle"></i>
+                            <span class="hover-text">Stir</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-btn" href="#" data-activates="settings-bar" id="settings">
                             <i class="mdi-action-settings"></i>
                             <span class="hover-text">Conf</span>
@@ -42,7 +48,7 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
-                <form id="searchform" onsubmit="return false">
+                <form id="searchform" onsubmit="return false;">
                     <div>
                         <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
                         <!--<label for="search"><i class="mdi-action-search"></i></label>

@@ -89,7 +89,7 @@ io.on('connection', function(socket){
     	}else
     	{
     		db.createCollection(coll, function(err, docs){
-  				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":true, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
+  				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
   				{
             db.collection(coll).find().sort({votes:-1}, function(err, docs) {
     		    	socket.emit(coll, docs);
@@ -225,8 +225,8 @@ io.on('connection', function(socket){
         {
           socket.emit("pw", pw);
         })
-      }
-      socket.emit("toast", "wrongpass");
+      }else
+        socket.emit("toast", "wrongpass");
     });
   });
 
@@ -298,23 +298,31 @@ io.on('connection', function(socket){
   socket.on('shuffle', function(pass){
     var hash = hash_pass(pass);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      if((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == true)
+      if((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false)
       {
         db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
           if(!docs){
             sort_list(coll, undefined, false, true);
+            socket.emit("toast", "shuffled");
             return;
           }else{
             num = Math.floor(Math.random()*1000000);
             db.collection(coll).update({id:docs["id"]}, {$set:{added:num}}, function(err, d)
             {
-              socket.emit("toast", "shuffled");
+
             });
           }
         });
       }else
         socket.emit("toast", "wrongpass");
     });
+
+    var complete = function(tot, curr){
+      if(tot == curr)
+      {
+        sort_list(coll, undefined, false, true);
+      }
+    };
   });
 
   socket.on('disconnect', function()

@@ -102,7 +102,7 @@ function remove_bar()
 	},1500);
 }
 
-function shuffle(form)
+function shuffle()
 {
 	console.log(adminpass);
 	socket.emit('shuffle', adminpass);

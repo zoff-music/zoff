@@ -242,7 +242,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 .switch label input[type=checkbox]:checked + .lever:after {
    background-color: white;
 }
-.switch input[type=checkbox][disabled] + .lever {
+.switch input[type=checkbox][disabled] + .lever , .switch label input[type=checkbox]:checked[disabled] + .lever{
   cursor: default;
   background-color: #939393;
 }
