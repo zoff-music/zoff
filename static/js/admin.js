@@ -50,7 +50,7 @@ socket.on("pw", function(msg)
 	refresh_scroll();
 
 	localStorage.setItem("passord_i_klartekst_lol", msg);
-	Materialize.toast("Correct Password. You are now admin", 4000);
+	Materialize.toast("Correct password. You now have access to the sacred relam of The Admin.", 4000);
 });
 
 socket.on(chan.toLowerCase()+",conf", function(msg)

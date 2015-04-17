@@ -25,6 +25,13 @@
                     <span class="hide-on-med-and-up">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
+                <ul>
+                    <li id="song-title">
+                    </li>
+                    <li>
+                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
+                    </li>
+                <div id="results"></div>
                 <ul class="right">
                     <li>
                         <a class="nav-btn" href="#" id="search-btn" onclick="">
@@ -54,14 +61,6 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
-                <form id="searchform" onsubmit="return false;">
-                    <div>
-                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
-                        <!--<label for="search"><i class="mdi-action-search"></i></label>
-                        <i class="mdi-navigation-close"></i>-->
-                    </div>
-                </form>
-                <div id="results"></div>
             </div>
         </nav>
       </div>
@@ -103,8 +102,8 @@
                                     <span class="highlighted vote-text">&nbsp;votes</span>
                                 </span>
                             </span>
-                            <div class="card-action hide">
-                                <a id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Remove</a>
+                            <div class="list-remove card-action center-align hide">
+                                <a title="Remove song" id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Remove</a>
                             </div>
                         </div>
                     </div>

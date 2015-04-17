@@ -202,11 +202,11 @@ function getTitle(titt, v)
 	var title= decodeURIComponent(titt);
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
-		document.getElementById('search').placeholder = title + " • " + v + " " + outPutWord;
+		document.getElementById('song-title').innerHTML = title + " • " + v + " " + outPutWord;
 	}else
 	{
 		document.getElementById("mobileTitle").innerHTML = title;
-		document.getElementById('search').placeholder = "Search • 1 " + v + " " + outPutWord;
+		document.getElementById('song-title').innerHTML = "Search • 1 " + v + " " + outPutWord;
 		//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
 	}
 }

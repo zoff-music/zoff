@@ -251,6 +251,18 @@ hide mdi-action-visibility mdi-action-visibility-off
   background-color: rgba(0,0,0,0.4);
  }
 
+.list-remove{
+    margin-top: 5px;
+    font-size: 12px;
+    height: 30px;
+}
+
+#del{
+    height: 100%;
+    line-height: normal;
+    padding-top: 8px;
+}
+
 .result {
   border-bottom: solid 1px #E5E5E5;
   text-align: left;
