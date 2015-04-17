@@ -21,6 +21,10 @@ server.listen(port, function () {
 
 io.on('connection', function(socket){
 
+  socket.on('echo', function(data, callback) {
+    callback(data);
+  });
+
   var coll;
   var guid;
   var tot_lists = [];
