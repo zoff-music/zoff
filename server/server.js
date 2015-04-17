@@ -370,7 +370,7 @@ function hash_pass(adminpass)
 function vote(coll, id, guid, socket)
 {
 	db.collection(coll).find({id:id}, function(err, docs){
-		if(!contains(docs[0]["guids"], guid))
+		if(docs.length > 0 && !contains(docs[0]["guids"], guid))
 		{
   		db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:get_time()}}, function(err, docs)
   		{
