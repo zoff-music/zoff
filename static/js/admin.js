@@ -7,31 +7,31 @@ socket.on("toast", function(msg)
 	pass_corr = "correct";
 	switch(msg) {
 	    case "savedsettings":
-	        msg="Saved settings"
+	        msg="I saved your settings <3"
 	        break;
 	    case "wrongpass":
-	        msg="Wrong password"
+	        msg="That's not the right password! ಠ_ಠ"
 	        break;
 		case "shuffled":
-	        msg="Shuffled playlist"
+	        msg="I vigorously stirred your playlist! (J °O°)J"
 	        break;
 		case "deletesong":
-	        msg="Deleted song"
+	        msg="Your song is now in a better place..."
 	        break;
 		case "voted":
-			msg="Voted on song"
+			msg="You vote like a boss \\(*0*)/"
 			break;
 		case "alreadyvoted":
-	        msg="You have already voted on that song"
+	        msg="You can't vote twice on that song! (¬_¬)"
 	        break;
 		case "listhaspass":
-			msg="The list is passwordprotected"
+			msg="I'm sorry, but you have to be an admin to do that (⌒_⌒;)"
 			break;
 		case "noskip":
-			msg="Only admin can skip songs on this channel"
+			msg="Only Admins can skip songs, peasant (｀∀´)Ψ"
 			break;
 		case "alreadyskip":
-			msg="You've already voted to skip!"
+			msg="Skipping is democratic, only one vote per person! （〃・ω・〃）"
 			break;
 	}
 	Materialize.toast(msg, 4000);

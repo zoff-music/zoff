@@ -211,7 +211,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     text-transform: none;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    content: "\e800";
+    content: "\e684";/*"\e800";*/
     color:white;
     font-size:44px;
     position:absolute;
@@ -219,7 +219,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     top:0; left:0;
     background:rgba(0,0,0,0.8);
     opacity:0;
-    transition: all 0.3s;
+    transition: all .1s ease;
 }
 .list-song:hover .list-image:after {
     opacity:1;
