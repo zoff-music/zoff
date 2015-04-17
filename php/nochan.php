@@ -140,7 +140,7 @@ if(isset($_GET['chan'])){
                               Share on Twitter
                             </a>
                             <br>
-                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://zoff.no/&choe=UTF-8" alt="QRCode for link" title="QRCode">
+                            <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://zoff.no/&choe=UTF-8&chld=L|0" alt="QRCode for link" title="QRCode">
                         </li>
                     </ul>
                 </div>
