@@ -78,7 +78,7 @@ io.on('connection', function(socket){
   	coll = list[0].toLowerCase();
   	guid = list[1];
 
-    if(lists[coll] == undefined && !contains(lists[coll], guid))
+    if(lists[coll] == undefined)
     {
     	lists[coll] = [];
     	lists[coll].push(guid);
@@ -335,12 +335,9 @@ io.on('connection', function(socket){
     {
     	try
     	{
-        if(contains(lists[coll], guid))
-        {            
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
-        }
     	}catch(err){}
     }
   });
