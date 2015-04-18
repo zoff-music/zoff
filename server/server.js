@@ -407,10 +407,11 @@ function change_song(coll, id, np_id)
             now_playing:false,
             votes:0,
             guids:[]
-          },{multi:true}}, function(err, docs)
+          }},{multi:true}, function(err, docs)
           {
               change_song_post(coll);
         });
+    }
   })
 }
 
