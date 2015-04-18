@@ -335,9 +335,12 @@ io.on('connection', function(socket){
     {
     	try
     	{
-  	  	var index = lists[coll].indexOf(guid);
-  	  	lists[coll].splice(index, 1);
-  	  	io.sockets.emit(coll+",viewers", lists[coll].length);
+        if(contains(lists[coll], guid))
+        {            
+    	  	var index = lists[coll].indexOf(guid);
+    	  	lists[coll].splice(index, 1);
+    	  	io.sockets.emit(coll+",viewers", lists[coll].length);
+        }
     	}catch(err){}
     }
   });
