@@ -82,7 +82,12 @@ io.on('connection', function(socket){
     {
     	lists[coll] = [];
     	lists[coll].push(guid);
-    }else if(!contains(lists[coll], guid)) lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
 
     io.sockets.emit(coll+",viewers", lists[coll].length);
 
@@ -107,6 +112,17 @@ io.on('connection', function(socket){
 
   socket.on('end', function(id)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
   	db.collection(coll).find({now_playing:true}, function(err, np){
       //console.log(docs);
       //console.log(docs.length);
@@ -167,6 +183,17 @@ io.on('connection', function(socket){
 
   socket.on('add', function(arr)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
   	var id = arr[0];
   	var title = arr[1];
     var hash = hash_pass(arr[2]);
@@ -200,6 +227,17 @@ io.on('connection', function(socket){
 
   socket.on('vote', function(msg)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
     if(msg[2] == "del")
       del(msg, socket);
     else
@@ -221,6 +259,16 @@ io.on('connection', function(socket){
 
   socket.on('password', function(pw)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
@@ -236,6 +284,17 @@ io.on('connection', function(socket){
 
   socket.on('skip', function(list)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
@@ -256,6 +315,17 @@ io.on('connection', function(socket){
 
   socket.on('conf', function(params)
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
     var voting = params[0];
   	var addsongs = params[1];
   	var longsongs = params[2];
@@ -299,7 +369,19 @@ io.on('connection', function(socket){
     });
   });
 
-  socket.on('shuffle', function(pass){
+  socket.on('shuffle', function(pass)
+  {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+
     var hash = hash_pass(pass);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false)
@@ -344,6 +426,17 @@ io.on('connection', function(socket){
 
   socket.on('pos', function()
   {
+    if(lists[coll] == undefined)
+    {
+    	lists[coll] = [];
+    	lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }else if(!contains(lists[coll], guid))
+    {
+      lists[coll].push(guid);
+      io.sockets.emit(coll+",viewers", lists[coll].length);
+    }
+    
     send_play(coll, socket);
   });
 });
