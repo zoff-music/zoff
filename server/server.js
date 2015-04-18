@@ -78,11 +78,11 @@ io.on('connection', function(socket){
   	coll = list[0].toLowerCase();
   	guid = list[1];
 
-    if(lists[coll] == undefined)
+    if(lists[coll] == undefined && !contains(lists[coll], guid))
     {
     	lists[coll] = [];
     	lists[coll].push(guid);
-    }else lists[coll].push(guid);
+    }else if(!contains(lists[coll], guid)) lists[coll].push(guid);
 
     io.sockets.emit(coll+",viewers", lists[coll].length);
 
