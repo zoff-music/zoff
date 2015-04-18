@@ -401,34 +401,16 @@ function change_song(coll, id, np_id)
       })
     }else
     {
-      if(id === undefined){
         //console.log("undef");
         db.collection(coll).update({now_playing:true},
           {$set:{
             now_playing:false,
             votes:0,
             guids:[]
-          }}, function(err, docs)
+          },{multi:true}}, function(err, docs)
           {
               change_song_post(coll);
         });
-      }else{
-        db.collection(coll).find({id:id}, function(err, docs){
-          if(startTime+docs[0]["duration"]<=get_time()-1)
-          {
-            db.collection(coll).update({now_playing:true, id:id},
-              {$set:{
-                now_playing:false,
-                votes:0,
-                guids:[]
-              }}, function(err, docs)
-              {
-                  change_song_post(coll);
-            });
-          }
-        });
-      }
-    }
   })
 }
 
