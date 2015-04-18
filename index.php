@@ -20,18 +20,21 @@
                 <a href="/" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
-                <div class="brand-logo zbrand">
+                <div class="brand-logo truncate zbrand">
                     <a href="//zoff.no" class="hide-on-med-and-up">Zöff</a>
                     <span class="hide-on-med-and-up">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
-                <ul>
-                    <li id="song-title">
-                    </li>
-                    <li>
-                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
-                    </li>
-                <div id="results"></div>
+                <div class="container">
+                    <ul class="row">
+                        <li class="col s6" id="song-title">
+                        </li>
+                        <!--<li>
+                            <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
+                        </li>-->
+                    </ul>
+                </div>
+
                 <ul class="right">
                     <li>
                         <a class="nav-btn" href="#" id="search-btn" onclick="">
@@ -61,6 +64,7 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
+                <div id="results"></div>
             </div>
         </nav>
       </div>
@@ -91,15 +95,17 @@
             <div id="playlist" class="col s12 m3">
                 <div id="wrapper">
                     <div id="list-song-html">
-                        <div id="list-song" class="card left-align clickable list-song" title="Vote!">
-                            <a class="clickable center-align votebg">
-                                <span class="card-image cardbg list-image"></span>
-                            </a>
-                            <span class="card-content">
-                                <span class="flow-text truncate list-title"></span>
-                                <span class="vote-span">
-                                    <span class="list-votes"></span>
-                                    <span class="highlighted vote-text">&nbsp;votes</span>
+                        <div id="list-song" class="card left-align list-song">
+                            <span class="clickable vote-container" title="Vote!">
+                                <a class="clickable center-align votebg">
+                                    <span class="card-image cardbg list-image"></span>
+                                </a>
+                                <span class="card-content">
+                                    <span class="flow-text truncate list-title"></span>
+                                    <span class="vote-span">
+                                        <span class="list-votes"></span>
+                                        <span class="highlighted vote-text">&nbsp;votes</span>
+                                    </span>
                                 </span>
                             </span>
                             <div class="list-remove card-action center-align hide">

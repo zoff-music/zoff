@@ -65,6 +65,8 @@ main {
 
 nav .zbrand{
     left:90px;
+    max-width: 22%;
+    overflow: hidden;
 }
 
 .fullwidth{
@@ -118,6 +120,17 @@ nav .zbrand{
 
 .card-action #del:hover {
   color:grey;
+}
+
+.share, .shareface{
+    padding-left: 10px !important;
+}
+
+.shareface {background-color: rgb(42, 134, 200) !important;}
+
+.share img{
+    height: 50px;
+    margin-right:10px;
 }
 
 
@@ -221,7 +234,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     opacity:0;
     transition: all .1s ease;
 }
-.list-song:hover .list-image:after {
+.vote-container:hover .list-image:after {
     opacity:1;
 }
 
@@ -246,7 +259,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 .card{margin:5px 0 5px 0 !important;}
 #result img{float:left;padding-right:20px !important;}
 #result{height:100px;margin-left:40px;}
-#results{margin-top:-12px;background-color: rgba(0,0,0,0.6);}
+#results{background-color: rgba(0,0,0,0.6);}
 .result:hover {
   background-color: rgba(0,0,0,0.4);
  }
