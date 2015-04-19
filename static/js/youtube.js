@@ -47,28 +47,34 @@ var playing = false;
 socket.on(chan.toLowerCase()+",np", function(obj)
 {
 	console.log(obj);
-	console.log("gotten new song");
-	video_id = obj[0][0]["id"];
-	conf = obj[1][0];
-	time = obj[2];
-	seekTo = time - conf["startTime"];
-	song_title = obj[0][0]["title"];
-	getTitle(song_title, viewers);
-	if(player_ready && !window.mobilecheck())
-	{
-		if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+	if(obj[0].length == 0){
+		console.log("Empty list");
+		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!"
+	}
+	else{
+		console.log("gotten new song");
+		video_id = obj[0][0]["id"];
+		conf = obj[1][0];
+		time = obj[2];
+		seekTo = time - conf["startTime"];
+		song_title = obj[0][0]["title"];
+		getTitle(song_title, viewers);
+		if(player_ready && !window.mobilecheck())
 		{
-			ytplayer.loadVideoById(video_id);
-			setBGimage(video_id);
-			notifyUser(video_id, song_title);
-			if(paused)
-				ytplayer.pauseVideo();
-		}else
-			console.log("like");
-		if(!paused)
-			ytplayer.playVideo();
-		if(ytplayer.getDuration() > seekTo)
-			ytplayer.seekTo(seekTo);
+			if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+			{
+				ytplayer.loadVideoById(video_id);
+				setBGimage(video_id);
+				notifyUser(video_id, song_title);
+				if(paused)
+					ytplayer.pauseVideo();
+			}else
+				console.log("like");
+			if(!paused)
+				ytplayer.playVideo();
+			if(ytplayer.getDuration() > seekTo)
+				ytplayer.seekTo(seekTo);
+		}
 	}
 });
 
@@ -110,8 +116,8 @@ $(document).ready(function()
 
 		if($("#chan").html().toLowerCase() == "jazz")
 		{
-			loadjsfile("static/js/jazzscript.js");
-			peis = true;
+			//loadjsfile("static/js/jazzscript.js");
+			//peis = true;
 		}
 	}
 });
@@ -141,8 +147,6 @@ function msieversion() {
 }
 
 function onYouTubeIframeAPIReady() {
-	$("#change").css("-webkit-transition", "opacity 1s");
-	$("#change").css("opacity", "1");
 	ytplayer = new YT.Player('player', {
 		height: window.height*0.75,
 		width: window.width*0.6,
@@ -156,9 +160,9 @@ function onYouTubeIframeAPIReady() {
 	});
 	if(peis)
 	{
-		jazz_setup();
+		//jazz_setup();
 	}
-	$("#player").css("opacity", "0");
+
 }
 
 function onPlayerStateChange(newState) {
@@ -200,14 +204,12 @@ function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
 	var title= decodeURIComponent(titt);
+	var elem = document.getElementById('song-title');
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
-		document.getElementById('song-title').innerHTML = title + " • " + v + " " + outPutWord;
-	}else
-	{
-		document.getElementById("mobileTitle").innerHTML = title;
-		document.getElementById('song-title').innerHTML = "Search • 1 " + v + " " + outPutWord;
-		//document.getElementById("viewers").innerHTML = viewers[5].length + " " + outPutWord;
+		elem.innerHTML = title;
+		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
+		elem.title = title + " • " + v + " " + outPutWord;
 	}
 }
 

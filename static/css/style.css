@@ -50,6 +50,7 @@ input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly
 
 nav .brand-logo{
     padding-left: 20px;
+    position: relative;
 }
 
 #fp-nav {
@@ -64,9 +65,11 @@ main {
 }
 
 nav .zbrand{
-    left:90px;
     max-width: 22%;
     overflow: hidden;
+    position: relative;
+    padding-left: 0;
+    margin-left: -10px;
 }
 
 .fullwidth{
@@ -92,6 +95,7 @@ nav .zbrand{
 .cardbg{
     background-repeat: no-repeat;
     background-size: 124%;
+    background-size: cover;
     background-position: 50% 50%;
     background-color: #171717;
     height: 120px;
@@ -188,6 +192,43 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 #playlist{
     padding:0px 15px;
+}
+
+.control-list{
+    position: fixed;
+    top:0;
+    right:0;
+}
+
+.title-container{
+    width: 65%;
+    width: calc(90% - 256px - 130px);
+    padding-left: 30px;
+    display: inline-block;
+    height: 100%;
+    overflow: hidden;
+}
+
+.title-container li{ 
+    height:100%;
+    height: 64px;
+    width: 500px;
+    padding: 0 15px;
+}
+
+.search-container{
+    width: 35% !important;
+    display: block;
+}
+
+#song-title{
+    font-size: 22px;
+    font-weight: 300;
+}
+
+#viewers{
+    width: initial;
+    padding-right: 3%;
 }
 
 #player{
@@ -332,4 +373,124 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .collapsible-body ul li.white-bg{
   background-color:white !important;
+}
+
+
+/************** Youtube controls **************/
+
+#controls
+{
+    opacity:0;
+    height:5%;
+    background-color:rgba(255, 255, 255, 0.1);
+    width:100%;
+  color:white;
+}
+
+#playpause, #duration, #volume-button
+{
+  float:left;
+  color:white;
+}
+
+#playpause, #volume-button
+{
+  margin-left:10px;
+}
+
+#playpause:hover, #volume-button:hover, #fullscreen:hover
+{
+    color:rgba(255,255,255,0.5);
+}
+
+#fullscreen
+{
+  float:right;
+  color:white;
+  margin-right:15px;
+}
+
+#duration, #viewers
+{
+  margin-top:5px;
+  font-family:"Roboto", sans-serif;
+  font-weight:300;
+  margin-left:15px;
+}
+
+#viewers{
+  float: right;
+}
+
+#play, #pause, #volume-button, #fullscreen
+{
+  font-size:20px;
+  cursor:pointer;
+}
+
+#volume {
+    cursor:pointer;
+  float:left;
+    position: relative;
+    left: 10px;
+    margin: 13px auto;
+    height:5px;
+    width: 75px;
+    background-color:rgba(0, 0, 0, 0.5);
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#volume .ui-slider-range-min {
+    height:5px;
+    width: 75px;
+    position: absolute;
+    background-color:rgba(255, 255, 255, 0.8);
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#volume .ui-slider-handle {
+    height:15px;
+    width:5px;
+    background-color:white;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    display: none;
+}
+
+.ui-slider-handle
+{
+    margin-top:-5px;
+}
+
+.play
+{
+    background-size: auto;
+    width: 55px;
+    height: 27px;
+}
+
+.pause
+{
+    background-size: auto;
+    width: 55px;
+    height: 27px;
+}
+
+.hide
+{
+    display:none !important;
+}
+
+#bar
+{
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+    -webkit-transition: width 1s ease;
+    transition: width 1s ease;
 }

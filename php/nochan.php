@@ -143,7 +143,9 @@ if(isset($_GET['chan'])){
                                 </a>
                             </p>
                             <p>
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://zoff.no/<?php echo $list; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QRCode">
+                            <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://zoff.no/<?php echo $list; ?>&choe=UTF-8&chld=L|1" >
+                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://zoff.no/<?php echo $list; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
+                            </a>
                             </p>
                         </li>
                     </ul>

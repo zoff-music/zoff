@@ -10,32 +10,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
-  <link rel="stylesheet" type="text/css" href="static/css/controlstyle.css" />
 </head>
 <body id="channelpage">
     <header>
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo hide-on-small-only">
+                <a href="/" class="brand-logo hide-on-med-and-down">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <div class="brand-logo truncate zbrand">
-                    <a href="//zoff.no" class="hide-on-med-and-up">Zöff</a>
-                    <span class="hide-on-med-and-up">/</span>
+                    <a href="//zoff.no" class="hide-on-large-only">Zöff</a>
+                    <span class="hide-on-large-only">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
-                <div class="container">
-                    <ul class="row">
-                        <li class="col s6" id="song-title">
-                        </li>
-                        <!--<li>
-                            <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
-                        </li>-->
-                    </ul>
-                </div>
+                
+                <ul class="title-container hide-on-med-and-down">
+                    <li class="col s9" id="song-title">
+                        Loading...
+                    </li>
+                    <li class="search-container">
+                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
+                    </li>
+                </ul>
 
-                <ul class="right">
+                <ul class="right control-list">
                     <li>
                         <a class="nav-btn" href="#" id="search-btn" onclick="">
                             <i class="mdi-action-search"></i>
@@ -89,6 +88,7 @@
                   <div id="fullscreen">
                     <i class="mdi-navigation-fullscreen"></i>
                   </div>
+                  <div id="viewers"></div>
                   <div id="bar"></div>
                 </div>
             </div>
