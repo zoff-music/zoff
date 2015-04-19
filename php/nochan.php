@@ -47,7 +47,7 @@ if(isset($_GET['chan'])){
                 Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
                 The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/nixolas1/Zoff">GitHub</a><br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
-                The team can be reached on either <a href="mailto:kasper@kasperrt.no?Subject=Contact%20Zoff">kasper@kasperrt.no</a> or <a href="mailto:me@nixo.no?Subject=Contact%20Zoff">me@nixo.no</a>
+                The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
                 </p>
             </div>
             <div class="modal-footer">
