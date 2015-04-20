@@ -166,6 +166,10 @@ hide mdi-action-visibility mdi-action-visibility-off
   text-align:right !important;
 }
 
+.chan-name{
+    text-transform: capitalize;
+}
+
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
@@ -211,14 +215,13 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .title-container li{ 
-    height:100%;
     height: 64px;
-    width: 500px;
+    height:100%;
+    width: 84%;
     padding: 0 15px;
 }
 
 .search-container{
-    width: 35% !important;
     display: block;
 }
 
@@ -302,7 +305,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 .card{margin:5px 0 5px 0 !important;}
 #result img{float:left;padding-right:20px !important;}
 #result{height:100px;margin-left:40px;}
-#results{background-color: rgba(0,0,0,0.6);}
+#results{
+    background-color: rgba(0,0,0,0.6);
+    margin-top: -27px;
+}
 .result:hover {
   background-color: rgba(0,0,0,0.4);
  }

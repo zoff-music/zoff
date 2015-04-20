@@ -45,6 +45,7 @@ $(document).ready(function()
 				$(".main").removeClass("blurT");
 				$("#controls").removeClass("blurT");
 				$(".main").removeClass("clickthrough");
+				showSearch();
 			}else{
 				i = 0;
 				timer=100;
@@ -114,6 +115,7 @@ $(document).keyup(function(e) {
 function showSearch(){
 	$("#search-wrapper").toggleClass("hide");
 	$("#song-title").toggleClass("hide");
+	$("#search").focus();
 }
 
 function search(search_input){
@@ -185,6 +187,7 @@ function search(search_input){
 function submitAndClose(id,title,duration){
 	submit(id,title, true, duration);
 	$("#results").html('');
+	showSearch();
 	console.log("sub&closed");
 
 }
