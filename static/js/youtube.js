@@ -215,7 +215,7 @@ function getTitle(titt, v)
 
 function errorHandler(newState)
 {
-	socket.emit("end", video_id);
+	socket.emit("skip");
 }
 
 function onPlayerReady(event) {

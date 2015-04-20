@@ -25,11 +25,13 @@ function fitToScreen()
 
 function initSlider()
 {
-	if(localStorage.getItem("volume") !== undefined)
+	if(localStorage.volume)
 	{
 		vol = localStorage.getItem("volume");
-	}else
+	}else{
 		vol = 100;
+		localStorage.setItem("volume", vol);
+	}
 	$("#volume").slider({
 	    min: 0,
 	    max: 100,

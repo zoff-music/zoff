@@ -26,17 +26,17 @@
                 </div>
                 
                 <ul class="title-container hide-on-med-and-down">
-                    <li class="col s9" id="song-title">
+                    <li class="col s9" id="song-title" onclick="showSearch();">
                         Loading...
                     </li>
-                    <li class="search-container">
+                    <li class="search-container hide" id="search-wrapper">
                         <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Search" onsubmit="null;" autocomplete="off">
                     </li>
                 </ul>
 
                 <ul class="right control-list">
                     <li>
-                        <a class="nav-btn" href="#" id="search-btn" onclick="">
+                        <a class="nav-btn" href="#" id="search-btn" onclick="showSearch();">
                             <i class="mdi-action-search"></i>
                             <span class="hover-text">Find</span>
                         </a>
@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#" id="shuffle" onclick="shuffle();">
+                        <a class="nav-btn hide-on-small-only" href="#" id="shuffle" onclick="shuffle();">
                             <i class="mdi-av-shuffle"></i>
                             <span class="hover-text">Stir</span>
                         </a>
@@ -70,7 +70,7 @@
     </header>
     <main class="container center-align main">
         <div class="row">
-            <div class="col s12 m9 video-container">
+            <div class="col s12 m9 video-container hide-on-small-only">
                 <div id="player" class="ytplayer"></div>
                 <div id="controls">
                   <div id="playpause">

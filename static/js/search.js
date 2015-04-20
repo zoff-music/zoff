@@ -111,6 +111,10 @@ $(document).keyup(function(e) {
 	}
 });
 
+function showSearch(){
+	$("#search-wrapper").toggleClass("hide");
+	$("#song-title").toggleClass("hide");
+}
 
 function search(search_input){
 

@@ -138,7 +138,7 @@ if(isset($_GET['chan'])){
                                 </a>
                             </p>
                             <p>
-                                <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://zoff.no/<?php echo $list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://zoff.no/<?php echo $list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                                <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff, a live shared playlist!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff, a live shared playlist!&via=zoffmusic&via=zoffmusic','Share Playlist','width=600,height=300')">
                                     <img class="left" src="static/images/twitter.png">Share on Twitter
                                 </a>
                             </p>

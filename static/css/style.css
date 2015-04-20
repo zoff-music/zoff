@@ -65,11 +65,12 @@ main {
 }
 
 nav .zbrand{
-    max-width: 22%;
-    overflow: hidden;
-    position: relative;
-    padding-left: 0;
-    margin-left: -10px;
+max-width: 22%;
+min-width: 200px;
+overflow: hidden;
+position: relative;
+font-size: 30px;
+padding: 0 20px;
 }
 
 .fullwidth{
@@ -237,6 +238,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .chan{
+    padding-right:10px;
     text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
 }
 
