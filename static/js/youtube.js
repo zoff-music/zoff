@@ -114,6 +114,11 @@ $(document).ready(function()
 		firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+		if(localStorage[chan.toLowerCase()])
+		{
+			socket.emit("password", localStorage[chan.toLowerCase()]);
+		}
+
 		if($("#chan").html().toLowerCase() == "jazz")
 		{
 			//loadjsfile("static/js/jazzscript.js");
