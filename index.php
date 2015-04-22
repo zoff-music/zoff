@@ -6,6 +6,7 @@
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
     else $list=$list[1];
 
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
@@ -26,7 +27,7 @@
                 </div>
                 
                 <ul class="title-container hide-on-med-and-down">
-                    <li class="col s9" id="song-title" onclick="showSearch();">
+                    <li class="song-title" id="song-title" onclick="showSearch();">
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
@@ -36,25 +37,25 @@
 
                 <ul class="right control-list">
                     <li>
-                        <a class="nav-btn" href="#" id="search-btn" onclick="showSearch();">
+                        <a class="nav-btn" href="#find" id="search-btn" onclick="showSearch();">
                             <i class="mdi-action-search"></i>
                             <span class="hover-text">Find</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#" id="skip" onclick="skip();">
+                        <a class="nav-btn" href="#skip" id="skip" onclick="skip();">
                             <i class="mdi-av-skip-next"></i>
                             <span class="hover-text">Skip</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn hide-on-small-only" href="#" id="shuffle" onclick="shuffle();">
+                        <a class="nav-btn hide-on-small-only" href="#stir" id="shuffle" onclick="shuffle();">
                             <i class="mdi-av-shuffle"></i>
                             <span class="hover-text">Stir</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#" data-activates="settings-bar" id="settings">
+                        <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
                             <i class="mdi-action-settings"></i>
                             <span class="hover-text">Conf</span>
                         </a>
@@ -64,6 +65,14 @@
                     <?php include("php/panel.php");?>
                 </ul>
                 <div id="results"></div>
+            </div>
+            <div class="nav-wrapper hide-on-large-only">
+                <ul class="second-title-container">
+                    <li class="song-title second-title" id="second-song-title" onclick="showSearch();" title="Loading">Loading</li>
+                    <li class="search-container hide" id="search-wrapper">
+                        <input id="search" class="search_input" type="search" required="" title="Search for songs..." spellcheck="false" placeholder="Find song on youtube" onsubmit="null;" autocomplete="off">
+                    </li>
+                </ul>
             </div>
         </nav>
       </div>

@@ -14,6 +14,7 @@
                       <li class="white-bg">
                           <a class="white-bg">
                               <div class="input-field">
+                                <i class="mdi-action-lock"></i>
                                   <input placeholder="Enter channel password" id="password" type="password" class="validate">
                               </div>
                           </a>

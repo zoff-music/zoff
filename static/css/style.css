@@ -71,6 +71,24 @@ overflow: hidden;
 position: relative;
 font-size: 30px;
 padding: 0 20px;
+left: initial;
+display: inline;
+}
+
+@media only screen and (min-width: 992px) {
+    nav .zbrand {
+        display: inline-block;
+    } 
+}
+
+.navbar-fixed {
+    height: 128px;
+}
+
+@media only screen and (min-width: 992px){
+    .navbar-fixed {
+        height: 64px;
+    }
 }
 
 .fullwidth{
@@ -168,6 +186,8 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .chan-name{
     text-transform: capitalize;
+    display: inline-block;
+    width: 100%;
 }
 
 /*#channels li{opacity: 0;}*/
@@ -225,9 +245,18 @@ hide mdi-action-visibility mdi-action-visibility-off
     display: block;
 }
 
-#song-title{
+.song-title{
     font-size: 22px;
     font-weight: 300;
+}
+
+.second-title{
+    width: 100%;
+}
+
+.second-title-container{
+    padding: 0 10%;
+    width: 100%;
 }
 
 #viewers{
@@ -237,6 +266,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #player{
   height:95%;
+  height: calc(100% - 32px);
   position: relative;
 }
 
@@ -389,7 +419,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 #controls
 {
     opacity:0;
-    height:5%;
+    height:32px;
     background-color:rgba(255, 255, 255, 0.1);
     width:100%;
   color:white;

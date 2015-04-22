@@ -49,7 +49,7 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	console.log(obj);
 	if(obj[0].length == 0){
 		console.log("Empty list");
-		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!"
+		$('.song-title').innerHTML = "Empty channel. Add some songs!"
 	}
 	else{
 		console.log("gotten new song");
@@ -204,10 +204,10 @@ function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
 	var title= decodeURIComponent(titt);
-	var elem = document.getElementById('song-title');
+	var elem = $('#song-title');
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
-		elem.innerHTML = title;
+		elem.text = title;
 		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
 		elem.title = title + " • " + v + " " + outPutWord;
 	}

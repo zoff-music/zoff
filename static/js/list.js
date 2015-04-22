@@ -117,10 +117,12 @@ function populate_list(msg, conf_only)
 
 function vote(id, vote){
 	socket.emit('vote', [chan, id, vote, guid, adminpass]);
+	return true;
 }
 
 function skip(){
 	socket.emit('skip', [chan, guid]);
+	return true;
 }
 
 function refresh_scroll()

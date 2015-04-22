@@ -125,6 +125,8 @@ function search(search_input){
 		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
+			//response= http://nixo.no/txt/?4574f9b9dd286e0d#X+kzTvyFv5IrdkGQtqmoquhekDRCPJX9N24PSn86CFE=
+			//var yt_url = "https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&part=snippet&q=thefatrat&fields=items(id%2Csnippet)&type=video&videoDuration=medium&videoCategoryId=15&key=AIzaSyC3hq93zqwdwcjO8HyD9oToLLFotoAjyWo";
 			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=30&v=2&alt=jsonc';
 
 			$.ajax({
