@@ -49,7 +49,7 @@ socket.on("pw", function(msg)
 
 	refresh_scroll();
 
-	localStorage.setItem("passord_i_klartekst_lol", msg);
+	localStorage.setItem(chan.toLowerCase(), msg);
 	Materialize.toast("Correct password. You now have access to the sacred relam of The Admin.", 4000);
 });
 
