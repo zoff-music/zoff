@@ -212,7 +212,7 @@ function getTitle(titt, v)
 	var outPutWord = v > 1 ? "viewers" : "viewer";
 	var title= decodeURIComponent(titt);
 	var elem = document.getElementById('song-title');
-	
+
 	document.title = title + " • Zöff";
 		elem.innerHTML = title;
 		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
@@ -222,7 +222,8 @@ function getTitle(titt, v)
 
 function errorHandler(newState)
 {
-	socket.emit("skip");
+	if(video_id !== undefined)
+		socket.emit("skip");
 }
 
 function onPlayerReady(event) {
