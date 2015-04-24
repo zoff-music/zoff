@@ -19,7 +19,8 @@ $(document).ready(function()
 
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
-		var search_input = $(this).val();
+		search_input = $(this).val();
+		console.log(search_input);
 		if(event.keyCode == 13 && search_input == "fireplace")
 		{
 			if(!peis)
@@ -114,16 +115,22 @@ $(document).keyup(function(e) {
 
 function showSearch(){
 	$("#search-wrapper").toggleClass("hide");
+	if(window.mobilecheck())
+	{
+		$(".search-container").toggleClass("hide");
+		$(".search_input").focus();
+	}
 	$("#song-title").toggleClass("hide");
+	$("#second-song-title").toggleClass("hide");
 	$("#search").focus();
 }
 
 function search(search_input){
 
 
-		$("#results").html('');
-		if(search_input !== ""){
-			var keyword= encodeURIComponent(search_input);
+		$(".search_results").html('');
+		if(window.search_input !== ""){
+			var keyword= encodeURIComponent(window.search_input);
 
 			//response= http://nixo.no/txt/?4574f9b9dd286e0d#X+kzTvyFv5IrdkGQtqmoquhekDRCPJX9N24PSn86CFE=
 			//var yt_url = "https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&part=snippet&q=thefatrat&fields=items(id%2Csnippet)&type=video&videoDuration=medium&videoCategoryId=15&key=AIzaSyC3hq93zqwdwcjO8HyD9oToLLFotoAjyWo";

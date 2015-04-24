@@ -25,7 +25,7 @@
                     <span class="hide-on-large-only">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
-                
+
                 <ul class="title-container hide-on-med-and-down">
                     <li class="song-title" id="song-title" onclick="showSearch();">
                         Loading...
@@ -64,7 +64,7 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
-                <div id="results"></div>
+                <div id="results" class="search_results"></div>
             </div>
             <div class="nav-wrapper hide-on-large-only">
                 <ul class="second-title-container">

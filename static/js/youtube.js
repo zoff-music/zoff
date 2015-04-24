@@ -75,6 +75,8 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 			if(ytplayer.getDuration() > seekTo)
 				ytplayer.seekTo(seekTo);
 		}
+		else
+			getTitle(song_title, viewers);
 	}
 });
 
@@ -209,13 +211,15 @@ function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
 	var title= decodeURIComponent(titt);
-	var elem = document.getElementById('song-title');
+	if(!window.mobilecheck())
+		var elem = document.getElementById('song-title');
+	else
+		var elem = document.getElementById('second-song-title');
 	document.title = title + " • Zöff";
-	if(!window.mobilecheck()){
 		elem.innerHTML = title;
 		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
 		elem.title = title + " • " + v + " " + outPutWord;
-	}
+
 }
 
 function errorHandler(newState)
