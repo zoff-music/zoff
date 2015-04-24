@@ -125,59 +125,44 @@ function search(search_input){
 		if(search_input !== ""){
 			var keyword= encodeURIComponent(search_input);
 
-			//response= http://nixo.no/txt/?4574f9b9dd286e0d#X+kzTvyFv5IrdkGQtqmoquhekDRCPJX9N24PSn86CFE=
-			//var yt_url = "https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&part=snippet&q=thefatrat&fields=items(id%2Csnippet)&type=video&videoDuration=medium&videoCategoryId=15&key=AIzaSyC3hq93zqwdwcjO8HyD9oToLLFotoAjyWo";
-			var yt_url='http://gdata.youtube.com/feeds/api/videos?q='+keyword+'&format=5&orderby=relevance&max-results=30&v=2&alt=jsonc';
+			//response= x
+			var yt_url = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
+			yt_url+="&q="+keyword;
+			if(music)yt_url+="&videoCategoryId=25";
+
+			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&id=";
 
 			$.ajax({
 				type: "GET",
 				url: yt_url,
 				dataType:"jsonp",
-				success: function(response)
+				success: function(response){
+				if(response.items){
+				//get list of IDs and make new request for video info
+				$.each(response.items, function(i,data)
 				{
-					if(response.data.items)
+					vid_url += data.id.videoId+",";
+				});
+				console.log(vid_url)
+				
+				$.ajax({
+				type: "GET",
+				url: vid_url,
+				dataType:"jsonp",
+				success: function(response){
+					$.each(response.items, function(i,song)
 					{
-						var wrapper = "";
-						z = 0;
-						$.each(response.data.items, function(i,data)
-						{
-							if(data.duration > 720 && longsongs == true){return;}
-							if(data.category == "Music" || music == false){
-								var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
-								var views=data.viewCount;
-								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";
-								var length = Math.floor(data.duration/60)+":"+(data.duration-Math.floor(data.duration / 60)*60);
-								var finalhtml="\
-								<div id='result' class='result' onclick=\"submitAndClose('"+data.id+"','"+video_title+"', "+data.duration+");\">\
-									<img src='"+video_thumb+"' class='thumb'>\
-									<div id='title'>"+data.title+"\
-										<div class='result_info'>"+views+" views • "+length+"</div>\
-										</div>\
-								</div>";
-								//<input id='add' title='Add several songs' type='button' class='button' value='+' onclick=\"submit('"+data.id+"','"+video_title+"', false);\">\
-								//+data.uploader+" • "+
-								//$("#results").append(finalhtml);
-								wrapper += finalhtml;
-								z++;
-							}
-							return (z !== 6);
-						});
-						//console.log(wrapper);
-						//$("#results").append(wrapper).show("slow");
-						if(wrapper.length > 0)
-						{
-							$(".main").addClass("blurT");
-							$("#controls").addClass("blurT");
-							$(".main").addClass("clickthrough");
-						}
-
-						$("<div id='r' style='display:none;'>"+wrapper+"</div>").appendTo('#results').slideDown('slow');
-
-					}
-					else{ $("#video").html("<div id='no'>No Video</div>");}
+						var title=song.snippet.title;
+						id=song.id;
+						duration=song.contentDetails.duration;
+						viewers=
+					});
 				}
-
+				});
+				}
+				}
 			});
+
 		}else{
 			$(".main").removeClass("blurT");
 			$("#controls").removeClass("blurT");
