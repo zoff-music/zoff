@@ -135,6 +135,7 @@ function search(search_input){
 				dataType:"jsonp",
 				success: function(response)
 				{
+					console.log(response);
 					if(response.data.items)
 					{
 						var wrapper = "";
@@ -142,7 +143,7 @@ function search(search_input){
 						$.each(response.data.items, function(i,data)
 						{
 							if(data.duration > 720 && longsongs == true){return;}
-							if(data.category == "Music" || music == false){
+							if((data.category == "Music" || music == false) && i > 1){
 								var video_title=encodeURIComponent(data.title).replace(/'/g, "\\\'");
 								var views=data.viewCount;
 								var video_thumb = "http://i.ytimg.com/vi/"+data.id+"/default.jpg";

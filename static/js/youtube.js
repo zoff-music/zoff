@@ -209,10 +209,10 @@ function getTitle(titt, v)
 {
 	var outPutWord = v > 1 ? "viewers" : "viewer";
 	var title= decodeURIComponent(titt);
-	var elem = $('#song-title');
+	var elem = document.getElementById('song-title');
 	document.title = title + " • Zöff";
 	if(!window.mobilecheck()){
-		elem.text = title;
+		elem.innerHTML = title;
 		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
 		elem.title = title + " • " + v + " " + outPutWord;
 	}
