@@ -78,7 +78,7 @@ display: inline;
 @media only screen and (min-width: 992px) {
     nav .zbrand {
         display: inline-block;
-    } 
+    }
 }
 
 .navbar-fixed {
@@ -234,7 +234,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     overflow: hidden;
 }
 
-.title-container li{ 
+.title-container li{
     height: 64px;
     height:100%;
     width: 84%;
@@ -531,4 +531,9 @@ hide mdi-action-visibility mdi-action-visibility-off
     background-color:rgba(0,0,0,0.5);
     -webkit-transition: width 1s ease;
     transition: width 1s ease;
+}
+
+.mdi-action-lock
+{
+  position:absolute;
 }
