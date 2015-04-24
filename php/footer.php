@@ -22,12 +22,12 @@
                             <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
                         </a>
                         <p>
-                            <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/<?php echo $list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/<?php echo $list; ?>','Share Playlist','width=600,height=300')">
+                            <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
                                 <img class="left" src="static/images/facebook.png">Share on Facebook
                             </a>
                         </p>
                         <p>
-                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://zoff.no/<?php echo $list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://zoff.no/<?php echo $list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
                                 <img class="left" src="static/images/twitter.png">Share on Twitter
                             </a>
                         </p>

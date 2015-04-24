@@ -125,29 +125,29 @@ if(isset($_GET['chan'])){
                 </div>
                 <div class="col l4 offset-l2 s12 valign-wrapper">
                     <ul>
-                        <li>
-                            <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                                <img title="Get it on Google Play" src="static/images/google_play.png">
-                            </a>
-                            <a href="https://github.com/nixolas1/Zoff">
-                                <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
-                            </a>
-                            <p>
-                                <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/<?php echo $list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://zoff.no/<?php echo $list; ?>','Share Playlist','width=600,height=300')">
-                                    <img class="left" src="static/images/facebook.png">Share on Facebook
-                                </a>
-                            </p>
-                            <p>
-                                <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff, a live shared playlist!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://zoff.no/&text=Check out Zöff, a live shared playlist!&via=zoffmusic&via=zoffmusic','Share Playlist','width=600,height=300')">
-                                    <img class="left" src="static/images/twitter.png">Share on Twitter
-                                </a>
-                            </p>
-                            <p>
-                            <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&choe=UTF-8&chld=L|1" >
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
-                            </a>
-                            </p>
-                        </li>
+                      <li>
+                          <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
+                              <img title="Get it on Google Play" src="static/images/google_play.png">
+                          </a>
+                          <a href="https://github.com/nixolas1/Zoff">
+                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
+                          </a>
+                          <p>
+                              <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="static/images/facebook.png">Share on Facebook
+                              </a>
+                          </p>
+                          <p>
+                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="static/images/twitter.png">Share on Twitter
+                              </a>
+                          </p>
+                          <p>
+                              <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" >
+                                  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
+                              </a>
+                          </p>
+                      </li>
                     </ul>
                 </div>
             </div>
