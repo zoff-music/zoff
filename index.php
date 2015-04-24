@@ -25,8 +25,8 @@
                     <span class="hide-on-large-only">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
-                
-                <ul class="title-container hide-on-med-and-down">
+
+                <ul class="title-container">
                     <li class="song-title" id="song-title" onclick="showSearch();">
                         Loading...
                     </li>
@@ -64,15 +64,17 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
-                <div id="results"></div>
-            </div>
-            <div class="nav-wrapper hide-on-large-only">
-                <ul class="second-title-container">
-                    <li class="song-title second-title" id="second-song-title" onclick="showSearch();" title="Loading">Loading</li>
-                    <li class="search-container hide" id="search-wrapper">
-                        <input id="search" class="search_input" type="search" required="" title="Search for songs..." spellcheck="false" placeholder="Find song on youtube" onsubmit="null;" autocomplete="off">
-                    </li>
-                </ul>
+                <div id="results" class="search_results">
+                    <div id="temp-results">
+                        <div id="result" class="result">
+                            <img class="thumb">
+                            <div id="title">
+                                <span class="search-title"></span>
+                                <div class="result_info"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
       </div>

@@ -1,12 +1,15 @@
 var old_input="";
 var timer = 0;
+var result_html = $("#temp-results").html();
+$( "#results" ).empty();
+var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
+
 /*jshint multistr: true */
 
 $(document).ready(function()
 {
+
 	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
-
-
 	$("#search").focus();
 
 	$('#base').bind("keyup keypress", function(e) {
@@ -19,7 +22,8 @@ $(document).ready(function()
 
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
-		var search_input = $(this).val();
+		search_input = $(this).val();
+		console.log(search_input);
 		if(event.keyCode == 13 && search_input == "fireplace")
 		{
 			if(!peis)
@@ -114,6 +118,10 @@ $(document).keyup(function(e) {
 
 function showSearch(){
 	$("#search-wrapper").toggleClass("hide");
+	if(window.mobilecheck())
+	{
+		$(".search_input").focus();
+	}
 	$("#song-title").toggleClass("hide");
 	$("#search").focus();
 }
@@ -121,9 +129,9 @@ function showSearch(){
 function search(search_input){
 
 
-		$("#results").html('');
-		if(search_input !== ""){
-			var keyword= encodeURIComponent(search_input);
+		$(".search_results").html('');
+		if(window.search_input !== ""){
+			var keyword= encodeURIComponent(window.search_input);
 
 			//response= x
 			var yt_url = "https://www.googleapis.com/youtube/v3/search?key=***REMOVED***&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
@@ -152,10 +160,23 @@ function search(search_input){
 				success: function(response){
 					$.each(response.items, function(i,song)
 					{
-						var title=song.snippet.title;
-						id=song.id;
-						duration=song.contentDetails.duration;
-						viewers=
+						var duration=song.contentDetails.duration;
+						secs=durationToSeconds(duration)
+						if(!longsongs || secs<720){
+							title=song.snippet.title;
+							enc_title=encodeURIComponent(title).replace(/'/g, "\\\'");
+							id=song.id;
+							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
+							thumb=song.snippet.thumbnails.medium.url;
+
+							$("#results").append(result_html);
+							var song = $("#result");
+							song.find(".search-title").text(title);
+							song.find(".result_info").text(duration);
+							song.find(".thumb").attr("src", thumb);
+							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+							song.attr("id",id);
+						}
 					});
 				}
 				});
@@ -189,4 +210,12 @@ function submit(id,title,type, duration){
 		$("#controls").removeClass("blurT");
 		$(".main").removeClass("clickthrough");
 	}
+}
+
+function durationToSeconds(duration) {
+    var matches = duration.match(time_regex);
+    hours= parseInt(matches[12])||0,
+    minutes= parseInt(matches[14])||0,
+    seconds= parseInt(matches[16])||0
+    return hours*60*60+minutes*60+seconds;
 }
