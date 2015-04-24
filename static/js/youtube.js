@@ -49,7 +49,7 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	console.log(obj);
 	if(obj[0].length == 0){
 		console.log("Empty list");
-		$('.song-title').innerHTML = "Empty channel. Add some songs!"
+		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!"
 	}
 	else{
 		console.log("gotten new song");
