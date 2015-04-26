@@ -324,6 +324,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .vote-span{
+    opacity: 0.7;
     padding: 0 0 0 10px;
 }
 
@@ -426,6 +427,12 @@ hide mdi-action-visibility mdi-action-visibility-off
 .collapsible-body ul li.white-bg{
   background-color:white !important;
 }
+
+#admin-lock
+{
+  position:absolute;
+}
+
 
 
 /************** Youtube controls **************/
@@ -547,7 +554,3 @@ hide mdi-action-visibility mdi-action-visibility-off
     transition: width 1s ease;*/
 }
 
-.mdi-action-lock
-{
-  position:absolute;
-}
