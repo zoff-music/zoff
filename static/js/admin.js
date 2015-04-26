@@ -7,31 +7,31 @@ socket.on("toast", function(msg)
 	pass_corr = "correct";
 	switch(msg) {
 	    case "savedsettings":
-	        msg="I saved your settings"
+	        msg=rnd(["I've saved your settings", "I stored all your settings", "Your settings have been stored in a safe place"])
 	        break;
 	    case "wrongpass":
-	        msg="That's not the right password!"
+	        msg=rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."])
 	        break;
 		case "shuffled":
-	        msg="I vigorously stirred your playlist!"
+	        msg=rnd(["I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"])
 	        break;
 		case "deletesong":
-	        msg="Your song is now in a better place..."
+	        msg=rnd(["Your song is now in a better place...", "You won't be seeing any more of that video...", "EXTERMINATE! EXTERMINATE! EXTERMINATE!", "I killed it with fire", "Thanks for deleting that song. I didn't like it anyways...", "Removed song securely."])
 	        break;
 		case "voted":
-			msg="You voted!"
+			msg=rnd(["You voted!", "You vote like a boss", "Voting is the key to democracy", "May you get your song to the very top!", "I love that song! I vouch for you.", "Only you vote that good", "I like the way you vote...", "Up the video goes!", "Voted Zöff for president", "Only 999 more to go!"])
 			break;
 		case "alreadyvoted":
-	        msg="You can't vote twice on that song!"
+	        msg=rnd(["You can't vote twice on that song!", "I see you have voted on that song before", "One vote per person!", "I know you want to hear your song, but have patience!", "I'm sorry, but I can't let you vote twice, Dave."])
 	        break;
 		case "listhaspass":
-			msg="I'm sorry, but you have to be an admin to do that!"
+			msg=rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"])
 			break;
 		case "noskip":
-			msg="Only Admins can skip songs, peasant!"
+			msg=rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"])
 			break;
 		case "alreadyskip":
-			msg="Skipping is democratic, only one vote per person!"
+			msg=rnd(["Skipping is democratic, only one vote per person!", "More people have to vote to skip, not just you!", "Get someone else to skip too! You can't do it on yourself."])
 			break;
 	}
 	Materialize.toast(msg, 4000);
@@ -48,7 +48,8 @@ socket.on("pw", function(msg)
 	$(".card-action").removeClass("hide");
 
 	refresh_scroll();
-
+	$("#admin-lock").removeClass("mdi-action-lock");
+	$("#admin-lock").addClass("mdi-action-lock-open clickable");
 	localStorage.setItem(chan.toLowerCase(), msg);
 	Materialize.toast("Correct password. You now have access to the sacred realm of The Admin.", 4000);
 });
@@ -66,6 +67,22 @@ $('input[class=conf]').change(function()
 function pass_save()
 {
 	socket.emit('password', document.getElementById("password").value);
+}
+
+function log_out(){
+	if(localStorage[chan.toLowerCase()]){
+		localStorage.removeItem(chan.toLowerCase())
+		w_p = false;
+		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+		for (var i = 0; i < names.length; i++) {
+				$("input[name="+names[i]+"]").attr("disabled", true);
+		}
+		$("#admin-lock").addClass("mdi-action-lock");
+		$("#admin-lock").removeClass("mdi-action-lock-open clickable");
+		Materialize.toast("Logged out", 4000);
+	}else{
+		Materialize.toast("Not logged in", 4000);
+	}
 }
 
 //function used in html onlick
@@ -109,4 +126,9 @@ function shuffle()
 {
 	console.log(adminpass);
 	socket.emit('shuffle', adminpass);
+}
+
+function rnd(arr)
+{
+	return arr[Math.floor(Math.random() * arr.length)];
 }
