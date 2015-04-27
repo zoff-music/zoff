@@ -14,6 +14,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* global colors */
@@ -100,6 +101,15 @@ display: inline;
         width: calc(90% - 256px - 130px);
         left: initial;
     }
+    .title-container li {
+      width: 84%;
+    }
+    #playlist{
+        padding:0px 15px;
+        overflow: hidden;
+        height: 90%;
+        height: calc(100% - 64px);
+    }
 }
 
 .fullwidth{
@@ -158,6 +168,7 @@ display: inline;
 
 .share, .shareface{
     padding-left: 10px !important;
+    width: 17em;
 }
 
 .shareface {background-color: rgb(42, 134, 200) !important;}
@@ -226,9 +237,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 .video-container{
     height: calc(100% - 64px);
 }
-#playlist{
-    padding:0px 15px;
-}
 
 .control-list{
     position: fixed;
@@ -246,7 +254,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 .title-container li{
     height: 64px;
     height:100%;
-    width: 84%;
     padding: 0 15px;
 }
 
@@ -271,6 +278,9 @@ hide mdi-action-visibility mdi-action-visibility-off
 #viewers{
     width: initial;
     padding-right: 3%;
+}
+#playlist{
+    padding:0px 15px;
 }
 
 #player{
