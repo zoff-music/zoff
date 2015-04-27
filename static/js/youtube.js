@@ -223,7 +223,10 @@ function getTitle(titt, v)
 function errorHandler(newState)
 {
 	if(video_id !== undefined)
+	{
+		console.log("errorskip");
 		socket.emit("skip");
+	}
 }
 
 function onPlayerReady(event) {
