@@ -6,6 +6,9 @@ socket.on("toast", function(msg)
 {
 	pass_corr = "correct";
 	switch(msg) {
+		case "addedsong":
+			msg=rnd(["I added your song", "Your song has been added", "Yay, more songs!", "Thats a cool song!", "I added that song for you", "I see you like adding songs..."])
+			break;
 	    case "savedsettings":
 	        msg=rnd(["I've saved your settings", "I stored all your settings", "Your settings have been stored in a safe place"])
 	        break;
@@ -79,6 +82,7 @@ function log_out(){
 		}
 		$("#admin-lock").addClass("mdi-action-lock");
 		$("#admin-lock").removeClass("mdi-action-lock-open clickable");
+		document.getElementById("password").value = "";
 		Materialize.toast("Logged out", 4000);
 	}else{
 		Materialize.toast("Not logged in", 4000);
