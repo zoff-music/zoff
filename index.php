@@ -68,10 +68,13 @@
                     <div id="temp-results">
                         <div id="result" class="result">
                             <img class="thumb">
-                            <div id="title">
-                                <span class="search-title"></span>
-                                <div class="result_info"></div>
-                            </div>
+                            <span id="title">
+                                <div class="search-title"></div>
+                                <span class="result_info"></span>
+                            </span>
+                            <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
+                                <i class="mdi-av-playlist-add"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

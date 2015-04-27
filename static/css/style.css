@@ -350,6 +350,14 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin: 15px 20px;
 }
 .result{height:100px;margin-left:40px;}
+.add-many{
+    float:right;
+    color:white;
+}
+.add-many:hover{
+    color:orange;
+}
+.add-many i{ line-height: 36px !important;}
 #results{
     background-color: rgba(0,0,0,0.6);
     margin-top: -27px;
@@ -358,6 +366,9 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 .result:hover {
   background-color: rgba(0,0,0,0.4);
+ }
+ .search-title{
+    height: 36px;
  }
 
 .list-remove{
@@ -377,7 +388,9 @@ hide mdi-action-visibility mdi-action-visibility-off
   cursor: pointer;
   width:93%;
 }
-.result_info{margin-top:-36px;}
+.result_info{
+    opacity:0.8;
+}
 
 
 /** settings **/

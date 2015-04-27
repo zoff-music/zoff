@@ -214,6 +214,7 @@ io.on('connection', function(socket){
                 np = false;
         			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, function(err, docs){
       		  		sort_list(coll, undefined, np, true);
+                socket.emit("toast", "addedsong");
       		  	});
             });
           }else{

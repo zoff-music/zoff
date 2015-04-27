@@ -70,8 +70,9 @@ $(document).ready(function()
 					{
 						$.each(response.data.items, function(i,data)
 						{
-							submit(data.video.id, data.video.title, true, data.video.duration);
+							submit(data.video.id, data.video.title, data.video.duration);
 						});
+						document.getElementById("search").value = "";
 					}
 				});
 			}
@@ -136,7 +137,7 @@ function search(search_input){
 			//response= x
 			var yt_url = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
 			yt_url+="&q="+keyword;
-			if(music)yt_url+="&videoCategoryId=25";
+			if(music)yt_url+="&videoCategoryId=10";
 
 			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&id=";
 
@@ -174,9 +175,16 @@ function search(search_input){
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
+							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
 						}
+					});
+
+					$(".add-many").click(function(e) {
+					    e.preventDefault();
+					    e.stopPropagation();
+					    return false;
 					});
 				}
 				});
@@ -193,23 +201,19 @@ function search(search_input){
 }
 
 function submitAndClose(id,title,duration){
-	submit(id,title, true, duration);
+	submit(id,title, duration);
 	$("#results").html('');
 	showSearch();
 	console.log("sub&closed");
-
+	document.getElementById("search").value = "";
+	$("#results").html = "";
+	$(".main").removeClass("blurT");
+	$("#controls").removeClass("blurT");
+	$(".main").removeClass("clickthrough");
 }
 
-function submit(id,title,type, duration){
-
+function submit(id,title,duration){
 	socket.emit("add", [id, decodeURIComponent(title), adminpass, duration]);
-	if(type){
-		document.getElementById("search").value = "";
-		$("#results").html = "";
-		$(".main").removeClass("blurT");
-		$("#controls").removeClass("blurT");
-		$(".main").removeClass("clickthrough");
-	}
 }
 
 function durationToSeconds(duration) {
