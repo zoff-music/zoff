@@ -84,8 +84,7 @@ function populate_list(msg, conf_only)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";
-				$("#playlist").css({height: $(".video-container").height()-5});
-				$("#playlist").css({overflow: "hidden"});
+				
 				if(scroller === false)
 				{
 					myScroll = new IScroll('#playlist', {
