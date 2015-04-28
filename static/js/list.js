@@ -28,7 +28,7 @@ socket.on("skipping", function(obj)
 
 function populate_list(msg, conf_only)
 {
-	console.log(msg);
+	//console.log(msg);
 	console.log(conf_only);
 	if(!conf_only)
 		$("#wrapper").empty();
@@ -84,7 +84,7 @@ function populate_list(msg, conf_only)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";
-				
+
 				if(scroller === false)
 				{
 					myScroll = new IScroll('#playlist', {
