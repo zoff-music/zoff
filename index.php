@@ -64,7 +64,7 @@
                 <ul class="side-nav" id="settings-bar">
                     <?php include("php/panel.php");?>
                 </ul>
-                <div id="results" class="search_results">
+                <div id="results" class="search_results hide">
                     <div id="temp-results">
                         <div id="result" class="result">
                             <img class="thumb">
