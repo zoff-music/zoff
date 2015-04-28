@@ -127,7 +127,9 @@ function showSearch(){
 		$(".search_input").focus();
 	}
 	$("#song-title").toggleClass("hide");
+	$("#results").toggleClass("hide");
 	$("#search").focus();
+
 }
 
 function search(search_input){
@@ -155,7 +157,7 @@ function search(search_input){
 				{
 					vid_url += data.id.videoId+",";
 				});
-				console.log(vid_url)
+				console.log("Search for: "+keyword)
 				
 				$.ajax({
 				type: "GET",
