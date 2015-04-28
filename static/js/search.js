@@ -21,10 +21,22 @@ $(document).ready(function()
 		}
 	});
 
+	$("body").keyup(function(event) {
+		if(event.keyCode == 27){
+			$("#results").html("");
+			$(".main").removeClass("blurT");
+			$("#controls").removeClass("blurT");
+			$(".main").removeClass("clickthrough");
+			if(!contains($("#search-wrapper").attr("class").split(" "), "hide"))
+				$("#search-wrapper").toggleClass("hide");
+			if(contains($("#song-title").attr("class").split(" "), "hide"))
+				$("#song-title").toggleClass("hide");
+		}
+	});
+
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
 		search_input = $(this).val();
-		console.log(search_input);
 		if(event.keyCode == 13 && search_input == "fireplace")
 		{
 			if(!peis)
@@ -45,12 +57,6 @@ $(document).ready(function()
 			if(search_input.length < 3){$("#results").html("");}
 			if(event.keyCode == 13){
 			 	search(search_input);
-			}else if(event.keyCode == 27){
-				$("#results").html("");
-				$(".main").removeClass("blurT");
-				$("#controls").removeClass("blurT");
-				$(".main").removeClass("clickthrough");
-				showSearch();
 			}else{
 				i = 0;
 				timer=100;
@@ -249,4 +255,15 @@ function durationToSeconds(duration) {
     minutes= parseInt(matches[14])||0,
     seconds= parseInt(matches[16])||0
     return hours*60*60+minutes*60+seconds;
+}
+
+
+function contains(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i] === obj) {
+           return true;
+       }
+    }
+    return false;
 }

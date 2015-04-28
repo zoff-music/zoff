@@ -224,6 +224,8 @@ function errorHandler(newState)
 {
 	if(video_id !== undefined)
 	{
+		console.log(video_id);
+		console.log(ytplayer.getVideoUrl());
 		console.log("errorskip");
 		socket.emit("skip");
 	}
