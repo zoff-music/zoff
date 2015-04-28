@@ -133,7 +133,9 @@ function showSearch(){
 		$(".search_input").focus();
 	}
 	$("#song-title").toggleClass("hide");
-	$("#results").toggleClass("hide");
+	$("#results").removeClass("hide");
+	$("#results").empty();
+
 	$("#search").focus();
 
 }
