@@ -138,7 +138,7 @@ io.on('connection', function(socket){
           }else
           {
               console.log(np[0]["title"] + " before if");
-              if(startTime+np[0]["duration"]<=get_time()+2)
+              if(startTime+parseInt(np[0]["duration"])<=get_time()+2)
               {
                 console.log(np[0]["title"] + " after if");
                 db.collection(coll).update({now_playing:true, id:id},
@@ -197,7 +197,7 @@ io.on('connection', function(socket){
   	var id = arr[0];
   	var title = arr[1];
     var hash = hash_pass(arr[2]);
-    var duration = arr[3];
+    var duration = parseInt(arr[3]);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs)
     {
       if((docs[0]["addsongs"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == "")) || docs[0]["addsongs"] == false)
@@ -214,7 +214,6 @@ io.on('connection', function(socket){
                 np = false;
         			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, function(err, docs){
       		  		sort_list(coll, undefined, np, true);
-                socket.emit("toast", "addedsong");
       		  	});
             });
           }else{
@@ -437,7 +436,7 @@ io.on('connection', function(socket){
       lists[coll].push(guid);
       io.sockets.emit(coll+",viewers", lists[coll].length);
     }
-    
+
     send_play(coll, socket);
   });
 });
