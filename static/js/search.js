@@ -1,5 +1,6 @@
 var old_input="";
 var timer = 0;
+var api_key = "AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8";
 var result_html = $("#temp-results").html();
 $( "#results" ).empty();
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
@@ -61,17 +62,19 @@ $(document).ready(function()
 			pId = search_input.split("list=");
 			if(pId.length > 1)
 			{
-				pListUrl = "http://gdata.youtube.com/feeds/api/playlists/"+pId[1]+"/?format=5&max-results=50&v=2&alt=jsonc";
+				playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=40&key="+api_key+"&playlistId="+pId[1];
 				$.ajax({
 					type: "GET",
-					url: pListUrl,
+					url: playlist_url,
 					dataType:"jsonp",
 					success: function(response)
 					{
-						$.each(response.data.items, function(i,data)
+						var ids="";
+						$.each(response.items, function(i,data)
 						{
-							submit(data.video.id, data.video.title, data.video.duration);
+							ids+=data.contentDetails.videoId+",";
 						});
+						addVideos(ids);
 						document.getElementById("search").value = "";
 					}
 				});
@@ -135,11 +138,11 @@ function search(search_input){
 			var keyword= encodeURIComponent(window.search_input);
 
 			//response= x
-			var yt_url = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
+			var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
 			yt_url+="&q="+keyword;
 			if(music)yt_url+="&videoCategoryId=10";
 
-			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&id=";
+			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
 			$.ajax({
 				type: "GET",
@@ -210,6 +213,28 @@ function submitAndClose(id,title,duration){
 	$(".main").removeClass("blurT");
 	$("#controls").removeClass("blurT");
 	$(".main").removeClass("clickthrough");
+}
+
+function addVideos(ids){
+	var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&id=";
+	request_url += ids;
+
+	$.ajax({
+	type: "GET",
+	url: request_url,
+	dataType:"jsonp",
+	success: function(response){
+		$.each(response.items, function(i,song)
+		{
+			var duration=durationToSeconds(song.contentDetails.duration);
+			if(!longsongs || secs<720){
+				enc_title=encodeURIComponent(song.snippet.title).replace(/'/g, "\\\'");
+				submit(song.id, enc_title, duration);
+			}
+		});
+		
+	}
+	});
 }
 
 function submit(id,title,duration){
