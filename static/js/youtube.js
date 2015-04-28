@@ -222,7 +222,8 @@ function getTitle(titt, v)
 
 function errorHandler(newState)
 {
-	if(video_id !== undefined)
+	var failsafe = ytplayer.getVideoUrl().split("https://www.youtube.com/watch");
+	if(video_id !== undefined && !failsafe[0] == "" && !failsafe[1] == "")
 	{
 		console.log(video_id);
 		console.log(ytplayer.getVideoUrl());
@@ -233,6 +234,8 @@ function errorHandler(newState)
 
 function onPlayerReady(event) {
 	  	player_ready = true;
+			console.log(ytplayer.getVideoUrl());
+			console.log(ytplayer.getVideoUrl().split("https://www.youtube.com/watch"));
 		if(!window.mobilecheck())
 		{
 			$("#player").css("opacity", "1");
