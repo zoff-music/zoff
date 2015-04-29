@@ -225,17 +225,12 @@ function errorHandler(newState)
 	var failsafe = ytplayer.getVideoUrl().split("https://www.youtube.com/watch");
 	if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150)
 	{
-		console.log(video_id);
-		console.log(ytplayer.getVideoUrl());
-		console.log("errorskip");
-		socket.emit("skip");
+			socket.emit("skip");
 	}
 }
 
 function onPlayerReady(event) {
-	  	player_ready = true;
-			console.log(ytplayer.getVideoUrl());
-			console.log(ytplayer.getVideoUrl().split("https://www.youtube.com/watch"));
+  	player_ready = true;
 		if(!window.mobilecheck())
 		{
 			$("#player").css("opacity", "1");
