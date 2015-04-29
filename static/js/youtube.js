@@ -223,7 +223,7 @@ function getTitle(titt, v)
 function errorHandler(newState)
 {
 	var failsafe = ytplayer.getVideoUrl().split("https://www.youtube.com/watch");
-	if(video_id !== undefined && !failsafe[0] == "" && !failsafe[1] == "")
+	if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150)
 	{
 		console.log(video_id);
 		console.log(ytplayer.getVideoUrl());
