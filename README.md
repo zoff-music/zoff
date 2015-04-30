@@ -14,17 +14,13 @@ Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
 
 ###Screenshot of desktop version:
 
-![alt tag](http://puu.sh/hwExf/1d176aae19.jpg)
+![alt tag](http://puu.sh/fF6XJ/003fa24349.jpg)
 
-![alt tag](http://puu.sh/hwEG0/2bc8bc6971.jpg)
+![alt tag](http://puu.sh/fF77D/628693b995.jpg)
 
-![alt tag](http://puu.sh/hwEIn/ea5b9da786.jpg)
+![alt tag](http://puu.sh/fF7eb/0129dde16f.jpg)
 
-![alt tag](http://puu.sh/hwEM0/326e4c71ed.jpg)
-
-![alt tag](http://puu.sh/hwERH/b7ae8333ac.jpg)
-
-![alt tag](http://puu.sh/hwEWE/e1042576c0.jpg)
+![alt tag](http://puu.sh/fF7jl/2653aada6c.jpg)
 
 ###Screenshot of the mobile version:
 
