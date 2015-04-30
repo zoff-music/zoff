@@ -89,6 +89,7 @@ function log_out(){
 		adminpass = "";
 		document.getElementById("password").value = "";
 		Materialize.toast("Logged out", 4000);
+		refresh_scroll();
 	}else{
 		Materialize.toast("Not logged in", 4000);
 	}
