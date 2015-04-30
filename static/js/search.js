@@ -222,11 +222,12 @@ function submitAndClose(id,title,duration){
 }
 
 function addVideos(ids){
+	console.log(ids)
 	var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=***REMOVED***&id=";
 	request_url += ids;
 
 	$.ajax({
-	type: "GET",
+	type: "POST",
 	url: request_url,
 	dataType:"jsonp",
 	success: function(response){
