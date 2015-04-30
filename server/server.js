@@ -42,12 +42,12 @@ io.on('connection', function(socket){
           if(name != "system.indexes")
           {
             db.collection(name).find({views:{$exists:true}}, function(err, conf){
-              db.collection(name).count(function(err, num){
-                db.collection(name).find({now_playing:true}, function(err, np){
-                  complete(np, i, colNames.length-2, name, num-1, conf);
-                  i++;
+                db.collection(name).count(function(err, num){
+                  db.collection(name).find({now_playing:true}, function(err, np){
+                    complete(np, i, colNames.length-2, name, num-1, conf);
+                    i++;
+                  });
                 });
-              });
             });
           }
       });
