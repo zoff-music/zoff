@@ -21,7 +21,7 @@
                         <a href="https://github.com/nixolas1/Zoff">
                             <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
                         </a>
-                        <p> 
+                        <p>
                             <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
                                 <img class="left" src="static/images/facebook.png">Share on&nbspFacebook
                             </a>
@@ -68,7 +68,7 @@
 <script type="text/javascript" src="static/js/youtube.js"></script>
 <script type="text/javascript" src="static/js/search.js"></script>
 <script type="text/javascript" src="static/js/admin.js"></script>
-<script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
+<script type="text/javascript" src="static/js/lib/materialize.js"></script>
 <script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>
 
 <!-- Piwik tracking -->

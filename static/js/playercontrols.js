@@ -1,3 +1,5 @@
+var muted = false;
+
 function initYoutubeControls(player)
 {
 	fitToScreen();
@@ -87,8 +89,17 @@ function changeQuality(wantedQ)
 
 function mute_video()
 {
-	choose_button(0, true);
-	ytplayer.mute();
+	if(!muted)
+	{
+		choose_button(0, true);
+		ytplayer.mute();
+		muted = true;
+	}else
+	{
+		ytplayer.unMute();
+		muted = false;
+		choose_button(ytplayer.getVolume(), false);
+	}
 }
 
 function setVolume(vol)
