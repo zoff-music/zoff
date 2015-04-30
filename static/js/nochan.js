@@ -41,7 +41,7 @@ function populate_channels(lists)
         $("#channels").append(card.html());
 
         //$("#channels").append(card);
-        console.log(chan);
+        //console.log(chan);
 
         output+="<option value='"+chan+"'> ";
         num++;
@@ -93,7 +93,7 @@ $(document).ready(function (){
             window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
     });
     if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
-        console.log("android");
+        //console.log("android");
         var ca = document.cookie.split(';');
         if(getCookie("show_prompt") == ""){
             var r = confirm("Do you want to download the native app for this webpage?");

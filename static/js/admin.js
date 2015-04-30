@@ -132,7 +132,6 @@ function remove_bar()
 
 function shuffle()
 {
-	console.log(adminpass);
 	socket.emit('shuffle', adminpass);
 }
 
