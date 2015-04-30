@@ -30,10 +30,12 @@ Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
 
 ![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://puu.sh/fF7B3/58b9b3abce.jpg)     ![alt tag](http://puu.sh/fF7ID/e7d65c336b.jpg)
 
-###License
+###Legal
 
-Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen kasper@kasperrt.no
+Copyright © 2015 
+Nicolas Almagro Tonne and Kasper Rynning-Tønnesen 
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/no/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Zöff</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://zoff.no" property="cc:attributionName" rel="cc:attributionURL">Nixo & KasperRT</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License</a>.
-
-This product is not to be distributed for pay, or to be altered with without permission of the creators. If anything is to be altered with, the Copyright footer is to stand on the bottom of the website, and it shall remain named Zöff
+Creative Commons License
+Zöff is licensed under a 
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>. 
+Do not redistribute without permission from the developers. 
