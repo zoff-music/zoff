@@ -41,17 +41,19 @@ io.on('connection', function(socket){
         colNames.forEach(function(name){
           if(name != "system.indexes")
           {
-            db.collection(name).count(function(err, num){
-              db.collection(name).find({now_playing:true}, function(err, np){
-                complete(np, i, colNames.length-2, name, num-1);
-                i++;
+            db.collection(name).find({views:{$exists:true}}, function(err, conf){
+              db.collection(name).count(function(err, num){
+                db.collection(name).find({now_playing:true}, function(err, np){
+                  complete(np, i, colNames.length-2, name, num-1, conf);
+                  i++;
+                });
               });
             });
           }
       });
     });
 
-    var complete = function(list, curr, tot, name, count)
+    var complete = function(list, curr, tot, name, count, conf)
     {
       if(list.length > 0)
       {
@@ -61,7 +63,8 @@ io.on('connection', function(socket){
           var viewers = lists[name].length;
         }catch(err){var viewers = 0;}
         var to_push = [viewers, id, title, name, count];
-        playlists_to_send.push(to_push);
+        if(conf[0]["frontpage"])
+          playlists_to_send.push(to_push);
       }
       if(curr == tot)
       {

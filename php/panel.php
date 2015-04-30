@@ -71,9 +71,9 @@
                         <li><a class="setting-text">
                             Frontpage
                             <div class="switch"><label>
-                            Display
-                            <input name="frontpage" type="checkbox" class="conf"><span class="lever"></span>
                             Hide
+                            <input name="frontpage" type="checkbox" class="conf"><span class="lever"></span>
+                            Display
                         </label></div></a></li>
 
                         <li><a class="setting-text">
