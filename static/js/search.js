@@ -21,19 +21,6 @@ $(document).ready(function()
 		}
 	});
 
-	$("body").keyup(function(event) {
-		if(event.keyCode == 27){
-			$("#results").html("");
-			$(".main").removeClass("blurT");
-			$("#controls").removeClass("blurT");
-			$(".main").removeClass("clickthrough");
-			if(!contains($("#search-wrapper").attr("class").split(" "), "hide"))
-				$("#search-wrapper").toggleClass("hide");
-			if(contains($("#song-title").attr("class").split(" "), "hide"))
-				$("#song-title").toggleClass("hide");
-		}
-	});
-
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
 		search_input = $(this).val();
@@ -99,7 +86,16 @@ $(document).ready(function()
 });
 
 $(document).keyup(function(e) {
-	if ($("div.result").length > 2){
+	if(event.keyCode == 27){
+		$("#results").html("");
+		$(".main").removeClass("blurT");
+		$("#controls").removeClass("blurT");
+		$(".main").removeClass("clickthrough");
+		if(!contains($("#search-wrapper").attr("class").split(" "), "hide"))
+			$("#search-wrapper").toggleClass("hide");
+		if(contains($("#song-title").attr("class").split(" "), "hide"))
+			$("#song-title").toggleClass("hide");
+	}else	if ($("div.result").length > 2){
 	    if (e.keyCode == 40) {
 	    	if(i < $("div.result").length -2)
 	    		i++;
@@ -166,7 +162,7 @@ function search(search_input){
 					vid_url += data.id.videoId+",";
 				});
 				console.log("Search for: "+keyword)
-				
+
 				$.ajax({
 				type: "GET",
 				url: vid_url,
@@ -242,7 +238,7 @@ function addVideos(ids){
 				submit(song.id, enc_title, duration);
 			}
 		});
-		
+
 	}
 	});
 }
