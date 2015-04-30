@@ -25,6 +25,8 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![alt tag](http://puu.sh/hwEWE/e1042576c0.jpg)
 
+![alt tag](http://puu.sh/hwFoU/1ba6caf5a9.jpg)
+
 ###Screenshot of the mobile version:
 
 ![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://puu.sh/fF7B3/58b9b3abce.jpg)     ![alt tag](http://puu.sh/fF7ID/e7d65c336b.jpg)
