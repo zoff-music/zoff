@@ -87,6 +87,12 @@ display: inline;
     height: 128px;
 }
 
+@media only screen and (max-width: 600px){
+    .navbar-fixed, #nav, .control-list{
+        position: relative !important;
+    }
+}
+
 @media only screen and (min-width: 992px){
     .navbar-fixed {
         height: 64px;
