@@ -1,15 +1,16 @@
 Zöff
 ====
 
-Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. 
+The shared youtube radio
 
-Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&amp;hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.
 
-The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
+Zöff is built around the youtube search and video API, and enables the creation of collaboratiive and shared live playlists, with billions of videos and songs to choose from, all for free and without registration.
 
-The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.
+This repository is mainly built around playing the videos from a desktop computer, not a mobile device. On a device, the youtubeplayer won't be initialized, and mainly works as a remote for the desktop(s) that is playing from the current channel.
 
-The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
+The project is currently under development and runs on http://zoff.no
+
+Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
 
 ###Screenshot of desktop version:
 
