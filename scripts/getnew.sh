@@ -2,5 +2,5 @@
 cd /var/www
 git stash
 git pull
-./setperms.sh
+scripts/./setperms.sh
 forever restartall
