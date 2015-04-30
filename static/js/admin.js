@@ -86,6 +86,7 @@ function log_out(){
 		$("#admin-lock").addClass("mdi-action-lock");
 		$("#admin-lock").removeClass("mdi-action-lock-open clickable");
 		$(".card-action").addClass("hide");
+		adminpass = "";
 		document.getElementById("password").value = "";
 		Materialize.toast("Logged out", 4000);
 	}else{
