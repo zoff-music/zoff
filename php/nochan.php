@@ -1,150 +1,170 @@
 <?php
 
 if(isset($_GET['chan'])){
-	$chan = htmlspecialchars($_GET['chan']);
-	header('Location: '.$chan);
-}
-
-$dir = scandir('./lists');
-$channels = array();
-$all_channels = array();
-$time = 60*60*24*4; //4 dager
-$to = 60*60*24*2;
-$i = 0;
-$v = 0;
-$tooMany = false;
-
-$dir = "./lists";
-chdir($dir);
-array_multisort(array_map('filemtime', ($fil = glob("*.json"))), SORT_DESC, $fil);
-$viewers = array();
-
-foreach($fil as $files){
-	if(strpos($files, '.json') !== FALSE){
-		$time_lasted = time() - filemtime($files);
-		if($time_lasted > $to)
-		{
-			$file = file_get_contents($files); 
-			$data = json_decode($file, TRUE);
-			$q = array_values($data["nowPlaying"]);
-			/*if($q[0]["id"] == "30H2Z8Lr-4c");
-				unlink("./lists/".$files);*/
-		}
-		if($time_lasted < $time){
-			$file = file_get_contents($files); //Checking if the channel has the setting for showing on the frontpage set to true.
-			$data = json_decode($file, TRUE);
-			if($i <= 12 && (!array_key_exists("frontpage", $data['conf']) || $data['conf']['frontpage'] == "true")){ 						  //If it is true, the channelname will be shown on the frontpage
-				array_push($channels, ucfirst(str_replace(".json", "", $files)));
-				array_push($viewers, sizeof($data["conf"]["views"]));
-			}
-		}
-		$i++;
-		array_push($all_channels, ucfirst(str_replace(".json", "", $files)));
-	}
+    $chan = htmlspecialchars($_GET['chan']);
+    header('Location: '.$chan);
 }
 
 ?>
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:fb="http://ogp.me/ns/fb#">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-	<style>
-		#change {
-			opacity:1 !important;
-		}
-	</style>
-	<?php include("header.php"); ?>
+  <?php include("header.php"); ?>
 </head>
 <body>
-    <div class="bgimage" id="bgimage"></div>
-	<div class="top centered nochanvcent">
-		<div id="change" class="small">
-				<img id="zicon" src="static/favicon.png">
-				<div class="fchan nomargin">Zöff</div>
-				<form class="daform nomargin" id="base" method="get">
-					<input title="Type channel name here to create or listen to a channel.
-					 Only alphanumerical chars. [a-zA-Z0-9]+" autocomplete="off" list="searches" id="search" name="chan" required pattern="[a-zA-Z0-9]+" type="text" class="search_input innbox" spellcheck="false" maxlength="18" placeholder="Type Channel Name" autofocus/>
-					<datalist id="searches">
-					  <?php foreach($all_channels as $channel){echo "<option value='".htmlspecialchars($channel)."'> ";} ?>
-					</datalist>
-				</form>
+    <header>
+        <nav id="fp-nav">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo hide-on-small-only">
+                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
+                </a>
+                <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a class="modal-trigger" onclick="$('#about').openModal()">About</a></li>
+                    <li><a class="modal-trigger" onclick="$('#legal').openModal()">Legal</a></li>
+                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div id="legal" class="modal">
+            <div class="modal-content">
+                <h4>Legal</h4>
+                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+                <br><br>
+                Creative Commons License<br>
+                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                <br>
+                Do not redistribute without permission from the developers.
+                <br>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="about" class="modal">
+            <div class="modal-content">
+                <h4>About</h4>
+                <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
+                Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
+                The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/nixolas1/Zoff">GitHub</a><br><br>
+                The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
+                The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+    </header>
 
-			</div>
-			<center>
-			<div class="channels" id="channels">Active Channels<br>
-				<?php foreach($channels as $channel){echo "<a class='channel' href='./".htmlspecialchars($channel)."' title='Viewers: ~".$viewers[$v]."'>".htmlspecialchars($channel)."</a>"; $v++;} ?>
-			</div>
-			</center>
-		</div>
+    <main class="center-align container">
+        <div class="section">
+            <form class="row" id="base" method="get">
+                    <div class="input-field col s12">
+                        <input
+                            class="input-field"
+                            type="text"
+                            id="search"
+                            name="chan"
+                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                            autocomplete="off"
+                            list="searches"
+                            required pattern="[a-zA-Z0-9]+"
+                            spellcheck="false"
+                            maxlength="18"
+                            autofocus
+                        />
+                        <label for="search">Find or create radio channel</label>
+                        <datalist id="searches">
+                        </datalist>
+                </div>
+            </form>
+        </div>
 
-		<div class="footer small centered top anim bottom">
-			<div class="badge">
-				<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-					<img alt="Get it on Google Play" src="static/google_play.png">
-				</a>
-			</div>
-			&copy; <?php echo date("Y"); ?>
-			<a class="anim" href="//nixo.no">Nixo</a> &amp; 
-			<a class="anim" href="//kasperrt.no">KasperRT</a> 
-			</div>
-		<script type="text/javascript">
-			var deg = 0;
-			var pr = 15;
-			document.getElementById("zicon").addEventListener("click", function(){
-				deg = deg + 365;
-				pr = pr + 0.5;
-				document.getElementById("zicon").style.transform = "rotate("+deg+"deg)";
-				document.getElementById("zicon").style.width = pr+"%";
-				if(pr >= 60)
-					window.location.href = 'https://www.youtube.com/v/mK2fNG26xFg?autoplay=1&showinfo=0&autohide=1';
-			});
-		</script>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript">
-		function getCookie(cname) {
-		    var name = cname + "=";
-		    var ca = document.cookie.split(';');
-		    for(var i=0; i<ca.length; i++) {
-		        var c = ca[i];
-		        while (c.charAt(0)==' ') c = c.substring(1);
-		        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-		    }
-		    return "";
-		}
-		$(document).ready(function (){
-         if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
-         	console.log("android");
-         	var ca = document.cookie.split(';');
-         	if(getCookie("show_prompt") == "")
-         	{
-	         	var r = confirm("Do you want to download the native app for this webpage?");
-	         	if(r)
-	            	window.location.href = 'https://play.google.com/store/apps/details?id=no.lqasse.zoff';
-	            else
-	            {
-	            	var d = new Date();
-	   			 	d.setTime(d.getTime() + (10*24*60*60*1000));
-	    			var expires = "expires="+d.toUTCString();
-	            	document.cookie = "show_prompt=false;"+expires;
-	            }
-        	}
-         }
-        });
-	</script>
-	<!-- Piwik tracking -->
-	<script type="text/javascript">
-	  var _paq = _paq || [];
-	  _paq.push(['trackPageView']);
-	  _paq.push(['enableLinkTracking']);
-	  (function() {
-	    var u="//zoff.no/analyse/";
-	    _paq.push(['setTrackerUrl', u+'piwik.php']);
-	    _paq.push(['setSiteId', 1]);
-	    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-	    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-	  })();
-	</script>
-	<noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-	<!-- End Piwik Code -->
+        <div class="section">
+            <ul class="row" id="channels">
+                <div id="chan-html">
+                    <li id="chan-card" class="col s12 m4 l3">
+                        <div class="card">
+                            <a class="chan-link">
+                                <div class="chan-bg card-image cardbg"></div>
+                            </a>
+                            <div class="card-content">
+                                <p class="left-align">
+                                    <span class="chan-name flow-text truncate"></span>
+                                    <br>
+                                    <span class="highlighted">Viewers:&nbsp</span>
+                                    <span class="chan-views"></span>
+                                    <br>
+                                    <span class="highlighted">Songs:&nbsp</span>
+                                    <span class="chan-songs"></span>
+                                </p>
+                            </div>
+                            <div class="card-action">
+                                <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Zöff</h5>
+                    <p class="grey-text text-lighten-4">The shared youtube radio</p>
+                    <p class="grey-text text-lighten-4">
+                        Being built around the youtube search and video API
+                        it enables the creation of collaboratiive and shared live playlists,
+                        with billions of videos and songs to choose from, all for free and without registration.
+                        <br>
+                        Enjoy!
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12 valign-wrapper">
+                    <ul>
+                      <li>
+                          <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
+                              <img title="Get it on Google Play" src="static/images/google_play.png">
+                          </a>
+                          <a href="https://github.com/nixolas1/Zoff">
+                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
+                          </a>
+                          <p>
+                              <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="static/images/facebook.png">Share on Facebook
+                              </a>
+                          </p>
+                          <p>
+                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="static/images/twitter.png">Share on Twitter
+                              </a>
+                          </p>
+                          <p>
+                              <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" >
+                                  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
+                              </a>
+                          </p>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; <?php echo date("Y"); ?>
+                <a href="//nixo.no">Nixo</a> &amp;
+                <a href="//kasperrt.no">KasperRT</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
+    <script type="text/javascript" src="static/js/nochan.js"></script>
+	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	</body>
 </html>
