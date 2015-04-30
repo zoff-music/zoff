@@ -1,35 +1,42 @@
 Zöff
 ====
 
-The shared youtube radio
+Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. 
 
+Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&amp;hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.
 
-Zöff is built around the youtube search and video API, and enables the creation of collaboratiive and shared live playlists, with billions of videos and songs to choose from, all for free and without registration.
+The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
 
-This repository is mainly built around playing the videos from a desktop computer, not a mobile device. On a device, the youtubeplayer won't be initialized, and mainly works as a remote for the desktop(s) that is playing from the current channel.
+The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.
 
-The project is currently under development and runs on http://zoff.no
-
-Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
+The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
 
 ###Screenshot of desktop version:
 
-![alt tag](http://puu.sh/fF6XJ/003fa24349.jpg)
+![alt tag](http://puu.sh/hwExf/1d176aae19.jpg)
 
-![alt tag](http://puu.sh/fF77D/628693b995.jpg)
+![alt tag](http://puu.sh/hwEG0/2bc8bc6971.jpg)
 
-![alt tag](http://puu.sh/fF7eb/0129dde16f.jpg)
+![alt tag](http://puu.sh/hwEIn/ea5b9da786.jpg)
 
-![alt tag](http://puu.sh/fF7jl/2653aada6c.jpg)
+![alt tag](http://puu.sh/hwEM0/326e4c71ed.jpg)
+
+![alt tag](http://puu.sh/hwERH/b7ae8333ac.jpg)
+
+![alt tag](http://puu.sh/hwEWE/e1042576c0.jpg)
+
+![alt tag](http://puu.sh/hwFoU/1ba6caf5a9.jpg)
 
 ###Screenshot of the mobile version:
 
-![alt tag](http://puu.sh/fF7px/7f6273fc85.jpg)     ![alt tag](http://puu.sh/fF7B3/58b9b3abce.jpg)     ![alt tag](http://puu.sh/fF7ID/e7d65c336b.jpg)
+![alt tag](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![alt tag](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![alt tag](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
 
-###License
+###Legal
 
-Copyright © 2015 Nicolas Tonne and Kasper Rynning-Tønnesen kasper@kasperrt.no
+Copyright © 2015 
+Nicolas Almagro Tonne and Kasper Rynning-Tønnesen 
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/no/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Zöff</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://zoff.no" property="cc:attributionName" rel="cc:attributionURL">Nixo & KasperRT</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License</a>.
-
-This product is not to be distributed for pay, or to be altered with without permission of the creators. If anything is to be altered with, the Copyright footer is to stand on the bottom of the website, and it shall remain named Zöff
+Creative Commons License
+Zöff is licensed under a 
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>. 
+Do not redistribute without permission from the developers. 
