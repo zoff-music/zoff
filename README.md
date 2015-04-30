@@ -10,7 +10,7 @@ This repository is mainly built around playing the videos from a desktop compute
 
 The project is currently under development and runs on http://zoff.no
 
-Standalone App is being developed by lqasse: https://github.com/lqasse/Zoff
+A standalone app for Android is being developed by lqasse at https://github.com/lqasse/Zoff
 
 ###Screenshot of desktop version:
 
