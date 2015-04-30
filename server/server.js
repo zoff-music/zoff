@@ -303,6 +303,7 @@ io.on('connection', function(socket){
   			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
   			{
   				change_song(coll);
+          socket.emit("toast", "skip");
   			}else if(!contains(docs[0]["skips"], guid)){
   				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
             socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
