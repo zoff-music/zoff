@@ -4,6 +4,7 @@ var pass_corr = "";
 
 socket.on("toast", function(msg)
 {
+	console.log("Got message from server: "+msg);
 	pass_corr = "correct";
 	switch(msg) {
 		case "addedsong":
@@ -27,6 +28,9 @@ socket.on("toast", function(msg)
 		case "alreadyvoted":
 	        msg=rnd(["You can't vote twice on that song!", "I see you have voted on that song before", "One vote per person!", "I know you want to hear your song, but have patience!", "I'm sorry, but I can't let you vote twice, Dave."])
 	        break;
+	    case "skip":
+			msg=rnd(["The song was skipped", "I have skipped a song", "Skipped to the beat", "Skipmaster3000", "They see me skippin', they hatin'"])
+			break;
 		case "listhaspass":
 			msg=rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"])
 			break;

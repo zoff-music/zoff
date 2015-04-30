@@ -19,7 +19,7 @@
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <div class="brand-logo truncate zbrand">
-                    <a href="//zoff.no" class="hide-on-large-only">Zöff</a>
+                    <a href="/" class="hide-on-large-only">Zöff</a>
                     <span class="hide-on-large-only">/</span>
                     <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
                 </div>
