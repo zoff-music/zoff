@@ -124,6 +124,32 @@ function skip(){
 	return true;
 }
 
+function importOldList(chan){
+	playlist_url = "lists/"+chan+".json";
+	
+	list = $.ajax({ 
+		type: "GET",   
+		url: playlist_url,
+		async: false
+	}).responseText;
+	list = $.parseJSON(list);
+	var ids="";
+	var num=0;
+	$.each(list.songs, function(i,data)
+	{
+		ids+=data.id+",";
+		if(num>45){
+			addVideos(ids);
+			ids="";
+			num=0;
+		}
+		num++;
+	});
+
+	addVideos(ids);
+	document.getElementById("search").value = "";
+}
+
 function refresh_scroll()
 {
 	myScroll.refresh();
