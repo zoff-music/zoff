@@ -205,10 +205,10 @@ io.on('connection', function(socket){
         db.collection(coll).find({id:id}, function(err, docs){
           if(docs.length == 0)
           {
-            //var guids = [guid];
-    		  	//var votes = 1;
-            var guids = [];
-    		  	var votes = 0;
+            var guids = [guid];
+    		  	var votes = 1;
+            //var guids = [];
+    		  	//var votes = 0;
             db.collection(coll).find({now_playing:true}, function(err, docs){
               if(docs.length == 0)
                 np = true;
