@@ -50,6 +50,7 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	if(obj[0].length == 0){
 		console.log("Empty list");
 		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!"
+		importOldList(chan.toLowerCase());
 	}
 	else{
 		console.log("gotten new song");

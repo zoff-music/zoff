@@ -14,9 +14,8 @@ function getCookie(cname) {
 function populate_channels(lists)
 {
     var output = "";
-
+    var num = 0;
     lists.sort(sortFunction);
-
 
     pre_card = $(list_html);
 
@@ -45,6 +44,8 @@ function populate_channels(lists)
         console.log(chan);
 
         output+="<option value='"+chan+"'> ";
+        num++;
+        if(num>19)break;
     }
     document.getElementById("searches").innerHTML = output;
 }
