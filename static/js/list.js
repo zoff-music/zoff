@@ -124,6 +124,25 @@ function skip(){
 	return true;
 }
 
+function importOldList(chan){
+	playlist_url = "http://zoff.no/"+chan+"/php/change.php";
+	
+	list = $.ajax({ 
+		type: "GET",   
+		url: playlist_url,
+		async: false
+	}).responseText;
+	list = $.parseJSON(list);
+	var ids="";
+	$.each(list.songs, function(i,data)
+	{
+		ids+=data.id+",";
+		if(i>48)return;
+	});
+	addVideos(ids);
+	document.getElementById("search").value = "";
+}
+
 function refresh_scroll()
 {
 	myScroll.refresh();
