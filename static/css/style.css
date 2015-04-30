@@ -120,6 +120,10 @@ display: inline;
 .card .card-content {
     padding: 10px 20px;
 }
+
+.card .card-action {
+    padding: 0;
+}
 .card .card-action a {
   padding: 0;
   margin: 0;
