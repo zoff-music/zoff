@@ -125,7 +125,7 @@ function skip(){
 }
 
 function importOldList(chan){
-	playlist_url = "http://zoff.no/"+chan+"/php/change.php";
+	playlist_url = "lists/"+chan+".json";
 	
 	list = $.ajax({ 
 		type: "GET",   
@@ -134,11 +134,18 @@ function importOldList(chan){
 	}).responseText;
 	list = $.parseJSON(list);
 	var ids="";
+	var num=0;
 	$.each(list.songs, function(i,data)
 	{
 		ids+=data.id+",";
-		if(i>48)return;
+		if(num>45){
+			addVideos(ids);
+			ids="";
+			num=0;
+		}
+		num++;
 	});
+
 	addVideos(ids);
 	document.getElementById("search").value = "";
 }
