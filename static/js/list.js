@@ -37,18 +37,16 @@ function populate_list(msg, conf_only)
 			if(listeID.hasOwnProperty('startTime')) //check if its config part of list
 			{
 				console.log("startTime");
-				if(!adminTogg)
-				{
-					if(listeID['adminpass'] == "" || w_p == false) hasadmin = false;
-					else hasadmin = true;
-					music = listeID["allvideos"];
-					longsongs = listeID["longsongs"];
-					names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-					for (var i = 0; i < names.length; i++) {
-						document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === true);
-						if(hasadmin)
-							$("input[name="+names[i]+"]").attr("disabled", true);
-					}
+				if(listeID['adminpass'] == "" || w_p == false) hasadmin = false;
+				else hasadmin = true;
+				music = listeID["allvideos"];
+				longsongs = listeID["longsongs"];
+				names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+				for (var i = 0; i < names.length; i++) {
+					document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === true);
+					if(hasadmin)
+						$("input[name="+names[i]+"]").attr("disabled", true);
+
 
 					/*if(hasadmin)
 						$("#setpass").text("Channel has admin");
