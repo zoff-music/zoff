@@ -29,7 +29,7 @@ socket.on("skipping", function(obj)
 function populate_list(msg, conf_only)
 {
 	//console.log(msg);
-	console.log(conf_only);
+	//console.log(conf_only);
 	if(!conf_only)
 		$("#wrapper").empty();
 
@@ -126,9 +126,9 @@ function skip(){
 
 function importOldList(chan){
 	playlist_url = "lists/"+chan+".json";
-	
-	list = $.ajax({ 
-		type: "GET",   
+
+	list = $.ajax({
+		type: "GET",
 		url: playlist_url,
 		async: false
 	}).responseText;
