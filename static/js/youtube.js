@@ -31,7 +31,6 @@ var longS = 0;
 var frontpage = 1;
 var adminpass = "";
 var notified = false;
-var peis = false;
 var filesadded="";
 var colorThief;
 var chan = $("#chan").html();

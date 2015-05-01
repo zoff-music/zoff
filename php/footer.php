@@ -55,6 +55,7 @@
 <!--<script type="text/javascript" src="static/js/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>
 <script>
     var socket = io.connect('http://'+window.location.hostname+':3000');
     var guid = "<?php echo $guid; ?>";
@@ -69,7 +70,6 @@
 <script type="text/javascript" src="static/js/search.js"></script>
 <script type="text/javascript" src="static/js/admin.js"></script>
 <script type="text/javascript" src="static/js/lib/materialize.js"></script>
-<script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>
 
 <!-- Piwik tracking -->
 <script type="text/javascript">
