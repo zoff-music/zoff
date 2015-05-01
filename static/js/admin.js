@@ -78,7 +78,7 @@ function pass_save()
 function log_out(){
 	if(localStorage[chan.toLowerCase()]){
 		localStorage.removeItem(chan.toLowerCase())
-		w_p = false;
+		w_p = true;
 		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 		for (var i = 0; i < names.length; i++) {
 				$("input[name="+names[i]+"]").attr("disabled", true);
