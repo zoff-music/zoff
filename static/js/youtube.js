@@ -51,7 +51,8 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 		console.log("Empty list");
 		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
 		$("#player_overlay").height($("#player").height());
-		$("#player_overlay").toggleClass("hide");
+		if(!window.mobilecheck())
+			$("#player_overlay").toggleClass("hide");
 		importOldList(chan.toLowerCase());
 	}
 	else{
