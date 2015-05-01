@@ -8,6 +8,7 @@ var chan = $("#chan").html();
 var list_html = $("#list-song-html").html();
 var hasadmin=0;
 var w_p = true;
+var peis = false;
 
 window.mobilecheck = function() {
 var check = false;
