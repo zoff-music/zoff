@@ -49,11 +49,14 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 	console.log(obj);
 	if(obj[0].length == 0){
 		console.log("Empty list");
-		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!"
+		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
+		$("#player_overlay").height($("#player").height());
+		$("#player_overlay").toggleClass("hide");
 		importOldList(chan.toLowerCase());
 	}
 	else{
 		console.log("gotten new song");
+		$("#player_overlay").addClass("hide");
 		video_id = obj[0][0]["id"];
 		conf = obj[1][0];
 		time = obj[2];
