@@ -188,6 +188,18 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+#player_overlay{
+  background-color:black;
+  position: absolute;
+  top:0px;
+  width:97.7%;
+  color:white;
+}
+
+#player_overlay_text{
+  width:100%;
+}
+
 #searchform{
     width: 50%;
     margin-left: 25%;
@@ -565,7 +577,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     }
     .control-list{
         position: absolute !important;
-        width: 120px;  
+        width: 120px;
     }
     .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 5px;}
 
@@ -630,4 +642,4 @@ hide mdi-action-visibility mdi-action-visibility-off
         height: 90%;
         height: calc(100% - 64px);
     }
-} 
+}

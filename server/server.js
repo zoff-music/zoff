@@ -103,10 +103,11 @@ io.on('connection', function(socket){
     		db.createCollection(coll, function(err, docs){
   				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
   				{
-            db.collection(coll).find().sort({votes:-1}, function(err, docs) {
+            sort_list(coll, socket, true, false);
+            /*db.collection(coll).find().sort({votes:-1}, function(err, docs) {
     		    	socket.emit(coll, docs);
     		    	//send_play(coll, socket);
-    		    });
+    		    });*/
   				});
     		});
     	}

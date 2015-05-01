@@ -84,6 +84,11 @@
         <div class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
                 <div id="player" class="ytplayer"></div>
+                <div id="player_overlay" class="hide valign-wrapper">
+                  <div id="player_overlay_text" class="valign center-align">
+                    Waiting for Video
+                  </div>
+                </div>
                 <div id="controls">
                   <div id="playpause">
                     <i id="play" class="mdi-av-play-arrow hide"></i>
