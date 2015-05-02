@@ -304,11 +304,14 @@ io.on('connection', function(socket){
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
+  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 20)
   			{
   				change_song(coll);
           socket.emit("toast", "skip");
-  			}else if(!contains(docs[0]["skips"], guid)){
+  			}else if(get_time() - docs[0]["startTime"] < 20)
+        {
+          socket.emit("toast", "notyetskip");
+        }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
   				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
             socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
   				});
