@@ -6,7 +6,7 @@
                 <p class="grey-text text-lighten-4">The shared YouTube radio</p>
                 <p class="grey-text text-lighten-4">
                     Being built around the YouTube search and video API
-                    it enables the creation of collaboratiive and shared live playlists,
+                    it enables the creation of collaborative and shared live playlists,
                     with billions of videos and songs to choose from, all for free and without registration.
                     <br>
                     Enjoy!
