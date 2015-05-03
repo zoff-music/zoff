@@ -83,6 +83,8 @@ io.on('connection', function(socket){
   	coll = list[0].toLowerCase();
   	guid = list[1];
 
+    console.log(guid + " joined list " + coll);
+
     if(lists[coll] == undefined)
     {
     	lists[coll] = [];
@@ -430,6 +432,7 @@ io.on('connection', function(socket){
     {
     	try
     	{
+          console.log(guid + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
