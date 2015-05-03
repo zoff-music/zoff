@@ -78,7 +78,6 @@ io.on('connection', function(socket){
 
   socket.on('list', function(list)
   {
-    console.log("list");
     in_list = true;
   	list = list.split(',');
   	coll = list[0].toLowerCase();
