@@ -21,8 +21,10 @@ server.listen(port, function () {
 
 io.on('connection', function(socket){
 
-  socket.on('echo', function(data, callback) {
-    callback(data);
+  socket.emit("get_list");
+
+  socket.on('ping', function() {
+    socket.emit("ok");
   });
 
   var coll;
@@ -80,6 +82,8 @@ io.on('connection', function(socket){
   	list = list.split(',');
   	coll = list[0].toLowerCase();
   	guid = list[1];
+
+    console.log(guid + " joined list " + coll);
 
     if(lists[coll] == undefined)
     {
@@ -304,11 +308,15 @@ io.on('connection', function(socket){
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
+  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10
+         || lists[coll].length != 2))
   			{
   				change_song(coll);
           socket.emit("toast", "skip");
-  			}else if(!contains(docs[0]["skips"], guid)){
+  			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2)
+        {
+          socket.emit("toast", "notyetskip");
+        }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
   				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
             socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
   				});
@@ -424,6 +432,7 @@ io.on('connection', function(socket){
     {
     	try
     	{
+          console.log(guid + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);

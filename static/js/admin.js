@@ -39,6 +39,9 @@ socket.on("toast", function(msg)
 		case "alreadyskip":
 			msg=rnd(["Skipping is democratic, only one vote per person!", "More people have to vote to skip, not just you!", "Get someone else to skip too! You can't do it on yourself."])
 			break;
+		case "notyetskip":
+			msg="Skipping is disabled the first 10 seconds.";
+			break;
 	}
 	Materialize.toast(msg, 4000);
 });
