@@ -21,8 +21,10 @@ server.listen(port, function () {
 
 io.on('connection', function(socket){
 
-  socket.on('echo', function(data, callback) {
-    callback(data);
+  socket.emit("get_list");
+
+  socket.on('ping', function() {
+    socket.emit("ok");
   });
 
   var coll;
@@ -76,6 +78,7 @@ io.on('connection', function(socket){
 
   socket.on('list', function(list)
   {
+    console.log("list");
     in_list = true;
   	list = list.split(',');
   	coll = list[0].toLowerCase();
