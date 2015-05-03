@@ -306,11 +306,12 @@ io.on('connection', function(socket){
   	db.collection(coll).find({skip: false}, function(err, docs){
   		if(docs.length == 1)
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 10)
+  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10
+         || lists[coll].length != 2))
   			{
   				change_song(coll);
           socket.emit("toast", "skip");
-  			}else if(get_time() - docs[0]["startTime"] < 10)
+  			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2)
         {
           socket.emit("toast", "notyetskip");
         }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
