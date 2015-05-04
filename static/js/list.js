@@ -152,8 +152,11 @@ function importOldList(chan){
 
 function refresh_scroll()
 {
-	myScroll.refresh();
-	myScroll.maxScrollY = myScroll.maxScrollY - 5;
+	if(myScroll !== undefined)
+	{
+		myScroll.refresh();
+		myScroll.maxScrollY = myScroll.maxScrollY - 5;
+	}
 }
 
 function show(){
