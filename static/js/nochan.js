@@ -33,6 +33,7 @@ function populate_channels(lists)
 
         var card = pre_card;
         card.find(".chan-name").text(chan);
+        card.find(".chan-name").attr("title", chan);
         card.find(".chan-views").text(viewers);
         card.find(".chan-songs").text(song_count);
         card.find(".chan-bg").attr("style", img);
