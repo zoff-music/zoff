@@ -279,7 +279,7 @@ io.on('connection', function(socket){
       lists[coll].push(guid);
       io.sockets.emit(coll+",viewers", lists[coll].length);
     }
-
+    console.log(coll);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       console.log(docs);
       if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
