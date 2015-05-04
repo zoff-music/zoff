@@ -116,7 +116,7 @@ $(document).ready(function()
 
 		if(localStorage[chan.toLowerCase()])
 		{
-			socket.emit("password", localStorage[chan.toLowerCase()]);
+			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
 		}
 
 		if($("#chan").html().toLowerCase() == "jazz")

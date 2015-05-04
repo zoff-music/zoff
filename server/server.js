@@ -267,8 +267,10 @@ io.on('connection', function(socket){
     }
   });
 
-  socket.on('password', function(pw)
+  socket.on('password', function(inp)
   {
+    pw = inp[0];
+    coll = inp[1];
     if(lists[coll] == undefined)
     {
     	lists[coll] = [];
