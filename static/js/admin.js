@@ -75,7 +75,7 @@ $('input[class=conf]').change(function()
 
 function pass_save()
 {
-	socket.emit('password', document.getElementById("password").value);
+	socket.emit('password', [document.getElementById("password").value, chan.toLowerCase()]);
 }
 
 function log_out(){
