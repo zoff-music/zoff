@@ -1,27 +1,10 @@
-/*
-This is the youtube player sync and control file.
-
-Fetcher sangen som spilles fra JSON filen
-
-*/
-
-var timeDifference;
-var wasPaused;
-var beginning;
-var diffVideo;
-var serverTime;
-var url;
-var response;
 var url;
 var tag;
 var firstScriptTag;
 var ytplayer;
-var syncInterval;
 var title;
-var interval;
 var viewers;
 var video_id;
-var changed = false;
 var conf = [];
 var adminvote = 0;
 var adminadd = 0;
@@ -30,13 +13,10 @@ var music = 0;
 var longS = 0;
 var frontpage = 1;
 var adminpass = "";
-var notified = false;
 var filesadded="";
-var colorThief;
 var chan = $("#chan").html();
 var player_ready = false;
 var seekTo;
-var arr = []
 var song_title;
 var viewers = 1;
 var paused = false;
@@ -257,7 +237,7 @@ function setBGimage(id){
 
 function notifyUser(id, title) {
 	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-  	if (Notification.permission === "granted" && !notified && document.hidden && id != "30H2Z8Lr-4c" && !window.mobilecheck()) {
+  	if (Notification.permission === "granted" && document.hidden && id != "30H2Z8Lr-4c" && !window.mobilecheck()) {
 	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
 	    setTimeout(function(){
 	    	notification.close();
