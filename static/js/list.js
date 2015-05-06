@@ -120,7 +120,7 @@ function vote(id, vote){
 }
 
 function skip(){
-	socket.emit('skip', [chan, guid]);
+	socket.emit('skip', [chan, guid, localStorage[chan.toLowerCase()]]);
 	return true;
 }
 
