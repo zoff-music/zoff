@@ -50,7 +50,8 @@ function populate_channels(lists)
     }
     document.getElementById("preloader").style.display = "none";
     document.getElementById("searches").innerHTML = output;
-    Materialize.showStaggeredList('#channels');
+    //Materialize.fadeInImage('#channels');
+    $("#channels").fadeIn(800);
     $("#search").focus();
 }
 

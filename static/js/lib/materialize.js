@@ -2924,7 +2924,7 @@ $(document).ready(function(){
         easing: 'easeOutSine'
       });
     $(element).velocity({opacity: 1}, {
-          duration: 1300,
+          duration: 650,
           queue: false,
           easing: 'swing',
           step: function(now, fx) {
