@@ -75,6 +75,8 @@ $(document).ready(function (){
     list_html = $("#channels").html();
     $("#channels").empty();
 
+    $("#search").focus();
+
     var socket = io.connect('http://'+window.location.hostname+':3000');
     var playlists = [];
     socket.emit('frontpage_lists');
