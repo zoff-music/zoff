@@ -271,6 +271,7 @@ io.on('connection', function(socket){
   {
     pw = inp[0];
     coll = inp[1];
+    guid = inp[2];
     if(lists[coll] == undefined)
     {
     	lists[coll] = [];
@@ -308,11 +309,22 @@ io.on('connection', function(socket){
       io.sockets.emit(coll+",viewers", lists[coll].length);
     }
 
-  	db.collection(coll).find({skip: false}, function(err, docs){
-  		if(docs.length == 1)
+    adminpass = list[2];
+
+    console.log(adminpass);
+
+    if(adminpass !== undefined && adminpass !== null)
+      var hash = hash_pass(adminpass);
+    else
+      var hash = "";
+
+  	db.collection(coll).find({views: {$exists:true}}, function(err, docs){
+      console.log(adminpass);
+      console.log(docs[0]["adminpass"]);
+  		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != ""))
   		{
-  			if(lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10
-         || lists[coll].length != 2))
+  			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10
+         || lists[coll].length != 2)) || (docs[0]["adminpass"] == adminpass && docs[0]["adminpass"] != ""))
   			{
   				change_song(coll);
           socket.emit("toast", "skip");
