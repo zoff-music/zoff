@@ -269,6 +269,7 @@ io.on('connection', function(socket){
 
   socket.on('password', function(inp)
   {
+    console.log(inp);
     pw = inp[0];
     coll = inp[1];
     guid = inp[2];
@@ -285,6 +286,7 @@ io.on('connection', function(socket){
     //console.log(coll);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       //console.log(docs);
+      console.log(docs);
       if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
       {
         db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:hash_pass(pw)}}, function(err, docs)
