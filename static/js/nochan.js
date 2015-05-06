@@ -48,6 +48,7 @@ function populate_channels(lists)
         num++;
         if(num>19)break;
     }
+    document.getElementById("preloader").style.display = "none";
     document.getElementById("searches").innerHTML = output;
 }
 

@@ -81,6 +81,9 @@ if(isset($_GET['chan'])){
         </div>
 
         <div class="section">
+            <div id="preloader" class="progress">
+                <div class="indeterminate"></div>
+            </div>
             <ul class="row" id="channels">
                 <div id="chan-html" class="hide">
                     <li id="chan-card" class="col s12 m4 l3">
