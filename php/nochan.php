@@ -71,7 +71,7 @@ if(isset($_GET['chan'])){
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="18"
-                            autofocus
+                            autocomplete
                         />
                         <label for="search">Find or create radio channel</label>
                         <datalist id="searches">
@@ -154,7 +154,7 @@ if(isset($_GET['chan'])){
         </div>
         <div class="footer-copyright">
             <div class="container">
-                &copy; <?php echo date("Y"); ?>
+                &copy; 2014 - <?php echo date("Y"); ?>
                 <a href="//nixo.no">Nixo</a> &amp;
                 <a href="//kasperrt.no">KasperRT</a>
             </div>
