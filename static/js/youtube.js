@@ -231,7 +231,7 @@ function readyLooks()
 
 function setBGimage(id){
 	var hsl=[getRandomInt(0,360), getRandomInt(60,80)]
-	var colorTxt = "hsl("+hsl[0]+", "+hsl[1]+"%, 40%);";
+	var colorTxt = "hsl("+hsl[0]+", 50%, 30%);";
 	$("body").css("background-color", colorTxt);
 }
 
