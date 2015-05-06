@@ -282,9 +282,9 @@ io.on('connection', function(socket){
       lists[coll].push(guid);
       io.sockets.emit(coll+",viewers", lists[coll].length);
     }
-    console.log(coll);
+    //console.log(coll);
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      console.log(docs);
+      //console.log(docs);
       if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
       {
         db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:hash_pass(pw)}}, function(err, docs)
@@ -319,7 +319,7 @@ io.on('connection', function(socket){
       error = true;
     }
 
-    console.log(adminpass);
+    //console.log(adminpass);
 
     if(adminpass !== undefined && adminpass !== null && adminpass != "")
       var hash = hash_pass(adminpass);
@@ -327,9 +327,9 @@ io.on('connection', function(socket){
       var hash = "";
 
   	db.collection(coll).find({views: {$exists:true}}, function(err, docs){
-      console.log(adminpass);
-      console.log(docs[0]["adminpass"]);
-      console.log(error);
+      //console.log(adminpass);
+      //console.log(docs[0]["adminpass"]);
+      //console.log(error);
   		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "") || error)
   		{
   			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10

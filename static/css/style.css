@@ -109,8 +109,8 @@ display: inline;
     height: 120px;
 }
 
-#chan-card{
-    opacity: 0;
+#channels{
+    display: none;
 }
 
 .white-bg{
