@@ -49,6 +49,8 @@ function populate_channels(lists)
         if(num>19)break;
     }
     document.getElementById("searches").innerHTML = output;
+    Materialize.showStaggeredList('#channels');
+    $("#search").focus();
 }
 
 String.prototype.capitalizeFirstLetter = function() {
@@ -75,8 +77,6 @@ $(document).ready(function (){
     list_html = $("#channels").html();
     $("#channels").empty();
 
-    $("#search").focus();
-
     var socket = io.connect('http://'+window.location.hostname+':3000');
     var playlists = [];
     socket.emit('frontpage_lists');
@@ -86,8 +86,7 @@ $(document).ready(function (){
     })
 
 
-    Materialize.showStaggeredList('#channels');
-
+    
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
         pad+=10;
@@ -111,5 +110,6 @@ $(document).ready(function (){
             }
         }
      }
+     
 
 });

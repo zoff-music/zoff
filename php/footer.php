@@ -43,7 +43,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            &copy; <?php echo date("Y"); ?>
+            &copy; 2014 - <?php echo date("Y"); ?>
             <a href="//nixo.no">Nixo</a> &amp;
             <a href="//kasperrt.no">KasperRT</a>
         </div>
