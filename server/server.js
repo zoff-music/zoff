@@ -309,11 +309,19 @@ io.on('connection', function(socket){
       io.sockets.emit(coll+",viewers", lists[coll].length);
     }
 
-    adminpass = list[2];
+    adminpass = "";
+
+    var error = false;
+    if(list != "5" && list != "100" && list != "101" && list != "150" && list !== undefined)
+    {
+      adminpass = list[2];
+    }else if(list == "5" || list == "100" || list == "101" || list == "150"){
+      error = true;
+    }
 
     console.log(adminpass);
 
-    if(adminpass !== undefined && adminpass !== null)
+    if(adminpass !== undefined && adminpass !== null && adminpass != "")
       var hash = hash_pass(adminpass);
     else
       var hash = "";
@@ -321,14 +329,15 @@ io.on('connection', function(socket){
   	db.collection(coll).find({views: {$exists:true}}, function(err, docs){
       console.log(adminpass);
       console.log(docs[0]["adminpass"]);
-  		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != ""))
+      console.log(error);
+  		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "") || error)
   		{
   			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && (get_time() - docs[0]["startTime"] >= 10
          || lists[coll].length != 2)) || (docs[0]["adminpass"] == adminpass && docs[0]["adminpass"] != ""))
   			{
   				change_song(coll);
           socket.emit("toast", "skip");
-  			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2)
+  			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
         {
           socket.emit("toast", "notyetskip");
         }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
