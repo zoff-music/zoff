@@ -366,12 +366,14 @@ io.on('connection', function(socket){
       			{
       				change_song(coll);
               socket.emit("toast", "skip");
+              io.sockets.emit('chat,'+coll, guid + " skipped");
       			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
             {
               socket.emit("toast", "notyetskip");
             }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
       				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                 socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
+                io.sockets.emit('chat,'+coll, guid + " tried to skip!");
       				});
       			}else{
               socket.emit("toast", "alreadyskip");
