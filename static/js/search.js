@@ -95,7 +95,13 @@ $(document).keyup(function(e) {
 			$("#search-wrapper").toggleClass("hide");
 		if(contains($("#song-title").attr("class").split(" "), "hide"))
 			$("#song-title").toggleClass("hide");
-	}else	if ($("div.result").length > 2){
+
+		$("#search-btn i").toggleClass("mdi-navigation-close");
+		$("#search-btn i").toggleClass("mdi-action-search");
+	}
+
+	else if ($("div.result").length > 2){
+
 	    if (e.keyCode == 40) {
 	    	if(i < $("div.result").length -2)
 	    		i++;
@@ -131,7 +137,8 @@ function showSearch(){
 	$("#song-title").toggleClass("hide");
 	$("#results").removeClass("hide");
 	$("#results").empty();
-
+	$("#search-btn i").toggleClass("mdi-navigation-close");
+	$("#search-btn i").toggleClass("mdi-action-search");
 	$("#search").focus();
 
 }
