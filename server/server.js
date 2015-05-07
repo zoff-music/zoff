@@ -23,12 +23,16 @@ io.on('connection', function(socket){
 
   socket.emit("get_list");
 
+  var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]).substring(0,8);
+
+  console.log(guid);
+
   socket.on('ping', function() {
     socket.emit("ok");
   });
 
   var coll;
-  var guid;
+  //var guid;
   var tot_lists = [];
   var in_list = false;
 
@@ -86,7 +90,7 @@ io.on('connection', function(socket){
       in_list = true;
     	list = list.split(',');
     	coll = list[0].toLowerCase();
-    	guid = list[1];
+    	//guid = list[1];
 
       console.log(guid + " joined list " + coll);
 
@@ -269,7 +273,7 @@ io.on('connection', function(socket){
       else
       {
       	var id = msg[1];
-      	guid = msg[3];
+      	//guid = msg[3];
         var hash = hash_pass(msg[4]);
         db.collection(coll).find({views:{$exists:true}}, function(err, docs)
         {
@@ -291,7 +295,7 @@ io.on('connection', function(socket){
     {
       pw = inp[0];
       coll = inp[1];
-      guid = inp[2];
+      //guid = inp[2];
       if(lists[coll] == undefined)
       {
       	lists[coll] = [];
