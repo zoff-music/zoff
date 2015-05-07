@@ -71,8 +71,14 @@ socket.on(chan.toLowerCase()+",viewers", function(view)
 		getTitle(song_title, viewers);
 });
 
+socket.on("chat,"+chan.toLowerCase(), function(data)
+{
+	console.log(data);
+});
+
 $(document).ready(function()
 {
+
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
@@ -243,6 +249,12 @@ function notifyUser(id, title) {
 	    	notification.close();
 	    },5000);
   	}
+}
+
+function chat(data)
+{
+	socket.emit("chat", data);
+	return;
 }
 
 function getRandomInt(min, max) {

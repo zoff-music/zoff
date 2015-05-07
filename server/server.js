@@ -32,6 +32,10 @@ io.on('connection', function(socket){
   var tot_lists = [];
   var in_list = false;
 
+  socket.on('chat', function (data) {
+    io.sockets.emit('chat,'+coll, guid + " said: " + data);
+  });
+
   socket.on('frontpage_lists', function()
   {
     var playlists_to_send = [];
@@ -301,7 +305,7 @@ io.on('connection', function(socket){
       //console.log(coll);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         //console.log(docs);
-        console.log(docs + " yy here?");
+        //console.log(docs + " yy here?");
         if(docs.length != 0)
         {
           if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
