@@ -9,6 +9,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
+    <style>
+    #player{
+    width: calc(100% - 261px);
+                  display: inline;
+              }
+                  </style>
 </head>
 <body id="channelpage">
     <header>
@@ -53,6 +59,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-btn" href="#chat" data-activates="chat-bar" id="chat-btn">
+                            <i class="tiny mdi-communication-message"></i>
+                            <span class="hover-text">Chat</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
                             <i class="mdi-action-settings"></i>
                             <span class="hover-text">Conf</span>
@@ -83,6 +95,25 @@
     <main class="container center-align main">
         <div class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
+
+                <ul class="side-nav left-aligned" id="chat-bar" style="width: 261px; left: 0px;position: relative;display: inline;will-change: left;margin: 0;padding: 0;float: left;">
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="active">
+                                
+                                <div class="collapsible-body" style="display: block;">
+                                    <ul id="#chat">
+                                        <li>Nixo: hello world!</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!--
+                  width: calc(100% - 261px);
+                  display: inline;
+                  -->
                 <div id="player" class="ytplayer"></div>
                 <div id="player_overlay" class="hide valign-wrapper">
                   <div id="player_overlay_text" class="valign center-align">
