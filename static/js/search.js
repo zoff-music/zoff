@@ -98,6 +98,7 @@ $(document).keyup(function(e) {
 
 		$("#search-btn i").toggleClass("mdi-navigation-close");
 		$("#search-btn i").toggleClass("mdi-action-search");
+		$("#results").toggleClass("hide");
 	}
 
 	else if ($("div.result").length > 2){
@@ -135,7 +136,7 @@ function showSearch(){
 		$(".search_input").focus();
 	}
 	$("#song-title").toggleClass("hide");
-	$("#results").removeClass("hide");
+	$("#results").toggleClass("hide");
 	$("#results").empty();
 	$("#search-btn i").toggleClass("mdi-navigation-close");
 	$("#search-btn i").toggleClass("mdi-action-search");
