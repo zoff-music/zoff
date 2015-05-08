@@ -190,6 +190,8 @@ function search(search_input){
 							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 							thumb=song.snippet.thumbnails.medium.url;
 
+							console.log(result_html);
+							$("#results").append(result_html);
 
 							var song = $("#result");
 							song.find(".search-title").text(title);
@@ -200,8 +202,6 @@ function search(search_input){
 							song.attr("id",id);
 						}
 					});
-
-					$("#results").append(result_html);
 
 					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
 						$("#search_loader").addClass("hide");
