@@ -37,7 +37,8 @@ io.on('connection', function(socket){
   var in_list = false;
 
   socket.on('chat', function (data) {
-    io.sockets.emit('chat,'+coll, guid + " said: " + data);
+    if(data != "" && data !== undefined && data !== null && data.length < 151)
+      io.sockets.emit('chat,'+coll, guid + " said: " + data);
   });
 
   socket.on('frontpage_lists', function()

@@ -72,6 +72,7 @@
 <script type="text/javascript" src="static/js/youtube.js"></script>
 <script type="text/javascript" src="static/js/search.js"></script>
 <script type="text/javascript" src="static/js/admin.js"></script>
+<script type="text/javascript" src="static/js/chat.js"></script>
 <script type="text/javascript" src="static/js/lib/materialize.js"></script>
 
 <!-- Piwik tracking -->

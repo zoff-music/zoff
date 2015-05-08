@@ -192,6 +192,16 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+#chat {
+  height: 81%;
+  overflow-y: scroll;
+  text-align:left;
+}
+
+#chat-log {
+  padding: 0px 0px 0px 11px !important;
+}
+
 #search_loader {
   height:64px;
   padding: 0 15px;
@@ -647,7 +657,7 @@ hide mdi-action-visibility mdi-action-visibility-off
         left: initial;
     }
     .title-container li {
-      width: 84%;
+      width: 71%;
     }
     #playlist{
         padding:0px 15px;
