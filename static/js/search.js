@@ -179,6 +179,9 @@ function search(search_input){
 				url: vid_url,
 				dataType:"jsonp",
 				success: function(response){
+
+					var output = "";
+
 					$.each(response.items, function(i,song)
 					{
 						var duration=song.contentDetails.duration;
@@ -192,6 +195,7 @@ function search(search_input){
 
 							console.log(result_html);
 							$("#results").append(result_html);
+							output += result_html;
 
 							var song = $("#result");
 							song.find(".search-title").text(title);
@@ -202,6 +206,8 @@ function search(search_input){
 							song.attr("id",id);
 						}
 					});
+
+					console.log(output);
 
 					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
 						$("#search_loader").addClass("hide");
