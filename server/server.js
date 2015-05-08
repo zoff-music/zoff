@@ -636,8 +636,6 @@ function sort_list(coll, socket, send, list_send)
 function send_play(coll, socket)
 {
   db.collection(coll).find({now_playing:true}, function(err, np){
-    if(np.length != 0)
-    {
       db.collection(coll).find({views:{$exists:true}}, function(err, conf){
         if(conf.length != 0)
         {
@@ -648,7 +646,6 @@ function send_play(coll, socket)
             socket.emit(coll+",np", toSend);
         }
       });
-    }
   });
 }
 
