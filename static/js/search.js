@@ -202,9 +202,12 @@ function search(search_input){
 							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
-							console.log(song);
+
+							output += song.html();
 						}
 					});
+
+					console.log(output);
 
 					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
 						$("#search_loader").addClass("hide");
