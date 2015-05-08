@@ -32,7 +32,7 @@ socket.on(chan.toLowerCase()+",np", function(obj)
 		$("#player_overlay").height($("#player").height());
 		if(!window.mobilecheck())
 			$("#player_overlay").toggleClass("hide");
-		importOldList(chan.toLowerCase());
+		importOldList(chan.toLowerCasettings-barse());
 	}
 	else{
 		console.log("gotten new song");
@@ -71,11 +71,6 @@ socket.on(chan.toLowerCase()+",viewers", function(view)
 		getTitle(song_title, viewers);
 });
 
-socket.on("chat,"+chan.toLowerCase(), function(data)
-{
-	console.log(data);
-});
-
 $(document).ready(function()
 {
 
@@ -84,6 +79,13 @@ $(document).ready(function()
       edge: 'right', // Choose the horizontal origin
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
+
+	$("#chat-btn").sideNav({
+			menuWidth: 272, // Default is 240
+			edge: 'left', // Choose the horizontal origin
+			closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+		});
+
 	$('#settings-close').sideNav('hide');
 
 	if(!window.mobilecheck() && !msieversion())
@@ -251,11 +253,6 @@ function notifyUser(id, title) {
   	}
 }
 
-function chat(data)
-{
-	socket.emit("chat", data);
-	return;
-}
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
