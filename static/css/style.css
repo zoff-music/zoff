@@ -196,6 +196,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   height: 81%;
   overflow-y: scroll;
   text-align:left;
+  word-wrap:break-word;
 }
 
 #chat-log {
