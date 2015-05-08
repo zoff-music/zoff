@@ -193,7 +193,7 @@ function search(search_input){
 							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 							thumb=song.snippet.thumbnails.medium.url;
 
-							$("#results").append(result_html);
+							//$("#results").append(result_html);
 
 							var song = $("#result");
 							song.find(".search-title").text(title);
@@ -206,6 +206,8 @@ function search(search_input){
 							output += song.html();
 						}
 					});
+
+					$(output).appendTo("#results");
 
 					console.log(output);
 
