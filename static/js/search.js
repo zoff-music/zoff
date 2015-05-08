@@ -193,9 +193,7 @@ function search(search_input){
 							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 							thumb=song.snippet.thumbnails.medium.url;
 
-							console.log(result_html);
 							$("#results").append(result_html);
-							output += result_html;
 
 							var song = $("#result");
 							song.find(".search-title").text(title);
@@ -204,10 +202,9 @@ function search(search_input){
 							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
+							console.log(song);
 						}
 					});
-
-					console.log(output);
 
 					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
 						$("#search_loader").addClass("hide");
