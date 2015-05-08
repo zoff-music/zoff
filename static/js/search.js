@@ -158,6 +158,9 @@ function search(search_input){
 
 			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
+			if(contains($("#search_loader").attr("class").split(" "), "hide"))
+				$("#search_loader").removeClass("hide");
+
 			$.ajax({
 				type: "GET",
 				url: yt_url,
@@ -187,7 +190,7 @@ function search(search_input){
 							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 							thumb=song.snippet.thumbnails.medium.url;
 
-							$("#results").append(result_html);
+
 							var song = $("#result");
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
@@ -197,6 +200,11 @@ function search(search_input){
 							song.attr("id",id);
 						}
 					});
+
+					$("#results").append(result_html);
+
+					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
+						$("#search_loader").addClass("hide");
 
 					$(".add-many").click(function(e) {
 					    e.preventDefault();
