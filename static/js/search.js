@@ -181,6 +181,7 @@ function search(search_input){
 				success: function(response){
 
 					var output = "";
+					var pre_result = $(result_html);
 
 					//$("#results").append(result_html);
 
@@ -196,8 +197,7 @@ function search(search_input){
 							thumb=song.snippet.thumbnails.medium.url;
 
 							//$("#results").append(result_html);
-
-							var song = $(result_html).html();
+							var song = pre_result;
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
@@ -205,15 +205,14 @@ function search(search_input){
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
 
-							console.log(song.html());
-
 							output += song.html();
+
 						}
 					});
 
-					$(output).appendTo("#results");
+					console.log(response.items.length);
 
-					console.log(output);
+					$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
 
 					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
 						$("#search_loader").addClass("hide");
