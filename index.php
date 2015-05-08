@@ -98,6 +98,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="nav-btn hide-on-small-only" href="#chat_btn" data-activates="chat-bar" id="chat-btn">
+                            <i class="tiny mdi-communication-message"></i>
+                            <span class="hover-text">Chat</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
                             <i class="mdi-action-settings"></i>
                             <span class="hover-text">Conf</span>
@@ -130,6 +136,29 @@
     <main class="container center-align main">
         <div class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
+
+                <ul class="side-nav left-aligned chat-bar" id="chat-bar" style="position: absolute;display: inline;will-change: left;margin: 0;padding: 0;float: left;">
+                    <li id="chat-log" style="padding:0 0 0 11px">
+                        <ul class="collapsible collapsible-accordion">
+                            <li class="active">
+
+                                <div class="collapsible-body" style="display: block;">
+                                    <ul id="chat">
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="chat-input">
+                      <form onsubmit="chat(this.input);return false;">
+                        <input id="text-chat-input" name="input" type="text" autocomplete="off">
+                      </form>
+                    </li>
+                </ul>
+                <!--
+                  width: calc(100% - 261px);
+                  display: inline;
+                  -->
                 <div id="player" class="ytplayer"></div>
                 <div id="player_overlay" class="hide valign-wrapper">
                   <div id="player_overlay_text" class="valign center-align">
