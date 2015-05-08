@@ -98,7 +98,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#chat_btn" data-activates="chat-bar" id="chat-btn">
+                        <a class="nav-btn hide-on-small-only" href="#chat_btn" data-activates="chat-bar" id="chat-btn">
                             <i class="tiny mdi-communication-message"></i>
                             <span class="hover-text">Chat</span>
                         </a>
