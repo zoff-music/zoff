@@ -182,7 +182,7 @@ function search(search_input){
 
 					var output = "";
 
-					$("#results").append(result_html);
+					//$("#results").append(result_html);
 
 					$.each(response.items, function(i,song)
 					{
@@ -197,7 +197,7 @@ function search(search_input){
 
 							//$("#results").append(result_html);
 
-							var song = $("#result");
+							var song = result_html;
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
