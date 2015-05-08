@@ -108,17 +108,19 @@
                     <?php include("php/panel.php");?>
                 </ul>
                 <div id="results" class="search_results hide">
-                    <div id="temp-results">
-                        <div id="result" class="result">
-                            <img class="thumb">
-                            <span id="title">
-                                <div class="search-title"></div>
-                                <span class="result_info"></span>
-                            </span>
-                            <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
-                                <i class="mdi-av-playlist-add"></i>
-                            </a>
-                        </div>
+                    <div id="temp-results-container">
+                      <div id="temp-results">
+                          <div id="result" class="result">
+                              <img class="thumb">
+                              <span id="title">
+                                  <div class="search-title"></div>
+                                  <span class="result_info"></span>
+                              </span>
+                              <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
+                                  <i class="mdi-av-playlist-add"></i>
+                              </a>
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>
