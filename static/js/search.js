@@ -203,6 +203,8 @@ function search(search_input){
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
 
+							console.log(song.html());
+
 							output += song.html();
 						}
 					});
