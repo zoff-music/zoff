@@ -1,7 +1,7 @@
 var old_input="";
 var timer = 0;
 var api_key = "AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8";
-var result_html = $("#temp-results").html();
+var result_html = $("#temp-results-container").html();
 $( "#results" ).empty();
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
 
