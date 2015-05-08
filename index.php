@@ -9,12 +9,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 	<?php include("php/header.php"); ?>
-    <style>
-    #player{
-    width: calc(100% - 261px);
-                  display: inline;
-              }
-                  </style>
 </head>
 <body id="channelpage">
     <header>
@@ -59,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#chat" data-activates="chat-bar" id="chat-btn">
+                        <a class="nav-btn" href="#chat_btn" data-activates="chat-bar" id="chat-btn">
                             <i class="tiny mdi-communication-message"></i>
                             <span class="hover-text">Chat</span>
                         </a>
@@ -96,18 +90,22 @@
         <div class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
 
-                <ul class="side-nav left-aligned" id="chat-bar" style="width: 261px; left: 0px;position: relative;display: inline;will-change: left;margin: 0;padding: 0;float: left;">
-                    <li class="no-padding">
+                <ul class="side-nav left-aligned chat-bar" id="chat-bar" style="position: absolute;display: inline;will-change: left;margin: 0;padding: 0;float: left;">
+                    <li id="chat-log" style="padding:0 0 0 11px">
                         <ul class="collapsible collapsible-accordion">
                             <li class="active">
-                                
+
                                 <div class="collapsible-body" style="display: block;">
-                                    <ul id="#chat">
-                                        <li>Nixo: hello world!</li>
+                                    <ul id="chat">
                                     </ul>
                                 </div>
                             </li>
                         </ul>
+                    </li>
+                    <li id="chat-input">
+                      <form onsubmit="chat(this.input);return false;">
+                        <input id="text-chat-input" name="input" type="text" autocomplete="off">
+                      </form>
                     </li>
                 </ul>
                 <!--
