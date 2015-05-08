@@ -11,6 +11,7 @@ $(document).ready(function()
 	});
 	find = false;
 	$("html").keydown(function(event) {
+        return;
 		if ((event.keyCode == 27 && find) || (event.ctrlKey && event.keyCode === 70)) 
 		{ 
 			find = !find;
