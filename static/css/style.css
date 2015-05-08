@@ -202,6 +202,15 @@ hide mdi-action-visibility mdi-action-visibility-off
   padding: 0px 0px 0px 11px !important;
 }
 
+#search_loader {
+  height:64px;
+  padding: 0 15px;
+}
+
+#search_loader:hover {
+  background-color:rgba(0,0,0,0);
+}
+
 #player_overlay{
   background-color:black;
   position: absolute;

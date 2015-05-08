@@ -1,7 +1,7 @@
 var old_input="";
 var timer = 0;
 var api_key = "***REMOVED***";
-var result_html = $("#temp-results").html();
+var result_html = $("#temp-results-container").html();
 $( "#results" ).empty();
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
 
@@ -98,6 +98,7 @@ $(document).keyup(function(e) {
 
 		$("#search-btn i").toggleClass("mdi-navigation-close");
 		$("#search-btn i").toggleClass("mdi-action-search");
+		$("#results").toggleClass("hide");
 	}
 
 	else if ($("div.result").length > 2){
@@ -135,7 +136,7 @@ function showSearch(){
 		$(".search_input").focus();
 	}
 	$("#song-title").toggleClass("hide");
-	$("#results").removeClass("hide");
+	$("#results").toggleClass("hide");
 	$("#results").empty();
 	$("#search-btn i").toggleClass("mdi-navigation-close");
 	$("#search-btn i").toggleClass("mdi-action-search");
@@ -157,6 +158,9 @@ function search(search_input){
 
 			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
+			if(contains($("#search_loader").attr("class").split(" "), "hide"))
+				$("#search_loader").removeClass("hide");
+
 			$.ajax({
 				type: "GET",
 				url: yt_url,
@@ -175,6 +179,12 @@ function search(search_input){
 				url: vid_url,
 				dataType:"jsonp",
 				success: function(response){
+
+					var output = "";
+					var pre_result = $(result_html);
+
+					//$("#results").append(result_html);
+
 					$.each(response.items, function(i,song)
 					{
 						var duration=song.contentDetails.duration;
@@ -186,16 +196,26 @@ function search(search_input){
 							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 							thumb=song.snippet.thumbnails.medium.url;
 
-							$("#results").append(result_html);
-							var song = $("#result");
+							//$("#results").append(result_html);
+							var song = pre_result;
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
 							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
 							song.attr("id",id);
+
+							output += song.html();
+
 						}
 					});
+
+					console.log(response.items.length);
+
+					$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+
+					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
+						$("#search_loader").addClass("hide");
 
 					$(".add-many").click(function(e) {
 					    e.preventDefault();

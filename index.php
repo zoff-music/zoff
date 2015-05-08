@@ -34,6 +34,51 @@
                 </ul>
 
                 <ul class="right control-list">
+                  <li id="search_loader" class="valign-wrapper hide">
+                      <div class="valign">
+                         <div class="preloader-wrapper small active">
+                          <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div><div class="gap-patch">
+                              <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+
+                          <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div><div class="gap-patch">
+                              <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+
+                          <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div><div class="gap-patch">
+                              <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+
+                          <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div><div class="gap-patch">
+                              <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </li>
                     <li>
                         <a class="nav-btn" href="#find" id="search-btn" onclick="showSearch();">
                             <i class="mdi-action-search"></i>
@@ -69,17 +114,19 @@
                     <?php include("php/panel.php");?>
                 </ul>
                 <div id="results" class="search_results hide">
-                    <div id="temp-results">
-                        <div id="result" class="result">
-                            <img class="thumb">
-                            <span id="title">
-                                <div class="search-title"></div>
-                                <span class="result_info"></span>
-                            </span>
-                            <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
-                                <i class="mdi-av-playlist-add"></i>
-                            </a>
-                        </div>
+                    <div id="temp-results-container">
+                      <div id="temp-results">
+                          <div id="result" class="result">
+                              <img class="thumb">
+                              <span id="title">
+                                  <div class="search-title"></div>
+                                  <span class="result_info"></span>
+                              </span>
+                              <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
+                                  <i class="mdi-av-playlist-add"></i>
+                              </a>
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>
