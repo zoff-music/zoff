@@ -197,7 +197,7 @@ function search(search_input){
 
 							//$("#results").append(result_html);
 
-							var song = $(result_html);
+							var song = $(result_html).find("#result");
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
