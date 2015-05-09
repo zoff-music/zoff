@@ -212,6 +212,10 @@ ul #chat-log{
   padding: 0px 0px 0px 11px !important;
 }
 
+#chat-log li{
+    margin-left: 5px;
+}
+
 #chat-input{
     background-color: rgba(0,0,0,0.1);
 }
