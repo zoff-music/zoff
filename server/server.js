@@ -323,7 +323,7 @@ io.on('connection', function(socket){
       			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
             {
               socket.emit("toast", "notyetskip");
-            }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 10){
+            }else if(!contains(docs[0]["skips"], guid)){
       				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                 socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
                 socket.broadcast.emit('chat,'+coll, rndName(guid) + " voted to skip");
