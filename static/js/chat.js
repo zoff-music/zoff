@@ -16,7 +16,9 @@ document.getElementById("chat-btn").addEventListener("click", function(){
 socket.on("chat,"+chan.toLowerCase(), function(data)
 {
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
-	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span>"+data.substring(8)+"</li>");
+	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
+  var in_text = document.createTextNode(data.substring(8));
+  $("#chat li:last")[0].appendChild(in_text);
   document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight
 });
 

@@ -193,14 +193,27 @@ hide mdi-action-visibility mdi-action-visibility-off
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
 #chat {
-  height: 81%;
+  height: calc(100% - 121px);
   overflow-y: scroll;
   text-align:left;
   word-wrap:break-word;
 }
 
-#chat-log {
+#chat-bar{
+    position: absolute;
+    display: inline;
+    will-change: left;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+ul #chat-log{
   padding: 0px 0px 0px 11px !important;
+}
+
+#chat-input{
+    background-color: rgba(0,0,0,0.1);
 }
 
 #search_loader {
@@ -229,6 +242,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     margin-left: 25%;
 
 }
+
 #channelpage{
     background-color:#2D2D2D;
 }
