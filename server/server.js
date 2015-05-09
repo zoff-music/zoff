@@ -492,6 +492,7 @@ function vote(coll, id, guid, socket)
   			db.collection(coll).update({id:id}, {$push :{guids: guid}}, function(err, docs)
   			{
           socket.emit("toast", "voted");
+          socket.broadcast.emit('chat,'+coll, rndName(guid) + " voted to skip");
           sort_list(coll, undefined, false, true);
   			});
   			//sort_list(coll, undefined, false);
