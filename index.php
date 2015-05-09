@@ -137,8 +137,8 @@
         <div class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
 
-                <ul class="side-nav left-aligned chat-bar" id="chat-bar" style="position: absolute;display: inline;will-change: left;margin: 0;padding: 0;float: left;">
-                    <li id="chat-log" style="padding:0 0 0 11px">
+                <ul class="side-nav left-aligned chat-bar" id="chat-bar">
+                    <li id="chat-log">
                         <ul class="collapsible collapsible-accordion">
                             <li class="active">
 
@@ -151,7 +151,7 @@
                     </li>
                     <li id="chat-input">
                       <form onsubmit="chat(this.input);return false;">
-                        <input id="text-chat-input" name="input" type="text" autocomplete="off">
+                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150">
                       </form>
                     </li>
                 </ul>
