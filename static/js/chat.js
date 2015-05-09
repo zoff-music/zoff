@@ -1,4 +1,5 @@
 var blink_interval;
+var blink_interval_exists = false;
 
 function chat(data)
 {
@@ -15,6 +16,7 @@ document.getElementById("chat-btn").addEventListener("click", function(){
     //$("#chat-btn").css("color", "white");
     $("#chat-btn").css("opacity", 1);
     clearInterval(blink_interval);
+    blink_interval_exists = false;
 });
 
 socket.on("chat,"+chan.toLowerCase(), function(data)
@@ -22,7 +24,11 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
   if($("#chat-bar").position()["left"] != 0)
   {
     //$("#chat-btn").css("color", "grey");
-    blink_interval = setInterval(chat_blink, 2000);
+    if(!blink_interval_exists)
+    {
+      blink_interval_exists = true;
+      blink_interval = setInterval(chat_blink, 2000);
+    }
   }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
 	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
