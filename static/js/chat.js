@@ -1,3 +1,4 @@
+var blink_interval;
 
 function chat(data)
 {
@@ -11,14 +12,17 @@ function chat(data)
 document.getElementById("chat-btn").addEventListener("click", function(){
     console.log("clicked");
     $("#text-chat-input").focus();
-    $("#chat-btn").css("color", "white");
+    //$("#chat-btn").css("color", "white");
+    $("#chat-btn").css("opacity", 1);
+    clearInterval(blink_interval);
 });
 
 socket.on("chat,"+chan.toLowerCase(), function(data)
 {
   if($("#chat-bar").position()["left"] != 0)
   {
-    $("#chat-btn").css("color", "grey");
+    //$("#chat-btn").css("color", "grey");
+    blink_interval = setInterval(chat_blink, 2000);
   }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
 	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
@@ -26,6 +30,12 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
   $("#chat li:last")[0].appendChild(in_text);
   document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight
 });
+
+function chat_blink()
+{
+  $("#chat-btn").css("opacity", 0.5);
+  setTimeout(function(){$("#chat-btn").css("opacity", 1);}, 1000);
+}
 
 function hashCode(str) { // java String#hashCode
     var hash = 0;
