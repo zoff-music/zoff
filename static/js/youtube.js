@@ -112,6 +112,8 @@ $(document).ready(function()
 			//loadjsfile("static/js/jazzscript.js");
 			//peis = true;
 		}
+		if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
+			$(".main").height(window.innerHeight-64);
 	}
 });
 
