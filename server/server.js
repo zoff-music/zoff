@@ -428,14 +428,15 @@ io.on('connection', function(socket){
   {
     if(in_list)
     {
-    	try
-    	{
-          io.sockets.emit('chat,'+coll, rndName(guid) + " left");
+        if(contains(lists[coll], guid))
+        {
           console.log(guid + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
-    	}catch(err){}
+          io.sockets.emit('chat,'+coll, rndName(guid) + " left");
+        }
+
     }
   });
 
