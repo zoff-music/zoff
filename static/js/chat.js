@@ -11,10 +11,15 @@ function chat(data)
 document.getElementById("chat-btn").addEventListener("click", function(){
     console.log("clicked");
     $("#text-chat-input").focus();
+    $("#chat-btn").css("color", "white");
 });
 
 socket.on("chat,"+chan.toLowerCase(), function(data)
 {
+  if($("#chat-bar").position()["left"] != 0)
+  {
+    $("#chat-btn").css("color", "grey");
+  }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
 	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
   var in_text = document.createTextNode(data.substring(8));
