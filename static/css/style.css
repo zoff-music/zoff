@@ -208,7 +208,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     float: left;
 }
 
-#chat-btn {
+#chat-btn i {
   -webkit-transition:opacity 1s;
   transition:opacity 1s;
 }

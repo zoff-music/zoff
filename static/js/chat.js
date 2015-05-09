@@ -14,7 +14,7 @@ document.getElementById("chat-btn").addEventListener("click", function(){
     console.log("clicked");
     $("#text-chat-input").focus();
     //$("#chat-btn").css("color", "white");
-    $("#chat-btn").css("opacity", 1);
+    $("#chat-btn i").css("opacity", 1);
     clearInterval(blink_interval);
     blink_interval_exists = false;
 });
@@ -39,8 +39,8 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
 
 function chat_blink()
 {
-  $("#chat-btn").css("opacity", 0.5);
-  setTimeout(function(){$("#chat-btn").css("opacity", 1);}, 1000);
+  $("#chat-btn i").css("opacity", 0.5);
+  setTimeout(function(){$("#chat-btn i").css("opacity", 1);}, 1000);
 }
 
 function hashCode(str) { // java String#hashCode
