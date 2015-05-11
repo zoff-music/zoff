@@ -17,6 +17,7 @@ document.getElementById("chat-btn").addEventListener("click", function(){
     $("#chat-btn i").css("opacity", 1);
     clearInterval(blink_interval);
     blink_interval_exists = false;
+    $("#favicon").attr("href", "static/images/favicon.png");
 });
 
 socket.on("chat,"+chan.toLowerCase(), function(data)
@@ -26,6 +27,7 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
     //$("#chat-btn").css("color", "grey");
     if(!blink_interval_exists)
     {
+      $("#favicon").attr("href", "static/images/highlogo.png");
       blink_interval_exists = true;
       blink_interval = setInterval(chat_blink, 2000);
     }
