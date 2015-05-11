@@ -16,4 +16,4 @@
 <meta property="og:type" content="website">
 <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
 <link rel="stylesheet" type="text/css" href="static/css/style.css" title="Default" />
-<link rel="icon" type="image/png" href="static/images/favicon.png"/>
+<link rel="icon" id="favicon" type="image/png" href="static/images/favicon.png"/>

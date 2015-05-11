@@ -37,6 +37,7 @@ io.on('connection', function(socket){
   var in_list = false;
 
   socket.on('chat', function (data) {
+    check_inlist(coll, guid, socket);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
       io.sockets.emit('chat,'+coll, rndName(guid) + ": " + data);
   });
@@ -95,16 +96,7 @@ io.on('connection', function(socket){
 
       console.log(guid + " joined list " + coll);
 
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
       io.sockets.emit(coll+",viewers", lists[coll].length);
 
@@ -134,16 +126,7 @@ io.on('connection', function(socket){
   {
     if(id !== undefined && id !== null && id != "")
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
     	db.collection(coll).find({now_playing:true}, function(err, np){
         //console.log(docs);
@@ -208,16 +191,7 @@ io.on('connection', function(socket){
   {
     if(arr !== undefined && arr !== null && arr != "")
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
     	var id = arr[0];
     	var title = arr[1];
@@ -258,16 +232,7 @@ io.on('connection', function(socket){
   {
     if(msg !== undefined && msg !== null)
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
       if(msg[2] == "del")
         del(msg, socket);
@@ -297,16 +262,8 @@ io.on('connection', function(socket){
       pw = inp[0];
       coll = inp[1];
       //guid = inp[2];
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
+
       //console.log(coll);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         //console.log(docs);
@@ -330,16 +287,7 @@ io.on('connection', function(socket){
   {
     if(list !== undefined && list !== null && list != "")
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
       adminpass = "";
 
@@ -375,10 +323,10 @@ io.on('connection', function(socket){
       			}else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
             {
               socket.emit("toast", "notyetskip");
-            }else if(!contains(docs[0]["skips"], guid) && get_time() - docs[0]["startTime"] >= 30){
+            }else if(!contains(docs[0]["skips"], guid)){
       				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                 socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
-                io.sockets.emit('chat,'+coll, rndName(guid) + " tried to skip!");
+                socket.broadcast.emit('chat,'+coll, rndName(guid) + " voted to skip");
       				});
       			}else{
               socket.emit("toast", "alreadyskip");
@@ -394,16 +342,7 @@ io.on('connection', function(socket){
   {
     if(params !== undefined && params !== null && params != "")
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
       var voting = params[0];
     	var addsongs = params[1];
@@ -453,16 +392,7 @@ io.on('connection', function(socket){
   {
     if(pass !== undefined && pass !== null && pass != "")
     {
-      if(lists[coll] == undefined)
-      {
-      	lists[coll] = [];
-      	lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }else if(!contains(lists[coll], guid))
-      {
-        lists[coll].push(guid);
-        io.sockets.emit(coll+",viewers", lists[coll].length);
-      }
+      check_inlist(coll, guid, socket);
 
       var hash = hash_pass(pass);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
@@ -498,29 +428,21 @@ io.on('connection', function(socket){
   {
     if(in_list)
     {
-    	try
-    	{
+        if(contains(lists[coll], guid))
+        {
           console.log(guid + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
-    	}catch(err){}
+          io.sockets.emit('chat,'+coll, rndName(guid) + " left");
+        }
+
     }
   });
 
   socket.on('pos', function()
   {
-    if(lists[coll] == undefined)
-    {
-    	lists[coll] = [];
-    	lists[coll].push(guid);
-      io.sockets.emit(coll+",viewers", lists[coll].length);
-    }else if(!contains(lists[coll], guid))
-    {
-      lists[coll].push(guid);
-      io.sockets.emit(coll+",viewers", lists[coll].length);
-    }
-
+    check_inlist(coll, guid, socket);
     send_play(coll, socket);
   });
 });
@@ -536,7 +458,23 @@ function del(params, socket)
         sort_list(coll, undefined, false, true);
       })
     }
-  })
+  });
+}
+
+function check_inlist(coll, guid, socket)
+{
+  if(lists[coll] == undefined)
+  {
+    lists[coll] = [];
+    lists[coll].push(guid);
+    io.sockets.emit(coll+",viewers", lists[coll].length);
+    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+  }else if(!contains(lists[coll], guid))
+  {
+    lists[coll].push(guid);
+    io.sockets.emit(coll+",viewers", lists[coll].length);
+    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+  }
 }
 
 function hash_pass(adminpass)
