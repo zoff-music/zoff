@@ -72,6 +72,7 @@ if(isset($_GET['chan'])){
                             spellcheck="false"
                             maxlength="18"
                             autocomplete
+                            length="18"
                         />
                         <label for="search">Find or create radio channel</label>
                         <datalist id="searches">
