@@ -198,12 +198,13 @@ function search(search_input){
 
 							//$("#results").append(result_html);
 							var song = pre_result;
+
 							song.find(".search-title").text(title);
 							song.find(".result_info").text(duration);
 							song.find(".thumb").attr("src", thumb);
 							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
-							song.attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-							song.attr("id",id);
+							$($(song).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+							$($(song).find("div")[0]).attr("id", id)
 
 							output += song.html();
 
