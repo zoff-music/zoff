@@ -26,14 +26,11 @@ document.getElementById("chat-btn").addEventListener("click", function(){
 });
 
 $(".chat-tab").click(function(){
-    console.log("clik");
     $("#text-chat-input").focus();
 });
 
 socket.on("chat.all", function(data)
 {
-  console.log("chat.all");
-  console.log(document.hidden);
   if($("#chat-bar").position()["left"] != 0)
   {
     //$("#chat-btn").css("color", "grey");
@@ -59,7 +56,6 @@ socket.on("chat.all", function(data)
 $(window).focus(function(){
   if(unseen)
   {
-    console.log("unseen");
     $("#favicon").attr("href", "static/images/favicon.png");
     unseen = false;
   }
