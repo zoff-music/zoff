@@ -192,9 +192,28 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+.tab a {
+  background-color:rgba(0,0,0,0) !important;
+}
+
+.chat-tab, .chat-tab-li {
+  color:black !important;
+  margin:0 !important;
+}
+
+.indicator {
+  background-color:black !important;
+}
+
+#chatchannel, #chatall {
+  height: calc(100% - 49px);
+  overflow-y:scroll;
+  text-align:left;
+  word-wrap:break-word;
+}
+
 #chat {
   height: calc(100% - 121px);
-  overflow-y: scroll;
   text-align:left;
   word-wrap:break-word;
 }
