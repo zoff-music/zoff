@@ -394,7 +394,7 @@ ul #chat-log{
 .list-song{
     background-color: rgba(255, 255, 255, 0.04);
     color:white;
-    /*height:66px;*/
+    font:12px Arial,sans-serif;
 }
 .list-song .card-content{padding:0;}
 .list-title{
