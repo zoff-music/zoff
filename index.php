@@ -201,8 +201,8 @@
                                     </span>
                                 </span>
                             </span>
-                            <div class="list-remove card-action center-align hide">
-                                <a title="Remove song" id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Remove</a>
+                            <div class="card-action center-align list-remove hide">
+                                <a title="Remove song" id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Delete</a>
                             </div>
                         </div>
                     </div>

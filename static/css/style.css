@@ -355,7 +355,7 @@ ul #chat-log{
     -webkit-font-smoothing: antialiased;
     content: "\e684";/*"\e800";*/
     color:white;
-    font-size:44px;
+    font-size:65px;
     position:absolute;
     width:100%; height:100%;
     top:0; left:0;
@@ -417,14 +417,17 @@ ul #chat-log{
 
 .list-remove{
     margin-top: 5px;
-    font-size: 12px;
-    height: 30px;
+  font-size: 12px;
+  height: 20px;
+  display: inline-table;
+  float: right;
+  padding-left: 10px;
 }
 
 #del{
     height: 100%;
     line-height: normal;
-    padding-top: 8px;
+    padding: 2px 12px;
 }
 
 .result {
