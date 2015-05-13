@@ -35,18 +35,29 @@ io.on('connection', function(socket){
   //var guid;
   var tot_lists = [];
   var in_list = false;
+  var name = rndName(guid);
+
+  socket.on('namechange', function(data)
+  {
+    if(name.length < 9)
+    {
+      name = data;
+      io.sockets.emit('chat,'+coll, rndName(guid) + " changed name to " + name);
+      io.sockets.emit('chat.all', [rndName(guid) + " changed name to " + name, coll]);
+    }
+  });
 
   socket.on('chat', function (data) {
     check_inlist(coll, guid, socket);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.sockets.emit('chat,'+coll, rndName(guid) + ": " + data);
+      io.sockets.emit('chat,'+coll, name + ": " + data);
   });
 
   socket.on("all,chat", function(data)
   {
     check_inlist(coll, guid, socket);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.sockets.emit('chat.all', [rndName(guid) + ": " + data, coll]);
+      io.sockets.emit('chat.all', [name + ": " + data, coll]);
   });
 
   socket.on('frontpage_lists', function()
