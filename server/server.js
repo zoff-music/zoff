@@ -46,7 +46,7 @@ io.on('connection', function(socket){
   {
     check_inlist(coll, guid, socket);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.sockets.emit('chat.all', rndName(guid) + ": " + data);
+      io.sockets.emit('chat.all', [rndName(guid) + ": " + data, coll]);
   });
 
   socket.on('frontpage_lists', function()
