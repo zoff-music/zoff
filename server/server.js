@@ -41,9 +41,9 @@ io.on('connection', function(socket){
   {
     if(name.length < 9)
     {
+      io.sockets.emit('chat,'+coll, name + " changed name to " + data);
+      io.sockets.emit('chat.all', [name + " changed name to " + data, coll]);
       name = data;
-      io.sockets.emit('chat,'+coll, rndName(guid) + " changed name to " + name);
-      io.sockets.emit('chat.all', [rndName(guid) + " changed name to " + name, coll]);
     }
   });
 
