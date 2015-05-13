@@ -76,7 +76,7 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
     }
   }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
-	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
+	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data.substring(0,data.indexOf(": "))+"</span></li>");
   var in_text = document.createTextNode(data.substring(8));
   $("#chatchannel li:last")[0].appendChild(in_text);
   document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
