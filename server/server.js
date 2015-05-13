@@ -42,6 +42,13 @@ io.on('connection', function(socket){
       io.sockets.emit('chat,'+coll, rndName(guid) + ": " + data);
   });
 
+  socket.on("all,chat", function(data)
+  {
+    check_inlist(coll, guid, socket);
+    if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
+      io.sockets.emit('chat.all', rndName(guid) + ": " + data);
+  });
+
   socket.on('frontpage_lists', function()
   {
     var playlists_to_send = [];

@@ -144,6 +144,16 @@
 
                                 <div class="collapsible-body" style="display: block;">
                                     <ul id="chat">
+                                      <div class="row">
+                                        <div class="col s12">
+                                          <ul class="tabs">
+                                            <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
+                                            <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
+                                          </ul>
+                                        </div>
+                                        <div id="channelchat" class="col s12"><ul id="chatchannel"></ul></div>
+                                        <div id="all_chat" class="col s12"><ul id="chatall"></ul></div>
+                                      </div>
                                     </ul>
                                 </div>
                             </li>

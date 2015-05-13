@@ -1,11 +1,15 @@
 var blink_interval;
 var blink_interval_exists = false;
+var unseen = false;
 
 function chat(data)
 {
   if(data.value.length > 150)
     return;
-	socket.emit("chat", data.value);
+  if($(".tab a.active").attr("href") == "#all_chat")
+    socket.emit("all,chat", data.value);
+	else
+    socket.emit("chat", data.value);
   data.value = "";
   return;
 }
@@ -17,7 +21,44 @@ document.getElementById("chat-btn").addEventListener("click", function(){
     $("#chat-btn i").css("opacity", 1);
     clearInterval(blink_interval);
     blink_interval_exists = false;
+    unseen = false;
     $("#favicon").attr("href", "static/images/favicon.png");
+});
+
+$(".chat-tab").click(function(){
+    $("#text-chat-input").focus();
+});
+
+socket.on("chat.all", function(data)
+{
+  if($("#chat-bar").position()["left"] != 0)
+  {
+    //$("#chat-btn").css("color", "grey");
+    if(!blink_interval_exists)
+    {
+      $("#favicon").attr("href", "static/images/highlogo.png");
+      blink_interval_exists = true;
+      unseen = true;
+      blink_interval = setInterval(chat_blink, 2000);
+    }
+  }else if(document.hidden)
+  {
+    $("#favicon").attr("href", "static/images/highlogo.png");
+    unseen = true;
+  }
+  var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
+	$("#chatall").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
+  var in_text = document.createTextNode(data.substring(8));
+  $("#chatall li:last")[0].appendChild(in_text);
+  document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight
+});
+
+$(window).focus(function(){
+  if(unseen)
+  {
+    $("#favicon").attr("href", "static/images/favicon.png");
+    unseen = false;
+  }
 });
 
 socket.on("chat,"+chan.toLowerCase(), function(data)
@@ -33,10 +74,10 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
     }
   }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
-	$("#chat").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
+	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
   var in_text = document.createTextNode(data.substring(8));
-  $("#chat li:last")[0].appendChild(in_text);
-  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight
+  $("#chatchannel li:last")[0].appendChild(in_text);
+  document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
 });
 
 function chat_blink()
