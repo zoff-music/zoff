@@ -39,10 +39,10 @@ io.on('connection', function(socket){
 
   socket.on('namechange', function(data)
   {
-    if(name.length < 9)
+    if(name.length < 9 && name.indexOf(" ") == -1)
     {
-      io.sockets.emit('chat,'+coll, name + " changed name to " + data);
-      io.sockets.emit('chat.all', [name + " changed name to " + data, coll]);
+      io.sockets.emit('chat,'+coll, name + ": changed name to " + data);
+      io.sockets.emit('chat.all', [name + ": changed name to " + data, coll]);
       name = data;
     }
   });
