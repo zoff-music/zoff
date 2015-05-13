@@ -29,8 +29,10 @@ $(".chat-tab").click(function(){
     $("#text-chat-input").focus();
 });
 
-socket.on("chat.all", function(data)
+socket.on("chat.all", function(inp)
 {
+  data = inp[0];
+
   if($("#chat-bar").position()["left"] != 0)
   {
     //$("#chat-btn").css("color", "grey");
@@ -47,7 +49,7 @@ socket.on("chat.all", function(data)
     unseen = true;
   }
   var color = intToARGB(hashCode(data.substring(0,8))).substring(0,6);
-	$("#chatall").append("<li><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
+	$("#chatall").append("<li title='"+inp[1]+"'><span style='color:"+color+";'>"+data.substring(0,8)+"</span></li>");
   var in_text = document.createTextNode(data.substring(8));
   $("#chatall li:last")[0].appendChild(in_text);
   document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight
