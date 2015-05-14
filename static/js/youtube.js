@@ -73,7 +73,7 @@ socket.on(chan.toLowerCase()+",viewers", function(view)
 
 $(document).ready(function()
 {
-
+	Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail!", 10000);
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
