@@ -112,7 +112,7 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      console.log(guid + " joined list " + coll);
+      console.log(name + " joined list " + coll);
 
       check_inlist(coll, guid, socket);
 
@@ -448,11 +448,11 @@ io.on('connection', function(socket){
     {
         if(contains(lists[coll], guid))
         {
-          console.log(guid + " left list " + coll);
+          console.log(name + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
-          io.sockets.emit('chat,'+coll, rndName(guid) + " left");
+          io.sockets.emit('chat,'+coll, name + " left");
         }
 
     }
@@ -486,12 +486,12 @@ function check_inlist(coll, guid, socket)
     lists[coll] = [];
     lists[coll].push(guid);
     io.sockets.emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+    socket.broadcast.emit('chat,'+coll, name + " joined");
   }else if(!contains(lists[coll], guid))
   {
     lists[coll].push(guid);
     io.sockets.emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+    socket.broadcast.emit('chat,'+coll, name + " joined");
   }
 }
 
