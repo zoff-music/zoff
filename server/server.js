@@ -439,7 +439,8 @@ io.on('connection', function(socket){
           sort_list(coll, undefined, false, true);
         }
       };
-    }
+    }else
+      socket.emit("toast", "wrongpass");
   });
 
   socket.on('disconnect', function()
