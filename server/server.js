@@ -35,18 +35,29 @@ io.on('connection', function(socket){
   //var guid;
   var tot_lists = [];
   var in_list = false;
+  var name = rndName(guid);
+
+  socket.on('namechange', function(data)
+  {
+    if(name.length < 9 && name.indexOf(" ") == -1)
+    {
+      io.sockets.emit('chat,'+coll, name + ": changed name to " + data);
+      io.sockets.emit('chat.all', [name + ": changed name to " + data, coll]);
+      name = data;
+    }
+  });
 
   socket.on('chat', function (data) {
-    check_inlist(coll, guid, socket);
+    check_inlist(coll, guid, socket, name);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.sockets.emit('chat,'+coll, rndName(guid) + ": " + data);
+      io.sockets.emit('chat,'+coll, name + ": " + data);
   });
 
   socket.on("all,chat", function(data)
   {
-    check_inlist(coll, guid, socket);
+    check_inlist(coll, guid, socket, name);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.sockets.emit('chat.all', rndName(guid) + ": " + data);
+      io.sockets.emit('chat.all', [name + ": " + data, coll]);
   });
 
   socket.on('frontpage_lists', function()
@@ -101,9 +112,9 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      console.log(guid + " joined list " + coll);
+      console.log(name + " joined list " + coll);
 
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
       io.sockets.emit(coll+",viewers", lists[coll].length);
 
@@ -133,7 +144,7 @@ io.on('connection', function(socket){
   {
     if(id !== undefined && id !== null && id != "")
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
     	db.collection(coll).find({now_playing:true}, function(err, np){
         //console.log(docs);
@@ -198,7 +209,7 @@ io.on('connection', function(socket){
   {
     if(arr !== undefined && arr !== null && arr != "")
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
     	var id = arr[0];
     	var title = arr[1];
@@ -239,7 +250,7 @@ io.on('connection', function(socket){
   {
     if(msg !== undefined && msg !== null)
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
       if(msg[2] == "del")
         del(msg, socket);
@@ -269,7 +280,7 @@ io.on('connection', function(socket){
       pw = inp[0];
       coll = inp[1];
       //guid = inp[2];
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
       //console.log(coll);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
@@ -294,7 +305,7 @@ io.on('connection', function(socket){
   {
     if(list !== undefined && list !== null && list != "")
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
       adminpass = "";
 
@@ -326,14 +337,14 @@ io.on('connection', function(socket){
       			{
       				change_song(coll);
               socket.emit("toast", "skip");
-              io.sockets.emit('chat,'+coll, rndName(guid) + " skipped");
+              io.sockets.emit('chat,'+coll, name + " skipped");
       			}/*else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
             {
               socket.emit("toast", "notyetskip");
             }*/else if(!contains(docs[0]["skips"], guid)){
       				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                 socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
-                socket.broadcast.emit('chat,'+coll, rndName(guid) + " voted to skip");
+                socket.broadcast.emit('chat,'+coll, name + " voted to skip");
       				});
       			}else{
               socket.emit("toast", "alreadyskip");
@@ -349,7 +360,7 @@ io.on('connection', function(socket){
   {
     if(params !== undefined && params !== null && params != "")
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket,name);
 
       var voting = params[0];
     	var addsongs = params[1];
@@ -399,7 +410,7 @@ io.on('connection', function(socket){
   {
     if(pass !== undefined && pass !== null && pass != "")
     {
-      check_inlist(coll, guid, socket);
+      check_inlist(coll, guid, socket, name);
 
       var hash = hash_pass(pass);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
@@ -428,7 +439,8 @@ io.on('connection', function(socket){
           sort_list(coll, undefined, false, true);
         }
       };
-    }
+    }else
+      socket.emit("toast", "wrongpass");
   });
 
   socket.on('disconnect', function()
@@ -437,11 +449,11 @@ io.on('connection', function(socket){
     {
         if(contains(lists[coll], guid))
         {
-          console.log(guid + " left list " + coll);
+          console.log(name + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
-          io.sockets.emit('chat,'+coll, rndName(guid) + " left");
+          io.sockets.emit('chat,'+coll, name + " left");
         }
 
     }
@@ -449,7 +461,7 @@ io.on('connection', function(socket){
 
   socket.on('pos', function()
   {
-    check_inlist(coll, guid, socket);
+    check_inlist(coll, guid, socket, name);
     send_play(coll, socket);
   });
 });
@@ -468,19 +480,19 @@ function del(params, socket)
   });
 }
 
-function check_inlist(coll, guid, socket)
+function check_inlist(coll, guid, socket, name)
 {
   if(lists[coll] == undefined)
   {
     lists[coll] = [];
     lists[coll].push(guid);
     io.sockets.emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+    socket.broadcast.emit('chat,'+coll, name + " joined");
   }else if(!contains(lists[coll], guid))
   {
     lists[coll].push(guid);
     io.sockets.emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.emit('chat,'+coll, rndName(guid) + " joined");
+    socket.broadcast.emit('chat,'+coll, name + " joined");
   }
 }
 
