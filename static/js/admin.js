@@ -14,7 +14,10 @@ socket.on("toast", function(msg)
 	        break;
 	    case "wrongpass":
 	        msg=rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."])
-	        break;
+					if(localStorage[chan.toLowerCase()]){
+						localStorage.removeItem(chan.toLowerCase());
+					}
+					break;
 		case "shuffled":
 	        msg=rnd(["♫ You stir me right round, baby. ♫","♫ Stir, stir, stir my boat ♫","I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"])
 	        break;
@@ -75,12 +78,13 @@ $('input[class=conf]').change(function()
 
 function pass_save()
 {
-	socket.emit('password', [document.getElementById("password").value, chan.toLowerCase(), guid]);
+
+	socket.emit('password', [CryptoJS.SHA256(document.getElementById("password").value).toString(), chan.toLowerCase(), guid]);
 }
 
 function log_out(){
 	if(localStorage[chan.toLowerCase()]){
-		localStorage.removeItem(chan.toLowerCase())
+		localStorage.removeItem(chan.toLowerCase());
 		w_p = true;
 		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
 		for (var i = 0; i < names.length; i++) {
