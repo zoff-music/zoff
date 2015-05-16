@@ -105,7 +105,10 @@ $(document).ready(function()
 		if(localStorage[chan.toLowerCase()])
 		{
 			//localStorage.removeItem(chan.toLowerCase());
-			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase(), guid]);
+			if(localStorage[chan.toLowerCase()].length != 64)
+				localStorage.removeItem(chan.toLowerCase());
+			else
+				socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase(), guid]);
 		}
 
 		if($("#chan").html().toLowerCase() == "jazz")
