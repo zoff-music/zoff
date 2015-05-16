@@ -73,7 +73,7 @@ socket.on(chan.toLowerCase()+",viewers", function(view)
 
 $(document).ready(function()
 {
-	Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
+	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
@@ -104,8 +104,8 @@ $(document).ready(function()
 
 		if(localStorage[chan.toLowerCase()])
 		{
-			localStorage.removeItem(chan.toLowerCase());
-			//socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase(), guid]);
+			//localStorage.removeItem(chan.toLowerCase());
+			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase(), guid]);
 		}
 
 		if($("#chan").html().toLowerCase() == "jazz")
