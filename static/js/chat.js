@@ -67,12 +67,14 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
 {
   if($("#chat-bar").position()["left"] != 0)
   {
-    //$("#chat-btn").css("color", "grey");
-    if(!blink_interval_exists)
-    {
-      $("#favicon").attr("href", "static/images/highlogo.png");
-      blink_interval_exists = true;
-      blink_interval = setInterval(chat_blink, 2000);
+    if(data.indexOf(":") >= 0){
+      //$("#chat-btn").css("color", "grey");
+      if(!blink_interval_exists)
+      {
+        $("#favicon").attr("href", "static/images/highlogo.png");
+        blink_interval_exists = true;
+        blink_interval = setInterval(chat_blink, 2000);
+      }
     }
   }
   var color = intToARGB(hashCode(data.substring(0,data.indexOf(": ")))).substring(0,6);
