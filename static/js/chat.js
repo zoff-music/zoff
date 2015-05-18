@@ -31,7 +31,6 @@ $(".chat-tab").click(function(){
 
 socket.on("chat.all", function(inp)
 {
-  data = inp[0];
 
   if($("#chat-bar").position()["left"] != 0)
   {
@@ -48,9 +47,9 @@ socket.on("chat.all", function(inp)
     $("#favicon").attr("href", "static/images/highlogo.png");
     unseen = true;
   }
-  var color = intToARGB(hashCode(data.substring(0,data.indexOf(": ")))).substring(0,6);
-	$("#chatall").append("<li title='"+inp[1]+"'><span style='color:"+color+";'>"+data.substring(0,data.indexOf(": "))+"</span></li>");
-  var in_text = document.createTextNode(data.substring(data.indexOf(": ")));
+  var color = intToARGB(hashCode(inp[0])).substring(0,6);
+	$("#chatall").append("<li title='"+inp[2]+"'><span style='color:"+color+";'>"+inp[0]+"</span></li>");
+  var in_text = document.createTextNode(inp[1]);
   $("#chatall li:last")[0].appendChild(in_text);
   document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight
 });
@@ -77,9 +76,9 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
       }
     }
   }
-  var color = intToARGB(hashCode(data.substring(0,data.indexOf(": ")))).substring(0,6);
-	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data.substring(0,data.indexOf(": "))+"</span></li>");
-  var in_text = document.createTextNode(data.substring(data.indexOf(": ")));
+  var color = intToARGB(hashCode(data[0])).substring(0,6);
+	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data[0]+"</span></li>");
+  var in_text = document.createTextNode(data[1]);
   $("#chatchannel li:last")[0].appendChild(in_text);
   document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
 });
