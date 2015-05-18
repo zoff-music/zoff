@@ -66,7 +66,7 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
 {
   if($("#chat-bar").position()["left"] != 0)
   {
-    if(data.indexOf(":") >= 0){
+    if(data[1].indexOf(":") >= 0){
       //$("#chat-btn").css("color", "grey");
       if(!blink_interval_exists)
       {
@@ -77,7 +77,7 @@ socket.on("chat,"+chan.toLowerCase(), function(data)
     }
   }
   var color = intToARGB(hashCode(data[0])).substring(0,6);
-	$("#chatchannel").append("<li><span style='color:"+color+";'>"+data[0]+"</span></li>");
+	$("#chatchannel").append("<li><scrollTopan style='color:"+color+";'>"+data[0]+"</span></li>");
   var in_text = document.createTextNode(data[1]);
   $("#chatchannel li:last")[0].appendChild(in_text);
   document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
