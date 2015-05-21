@@ -191,6 +191,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
+#donate_form a {
+  padding-right:10px;
+}
+
 
 .tab a {
   background-color:rgba(0,0,0,0) !important;
