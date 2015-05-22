@@ -1,8 +1,6 @@
 var list;
 var toSend = "";
 var sendURL;
-var myScroll;
-var scroller = false;
 var showToggle =true;
 var chan = $("#chan").html();
 var list_html = $("#list-song-html").html();
@@ -84,30 +82,9 @@ function populate_list(msg, conf_only)
 				{
 					player_name = "#jplayer";
 				}else player_name = "#player";
-
-				if(scroller === false)
-				{
-					/*myScroll = new IScroll('#playlist', {
-						mouseWheel: true,
-						scrollY: true,
-					});
-					scroller = true;
-					myScroll.maxScrollY = myScroll.maxScrollY - 5;*/
-				}else
-				{
-					refresh_scroll();
-				}
 			}
 		}
-		if(window.mobilecheck())
-		{
-			//document.getElementById("player").style.display="none";
-			//ytplayer.pauseVideo();
-		}else{
-			//myScroll.refresh();
-			//myScroll.maxScrollY = myScroll.maxScrollY - 5;
-		}
-
+		
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
@@ -148,15 +125,6 @@ function importOldList(chan){
 
 	addVideos(ids);
 	document.getElementById("search").value = "";
-}
-
-function refresh_scroll()
-{
-	/*if(myScroll !== undefined)
-	{
-		myScroll.refresh();
-		myScroll.maxScrollY = myScroll.maxScrollY - 5;
-	}*/
 }
 
 function show(){
