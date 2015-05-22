@@ -87,12 +87,12 @@ function populate_list(msg, conf_only)
 
 				if(scroller === false)
 				{
-					myScroll = new IScroll('#playlist', {
+					/*myScroll = new IScroll('#playlist', {
 						mouseWheel: true,
 						scrollY: true,
 					});
 					scroller = true;
-					myScroll.maxScrollY = myScroll.maxScrollY - 5;
+					myScroll.maxScrollY = myScroll.maxScrollY - 5;*/
 				}else
 				{
 					refresh_scroll();
@@ -104,8 +104,8 @@ function populate_list(msg, conf_only)
 			//document.getElementById("player").style.display="none";
 			//ytplayer.pauseVideo();
 		}else{
-			myScroll.refresh();
-			myScroll.maxScrollY = myScroll.maxScrollY - 5;
+			//myScroll.refresh();
+			//myScroll.maxScrollY = myScroll.maxScrollY - 5;
 		}
 
 		$("#settings").css("visibility", "visible");
@@ -152,11 +152,11 @@ function importOldList(chan){
 
 function refresh_scroll()
 {
-	if(myScroll !== undefined)
+	/*if(myScroll !== undefined)
 	{
 		myScroll.refresh();
 		myScroll.maxScrollY = myScroll.maxScrollY - 5;
-	}
+	}*/
 }
 
 function show(){
