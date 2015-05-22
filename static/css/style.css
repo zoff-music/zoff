@@ -337,7 +337,7 @@ ul #chat-log{
     padding-right: 3%;
 }
 #playlist{
-    padding:0px 15px;
+    /*padding:0px 15px;*/
 }
 
 #player{
@@ -709,10 +709,20 @@ ul #chat-log{
     .title-container li {
       width: 71%;
     }
+
+    #wrapper {
+      height: 100%;
+      width: 113%;
+      overflow: auto;
+      padding-right: 7vh;
+      opacity: 1;
+    }
+
     #playlist{
-        padding:0px 15px;
-        overflow: hidden;
+        /*padding:0px 15px;*/
         height: 90%;
         height: calc(100% - 64px);
+        overflow: hidden;
+        padding:0px 0px 0px 0px;
     }
 }
