@@ -10,6 +10,27 @@
 
 /* GLOBAL STYLES */
 
+
+::-webkit-scrollbar-track
+{
+	background-color: lightgrey;
+  border-radius:0px;
+}
+
+::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: lightgrey;
+  border-radius:0px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #3E3E3E;
+  border-radius:0px;
+}
+
+
 body {
     display: flex;
     min-height: 100vh;
