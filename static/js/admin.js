@@ -59,7 +59,6 @@ socket.on("pw", function(msg)
 	}
 	$(".card-action").removeClass("hide");
 
-	refresh_scroll();
 	$("#admin-lock").removeClass("mdi-action-lock");
 	$("#admin-lock").addClass("mdi-action-lock-open clickable");
 	localStorage.setItem(chan.toLowerCase(), msg);
@@ -96,7 +95,6 @@ function log_out(){
 		adminpass = "";
 		document.getElementById("password").value = "";
 		Materialize.toast("Logged out", 4000);
-		refresh_scroll();
 	}else{
 		Materialize.toast("Not logged in", 4000);
 	}
