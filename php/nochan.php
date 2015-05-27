@@ -172,7 +172,7 @@ if(isset($_GET['chan'])){
     </footer>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
     <script type="text/javascript" src="static/js/nochan.js"></script>
 	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
