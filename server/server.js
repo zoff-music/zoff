@@ -18,6 +18,10 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
+process.on('uncaughtException', function(e){
+  console.log("\n" + new Date().toString() + "\n", e.stack || e);
+  process.exit(1);
+})
 
 io.on('connection', function(socket){
 
@@ -119,7 +123,7 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      console.log(name + " joined list " + coll);
+      //console.log(name + " joined list " + coll);
 
       check_inlist(coll, guid, socket, name);
 
@@ -167,10 +171,10 @@ io.on('connection', function(socket){
               })
             }else
             {
-                console.log(np[0]["title"] + " before if");
+                //console.log(np[0]["title"] + " before if");
                 if(startTime+parseInt(np[0]["duration"])<=get_time()+2)
                 {
-                  console.log(np[0]["title"] + " after if");
+                  //console.log(np[0]["title"] + " after if");
                   db.collection(coll).update({now_playing:true, id:id},
                     {$set:{
                       now_playing:false,
@@ -457,7 +461,7 @@ io.on('connection', function(socket){
     {
         if(contains(lists[coll], guid))
         {
-          console.log(name + " left list " + coll);
+          //console.log(name + " left list " + coll);
     	  	var index = lists[coll].indexOf(guid);
     	  	lists[coll].splice(index, 1);
     	  	io.sockets.emit(coll+",viewers", lists[coll].length);
