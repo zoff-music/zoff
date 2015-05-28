@@ -25,8 +25,6 @@ io.on('connection', function(socket){
 
   var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]).substring(0,8);
 
-  console.log(guid);
-
   socket.on('ping', function() {
     socket.emit("ok");
   });
@@ -101,6 +99,15 @@ io.on('connection', function(socket){
         socket.emit("playlists", playlists_to_send);
       }
     }
+  });
+
+  socket.on('now_playing', function(list)
+  {
+    db.collection(list).find({now_playing:true}, function(err, docs)
+    {
+      var title = docs[0]["title"];
+      socket.emit("title", title);
+    });
   });
 
   socket.on('list', function(list)
@@ -209,7 +216,8 @@ io.on('connection', function(socket){
   {
     if(arr !== undefined && arr !== null && arr != "")
     {
-      check_inlist(coll, guid, socket, name);
+      if(arr.length == 5) coll = arr[4];
+      else check_inlist(coll, guid, socket, name);
 
     	var id = arr[0];
     	var title = arr[1];
