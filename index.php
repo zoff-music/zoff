@@ -25,7 +25,7 @@
                 </div>
 
                 <ul class="title-container">
-                    <li class="song-title" id="song-title" onclick="showSearch();">
+                    <li class="song-title truncate" id="song-title" onclick="showSearch();">
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
