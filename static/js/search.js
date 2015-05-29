@@ -267,7 +267,7 @@ function addVideos(ids){
 		$.each(response.items, function(i,song)
 		{
 			var duration=durationToSeconds(song.contentDetails.duration);
-			if(!longsongs || secs<720){
+			if(!longsongs || duration<720){
 				enc_title=encodeURIComponent(song.snippet.title).replace(/'/g, "\\\'");
 				submit(song.id, enc_title, duration);
 			}
