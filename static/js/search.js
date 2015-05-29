@@ -97,11 +97,10 @@ $(document).keyup(function(e) {
 		if(contains($("#song-title").attr("class").split(" "), "hide"))
 			$("#song-title").toggleClass("hide");
 
-		if(searching)
+		if($("#search-btn i").attr('class') == "mdi-navigation-close")
 		{
 			$("#search-btn i").toggleClass("mdi-navigation-close");
 			$("#search-btn i").toggleClass("mdi-action-search");
-			searching = false;
 		}
 		$("#results").toggleClass("hide");
 	}
@@ -239,7 +238,6 @@ function search(search_input){
 			$(".main").removeClass("blurT");
 			$("#controls").removeClass("blurT");
 			$(".main").removeClass("clickthrough");
-			searching = false;
 		}
 
 }
