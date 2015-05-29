@@ -2,6 +2,7 @@ var old_input="";
 var timer = 0;
 var api_key = "***REMOVED***";
 var result_html = $("#temp-results-container").html();
+var searching = false;
 $( "#results" ).empty();
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
 
@@ -96,8 +97,12 @@ $(document).keyup(function(e) {
 		if(contains($("#song-title").attr("class").split(" "), "hide"))
 			$("#song-title").toggleClass("hide");
 
-		$("#search-btn i").toggleClass("mdi-navigation-close");
-		$("#search-btn i").toggleClass("mdi-action-search");
+		if(searching)
+		{
+			$("#search-btn i").toggleClass("mdi-navigation-close");
+			$("#search-btn i").toggleClass("mdi-action-search");
+			searching = false;
+		}
 		$("#results").toggleClass("hide");
 	}
 
@@ -149,6 +154,7 @@ function search(search_input){
 
 		$(".search_results").html('');
 		if(window.search_input !== ""){
+			searching = true;
 			var keyword= encodeURIComponent(window.search_input);
 
 			//response= x
@@ -233,6 +239,7 @@ function search(search_input){
 			$(".main").removeClass("blurT");
 			$("#controls").removeClass("blurT");
 			$(".main").removeClass("clickthrough");
+			searching = false;
 		}
 
 }
