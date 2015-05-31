@@ -211,6 +211,13 @@ hide mdi-action-visibility mdi-action-visibility-off
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
+
+@media only screen and (min-width: 993px){
+	.toast {
+	  float: left;
+	}
+}
+
 #donate_form a {
   padding-right:10px;
 }
