@@ -127,8 +127,9 @@ io.on('connection', function(socket){
     	list = list.split(',');
     	coll = list[0].toLowerCase();
     	//guid = list[1];
-      socket.emit("guid", rndName(guid));
-      console.log(coll);
+
+      socket.emit("guid", socket.id);
+
       //console.log(name + " joined list " + coll);
 
       check_inlist(coll, guid, socket, name);
