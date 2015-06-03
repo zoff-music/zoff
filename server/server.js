@@ -345,7 +345,7 @@ io.on('connection', function(socket){
       		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "") || error)
       		{
       			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
-              || (docs[0]["adminpass"] == adminpass && docs[0]["adminpass"] != ""))
+              || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != ""))
       			{
       				change_song(coll);
               socket.emit("toast", "skip");
