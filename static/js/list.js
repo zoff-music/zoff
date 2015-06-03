@@ -84,7 +84,7 @@ function populate_list(msg, conf_only)
 				}else player_name = "#player";
 			}
 		}
-		
+
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");

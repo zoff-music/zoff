@@ -114,6 +114,11 @@ io.on('connection', function(socket){
     });
   });
 
+  socket.on('guid', function(arr)
+  {
+    io.sockets.emit(arr[0], [arr[1], arr[2]]);
+  });
+
   socket.on('list', function(list)
   {
     if(list !== undefined && list !== null && list != "")
@@ -122,7 +127,8 @@ io.on('connection', function(socket){
     	list = list.split(',');
     	coll = list[0].toLowerCase();
     	//guid = list[1];
-
+      socket.emit("guid", rndName(guid));
+      console.log(coll);
       //console.log(name + " joined list " + coll);
 
       check_inlist(coll, guid, socket, name);
@@ -453,6 +459,22 @@ io.on('connection', function(socket){
       };
     }else
       socket.emit("toast", "wrongpass");
+  });
+
+  socket.on('change_channel', function()
+  {
+    if(in_list)
+    {
+        if(contains(lists[coll], guid))
+        {
+          //console.log(name + " left list " + coll);
+    	  	var index = lists[coll].indexOf(guid);
+    	  	lists[coll].splice(index, 1);
+    	  	io.sockets.emit(coll+",viewers", lists[coll].length);
+          io.sockets.emit('chat,'+coll, [name, " left"]);
+        }
+
+    }
   });
 
   socket.on('disconnect', function()

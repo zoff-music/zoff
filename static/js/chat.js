@@ -14,6 +14,8 @@ function chat(data)
   return;
 }
 
+setup_chat_listener(chan);
+
 document.getElementById("chat-btn").addEventListener("click", function(){
     console.log("clicked");
     $("#text-chat-input").focus();
@@ -62,26 +64,29 @@ $(window).focus(function(){
   }
 });
 
-socket.on("chat,"+chan.toLowerCase(), function(data)
+function setup_chat_listener(channel)
 {
-  if($("#chat-bar").position()["left"] != 0)
+  socket.on("chat,"+channel.toLowerCase(), function(data)
   {
-    if(data[1].indexOf(":") >= 0){
-      //$("#chat-btn").css("color", "grey");
-      if(!blink_interval_exists)
-      {
-        $("#favicon").attr("href", "static/images/highlogo.png");
-        blink_interval_exists = true;
-        blink_interval = setInterval(chat_blink, 2000);
+    if($("#chat-bar").position()["left"] != 0)
+    {
+      if(data[1].indexOf(":") >= 0){
+        //$("#chat-btn").css("color", "grey");
+        if(!blink_interval_exists)
+        {
+          $("#favicon").attr("href", "static/images/highlogo.png");
+          blink_interval_exists = true;
+          blink_interval = setInterval(chat_blink, 2000);
+        }
       }
     }
-  }
-  var color = intToARGB(hashCode(data[0])).substring(0,6);
-	$("#chatchannel").append("<li><scrollTopan style='color:"+color+";'>"+data[0]+"</span></li>");
-  var in_text = document.createTextNode(data[1]);
-  $("#chatchannel li:last")[0].appendChild(in_text);
-  document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
-});
+    var color = intToARGB(hashCode(data[0])).substring(0,6);
+  	$("#chatchannel").append("<li><scrollTopan style='color:"+color+";'>"+data[0]+"</span></li>");
+    var in_text = document.createTextNode(data[1]);
+    $("#chatchannel li:last")[0].appendChild(in_text);
+    document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
+  });
+}
 
 function chat_blink()
 {
