@@ -23,56 +23,60 @@ var paused = false;
 var playing = false;
 
 //play new song
-socket.on(chan.toLowerCase()+",np", function(obj)
+function setup_youtube_listener(channel)
 {
-	console.log(obj);
-	if(obj[0].length == 0){
-		console.log("Empty list");
-		document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
-		$("#player_overlay").height($("#player").height());
-		if(!window.mobilecheck())
-			$("#player_overlay").toggleClass("hide");
-		importOldList(chan.toLowerCasettings-barse());
-	}
-	else{
-		console.log("gotten new song");
-		$("#player_overlay").addClass("hide");
-		video_id = obj[0][0]["id"];
-		conf = obj[1][0];
-		time = obj[2];
-		seekTo = time - conf["startTime"];
-		song_title = obj[0][0]["title"];
-		getTitle(song_title, viewers);
-		if(player_ready && !window.mobilecheck())
-		{
-			if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
-			{
-				ytplayer.loadVideoById(video_id);
-				setBGimage(video_id);
-				notifyUser(video_id, song_title);
-				if(paused)
-					ytplayer.pauseVideo();
-			}else
-				console.log("like");
-			if(!paused)
-				ytplayer.playVideo();
-			if(ytplayer.getDuration() > seekTo)
-				ytplayer.seekTo(seekTo);
+	socket.on(channel.toLowerCase()+",np", function(obj)
+	{
+		console.log(obj);
+		if(obj[0].length == 0){
+			console.log("Empty list");
+			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
+			$("#player_overlay").height($("#player").height());
+			if(!window.mobilecheck())
+				$("#player_overlay").toggleClass("hide");
+			importOldList(channel.toLowerCasettings-barse());
 		}
-		else
+		else{
+			console.log("gotten new song");
+			$("#player_overlay").addClass("hide");
+			video_id = obj[0][0]["id"];
+			conf = obj[1][0];
+			time = obj[2];
+			seekTo = time - conf["startTime"];
+			song_title = obj[0][0]["title"];
 			getTitle(song_title, viewers);
-	}
-});
+			if(player_ready && !window.mobilecheck())
+			{
+				if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+				{
+					ytplayer.loadVideoById(video_id);
+					setBGimage(video_id);
+					notifyUser(video_id, song_title);
+					if(paused)
+						ytplayer.pauseVideo();
+				}else
+					console.log("like");
+				if(!paused)
+					ytplayer.playVideo();
+				if(ytplayer.getDuration() > seekTo)
+					ytplayer.seekTo(seekTo);
+			}
+			else
+				getTitle(song_title, viewers);
+		}
+	});
 
-socket.on(chan.toLowerCase()+",viewers", function(view)
-{
-	viewers = view;
-	if(song_title !== undefined)
-		getTitle(song_title, viewers);
-});
+	socket.on(channel.toLowerCase()+",viewers", function(view)
+	{
+		viewers = view;
+		if(song_title !== undefined)
+			getTitle(song_title, viewers);
+	});
+}
 
 $(document).ready(function()
 {
+	setup_youtube_listener(chan);
 	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
