@@ -52,13 +52,14 @@ function setup_youtube_listener(channel)
 					ytplayer.loadVideoById(video_id);
 					setBGimage(video_id);
 					notifyUser(video_id, song_title);
+					ytplayer.seekTo(seekTo);
 					if(paused)
 						ytplayer.pauseVideo();
 				}else
 					console.log("like");
 				if(!paused)
 					ytplayer.playVideo();
-				if(ytplayer.getDuration() > seekTo)
+				if(ytplayer.getDuration() > seekTo || ytplayer.getDuration() == 0)
 					ytplayer.seekTo(seekTo);
 			}
 			else
