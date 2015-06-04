@@ -1,17 +1,17 @@
 var began = false;
+var id
 
-socket.on("guid", function(guid)
+socket.on("id", function(id)
 {
-  console.log(guid);
   if(!began)
   {
-    socket.on(guid, function(arr)
+    socket.on(id, function(arr)
     {
-        console.log(arr);
         if(arr[0] == "volume")
         {
           $("#volume").slider("value", arr[1]);
           ytplayer.setVolume(arr[1]);
+          localStorage.setItem("volume", arr[1]);
         }else if(arr[0] == "channel")
         {
           socket.emit("change_channel");
