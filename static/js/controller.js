@@ -3,6 +3,7 @@ var id
 
 socket.on("id", function(id)
 {
+  console.log(id);
   if(!began)
   {
     socket.on(id, function(arr)
