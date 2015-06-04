@@ -30,6 +30,8 @@ socket.on("id", function(id)
           setup_chat_listener(chan);
 
           socket.emit("list", chan.toLowerCase()+",unused");
+
+          window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
         }
     });
   }
