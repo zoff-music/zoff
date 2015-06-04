@@ -114,7 +114,7 @@ io.on('connection', function(socket){
     });
   });
 
-  socket.on('guid', function(arr)
+  socket.on('id', function(arr)
   {
     io.sockets.emit(arr[0], [arr[1], arr[2]]);
   });
@@ -128,7 +128,7 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      socket.emit("guid", socket.id);
+      socket.emit("id", rndName(socket.id).substring(0,8));
 
       //console.log(name + " joined list " + coll);
 
