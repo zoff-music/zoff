@@ -28,11 +28,17 @@ socket.on("id", function(id)
 
           setup_youtube_listener(chan);
           setup_chat_listener(chan);
+          display_logged_out();
 
           socket.emit("list", chan.toLowerCase()+",unused");
 
           window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
-        }
+        }else if(arr[0] == "pause")
+          ytplayer.pauseVideo()
+        else if(arr[0] == "play")
+          ytplayer.playVideo();
+        else if(arr[0] == "skip")
+          skip();
     });
   }
   began = true;

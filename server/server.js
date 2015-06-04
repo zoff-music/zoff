@@ -116,7 +116,8 @@ io.on('connection', function(socket){
 
   socket.on('id', function(arr)
   {
-    io.sockets.emit(arr[0], [arr[1], arr[2]]);
+    if(arr.length == 3)
+      io.sockets.emit(arr[0], [arr[1], arr[2]]);
   });
 
   socket.on('list', function(list)

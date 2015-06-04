@@ -754,6 +754,14 @@ ul #chat-log{
     }
 }
 
+#remote-controls {
+	font-size:50px !important;
+}
+
+#remote-controls i {
+	cursor:pointer;
+}
+
 #volume-controll {
     cursor:pointer;
   float:left;

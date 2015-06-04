@@ -84,20 +84,27 @@ function pass_save()
 function log_out(){
 	if(localStorage[chan.toLowerCase()]){
 		localStorage.removeItem(chan.toLowerCase());
-		w_p = true;
-		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-		for (var i = 0; i < names.length; i++) {
-				$("input[name="+names[i]+"]").attr("disabled", true);
-		}
-		$("#admin-lock").addClass("mdi-action-lock");
-		$("#admin-lock").removeClass("mdi-action-lock-open clickable");
-		$(".card-action").addClass("hide");
-		adminpass = "";
-		document.getElementById("password").value = "";
+		display_logged_out();
 		Materialize.toast("Logged out", 4000);
 	}else{
 		Materialize.toast("Not logged in", 4000);
 	}
+}
+
+function display_logged_out()
+{
+	w_p = true;
+	names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+	for (var i = 0; i < names.length; i++) {
+			$("input[name="+names[i]+"]").attr("disabled", true);
+	}
+	if(!contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
+		$("#admin-lock").addClass("mdi-action-lock");
+	$("#admin-lock").removeClass("mdi-action-lock-open clickable");
+	if($(".card-action").length != 0 && !contains($(".card-action").attr("class").split(" "), "hide"))
+		$(".card-action").addClass("hide");
+	adminpass = "";
+	document.getElementById("password").value = "";
 }
 
 //function used in html onlick
