@@ -762,7 +762,7 @@ ul #chat-log{
 	cursor:pointer;
 }
 
-#volume-controll {
+/*#volume-controll {
     cursor:pointer;
   float:left;
     position: relative;
@@ -794,4 +794,4 @@ ul #chat-log{
     cursor: pointer;
     outline: none;
     border: none;
-}
+}*/
