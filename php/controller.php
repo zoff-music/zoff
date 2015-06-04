@@ -71,6 +71,11 @@
                         </datalist>
                 </div>
             </form>
+            <div id="remote-controls" style="display:none;">
+              <i id="remote_play" class="mdi-av-play-arrow"></i>
+              <i id="remote_pause" class="mdi-av-pause"></i>
+              <i id="remote_skip" class="mdi-av-skip-next"></i>
+            </div>
             <div id="volume-controll" style="display:none;"></div>
         </div>
 

@@ -7,6 +7,21 @@ $(document).ready(function (){
     socket = io.connect('http://'+window.location.hostname+':3000');
 });
 
+document.getElementById("remote_play").addEventListener("click", function()
+{
+  socket.emit("id", [id, "play", "mock"]);
+});
+
+document.getElementById("remote_pause").addEventListener("click", function()
+{
+  socket.emit("id", [id, "pause", "mock"]);
+});
+
+document.getElementById("remote_skip").addEventListener("click", function()
+{
+  socket.emit("id", [id, "skip", "mock"]);
+});
+
 function controll()
 {
   if(start)
@@ -14,7 +29,10 @@ function controll()
     id = $("#search").val().toLowerCase();
     $("#search").val("");
     start = false;
+
     $("#volume-controll").css("display", "block");
+    $("#remote-controls").css("display", "block");
+
     $("#search").attr("length", "18");
     $("#search").attr("maxlength", "18");
     $("#forsearch").html("Type new channel name to change to")
