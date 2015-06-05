@@ -66,6 +66,7 @@ $(window).focus(function(){
 
 function setup_chat_listener(channel)
 {
+  document.getElementsByClassName("chat-tab")[0].innerHTML = channel;
   socket.on("chat,"+channel.toLowerCase(), function(data)
   {
     if($("#chat-bar").position()["left"] != 0)
