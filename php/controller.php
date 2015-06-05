@@ -1,13 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-  <?php include("header.php"); ?>
+    <title>Zöff Remote</title>
+    <?php include("header.php"); ?>
 </head>
 <body>
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo hide-on-small-only">
-                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
+                <a href="zoff.no" class="brand-logo hide-on-small-only">
+                    <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -49,6 +50,9 @@
     </header>
 
     <main class="center-align container">
+    <div class="section">
+    <h3 id="remote-text"></h3>
+    </div>
         <div class="section">
             <form class="row" id="base" onsubmit="controll();return false;">
                     <div class="input-field col s12">
@@ -65,18 +69,26 @@
                             maxlength="8"
                             autocomplete
                             length="8"
+                            value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
                         />
                         <label for="search" id="forsearch">Type ID of host to be controlled</label>
-                        <datalist id="searches">
-                        </datalist>
                 </div>
             </form>
             <div id="remote-controls" style="display:none;">
-              <i id="remote_play" class="mdi-av-play-arrow"></i>
-              <i id="remote_pause" class="mdi-av-pause"></i>
-              <i id="remote_skip" class="mdi-av-skip-next"></i>
+                <a class="chan-link waves-effect btn green">
+                    <i id="remote_play" class="mdi-av-play-arrow"></i>
+                </a>
+                <a class="chan-link waves-effect btn gray">
+                    <i id="remote_pause" class="mdi-av-pause"></i>
+                </a>
+                <a class="chan-link waves-effect btn blue">
+                    <i id="remote_skip" class="mdi-av-skip-next"></i>
+                </a>              
+              
             </div>
-            <div id="volume-controll" style="display:none;"></div>
+            <p class="range-field">
+                <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
+            </p>
         </div>
 
         <div class="section">
@@ -102,19 +114,19 @@
                     <ul>
                       <li>
                           <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                              <img title="Get it on Google Play" src="static/images/google_play.png">
+                              <img title="Get it on Google Play" src="/static/images/google_play.png">
                           </a>
                           <a href="https://github.com/nixolas1/Zoff">
-                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
+                              <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png">
                           </a>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/facebook.png">Share on Facebook
+                                  <img class="left" src="/static/images/facebook.png">Share on Facebook
                               </a>
                           </p>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/twitter.png">Share on Twitter
+                                  <img class="left" src="/static/images/twitter.png">Share on Twitter
                               </a>
                           </p>
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
@@ -146,8 +158,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="static/js/lib/materialize.js"></script>
-    <script type="text/javascript" src="static/js/mobilecontroller.js"></script>
+    <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
+    <script type="text/javascript" src="/static/js/remotecontroller.js"></script>
 	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	</body>
 </html>

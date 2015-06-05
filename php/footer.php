@@ -16,19 +16,19 @@
                 <ul>
                     <li>
                         <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                            <img title="Get it on Google Play" src="static/images/google_play.png">
+                            <img title="Get it on Google Play" src="/static/images/google_play.png">
                         </a>
                         <a href="https://github.com/nixolas1/Zoff">
-                            <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png">
+                            <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png">
                         </a>
                         <p>
                             <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
-                                <img class="left" src="static/images/facebook.png">Share on&nbspFacebook
+                                <img class="left" src="/static/images/facebook.png">Share on&nbspFacebook
                             </a>
                         </p>
                         <p>
                             <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
-                                <img class="left" src="static/images/twitter.png">Share on&nbspTwitter
+                                <img class="left" src="/static/images/twitter.png">Share on&nbspTwitter
                             </a>
                         </p>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
@@ -58,10 +58,10 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<!--<script type="text/javascript" src="static/js/lib/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
+<!--<script type="text/javascript" src="/static/js/lib/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
 <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-<!--<script type="text/javascript" src="static/js/lib/iscroll-min.js"></script>-->
+<!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 <script>
     var socket = io.connect('http://'+window.location.hostname+':3000');
@@ -73,16 +73,16 @@
 </script>
 
 
-<script type="text/javascript" src="static/js/list.js"></script>
-<script type="text/javascript" src="static/js/searchlist.js"></script>
-<script type="text/javascript" src="static/js/playercontrols.js"></script>
-<script type="text/javascript" src="static/js/youtube.js"></script>
-<script type="text/javascript" src="static/js/search.js"></script>
-<script type="text/javascript" src="static/js/admin.js"></script>
-<script type="text/javascript" src="static/js/chat.js"></script>
-<script type="text/javascript" src="static/js/hostcontroller.js"></script>
-<script type="text/javascript" src="static/js/remotecontroller.js"></script>
-<script type="text/javascript" src="static/js/lib/materialize.js"></script>
+<script type="text/javascript" src="/static/js/list.js"></script>
+<script type="text/javascript" src="/static/js/searchlist.js"></script>
+<script type="text/javascript" src="/static/js/playercontrols.js"></script>
+<script type="text/javascript" src="/static/js/youtube.js"></script>
+<script type="text/javascript" src="/static/js/search.js"></script>
+<script type="text/javascript" src="/static/js/admin.js"></script>
+<script type="text/javascript" src="/static/js/chat.js"></script>
+<script type="text/javascript" src="/static/js/hostcontroller.js"></script>
+<script type="text/javascript" src="/static/js/remotecontroller.js"></script>
+<script type="text/javascript" src="/static/js/lib/materialize.js"></script>
 
 <!-- Piwik tracking -->
 <script type="text/javascript">
