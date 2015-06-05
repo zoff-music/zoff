@@ -100,6 +100,12 @@
             <div class="collapsible-body">
                 <ul>
                     <li>
+                    <a id="code-link">
+                        <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player2">
+                        <h4 id="code-text">ABBADUR</h4>
+                    </a>           
+                    </li>
+                    <li>
                     <form class="row" id="base" onsubmit="controll();return false;">
                         <div class="input-field">
                             <input
