@@ -89,7 +89,7 @@
             <!--<p class="range-field" onclick="console.log('test');">
                 <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>-->
-            <div id="volume-control"></div>
+            <div id="volume-control" style="display:none;"></div>
         </div>
 
         <div class="section">
