@@ -80,7 +80,7 @@
                 </div>
             </form>
 
-            <div id="remote-controls" style="display:none;">
+            <div class="rc" id="remote-controls">
                 <a class="chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
@@ -92,16 +92,9 @@
                 </a>
             </div>
             
-            <i class="mdi-av-volume-up slider-vol"></i>
-            <div id="volume-control" style="display:none;" title="Volume">
-                
-            </div>
+            <i class="mdi-av-volume-up slider-vol rc"></i>
+            <div class="rc" id="volume-control" title="Volume"></div>
 
-
-            <!--<p class="range-field" onclick="console.log('test');">
-                <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
-            </p>-->
-            
         </div>
 
         <div class="section about-remote">
