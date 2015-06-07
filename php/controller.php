@@ -12,9 +12,10 @@
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="modal-trigger" onclick="$('#about').openModal()">About</a></li>
-                    <li><a class="modal-trigger" onclick="$('#legal').openModal()">Legal</a></li>
-                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
+                    <li><a class="waves-effect waves-green" title="Remote control a Zöff player" href="remote">Remote</a></li>
+                    <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                    <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
+                    <li><a class="waves-effect waves-purple" href="https://github.com/nixolas1/Zoff">GitHub</a></li>
                 </ul>
             </div>
         </nav>
@@ -54,26 +55,6 @@
     <h3 id="remote-text"></h3>
     </div>
         <div class="section">
-            <form class="row" id="base" onsubmit="controll();return false;">
-                    <div class="input-field col s12">
-                        <input
-                            class="input-field"
-                            type="text"
-                            id="search"
-                            name="chan"
-                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                            autocomplete="off"
-                            list="searches"
-                            required pattern="[a-zA-Z0-9]+"
-                            spellcheck="false"
-                            maxlength="8"
-                            autocomplete
-                            length="8"
-                            value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
-                        />
-                        <label for="search" id="forsearch">Type ID of host to be controlled</label>
-                </div>
-            </form>
             <div id="remote-controls" style="display:none;">
                 <a class="chan-link waves-effect btn green">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
@@ -87,12 +68,35 @@
               
             </div>
             <p class="range-field">
-                <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
+                <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>
+            <form class="row" id="base" onsubmit="control();return false;">
+                    <div class="input-field col s12">
+                        <input
+                            class="input-field"
+                            type="text"
+                            id="search"
+                            name="id"
+                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                            autocomplete="off"
+                            list="searches"
+                            required pattern="[a-zA-Z0-9]+"
+                            spellcheck="false"
+                            maxlength="8"
+                            autocomplete
+                            length="8"
+                            value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
+                        />
+                        <label for="search" id="forsearch">Type ID of host to be controlled</label>
+                </div>
+            </form>
         </div>
 
         <div class="section">
-
+            <b>Here you can control another Zöff player from any device.</b>
+            <br>
+            To find the ID of your player, click the Conf <i class="mdi-action-settings"></i> icon on the top right of the player page, then "Remote Control".
+            <br>You can either scan the QR code or type the ID manually.
         </div>
     </main>
 

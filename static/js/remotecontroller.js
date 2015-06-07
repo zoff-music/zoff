@@ -27,14 +27,19 @@ document.getElementById("remote_skip").addEventListener("click", function()
 
 document.getElementById("volume-control").addEventListener("click", function()
 {
-   socket.emit("id", [id, "volume", $("#volume-control").val()]);
+  console.log("Sending...")
+  socket.emit("id", [id, "volume", $("#volume-control").val()]);
+  console.log("Sent new vol signal")
 });
 
 function control()
 {
+  console.log("Start controlling")
   if(start)
   {
-    if(!id)id = $("#code-input").val().toLowerCase();
+    if($("#code-input").val())
+      id = $("#code-input").val().toLowerCase();
+    console.log("id="+id)
     $("#code-input").val("");
     start = false;
 
@@ -49,5 +54,5 @@ function control()
     socket.emit("id", [id, "channel", $("#code-input").val().toLowerCase()]);
     $("#code-input").val("");
   }
-
+  return false;
 }

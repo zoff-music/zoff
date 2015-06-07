@@ -101,11 +101,12 @@
                 <ul>
                     <li>
                     <a id="code-link">
-                        <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player2">
+                        <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player">
                         <h4 id="code-text">ABBADUR</h4>
-                    </a>           
+                    </a>   
+                    <span>You can control this Zöff instance from another device by going to <b>http://zoff.no/remote</b><span>        
                     </li>
-                    <li>
+                    <!--<li>
                     <form class="row" id="base" onsubmit="controll();return false;">
                         <div class="input-field">
                             <input
@@ -138,6 +139,7 @@
                       <input type="range" id="volume-control" style="display:none;" min="0" max="100" />
                     </p>
                     </li>
+                    -->
                 </ul>
             </div>
         </li>
