@@ -32,16 +32,12 @@ document.getElementById("volume-control").addEventListener("click", function()
 {
    socket.emit("id", [id, "volume", $("#volume-control").val()]);
 });*/
->>>>>>> 126fe2fec4a1d36ec179e889d4d7162118b4fc49
 
 function control()
 {
-  console.log("Start controlling")
   if(start)
   {
-    if($("#code-input").val())
-      id = $("#code-input").val().toLowerCase();
-    console.log("id="+id)
+    if(!id)id = $("#code-input").val().toLowerCase();
     $("#code-input").val("");
     start = false;
 
@@ -55,24 +51,24 @@ function control()
     $("#forsearch").html("Type new channel name to change to");
 
     $("#volume-control").slider({
-  	    min: 0,
-  	    max: 100,
-  	    value: 100,
-  			range: "min",
-  			animate: true,
-  	    /*slide: function(event, ui) {
+        min: 0,
+        max: 100,
+        value: 100,
+        range: "min",
+        animate: true,
+        /*slide: function(event, ui) {
           console.log(ui.value);
-  				//localStorage.setItem("volume", ui.value);
-  	    },*/
+          //localStorage.setItem("volume", ui.value);
+        },*/
         stop:function(event, ui) {
           socket.emit("id", [id, "volume", ui.value]);
           //console.log(ui.value);
         }
-  	});
+    });
   }else
   {
     socket.emit("id", [id, "channel", $("#search").val().toLowerCase()]);
     $("#search").val("");
   }
-  return false;
+
 }

@@ -100,47 +100,12 @@
             <div class="collapsible-body">
                 <ul>
                     <li>
-                    <a id="code-link" target="_blank">
-                        <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player">
-                        <h4 id="code-text">ABBADUR</h4>
-                    </a>   
-                    <span>You can control this Zöff instance from another device by going to <b>http://zoff.no/remote</b><span>        
+                        <a id="code-link" target="_blank">
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player">
+                            <h4 id="code-text">ABBADUR</h4>
+                        </a>   
+                        <a>You can control this Zöff instance from another device by going to <b>http://zoff.no/remote</b><a>        
                     </li>
-                    <!--
-                    <li>
-                    <form class="row" id="base" onsubmit="controll();return false;">
-                        <div class="input-field">
-                            <input
-                                class="input-field"
-                                type="text"
-                                id="code-input"
-                                name="chan"
-                                title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                                autocomplete="off"
-                                list="searches"
-                                required pattern="[a-zA-Z0-9]+"
-                                spellcheck="false"
-                                maxlength="8"
-                                autocomplete
-                                length="8"
-                            />
-                            <label for="code-input" id="forcode">Type ID of host to be controlled</label>
-                        </div>
-                    </form>
-                    </li>
-                    <li>
-                    <div id="remote-controls" style="display:none;">
-                      <i id="remote_play" class="mdi-av-play-arrow"></i>
-                      <i id="remote_pause" class="mdi-av-pause"></i>
-                      <i id="remote_skip" class="mdi-av-skip-next"></i>
-                    </div>
-                    </li>
-                    <li>
-                    <p class="range-field">
-                      <input type="range" id="volume-control" style="display:none;" min="0" max="100" />
-                    </p>
-                    </li>
-                    -->
                 </ul>
             </div>
         </li>

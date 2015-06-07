@@ -56,6 +56,30 @@
     </div>
         <div class="section">
 
+            <!--<p class="range-field">
+                <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
+            </p>-->
+
+            <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
+                    <div class="input-field col s12">
+                        <input
+                            class="input-field"
+                            type="text"
+                            id="search"
+                            name="chan"
+                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                            autocomplete="off"
+                            list="searches"
+                            required pattern="[a-zA-Z0-9]+"
+                            spellcheck="false"
+                            maxlength="8"
+                            autocomplete
+                            length="8"
+                        />
+                        <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
+                </div>
+            </form>
+
             <div id="remote-controls" style="display:none;">
                 <a class="chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
@@ -68,32 +92,11 @@
                 </a>
             </div>
             
-            <div id="volume-control" style="display:none;"></div>
+            <i class="mdi-av-volume-up slider-vol"></i>
+            <div id="volume-control" style="display:none;" title="Volume">
+                
+            </div>
 
-            <!--<p class="range-field">
-                <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
-            </p>-->
-
-            <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
-                    <div class="input-field col s12">
-                        <input
-                            class="input-field"
-                            type="text"
-                            id="search"
-                            name="id"
-                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                            autocomplete="off"
-                            list="searches"
-                            required pattern="[a-zA-Z0-9]+"
-                            spellcheck="false"
-                            maxlength="8"
-                            autocomplete
-                            length="8"
-                            value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
-                        />
-                        <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
-                </div>
-            </form>
 
             <!--<p class="range-field" onclick="console.log('test');">
                 <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
@@ -101,7 +104,7 @@
             
         </div>
 
-        <div class="section">
+        <div class="section about-remote">
             <b>Here you can control another Zöff player from any device.</b>
             <br>
             To find the ID of your player, click the Conf <i class="mdi-action-settings"></i> icon on the top right of the player page, then "Remote Control".
