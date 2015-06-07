@@ -54,7 +54,7 @@
     <h3 id="remote-text"></h3>
     </div>
         <div class="section">
-            <form class="row" id="base" onsubmit="controll();return false;">
+            <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
@@ -75,20 +75,21 @@
                 </div>
             </form>
             <div id="remote-controls" style="display:none;">
-                <a class="chan-link waves-effect btn green">
+                <a class="chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
-                <a class="chan-link waves-effect btn gray">
+                <a class="chan-link waves-effect btn gray" onclick="pause();">
                     <i id="remote_pause" class="mdi-av-pause"></i>
                 </a>
-                <a class="chan-link waves-effect btn blue">
+                <a class="chan-link waves-effect btn blue" onclick="skip();">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
-                </a>              
-              
+                </a>
+
             </div>
-            <p class="range-field">
+            <!--<p class="range-field" onclick="console.log('test');">
                 <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
-            </p>
+            </p>-->
+            <div id="volume-control"></div>
         </div>
 
         <div class="section">
