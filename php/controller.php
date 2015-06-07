@@ -71,7 +71,7 @@
                             length="8"
                             value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
                         />
-                        <label for="search" id="forsearch">Type ID of host to be controlled</label>
+                        <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
                 </div>
             </form>
             <div id="remote-controls" style="display:none;">
