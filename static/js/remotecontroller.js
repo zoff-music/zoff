@@ -34,6 +34,7 @@ function control()
 {
   if(start)
   {
+    id = id.toLowerCase();
     if(!id)id = $("#code-input").val().toLowerCase();
     $("#code-input").val("");
     start = false;
