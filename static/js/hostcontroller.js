@@ -3,16 +3,22 @@ var id
 
 socket.on("id", function(id)
 {
-  console.log(id);
+  console.log("Unique remote control ID: " + id);
+  var codeURL = "http://"+window.location.hostname+"/remote/"+id;
+  $("#code-text").text(id.toUpperCase())
+  $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+  $("#code-link").attr("href", codeURL);
   if(!began)
   {
     socket.on(id, function(arr)
     {
+        console.log(arr);
         if(arr[0] == "volume")
         {
           $("#volume").slider("value", arr[1]);
           ytplayer.setVolume(arr[1]);
           localStorage.setItem("volume", arr[1]);
+          choose_button(arr[1], false);
         }else if(arr[0] == "channel")
         {
           socket.emit("change_channel");
