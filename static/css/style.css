@@ -762,7 +762,15 @@ ul #chat-log{
 	cursor:pointer;
 }
 
-#volume-controll {
+#code-text{
+  color:#000;
+}
+#code-link{
+  height: auto;
+  text-align: center;
+}
+
+#volume-control {
     cursor:pointer;
   float:left;
     position: relative;
@@ -776,17 +784,17 @@ ul #chat-log{
     border-radius: 2px;
 }
 
-#volume-controll .ui-slider-range-min {
+#volume-control .ui-slider-range-min {
     height:5px;
     width: 75px;
     position: absolute;
-    background-color:rgba(55, 255, 0, 1);
+    background-color:rgba(47, 47, 47, 1);
     border: none;
     outline: none;
     border-radius: 2px;
 }
 
-#volume-controll .ui-slider-handle {
+#volume-control .ui-slider-handle {
     height:15px;
     width:5px;
     background-color:black;
