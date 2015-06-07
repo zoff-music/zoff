@@ -770,6 +770,12 @@ ul #chat-log{
   text-align: center;
 }
 
+
+#code-link + a{
+  line-height: normal;
+  color: black;
+  text-align: center;
+}
 #volume-control {
     cursor:pointer;
   float:left;
@@ -795,11 +801,22 @@ ul #chat-log{
 }
 
 #volume-control .ui-slider-handle {
-    height:15px;
-    width:5px;
-    background-color:black;
-    position: absolute;
-    cursor: pointer;
-    outline: none;
-    border: none;
+  height: 15px;
+  width: 36px;
+  background-color: rgb(255, 44, 44);
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 17px;
+  margin-left: -17px;
+}
+
+.slider-vol{
+  float: left;
+  font-size: 22px;
+}
+
+.about-remote{
+  padding-top: 50px;
 }

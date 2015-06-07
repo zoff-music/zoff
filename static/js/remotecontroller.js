@@ -51,20 +51,20 @@ function control()
     $("#forsearch").html("Type new channel name to change to");
 
     $("#volume-control").slider({
-  	    min: 0,
-  	    max: 100,
-  	    value: 100,
-  			range: "min",
-  			animate: true,
-  	    /*slide: function(event, ui) {
+        min: 0,
+        max: 100,
+        value: 100,
+        range: "min",
+        animate: true,
+        /*slide: function(event, ui) {
           console.log(ui.value);
-  				//localStorage.setItem("volume", ui.value);
-  	    },*/
+          //localStorage.setItem("volume", ui.value);
+        },*/
         stop:function(event, ui) {
           socket.emit("id", [id, "volume", ui.value]);
           //console.log(ui.value);
         }
-  	});
+    });
   }else
   {
     socket.emit("id", [id, "channel", $("#search").val().toLowerCase()]);
