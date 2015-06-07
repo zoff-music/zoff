@@ -100,7 +100,7 @@
             <div class="collapsible-body">
                 <ul>
                     <li>
-                    <a id="code-link">
+                    <a id="code-link" target="_blank">
                         <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player2">
                         <h4 id="code-text">ABBADUR</h4>
                     </a>
