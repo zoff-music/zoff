@@ -824,3 +824,7 @@ ul #chat-log{
 .about-remote{
   padding-top: 50px;
 }
+
+.rc{
+  display: none;
+}

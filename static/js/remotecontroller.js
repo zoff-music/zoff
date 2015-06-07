@@ -41,9 +41,8 @@ function control()
     $("#code-input").val("");
     start = false;
 
-    $("#volume-control").css("display", "block");
-    $("#remote-controls").css("display", "block");
-
+    $(".rc").css("display", "block");
+    
     document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
     $("#remote-text").text("Controlling "+ id.toUpperCase())
     document.getElementById("search").setAttribute("length", "18");
