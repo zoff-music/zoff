@@ -78,6 +78,10 @@ nav .brand-logo{
   background-color:rgba(45,45,45,1);
 }
 
+#nav-mobile .green:hover{
+  background-color: #38803C !important;
+}
+
 .footer-copyright a { color: #fff;}
 .footer-copyright a:hover{color:#6699FF}
 
