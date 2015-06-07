@@ -770,3 +770,8 @@ ul #chat-log{
   text-align: center;
 }
 
+#code-link + span{
+  line-height: normal;
+  color: black;
+  text-align: center;
+}
