@@ -7,7 +7,10 @@ $(document).ready(function (){
     socket = io.connect('http://'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
     if(id)
+    {
+      id = id.toLowerCase();
       control();
+    }
 });
 
 function play()
@@ -34,7 +37,6 @@ function control()
 {
   if(start)
   {
-    id = id.toLowerCase();
     if(!id)id = $("#code-input").val().toLowerCase();
     $("#code-input").val("");
     start = false;
