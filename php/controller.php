@@ -12,9 +12,10 @@
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="modal-trigger" onclick="$('#about').openModal()">About</a></li>
-                    <li><a class="modal-trigger" onclick="$('#legal').openModal()">Legal</a></li>
-                    <li><a href="https://github.com/nixolas1/Zoff">GitHub</a></li>
+                    <li><a class="waves-effect waves-green" title="Remote control a Zöff player" href="remote">Remote</a></li>
+                    <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                    <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
+                    <li><a class="waves-effect waves-purple" href="https://github.com/nixolas1/Zoff">GitHub</a></li>
                 </ul>
             </div>
         </nav>
@@ -54,6 +55,11 @@
     <h3 id="remote-text"></h3>
     </div>
         <div class="section">
+
+            <!--<p class="range-field">
+                <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
+            </p>-->
+
             <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
                     <div class="input-field col s12">
                         <input
@@ -69,11 +75,11 @@
                             maxlength="8"
                             autocomplete
                             length="8"
-                            value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
                         />
                         <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
                 </div>
             </form>
+
             <div id="remote-controls" style="display:none;">
                 <a class="chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
@@ -84,16 +90,25 @@
                 <a class="chan-link waves-effect btn blue" onclick="skip();">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
                 </a>
-
             </div>
+            
+            <i class="mdi-av-volume-up slider-vol"></i>
+            <div id="volume-control" style="display:none;" title="Volume">
+                
+            </div>
+
+
             <!--<p class="range-field" onclick="console.log('test');">
                 <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>-->
-            <div id="volume-control" style="display:none;"></div>
+            
         </div>
 
-        <div class="section">
-
+        <div class="section about-remote">
+            <b>Here you can control another Zöff player from any device.</b>
+            <br>
+            To find the ID of your player, click the Conf <i class="mdi-action-settings"></i> icon on the top right of the player page, then "Remote Control".
+            <br>You can either scan the QR code or type the ID manually.
         </div>
     </main>
 
