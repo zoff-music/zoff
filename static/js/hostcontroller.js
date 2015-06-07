@@ -13,11 +13,13 @@ socket.on("id", function(id)
   {
     socket.on(id, function(arr)
     {
+        console.log(arr);
         if(arr[0] == "volume")
         {
           $("#volume").slider("value", arr[1]);
           ytplayer.setVolume(arr[1]);
           localStorage.setItem("volume", arr[1]);
+          choose_button(arr[1], false);
         }else if(arr[0] == "channel")
         {
           socket.emit("change_channel");

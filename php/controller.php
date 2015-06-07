@@ -7,7 +7,7 @@
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="zoff.no" class="brand-logo hide-on-small-only">
+                <a href="http://zoff.no" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
@@ -55,22 +55,26 @@
     <h3 id="remote-text"></h3>
     </div>
         <div class="section">
+
             <div id="remote-controls" style="display:none;">
-                <a class="chan-link waves-effect btn green">
+                <a class="chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
-                <a class="chan-link waves-effect btn gray">
+                <a class="chan-link waves-effect btn gray" onclick="pause();">
                     <i id="remote_pause" class="mdi-av-pause"></i>
                 </a>
-                <a class="chan-link waves-effect btn blue">
+                <a class="chan-link waves-effect btn blue" onclick="skip();">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
-                </a>              
-              
+                </a>
             </div>
-            <p class="range-field">
+            
+            <div id="volume-control" style="display:none;"></div>
+
+            <!--<p class="range-field">
                 <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
-            </p>
-            <form class="row" id="base" onsubmit="control();return false;">
+            </p>-->
+
+            <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
@@ -87,9 +91,14 @@
                             length="8"
                             value="<?php /*if(isset($_GET('id'))echo($_GET('id'));*/?>"
                         />
-                        <label for="search" id="forsearch">Type ID of host to be controlled</label>
+                        <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
                 </div>
             </form>
+
+            <!--<p class="range-field" onclick="console.log('test');">
+                <input type="range" id="volume-control" style="display:none;" min="0" value="100" max="100" />
+            </p>-->
+            
         </div>
 
         <div class="section">
