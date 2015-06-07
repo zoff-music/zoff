@@ -7,30 +7,32 @@ $(document).ready(function (){
     socket = io.connect('http://'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
     if(id)
+    {
+      id = id.toLowerCase();
       control();
+    }
 });
 
-document.getElementById("remote_play").addEventListener("click", function()
+function play()
 {
   socket.emit("id", [id, "play", "mock"]);
-});
+};
 
-document.getElementById("remote_pause").addEventListener("click", function()
+function pause()
 {
   socket.emit("id", [id, "pause", "mock"]);
-});
+};
 
-document.getElementById("remote_skip").addEventListener("click", function()
+function skip()
 {
   socket.emit("id", [id, "skip", "mock"]);
-});
-
+};
+/*
 document.getElementById("volume-control").addEventListener("click", function()
 {
-  console.log("Sending...")
-  socket.emit("id", [id, "volume", $("#volume-control").val()]);
-  console.log("Sent new vol signal")
-});
+   socket.emit("id", [id, "volume", $("#volume-control").val()]);
+});*/
+>>>>>>> 126fe2fec4a1d36ec179e889d4d7162118b4fc49
 
 function control()
 {
@@ -45,14 +47,32 @@ function control()
 
     $("#volume-control").css("display", "block");
     $("#remote-controls").css("display", "block");
+
+    document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
     $("#remote-text").text("Controlling "+ id.toUpperCase())
-    $("#code-input").attr("length", "18");
-    $("#code-input").attr("maxlength", "18");
+    document.getElementById("search").setAttribute("length", "18");
+    document.getElementById("search").setAttribute("maxlength", "18");
     $("#forsearch").html("Type new channel name to change to");
+
+    $("#volume-control").slider({
+  	    min: 0,
+  	    max: 100,
+  	    value: 100,
+  			range: "min",
+  			animate: true,
+  	    /*slide: function(event, ui) {
+          console.log(ui.value);
+  				//localStorage.setItem("volume", ui.value);
+  	    },*/
+        stop:function(event, ui) {
+          socket.emit("id", [id, "volume", ui.value]);
+          //console.log(ui.value);
+        }
+  	});
   }else
   {
-    socket.emit("id", [id, "channel", $("#code-input").val().toLowerCase()]);
-    $("#code-input").val("");
+    socket.emit("id", [id, "channel", $("#search").val().toLowerCase()]);
+    $("#search").val("");
   }
   return false;
 }

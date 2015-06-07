@@ -76,6 +76,8 @@ function sortFunction(a, b) {
 
 $(document).ready(function (){
 
+    //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
+
     list_html = $("#channels").html();
     $("#channels").empty();
 

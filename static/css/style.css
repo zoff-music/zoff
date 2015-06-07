@@ -770,8 +770,42 @@ ul #chat-log{
   text-align: center;
 }
 
+
 #code-link + span{
   line-height: normal;
   color: black;
   text-align: center;
+
+#volume-control {
+    cursor:pointer;
+  float:left;
+    position: relative;
+    left: 10px;
+    margin: 13px auto;
+    height:5px;
+    width: 97%;
+    background-color:rgba(0, 0, 0, 0.5);
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#volume-control .ui-slider-range-min {
+    height:5px;
+    width: 75px;
+    position: absolute;
+    background-color:rgba(47, 47, 47, 1);
+    border: none;
+    outline: none;
+    border-radius: 2px;
+}
+
+#volume-control .ui-slider-handle {
+    height:15px;
+    width:5px;
+    background-color:black;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    border: none;
 }
