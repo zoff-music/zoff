@@ -1,7 +1,7 @@
 var old_input="";
 var timer = 0;
 var api_key = "AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8";
-var result_html = $("#temp-results-container").html();
+var result_html = $("#temp-results-container");
 var searching = false;
 $( "#results" ).empty();
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
@@ -202,16 +202,15 @@ function search(search_input){
 							thumb=song.snippet.thumbnails.medium.url;
 
 							//$("#results").append(result_html);
-							var song = pre_result;
+							var songs = pre_result;
 
-							song.find(".search-title").text(title);
-							song.find(".result_info").text(duration);
-							song.find(".thumb").attr("src", thumb);
-							song.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
-							$($(song).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-							$($(song).find("div")[0]).attr("id", id)
-
-							output += song.html();
+							songs.find(".search-title").text(title);
+							songs.find(".result_info").text(duration);
+							songs.find(".thumb").attr("src", thumb);
+							songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
+							$($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+							$($(songs).find("div")[0]).attr("id", id)
+							output += songs.html();
 
 						}
 					});
