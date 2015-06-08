@@ -76,7 +76,7 @@
                             autocomplete
                             length="8"
                         />
-                        <label for="search" id="forsearch">Type ID of host to be controlled (it can be found under settings on a channel)</label>
+                        <label for="search" id="forsearch">Type ID of host to be controlled</label>
                 </div>
             </form>
 
@@ -91,7 +91,7 @@
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
                 </a>
             </div>
-            
+
             <i class="mdi-av-volume-up slider-vol rc"></i>
             <div class="rc" id="volume-control" title="Volume"></div>
 
