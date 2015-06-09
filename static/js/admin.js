@@ -146,8 +146,7 @@ function remove_bar()
 
 function shuffle()
 {
-	var pass_to_send = adminpass !== undefined ? adminpass : "";
-	socket.emit('shuffle', pass_to_send);
+	socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
 }
 
 function rnd(arr)
