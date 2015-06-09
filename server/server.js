@@ -40,7 +40,7 @@ io.on('connection', function(socket){
   //var guid;
   var tot_lists = [];
   var in_list = false;
-  var name = rndName(guid);
+  var name = rndName(guid,8);
 
   socket.on('namechange', function(data)
   {
@@ -132,7 +132,8 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      socket.emit("id", rndName(socket.id).substring(0,8));
+      console.log(rndName(socket.id,10));
+      socket.emit("id", rndName(socket.id, 10));
 
       //console.log(name + " joined list " + coll);
 
@@ -665,7 +666,7 @@ function contains(a, obj) {
     return false;
 }
 
-function rndName(seed) {
+function rndName(seed, endlen) {
   var vowels = ['a', 'e', 'i', 'o', 'u', 'ö'];
   consts =  ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'tt', 'ch', 'sh'];
   len = 8;
@@ -678,5 +679,5 @@ function rndName(seed) {
     is_vowel = !is_vowel;
     word += arr[(seed[i%seed.length].charCodeAt()+i) % arr.length-1];
   }
-  return word.substring(0,8)
+  return word.substring(0,endlen)
 }
