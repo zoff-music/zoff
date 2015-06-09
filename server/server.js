@@ -132,7 +132,6 @@ io.on('connection', function(socket){
     	coll = list[0].toLowerCase();
     	//guid = list[1];
 
-      console.log(rndName(socket.id,10));
       socket.emit("id", rndName(socket.id, 10));
 
       //console.log(name + " joined list " + coll);
