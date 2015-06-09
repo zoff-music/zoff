@@ -431,11 +431,12 @@ io.on('connection', function(socket){
 
   socket.on('shuffle', function(pass)
   {
-    if(pass !== undefined && pass !== null && pass != "")
+    if(pass !== undefined && pass !== null)
     {
       check_inlist(coll, guid, socket, name);
 
-      var hash = hash_pass(pass);
+      if(pass == "") var hash = pass;
+      else var hash = hash_pass(pass);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         if(docs !== null && docs.length != 0 && ((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false))
         {

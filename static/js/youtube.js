@@ -85,8 +85,7 @@ $(document).ready(function()
 	};
 	img.crossOrigin = 'Anonymous';
 	img.src = 'http://img.youtube.com/vi/NuEfvIca0XU/mqdefault.jpg';
-	*/
-	
+*/
 	setup_youtube_listener(chan);
 	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
