@@ -252,7 +252,7 @@ function setBGimage(id){
 	var img = new Image();
 	img.onload = function () {
 	  var colorThief = new ColorThief();
-		$("body").css("background-color", rgbToHsl(colorThief.getColor(img)));
+		$("body").css("background-color", colorThief.getColor(img));
 	};
 	img.crossOrigin = 'Anonymous';
 	img.src = 'http://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
