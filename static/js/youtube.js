@@ -77,15 +77,6 @@ function setup_youtube_listener(channel)
 
 $(document).ready(function()
 {
-	/*
-	var img = new Image();
-	img.onload = function () {
-	  var colorThief = new ColorThief();
-	  colorThief.getColor(img);
-	};
-	img.crossOrigin = 'Anonymous';
-	img.src = 'http://img.youtube.com/vi/NuEfvIca0XU/mqdefault.jpg';
-*/
 	setup_youtube_listener(chan);
 	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
@@ -258,9 +249,13 @@ function readyLooks()
 }
 
 function setBGimage(id){
-	var hsl=[getRandomInt(0,360), getRandomInt(60,80)]
-	var colorTxt = "hsl("+hsl[0]+", 50%, 30%);";
-	$("body").css("background-color", colorTxt);
+	var img = new Image();
+	img.onload = function () {
+	  var colorThief = new ColorThief();
+		$("body").css("background-color", colorThief.getColor(img));
+	};
+	img.crossOrigin = 'Anonymous';
+	img.src = 'http://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
 }
 
 function notifyUser(id, title) {

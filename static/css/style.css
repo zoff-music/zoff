@@ -828,3 +828,18 @@ ul #chat-log{
 .rc{
   display: none;
 }
+
+#search::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFF;
+}
+#search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFF;
+   opacity:  1;
+}
+#search::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFF;
+   opacity:  1;
+}
+#search:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    #FFF;
+}
