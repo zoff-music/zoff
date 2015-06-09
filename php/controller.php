@@ -72,9 +72,9 @@
                             list="searches"
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
-                            maxlength="8"
+                            maxlength="10"
                             autocomplete
-                            length="8"
+                            length="10"
                         />
                         <label for="search" id="forsearch">Type ID of host to be controlled</label>
                 </div>
