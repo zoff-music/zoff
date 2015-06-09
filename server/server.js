@@ -635,8 +635,7 @@ function send_play(coll, socket)
   db.collection(coll).find({now_playing:true}, function(err, np){
       db.collection(coll).find({views:{$exists:true}}, function(err, conf){
         if(err !== null) console.log(err);
-        if(conf === null) console.log(conf);
-        if(conf !== null && conf.length != 0)
+        if(conf !== null && conf !== undefined && conf.length != 0)
         {
           toSend = [np,conf,get_time()];
           if(socket === undefined)
