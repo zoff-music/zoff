@@ -23,6 +23,10 @@ process.on('uncaughtException', function(e){
   process.exit(1);
 })
 
+db.on('error',function(err) {
+    console.log("\n" + new Date().toString() + "\n Database error: ", err);
+});
+
 io.on('connection', function(socket){
   socket.emit("get_list");
 
@@ -167,7 +171,7 @@ io.on('connection', function(socket){
     	db.collection(coll).find({now_playing:true}, function(err, np){
         //console.log(docs);
         //console.log(docs.length);
-    		if(np.length == 1 && np[0]["id"] == id){
+    		if(np !== null && np.length == 1 && np[0]["id"] == id){
           db.collection(coll).find({views:{$exists:true}}, function(err, docs){
             var startTime = docs[0]["startTime"];
             if(docs[0]["removeplay"] == true)
@@ -197,7 +201,7 @@ io.on('connection', function(socket){
                           {$match:{now_playing:false}},
                           {$sort:{votes:-1, added:1}},
                           {$limit:1}], function(err, docs){
-                            if(docs.length > 0){
+                            if(docs !== null && docs.length > 0){
                               db.collection(coll).update({id:docs[0]["id"]},
                               {$set:{
                                 now_playing:true,
@@ -236,18 +240,18 @@ io.on('connection', function(socket){
       var duration = parseInt(arr[3]);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs)
       {
-        if(docs.length != 0 && ((docs[0]["addsongs"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == ""))
+        if(docs !== null && docs.length != 0 && ((docs[0]["addsongs"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == ""))
           || docs[0]["addsongs"] == false))
         {
           db.collection(coll).find({id:id}, function(err, docs){
-            if(docs.length == 0)
+            if(docs !== null && docs.length == 0)
             {
               var guids = [guid];
       		  	var votes = 1;
               //var guids = [];
       		  	//var votes = 0;
               db.collection(coll).find({now_playing:true}, function(err, docs){
-                if(docs.length == 0)
+                if(docs !== null && docs.length == 0)
                   np = true;
                 else
                   np = false;
@@ -280,7 +284,7 @@ io.on('connection', function(socket){
         var hash = hash_pass(msg[4]);
         db.collection(coll).find({views:{$exists:true}}, function(err, docs)
         {
-          if(docs.length != 0 && ((docs[0]["vote"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == ""))
+          if(docs !== null && docs.length != 0 && ((docs[0]["vote"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == ""))
             || docs[0]["vote"] == false))
           {
             vote(coll, id, guid, socket);
@@ -305,7 +309,7 @@ io.on('connection', function(socket){
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         //console.log(docs);
         //console.log(docs + " yy here?");
-        if(docs.length != 0)
+        if(docs !== null && docs.length != 0)
         {
           if(docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash_pass(pw))
           {
@@ -347,7 +351,7 @@ io.on('connection', function(socket){
         //console.log(adminpass);
         //console.log(docs[0]["adminpass"]);
         //console.log(error);
-        if(docs.length != 0)
+        if(docs !== null && docs.length != 0)
         {
       		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "") || error)
       		{
@@ -397,7 +401,7 @@ io.on('connection', function(socket){
         var hash = adminpass;
 
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-        if(docs.length != 0 && docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash)
+        if(docs !== null && docs.length != 0 && docs[0]["adminpass"] == "" || docs[0]["adminpass"] == hash)
         {
           db.collection(coll).update({views:{$exists:true}}, {
             $set:{addsongs:addsongs,
@@ -433,7 +437,7 @@ io.on('connection', function(socket){
 
       var hash = hash_pass(pass);
       db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-        if(docs.length != 0 && ((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false))
+        if(docs !== null && docs.length != 0 && ((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false))
         {
           db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
             if(!docs){
@@ -505,7 +509,7 @@ function del(params, socket)
 {
   var coll = params[0].toLowerCase();
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-    if(docs.length != 0 && docs[0]["adminpass"] == hash_pass(params[4]))
+    if(docs !== null && docs.length != 0 && docs[0]["adminpass"] == hash_pass(params[4]))
     {
       db.collection(coll).remove({id:params[1]}, function(err, docs){
         socket.emit("toast", "deletesong");
@@ -539,7 +543,7 @@ function hash_pass(adminpass)
 function vote(coll, id, guid, socket)
 {
 	db.collection(coll).find({id:id}, function(err, docs){
-		if(docs.length > 0 && !contains(docs[0]["guids"], guid))
+		if(docs !== null && docs.length > 0 && !contains(docs[0]["guids"], guid))
 		{
   		db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:get_time()}}, function(err, docs)
   		{
@@ -562,7 +566,7 @@ function change_song(coll, id, np_id)
 {
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
     var startTime = docs[0]["startTime"];
-    if(docs.length != 0)
+    if(docs !== null && docs.length != 0)
     {
       if(docs[0]["removeplay"] == true)
       {
@@ -593,7 +597,7 @@ function change_song_post(coll)
       {$match:{now_playing:false}},
       {$sort:{votes:-1, added:1}},
       {$limit:1}], function(err, docs){
-        if(docs.length > 0){
+        if(docs !== null && docs.length > 0){
           db.collection(coll).update({id:docs[0]["id"]},
           {$set:{
             now_playing:true,
@@ -630,7 +634,9 @@ function send_play(coll, socket)
 {
   db.collection(coll).find({now_playing:true}, function(err, np){
       db.collection(coll).find({views:{$exists:true}}, function(err, conf){
-        if(conf.length != 0)
+        if(err !== null) console.log(err);
+        if(conf === null) console.log(conf);
+        if(conf !== null && conf.length != 0)
         {
           toSend = [np,conf,get_time()];
           if(socket === undefined)

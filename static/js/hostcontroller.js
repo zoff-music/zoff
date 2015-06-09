@@ -8,7 +8,6 @@ socket.on("id", function(id)
   $("#code-text").text(id.toUpperCase())
   $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
   $("#code-link").attr("href", codeURL);
-  
   if(!began)
   {
     socket.on(id, function(arr)
