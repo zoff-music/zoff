@@ -44,5 +44,4 @@ socket.on("id", function(id)
         else if(arr[0] == "skip")
           skip();
     });
-  }
 });

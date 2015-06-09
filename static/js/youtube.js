@@ -252,7 +252,7 @@ function setBGimage(id){
 	var img = new Image();
 	img.onload = function () {
 	  var colorThief = new ColorThief();
-		$("body").css("background-color", colorThief.getColor(img));
+		$("body").css("background-color", rgbToHsl(colorThief.getColor(img)));
 	};
 	img.crossOrigin = 'Anonymous';
 	img.src = 'http://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
@@ -273,7 +273,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function rgbToHsl(r, g, b){
+function rgbToHsl(arr){
+		r = arr[0], g = arr[1], b = arr[2];
     r /= 255, g /= 255, b /= 255;
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
