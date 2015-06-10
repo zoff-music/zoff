@@ -300,5 +300,7 @@ function rgbToHsl(arr){
         h /= 6;
     }
 
-    return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*50)+"%)";
-}
+    if(l>0.5)l=0.5; //make sure it isnt too light
+
+    return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
+}colorcolorcolor
