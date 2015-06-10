@@ -27,13 +27,19 @@ function channel_function(msg)
 		var index_of_conf = getIndexOfConf(full_playlist);
 		conf = full_playlist[index_of_conf];
 		full_playlist.splice(index_of_conf, 1);
-		full_playlist.sort(sortFunction);
+		full_playlist.sort(predicate({
+	    name: 'votes',
+	    reverse: true
+  		}, 'added'));
 		set_conf(conf);
 		populate_list(full_playlist);
 	}else if(msg[0] == "added")
 	{
 		full_playlist.push(msg[1]);
-		full_playlist.sort(sortFunction);
+		full_playlist.sort(predicate({
+	    name: 'votes',
+	    reverse: true
+  		}, 'added'));
 		insertAtIndex(getIndexOfSong(msg[1].id), msg[1]);
 	}else if(msg[0] == "deleted")
 	{
@@ -49,7 +55,10 @@ function channel_function(msg)
 		var index_of_song = getIndexOfSong(msg[1]);
 		full_playlist[index_of_song].votes += 1;
 		full_playlist[index_of_song].added = msg[2];
-		full_playlist.sort(sortFunction);
+		full_playlist.sort(predicate({
+	    name: 'votes',
+	    reverse: true
+  		}, 'added'));
 		populate_list(full_playlist, false);
 	}else if(msg[0] == "song_change")
 	{
@@ -59,7 +68,10 @@ function channel_function(msg)
 		full_playlist[0].guids = [];
 		full_playlist[0].added = msg[1];
 		full_playlist[full_playlist.length-1].now_playing = false;
-		full_playlist.sort(sortFunction);
+		full_playlist.sort(predicate({
+	    name: 'votes',
+	    reverse: true
+  		}, 'added'));
 
 		populate_list(full_playlist);
 	}
@@ -131,7 +143,10 @@ function populate_list(msg)
 		$("#wrapper").css("opacity", "1");
 
 		full_playlist = msg;
-		full_playlist = full_playlist.sort(sortFunction);
+		full_playlist = full_playlist.sort(predicate({
+	    name: 'votes',
+	    reverse: true
+  		}, 'added'));
 }
 
 function vote(id, vote){
@@ -201,6 +216,63 @@ function sortFunction(a, b) {
   if (p1 > p2) return 1;
   if (p1 < p2) return -1;
   return 0;
+}
+
+function predicate() {
+	var fields = [],
+		n_fields = arguments.length,
+		field, name, reverse, cmp;
+
+	var default_cmp = function (a, b) {
+			if (a === b) return 0;
+			return a < b ? -1 : 1;
+		},
+		getCmpFunc = function (primer, reverse) {
+			var dfc = default_cmp,
+				// closer in scope
+				cmp = default_cmp;
+			if (primer) {
+				cmp = function (a, b) {
+					return dfc(primer(a), primer(b));
+				};
+			}
+			if (reverse) {
+				return function (a, b) {
+					return -1 * cmp(a, b);
+				};
+			}
+			return cmp;
+		};
+
+	// preprocess sorting options
+	for (var i = 0; i < n_fields; i++) {
+		field = arguments[i];
+		if (typeof field === 'string') {
+			name = field;
+			cmp = default_cmp;
+		} else {
+			name = field.name;
+			cmp = getCmpFunc(field.primer, field.reverse);
+		}
+		fields.push({
+			name: name,
+			cmp: cmp
+		});
+	}
+
+	// final comparison function
+	return function (A, B) {
+		var a, b, name, result;
+		for (var i = 0; i < n_fields; i++) {
+			result = 0;
+			field = fields[i];
+			name = field.name;
+
+			result = field.cmp(A[name], B[name]);
+			if (result !== 0) break;
+		}
+		return result;
+	};
 }
 
 function insertAtIndex(i, song_info) {
