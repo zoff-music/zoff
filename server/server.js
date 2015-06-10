@@ -358,7 +358,8 @@ io.on('connection', function(socket){
         {
       		if(!docs[0]["skip"] || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "") || error)
       		{
-      			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid))
+      			if((lists[coll].length/2 <= docs[0]["skips"].length+1 && !contains(docs[0]["skips"], guid) && lists[coll].length != 2)
+              || (lists[coll].length == 2 && docs[0]["skips"].length+1 == 2 && !contains(docs[0]["skips"], guid))
               || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "" && docs[0]["skip"]))
       			{
       				change_song(coll);
@@ -369,7 +370,11 @@ io.on('connection', function(socket){
               socket.emit("toast", "notyetskip");
             }*/else if(!contains(docs[0]["skips"], guid)){
       				db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
-                socket.emit("toast", (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1) + " more are needed to skip!");
+                if(lists[coll].length == 2)
+                  to_skip = 1;
+                else
+                  to_skip = (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1);
+                socket.emit("toast", to_skip + " more are needed to skip!");
                 socket.broadcast.emit('chat,'+coll, [name, " voted to skip"]);
       				});
       			}else{
