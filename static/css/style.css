@@ -430,6 +430,8 @@ ul #chat-log{
     background-color: rgba(255, 255, 255, 0.04);
     color:white;
     font:12px Arial,sans-serif;
+		-webkit-transition:height 1s;
+		height:66px;
 }
 .list-song .card-content{padding:0;}
 .list-title{
