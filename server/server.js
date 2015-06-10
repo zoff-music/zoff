@@ -210,7 +210,8 @@ io.on('connection', function(socket){
                                 added:get_time()}}, function(err, docs){
                                   db.collection(coll).update({views:{$exists:true}},
                                     {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
-                                      send_list(coll, undefined, true, true);
+                                      io.sockets.emit(coll, ["song_change", get_time()]);
+                                      send_play(coll);
                                   });
                                 });
                             }
@@ -602,7 +603,8 @@ function change_song_post(coll)
             added:get_time()}}, function(err, docs){
               db.collection(coll).update({views:{$exists:true}},
                 {$set:{startTime:get_time(), skips:[]}}, function(err, docs){
-                  send_list(coll,undefined,true, true);
+                  io.sockets.emit(coll, ["song_change", get_time()]);
+                  send_play(coll);
               });
 
             });

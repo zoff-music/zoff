@@ -37,6 +37,7 @@ socket.on(chan.toLowerCase(), function(msg){
 		setTimeout(function()
 		{
 			$("#"+msg[1]).remove();
+			full_playlist.splice(getIndexOfSong(msg[1]), 1);
 		}, 1050);
 	}else if(msg[0] == "vote")
 	{
@@ -45,6 +46,17 @@ socket.on(chan.toLowerCase(), function(msg){
 		full_playlist[index_of_song].added = msg[2];
 		full_playlist.sort(sortFunction);
 		populate_list(full_playlist, false);
+	}else if(msg[0] == "song_change")
+	{
+
+		full_playlist[0].now_playing = true;
+		full_playlist[0].votes = 0;
+		full_playlist[0].guids = [];
+		full_playlist[0].added = msg[1];
+		full_playlist[full_playlist.length-1].now_playing = false;
+		full_playlist.sort(sortFunction);
+
+		populate_list(full_playlist);
 	}
 });
 
@@ -204,7 +216,7 @@ function insertAtIndex(i, song_info) {
 		song.find(".list-votes").text(video_votes);
 		song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
 		song.find(".list-image").attr("style",video_thumb);
-		song.attr("id",video_id);
+		song.find("#list-song").attr("id", video_id);
 		song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 		if(!w_p) song.find(".card-action").removeClass("hide");
 		if(video_votes == 1)song.find(".vote-text").text("vote");
