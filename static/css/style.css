@@ -308,6 +308,10 @@ ul #chat-log{
 
 #channelpage{
     background-color:#2D2D2D;
+		-webkit-transition: background-color .5s ease;
+    -moz-transition: background-color .5s ease;
+    -o-transition: background-color .5s ease;
+    transition: background-color .5s ease;
 }
 
 .main{
