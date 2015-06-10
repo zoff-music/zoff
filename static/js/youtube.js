@@ -77,6 +77,11 @@ function setup_youtube_listener(channel)
 
 $(document).ready(function()
 {
+	if(!localStorage["list_update"])
+	{
+		localStorage.setItem("list_update", "applied");
+		window.location.reload(true);
+	}
 	setup_youtube_listener(chan);
 	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
