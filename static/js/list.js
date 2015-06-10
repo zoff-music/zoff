@@ -16,6 +16,11 @@ var check = false;
 return check; };
 
 socket.on(chan.toLowerCase(), function(msg){
+	channel_function(msg);
+});
+
+function channel_function(msg)
+{
 	if(msg[0] == "list")
 	{
 		full_playlist = msg[1];
@@ -58,7 +63,7 @@ socket.on(chan.toLowerCase(), function(msg){
 
 		populate_list(full_playlist);
 	}
-});
+}
 
 socket.on("skipping", function(obj)
 {
