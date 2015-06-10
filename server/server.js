@@ -170,8 +170,9 @@ io.on('connection', function(socket){
 
     	db.collection(coll).find({now_playing:true}, function(err, np){
         //console.log(docs);
+        if(err !== null) console.log(err);
         //console.log(docs.length);
-    		if(np !== null && np.length == 1 && np[0]["id"] == id){
+    		if(np !== null && np !== undefined && np.length == 1 && np[0]["id"] == id){
           db.collection(coll).find({views:{$exists:true}}, function(err, docs){
             var startTime = docs[0]["startTime"];
             if(docs[0]["removeplay"] == true)
