@@ -40,7 +40,14 @@ function channel_function(msg)
 	    name: 'votes',
 	    reverse: true
   		}, 'added'));
-		insertAtIndex(getIndexOfSong(msg[1].id), msg[1]);
+
+		insertAtIndex(getIndexOfSong(msg[1].id), msg[1], true);
+
+		setTimeout(function(){
+			var test = $("#wrapper").children()[getIndexOfSong(msg[1].id)];
+			test.style.height = 66;
+		},0);
+
 	}else if(msg[0] == "deleted")
 	{
 		var to_delete = $("#wrapper").children()[getIndexOfSong(msg[1])];
@@ -74,7 +81,9 @@ function channel_function(msg)
   		}, 'added'));
 		*/
 		full_playlist.push(full_playlist.shift());
-		populate_list(full_playlist);
+		$("#wrapper").children()[0].remove();
+		insertAtIndex($("#wrapper").children().length, full_playlist[full_playlist.length-2], false);
+		//populate_list(full_playlist);
 	}
 }
 
@@ -205,20 +214,6 @@ function show(){
 	}
 }
 
-function sortFunction(a, b) {
-  var o1 = a.votes;
-  var o2 = b.votes;
-
-  var p1 = a.added;
-  var p2 = b.added;
-
-  if (o1 < o2) return 1;
-  if (o1 > o2) return -1;
-  if (p1 > p2) return 1;
-  if (p1 < p2) return -1;
-  return 0;
-}
-
 function predicate() {
 	var fields = [],
 		n_fields = arguments.length,
@@ -276,36 +271,36 @@ function predicate() {
 	};
 }
 
-function insertAtIndex(i, song_info) {
-		setTimeout(function(){
-			var test = $("#wrapper").children()[i];
-			test.style.height = 66;
-		},50);
-
-		var video_id = song_info.id;
-		var video_title = song_info.title;
-		var video_votes = song_info.votes;
-		var video_thumb = "background-image:url('http://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
-
-		var song = $("<div>"+list_html+"</div>");
-		song.find("#list-song").css("height", 0);
-		song.find(".list-title").text(video_title);
-		song.find(".list-title").attr("title", video_title);
-		song.find(".list-votes").text(video_votes);
-		song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-		song.find(".list-image").attr("style",video_thumb);
-		song.find("#list-song").attr("id", video_id);
-		song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
-		if(!w_p) song.find(".card-action").removeClass("hide");
-		if(video_votes == 1)song.find(".vote-text").text("vote");
-
+function insertAtIndex(i, song_info, transition) {
     if(i === 0) {
-     	$("#wrapper").prepend(song.html());
+     	$("#wrapper").prepend(generateSong(song_info, transition));
 			return;
     }
 
-    $("#wrapper > div:nth-child(" + (i) + ")").after(song.html());
+    $("#wrapper > div:nth-child(" + (i) + ")").after(generateSong(song_info, transition));
 
+}
+
+function generateSong(song_info, transition)
+{
+	var video_id = song_info.id;
+	var video_title = song_info.title;
+	var video_votes = song_info.votes;
+	var video_thumb = "background-image:url('http://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+
+	var song = $("<div>"+list_html+"</div>");
+	if(transition) song.find("#list-song").css("height", 0);
+	song.find(".list-title").text(video_title);
+	song.find(".list-title").attr("title", video_title);
+	song.find(".list-votes").text(video_votes);
+	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
+	song.find(".list-image").attr("style",video_thumb);
+	song.find("#list-song").attr("id", video_id);
+	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
+	if(!w_p) song.find(".card-action").removeClass("hide");
+	if(video_votes == 1)song.find(".vote-text").text("vote");
+
+	return song.html();
 }
 
 function getIndexOfSong(id)
