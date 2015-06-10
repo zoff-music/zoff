@@ -435,6 +435,9 @@ ul #chat-log{
     color:white;
     font:12px Arial,sans-serif;
 		-webkit-transition:height .5s;
+    -moz-transition:height .5s;
+    -o-transition:height .5s;
+    transition:height .5s;
 		height:66px;
 }
 .list-song .card-content{padding:0;}
