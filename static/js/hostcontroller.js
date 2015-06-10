@@ -27,7 +27,7 @@ socket.on("id", function(id)
           chan = arr[1].toLowerCase();
           $("#chan").html(chan.substring(0,1).toUpperCase()+chan.substring(1).toLowerCase());
           socket.on(chan.toLowerCase(), function(msg){
-          	populate_list(msg, false);
+          	channel_function(msg);
           });
 
           setup_youtube_listener(chan);
