@@ -85,7 +85,6 @@ $(document).ready(function (){
     var playlists = [];
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
-        console.log(msg);
         populate_channels(msg);
     })
 
