@@ -68,11 +68,12 @@ function channel_function(msg)
 		full_playlist[0].guids = [];
 		full_playlist[0].added = msg[1];
 		full_playlist[full_playlist.length-1].now_playing = false;
-		full_playlist.sort(predicate({
+		/*full_playlist.sort(predicate({
 	    name: 'votes',
 	    reverse: true
   		}, 'added'));
-
+		*/
+		full_playlist.push(full_playlist.shift());
 		populate_list(full_playlist);
 	}
 }
