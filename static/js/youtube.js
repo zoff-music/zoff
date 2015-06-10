@@ -252,7 +252,10 @@ function setBGimage(id){
 	var img = new Image();
 	img.onload = function () {
 	  var colorThief = new ColorThief();
-		$("body").css("background-color", colorThief.getColor(img));
+		console.log(rgbToHsl(colorThief.getColor(img)));
+		document.getElementsByTagName("body")[0].style.backgroundColor = rgbToHsl(colorThief.getColor(img))
+		//$("body").css("background-color", rgbToHsl(colorThief.getColor(img)));
+		//$("body").css("background-color", colorThief.getColor(img));
 	};
 	img.crossOrigin = 'Anonymous';
 	img.src = 'http://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
@@ -292,5 +295,5 @@ function rgbToHsl(arr){
         h /= 6;
     }
 
-    return [h*360, s*100, l*100];
+    return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*50)+"%)";
 }
