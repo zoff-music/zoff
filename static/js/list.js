@@ -7,6 +7,8 @@ var list_html = $("#list-song-html").html();
 var hasadmin=0;
 var w_p = true;
 var peis = false;
+var full_playlist;
+var conf;
 
 window.mobilecheck = function() {
 var check = false;
@@ -14,7 +16,36 @@ var check = false;
 return check; };
 
 socket.on(chan.toLowerCase(), function(msg){
-	populate_list(msg, false);
+	if(msg[0] == "list")
+	{
+		full_playlist = msg[1];
+		var index_of_conf = getIndexOfConf(full_playlist);
+		conf = full_playlist[index_of_conf];
+		full_playlist.splice(index_of_conf, 1);
+		full_playlist.sort(sortFunction);
+		set_conf(conf);
+		populate_list(full_playlist);
+	}else if(msg[0] == "added")
+	{
+		full_playlist.push(msg[1]);
+		full_playlist.sort(sortFunction);
+		insertAtIndex(getIndexOfSong(msg[1].id), msg[1]);
+	}else if(msg[0] == "deleted")
+	{
+		var to_delete = $("#wrapper").children()[getIndexOfSong(msg[1])];
+		to_delete.style.height = 0;
+		setTimeout(function()
+		{
+			$("#"+msg[1]).remove();
+		}, 1050);
+	}else if(msg[0] == "vote")
+	{
+		var index_of_song = getIndexOfSong(msg[1]);
+		full_playlist[index_of_song].votes += 1;
+		full_playlist[index_of_song].added = msg[2];
+		full_playlist.sort(sortFunction);
+		populate_list(full_playlist, false);
+	}
 });
 
 socket.on("skipping", function(obj)
@@ -26,34 +57,27 @@ socket.on("skipping", function(obj)
 	},1500);
 });
 
-function populate_list(msg, conf_only)
+function set_conf(conf_array)
 {
-	//console.log(msg);
-	//console.log(conf_only);
-	if(!conf_only)
+	console.log("startTime");
+	if(conf_array['adminpass'] == "" || w_p == false) hasadmin = false;
+	else hasadmin = true;
+	music = conf_array["allvideos"];
+	longsongs = conf_array["longsongs"];
+	names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+	for (var i = 0; i < names.length; i++) {
+		document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
+		if(hasadmin)
+			$("input[name="+names[i]+"]").attr("disabled", true);
+	}
+}
+
+function populate_list(msg)
+{
 		$("#wrapper").empty();
 
 		$.each(msg, function(j, listeID){
-			if(listeID.hasOwnProperty('startTime')) //check if its config part of list
-			{
-				console.log("startTime");
-				if(listeID['adminpass'] == "" || w_p == false) hasadmin = false;
-				else hasadmin = true;
-				music = listeID["allvideos"];
-				longsongs = listeID["longsongs"];
-				names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-				for (var i = 0; i < names.length; i++) {
-					document.getElementsByName(names[i])[0].checked = (listeID[names[i]] === true);
-					if(hasadmin)
-						$("input[name="+names[i]+"]").attr("disabled", true);
-
-
-					/*if(hasadmin)
-						$("#setpass").text("Channel has admin");
-					else
-						$("#setpass").text("Channel has no admin");*/
-				}
-			}else if(!listeID.now_playing){ //check that the song isnt playing
+			if(!listeID.now_playing){ //check that the song isnt playing
 
 				var video_title=decodeURIComponent(listeID.title);
 				var video_id = listeID.id;
@@ -89,6 +113,8 @@ function populate_list(msg, conf_only)
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
 
+		full_playlist = msg;
+		full_playlist = full_playlist.sort(sortFunction);
 }
 
 function vote(id, vote){
@@ -144,4 +170,70 @@ function show(){
 	   }
 	   fitToScreen();
 	}
+}
+
+function sortFunction(a, b) {
+  var o1 = a.votes;
+  var o2 = b.votes;
+
+  var p1 = a.added;
+  var p2 = b.added;
+
+  if (o1 < o2) return 1;
+  if (o1 > o2) return -1;
+  if (p1 > p2) return 1;
+  if (p1 < p2) return -1;
+  return 0;
+}
+
+function insertAtIndex(i, song_info) {
+		setTimeout(function(){
+			var test = $("#wrapper").children()[i];
+			test.style.height = 66;
+		},50);
+
+		var video_id = song_info.id;
+		var video_title = song_info.title;
+		var video_votes = song_info.votes;
+		var video_thumb = "background-image:url('http://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+
+		var song = $("<div>"+list_html+"</div>");
+		song.find("#list-song").css("height", 0);
+		song.find(".list-title").text(video_title);
+		song.find(".list-title").attr("title", video_title);
+		song.find(".list-votes").text(video_votes);
+		song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
+		song.find(".list-image").attr("style",video_thumb);
+		song.attr("id",video_id);
+		song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
+		if(!w_p) song.find(".card-action").removeClass("hide");
+		if(video_votes == 1)song.find(".vote-text").text("vote");
+
+    if(i === 0) {
+     	$("#wrapper").prepend(song.html());
+			return;
+    }
+
+    $("#wrapper > div:nth-child(" + (i) + ")").after(song.html());
+
+}
+
+function getIndexOfSong(id)
+{
+	indexes = $.map(full_playlist, function(obj, index) {
+	    if(obj.id == id) {
+	        return index;
+	    }
+	});
+	return indexes[0];
+}
+
+function getIndexOfConf(flist)
+{
+	indexes = $.map(flist, function(obj, index) {
+	    if("views" in obj) {
+	        return index;
+	    }
+	});
+	return indexes[0];
 }

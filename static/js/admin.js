@@ -67,7 +67,7 @@ socket.on("pw", function(msg)
 
 socket.on(chan.toLowerCase()+",conf", function(msg)
 {
-	populate_list(msg, true);
+	set_conf(msg[0]);
 });
 
 $('input[class=conf]').change(function()
@@ -126,7 +126,6 @@ function submitAdmin(form)
 	shuffling = form.shuffle.checked;
 
 	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
-	console.log(configs);
 	socket.emit("conf", configs);
 }
 
