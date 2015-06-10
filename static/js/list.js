@@ -98,7 +98,6 @@ socket.on("skipping", function(obj)
 
 function set_conf(conf_array)
 {
-	console.log("startTime");
 	if(conf_array['adminpass'] == "" || w_p == false) hasadmin = false;
 	else hasadmin = true;
 	music = conf_array["allvideos"];

@@ -27,7 +27,7 @@ function setup_youtube_listener(channel)
 {
 	socket.on(channel.toLowerCase()+",np", function(obj)
 	{
-		console.log(obj);
+		//console.log(obj);
 		if(obj[0].length == 0){
 			console.log("Empty list");
 			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -37,7 +37,7 @@ function setup_youtube_listener(channel)
 			importOldList(channel.toLowerCasettings-barse());
 		}
 		else{
-			console.log("gotten new song");
+			//console.log("gotten new song");
 			$("#player_overlay").addClass("hide");
 			video_id = obj[0][0]["id"];
 			conf = obj[1][0];
@@ -257,7 +257,7 @@ function setBGimage(id){
 	var img = new Image();
 	img.onload = function () {
 	  var colorThief = new ColorThief();
-		console.log(rgbToHsl(colorThief.getColor(img)));
+		//console.log(rgbToHsl(colorThief.getColor(img)));
 		document.getElementsByTagName("body")[0].style.backgroundColor = rgbToHsl(colorThief.getColor(img))
 		//$("body").css("background-color", rgbToHsl(colorThief.getColor(img)));
 		//$("body").css("background-color", colorThief.getColor(img));
