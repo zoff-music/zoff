@@ -119,7 +119,7 @@ function populate_list(msg)
 
 				var video_title=decodeURIComponent(listeID.title);
 				var video_id = listeID.id;
-				var video_thumb = "background-image:url('https://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+				var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
 				//var delsong = ""; if(pass_corr=="correct");
 				var video_votes = listeID.votes;
 				$("#wrapper").append(list_html);
@@ -285,7 +285,7 @@ function generateSong(song_info, transition)
 	var video_id = song_info.id;
 	var video_title = song_info.title;
 	var video_votes = song_info.votes;
-	var video_thumb = "background-image:url('https://img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
 
 	var song = $("<div>"+list_html+"</div>");
 	if(transition) song.find("#list-song").css("height", 0);

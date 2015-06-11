@@ -1,17 +1,30 @@
-var fs = require('fs');
-var https = require('https');
-var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
-var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
+var server;
+/******
 
-var credentials = {key: privateKey, cert: certificate};
+This if for the localhost running
+
+******/
+localhost = false;
 
 //https server
-var httpsServer = https.createServer(credentials, app);
+if(localhost)
+{
+  var http = require('http');
+  server = http.createServer(app);
+}else
+{
+  var fs = require('fs');
+  var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
+  var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
+  var credentials = {key: privateKey, cert: certificate};
+  var https = require('https');
+  server = https.createServer(credentials, app);
+}
 
 var express = require('express');
 var app = express();
 //var server = require('http').createServer(app);
-var io = require('socket.io')(httpsServer);
+var io = require('socket.io')(server);
 
 //db
 var mongojs = require('mongojs');
@@ -23,7 +36,7 @@ var crypto = require('crypto');
 var port = 3000;
 var lists = [];
 
-httpsServer.listen(port, function () {
+server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
@@ -268,6 +281,12 @@ io.on('connection', function(socket){
                   np = false;
           			db.collection(coll).insert({"added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, function(err, docs){
         		  		io.sockets.emit(coll, ["added", {"_id": "asd", "added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
+                  //io.sockets.emit(coll, ["added", {"_id": "asd", "added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
+                  if(np)
+                  {
+                    send_play(coll, undefined);
+                    io.sockets.emit(coll, ["song_change", get_time()]);
+                  }
                   //sort_list(coll, undefined, np, true);
         		  	});
               });

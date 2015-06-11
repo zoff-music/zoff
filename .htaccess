@@ -4,6 +4,15 @@ RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
+RewriteCond %{HTTPS} !=on
+# This checks to make sure the connection is not already HTTPS
+
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+# This rule will redirect users from their original location, to the same location but using HTTPS.
+# i.e.  http://www.example.com/foo/ to https://www.example.com/foo/
+# The leading slash is made optional so that this will work either in httpd.conf
+# or .htaccess context
+
 RewriteRule ^remote/(.*) php/controller.php?id=$1 [L]
 RewriteRule ^remote php/controller.php [L]
 
@@ -13,14 +22,5 @@ RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule /(.*)$ /$1 [L]
-
-RewriteCond %{HTTPS} !=on
-# This checks to make sure the connection is not already HTTPS
-
-RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
-# This rule will redirect users from their original location, to the same location but using HTTPS.
-# i.e.  http://www.example.com/foo/ to https://www.example.com/foo/
-# The leading slash is made optional so that this will work either in httpd.conf
-# or .htaccess context
 
 Options -Indexes
