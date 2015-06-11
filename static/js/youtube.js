@@ -140,7 +140,7 @@ $(document).ready(function()
 				+ ": " + git_info[0].commit.author.name
 				+ "<br><a href='"+git_info[0].html_url+"'>"
 				+ git_info[0].sha.substring(0,10) + "</a>: "
-				+ git_info[0].commit.message+"<br"); 
+				+ git_info[0].commit.message+"<br");
 	}
 });
 
@@ -283,7 +283,8 @@ function notifyUser(id, title) {
 	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
   	if (Notification.permission === "granted" && document.hidden && id != "30H2Z8Lr-4c" && !window.mobilecheck()) {
 	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
-	    setTimeout(function(){
+	    notification.onclick = function(x) { window.focus(); this.cancel(); };
+			setTimeout(function(){
 	    	notification.close();
 	    },5000);
   	}
