@@ -67,7 +67,7 @@
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 <script>
-    var socket = io.connect('http://'+window.location.hostname+':3000');
+    var socket = io.connect('//'+window.location.hostname+':3000');
     var guid = "<?php echo $guid; ?>";
     socket.on("get_list", function(){
         console.log("get_list");
