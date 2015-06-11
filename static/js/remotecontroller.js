@@ -4,7 +4,7 @@ var id;
 
 $(document).ready(function (){
     setTimeout(function(){$("#code-input").focus();},500);
-    socket = io.connect('http://'+window.location.hostname+':3000');
+    socket = io.connect('https://'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
     if(id)
     {
@@ -42,7 +42,7 @@ function control()
     start = false;
 
     $(".rc").css("display", "block");
-    
+
     document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
     $("#remote-text").text("Controlling "+ id.toUpperCase())
     document.getElementById("search").setAttribute("length", "18");
