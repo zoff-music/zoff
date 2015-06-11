@@ -77,7 +77,6 @@ $('input[class=conf]').change(function()
 
 function pass_save()
 {
-
 	socket.emit('password', [CryptoJS.SHA256(document.getElementById("password").value).toString(), chan.toLowerCase(), guid]);
 }
 
