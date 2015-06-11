@@ -57,13 +57,13 @@
     </div>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
 <script type="text/javascript" src="/static/js/lib/color-thief.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
-<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 <script>
@@ -99,5 +99,5 @@
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->
