@@ -1,5 +1,5 @@
 var fs = require('fs');
-var http = require('http');
+//var http = require('http');
 var https = require('https');
 var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
 var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');

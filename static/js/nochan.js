@@ -27,7 +27,7 @@ function populate_channels(lists)
         var nowplaying = lists[x][2];
         var chan = lists[x][3];
         var viewers = lists[x][0];
-        var img = "background-image:url('http://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+        var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
         var song_count = lists[x][4];
 
         //$("#channels").append(list_html);
