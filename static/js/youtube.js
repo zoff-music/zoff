@@ -140,7 +140,7 @@ $(document).ready(function()
 				+ ": " + git_info[0].commit.author.name
 				+ "<br><a href='"+git_info[0].html_url+"'>"
 				+ git_info[0].sha.substring(0,10) + "</a>: "
-				+ git_info[0].commit.message+"<br");
+				+ git_info[0].commit.message+"<br"); 
 	}
 });
 
