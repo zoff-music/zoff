@@ -1,15 +1,12 @@
 var fs = require('fs');
-//var http = require('http');
 var https = require('https');
 var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
 var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
 
 var credentials = {key: privateKey, cert: certificate};
-// your express configuration here
 
-//var httpServer = http.createServer(app);
+//https server
 var httpsServer = https.createServer(credentials, app);
-
 
 var express = require('express');
 var app = express();
