@@ -202,7 +202,7 @@ function show(){
 	    	$("#toptitle").empty();
 	        $("#chan").addClass("bigChan");
 	        //$("#chan").html("zoff.no/"+encodeURI(chan));
-	        $("#chan").html("zoff.no/"+chan);
+	        $("#chan").html("zoff.no/"+chan.toLowerCase());
 	    }else{
 	    	showToggle=true;
 	    	$("#toptitle").html("Zöff");
