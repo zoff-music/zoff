@@ -1,4 +1,5 @@
 var list_html;
+var git_info;
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -113,6 +114,15 @@ $(document).ready(function (){
             }
         }
      }
+
+     git_info = $.ajax({ type: "GET",
+		     url: "https://api.github.com/repos/nixolas1/zoff/commits",
+		     async: false
+	   }).responseText;
+
+     git_info = $.parseJSON(git_info);
+     $("#latest-commit").html("Latest Commit: <br>" + git_info[0].commit.author.date.substring(0,10) + ": " + git_info[0].commit.author.name + "<br>" + git_info[0].sha.substring(0,10) + ": " + git_info[0].commit.message+"<br>");
+
 
 
 });
