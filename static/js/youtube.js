@@ -276,7 +276,7 @@ function setBGimage(id){
 		//$("body").css("background-color", colorThief.getColor(img));
 	};
 	img.crossOrigin = 'Anonymous';
-	img.src = 'http://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+	img.src = 'https://cors-anywhere.herokuapp.com/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
 }
 
 function notifyUser(id, title) {
