@@ -144,7 +144,7 @@ if(isset($_GET['chan'])){
                               </a>
                           </p>
                           <p>
-                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
+                              <a class="waves-effect waves-light btn light-blue share" href="https://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
                                   <img class="left" src="static/images/twitter.png">Share on Twitter
                               </a>
                           </p>
@@ -173,10 +173,10 @@ if(isset($_GET['chan'])){
         </div>
     </footer>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
     <script type="text/javascript" src="static/js/nochan.js"></script>
-	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+	  <noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	</body>
 </html>
