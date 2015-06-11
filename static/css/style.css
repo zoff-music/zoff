@@ -194,6 +194,13 @@ success mdi-action-done
 vote mdi-action-thumb-up
 hide mdi-action-visibility mdi-action-visibility-off
 */
+/*Global style for commit container*/
+
+#latest-commit{
+	font-size: 12px !important;
+  padding-left: 15px !important;
+  padding-top: 40px !important;
+}
 
 /* INDEX PAGE */
 
