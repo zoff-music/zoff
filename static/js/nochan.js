@@ -14,46 +14,47 @@ function getCookie(cname) {
 
 function populate_channels(lists)
 {
-    var output = "";
-    var num = 0;
-    lists.sort(sortFunction);
+    $.get("/php/card.php", function(data){
+      var output = "";
+      var num = 0;
+      lists.sort(sortFunction);
+      pre_card = $(data);
+    //pre_card = $(list_html);
 
-    pre_card = $(list_html);
+      for(x in lists)
+      {
 
-    for(x in lists)
-    {
+          var id = lists[x][1];
+          var nowplaying = lists[x][2];
+          var chan = lists[x][3];
+          var viewers = lists[x][0];
+          var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+          var song_count = lists[x][4];
 
-        var id = lists[x][1];
-        var nowplaying = lists[x][2];
-        var chan = lists[x][3];
-        var viewers = lists[x][0];
-        var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-        var song_count = lists[x][4];
+          //$("#channels").append(list_html);
 
-        //$("#channels").append(list_html);
+          var card = pre_card;
+          card.find(".chan-name").text(chan);
+          card.find(".chan-name").attr("title", chan);
+          card.find(".chan-views").text(viewers);
+          card.find(".chan-songs").text(song_count);
+          card.find(".chan-bg").attr("style", img);
+          card.find(".chan-link").attr("href", chan);
 
-        var card = pre_card;
-        card.find(".chan-name").text(chan);
-        card.find(".chan-name").attr("title", chan);
-        card.find(".chan-views").text(viewers);
-        card.find(".chan-songs").text(song_count);
-        card.find(".chan-bg").attr("style", img);
-        card.find(".chan-link").attr("href", chan);
+          $("#channels").append(card.html());
 
-        $("#channels").append(card.html());
+          //$("#channels").append(card);
 
-        //$("#channels").append(card);
-        //console.log(chan);
-
-        output+="<option value='"+chan+"'> ";
-        num++;
-        if(num>19)break;
-    }
-    document.getElementById("preloader").style.display = "none";
-    document.getElementById("searches").innerHTML = output;
-    //Materialize.fadeInImage('#channels');
-    $("#channels").fadeIn(800);
-    $("#search").focus();
+          output+="<option value='"+chan+"'> ";
+          num++;
+          if(num>19)break;
+      }
+      document.getElementById("preloader").style.display = "none";
+      document.getElementById("searches").innerHTML = output;
+      //Materialize.fadeInImage('#channels');
+      $("#channels").fadeIn(800);
+      $("#search").focus();
+    });
 }
 
 String.prototype.capitalizeFirstLetter = function() {
@@ -75,19 +76,23 @@ function sortFunction(a, b) {
   return 0;
 }
 
-$(document).ready(function (){
-
-    //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
-
-    list_html = $("#channels").html();
+function loadChannels(){
+  list_html = $("#channels").html();
     $("#channels").empty();
 
-    var socket = io.connect('//'+window.location.hostname+':3000');
+    var socket = io.connect('//'+window.location.host+':3000');
     var playlists = [];
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         populate_channels(msg);
     })
+}
+
+$(document).ready(function (){
+
+    //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
+
+    loadChannels();
 
 
 

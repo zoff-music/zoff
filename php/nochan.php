@@ -16,7 +16,7 @@ if(isset($_GET['chan'])){
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo hide-on-small-only">
+                <a ui-sref="index" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
@@ -125,10 +125,10 @@ if(isset($_GET['chan'])){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
-    <script type="text/javascript" src="static/js/nochan.js"></script>
     <script src="static/js/lib/angular.min.js"></script>
     <script src="static/js/lib/angular-ui-router.min.js"></script>
     <script src="static/js/state.js"></script>
+    <script src="static/js/nochan.js"></script>
 	  <noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	</body>
 </html>

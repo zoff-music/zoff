@@ -9,7 +9,12 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('index', {
       url: "/",
-      templateUrl: "php/main.php"
+      templateUrl: "php/main.php",
+      resolve: {
+        style: function(){
+          loadChannels();
+        }
+      }
     })
     .state('remote', {
       url: "/remote",
