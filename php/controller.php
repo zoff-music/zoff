@@ -51,4 +51,5 @@
             To find the ID of your player, click the Conf <i class="mdi-action-settings"></i> icon on the top right of the player page, then "Remote Control".
             <br>You can either scan the QR code or type the ID manually.
         </div>
-    
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/static/js/remotecontroller.js"></script>

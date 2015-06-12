@@ -20,7 +20,6 @@ function populate_channels(lists)
       lists.sort(sortFunction);
       pre_card = $(data);
     //pre_card = $(list_html);
-
       for(x in lists)
       {
 
@@ -44,7 +43,7 @@ function populate_channels(lists)
           $("#channels").append(card.html());
 
           //$("#channels").append(card);
-
+          //console.log(chan);
           output+="<option value='"+chan+"'> ";
           num++;
           if(num>19)break;
@@ -76,15 +75,18 @@ function sortFunction(a, b) {
   return 0;
 }
 
-function loadChannels(){
-  list_html = $("#channels").html();
+function loadChannels(){ //Denne blir kjørt hver gang man bytter tilbake til liste visning av kanaler, kanskje ikke det lureste
+    list_html = $("#channels").html();
     $("#channels").empty();
-
-    var socket = io.connect('//'+window.location.host+':3000');
+    var socket = io.connect('https://zoff.no:3000');
     var playlists = [];
+    var once = true;
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
-        populate_channels(msg);
+        if (once){ //dirtyfix for å ikke kjøre flere ganger
+          populate_channels(msg);
+          once = false;
+        };
     })
 }
 
@@ -92,7 +94,7 @@ $(document).ready(function (){
 
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
 
-    loadChannels();
+    //loadChannels();
 
 
 

@@ -19,7 +19,7 @@ myApp.config(function($stateProvider, $urlRouterProvider) {
     .state('remote', {
       url: "/remote",
       templateUrl: "php/controller.php"
-    });
+    })
 });
 
 myApp.config(["$locationProvider", function($locationProvider) {
