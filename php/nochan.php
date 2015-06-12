@@ -6,9 +6,11 @@ if(isset($_GET['chan'])){
 }
 
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" ng-app="myApp">
 <head>
+<base href="/">
   <?php include("header.php"); ?>
+  
 </head>
 <body>
     <header>
@@ -19,7 +21,7 @@ if(isset($_GET['chan'])){
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="waves-effect green" title="Remote control a Zöff player" href="remote">Remote</a></li>
+                    <li><a class="waves-effect green" title="Remote control a Zöff player" ui-sref="remote">Remote</a></li>
                     <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
                     <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
                     <li><a class="waves-effect waves-purple" href="https://github.com/nixolas1/Zoff">GitHub</a></li>
@@ -57,61 +59,8 @@ if(isset($_GET['chan'])){
         </div>
     </header>
 
-    <main class="center-align container">
-        <div class="section">
-            <form class="row" id="base" method="get">
-                    <div class="input-field col s12">
-                        <input
-                            class="input-field"
-                            type="text"
-                            id="search"
-                            name="chan"
-                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                            autocomplete="off"
-                            list="searches"
-                            required pattern="[a-zA-Z0-9]+"
-                            spellcheck="false"
-                            maxlength="18"
-                            autocomplete
-                            length="18"
-                        />
-                        <label for="search">Find or create radio channel</label>
-                        <datalist id="searches">
-                        </datalist>
-                </div>
-            </form>
-        </div>
-
-        <div class="section">
-            <div id="preloader" class="progress">
-                <div class="indeterminate"></div>
-            </div>
-            <ul class="row" id="channels">
-                <div id="chan-html" class="hide">
-                    <li id="chan-card" class="col s12 m4 l3">
-                        <div class="card">
-                            <a class="chan-link">
-                                <div class="chan-bg card-image cardbg"></div>
-                            </a>
-                            <div class="card-content">
-                                <p class="left-align">
-                                    <span class="chan-name flow-text truncate"></span>
-                                    <br>
-                                    <span class="highlighted">Viewers:&nbsp</span>
-                                    <span class="chan-views"></span>
-                                    <br>
-                                    <span class="highlighted">Songs:&nbsp</span>
-                                    <span class="chan-songs"></span>
-                                </p>
-                            </div>
-                            <div class="card-action">
-                                <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
-                            </div>
-                        </div>
-                    </li>
-                </div>
-            </ul>
-        </div>
+    <main ui-view class="center-align container">
+        
     </main>
 
     <footer class="page-footer">
@@ -177,6 +126,9 @@ if(isset($_GET['chan'])){
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
     <script type="text/javascript" src="static/js/nochan.js"></script>
+    <script src="static/js/lib/angular.min.js"></script>
+    <script src="static/js/lib/angular-ui-router.min.js"></script>
+    <script src="static/js/state.js"></script>
 	  <noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 	</body>
 </html>
