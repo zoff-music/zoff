@@ -1,4 +1,4 @@
-var list_html;
+var list_html; 
 var git_info;
 
 function getCookie(cname) {
