@@ -1,394 +1,0 @@
-Script started on to. 04. juni 2015 kl. 13.29 +0200
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:29:12[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=scriptgit pushcommit -am "Forgot logging of the damn id"
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:29:15[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=sscripts/./prodsett.sh[?1l>
-]2;scripts/./prodsett.sh]1;scripts/./prodsett.shroot@zoff.no's password: 
-Saved working directory and index state WIP on master: f3a7428 Controller is up
-HEAD is now at f3a7428 Controller is up
-From github.com:nixolas1/Zoff
-   f3a7428..f5ffd62  master     -> origin/master
-Updating f3a7428..f5ffd62
-Fast-forward
- static/js/controller.js | 1 +
- 1 file changed, 1 insertion(+)
-[32minfo[39m:    Forever restarted processes:
-[90mdata[39m:    [37m   [39m [37muid[39m  [90mcommand[39m         [90mscript[39m                    [37mforever[39m [37mpid[39m   [37mid[39m [35mlogfile[39m           [33muptime[39m       
-[90mdata[39m:    [0] CtT7 [90m/usr/bin/nodejs[39m [90m/var/www/server/server.js[39m 6677    28998    [35m/var/log/zoff.log[39m [33m0:0:0:48.633[39m 
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:29:25[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=nnodejs server/server.js[?1l>
-]2;nodejs server/server.js]1;nodejsServer listening at port 3000
-^C[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:32:58[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit o commit -am "Added so the r url changes without c reloading the page"[?1l>
-]2;git commit -am "Added so the url changes without reloading the page"]1;git[master 2d70f9c] Added so the url changes without reloading the page
- 1 file changed, 2 insertions(+)
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:33:12[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit push[?1l>
-]2;git push]1;gitwarning: push.default is unset; its implicit value is changing in
-Git 2.0 from 'matching' to 'simple'. To squelch this message
-and maintain the current behavior after the default changes, use:
-
-  git config --global push.default matching
-
-To squelch this message and adopt the new behavior now, use:
-
-  git config --global push.default simple
-
-When push.default is set to 'matching', git will push local branches
-to the remote branches that already exist with the same name.
-
-In Git 2.0, Git will default to the more conservative 'simple'
-behavior, which only pushes the current branch to the corresponding
-remote branch that 'git pull' uses to update the current branch.
-
-See 'git help config' and search for 'push.default' for further information.
-(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
-'current' instead of 'simple' if you sometimes use older versions of Git)
-
-Username for 'https://github.com': kasperrt
-Password for 'https://kasperrt@github.com': 
-remote: Invalid username or password.
-fatal: Authentication failed for 'https://github.com/nixolas1/Zoff.git/'
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:33:24[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=git push[?1l>
-]2;git push]1;gitwarning: push.default is unset; its implicit value is changing in
-Git 2.0 from 'matching' to 'simple'. To squelch this message
-and maintain the current behavior after the default changes, use:
-
-  git config --global push.default matching
-
-To squelch this message and adopt the new behavior now, use:
-
-  git config --global push.default simple
-
-When push.default is set to 'matching', git will push local branches
-to the remote branches that already exist with the same name.
-
-In Git 2.0, Git will default to the more conservative 'simple'
-behavior, which only pushes the current branch to the corresponding
-remote branch that 'git pull' uses to update the current branch.
-
-See 'git help config' and search for 'push.default' for further information.
-(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
-'current' instead of 'simple' if you sometimes use older versions of Git)
-
-Username for 'https://github.com': kasperrt
-Password for 'https://kasperrt@github.com': 
-Counting objects: 19, done.
-Delta compression using up to 4 threads.
-Compressing objects:  20% (1/5)   Compressing objects:  40% (2/5)   Compressing objects:  60% (3/5)   Compressing objects:  80% (4/5)   Compressing objects: 100% (5/5)   Compressing objects: 100% (5/5), done.
-Writing objects:  20% (1/5)   Writing objects:  40% (2/5)   Writing objects:  60% (3/5)   Writing objects:  80% (4/5)   Writing objects: 100% (5/5)   Writing objects: 100% (5/5), 506 bytes | 0 bytes/s, done.
-Total 5 (delta 4), reused 0 (delta 0)
-To https://github.com/nixolas1/Zoff.git
-   f5ffd62..2d70f9c  master -> master
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:33:34[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=sscripts/./prodsett.sh[?1l>
-]2;scripts/./prodsett.sh]1;scripts/./prodsett.shroot@zoff.no's password: 
-Permission denied, please try again.
-root@zoff.no's password: 
-Saved working directory and index state WIP on master: f5ffd62 Forgot logging of the damn id
-HEAD is now at f5ffd62 Forgot logging of the damn id
-From github.com:nixolas1/Zoff
-   f5ffd62..2d70f9c  master     -> origin/master
-Updating f5ffd62..2d70f9c
-Fast-forward
- static/js/controller.js | 2 ++
- 1 file changed, 2 insertions(+)
-[32minfo[39m:    Forever restarted processes:
-[90mdata[39m:    [37m   [39m [37muid[39m  [90mcommand[39m         [90mscript[39m                    [37mforever[39m [37mpid[39m   [37mid[39m [35mlogfile[39m           [33muptime[39m      
-[90mdata[39m:    [0] CtT7 [90m/usr/bin/nodejs[39m [90m/var/www/server/server.js[39m 6677    29145    [35m/var/log/zoff.log[39m [33m0:0:8:5.771[39m 
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m13:37:31[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=nnodejs server/server.js[?1l>
-]2;nodejs server/server.js]1;nodejsServer listening at port 3000
-git^C[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:31:55[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit commit -am "Added more controllers"[?1l>
-]2;git commit -am "Added more controllers"]1;git[master 7966e93] Added more controllers
- 6 files changed, 57 insertions(+), 12 deletions(-)
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:32:00[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit p add .[?1l>
-]2;git add .]1;git[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:32:03[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit p com   status[?1l>
-]2;git status]1;gitOn branch master
-Your branch is ahead of 'origin/master' by 1 commit.
-  (use "git push" to publish your local commits)
-
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-	[32mnew file:   typescript[m
-
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:32:05[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=ggit push[?1l>
-]2;git push]1;gitwarning: push.default is unset; its implicit value is changing in
-Git 2.0 from 'matching' to 'simple'. To squelch this message
-and maintain the current behavior after the default changes, use:
-
-  git config --global push.default matching
-
-To squelch this message and adopt the new behavior now, use:
-
-  git config --global push.default simple
-
-When push.default is set to 'matching', git will push local branches
-to the remote branches that already exist with the same name.
-
-In Git 2.0, Git will default to the more conservative 'simple'
-behavior, which only pushes the current branch to the corresponding
-remote branch that 'git pull' uses to update the current branch.
-
-See 'git help config' and search for 'push.default' for further information.
-(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
-'current' instead of 'simple' if you sometimes use older versions of Git)
-
-Username for 'https://github.com': kasperrt
-Password for 'https://kasperrt@github.com': 
-Counting objects: 47, done.
-Delta compression using up to 4 threads.
-Compressing objects:   7% (1/13)   Compressing objects:  15% (2/13)   Compressing objects:  23% (3/13)   Compressing objects:  30% (4/13)   Compressing objects:  38% (5/13)   Compressing objects:  46% (6/13)   Compressing objects:  53% (7/13)   Compressing objects:  61% (8/13)   Compressing objects:  69% (9/13)   Compressing objects:  76% (10/13)   Compressing objects:  84% (11/13)   Compressing objects:  92% (12/13)   Compressing objects: 100% (13/13)   Compressing objects: 100% (13/13), done.
-Writing objects:   7% (1/13)   Writing objects:  15% (2/13)   Writing objects:  23% (3/13)   Writing objects:  30% (4/13)   Writing objects:  38% (5/13)   Writing objects:  46% (6/13)   Writing objects:  53% (7/13)   Writing objects:  61% (8/13)   Writing objects:  69% (9/13)   Writing objects:  76% (10/13)   Writing objects:  84% (11/13)   Writing objects:  92% (12/13)   Writing objects: 100% (13/13)   Writing objects: 100% (13/13), 1.67 KiB | 0 bytes/s, done.
-Total 13 (delta 11), reused 0 (delta 0)
-To https://github.com/nixolas1/Zoff.git
-   2d70f9c..7966e93  master -> master
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:32:13[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=sscripts[1m/[0m[0m/./prodsett.sh[?1l>
-]2;scripts/./prodsett.sh]1;scripts/./prodsett.shroot@zoff.no's password: 
-Saved working directory and index state WIP on master: 2d70f9c Added so the url changes without reloading the page
-HEAD is now at 2d70f9c Added so the url changes without reloading the page
-From github.com:nixolas1/Zoff
-   2d70f9c..7966e93  master     -> origin/master
-Updating 2d70f9c..7966e93
-Fast-forward
- php/controller.php            |  5 +++++
- server/server.js              |  3 ++-
- static/css/style.css          |  8 ++++++++
- static/js/admin.js            | 27 +++++++++++++++++----------
- static/js/controller.js       |  8 +++++++-
- static/js/mobilecontroller.js | 18 ++++++++++++++++++
- 6 files changed, 57 insertions(+), 12 deletions(-)
-[32minfo[39m:    Forever restarted processes:
-[90mdata[39m:    [37m   [39m [37muid[39m  [90mcommand[39m         [90mscript[39m                    [37mforever[39m [37mpid[39m   [37mid[39m [35mlogfile[39m           [33muptime[39m        
-[90mdata[39m:    [0] CtT7 [90m/usr/bin/nodejs[39m [90m/var/www/server/server.js[39m 6677    29305    [35m/var/log/zoff.log[39m [33m0:0:54:51.549[39m 
-[1m[7m%[27m[1m[0m                                                                                ]2;kasper@Blake: /var/www]1;/var/www[0m[27m[24m[J
-[01;32m/var/www[00m on [35m|master[31m![00m[35m|[00m ⌚ [01;31m14:32:22[00m
-[33mλ [K[77C[01;31m[00m[77D[?1h=wwwh  w  sssh -p 1911 root@zoff.no[?1l>
-]2;ssh -p 1911 root@zoff.no]1;1911root@zoff.no's password: 
-Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-36-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com/
-
-  System information as of Thu Jun  4 08:32:18 EDT 2015
-
-  System load:  0.05               Processes:           91
-  Usage of /:   19.1% of 19.56GB   Users logged in:     0
-  Memory usage: 67%                IP address for eth0: 178.62.251.20
-  Swap usage:   0%
-
-  Graph this data and manage this system at:
-    https://landscape.canonical.com/
-
-90 packages can be updated.
-54 updates are security updates.
-
-*** System restart required ***
--------------------------------------------------------------------------------------
-This is the zöff server
-Your web root is located at /var/www/ and web is  zoff.no and 178.62.251.20
-The details of your PHP installation can be seen at http://178.62.251.20/info.php
--------------------------------------------------------------------------------------
-You have new mail.
-Last login: Sun May 31 09:56:22 2015 from dhcp-030229.wlan.ntnu.no
-]0;root@zoff: ~root@zoff:~# cd /var/log
-]0;root@zoff: /var/logroot@zoff:/var/log# nano zoff.log
-[?1049h[1;24r(B[m[4l[?7h[?12l[?25h[?1h=[?1h=[?1h=[39;49m[39;49m(B[m[H[2J(B[0;7m  GNU nano 2.2.6              File: zoff.log                                    [3;1H(B[merror: Forever detected script exited with code: null[4derror: Script restart attempt #1[5dServer listening at port 3000[6dServer listening at port 3000[7derror: Forever detected script exited with code: null[8derror: Script restart attempt #1[9dServer listening at port 3000[10dServer listening at port 3000[11derror: Forever detected script exited with code: null[12derror: Script restart attempt #1[13dServer listening at port 3000[14dServer listening at port 3000[15derror: Forever detected script exited with code: null[16derror: Script restart attempt #1[17dServer listening at port 3000[18dServer listening at port 3000[19derror: Forever detected script exited with code: null[20derror: Script restart attempt #1[21dServer listening at port 3000[22d  (B[0;7m[ Read 238 lines ][23d^G(B[m Get Help  (B[0;7m^O(B[m WriteOut  (B[0;7m^R(B[m Read File (B[0;7m^Y(B[m Prev Page (B[0;7m^K(B[m Cut Text  (B[0;7m^C(B[m Cur Pos[24d(B[0;7m^X(B[m Exit[14G(B[0;7m^J(B[m Justify   (B[0;7m^W(B[m Where Is  (B[0;7m^V(B[m Next Page (B[0;7m^U(B[m UnCut Text(B[0;7m^T(B[m To Spell[3d[6d[9d[12d[15d[18d[3dServer listening at port 3000[K[4dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6derror: Script restart attempt #1[7dServer listening at port 3000[K[8dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10derror: Script restart attempt #1[11dServer listening at port 3000[K[12dServer listening at port 3000[K[13derror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[K[16dServer listening at port 3000[K[17dMissing error handler on `socket`.[18dMissing error handler on `socket`.[19dTypeError: Cannot read property 'length' of undefined[20d    at /var/www/server/server.js:343:16[21d    at /var/www/server/node_modules/mongojs/index.js:282:23[14d[17d[3;22r[22;1H[10S[1;24r[12;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[13;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[14;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[15;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[16;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[17;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[18;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[19;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[20;1HTypeError: Cannot read property 'length' of undefined[21;5Hat /var/www/server/server.js:343:16[13d[9;20r[9;1HM[1;24r[3;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[4d    at /var/www/server/node_modules/mongojs/index.js:273:23[5d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[6;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[7d    at Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[8;1H    at /var/www/server/node_modules/mongojs/index.js:556:10[9;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;1Herror: Forever detected script exited with code: null[12d[15d[18d[21d[3;8Happly (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[4;45Hnode_modules/thunky/index.js:20:25[5;8H/var/www/server/node_modules/mongojs/index.js:273:23[K[6;8Happly (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[7;8H/var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[K[8;8HDb.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[9;8H/var/www/server/node_modules/mongojs/index.js:556:10[K[10d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[11;1Herror: Forever detected script exited with code: null[12derror: Script restart attempt #1[K[13dServer listening at port 3000[K[14dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[K[16derror: Script restart attempt #1[K[17dServer listening at port 3000[K[18dServer listening at port 3000[K[19dMissing error handler on `socket`.[K[20dMissing error handler on `socket`.[K[21dTypeError: Cannot read property 'length' of undefined[14d[20d[3;22r[22;1H[10S[1;24r[12;5Hat /var/www/server/server.js:343:16[13;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[14;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[15;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[16;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[17;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[18;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[19;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[20;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[16;1H[19d[11;21r[11;1HM[1;24r[3;1H    at /var/www/server/node_modules/mongojs/index.js:282:23[4d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[5;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[6d    at /var/www/server/node_modules/mongojs/index.js:273:23[7d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[8;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[9d    at Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[10;1H    at /var/www/server/node_modules/mongojs/index.js:556:10[11;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[12;1H[15d[18d[21d7[3;22r8[22d[10S[1;24r[12;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[13;1Herror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[16dServer listening at port 3000[17derror: Forever detected script exited with code: null[18derror: Script restart attempt #1[19dServer listening at port 3000[20dServer listening at port 3000[21derror: Forever detected script exited with code: null[14d[17d[20d[3derror: Forever detected script exited with code: null[4derror: Script restart attempt #1[K[5dServer listening at port 3000[K[6dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[K[8derror: Script restart attempt #1[K[9dServer listening at port 3000[K[10dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[K[12derror: Script restart attempt #1[K[13dServer listening at port 3000[K[14dServer listening at port 3000[K[15dbidrag[K[16dbidrag[K[17dzipfelschwinger[K[18dzipfelschwinger[K[19dbidrag[K[20dbidrag[K[21dbidrag[K[13d[16d[19d[3dServer listening at port 3000[K[4dServer listening at port 3000[K[5dbidrag[K[6dbidrag[K[7dzipfelschwinger[K[8dzipfelschwinger[K[9dbidrag[K[10dbidrag[K[11dbidrag[K[12dbidrag[K[13dnixo[K[14dnixo[K[17dchill[K[18dchill[K[19dchill[K[20dchill[K[21dchill[K[12d[15d[17d[18d[21d[3dnixo[K[4dnixo[K[7dchill[K[8dchill[K[9dchill[K[10dchill[K[11dchill[K[12dchill[K[13derror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[16dServer listening at port 3000[17dbidrag[18dbidrag[19dzipfelschwinger[20dzipfelschwinger[21dbidrag[13d[14d[16d[17d[20d[3;22r[22;1H[10S[1;24r[12;1Hbidrag[13dchill[14dchill[15dbidrag[16dbidrag[17dnixo[18dnixo[19dbidrag[20dbidrag[21dchill[16d[19d[3dchill[K[4dchill[K[5dbidrag[K[6dbidrag[K[7dnixo[K[8dnixo[K[9dbidrag[K[10dbidrag[K[11dchill[K[12dchill[K[13dnixo[K[14dnixo[K[15dkasper[16dkasper[17dchill[18dchill[19dnixo[K[20dnixo[K[21djazz[K[12d[18d[21d[3dnixo[K[4dnixo[K[5dkasper[6dkasper[7dchill[8dchill[9dnixo[K[10dnixo[K[11djazz[K[12djazz[K[13dchill[14dchill[15dchill[K[16dchill[K[17djazz[K[18djazz[K[19djazz[20djazz[21dchill[14d[20d[3dchill[4dchill[5dchill[K[6dchill[K[7djazz[K[8djazz[K[9djazz[10djazz[11dchill[12dchill[15dbidrag[16dbidrag[17dbidrag[18dbidrag[19derror: Forever detected script exited with code: null[20derror: Script restart attempt #1[21dServer listening at port 3000[13d[19d[3;22r[22;1H[10S[1;24r[12;1HServer listening at port 3000[13dzipfelschwinger[14dzipfelschwinger[15dbidrag[16dbidrag[17dnixo[18dnixo[19dbidrag[20dbidrag[21dbidrag[12d[18d[21d[3dzipfelschwinger[4dzipfelschwinger[7dnixo[K[8dnixo[K[9dbidrag[K[10dbidrag[K[11dbidrag[K[12dbidrag[K[13dchill[K[14dchill[K[15dchill[K[16dchill[K[17dchill[18dchill[19dchill[K[20dchill[K[21dtropicala[14d[17d[20d[3dchill[K[4dchill[K[5dchill[K[6dchill[K[7dchill[8dchill[9dchill[K[10dchill[K[11dtropicala[12dtropicala[21dchill[K[13d[16d[19d[11dchill[K[12dchill[K[17derror: Forever detected script exited with code: null[18derror: Script restart attempt #1[19dServer listening at port 3000[20dServer listening at port 3000[21dMissing error handler on `socket`.[12d[15d[18d[21d7[3;22r8[22d[10S[1;24r[12;1HMissing error handler on `socket`.[13dTypeError: Cannot read property 'length' of undefined[14;5Hat /var/www/server/server.js:170:12[15;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[16;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[17;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[18;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[19;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[20;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[14;1H[17d[20d[3;22r[22;1H[10S[1;24r[12;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[13;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[14;1HTypeError: Cannot read property 'length' of undefined[15;5Hat /var/www/server/server.js:170:12[16;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[17;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[18;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[19;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[20;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[13d[16d[19d[2;14r[2;1HM[1;24r[3;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[15;1Herror: Forever detected script exited with code: null[16derror: Script restart attempt #1[K[17dServer listening at port 3000[K[18dServer listening at port 3000[K[19derror: Forever detected script exited with code: null[K[20derror: Script restart attempt #1[K[21dServer listening at port 3000[K[12d[15d[18d[3;22r[22;1H[10S[1;24r[12;1HServer listening at port 3000[13derror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[16dServer listening at port 3000[17derror: Forever detected script exited with code: null[18derror: Script restart attempt #1[19dServer listening at port 3000[20dServer listening at port 3000[14d[17d[20d[21d[18d[15d[12d[10d[A[6d[3d[2;21r[2;1H[10T[1;24r[3;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[4;1HTypeError: Cannot read property 'length' of undefined[5;5Hat /var/www/server/server.js:170:12[6;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[7;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[8;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[9;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[10;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[11;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[12;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[10;1H[7d[4d[3;17r[17;1H
-[1;24r[14;1HTypeError: Cannot read property 'length' of undefined[15d    at /var/www/server/server.js:170:12[16d    at /var/www/server/node_modules/mongojs/index.js:282:23[17;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[18;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[19d    at /var/www/server/node_modules/mongojs/index.js:273:23[20d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[11d[8d[A[5d[2;21r[2;1H[10T[1;24r[3;1Hchill[4dchill[5dchill[6dchill[7derror: Forever detected script exited with code: null[8derror: Script restart attempt #1[9dServer listening at port 3000[10dServer listening at port 3000[11dMissing error handler on `socket`.[12dMissing error handler on `socket`.[15d[18d[21d7[3;22r8[22d[10S[1;24r[12;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[13;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[14;1HTypeError: Cannot read property 'length' of undefined[15;5Hat /var/www/server/server.js:170:12[16;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[17;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[18;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[19;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[20;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[14d[17d[20d[2;14r[2;1HM[1;24r[3;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[15;1Herror: Forever detected script exited with code: null[16derror: Script restart attempt #1[K[17dServer listening at port 3000[K[18dServer listening at port 3000[K[19derror: Forever detected script exited with code: null[K[20derror: Script restart attempt #1[K[21dServer listening at port 3000[K[13d[16d[19d[3;22r[22;1H[10S[1;24r[12;1HServer listening at port 3000[13derror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[16dServer listening at port 3000[17derror: Forever detected script exited with code: null[18derror: Script restart attempt #1[19dServer listening at port 3000[20dServer listening at port 3000[12d[15d[18d[21d[18d[15d[12d[9d[6d[3d[2;21r[2;1H[10T[1;24r[3;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[4;1HTypeError: Cannot read property 'length' of undefined[5;5Hat /var/www/server/server.js:170:12[6;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[7;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[8;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[9;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[10;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[11;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[12;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[10;1H[7d[4d[3;17r[17;1H
-[1;24r[14;1HTypeError: Cannot read property 'length' of undefined[15d    at /var/www/server/server.js:170:12[16d    at /var/www/server/node_modules/mongojs/index.js:282:23[17;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[18;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[19d    at /var/www/server/node_modules/mongojs/index.js:273:23[20d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[11d[8d[A[5d[2;21r[2;1H[10T[1;24r[3;1Hchill[4dchill[5dchill[6dchill[7derror: Forever detected script exited with code: null[8derror: Script restart attempt #1[9dServer listening at port 3000[10dServer listening at port 3000[11dMissing error handler on `socket`.[12dMissing error handler on `socket`.[9d[6d[3d[2;21r[2;1H[10T[1;24r[3;1Hchill[4dchill[5dchill[6dchill[7dchill[8dchill[9dchill[10dchill[11dchill[12dchill[10d[7d[4d[11dtropicala[12dtropicala[17dchill[K[18dchill[K[19dchill[K[20dchill[K[21dchill[K[11d[8d[5d[3dzipfelschwinger[4dzipfelschwinger[5dbidrag[6dbidrag[7dnixo[K[8dnixo[K[9dbidrag[10dbidrag[11dbidrag[K[12dbidrag[K[21dtropicala[12d[9d[6d[3dchill[K[4dchill[K[7dbidrag[8dbidrag[9derror: Forever detected script exited with code: null[10derror: Script restart attempt #1[11dServer listening at port 3000[12dServer listening at port 3000[13dzipfelschwinger[14dzipfelschwinger[15dbidrag[16dbidrag[17dnixo[K[18dnixo[K[19dbidrag[20dbidrag[21dbidrag[K[10d[7d[4d[2;21r[2;1H[10T[1;24r[3;1Hchill[4dchill[5dchill[6dchill[7djazz[8djazz[9djazz[10djazz[11dchill[12dchill[A[8d[5d[3dnixo[K[4dnixo[K[5dkasper[6dkasper[7dchill[8dchill[9dnixo[10dnixo[11djazz[K[12djazz[K[15dchill[K[16dchill[K[17djazz[K[18djazz[K[19djazz[K[20djazz[K[21dchill[K[12d[9d[7d[A[3dchill[4dchill[5dbidrag[6dbidrag[7dnixo[K[8dnixo[K[9dbidrag[10dbidrag[11dchill[12dchill[13dnixo[K[14dnixo[K[15dkasper[16dkasper[17dchill[18dchill[19dnixo[20dnixo[21djazz[K[10d[7d[4d[Aerror: Forever detected script exited with code: null[4derror: Script restart attempt #1[5dServer listening at port 3000[6dServer listening at port 3000[7dbidrag[8dbidrag[9dzipfelschwinger[10dzipfelschwinger[11dbidrag[12dbidrag[13dchill[14dchill[15dbidrag[16dbidrag[17dnixo[K[18dnixo[K[19dbidrag[20dbidrag[21dchill[11d[8d[5d[2;21r[2;1H[10T[1;24r[3;1Hnixo[4dnixo[5dbidrag[6dbidrag[7dchill[8dchill[9dchill[10dchill[11dchill[12dchill[9d[6d[3dServer listening at port 3000[4dServer listening at port 3000[7dzipfelschwinger[8dzipfelschwinger[9dbidrag[10dbidrag[11dbidrag[12dbidrag[13dnixo[K[14dnixo[K[15dbidrag[K[16dbidrag[K[17dchill[K[18dchill[K[19dchill[K[20dchill[K[21dchill[K[10d[7d[4d[Aerror: Forever detected script exited with code: null[4derror: Script restart attempt #1[5dServer listening at port 3000[6dServer listening at port 3000[7derror: Forever detected script exited with code: null[8derror: Script restart attempt #1[9dServer listening at port 3000[10dServer listening at port 3000[11derror: Forever detected script exited with code: null[12derror: Script restart attempt #1[13dServer listening at port 3000[14dServer listening at port 3000[17dzipfelschwinger[18dzipfelschwinger[19dbidrag[20dbidrag[21dbidrag[11d[8d[A[5d[3d    at /var/www/server/server.js:343:16[K[4d    at /var/www/server/node_modules/mongojs/index.js:282:23[5d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[6;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[7d    at /var/www/server/node_modules/mongojs/index.js:273:23[8d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[9;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[10d    at Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[11;1H    at /var/www/server/node_modules/mongojs/index.js:556:10[12d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[13;1Herror: Forever detected script exited with code: null[14derror: Script restart attempt #1[15dServer listening at port 3000[16dServer listening at port 3000[17derror: Forever detected script exited with code: null[18derror: Script restart attempt #1[19dServer listening at port 3000[20dServer listening at port 3000[21derror: Forever detected script exited with code: null[12d[9d[6d[3d[2;21r[2;1H[10T[1;24r[3;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[4;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[5;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[6;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[7;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[8;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[9;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[10;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[11;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[12;1HTypeError: Cannot read property 'length' of undefined[10d[7d[4d[11;22r[22;1H
-[1;24r[3;1HServer listening at port 3000[K[4dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[K[6derror: Script restart attempt #1[K[7dServer listening at port 3000[K[8dServer listening at port 3000[K[9dMissing error handler on `socket`.[K[10dMissing error handler on `socket`.[K[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[11;1H[8d[5d[3d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[4;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[5d    at /var/www/server/node_modules/mongojs/index.js:273:23[6d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[7;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[8d    at Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[9;1H    at /var/www/server/node_modules/mongojs/index.js:556:10[10d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[11;1Herror: Forever detected script exited with code: null[12derror: Script restart attempt #1[K[13dServer listening at port 3000[K[14dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[K[16derror: Script restart attempt #1[K[17dServer listening at port 3000[K[18dServer listening at port 3000[K[19dMissing error handler on `socket`.[K[20dMissing error handler on `socket`.[K[21dTypeError: Cannot read property 'length' of undefined[K[12d[9d[6d[3d[8G/var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[K[4;45Hindex.js:273:23[K[5;8Happly (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[6;8H/var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[K[7;8HDb.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[8;8H/var/www/server/node_modules/mongojs/index.js:556:10[K[9;8Happly (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[10;1HTypeError: Cannot read property 'length' of undefined[K[11d    at /var/www/server/server.js:343:16[K[12d    at /var/www/server/node_modules/mongojs/index.js:282:23[13d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[14;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[15d    at /var/www/server/node_modules/mongojs/index.js:273:23[16d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[17;1H    at /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[18d    at Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[19;1H    at /var/www/server/node_modules/mongojs/index.js:556:10[20d    at apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[21;1Herror: Forever detected script exited with code: null[10d[7d[4d[9;22r[22;1H
-[1;24r[3;1Herror: Forever detected script exited with code: null[K[4derror: Script restart attempt #1[K[5dServer listening at port 3000[K[6dServer listening at port 3000[K[7dMissing error handler on `socket`.[K[8dMissing error handler on `socket`.[K[20dTypeError: Cannot read property 'length' of undefined[21;5Hat /var/www/server/server.js:343:16[11d[8d[5d[2;21r[2;1H[10T[1;24r[3;1HServer listening at port 3000[4dServer listening at port 3000[5derror: Forever detected script exited with code: null[6derror: Script restart attempt #1[7dServer listening at port 3000[8dServer listening at port 3000[9derror: Forever detected script exited with code: null[10derror: Script restart attempt #1[11dServer listening at port 3000[12dServer listening at port 3000[9d[6d[3derror: Forever detected script exited with code: null[4derror: Script restart attempt #1[5dServer listening at port 3000[K[6dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8derror: Script restart attempt #1[9dServer listening at port 3000[K[10dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12derror: Script restart attempt #1[13dServer listening at port 3000[K[14dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[16derror: Script restart attempt #1[17dServer listening at port 3000[K[18dServer listening at port 3000[K[19derror: Forever detected script exited with code: null[20derror: Script restart attempt #1[K[21dServer listening at port 3000[K[11d[A[7d[4d[A[22;31H(B[0;7m[ Unknown Command ][3d(B[m[1;71H(B[0;7mModified[3;8H(B[mScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10derror: Forever detected script exited with code: null[11;8HScript restart attempt #1[K[12dServer listening at port 3000[K[14derror: Forever detected script exited with code: null[15;8HScript restart attempt #1[K[16dServer listening at port 3000[K[18derror: Forever detected script exited with code: null[19;8HScript restart attempt #1[K[20dServer listening at port 3000[K[3dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6;8HScript restart attempt #1[K[7dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10;8HScript restart attempt #1[K[11dServer listening at port 3000[K[13derror: Forever detected script exited with code: null[14;8HScript restart attempt #1[K[15dServer listening at port 3000[K[17derror: Forever detected script exited with code: null[18;8HScript restart attempt #1[K[19dServer listening at port 3000[K[21derror: Forever detected script exited with code: null[3d[4derror: Forever detected script exited with code: null[5;8HScript restart attempt #1[K[6dServer listening at port 3000[K[8derror: Forever detected script exited with code: null[9;8HScript restart attempt #1[K[10dServer listening at port 3000[K[12derror: Forever detected script exited with code: null[13;8HScript restart attempt #1[K[14dServer listening at port 3000[K[16derror: Forever detected script exited with code: null[17;8HScript restart attempt #1[K[18dServer listening at port 3000[K[20derror: Forever detected script exited with code: null[21;8HScript restart attempt #1[K[3derror: Forever detected script exited with code: null[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12;8HScript restart attempt #1[K[13dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[16;8HScript restart attempt #1[K[17dServer listening at port 3000[K[19derror: Forever detected script exited with code: null[20;8HScript restart attempt #1[K[21dServer listening at port 3000[K[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10derror: Forever detected script exited with code: null[11;8HScript restart attempt #1[K[12dServer listening at port 3000[K[14derror: Forever detected script exited with code: null[15;8HScript restart attempt #1[K[16dServer listening at port 3000[K[18derror: Forever detected script exited with code: null[19;8HScript restart attempt #1[K[20dServer listening at port 3000[K[3dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6;8HScript restart attempt #1[K[7dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10;8HScript restart attempt #1[K[11dServer listening at port 3000[K[13derror: Forever detected script exited with code: null[14;8HScript restart attempt #1[K[15dServer listening at port 3000[K[17derror: Forever detected script exited with code: null[18;8HScript restart attempt #1[K[19dServer listening at port 3000[K[21dMissing error handler on `socket`.[3d[4derror: Forever detected script exited with code: null[5;8HScript restart attempt #1[K[6dServer listening at port 3000[K[8derror: Forever detected script exited with code: null[9;8HScript restart attempt #1[K[10dServer listening at port 3000[K[12derror: Forever detected script exited with code: null[13;8HScript restart attempt #1[K[14dServer listening at port 3000[K[16derror: Forever detected script exited with code: null[17;8HScript restart attempt #1[K[18dServer listening at port 3000[K[20dMissing error handler on `socket`.[3derror: Forever detected script exited with code: null[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12;8HScript restart attempt #1[K[13dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[16;8HScript restart attempt #1[K[17dServer listening at port 3000[K[19dMissing error handler on `socket`.[21dTypeError: Cannot read property 'length' of undefined[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/server.js:343:16[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;21r[21;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;21r[21;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;21r[21;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;21r[21;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;21r[21;1H
-[1;24r[21;1HTypeError: Cannot read property 'length' of undefined[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/server.js:343:16[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;21r[21;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;21r[21;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;21r[21;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HMissing error handler on `socket`.[3d[3;22r[22;1H
-[1;24r[21;1HMissing error handler on `socket`.[3d[3;22r[22;1H
-[1;24r[21;1HTypeError: Cannot read property 'length' of undefined[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/server.js:343:16[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;1HTypeError: Cannot read property 'length' of undefined[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/server.js:343:16[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3derror: Forever detected script exited with code: null[K[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12;8HScript restart attempt #1[K[13dServer listening at port 3000[K[15dbidrag[K[17dzipfelschwinger[19dbidrag[K[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10derror: Forever detected script exited with code: null[11;8HScript restart attempt #1[K[12dServer listening at port 3000[K[14dbidrag[K[16dzipfelschwinger[18dbidrag[K[3dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6;8HScript restart attempt #1[K[7dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10;8HScript restart attempt #1[K[11dServer listening at port 3000[K[13dbidrag[K[15dzipfelschwinger[17dbidrag[K[21dnixo[K[3d[4derror: Forever detected script exited with code: null[5;8HScript restart attempt #1[K[6dServer listening at port 3000[K[8derror: Forever detected script exited with code: null[9;8HScript restart attempt #1[K[10dServer listening at port 3000[K[12dbidrag[K[14dzipfelschwinger[16dbidrag[K[20dnixo[K[3derror: Forever detected script exited with code: null[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11dbidrag[K[13dzipfelschwinger[15dbidrag[K[19dnixo[K[21dbidrag[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10dbidrag[K[12dzipfelschwinger[14dbidrag[K[18dnixo[K[20dbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3dServer listening at port 3000[K[5dbidrag[K[7dzipfelschwinger[9dbidrag[K[13dnixo[K[15dbidrag[17dchill[K[3d[4dbidrag[K[6dzipfelschwinger[8dbidrag[K[12dnixo[K[14dbidrag[16dchill[K[3dbidrag[K[5dzipfelschwinger[7dbidrag[K[11dnixo[K[13dbidrag[15dchill[K[21derror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hnixo[3d[3;22r[22;1H
-[1;24r[21;1Hnixo[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3dServer listening at port 3000[K[5dbidrag[K[7dzipfelschwinger[9dbidrag[K[11dchill[K[13dbidrag[15dnixo[K[17dbidrag[19dchill[K[21dnixo[K[3d[4dbidrag[K[6dzipfelschwinger[8dbidrag[K[10dchill[K[12dbidrag[14dnixo[K[16dbidrag[18dchill[K[20dnixo[K[3dbidrag[K[5dzipfelschwinger[7dbidrag[K[9dchill[K[11dbidrag[13dnixo[K[15dbidrag[17dchill[K[19dnixo[K[21dkasper[3d[4dzipfelschwinger[6dbidrag[K[8dchill[K[10dbidrag[12dnixo[K[14dbidrag[16dchill[K[18dnixo[K[20dkasper[3dzipfelschwinger[5dbidrag[K[7dchill[K[9dbidrag[11dnixo[K[13dbidrag[15dchill[K[17dnixo[K[19dkasper[21dchill[K[3d[4dbidrag[K[6dchill[K[8dbidrag[10dnixo[K[12dbidrag[14dchill[K[16dnixo[K[18dkasper[20dchill[K[3dbidrag[K[5dchill[K[7dbidrag[9dnixo[K[11dbidrag[13dchill[K[15dnixo[K[17dkasper[19dchill[K[21dnixo[K[3d[4dchill[K[6dbidrag[8dnixo[K[10dbidrag[12dchill[K[14dnixo[K[16dkasper[18dchill[K[20dnixo[K[3dchill[K[5dbidrag[7dnixo[K[9dbidrag[11dchill[K[13dnixo[K[15dkasper[17dchill[K[19dnixo[K[21djazz[3d[4dbidrag[6dnixo[K[8dbidrag[10dchill[K[12dnixo[K[14dkasper[16dchill[K[18dnixo[K[20djazz[3dbidrag[5dnixo[K[7dbidrag[9dchill[K[11dnixo[K[13dkasper[15dchill[K[17dnixo[K[19djazz[21dchill[3d[4dnixo[K[6dbidrag[8dchill[K[10dnixo[K[12dkasper[14dchill[K[16dnixo[K[18djazz[20dchill[3dnixo[K[5dbidrag[7dchill[K[9dnixo[K[11dkasper[13dchill[K[15dnixo[K[17djazz[19dchill[3d[4dbidrag[6dchill[K[8dnixo[K[10dkasper[12dchill[K[14dnixo[K[16djazz[18dchill[3dbidrag[5dchill[K[7dnixo[K[9dkasper[11dchill[K[13dnixo[K[15djazz[17dchill[21djazz[K[3d[4dchill[K[6dnixo[K[8dkasper[10dchill[K[12dnixo[K[14djazz[16dchill[20djazz[K[3dchill[K[5dnixo[K[7dkasper[9dchill[K[11dnixo[K[13djazz[15dchill[19djazz[K[3d[4dnixo[K[6dkasper[8dchill[K[10dnixo[K[12djazz[14dchill[18djazz[K[3dnixo[K[5dkasper[7dchill[K[9dnixo[K[11djazz[13dchill[17djazz[K[21dchill[3d[4dkasper[6dchill[K[8dnixo[K[10djazz[12dchill[16djazz[K[20dchill[3dkasper[5dchill[K[7dnixo[K[9djazz[11dchill[15djazz[K[19dchill[3d[4dchill[K[6dnixo[K[8djazz[10dchill[14djazz[K[18dchill[3dchill[K[5dnixo[K[7djazz[9dchill[13djazz[K[17dchill[21dbidrag[3d[4dnixo[K[6djazz[8dchill[12djazz[K[16dchill[20dbidrag[3dnixo[K[5djazz[7dchill[11djazz[K[15dchill[19dbidrag[3d[4djazz[6dchill[10djazz[K[14dchill[18dbidrag[3djazz[5dchill[9djazz[K[13dchill[17dbidrag[21derror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hzipfelschwinger[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hnixo[3d[3;22r[22;1H
-[1;24r[21;1Hnixo[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hbidrag[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3d[3;22r[22;1H
-[1;24r[21;1Hchill[3dServer listening at port 3000[K[5dzipfelschwinger[K[7dbidrag[K[9dnixo[K[11dbidrag[15dchill[K[3d[4dzipfelschwinger[K[6dbidrag[K[8dnixo[K[10dbidrag[14dchill[K[3dzipfelschwinger[K[5dbidrag[K[7dnixo[K[9dbidrag[13dchill[K[21dtropicala[3d[4dbidrag[K[6dnixo[K[8dbidrag[12dchill[K[20dtropicala[3dbidrag[K[5dnixo[K[7dbidrag[11dchill[K[19dtropicala[21dchill[K[3d[4dnixo[K[6dbidrag[10dchill[K[18dtropicala[20dchill[K[3dnixo[K[5dbidrag[9dchill[K[17dtropicala[19dchill[K[3d[4dbidrag[8dchill[K[16dtropicala[18dchill[K[3dbidrag[7dchill[K[15dtropicala[17dchill[K[3d[6dchill[K[14dtropicala[16dchill[K[3d[5dchill[K[13dtropicala[15dchill[K[3d[4dchill[K[12dtropicala[14dchill[K[3dchill[K[11dtropicala[13dchill[K[3d[10dtropicala[12dchill[K[3d[9dtropicala[11dchill[K[3d[8dtropicala[10dchill[K[3d[7dtropicala[9dchill[K[3d[6dtropicala[8dchill[K[3d[5dtropicala[7dchill[K[21derror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HMissing error handler on `socket`.[3d[3;22r[22;1H
-[1;24r[21;1HMissing error handler on `socket`.[3d[3;22r[22;1H
-[1;24r[21;1HTypeError: Cannot read property 'length' of undefined[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/server.js:170:12[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;1HTypeError: Cannot read property 'length' of undefined[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/server.js:170:12[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:282:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:273:23[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/node_modules/thunky/index.js:20:25[3d[3;22r[22;1H
-[1;24r[21;5Hat Db.collection (/var/www/server/node_modules/mongojs/node_modules/mongodb$[3;1H[3;22r[22;1H
-[1;24r[21;5Hat /var/www/server/node_modules/mongojs/index.js:556:10[3d[3;22r[22;1H
-[1;24r[21;5Hat apply (/var/www/server/node_modules/mongojs/node_modules/thunky/index.js$[3;1H[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1Herror: Forever detected script exited with code: null[3d[3;22r[22;1H
-[1;24r[21;1Herror: Script restart attempt #1[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[21;1HServer listening at port 3000[3d[3;22r[22;1H
-[1;24r[3;1H[3;22r[22;1H
-[1;24r[3;1Herror: Forever detected script exited with code: null[K[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12;8HScript restart attempt #1[K[13dServer listening at port 3000[K[15derror: Forever detected script exited with code: null[16;8HScript restart attempt #1[K[17dServer listening at port 3000[K[19d[K[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10derror: Forever detected script exited with code: null[11;8HScript restart attempt #1[K[12dServer listening at port 3000[K[14derror: Forever detected script exited with code: null[15;8HScript restart attempt #1[K[16dServer listening at port 3000[K[18d[K[3dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6;8HScript restart attempt #1[K[7dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10;8HScript restart attempt #1[K[11dServer listening at port 3000[K[13derror: Forever detected script exited with code: null[14;8HScript restart attempt #1[K[15dServer listening at port 3000[K[17d[K[3d[4derror: Forever detected script exited with code: null[5;8HScript restart attempt #1[K[6dServer listening at port 3000[K[8derror: Forever detected script exited with code: null[9;8HScript restart attempt #1[K[10dServer listening at port 3000[K[12derror: Forever detected script exited with code: null[13;8HScript restart attempt #1[K[14dServer listening at port 3000[K[16d[K[3derror: Forever detected script exited with code: null[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11derror: Forever detected script exited with code: null[12;8HScript restart attempt #1[K[13dServer listening at port 3000[K[15d[K[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10derror: Forever detected script exited with code: null[11;8HScript restart attempt #1[K[12dServer listening at port 3000[K[14d[K[3dServer listening at port 3000[K[5derror: Forever detected script exited with code: null[6;8HScript restart attempt #1[K[7dServer listening at port 3000[K[9derror: Forever detected script exited with code: null[10;8HScript restart attempt #1[K[11dServer listening at port 3000[K[13d[K[3d[4derror: Forever detected script exited with code: null[5;8HScript restart attempt #1[K[6dServer listening at port 3000[K[8derror: Forever detected script exited with code: null[9;8HScript restart attempt #1[K[10dServer listening at port 3000[K[12d[K[3derror: Forever detected script exited with code: null[4;8HScript restart attempt #1[K[5dServer listening at port 3000[K[7derror: Forever detected script exited with code: null[8;8HScript restart attempt #1[K[9dServer listening at port 3000[K[11d[K[3d[8GScript restart attempt #1[K[4dServer listening at port 3000[K[6derror: Forever detected script exited with code: null[7;8HScript restart attempt #1[K[8dServer listening at port 3000[K[10d[K[3d[3;22r[22;1H
-[1;24r[3;1H[3;22r[22;1H
-[1;24r[3;1H[3;22r[22;1H
-[1;24r[3;1H[3;22r[22;1H
-[1;24r[3;1HServer listening at port 3000[K[5d[K[3d[4d[K[A[22d(B[0;7mSave modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?                    [23;1H Y(B[m Yes[K[24d(B[0;7m N(B[m No  [14G   (B[0;7m^C(B[m Cancel[K[22;62H(B[0;7mFile Name to Write: zoff.log                                [23d^G(B[m Get Help[23;21H(B[0;7mM-D(B[m DOS Format[41G(B[0;7mM-A(B[m Append[23;61H(B[0;7mM-B(B[m Backup File[24d(B[0;7m^C(B[m Cancel[17G    (B[0;7mM-M(B[m Mac Format[41G(B[0;7mM-P(B[m Prepend[22;29H[23d[39;49m(B[m[J[1;71H(B[0;7m        [22;32H(B[m[1K (B[0;7m[ Wrote 1 line ](B[m[K[24;80H[24;1H[?1049l[?1l>]0;root@zoff: /var/logroot@zoff:/var/log# mail
-"/var/mail/root": 204 messages 201 new 3 unread
- U   1 ins@zoff.no        Fri Nov 14 22:49  17/599   *** SECURITY information 
- U   2 insserver@zoff.no  Sat Nov 15 00:05  16/535   *** SECURITY information 
- U   3 insserver@zoff.no  Sat Nov 15 00:18  16/542   *** SECURITY information 
->N   4 Cron Daemon        Tue Feb 10 13:01  17/569   Cron <root@zoff> /bin/bas
- N   5 Cron Daemon        Wed Feb 11 13:01  17/569   Cron <root@zoff> /bin/bas
- N   6 Cron Daemon        Thu Feb 12 13:01  17/569   Cron <root@zoff> /bin/bas
- N   7 Cron Daemon        Fri Feb 13 13:01  17/569   Cron <root@zoff> /bin/bas
- N   8 Cron Daemon        Sat Feb 14 13:01  17/569   Cron <root@zoff> /bin/bas
- N   9 Cron Daemon        Sun Feb 15 13:01  17/569   Cron <root@zoff> /bin/bas
- N  10 Cron Daemon        Mon Feb 16 13:01  17/569   Cron <root@zoff> /bin/bas
- N  11 Cron Daemon        Tue Feb 17 13:01  17/569   Cron <root@zoff> /bin/bas
- N  12 Cron Daemon        Wed Feb 18 13:01  17/569   Cron <root@zoff> /bin/bas
