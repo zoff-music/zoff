@@ -77,9 +77,9 @@ function setup_youtube_listener(channel)
 
 $(document).ready(function()
 {
-	if(!localStorage["list_update"])
+	if(!localStorage["list_update"] || localStorage["list_update"] != "13.06.15")
 	{
-		localStorage.setItem("list_update", "applied");
+		localStorage.setItem("list_update", "13.06.15");
 		window.location.reload(true);
 	}
 	setup_youtube_listener(chan);
