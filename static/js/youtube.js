@@ -25,7 +25,7 @@ var playing = false;
 //play new song
 function setup_youtube_listener(channel)
 {
-	socket.on(channel.toLowerCase()+",np", function(obj)
+	socket.on("np", function(obj)
 	{
 		console.log(obj);
 		if(obj[0].length == 0){
@@ -67,7 +67,7 @@ function setup_youtube_listener(channel)
 		}
 	});
 
-	socket.on(channel.toLowerCase()+",viewers", function(view)
+	socket.on("viewers", function(view)
 	{
 		viewers = view;
 		if(song_title !== undefined)

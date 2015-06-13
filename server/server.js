@@ -68,8 +68,8 @@ io.on('connection', function(socket){
   {
     if(name.length < 9 && name.indexOf(" ") == -1)
     {
-      io.to(coll).emit('chat,'+coll, [name, " changed name to " + data]);
-      io.to(coll).emit('chat.all', [name ," changed name to " + data, coll]);
+      io.to(coll).emit('chat', [name, " changed name to " + data]);
+      io.sockets.emit('chat.all', [name ," changed name to " + data, coll]);
       name = data;
     }
   });
@@ -77,14 +77,14 @@ io.on('connection', function(socket){
   socket.on('chat', function (data) {
     check_inlist(coll, guid, socket, name);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.to(coll).emit('chat,'+coll, [name, ": " + data]);
+      io.to(coll).emit('chat', [name, ": " + data]);
   });
 
   socket.on("all,chat", function(data)
   {
     check_inlist(coll, guid, socket, name);
     if(data != "" && data !== undefined && data !== null && data.length < 151 && data.replace(/\s/g, '').length)
-      io.to(coll).emit('chat.all', [name, ": " + data, coll]);
+      io.sockets.emit('chat.all', [name, ": " + data, coll]);
   });
 
   socket.on('frontpage_lists', function()
@@ -161,7 +161,7 @@ io.on('connection', function(socket){
       check_inlist(coll, guid, socket, name);
 
       //io.sockets.emit(coll+",viewers", lists[coll].length);
-      io.to(coll).emit(coll+",viewers", lists[coll].length);
+      io.to(coll).emit("viewers", lists[coll].length);
 
       db.getCollectionNames(function(err, docs){
 
@@ -398,7 +398,7 @@ io.on('connection', function(socket){
       				change_song(coll);
               socket.emit("toast", "skip");
               //io.sockets.emit('chat,'+coll, [name, " skipped"]);
-              io.to(coll).emit('chat,'+coll, [name, " skipped"]);
+              io.to(coll).emit('chat', [name, " skipped"]);
       			}/*else if(get_time() - docs[0]["startTime"] < 10 && lists[coll].length == 2 && !error)
             {
               socket.emit("toast", "notyetskip");
@@ -409,7 +409,7 @@ io.on('connection', function(socket){
                 else
                   to_skip = (Math.ceil(lists[coll].length/2) - docs[0]["skips"].length-1);
                 socket.emit("toast", to_skip + " more are needed to skip!");
-                socket.broadcast.to(coll).emit('chat,'+coll, [name, " voted to skip"]);
+                socket.broadcast.to(coll).emit('chat', [name, " voted to skip"]);
       				});
       			}else{
               socket.emit("toast", "alreadyskip");
@@ -458,7 +458,7 @@ io.on('connection', function(socket){
               db.collection(coll).find({views:{$exists:true}}, function(err, docs)
               {
                 //io.sockets.emit(coll+",conf", docs);
-                io.to(coll).emit(coll+",conf", docs);
+                io.to(coll).emit("conf", docs);
                 socket.emit("toast", "savedsettings");
               });
             });
@@ -517,8 +517,8 @@ io.on('connection', function(socket){
     	  	lists[coll].splice(index, 1);
     	  	//io.sockets.emit(coll+",viewers", lists[coll].length);
           //io.sockets.emit('chat,'+coll, [name, " left"]);
-          io.to(coll).emit(coll+",viewers", lists[coll].length);
-          io.to(coll).emit('chat,'+coll, [name, " left"]);
+          io.to(coll).emit("viewers", lists[coll].length);
+          io.to(coll).emit('chat', [name, " left"]);
 
         }
 
@@ -536,8 +536,8 @@ io.on('connection', function(socket){
     	  	lists[coll].splice(index, 1);
     	  	//io.sockets.emit(coll+",viewers", lists[coll].length);
           //io.sockets.emit('chat,'+coll, [name, " left"]);
-          io.to(coll).emit(coll+",viewers", lists[coll].length);
-          io.to(coll).emit('chat,'+coll, [name, " left"]);
+          io.to(coll).emit("viewers", lists[coll].length);
+          io.to(coll).emit('chat', [name, " left"]);
         }
 
     }
@@ -572,14 +572,14 @@ function check_inlist(coll, guid, socket, name)
     lists[coll] = [];
     lists[coll].push(guid);
     //io.sockets.emit(coll+",viewers", lists[coll].length);
-    io.to(coll).emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.to(coll).emit('chat,'+coll, [name, " joined"]);
+    io.to(coll).emit("viewers", lists[coll].length);
+    socket.broadcast.to(coll).emit('chat', [name, " joined"]);
   }else if(!contains(lists[coll], guid))
   {
     lists[coll].push(guid);
     //io.sockets.emit(coll+",viewers", lists[coll].length);
-    io.to(coll).emit(coll+",viewers", lists[coll].length);
-    socket.broadcast.to(coll).emit('chat,'+coll, [name, " joined"]);
+    io.to(coll).emit("viewers", lists[coll].length);
+    socket.broadcast.to(coll).emit('chat', [name, " joined"]);
   }
 }
 
@@ -688,9 +688,9 @@ function send_play(coll, socket)
         {
           toSend = [np,conf,get_time()];
           if(socket === undefined)
-            io.to(coll).emit(coll+",np", toSend);
+            io.to(coll).emit("np", toSend);
           else
-            socket.emit(coll+",np", toSend);
+            socket.emit("np", toSend);
         }
       });
   });
