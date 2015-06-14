@@ -1,7 +1,8 @@
+var durationInterval;
 function initYoutubeControls(player)
 {
 	fitToScreen();
-	setInterval(durationSetter, 1000);
+	durationInterval = setInterval(durationSetter, 1000);
 	initControls();
 	$(window).resize(function(){
 		fitToScreen();

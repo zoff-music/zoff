@@ -109,9 +109,9 @@ $(document).ready(function()
 	}else{
 		tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/iframe_api";
+		tag.id = "dd";
 		firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 		if(localStorage[chan.toLowerCase()])
 		{
 			//localStorage.removeItem(chan.toLowerCase());
@@ -169,6 +169,7 @@ function msieversion() {
 }
 
 function onYouTubeIframeAPIReady() {
+	console.log("YOUTUBEAPIREADY")
 	ytplayer = new YT.Player('player', {
 		height: window.height*0.75,
 		width: window.width*0.6,
@@ -321,3 +322,8 @@ function rgbToHsl(arr){
 
     return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
 }
+
+$("#dd").load(function(){
+	console.log("window load")
+  onYouTubeIframeAPIReady();
+});

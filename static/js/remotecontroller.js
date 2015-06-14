@@ -2,15 +2,22 @@ var start = true;
 var id;
 //var socket;
 
-$(document).ready(function (){
-    setTimeout(function(){$("#code-input").focus();},500);
+var checkId = function (){
+    setTimeout(function(){$("#code-input").focus();
     socket = io.connect('https://'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
+    console.log(window.location.pathname,"dis id")
     if(id)
     {
       id = id.toLowerCase();
       control();
     }
+    },500);
+};
+
+$(document).ready(function (){
+checkId();
+
 });
 
 function play()

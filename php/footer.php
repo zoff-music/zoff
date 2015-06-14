@@ -61,43 +61,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
 <script type="text/javascript" src="/static/js/lib/color-thief.js"></script>
+<script src="/static/js/lib/angular.min.js"></script>
+<script src="/static/js/lib/angular-ui-router.min.js"></script>
+<script src="/static/js/state.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script>
-    var socket = io.connect('//'+window.location.hostname+':3000');
-    var guid = "<?php echo $guid; ?>";
-    socket.on("get_list", function(){
-        console.log("get_list");
-        socket.emit('list', '<?php echo $list; ?>,'+guid);
-    });
-</script>
 
-
-<script type="text/javascript" src="/static/js/list.js"></script>
-<script type="text/javascript" src="/static/js/searchlist.js"></script>
-<script type="text/javascript" src="/static/js/playercontrols.js"></script>
-<script type="text/javascript" src="/static/js/youtube.js"></script>
-<script type="text/javascript" src="/static/js/search.js"></script>
-<script type="text/javascript" src="/static/js/admin.js"></script>
-<script type="text/javascript" src="/static/js/chat.js"></script>
-<script type="text/javascript" src="/static/js/hostcontroller.js"></script>
-<!--<script type="text/javascript" src="/static/js/remotecontroller.js"></script>-->
-
-<!-- Piwik tracking -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//zoff.no/analyse/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
