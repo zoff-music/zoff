@@ -96,7 +96,9 @@ $(document).ready(function()
 			closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
 		});
 
-	$('#settings-close').sideNav('hide');
+	$(".drag-target")[1].remove();
+
+	//$('#settings-close').sideNav('hide');
 
 	if(!window.mobilecheck() && !msieversion())
 	{
