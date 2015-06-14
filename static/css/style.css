@@ -223,6 +223,10 @@ hide mdi-action-visibility mdi-action-visibility-off
     width: 100%;
 }
 
+#nav-mobile{
+	margin:-1px;
+}
+
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
