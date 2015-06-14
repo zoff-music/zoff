@@ -101,6 +101,7 @@ display: inline;
 }
 
 .navbar-fixed {
+		z-index:1000;
     height: 128px;
 }
 
