@@ -21,6 +21,7 @@ socket.on(chan.toLowerCase(), function(msg){
 
 function channel_function(msg)
 {
+	console.log(msg);
 	if(msg[0] == "list")
 	{
 		full_playlist = msg[1];

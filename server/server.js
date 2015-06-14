@@ -4,7 +4,7 @@ var server;
 This if for the localhost running
 
 ******/
-localhost = false;
+localhost = true;
 
 //https server
 if(localhost)
@@ -141,8 +141,9 @@ io.on('connection', function(socket){
 
   socket.on('id', function(arr)
   {
+
     if(arr.length == 3)
-      io.to(coll).emit(arr[0], [arr[1], arr[2]]);
+      io.to(arr[0]).emit(arr[0], [arr[1], arr[2]]);
   });
 
   socket.on('list', function(list)
@@ -152,8 +153,8 @@ io.on('connection', function(socket){
       in_list = true;
     	list = list.split(',');
     	coll = list[0].toLowerCase();
-    	//guid = list[1];
       socket.join(coll);
+      socket.join(rndName(socket.id, 10));
       socket.emit("id", rndName(socket.id, 10));
 
       //console.log(name + " joined list " + coll);
