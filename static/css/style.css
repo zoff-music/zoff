@@ -331,6 +331,7 @@ ul #chat-log{
 }
 
 .main{
+    height: 100%;
     width: 100%;
     max-width:99%;
     margin: 0px;
@@ -760,7 +761,7 @@ ul #chat-log{
         margin-top: initial;
         width: 65%;
         width: calc(90% - 256px - 130px);
-        left: initial;
+        left: 25%;
     }
     .title-container li {
       width: 71%;
