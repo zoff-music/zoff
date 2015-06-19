@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 if(isset($_GET['chan'])){

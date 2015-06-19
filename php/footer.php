@@ -28,7 +28,7 @@
                             </a>
                         </p>
                         <p>
-                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
                                 <img class="left" src="/static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
                             </a>
                         </p>
