@@ -135,7 +135,7 @@ if(isset($_GET['chan'])){
                               <img title="Get it on Google Play" src="static/images/google_play.png">
                           </a>-->
                           <a href="https://github.com/nixolas1/Zoff">
-                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png" />
+                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png" alt="GitHub" />
                           </a>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
