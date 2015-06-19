@@ -4,26 +4,26 @@
             <a class="col s9 collapsible-header bold waves-effect admin-settings">
                 Channel Settings
                 <i class="mdi-image-tune"></i>
-                <div class="nav-btn close-settings clickable" title="Close" href="#" onclick="hide_settings()">
+                <div class="nav-btn close-settings clickable" title="Close" onclick="hide_settings();">
                     <i class="mdi-navigation-close auto-margin"></i>
                 </div>
             </a>
             <div class="collapsible-body">
-                <ul>
-                    <form id="adminForm" onsubmit="pass_save();return false;">
-                      <li class="white-bg">
-                          <a class="white-bg">
-                              <div class="input-field">
-                                <i id="admin-lock" class="mdi-action-lock" onclick="log_out()" title="Click to log out"></i>
-                                  <input placeholder="Enter channel password" id="password" type="password" class="validate">
-                              </div>
-                          </a>
-                      </li>
+                <form action="" id="adminForm" onsubmit="pass_save();return false;">
+                    <ul>
+                        <li class="white-bg">
+                            <a class="white-bg">
+                                <div class="input-field">
+                                  <i id="admin-lock" class="mdi-action-lock" onclick="log_out()" title="Click to log out"></i>
+                                    <input placeholder="Enter channel password" id="password" type="password" class="validate" />
+                                </div>
+                            </a>
+                        </li>
                         <li><a class="setting-text">
                             Add songs
                             <div class="switch"><label>
                             Anyone
-                            <input name="addsongs" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="addsongs" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
                         </label></div></a></li>
 
@@ -31,7 +31,7 @@
                             Vote
                             <div class="switch"><label>
                             Anyone
-                            <input name="vote" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="vote" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
                         </label></div></a></li>
 
@@ -39,7 +39,7 @@
                             Shuffle
                             <div class="switch"><label>
                             Anyone
-                            <input name="shuffle" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="shuffle" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
                         </label></div></a></li>
 
@@ -47,7 +47,7 @@
                             Skip
                             <div class="switch"><label>
                             Anyone
-                            <input name="skip" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="skip" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
                         </label></div></a></li>
 
@@ -55,7 +55,7 @@
                             Song length
                             <div class="switch"><label>
                             Any
-                            <input name="longsongs" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="longsongs" type="checkbox" class="conf" /><span class="lever"></span>
                             Short
                         </label></div></a></li>
 
@@ -63,7 +63,7 @@
                             Type
                             <div class="switch"><label>
                             Any
-                            <input name="allvideos" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="allvideos" type="checkbox" class="conf" /><span class="lever"></span>
                             Song
                         </label></div></a></li>
 
@@ -72,7 +72,7 @@
                             Frontpage
                             <div class="switch"><label>
                             Hide
-                            <input name="frontpage" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="frontpage" type="checkbox" class="conf" /><span class="lever"></span>
                             Display
                         </label></div></a></li>
 
@@ -80,13 +80,13 @@
                             After play
                             <div class="switch"><label>
                             Keep
-                            <input name="removeplay" type="checkbox" class="conf"><span class="lever"></span>
+                            <input name="removeplay" type="checkbox" class="conf" /><span class="lever"></span>
                             Remove
                         </label></div></a></li>
 
 
-                    </form>
-                </ul>
+                      </ul>
+                </form>
             </div>
         </li>
     </ul>
@@ -102,7 +102,7 @@
                 <ul>
                     <li>
                         <a id="code-link" target="_blank">
-                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player">
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="" />
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>

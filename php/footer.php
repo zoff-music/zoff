@@ -8,7 +8,7 @@
                     Being built around the YouTube search and video API
                     it enables the creation of collaborative and shared live playlists,
                     with billions of videos and songs to choose from, all for free and without registration.
-                    <br>
+                    <br />
                     Enjoy!
                 </p>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
@@ -20,16 +20,16 @@
                             <img title="Get it on Google Play" src="/static/images/google_play.png">
                         </a>-->
                         <a href="https://github.com/nixolas1/Zoff">
-                            <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png">
+                            <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                         </a>
                         <p>
                             <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/static/images/facebook.png">Share on&nbspFacebook
+                                <img class="left" src="/static/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
                             </a>
                         </p>
                         <p>
-                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/static/images/twitter.png">Share on&nbspTwitter
+                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check out this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                <img class="left" src="/static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
                             </a>
                         </p>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
@@ -39,8 +39,8 @@
                           </a>
                         </form>
                         <p>
-                            <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&choe=UTF-8&chld=L|1" >
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
+                            <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L|1" >
+                                <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!" alt="QR code" />
                             </a>
                         </p>
                     </li>
@@ -57,15 +57,15 @@
     </div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
 <script type="text/javascript" src="/static/js/lib/color-thief.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
-<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
-<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+<script type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 <script>
     var socket = io.connect('//'+window.location.hostname+':3000');
     var guid = "<?php echo $guid; ?>";
@@ -99,5 +99,5 @@
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="https://zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="Piwik" /></p></noscript>
 <!-- End Piwik Code -->
