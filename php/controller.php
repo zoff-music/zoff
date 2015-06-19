@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
     <title>Zöff Remote</title>
@@ -12,10 +13,10 @@
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a class="waves-effect waves-green" title="Remote control a Zöff player" href="remote">Remote</a></li>
-                    <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
-                    <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
-                    <li><a class="waves-effect waves-purple" href="https://github.com/nixolas1/Zoff">GitHub</a></li>
+                  <li><a class="waves-effect green" title="Remote control a Zöff player" href="remote">Remote</a></li>
+                  <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                  <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
+                  <li><a class="waves-effect waves-purple" href="https://github.com/nixolas1/Zoff">GitHub</a></li>
                 </ul>
             </div>
         </nav>

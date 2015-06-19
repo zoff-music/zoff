@@ -172,8 +172,6 @@ function msieversion() {
 
 function onYouTubeIframeAPIReady() {
 	ytplayer = new YT.Player('player', {
-		height: window.height*0.75,
-		width: window.width*0.6,
 		videoId: video_id,
 		playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
 		events: {

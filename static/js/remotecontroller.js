@@ -3,7 +3,7 @@ var id;
 //var socket;
 
 $(document).ready(function (){
-    setTimeout(function(){$("#code-input").focus();},500);
+    setTimeout(function(){$("#search").focus();},500);
     socket = io.connect('//'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
     if(id)
