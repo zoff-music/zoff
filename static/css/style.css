@@ -315,6 +315,7 @@ ul #chat-log{
 #search_loader {
   height:64px;
   padding: 0 15px;
+  margin-top:15px;
 }
 
 #search_loader:hover {
