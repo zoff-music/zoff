@@ -70,7 +70,6 @@
     var socket = io.connect('//'+window.location.hostname+':3000');
     var guid = "<?php echo $guid; ?>";
     socket.on("get_list", function(){
-        console.log("get_list");
         socket.emit('list', '<?php echo $list; ?>,'+guid);
     });
 </script>
