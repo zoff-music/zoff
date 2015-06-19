@@ -23,31 +23,33 @@ function populate_channels(lists)
     for(x in lists)
     {
 
-        var id = lists[x][1];
-        var nowplaying = lists[x][2];
         var chan = lists[x][3];
-        var viewers = lists[x][0];
-        var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-        var song_count = lists[x][4];
+        if(num>20)
+        {
+          var id = lists[x][1];
+          var nowplaying = lists[x][2];
+          var viewers = lists[x][0];
+          var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+          var song_count = lists[x][4];
 
-        //$("#channels").append(list_html);
+          //$("#channels").append(list_html);
 
-        var card = pre_card;
-        card.find(".chan-name").text(chan);
-        card.find(".chan-name").attr("title", chan);
-        card.find(".chan-views").text(viewers);
-        card.find(".chan-songs").text(song_count);
-        card.find(".chan-bg").attr("style", img);
-        card.find(".chan-link").attr("href", chan);
+          var card = pre_card;
+          card.find(".chan-name").text(chan);
+          card.find(".chan-name").attr("title", chan);
+          card.find(".chan-views").text(viewers);
+          card.find(".chan-songs").text(song_count);
+          card.find(".chan-bg").attr("style", img);
+          card.find(".chan-link").attr("href", chan);
 
-        $("#channels").append(card.html());
+          $("#channels").append(card.html());
 
-        //$("#channels").append(card);
-        //console.log(chan);
-
+          //$("#channels").append(card);
+          //console.log(chan);
+        }
         output+="<option value='"+chan+"'> ";
         num++;
-        if(num>19)break;
+        //if(num>19)break;
     }
     document.getElementById("preloader").style.display = "none";
     document.getElementById("searches").innerHTML = output;
@@ -100,7 +102,7 @@ $(document).ready(function (){
     });
 
     //Not in use since the app is outdated
-    
+
     /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
         var ca = document.cookie.split(';');
