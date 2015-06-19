@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 
 if(isset($_GET['chan'])){
@@ -6,7 +7,6 @@ if(isset($_GET['chan'])){
 }
 
 ?>
-<!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <?php include("header.php"); ?>
@@ -73,7 +73,6 @@ if(isset($_GET['chan'])){
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="18"
-                            autocomplete
                             length="18"
                         />
                         <label for="search">Find or create radio channel</label>
@@ -88,7 +87,7 @@ if(isset($_GET['chan'])){
                 <div class="indeterminate"></div>
             </div>
             <ul class="row" id="channels">
-                <div id="chan-html" class="hide">
+              <ul>
                     <li id="chan-card" class="col s12 m4 l3">
                         <div class="card">
                             <a class="chan-link">
@@ -110,7 +109,7 @@ if(isset($_GET['chan'])){
                             </div>
                         </div>
                     </li>
-                </div>
+                  </ul>
             </ul>
         </div>
     </main>
@@ -141,23 +140,23 @@ if(isset($_GET['chan'])){
                           </a>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/facebook.png" />Share on Facebook
+                                  <img class="left" src="static/images/facebook.png" alt="Share on Facebook" />Share on Facebook
                               </a>
                           </p>
                           <p>
-                              <a class="waves-effect waves-light btn light-blue share" href="https://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/twitter.png" />Share on Twitter
+                              <a class="waves-effect waves-light btn light-blue share" href="https://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="static/images/twitter.png" alt="Share on Twitter" />Share on Twitter
                               </a>
                           </p>
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
                             <input type="hidden" name="cmd" value="_s-xclick">
                             <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                            <a border="0" title="Like what we made? Help us with a beer!" name="submit" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
+                            <a title="Like what we made? Help us with a beer!" name="submit" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
                             </a>
                           </form>
                           <p>
-                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" >
-                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
+                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                               </a>
                           </p>
                       </li>

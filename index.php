@@ -118,11 +118,11 @@
                     <div id="temp-results-container">
                       <div id="temp-results">
                           <div id="result" class="result">
-                              <img class="thumb" src="" alt="Thumb"/>
-                              <span id="title">
+                              <img class="thumb" src="//:0" alt="Thumb"/>
+
                                   <div class="search-title"></div>
                                   <span class="result_info"></span>
-                              </span>
+                              
                               <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
                                   <i class="mdi-av-playlist-add"></i>
                               </a>
@@ -161,7 +161,7 @@
                         </ul>
                     </li>
                     <li id="chat-input">
-                      <form action="" onsubmit="chat(this.input);return false;">
+                      <form action="#" onsubmit="chat(this.input);return false;">
                         <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
                       </form>
                     </li>

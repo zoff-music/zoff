@@ -9,80 +9,88 @@
                 </div>
             </a>
             <div class="collapsible-body">
-                <form action="" id="adminForm" onsubmit="pass_save();return false;">
+                <form action="#" id="adminForm" onsubmit="pass_save();return false;">
                     <ul>
                         <li class="white-bg">
-                            <a class="white-bg">
                                 <div class="input-field">
                                   <i id="admin-lock" class="mdi-action-lock" onclick="log_out()" title="Click to log out"></i>
                                     <input placeholder="Enter channel password" id="password" type="password" class="validate" />
                                 </div>
-                            </a>
                         </li>
-                        <li><a class="setting-text">
+                        <li>
+                            <span class="switch-text">
                             Add songs
+                            </span>
                             <div class="switch"><label>
                             Anyone
                             <input name="addsongs" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li>
+                          <span class="switch-text">
                             Vote
+                          </span>
                             <div class="switch"><label>
                             Anyone
                             <input name="vote" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             Shuffle
+                          </span>
                             <div class="switch"><label>
                             Anyone
                             <input name="shuffle" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             Skip
+                          </span>
                             <div class="switch"><label>
                             Anyone
                             <input name="skip" type="checkbox" class="conf" /><span class="lever"></span>
                             Admin
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             Song length
+                          </span>
                             <div class="switch"><label>
                             Any
                             <input name="longsongs" type="checkbox" class="conf" /><span class="lever"></span>
                             Short
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             Type
+                          </span>
                             <div class="switch"><label>
                             Any
                             <input name="allvideos" type="checkbox" class="conf" /><span class="lever"></span>
                             Song
-                        </label></div></a></li>
+                        </label></div></li>
 
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             Frontpage
+                          </span>
                             <div class="switch"><label>
                             Hide
                             <input name="frontpage" type="checkbox" class="conf" /><span class="lever"></span>
                             Display
-                        </label></div></a></li>
+                        </label></div></li>
 
-                        <li><a class="setting-text">
+                        <li><span class="switch-text">
                             After play
+                          </span>
                             <div class="switch"><label>
                             Keep
                             <input name="removeplay" type="checkbox" class="conf" /><span class="lever"></span>
                             Remove
-                        </label></div></a></li>
+                        </label></div></li>
 
 
                       </ul>
@@ -102,7 +110,7 @@
                 <ul>
                     <li>
                         <a id="code-link" target="_blank">
-                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="" />
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="//:0" />
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>
