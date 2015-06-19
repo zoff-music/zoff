@@ -113,7 +113,6 @@ function save(){
 
 function submitAdmin(form)
 {
-	console.log(form);
 	voting = form.vote.checked;
 	addsongs = form.addsongs.checked;
 	longsongs = form.longsongs.checked;

@@ -555,7 +555,9 @@ ul #chat-log{
 }
 .switch{
     display: inline;
-    float: right;
+    /*float: right;*/
+    position: absolute;
+    right:10px;
 }
 .switch label .lever {
   background-color: #00B2FF;
@@ -723,6 +725,15 @@ ul #chat-log{
         position: absolute !important;
         width: 120px;
     }
+
+    .page-footer{
+      margin-top:40px !important;
+    }
+
+    .main, #main-row, .video-container, #playlist{
+      height:100% !important;
+    }
+
     .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 5px;}
 
     nav .zbrand{
@@ -732,6 +743,11 @@ ul #chat-log{
         max-width: initial;
         width: 70%;
         width: calc(100% - 100px);
+    }
+
+    #search_loader{
+      margin-left: -75px;
+      margin-top: 5px;
     }
 
     .title-container{

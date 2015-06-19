@@ -27,7 +27,7 @@ function setup_youtube_listener(channel)
 {
 	socket.on("np", function(obj)
 	{
-		console.log(obj);
+		//console.log(obj);
 		if(obj[0].length == 0){
 			console.log("Empty list");
 			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";

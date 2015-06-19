@@ -17,7 +17,6 @@ function chat(data)
 setup_chat_listener(chan);
 
 document.getElementById("chat-btn").addEventListener("click", function(){
-    console.log("clicked");
     $("#text-chat-input").focus();
     //$("#chat-btn").css("color", "white");
     $("#chat-btn i").css("opacity", 1);
