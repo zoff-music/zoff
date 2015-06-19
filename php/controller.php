@@ -61,7 +61,7 @@
                 <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>-->
 
-            <form action="" class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
+            <form action="#" class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
@@ -70,11 +70,9 @@
                             name="chan"
                             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                             autocomplete="off"
-                            list="searches"
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="10"
-                            autocomplete
                             length="10"
                         />
                         <label for="search" id="forsearch">Type ID of host to be controlled</label>
@@ -124,30 +122,30 @@
                     <ul>
                       <li>
                           <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                              <img title="Get it on Google Play" src="/static/images/google_play.png" />
+                              <img title="Get it on Google Play" src="/static/images/google_play.png" alt="Google Play"/>
                           </a>
                           <a href="https://github.com/nixolas1/Zoff">
-                              <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" />
+                              <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                           </a>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="/static/images/facebook.png" />Share on Facebook
+                                  <img class="left" src="/static/images/facebook.png" alt="Share on Facebook" />Share on Facebook
                               </a>
                           </p>
                           <p>
-                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="/static/images/twitter.png" />Share on Twitter
+                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="/static/images/twitter.png" alt="Share on Facebook" />Share on Twitter
                               </a>
                           </p>
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
                             <input type="hidden" name="cmd" value="_s-xclick">
                             <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                            <a border="0" title="Like what we made? Help us with a beer!" name="submit" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
+                            <a title="Like what we made? Help us with a beer!" name="submit" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
                             </a>
                           </form>
                           <p>
-                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" >
-                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
+                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                               </a>
                           </p>
                       </li>

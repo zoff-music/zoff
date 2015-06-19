@@ -540,6 +540,13 @@ ul #chat-log{
 
 /** settings **/
 
+.switch-text{
+  font-size: 13px !important;
+  padding: 0 !important;
+  margin-left: 2em;
+  color: #444;
+}
+
 #settings-button{color:white !important;}
 
 .admin-settings{
