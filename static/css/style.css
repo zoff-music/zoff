@@ -322,6 +322,10 @@ ul #chat-log{
   background-color:rgba(0,0,0,0);
 }
 
+.progress .indeterminate {
+  background-color: #26a69a !important;
+}
+
 #player_overlay{
   background-color:black;
   position: absolute;
