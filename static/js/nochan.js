@@ -24,7 +24,7 @@ function populate_channels(lists)
     {
 
         var chan = lists[x][3];
-        if(num>20)
+        if(num<20)
         {
           var id = lists[x][1];
           var nowplaying = lists[x][2];
