@@ -1,5 +1,5 @@
 {
-  "name": "zöff-backend",
+  "name": "zoffbackend",
   "version": "0.0.1",
   "description": "Zöff, the shared YouTube based radio services",
   "dependencies": {
