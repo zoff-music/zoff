@@ -4,7 +4,7 @@ var server;
 This if for the localhost running
 
 ******/
-localhost = false;
+localhost = true;
 
 //https server
 if(localhost)
@@ -25,6 +25,7 @@ var express = require('express');
 var app = express();
 //var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var shortid = require('shortid');
 
 //db
 var mongojs = require('mongojs');
@@ -63,6 +64,7 @@ io.on('connection', function(socket){
   var tot_lists = [];
   var in_list = false;
   var name = rndName(guid,8);
+  var short_id = shortid.generate();
 
   socket.on('namechange', function(data)
   {
@@ -154,8 +156,8 @@ io.on('connection', function(socket){
     	list = list.split(',');
     	coll = list[0].toLowerCase();
       socket.join(coll);
-      socket.join(rndName(socket.id, 10));
-      socket.emit("id", rndName(socket.id, 10));
+      socket.join(short_id);
+      socket.emit("id", short_id);
 
       //console.log(name + " joined list " + coll);
 

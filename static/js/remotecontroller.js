@@ -8,7 +8,7 @@ $(document).ready(function (){
     id = window.location.pathname.split("/")[2];
     if(id)
     {
-      id = id.toLowerCase();
+      //id = id.toLowerCase();
       control();
     }
 });
@@ -44,7 +44,7 @@ function control()
     $(".rc").css("display", "block");
 
     document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
-    $("#remote-text").text("Controlling "+ id.toUpperCase())
+    $("#remote-text").text("Controlling "+ id)
     document.getElementById("search").setAttribute("length", "18");
     document.getElementById("search").setAttribute("maxlength", "18");
     $("#forsearch").html("Type new channel name to change to");
