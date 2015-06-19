@@ -30,11 +30,20 @@
 }
 
 
+
 body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     overflow-x: hidden;
+}
+
+.main, #main-row, .video-container, #playlist{
+  height: calc(100vh - 64px) !important;
+}
+
+footer{
+  margin-top:0px !important;
 }
 
 /* global colors */
@@ -57,7 +66,7 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 span.badge.new,
 .progress .determinate,
 .progress .indeterminate,
-.switch label input[type=checkbox]:checked + .lever:after,
+.switch label input[type=checkbox]:checked + .lever:after
 {
     background-color: #2D2D2D;
 }
@@ -72,6 +81,7 @@ input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly
 nav .brand-logo{
     padding-left: 20px;
     position: relative;
+    height:100%;
 }
 
 #fp-nav {
@@ -86,7 +96,7 @@ nav .brand-logo{
 .footer-copyright a:hover{color:#6699FF}
 
 main {
-    flex: 1 0 auto;
+    flex: auto;
 }
 
 nav .zbrand{
@@ -120,7 +130,7 @@ display: inline;
 .auto-margin{
     margin-left: auto !important;
     margin-right: auto !important;
-    float: center !important;
+
 }
 
 .clickable, .modal-trigger{cursor:pointer;}
@@ -162,8 +172,7 @@ display: inline;
 .card-action #del {
   color:white;
 }
-
-.card-action #del:hover {
+.card-action #del:hover{
   color:grey;
 }
 
@@ -232,6 +241,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+#main-row{
+  margin-bottom:-64px;
+}
+
 @media only screen and (min-width: 993px){
 	.toast {
 	  float: left;
@@ -256,15 +269,19 @@ hide mdi-action-visibility mdi-action-visibility-off
   background-color:black !important;
 }
 
+#channelchat, #all_chat{
+  height: calc(100vh - 193px);
+}
+
 #chatchannel, #chatall {
-  height: calc(100% - 49px);
+  height: inherit;
   overflow-y:scroll;
   text-align:left;
   word-wrap:break-word;
 }
 
 #chat {
-  height: calc(100% - 121px);
+  /*height: calc(100% - 121px);*/
   text-align:left;
   word-wrap:break-word;
 }
@@ -331,7 +348,6 @@ ul #chat-log{
 }
 
 .main{
-    height: 100%;
     width: 100%;
     max-width:99%;
     margin: 0px;
@@ -339,9 +355,6 @@ ul #chat-log{
 }
 #nav{
     background-color:rgba(255,255,255, 0.1);
-}
-.video-container{
-    height: calc(100% - 64px);
 }
 
 .control-list{
@@ -583,7 +596,8 @@ ul #chat-log{
     height:32px;
     background-color:rgba(255, 255, 255, 0.1);
     width:100%;
-  color:white;
+    color:white;
+    margin-top:-6px;
 }
 
 #playpause, #duration, #volume-button
@@ -853,6 +867,10 @@ ul #chat-log{
 
 .rc{
   display: none;
+}
+
+.search_input{
+  height:50% !important;
 }
 
 #search::-webkit-input-placeholder { /* WebKit browsers */

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
     $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8);
     if(isset($_GET['chan'])) {header('Location: '.$_GET['chan']); exit;}
@@ -6,7 +7,7 @@
     else $list=$list[1];
 
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en">
 <head>
 	<?php include("php/header.php"); ?>
 </head>
@@ -134,25 +135,25 @@
       </div>
     </header>
     <main class="container center-align main">
-        <div class="row">
+        <div id="main-row" class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
 
                 <ul class="side-nav left-aligned chat-bar" id="chat-bar">
                     <li id="chat-log">
-                        <ul class="collapsible collapsible-accordion">
-                            <li class="active">
+                        <ul class="collapsible collapsible-accordion inherit-height">
+                            <li class="active inherit-height">
 
-                                <div class="collapsible-body" style="display: block;">
-                                    <ul id="chat">
-                                      <div class="row">
+                                <div class="collapsible-body inherit-height" style="display: block;">
+                                    <ul id="chat inherit-height">
+                                      <div class="row inherit-height">
                                         <div class="col s12">
                                           <ul class="tabs">
                                             <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
                                             <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
                                           </ul>
                                         </div>
-                                        <div id="channelchat" class="col s12"><ul id="chatchannel"></ul></div>
-                                        <div id="all_chat" class="col s12"><ul id="chatall"></ul></div>
+                                        <div id="channelchat" class="col s12 inherit-height"><ul id="chatchannel" class="inherit-height"></ul></div>
+                                        <div id="all_chat" class="col s12 inherit-height"><ul id="chatall" class="inherit-height"></ul></div>
                                       </div>
                                     </ul>
                                 </div>
