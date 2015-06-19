@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
-<head>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
     <title>Zöff Remote</title>
     <?php include("header.php"); ?>
 </head>
@@ -9,7 +9,7 @@
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="http://zoff.no" class="brand-logo hide-on-small-only">
-                    <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff">
+                    <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -39,7 +39,7 @@
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-                Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
+                Zöff is mainly a webbased service, but an <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff&amp;hl=en">Android app</a> is made by Lasse Drevland, which has been a huge asset for the dev. team.<br><br>
                 The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/nixolas1/Zoff">GitHub</a><br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
                 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
@@ -61,7 +61,7 @@
                 <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>-->
 
-            <form class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
+            <form action="" class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
@@ -124,19 +124,19 @@
                     <ul>
                       <li>
                           <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                              <img title="Get it on Google Play" src="/static/images/google_play.png">
+                              <img title="Get it on Google Play" src="/static/images/google_play.png" />
                           </a>
                           <a href="https://github.com/nixolas1/Zoff">
-                              <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png">
+                              <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" />
                           </a>
                           <p>
                               <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="/static/images/facebook.png">Share on Facebook
+                                  <img class="left" src="/static/images/facebook.png" />Share on Facebook
                               </a>
                           </p>
                           <p>
-                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&text=Check out Zöff!&via=zoffmusic','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="/static/images/twitter.png">Share on Twitter
+                              <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check out Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                  <img class="left" src="/static/images/twitter.png" />Share on Twitter
                               </a>
                           </p>
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
@@ -146,8 +146,8 @@
                             </a>
                           </form>
                           <p>
-                              <a href="https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" >
-                                  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&choe=UTF-8&chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!">
+                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" >
+                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L|1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                               </a>
                           </p>
                       </li>
@@ -164,10 +164,10 @@
         </div>
     </footer>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script type="text/javascript" src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
     <script type="text/javascript" src="/static/js/remotecontroller.js"></script>
 	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>

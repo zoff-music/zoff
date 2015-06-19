@@ -7,8 +7,8 @@
     else $list=$list[1];
 
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en">
-<head>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 	<?php include("php/header.php"); ?>
 </head>
 <body id="channelpage">
@@ -17,7 +17,7 @@
         <nav id="nav">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo hide-on-med-and-down">
-                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff">
+                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="hide-on-large-only">Zöff</a>
@@ -30,7 +30,7 @@
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
-                        <input id="search" class="search_input" type="search" required title="Search for songs..." spellcheck="false" placeholder="Find song on youtube" onsubmit="null;" autocomplete="off">
+                        <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on youtube" onsubmit="null;" autocomplete="off" />
                     </li>
                 </ul>
 
@@ -118,7 +118,7 @@
                     <div id="temp-results-container">
                       <div id="temp-results">
                           <div id="result" class="result">
-                              <img class="thumb">
+                              <img class="thumb" src="" alt="Thumb"/>
                               <span id="title">
                                   <div class="search-title"></div>
                                   <span class="result_info"></span>
@@ -144,7 +144,7 @@
                             <li class="active inherit-height">
 
                                 <div class="collapsible-body inherit-height" style="display: block;">
-                                    <ul id="chat inherit-height">
+                                    <!--<ul id="chat inherit-height">-->
                                       <div class="row inherit-height">
                                         <div class="col s12">
                                           <ul class="tabs">
@@ -155,14 +155,14 @@
                                         <div id="channelchat" class="col s12 inherit-height"><ul id="chatchannel" class="inherit-height"></ul></div>
                                         <div id="all_chat" class="col s12 inherit-height"><ul id="chatall" class="inherit-height"></ul></div>
                                       </div>
-                                    </ul>
+                                    <!--</ul>-->
                                 </div>
                             </li>
                         </ul>
                     </li>
                     <li id="chat-input">
-                      <form onsubmit="chat(this.input);return false;">
-                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150">
+                      <form action="" onsubmit="chat(this.input);return false;">
+                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
                       </form>
                     </li>
                 </ul>
