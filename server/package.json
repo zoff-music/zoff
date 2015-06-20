@@ -1,9 +1,15 @@
 {
-  "name": "zoffbackend",
-  "version": "0.0.1",
+  "name": "zoff",
+  "version": "2.0.1",
   "description": "Zöff, the shared YouTube based radio services",
   "dependencies": {
     "express": "^4.10.2",
-    "socket.io": "^1.3.5"
+    "socket.io": "^1.3.5",
+    "shortid": "^2.2.2",
+    "mongojs": "^0.18.2"
+  },
+  "author": {
+    "name": "Kasper Rynning Tønnesen",
+    "email": "kasper@kasperrt.no"
   }
 }
