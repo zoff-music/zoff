@@ -63,7 +63,7 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     color: #2D2D2D;
 }
 
-.input-field{
+.field-settings{
 	margin-left: 25px !important;
 	color: rgb(68,68,68);
 }
