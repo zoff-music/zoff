@@ -12,7 +12,7 @@
                 <form action="#" id="adminForm" onsubmit="pass_save();return false;">
                     <ul>
                         <li class="white-bg">
-                                <div class="input-field">
+                                <div class="input-field field-settings">
                                   <i id="admin-lock" class="mdi-action-lock" onclick="log_out()" title="Click to log out"></i>
                                     <input placeholder="Enter channel password" id="password" type="password" class="validate" />
                                 </div>
