@@ -519,7 +519,7 @@ ul #chat-log{
   background-color: rgba(0,0,0,0.4);
  }
  .search-title{
-    height: 36px;
+    height: 40px;
  }
 
 .list-remove{
@@ -753,6 +753,11 @@ ul #chat-log{
 
     .main, #main-row, .video-container, #playlist{
       height:100% !important;
+      margin-bottom: -5px;
+    }
+
+    .chan {
+      text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.42);
     }
 
     .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 5px;}

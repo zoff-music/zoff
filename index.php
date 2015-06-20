@@ -120,9 +120,9 @@
                           <div id="result" class="result">
                               <img class="thumb" src="//:0" alt="Thumb"/>
 
-                                  <div class="search-title"></div>
+                                  <div class="search-title truncate"></div>
                                   <span class="result_info"></span>
-                              
+
                               <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
                                   <i class="mdi-av-playlist-add"></i>
                               </a>
