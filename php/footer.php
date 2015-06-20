@@ -63,7 +63,7 @@
 <script type="text/javascript" src="/static/js/lib/color-thief.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/static/js/lib/jquery-ui-1.10.3.min.js"></script>-->
-<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 <script>
