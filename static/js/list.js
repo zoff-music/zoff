@@ -46,7 +46,7 @@ function channel_function(msg)
 
 		setTimeout(function(){
 			var test = $("#wrapper").children()[getIndexOfSong(msg[1].id)];
-			test.style.height = 66;
+			$(test).css("height", 66);
 		},0);
 
 	}else if(msg[0] == "deleted")
