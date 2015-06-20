@@ -45,12 +45,12 @@ function setup_youtube_listener(channel)
 			seekTo = time - conf["startTime"];
 			song_title = obj[0][0]["title"];
 			getTitle(song_title, viewers);
+			setBGimage(video_id);
 			if(player_ready && !window.mobilecheck())
 			{
 				if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
 				{
 					ytplayer.loadVideoById(video_id);
-					setBGimage(video_id);
 					notifyUser(video_id, song_title);
 					ytplayer.seekTo(seekTo);
 					if(paused)

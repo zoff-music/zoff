@@ -63,6 +63,15 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     color: #2D2D2D;
 }
 
+.input-field{
+	margin-left: 25px;
+	color: rgb(68,68,68);
+}
+
+#password{
+	margin-left:10px;
+}
+
 span.badge.new,
 .progress .determinate,
 .progress .indeterminate,
@@ -567,9 +576,9 @@ ul #chat-log{
 }
 .switch{
     display: inline;
-    /*float: right;*/
-    position: absolute;
-    right:10px;
+    float: right;
+    /*position: absolute;*/
+    margin-right:10px;
 }
 .switch label .lever {
   background-color: #00B2FF;
@@ -824,6 +833,10 @@ ul #chat-log{
         overflow: hidden;
         padding:0px 0px 0px 0px;
     }
+}
+
+.remote-button{
+	line-height:21px;
 }
 
 #remote-controls {

@@ -11,23 +11,27 @@ The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the
 
 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
 
-###Screenshot of desktop version:
+###Screenshots of desktop version:
 
-![alt tag](http://puu.sh/hwExf/1d176aae19.jpg)
+![alt tag](http://puu.sh/ivYFF/e74a007058.jpg)
 
-![alt tag](http://puu.sh/hwEG0/2bc8bc6971.jpg)
+![alt tag](http://puu.sh/ivYHQ/89c3486968.jpg)
 
-![alt tag](http://puu.sh/hwEIn/ea5b9da786.jpg)
+![alt tag](http://puu.sh/ivYKz/b1b65b339c.jpg)
 
-![alt tag](http://puu.sh/hwEM0/326e4c71ed.jpg)
+![alt tag](http://puu.sh/ivYNn/e873b31142.jpg)
 
-![alt tag](http://puu.sh/hwERH/b7ae8333ac.jpg)
+![alt tag](http://puu.sh/ivYUo/eec3ac6d36.jpg)
 
-![alt tag](http://puu.sh/hwEWE/e1042576c0.jpg)
+![alt tag](http://puu.sh/ivYVo/9036795b95.jpg)
 
-![alt tag](http://puu.sh/hwFoU/1ba6caf5a9.jpg)
+![alt tag](http://puu.sh/ivYZ4/af184117e7.jpg)
 
-###Screenshot of the mobile version:
+![alt tag](http://puu.sh/ivZlY/0b7a0c17dc.png)
+
+![alt tag](http://puu.sh/ivZmZ/8a5cdfa0d6.png)
+
+###Screenshots of the mobile version:
 
 ![alt tag](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![alt tag](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![alt tag](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
 

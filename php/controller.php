@@ -80,13 +80,13 @@
             </form>
 
             <div class="rc" id="remote-controls">
-                <a class="chan-link waves-effect btn green" onclick="play();">
+                <a class="remote-button chan-link waves-effect btn green" onclick="play();">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
-                <a class="chan-link waves-effect btn gray" onclick="pause();">
+                <a class="remote-button chan-link waves-effect btn gray" onclick="pause();">
                     <i id="remote_pause" class="mdi-av-pause"></i>
                 </a>
-                <a class="chan-link waves-effect btn blue" onclick="skip();">
+                <a class="remote-button chan-link waves-effect btn blue" onclick="skip();">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
                 </a>
             </div>
