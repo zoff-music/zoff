@@ -23,7 +23,7 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![alt tag](http://puu.sh/ivYUo/eec3ac6d36.jpg)
 
-![alt tag](http://puu.sh/ivZVh/82aad5fbbf.jpg)
+![alt tag](http://puu.sh/iw00J/b4f405f61c.jpg)
 
 ![alt tag](http://puu.sh/ivYVo/9036795b95.jpg)
 
