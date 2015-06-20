@@ -1067,8 +1067,12 @@ $(document).ready(function(){
       $this.append('<div class="indicator"></div>');
       var $indicator = $this.find('.indicator');
       if ($this.is(":visible")) {
-        $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
-        $indicator.css({"left": $index * $tab_width});
+				setTimeout(function(){
+					$tabs_width = $this.width();
+					$tab_width = $this.find('li').first().outerWidth();
+	        $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
+	        $indicator.css({"left": $index * $tab_width});
+				},50);
       }
       $(window).resize(function () {
         $tabs_width = $this.width();
