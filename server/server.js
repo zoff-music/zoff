@@ -545,6 +545,41 @@ io.on('connection', function(socket){
 
     }
   });
+  
+  socket.on('reconnect_failed', function()
+  {
+    if(in_list)
+    {
+        if(contains(lists[coll], guid))
+        {
+          //console.log(name + " left list " + coll);
+    	  	var index = lists[coll].indexOf(guid);
+    	  	lists[coll].splice(index, 1);
+    	  	//io.sockets.emit(coll+",viewers", lists[coll].length);
+          //io.sockets.emit('chat,'+coll, [name, " left"]);
+          io.to(coll).emit("viewers", lists[coll].length);
+          io.to(coll).emit('chat', [name, " left"]);
+        }
+
+    }
+	
+	socket.on('connect_timeout', function()
+  {
+    if(in_list)
+    {
+        if(contains(lists[coll], guid))
+        {
+          //console.log(name + " left list " + coll);
+    	  	var index = lists[coll].indexOf(guid);
+    	  	lists[coll].splice(index, 1);
+    	  	//io.sockets.emit(coll+",viewers", lists[coll].length);
+          //io.sockets.emit('chat,'+coll, [name, " left"]);
+          io.to(coll).emit("viewers", lists[coll].length);
+          io.to(coll).emit('chat', [name, " left"]);
+        }
+
+    }
+  });
 
   socket.on('pos', function()
   {
