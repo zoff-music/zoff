@@ -74,7 +74,6 @@
     });
 </script>
 
-
 <script type="text/javascript" src="/static/js/list.js"></script>
 <script type="text/javascript" src="/static/js/searchlist.js"></script>
 <script type="text/javascript" src="/static/js/playercontrols.js"></script>
