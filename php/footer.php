@@ -66,7 +66,7 @@
 <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script type="text/javascript" src="/static/js/zoff-mini.js"></script>
+<script type="text/javascript" src="/static/js/zoff.js"></script>
 <!--<script type="text/javascript" src="/static/js/list.js"></script>
 <script type="text/javascript" src="/static/js/searchlist.js"></script>
 <script type="text/javascript" src="/static/js/playercontrols.js"></script>
