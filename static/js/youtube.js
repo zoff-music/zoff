@@ -153,7 +153,7 @@ $(document).ready(function()
 function sample() {
 	if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
 		socket.disconnect();
-		socket = io.connect('//'+window.location.hostname+':3000');
+		socket.connect();
 	}
 	lastSample = Date.now();
 	setTimeout(sample, SAMPLE_RATE);
