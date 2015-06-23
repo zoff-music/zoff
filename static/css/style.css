@@ -575,7 +575,7 @@ ul #chat-log{
     padding: 0 !important;
 }
 .switch{
-    display: inline;
+    display: flex;
     float: right;
     /*position: absolute;*/
     margin-right:10px;
