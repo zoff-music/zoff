@@ -21,6 +21,8 @@ var song_title;
 var viewers = 1;
 var paused = false;
 var playing = false;
+var SAMPLE_RATE = 6000; // 6 seconds
+var lastSample = Date.now();
 
 //play new song
 function setup_youtube_listener(channel)
@@ -143,8 +145,18 @@ $(document).ready(function()
 				+ "<br><a href='"+git_info[0].html_url+"'>"
 				+ git_info[0].sha.substring(0,10) + "</a>: "
 				+ git_info[0].commit.message+"<br");
+
+		sample();
 	}
 });
+
+function sample() {
+	if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
+		window.location.reload(true);
+	}
+	lastSample = Date.now();
+	setTimeout(sample, SAMPLE_RATE);
+}
 
 function loadjsfile(filename)
 {
