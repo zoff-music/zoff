@@ -268,7 +268,7 @@ function errorHandler(newState)
 	var failsafe = ytplayer.getVideoUrl().split("https://www.youtube.com/watch");
 	if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150)
 			socket.emit("skip", newState.data);
-	else
+	else if(video_id !== undefined)
 			ytplayer.loadVideoById(video_id);
 }
 
