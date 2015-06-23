@@ -1,5 +1,5 @@
 var began = false;
-var id
+var id;
 
 socket.on("id", function(id)
 {

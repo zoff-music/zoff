@@ -153,8 +153,7 @@ io.on('connection', function(socket){
     if(list !== undefined && list !== null && list != "")
     {
       in_list = true;
-    	list = list.split(',');
-    	coll = list[0].toLowerCase();
+    	coll = list.toLowerCase();
       socket.join(coll);
       socket.join(short_id);
       socket.emit("id", short_id);

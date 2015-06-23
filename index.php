@@ -26,7 +26,7 @@
                 </div>
 
                 <ul class="title-container">
-                    <li class="song-title truncate" id="song-title" onclick="showSearch();">
+                    <li class="song-title truncate" id="song-title">
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
@@ -81,19 +81,19 @@
                       </div>
                       </li>
                     <li>
-                        <a class="nav-btn" href="#find" id="search-btn" onclick="showSearch();">
+                        <a class="nav-btn" href="#find" id="search-btn">
                             <i class="mdi-action-search"></i>
                             <span class="hover-text">Find</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn" href="#skip" id="skip" onclick="skip();">
+                        <a class="nav-btn" href="#skip" id="skip">
                             <i class="mdi-av-skip-next"></i>
                             <span class="hover-text">Skip</span>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn hide-on-small-only" href="#stir" id="shuffle" onclick="shuffle();">
+                        <a class="nav-btn hide-on-small-only" href="#stir" id="shuffle">
                             <i class="mdi-av-shuffle"></i>
                             <span class="hover-text">Stir</span>
                         </a>
@@ -161,7 +161,7 @@
                         </ul>
                     </li>
                     <li id="chat-input">
-                      <form action="#" onsubmit="chat(this.input);return false;">
+                      <form action="#" id="chatForm" onsubmit="return false;">
                         <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
                       </form>
                     </li>
