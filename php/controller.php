@@ -121,9 +121,11 @@
                 <div class="col l4 offset-l2 s12 valign-wrapper">
                     <ul>
                       <li>
+                          <!--
                           <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
                               <img title="Get it on Google Play" src="/static/images/google_play.png" alt="Google Play"/>
                           </a>
+                          -->
                           <a href="https://github.com/nixolas1/Zoff">
                               <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                           </a>
