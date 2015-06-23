@@ -545,7 +545,7 @@ io.on('connection', function(socket){
 
     }
   });
-  
+
   socket.on('reconnect_failed', function()
   {
     if(in_list)
@@ -563,7 +563,7 @@ io.on('connection', function(socket){
 
     }
   });
-	
+
   socket.on('connect_timeout', function()
   {
     if(in_list)

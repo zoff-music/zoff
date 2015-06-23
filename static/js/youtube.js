@@ -152,11 +152,26 @@ $(document).ready(function()
 
 function sample() {
 	if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
+		socket.removeAllListeners()
 		socket.disconnect();
 		socket.connect();
+		setup_all_listeners();
 	}
 	lastSample = Date.now();
 	setTimeout(sample, SAMPLE_RATE);
+}
+
+function setup_all_listeners()
+{
+	socket.on("get_list", function(){
+			socket.emit('list', chan+',mockvalue');
+	});
+	setup_youtube_listener(chan);
+	admin_listener();
+	setup_chat_listener(chan);
+	allchat_listener();
+	channel_listener();
+	skipping_listener();
 }
 
 function loadjsfile(filename)
