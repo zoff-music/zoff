@@ -152,7 +152,8 @@ $(document).ready(function()
 
 function sample() {
 	if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
-		window.location.reload(true);
+		socket.disconnect();
+		socket = io.connect('//'+window.location.hostname+':3000');
 	}
 	lastSample = Date.now();
 	setTimeout(sample, SAMPLE_RATE);
