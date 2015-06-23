@@ -288,7 +288,6 @@ io.on('connection', function(socket){
         		  		//io.sockets.emit(coll, ["added", {"_id": "asd", "added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
                   //io.sockets.emit(coll, ["added", {"_id": "asd", "added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
                   io.to(coll).emit(coll, ["added", {"_id": "asd", "added":get_time(),"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
-
                   if(np)
                   {
                     send_play(coll, undefined);

@@ -14,7 +14,7 @@ var longS = 0;
 var frontpage = 1;
 var adminpass = "";
 var filesadded="";
-var chan = $("#chan").html();
+var chan = $("#chan").html().toLowerCase();
 var player_ready = false;
 var seekTo;
 var song_title;
