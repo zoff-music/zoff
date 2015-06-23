@@ -4,16 +4,16 @@
             <a class="col s9 collapsible-header bold waves-effect admin-settings">
                 Channel Settings
                 <i class="mdi-image-tune"></i>
-                <div class="nav-btn close-settings clickable" title="Close" onclick="hide_settings();">
+                <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
                     <i class="mdi-navigation-close auto-margin"></i>
                 </div>
             </a>
             <div class="collapsible-body">
-                <form action="#" id="adminForm" onsubmit="pass_save();return false;">
+                <form action="#" id="adminForm" onsubmit="return false;">
                     <ul>
                         <li class="white-bg">
                                 <div class="input-field field-settings">
-                                  <i id="admin-lock" class="mdi-action-lock" onclick="log_out()" title="Click to log out"></i>
+                                  <i id="admin-lock" class="mdi-action-lock" title="Click to log out"></i>
                                     <input placeholder="Enter channel password" id="password" type="password" class="validate" />
                                 </div>
                         </li>

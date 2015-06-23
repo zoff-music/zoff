@@ -66,20 +66,13 @@
 <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <!--<script type="text/javascript" src="/static/js/lib/iscroll-min.js"></script>-->
 <script type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script>
-    var socket = io.connect('//'+window.location.hostname+':3000');
-    var guid = "<?php echo $guid; ?>";
-    socket.on("get_list", function(){
-        socket.emit('list', '<?php echo $list; ?>,'+guid);
-    });
-</script>
-
-<script type="text/javascript" src="/static/js/list.js"></script>
+<script type="text/javascript" src="/static/js/zoff.js"></script>
+<!--<script type="text/javascript" src="/static/js/list.js"></script>
 <script type="text/javascript" src="/static/js/searchlist.js"></script>
 <script type="text/javascript" src="/static/js/playercontrols.js"></script>
 <script type="text/javascript" src="/static/js/youtube.js"></script>
 <script type="text/javascript" src="/static/js/search.js"></script>
 <script type="text/javascript" src="/static/js/admin.js"></script>
 <script type="text/javascript" src="/static/js/chat.js"></script>
-<script type="text/javascript" src="/static/js/hostcontroller.js"></script>
+<script type="text/javascript" src="/static/js/hostcontroller.js"></script>-->
 <!--<script type="text/javascript" src="/static/js/remotecontroller.js"></script>-->

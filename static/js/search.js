@@ -173,72 +173,71 @@ function search(search_input){
 				success: function(response){
 				if(response.items){
 				//get list of IDs and make new request for video info
-				$.each(response.items, function(i,data)
-				{
-					vid_url += data.id.videoId+",";
-				});
-				console.log("Search for: "+keyword)
-
-				$.ajax({
-				type: "GET",
-				url: vid_url,
-				dataType:"jsonp",
-				success: function(response){
-
-					var output = "";
-					var pre_result = $(result_html);
-
-					//$("#results").append(result_html);
-
-					$.each(response.items, function(i,song)
+					$.each(response.items, function(i,data)
 					{
-						var duration=song.contentDetails.duration;
-						secs=durationToSeconds(duration)
-						if(!longsongs || secs<720){
-							title=song.snippet.title;
-							enc_title=encodeURIComponent(title).replace(/'/g, "\\\'");
-							id=song.id;
-							duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
-							thumb=song.snippet.thumbnails.medium.url;
+						vid_url += data.id.videoId+",";
+					});
+						console.log("Search for: "+keyword)
+
+					$.ajax({
+						type: "GET",
+						url: vid_url,
+						dataType:"jsonp",
+						success: function(response){
+
+							var output = "";
+							var pre_result = $(result_html);
 
 							//$("#results").append(result_html);
-							var songs = pre_result;
 
-							songs.find(".search-title").text(title);
-							songs.find(".result_info").text(duration);
-							songs.find(".thumb").attr("src", thumb);
-							songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
-							$($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-							$($(songs).find("div")[0]).attr("id", id)
-							output += songs.html();
+							$.each(response.items, function(i,song)
+							{
+								var duration=song.contentDetails.duration;
+								secs=durationToSeconds(duration)
+								if(!longsongs || secs<720){
+									title=song.snippet.title;
+									enc_title=encodeURIComponent(title).replace(/'/g, "\\\'");
+									id=song.id;
+									duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
+									thumb=song.snippet.thumbnails.medium.url;
 
+									//$("#results").append(result_html);
+									var songs = pre_result;
+
+									songs.find(".search-title").text(title);
+									songs.find(".result_info").text(duration);
+									songs.find(".thumb").attr("src", thumb);
+									songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
+									$($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+									$($(songs).find("div")[0]).attr("id", id)
+									output += songs.html();
+
+								}
+							});
+
+							console.log(response.items.length);
+
+							$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+
+							if(!contains($("#search_loader").attr("class").split(" "), "hide"))
+								$("#search_loader").addClass("hide");
+
+							$(".add-many").click(function(e) {
+							    e.preventDefault();
+							    e.stopPropagation();
+							    return false;
+							});
 						}
 					});
-
-					console.log(response.items.length);
-
-					$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
-
-					if(!contains($("#search_loader").attr("class").split(" "), "hide"))
-						$("#search_loader").addClass("hide");
-
-					$(".add-many").click(function(e) {
-					    e.preventDefault();
-					    e.stopPropagation();
-					    return false;
-					});
 				}
-				});
-				}
-				}
-			});
+			}
+		});
 
-		}else{
-			$(".main").removeClass("blurT");
-			$("#controls").removeClass("blurT");
-			$(".main").removeClass("clickthrough");
-		}
-
+	}else{
+		$(".main").removeClass("blurT");
+		$("#controls").removeClass("blurT");
+		$(".main").removeClass("clickthrough");
+	}
 }
 
 function submitAndClose(id,title,duration){
