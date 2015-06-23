@@ -2,7 +2,7 @@ var list;
 var toSend = "";
 var sendURL;
 var showToggle =true;
-var chan = $("#chan").html();
+var chan = $("#chan").html().toLowerCase();
 var list_html = $("#list-song-html").html();
 var hasadmin=0;
 var w_p = true;
