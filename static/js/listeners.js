@@ -112,7 +112,7 @@ $(document).ready(function()
 			$(".main").height(window.innerHeight-64);
 
 		git_info = $.ajax({ type: "GET",
-				url: "https://api.github.com/repos/nixolas1/zoff/commits",
+				url: "https://api.github.com/repos/zoff-music/zoff/commits",
 				async: false
 		}).responseText;
 
