@@ -14,6 +14,18 @@ gulp.task('js', function () {
         .pipe(gulp.dest('../static/build-js'));
 });
 
+gulp.task('nochan', function () {
+    gulp.src(['../static/js/nochan.js'])
+        .pipe(uglify({
+            mangle: true,
+            compress: true,
+            enclose: true
+        }))
+        .pipe(concat('main-fp.js'))
+        .pipe(gulp.dest('../static/build-js'));
+});
+
 gulp.task('default', function(){
     gulp.watch('../static/js/*.js', ['js']); 
+    gulp.watch('../static/js/nochan.js', ['nochan']);
 });

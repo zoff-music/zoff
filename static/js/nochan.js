@@ -1,6 +1,7 @@
 var list_html;
 var git_info;
 
+/*
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -11,6 +12,7 @@ function getCookie(cname) {
     }
     return "";
 }
+*/
 
 function populate_channels(lists)
 {
@@ -27,7 +29,6 @@ function populate_channels(lists)
         if(num<20)
         {
           var id = lists[x][1];
-          var nowplaying = lists[x][2];
           var viewers = lists[x][0];
           var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
           var song_count = lists[x][4];
@@ -85,7 +86,6 @@ $(document).ready(function (){
     $("#channels").empty();
 
     var socket = io.connect('//'+window.location.hostname+':3000');
-    var playlists = [];
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         populate_channels(msg);
@@ -121,7 +121,7 @@ $(document).ready(function (){
      }*/
 
      git_info = $.ajax({ type: "GET",
-		     url: "https://api.github.com/repos/nixolas1/zoff/commits",
+		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
 		     async: false
 	   }).responseText;
 
