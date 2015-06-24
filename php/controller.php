@@ -70,7 +70,6 @@
                             name="chan"
                             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                             autocomplete="off"
-                            required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="10"
                             length="10"
