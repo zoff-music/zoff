@@ -1,7 +1,7 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 |    Zöff                                                         |
-|    Project is on github: https://github.com/nixolas1/Zoff       |
+|    Project is on github: https://github.com/zoff-music/Zoff       |
 |    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
