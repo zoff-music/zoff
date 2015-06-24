@@ -1,6 +1,5 @@
 var start = true;
 var id;
-//var socket;
 
 $(document).ready(function (){
     setTimeout(function(){$("#search").focus();},500);
@@ -13,20 +12,21 @@ $(document).ready(function (){
     }
 });
 
-function play()
+$("#playbutton").on("click", function()
 {
   socket.emit("id", [id, "play", "mock"]);
-};
+});
 
-function pause()
+$("#pausebutton").on("click", function()
 {
   socket.emit("id", [id, "pause", "mock"]);
-};
+});
 
-function skip()
+$("#skipbutton").on("click", function()
 {
   socket.emit("id", [id, "skip", "mock"]);
-};
+});
+
 /*
 document.getElementById("volume-control").addEventListener("click", function()
 {

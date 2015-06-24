@@ -25,7 +25,19 @@ gulp.task('nochan', function () {
         .pipe(gulp.dest('../static/build-js'));
 });
 
+gulp.task('remotecontroller', function () {
+    gulp.src(['../static/js/remotecontroller.js'])
+        .pipe(uglify({
+            mangle: true,
+            compress: true,
+            enclose: true
+        }))
+        .pipe(concat('remotecontroller-min.js'))
+        .pipe(gulp.dest('../static/build-js'));
+});
+
 gulp.task('default', function(){
     gulp.watch('../static/js/*.js', ['js']); 
     gulp.watch('../static/js/nochan.js', ['nochan']);
+    gulp.watch('../static/js/remotecontroller.js', ['remotecontroller']);
 });
