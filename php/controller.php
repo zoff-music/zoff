@@ -8,10 +8,10 @@
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="http://zoff.no" class="brand-logo hide-on-small-only">
+                <a href="//zoff.no" class="brand-logo hide-on-small-only">
                     <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
-                <a href="zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
+                <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                   <li><a class="waves-effect green" title="Remote control a Zöff player" href="remote">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
@@ -126,7 +126,7 @@
                               <img title="Get it on Google Play" src="/static/images/google_play.png" alt="Google Play"/>
                           </a>
                           -->
-                          <a href="https://github.com/nixolas1/Zoff">
+                          <a href="https://github.com/zoff-music/Zoff">
                               <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                           </a>
                           <p>
