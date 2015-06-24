@@ -80,13 +80,13 @@
             </form>
 
             <div class="rc" id="remote-controls">
-                <a class="remote-button chan-link waves-effect btn green" onclick="play();">
+                <a id="playbutton" class="remote-button chan-link waves-effect btn green">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
-                <a class="remote-button chan-link waves-effect btn gray" onclick="pause();">
+                <a id="pausebutton" class="remote-button chan-link waves-effect btn gray">
                     <i id="remote_pause" class="mdi-av-pause"></i>
                 </a>
-                <a class="remote-button chan-link waves-effect btn blue" onclick="skip();">
+                <a id="skipbutton" class="remote-button chan-link waves-effect btn blue">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
                 </a>
             </div>
@@ -169,7 +169,6 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="//cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
-    <script type="text/javascript" src="/static/js/remotecontroller.js"></script>
-	  <noscript><p><img src="//zoff.no/analyse/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <script type="text/javascript" src="/static/build-js/remotecontroller-min.js"></script>
 	</body>
 </html>
