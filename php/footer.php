@@ -19,7 +19,7 @@
                         <!--<a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
                             <img title="Get it on Google Play" src="/static/images/google_play.png">
                         </a>-->
-                        <a href="https://github.com/nixolas1/Zoff">
+                        <a href="https://github.com/zoff-music/Zoff">
                             <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                         </a>
                         <p>
