@@ -11,5 +11,12 @@
   "author": {
     "name": "Kasper Rynning Tønnesen",
     "email": "kasper@kasperrt.no"
+  },
+  "devDependencies": {
+    "gulp-util": "~3.0.6",
+    "gulp": "~3.9.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-uglify": "~1.2.0",
+    "gulp-uglifyjs": "~0.6.2"
   }
 }
