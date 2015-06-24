@@ -37,6 +37,41 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![alt tag](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![alt tag](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![alt tag](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
 
+###Events
+
+Emitted events between the server and client
+```
+socket.emit("end", VIDEO_ID); 														Tells the server the song is clientside
+socket.emit("pos"); 		  														Asks server where in the song it should be
+socket.emit('list', CHANNEL_NAME);  												Tells the server the client wants the list
+socket.emit("add", [VIDEO_ID, VIDEO_TITLE, sha256(PASSWORD), VIDEO_DURATION]);		Sends info about a song the client wants to add
+socket.emit("change_channel");														Tells the server to disconnect the user from the current channel, is used for remote controlling on the host side
+socket.emit("all,chat", TEXT);														Sends chat text to all chat
+socket.emit("chat", TEXT); 															Sends chat text to channelchat
+socket.emit('vote', [CHANNEL_NAME, VIDEO_ID, VOTE_TYPE, PASSWORD]);					Sends info about song the user wants to vote on. If VOTE_TYPE is del, its deleting the song, if its pos, its just voting
+socket.emit('skip', [CHANNEL_NAME, PASSWORD]);										Sends skip message to server
+socket.emit("password", [PASSWORD, CHANNEL_NAME]);									Sends password for instant log in to server
+socket.emit('frontpage_lists');														Tells the server the client wants frontpage lists
+socket.emit("id", [CHANNEL_ID, "play", "mock"]);									Sends message to the host channel for play
+socket.emit("id", [CHANNEL_ID, "pause", "mock"]);									Sends message to the host channel for pause
+socket.emit("id", [CHANNEL_ID, "skip", "mock"]);									Sends message to the host channel for skip
+socket.emit("id", [CHANNEL_ID, "volume", VALUE]);									Sends message to the host channel to change volume
+socket.emit("id", [CHANNEL_ID, "channel", NEW_CHANNEL_NAME]);						Sends message to the host channel to change channel
+
+socket.on("toast", STRING)															Recieves a string from server for what type of toast to be triggered
+socket.on("pw", STRING)																Recieves the password for the channel if the user sent the right in the first place
+socket.on("conf", [ARRAY])															Recieves configuration array from server
+socket.on("chat.all", [CLIENT_NAME, STRING, CLIENT_CHANNEL_NAME])					Recieves chat message from allchat
+socket.on("chat", [CLIENT_NAME, STRING])											Recieves chat message from channelchat
+socket.on("id", STRING)																Recieves the ID of the current client, used for remote listening
+socket.on(id, [ARRAY])																Recieves the messages sent on CHANNEL_ID above
+socket.on("channel", [TYPE, [TYPE_SPECIFIC_VALUE]])														Recieves updates from channel. [0] is one of the following: list, added, deleted, vote, song_change
+socket.on("get_list")																Recieves message from the server that its ready to send the playlist and info
+socket.on('playlists', [ARRAY])														Recieves the playlists for the frontpage
+socket.on("np", [NOW_PLAYING, CONFIGURATION, SERVER_TIME])															Recieves array of now playing song. Is triggered on song-change
+socket.on("viewers", VALUE)															Recieves number of viewers on the current channel
+```
+
 ###Legal
 
 Copyright © 2015 
