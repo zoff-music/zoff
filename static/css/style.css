@@ -478,10 +478,10 @@ ul #chat-log{
     background-color: rgba(255, 255, 255, 0.04);
     color:white;
     font:12px Arial,sans-serif;
-		-webkit-transition:height .5s;
-    -moz-transition:height .5s;
-    -o-transition:height .5s;
-    transition:height .5s;
+		-webkit-transition:height .3s;
+    -moz-transition:height .3s;
+    -o-transition:height .3s;
+    transition:height .3s;
 		height:66px;
 }
 .list-song .card-content{padding:0;}

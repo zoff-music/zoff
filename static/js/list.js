@@ -30,11 +30,10 @@ var List = {
       		}, 'added'));
 
     		List.insertAtIndex(List.getIndexOfSong(msg[1].id), msg[1], true);
-
+            var test = $("#wrapper").children()[List.getIndexOfSong(msg[1].id)];
     		setTimeout(function(){
-    			var test = $("#wrapper").children()[List.getIndexOfSong(msg[1].id)];
     			$(test).css("height", 66);
-    		},0);
+    		},5);
 
     	}else if(msg[0] == "deleted")
     	{
