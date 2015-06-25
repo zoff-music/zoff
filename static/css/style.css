@@ -854,6 +854,7 @@ ul #chat-log{
 
 #code-text{
   color:#000;
+  text-transform: uppercase;
 }
 #code-link{
   height: auto;
