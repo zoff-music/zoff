@@ -43,7 +43,7 @@ var List = {
     		{
     			$("#"+msg[1]).remove();
     			full_playlist.splice(List.getIndexOfSong(msg[1]), 1);
-    		}, 1050);
+    		}, 305);
     	}else if(msg[0] == "vote")
     	{
     		var index_of_song = List.getIndexOfSong(msg[1]);
