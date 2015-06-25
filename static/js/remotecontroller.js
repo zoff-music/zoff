@@ -27,11 +27,13 @@ $("#skipbutton").on("click", function()
   socket.emit("id", [id, "skip", "mock"]);
 });
 
-/*
-document.getElementById("volume-control").addEventListener("click", function()
+$("#remoteform").on("submit", function()
 {
-   socket.emit("id", [id, "volume", $("#volume-control").val()]);
-});*/
+  if(start)
+    window.location.href = '/remote/'+document.getElementById("remoteform").chan.value;
+  else
+    control();
+});
 
 function control()
 {
@@ -43,7 +45,7 @@ function control()
 
     $(".rc").css("display", "block");
 
-    document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
+    //document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
     $("#remote-text").text("Controlling "+ id)
     document.getElementById("search").setAttribute("length", "18");
     document.getElementById("search").setAttribute("maxlength", "18");
@@ -61,6 +63,7 @@ function control()
         },*/
         stop:function(event, ui) {
           socket.emit("id", [id, "volume", ui.value]);
+          console.log("volume");
           //console.log(ui.value);
         }
     });

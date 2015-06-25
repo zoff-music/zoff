@@ -18,7 +18,6 @@ var Hostcontroller = {
               ytplayer.setVolume(arr[1]);
               localStorage.setItem("volume", arr[1]);
               Playercontrols.choose_button(arr[1], false);
-              ytplayer.loadVideoById('mockmaster');
             }else if(arr[0] == "channel")
             {
               socket.emit("change_channel");
@@ -34,7 +33,7 @@ var Hostcontroller = {
             else if(arr[0] == "play")
               ytplayer.playVideo();
             else if(arr[0] == "skip")
-              skip();
+              List.skip();
         });
       }
     });

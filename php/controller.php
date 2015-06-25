@@ -61,7 +61,7 @@
                 <input type="range" title="Volume" id="volume-control" style="display:none;" min="0" value="100" max="100" />
             </p>-->
 
-            <form action="#" class="row" id="base" onsubmit="window.location.href = '/remote/'+this.chan.value;return false;">
+            <form action="#" class="row" id="remoteform" onsubmit="return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
