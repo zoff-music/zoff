@@ -174,7 +174,7 @@ if(isset($_GET['chan'])){
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="static/js/lib/materialize.min.js"></script>
-    <script type="text/javascript" src="static/build-js/main-fp.js"></script>
+    <script type="text/javascript" src="static/dist/lib/materialize.min.js"></script>
+    <script type="text/javascript" src="static/dist/frontpage-min.js"></script>
 	</body>
 </html>
