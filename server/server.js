@@ -25,7 +25,6 @@ var express = require('express');
 var app = express();
 
 var io = require('socket.io')(server);
-var shortid = require('shortid');
 
 //db
 var mongojs = require('mongojs');
@@ -36,6 +35,7 @@ var crypto = require('crypto');
 
 var port = 3000;
 var lists = [];
+var unique_ids = [];
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -63,7 +63,7 @@ io.on('connection', function(socket){
   var tot_lists = [];
   var in_list = false;
   var name = rndName(guid,8);
-  var short_id = shortid.generate();
+  var short_id = uniqueID(socket.id,4);
 
   socket.on('namechange', function(data)
   {
@@ -501,6 +501,28 @@ io.on('connection', function(socket){
     }
   });
 
+  /*
+
+  >be chilling at home
+  >listening to music
+  >ohshit.gif
+  >MRW client disconntects
+  >no clue wat to do
+  >accidently delete all channels in panic
+  >fuck.jpg
+  >all videos on yotube deleted as well
+  >nononono.mov
+  >try to hack nsa and get data back
+  >can't connect
+  >realize im running on localhost
+  >nothing really deleted
+  >world crisis adverted
+  >MFW ( ^o^')
+  
+  */
+
+
+
   socket.on('disconnect', function()
   {
     if(in_list)
@@ -511,6 +533,12 @@ io.on('connection', function(socket){
     	  	lists[coll].splice(index, 1);
           io.to(coll).emit("viewers", lists[coll].length);
           io.to(coll).emit('chat', [name, " left"]);
+        }
+
+        if(contains(unique_ids, short_id))
+        {
+          var index = unique_ids.indexOf(guid);
+          lists[coll].splice(index, 1);
         }
 
     }
@@ -708,7 +736,7 @@ function contains(a, obj) {
 }
 
 function rndName(seed, endlen) {
-  var vowels = ['a', 'e', 'i', 'o', 'u', 'ö'];
+  var vowels = ['a', 'e', 'i', 'o', 'u'];
   consts =  ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'tt', 'ch', 'sh'];
   len = 8;
   word = '';
@@ -720,5 +748,17 @@ function rndName(seed, endlen) {
     is_vowel = !is_vowel;
     word += arr[(seed[i%seed.length].charCodeAt()+i) % arr.length-1];
   }
-  return word.substring(0,endlen)
+  return word.substring(0, Math.ceil(endlen))
+}
+
+function uniqueID(seed, minlen){
+  var len = minlen;
+  var id = rndName(seed, len);
+
+  while( contains(unique_ids, id) && len<=8){
+    id = rndName(str(len)+id, len);
+    len += 0.1;                        // try 10 times at each length
+  }
+
+  return id;
 }
