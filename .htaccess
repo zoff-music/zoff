@@ -9,8 +9,8 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
 
 
-RewriteRule ^remote/(.*) php/controller.php?id=$1 [L]
-RewriteRule ^remote php/controller.php [L]
+RewriteRule (?i)^remote/(.*) php/controller.php?id=$1 [L]
+RewriteRule (?i)^remote php/controller.php [L]
 
 RewriteCond %{REQUEST_URI} !(/$|\.)
 RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]
