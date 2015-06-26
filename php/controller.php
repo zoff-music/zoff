@@ -167,7 +167,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="/static/js/lib/materialize.js"></script>
-    <script type="text/javascript" src="/static/build-js/remotecontroller-min.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/materialize.js"></script>
+    <script type="text/javascript" src="/static/dist/remote-min.js"></script>
 	</body>
 </html>
