@@ -64,6 +64,8 @@ io.on('connection', function(socket){
   var in_list = false;
   var name = rndName(guid,8);
   var short_id = uniqueID(socket.id,4);
+  unique_ids.push(short_id);
+
 
   socket.on('namechange', function(data)
   {
@@ -500,28 +502,6 @@ io.on('connection', function(socket){
 
     }
   });
-
-  /*
-
-  >be chilling at home
-  >listening to music
-  >ohshit.gif
-  >MRW client disconntects
-  >no clue wat to do
-  >accidently delete all channels in panic
-  >fuck.jpg
-  >all videos on yotube deleted as well
-  >nononono.mov
-  >try to hack nsa and get data back
-  >can't connect
-  >realize im running on localhost
-  >nothing really deleted
-  >world crisis adverted
-  >MFW ( ^o^')
-  
-  */
-
-
 
   socket.on('disconnect', function()
   {
