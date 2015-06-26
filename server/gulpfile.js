@@ -10,8 +10,8 @@ gulp.task('js', function () {
         	compress: true,
         	enclose: true
         }))
-        .pipe(concat('main.js'))
-        .pipe(gulp.dest('../static/build-js'));
+        .pipe(concat('main-min.js'))
+        .pipe(gulp.dest('../static/dist'));
 });
 
 gulp.task('nochan', function () {
@@ -21,8 +21,8 @@ gulp.task('nochan', function () {
             compress: true,
             enclose: true
         }))
-        .pipe(concat('main-fp.js'))
-        .pipe(gulp.dest('../static/build-js'));
+        .pipe(concat('frontpage-min.js'))
+        .pipe(gulp.dest('../static/dist'));
 });
 
 gulp.task('remotecontroller', function () {
@@ -32,8 +32,8 @@ gulp.task('remotecontroller', function () {
             compress: true,
             enclose: true
         }))
-        .pipe(concat('remotecontroller-min.js'))
-        .pipe(gulp.dest('../static/build-js'));
+        .pipe(concat('remote-min.js'))
+        .pipe(gulp.dest('../static/dist'));
 });
 
 gulp.task('default', function(){
