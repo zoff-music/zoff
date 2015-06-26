@@ -14,68 +14,75 @@ function getCookie(cname) {
 }
 */
 
-function populate_channels(lists)
-{
-    var output = "";
-    var num = 0;
-    lists.sort(sortFunction);
+var Nochan = {
 
-    pre_card = $(list_html);
+  populate_channels: function(lists)
+  {
+      var output = "";
+      var num = 0;
+      lists.sort(Nochan.sortFunction);
 
-    for(x in lists)
-    {
+      pre_card = $(list_html);
 
-        var chan = lists[x][3];
-        if(num<20)
-        {
-          var id = lists[x][1];
-          var viewers = lists[x][0];
-          var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-          var song_count = lists[x][4];
+      for(x in lists)
+      {
 
-          //$("#channels").append(list_html);
+          var chan = lists[x][3];
+          if(num<20)
+          {
+            var id = lists[x][1];
+            var viewers = lists[x][0];
+            var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+            var song_count = lists[x][4];
 
-          var card = pre_card;
-          card.find(".chan-name").text(chan);
-          card.find(".chan-name").attr("title", chan);
-          card.find(".chan-views").text(viewers);
-          card.find(".chan-songs").text(song_count);
-          card.find(".chan-bg").attr("style", img);
-          card.find(".chan-link").attr("href", chan);
+            //$("#channels").append(list_html);
 
-          $("#channels").append(card.html());
+            var card = pre_card;
+            card.find(".chan-name").text(chan);
+            card.find(".chan-name").attr("title", chan);
+            card.find(".chan-views").text(viewers);
+            card.find(".chan-songs").text(song_count);
+            card.find(".chan-bg").attr("style", img);
+            card.find(".chan-link").attr("href", chan);
 
-          //$("#channels").append(card);
-          //console.log(chan);
-        }
-        output+="<option value='"+chan+"'> ";
-        num++;
-        //if(num>19)break;
-    }
-    document.getElementById("preloader").style.display = "none";
-    document.getElementById("searches").innerHTML = output;
-    //Materialize.fadeInImage('#channels');
-    $("#channels").fadeIn(800);
-    $("#search").focus();
+            $("#channels").append(card.html());
+
+            //$("#channels").append(card);
+            //console.log(chan);
+          }
+          output+="<option value='"+chan+"'> ";
+          num++;
+          //if(num>19)break;
+      }
+      document.getElementById("preloader").style.display = "none";
+      document.getElementById("searches").innerHTML = output;
+      //Materialize.fadeInImage('#channels');
+      $("#channels").fadeIn(800);
+      $("#search").focus();
+  },
+
+  sortFunction: function(a, b) {
+    var o1 = a[0];
+    var o2 = b[0];
+
+    var p1 = a[4];
+    var p2 = b[4];
+
+    if (o1 < o2) return 1;
+    if (o1 > o2) return -1;
+    if (p1 < p2) return 1;
+    if (p1 > p2) return -1;
+    return 0;
+  },
+
+
+
 }
+
+
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-
-function sortFunction(a, b) {
-  var o1 = a[0];
-  var o2 = b[0];
-
-  var p1 = a[4];
-  var p2 = b[4];
-
-  if (o1 < o2) return 1;
-  if (o1 > o2) return -1;
-  if (p1 < p2) return 1;
-  if (p1 > p2) return -1;
-  return 0;
 }
 
 $(document).ready(function (){
@@ -88,7 +95,7 @@ $(document).ready(function (){
     var socket = io.connect('//'+window.location.hostname+':3000');
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
-        populate_channels(msg);
+        Nochan.populate_channels(msg);
     })
 
 
