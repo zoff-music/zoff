@@ -1,10 +1,19 @@
 var Hostcontroller = {
 
   host_listener: function() {
+    
+    var old_id;
+
     socket.on("id", function(id)
     {
+      if(old_id === undefined) old_id = id;
+      else
+      {
+        socket.removeAllListeners(id);
+        began = false;
+        old_id = id;
+      }
       var codeURL = "//"+window.location.hostname+"/remote/"+id;
-      console.log(id);
       $("#code-text").text(id)
       $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
       $("#code-link").attr("href", codeURL);
