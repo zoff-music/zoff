@@ -4,6 +4,7 @@ var Hostcontroller = {
     socket.on("id", function(id)
     {
       var codeURL = "//"+window.location.hostname+"/remote/"+id;
+      console.log(id);
       $("#code-text").text(id)
       $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
       $("#code-link").attr("href", codeURL);
