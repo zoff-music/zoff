@@ -510,15 +510,19 @@ io.on('connection', function(socket){
         if(contains(lists[coll], guid))
         {
     	  	var index = lists[coll].indexOf(guid);
-    	  	lists[coll].splice(index, 1);
-          io.to(coll).emit("viewers", lists[coll].length);
-          io.to(coll).emit('chat', [name, " left"]);
+    	  	if(index != -1)
+          {
+            lists[coll].splice(index, 1);
+            io.to(coll).emit("viewers", lists[coll].length);
+            io.to(coll).emit('chat', [name, " left"]);
+          }
         }
 
         if(contains(unique_ids, short_id))
         {
           var index = unique_ids.indexOf(guid);
-          lists[coll].splice(index, 1);
+          if(index != -1)
+            lists[coll].splice(index, 1);
         }
 
     }
@@ -531,9 +535,19 @@ io.on('connection', function(socket){
         if(contains(lists[coll], guid))
         {
     	  	var index = lists[coll].indexOf(guid);
-    	  	lists[coll].splice(index, 1);
-          io.to(coll).emit("viewers", lists[coll].length);
-          io.to(coll).emit('chat', [name, " left"]);
+          if(index != -1)
+          {
+      	  	lists[coll].splice(index, 1);
+            io.to(coll).emit("viewers", lists[coll].length);
+            io.to(coll).emit('chat', [name, " left"]);
+          }
+        }
+
+        if(contains(unique_ids, short_id))
+        {
+          var index = unique_ids.indexOf(guid);
+          if(index != -1)
+            lists[coll].splice(index, 1);
         }
 
     }
@@ -546,9 +560,19 @@ io.on('connection', function(socket){
         if(contains(lists[coll], guid))
         {
     	  	var index = lists[coll].indexOf(guid);
-    	  	lists[coll].splice(index, 1);
-          io.to(coll).emit("viewers", lists[coll].length);
-          io.to(coll).emit('chat', [name, " left"]);
+    	  	if(index != -1)
+          {
+            lists[coll].splice(index, 1);
+            io.to(coll).emit("viewers", lists[coll].length);
+            io.to(coll).emit('chat', [name, " left"]);
+          }
+        }
+
+        if(contains(unique_ids, short_id))
+        {
+          var index = unique_ids.indexOf(guid);
+          if(index != -1)
+            lists[coll].splice(index, 1);
         }
 
     }
