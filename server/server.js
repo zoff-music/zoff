@@ -493,11 +493,13 @@ io.on('connection', function(socket){
         if(contains(lists[coll], guid))
         {
     	  	var index = lists[coll].indexOf(guid);
-    	  	lists[coll].splice(index, 1);
-          io.to(coll).emit("viewers", lists[coll].length);
-          io.to(coll).emit('chat', [name, " left"]);
-          socket.leave(coll);
-
+          if(index != -1)
+          {
+      	  	lists[coll].splice(index, 1);
+            io.to(coll).emit("viewers", lists[coll].length);
+            io.to(coll).emit('chat', [name, " left"]);
+            socket.leave(coll);
+          }
         }
 
     }
@@ -505,77 +507,17 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function()
   {
-    if(in_list)
-    {
-        if(contains(lists[coll], guid))
-        {
-    	  	var index = lists[coll].indexOf(guid);
-    	  	if(index != -1)
-          {
-            lists[coll].splice(index, 1);
-            io.to(coll).emit("viewers", lists[coll].length);
-            io.to(coll).emit('chat', [name, " left"]);
-          }
-        }
-
-        if(contains(unique_ids, short_id))
-        {
-          var index = unique_ids.indexOf(guid);
-          if(index != -1)
-            lists[coll].splice(index, 1);
-        }
-
-    }
+    left_channel(in_list, coll, guid, name, short_id);
   });
 
   socket.on('reconnect_failed', function()
   {
-    if(in_list)
-    {
-        if(contains(lists[coll], guid))
-        {
-    	  	var index = lists[coll].indexOf(guid);
-          if(index != -1)
-          {
-      	  	lists[coll].splice(index, 1);
-            io.to(coll).emit("viewers", lists[coll].length);
-            io.to(coll).emit('chat', [name, " left"]);
-          }
-        }
-
-        if(contains(unique_ids, short_id))
-        {
-          var index = unique_ids.indexOf(guid);
-          if(index != -1)
-            lists[coll].splice(index, 1);
-        }
-
-    }
+    left_channel(in_list, coll, guid, name, short_id);
   });
 
   socket.on('connect_timeout', function()
   {
-    if(in_list)
-    {
-        if(contains(lists[coll], guid))
-        {
-    	  	var index = lists[coll].indexOf(guid);
-    	  	if(index != -1)
-          {
-            lists[coll].splice(index, 1);
-            io.to(coll).emit("viewers", lists[coll].length);
-            io.to(coll).emit('chat', [name, " left"]);
-          }
-        }
-
-        if(contains(unique_ids, short_id))
-        {
-          var index = unique_ids.indexOf(guid);
-          if(index != -1)
-            lists[coll].splice(index, 1);
-        }
-
-    }
+    left_channel(in_list, coll, guid, name, short_id);
   });
 
   socket.on('pos', function()
@@ -584,6 +526,31 @@ io.on('connection', function(socket){
     send_play(coll, socket);
   });
 });
+
+function left_channel(in_list, coll, guid, name, short_id)
+{
+  if(in_list)
+    {
+        if(contains(lists[coll], guid))
+        {
+          var index = lists[coll].indexOf(guid);
+          if(index != -1)
+          {
+            lists[coll].splice(index, 1);
+            io.to(coll).emit("viewers", lists[coll].length);
+            io.to(coll).emit('chat', [name, " left"]);
+          }
+        }
+
+        if(contains(unique_ids, short_id))
+        {
+          var index = unique_ids.indexOf(guid);
+          if(index != -1)
+            lists[coll].splice(index, 1);
+        }
+
+    }
+}
 
 function del(params, socket)
 {
