@@ -68,7 +68,8 @@ var Admin = {
     		$(".card-action").removeClass("hide");
 
     		$("#admin-lock").removeClass("mdi-action-lock");
-    		$("#admin-lock").addClass("mdi-action-lock-open clickable");
+            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
+    		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
     		localStorage.setItem(chan.toLowerCase(), msg);
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
@@ -136,9 +137,17 @@ var Admin = {
         {
             $("#password").attr("placeholder", "Enter channel password");
             Admin.display_logged_out();
+            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
+                $("#admin-lock").addClass("mdi-action-lock");
+            $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         }else if(!hasadmin && !localStorage[chan.toLowerCase()])
+        {
             $("#password").attr("placeholder", "Enter channel password");
-        else
+
+            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
+                $("#admin-lock").addClass("mdi-action-lock");
+            $("#admin-lock").removeClass("mdi-action-lock-open clickable");
+        }else
             $("#password").attr("placeholder", "Change channel password");
     },
 
