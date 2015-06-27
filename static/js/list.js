@@ -19,7 +19,7 @@ var List = {
     	    name: 'votes',
     	    reverse: true
       		}, 'added'));
-    		List.set_conf(conf);
+    		Admin.set_conf(conf);
     		List.populate_list(full_playlist);
     	}else if(msg[0] == "added")
     	{
@@ -83,20 +83,6 @@ var List = {
     			$("#pBar").removeClass("opacityFull");
     		},1500);
     	});
-    },
-
-    set_conf: function(conf_array)
-    {
-    	if(conf_array['adminpass'] == "" || w_p === false) hasadmin = false;
-    	else hasadmin = true;
-    	music = conf_array["allvideos"];
-    	longsongs = conf_array["longsongs"];
-    	names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-    	for (var i = 0; i < names.length; i++) {
-    		document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
-    		if(hasadmin)
-    			$("input[name="+names[i]+"]").attr("disabled", true);
-    	}
     },
 
     populate_list: function(msg)
