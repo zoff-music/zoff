@@ -35,7 +35,17 @@ var Hostcontroller = {
               chan = arr[1].toLowerCase();
               $("#chan").html(chan.substring(0,1).toUpperCase()+chan.substring(1).toLowerCase());
 
+              w_p = true;
               socket.emit("list", chan.toLowerCase());
+
+              if(localStorage[chan.toLowerCase()])
+              {
+                //localStorage.removeItem(chan.toLowerCase());
+                if(localStorage[chan.toLowerCase()].length != 64)
+                  localStorage.removeItem(chan.toLowerCase());
+                else
+                  socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
+              }
 
               window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
             }else if(arr[0] == "pause")

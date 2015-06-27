@@ -17,6 +17,7 @@ var Admin = {
 						localStorage.removeItem(chan.toLowerCase());
 					}
                     Admin.display_logged_out();
+                    w_p = true;
 					break;
     			case "shuffled":
     		        msg=Helper.rnd(["♫ You stir me right round, baby. ♫","♫ Stir, stir, stir my boat ♫","I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"])
@@ -76,7 +77,7 @@ var Admin = {
 
     	socket.on("conf", function(msg)
     	{
-    		List.set_conf(msg[0]);
+    		Admin.set_conf(msg[0]);
     	});
     },
 
@@ -118,6 +119,27 @@ var Admin = {
     //function used in html onlick
     save: function(){
     	Admin.submitAdmin(document.getElementById("adminForm").elements);
+    },
+
+    set_conf: function(conf_array)
+    {
+        if(conf_array['adminpass'] == "" || !w_p) hasadmin = false;
+        else hasadmin = true;
+        music = conf_array["allvideos"];
+        longsongs = conf_array["longsongs"];
+        names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+        for (var i = 0; i < names.length; i++) {
+            document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
+            $("input[name="+names[i]+"]").attr("disabled", hasadmin);
+        }
+        if(hasadmin && !localStorage[chan.toLowerCase()])
+        {
+            $("#password").attr("placeholder", "Enter channel password");
+            Admin.display_logged_out();
+        }else if(!hasadmin && !localStorage[chan.toLowerCase()])
+            $("#password").attr("placeholder", "Enter channel password");
+        else
+            $("#password").attr("placeholder", "Change channel password");
     },
 
     submitAdmin: function(form)
