@@ -53,7 +53,7 @@ db.on('error',function(err) {
 io.on('connection', function(socket){
   socket.emit("get_list");
 
-  var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]).substring(0,8);
+  var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
 
   socket.on('ping', function() {
     socket.emit("ok");
