@@ -8,9 +8,8 @@ var Youtube = {
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
-    			if(!window.mobilecheck())
-    				$("#player_overlay").toggleClass("hide");
-                ytplayer.stopVideo();
+    			if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
+                if(ytplayer !== undefined) ytplayer.stopVideo();
     			//List.importOldList(channel.toLowerCase());
     		}
     		else{
