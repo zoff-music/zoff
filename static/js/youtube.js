@@ -9,7 +9,9 @@ var Youtube = {
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
     			if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
-                if(ytplayer !== undefined) ytplayer.stopVideo();
+                try{
+                    ytplayer.stopVideo();
+                }catch(e){}
     			//List.importOldList(channel.toLowerCase());
     		}
     		else{

@@ -736,7 +736,7 @@ function uniqueID(seed, minlen){
   var id = rndName(seed, len);
 
   while( contains(unique_ids, id) && len<=8){
-    id = rndName(str(len)+id, len);
+    id = rndName(String(len)+id, len);
     len += 0.1;                        // try 10 times at each length
   }
 
