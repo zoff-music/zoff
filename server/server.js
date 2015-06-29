@@ -34,7 +34,7 @@ var db = mongojs.connect('mydb');
 var crypto = require('crypto');
 
 var port = 3000;
-var lists = [];
+var lists = {};
 var unique_ids = [];
 
 server.listen(port, function () {
@@ -507,17 +507,17 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function()
   {
-    left_channel(in_list, coll, guid, name, short_id);
+    left_channel(coll, guid, name, short_id);
   });
 
   socket.on('reconnect_failed', function()
   {
-    left_channel(in_list, coll, guid, name, short_id);
+    left_channel(coll, guid, name, short_id);
   });
 
   socket.on('connect_timeout', function()
   {
-    left_channel(in_list, coll, guid, name, short_id);
+    left_channel(coll, guid, name, short_id);
   });
 
   socket.on('pos', function()
@@ -527,29 +527,26 @@ io.on('connection', function(socket){
   });
 });
 
-function left_channel(in_list, coll, guid, name, short_id)
+function left_channel(coll, guid, name, short_id)
 {
-  if(in_list)
+  if(lists[coll] !== undefined && contains(lists[coll], guid))
+  {
+    var index = lists[coll].indexOf(guid);
+    if(index != -1)
     {
-        if(contains(lists[coll], guid))
-        {
-          var index = lists[coll].indexOf(guid);
-          if(index != -1)
-          {
-            lists[coll].splice(index, 1);
-            io.to(coll).emit("viewers", lists[coll].length);
-            io.to(coll).emit('chat', [name, " left"]);
-          }
-        }
-
-        if(contains(unique_ids, short_id))
-        {
-          var index = unique_ids.indexOf(guid);
-          if(index != -1)
-            lists[coll].splice(index, 1);
-        }
-
+      lists[coll].splice(index, 1);
+      io.to(coll).emit("viewers", lists[coll].length);
+      io.to(coll).emit('chat', [name, " left"]);
     }
+  }
+
+  if(contains(unique_ids, short_id))
+  {
+    var index = unique_ids.indexOf(guid);
+    if(index != -1)
+      lists[coll].splice(index, 1);
+  }
+
 }
 
 function del(params, socket)
