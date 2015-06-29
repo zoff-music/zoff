@@ -36,7 +36,12 @@ var lastSample = Date.now();
 var began = false;
 var id;
 
-var socket = io.connect('//'+window.location.hostname+':3000');
+var connection_options = {
+	'sync disconnect on unload':true,
+	transports: ['websocket', 'xhr-polling', 'polling', 'htmlfile', 'flashsocket']
+};
+
+var socket = io.connect('//'+window.location.hostname+':3000', connection_options);
 socket.on("get_list", function(){
     socket.emit('list', chan.toLowerCase());
 });
