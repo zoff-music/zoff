@@ -110,19 +110,19 @@ var Youtube = {
 
     onPlayerReady: function(event) {
       	player_ready = true;
-    		if(!window.mobilecheck())
-    		{
-    			$("#player").css("opacity", "1");
-    			$("#controls").css("opacity", "1");
-    			$(".playlist").css("opacity", "1");
-    			ytplayer.loadVideoById(video_id);
-    			ytplayer.playVideo();
-    			ytplayer.seekTo(seekTo);
-    		}
-    		Youtube.readyLooks();
-    		Playercontrols.initYoutubeControls(ytplayer);
-    		Playercontrols.initSlider();
-    		ytplayer.setVolume(localStorage.getItem("volume"));
+		if(!window.mobilecheck())
+		{
+			$("#player").css("opacity", "1");
+			$("#controls").css("opacity", "1");
+			$(".playlist").css("opacity", "1");
+			ytplayer.loadVideoById(video_id);
+			ytplayer.playVideo();
+			ytplayer.seekTo(seekTo);
+		}
+		Youtube.readyLooks();
+		Playercontrols.initYoutubeControls(ytplayer);
+		Playercontrols.initSlider();
+		ytplayer.setVolume(localStorage.getItem("volume"));
     },
 
     readyLooks: function()

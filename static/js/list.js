@@ -113,11 +113,6 @@ var List = {
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
 
-		full_playlist = msg;
-		full_playlist = full_playlist.sort(Helper.predicate({
-	    name: 'votes',
-	    reverse: true
-  		}, 'added'));
     },
 
     vote: function(id, vote){
