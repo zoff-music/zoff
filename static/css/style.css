@@ -260,6 +260,23 @@ hide mdi-action-visibility mdi-action-visibility-off
 	}
 }
 
+#playlist_loader {
+  display:inline-flex;
+  height:100%;
+
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {  
+  #wrapper {
+    padding-right:0vh !important;
+    width:100% !important;
+  }
+}
+
+#list-song-html {
+  display:none;
+}
+
 #donate_form a {
   padding-right:10px;
 }
