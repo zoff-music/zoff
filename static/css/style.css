@@ -260,12 +260,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 	}
 }
 
-#playlist_loader {
-  display:inline-flex;
-  height:100%;
-
-}
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {  
   #wrapper {
     padding-right:0vh !important;
@@ -350,6 +344,14 @@ ul #chat-log{
 
 .progress .indeterminate {
   background-color: #26a69a !important;
+}
+
+.channel_preloader {
+  background-color:#2D2D2D;
+}
+
+.channel_preloader .indeterminate {
+  background-color:white !important;
 }
 
 #player_overlay{
