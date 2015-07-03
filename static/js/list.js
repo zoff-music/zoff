@@ -66,6 +66,8 @@ var List = {
     		full_playlist.push(full_playlist.shift());
     		$("#wrapper").children()[0].remove();
     		List.insertAtIndex($("#wrapper").children().length, full_playlist[full_playlist.length-2], false);
+            document.getElementById('wrapper').scrollTop += 1;
+            document.getElementById('wrapper').scrollTop -= 1;
     		//populate_list(full_playlist);
     	}
     },
