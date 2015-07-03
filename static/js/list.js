@@ -12,14 +12,10 @@ var List = {
     	if(msg[0] == "list")
     	{
     		full_playlist = msg[1];
-    		var index_of_conf = List.getIndexOfConf(full_playlist);
-    		conf = full_playlist[index_of_conf];
-    		full_playlist.splice(index_of_conf, 1);
     		full_playlist.sort(Helper.predicate({
-    	    name: 'votes',
-    	    reverse: true
+    	       name: 'votes',
+    	       reverse: true
       		}, 'added'));
-    		Admin.set_conf(conf);
     		List.populate_list(full_playlist);
     	}else if(msg[0] == "added")
     	{
@@ -213,16 +209,6 @@ var List = {
     {
     	indexes = $.map(full_playlist, function(obj, index) {
     	    if(obj.id == id) {
-    	        return index;
-    	    }
-    	});
-    	return indexes[0];
-    },
-
-    getIndexOfConf: function(flist)
-    {
-    	indexes = $.map(flist, function(obj, index) {
-    	    if("views" in obj) {
     	        return index;
     	    }
     	});
