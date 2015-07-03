@@ -2,6 +2,7 @@ var start = true;
 var id;
 
 $(document).ready(function (){
+    document.title = "Zöff Remote";
     setTimeout(function(){$("#search").focus();},500);
     socket = io.connect('//'+window.location.hostname+':3000');
     id = window.location.pathname.split("/")[2];
