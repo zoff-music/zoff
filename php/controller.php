@@ -52,7 +52,7 @@
 
     <main class="center-align container">
     <div class="section">
-    <h3 id="remote-text"></h3>
+    <h3 id="remote-text">Remote Controller</h3>
     </div>
         <div class="section">
             <form action="#" class="row" id="remoteform" onsubmit="return false;">
@@ -135,7 +135,7 @@
                           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
                             <input type="hidden" name="cmd" value="_s-xclick">
                             <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                            <a title="Like what we made? Help us with a beer!" name="submit" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
+                            <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
                             </a>
                           </form>
                           <p>
