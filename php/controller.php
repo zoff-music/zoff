@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-    <title>Zöff Remote</title>
     <?php include("header.php"); ?>
 </head>
 <body>

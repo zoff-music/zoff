@@ -16,7 +16,7 @@
 <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
 <meta property="og:type" content="website"/>
 <meta name="google-site-verification" content="WO0VnKRtanBH9-q8SxE_c-W4GNqX_lc49mQgxPjvC-M" />
-<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen, projection" />
+<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/style.css" title="Default" />
 <link rel="icon" id="favicon" type="image/png" href="/static/images/favicon.png"/>
 <script>
