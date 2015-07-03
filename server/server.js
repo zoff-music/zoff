@@ -167,13 +167,13 @@ io.on('connection', function(socket){
 
       	if(contains(docs, coll))
       	{
-      		send_list(coll, socket, true, false);
+      		send_list(coll, socket, true, false, true);
       	}else
       	{
       		db.createCollection(coll, function(err, docs){
     				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
     				{
-              send_list(coll, socket, true, false);
+              send_list(coll, socket, true, false, true);
 
     				});
       		});
@@ -464,7 +464,7 @@ io.on('connection', function(socket){
         {
           db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
             if(!docs){
-              send_list(coll, undefined, false, true);
+              send_list(coll, undefined, false, true, false);
               socket.emit("toast", "shuffled");
               return;
             }else{
@@ -479,7 +479,7 @@ io.on('connection', function(socket){
       var complete = function(tot, curr){
         if(tot == curr)
         {
-          send_list(coll, undefined, false, true);
+          send_list(coll, undefined, false, true, false);
         }
       };
     }else
@@ -654,9 +654,9 @@ function change_song_post(coll)
   });
 }
 
-function send_list(coll, socket, send, list_send)
+function send_list(coll, socket, send, list_send, configs)
 {
-  db.collection(coll).find(function(err, docs)
+  db.collection(coll).find({views:{$exists:false}}, function(err, docs)
   {
     if(list_send)
       io.to(coll).emit("channel", ["list", docs]);
@@ -667,6 +667,14 @@ function send_list(coll, socket, send, list_send)
     else if(send)
       send_play(coll, socket);
   });
+
+  if(configs)
+  {
+    db.collection(coll).find({views:{$exists:true}}, function(err, conf){     
+      io.to(coll).emit("conf", conf);
+    });
+  }
+
 }
 
 function send_play(coll, socket)
