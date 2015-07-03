@@ -90,7 +90,7 @@ var List = {
 
 				var video_title=decodeURIComponent(listeID.title);
 				var video_id = listeID.id;
-				var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+				var video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
 				//var delsong = ""; if(pass_corr=="correct");
 				var video_votes = listeID.votes;
 				$("#wrapper").append(list_html);
@@ -99,11 +99,15 @@ var List = {
 				song.find(".list-title").attr("title", video_title);
 				song.find(".list-votes").text(video_votes);
 				song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-				song.find(".list-image").attr("style",video_thumb);
+				song.find(".list-image").attr("data-original",video_thumb);
 				song.attr("id",video_id);
 				song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 				if(!w_p) $(".card-action").removeClass("hide");
 				if(video_votes==1)song.find(".vote-text").text("vote");
+
+                $(".lazy").lazyload({
+                    container: $("#wrapper")
+                });
 			}
 		});
 
@@ -188,7 +192,7 @@ var List = {
     	var video_id = song_info.id;
     	var video_title = song_info.title;
     	var video_votes = song_info.votes;
-    	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+    	var video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
 
     	var song = $("<div>"+list_html+"</div>");
     	if(transition) song.find("#list-song").css("height", 0);
@@ -196,11 +200,16 @@ var List = {
     	song.find(".list-title").attr("title", video_title);
     	song.find(".list-votes").text(video_votes);
     	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-    	song.find(".list-image").attr("style",video_thumb);
+    	song.find(".list-image").attr("data-original",video_thumb);
     	song.find("#list-song").attr("id", video_id);
     	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
     	if(!w_p) song.find(".card-action").removeClass("hide");
     	if(video_votes == 1)song.find(".vote-text").text("vote");
+
+
+        $(".lazy").lazyload({
+            container: $("#wrapper")
+        }); 
 
     	return song.html();
     },
