@@ -107,10 +107,8 @@ var List = {
 			}
 		});
 
-        $(".list-image").lazyload({
-            container: $("#wrapper")
-        }).removeClass("lazy");
-
+        if(window.mobilecheck()) $(".list-image").lazyload({});
+        else $(".list-image").lazyload({container: $("#wrapper")});
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
