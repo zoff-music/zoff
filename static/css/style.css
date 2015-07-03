@@ -763,6 +763,10 @@ ul #chat-log{
       height:auto;
     }
 
+    .remote-panel {
+      display:none;
+    }
+
     .navbar-fixed, #nav{
         position: relative;
     }

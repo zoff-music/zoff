@@ -21,8 +21,8 @@ var List = {
     	{
     		full_playlist.push(msg[1]);
     		full_playlist.sort(Helper.predicate({
-    	    name: 'votes',
-    	    reverse: true
+    	       name: 'votes',
+    	       reverse: true
       		}, 'added'));
 
     		List.insertAtIndex(List.getIndexOfSong(msg[1].id), msg[1], true);

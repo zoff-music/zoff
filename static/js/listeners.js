@@ -59,26 +59,30 @@ $(document).ready(function()
 	}
     Youtube.setup_youtube_listener(chan);
     Admin.admin_listener();
-    Chat.setup_chat_listener(chan);
-	Chat.allchat_listener();
 	List.channel_listener();
 	List.skipping_listener();
-	Hostcontroller.host_listener();
 
-	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
 
-	$("#chat-btn").sideNav({
+	if(!window.mobilecheck())
+	{
+		Chat.setup_chat_listener(chan);
+		Chat.allchat_listener();
+		Hostcontroller.host_listener();
+		$("#chat-btn").sideNav({
 			menuWidth: 272, // Default is 240
 			edge: 'left', // Choose the horizontal origin
 			closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
 		});
 
-	$(".drag-target")[1].remove();
+		$(".drag-target")[1].remove();
+	}
+
+	//Materialize.toast("Passwords have been reset. If anything is not right, please send us a mail @ contact@zoff.no", 10000);
 
 	//$('#settings-close').sideNav('hide');
 
@@ -103,11 +107,6 @@ $(document).ready(function()
 				socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
 		}
 
-		if($("#chan").html().toLowerCase() == "jazz")
-		{
-			//loadjsfile("static/js/jazzscript.js");
-			//peis = true;
-		}
 		if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
 			$(".main").height(window.innerHeight-64);
 
@@ -127,7 +126,7 @@ $(document).ready(function()
 		Helper.sample();
 	}
 
-  $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
+  	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
 	$("#search").focus();
 
 	$('#base').bind("keyup keypress", function(e) {
