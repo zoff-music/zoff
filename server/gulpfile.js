@@ -25,6 +25,17 @@ gulp.task('nochan', function () {
         .pipe(gulp.dest('../static/dist'));
 });
 
+gulp.task('lazyload', function () {
+    gulp.src(['../static/dist/jquery.lazyload.js'])
+        .pipe(uglify({
+            mangle: true,
+            compress: true,
+            enclose: true
+        }))
+        .pipe(concat('frontpage-min.js'))
+        .pipe(gulp.dest('../static/dist'));
+});
+
 gulp.task('remotecontroller', function () {
     gulp.src(['../static/js/remotecontroller.js'])
         .pipe(uglify({
