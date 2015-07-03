@@ -4,7 +4,7 @@ var server;
 This if for the localhost running
 
 ******/
-localhost = false;
+localhost = true;
 
 //https server
 if(localhost)
