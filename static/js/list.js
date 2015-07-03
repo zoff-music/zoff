@@ -104,13 +104,12 @@ var List = {
 				song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 				if(!w_p) $(".card-action").removeClass("hide");
 				if(video_votes==1)song.find(".vote-text").text("vote");
-
-                $(".lazy").lazyload({
-                    container: $("#wrapper")
-                });
 			}
 		});
 
+        $(".list-image").lazyload({
+            container: $("#wrapper")
+        }).removeClass("lazy");
 
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
@@ -192,7 +191,7 @@ var List = {
     	var video_id = song_info.id;
     	var video_title = song_info.title;
     	var video_votes = song_info.votes;
-    	var video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
+    	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
 
     	var song = $("<div>"+list_html+"</div>");
     	if(transition) song.find("#list-song").css("height", 0);
@@ -200,17 +199,17 @@ var List = {
     	song.find(".list-title").attr("title", video_title);
     	song.find(".list-votes").text(video_votes);
     	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-    	song.find(".list-image").attr("data-original",video_thumb);
+    	song.find(".list-image").attr("style",video_thumb);
     	song.find("#list-song").attr("id", video_id);
     	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
     	if(!w_p) song.find(".card-action").removeClass("hide");
     	if(video_votes == 1)song.find(".vote-text").text("vote");
 
-
+/*
         $(".lazy").lazyload({
             container: $("#wrapper")
-        }); 
-
+        }).removeClass("lazy"); 
+*/
     	return song.html();
     },
 
