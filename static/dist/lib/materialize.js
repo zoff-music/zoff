@@ -5688,7 +5688,7 @@ Picker.extend( 'pickadate', DatePicker )
   $.fn.characterCounter = function(){
     return this.each(function(){
 
-      itHasLengthAttribute = $(this).attr('length') != undefined;
+      itHasLengthAttribute = $(this).attr('data-length') != undefined;
 
       if(itHasLengthAttribute){
         $(this).on('input', updateCounter);
@@ -5702,7 +5702,7 @@ Picker.extend( 'pickadate', DatePicker )
   };
 
   function updateCounter(){
-    var maxLength     = +$(this).attr('length'),
+    var maxLength     = +$(this).attr('data-length'),
     actualLength      = +$(this).val().length,
     isValidLength     = actualLength <= maxLength;
 

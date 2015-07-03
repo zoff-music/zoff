@@ -110,7 +110,7 @@
                 <ul>
                     <li>
                         <a id="code-link" target="_blank">
-                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="//:0" />
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L|1&amp;chl=https://zoff.no" />
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>
