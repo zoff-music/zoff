@@ -758,6 +758,11 @@ ul #chat-log{
 
 
 @media only screen and (max-width: 600px){
+
+    .toast {
+      height:auto;
+    }
+
     .navbar-fixed, #nav{
         position: relative;
     }
