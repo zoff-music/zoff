@@ -40,16 +40,23 @@ var List = {
     			$("#"+msg[1]).remove();
     			full_playlist.splice(List.getIndexOfSong(msg[1]), 1);
     		}, 305);
+            document.getElementById('wrapper').scrollTop += 1;
+            document.getElementById('wrapper').scrollTop += -1;
     	}else if(msg[0] == "vote")
     	{
     		var index_of_song = List.getIndexOfSong(msg[1]);
+            var song_voted_on = full_playlist[index_of_song];
     		full_playlist[index_of_song].votes += 1;
     		full_playlist[index_of_song].added = msg[2];
     		full_playlist.sort(Helper.predicate({
-    	    name: 'votes',
-    	    reverse: true
+    	       name: 'votes',
+    	       reverse: true
       		}, 'added'));
-    		List.populate_list(full_playlist, false);
+            $("#"+msg[1]).remove();
+            console.log(msg[1]);
+            List.insertAtIndex(List.getIndexOfSong(msg[1]), song_voted_on, false);
+
+    		//List.populate_list(full_playlist, false);
     	}else if(msg[0] == "song_change")
     	{
 
@@ -110,7 +117,7 @@ var List = {
 		});
 
         if(window.mobilecheck()) $(".list-image").lazyload({});
-        else $(".list-image").lazyload({container: $("#wrapper")});
+        else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
