@@ -100,7 +100,7 @@
     </ul>
 </li>
 
-<li class="no-padding">
+<li class="no-padding remote-panel">
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Remote Control
