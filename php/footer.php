@@ -28,7 +28,7 @@
                             </a>
                         </p>
                         <p>
-                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this playlist <?php echo ucfirst($list); ?> on Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                            <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
                                 <img class="left" src="/static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
                             </a>
                         </p>
@@ -39,8 +39,8 @@
                           </a>
                         </form>
                         <p>
-                            <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
-                                <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                            <a href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
+                                <img src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                             </a>
                         </p>
                     </li>

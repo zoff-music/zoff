@@ -89,7 +89,9 @@ $(document).ready(function (){
 
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
 
-    list_html = $("#channels").html();
+    list_html = $("#channel-list-container").html();
+    console.log(list_html);
+    window.list_html = list_html;
     $("#channels").empty();
 
     var socket = io.connect('//'+window.location.hostname+':3000');

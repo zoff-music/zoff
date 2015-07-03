@@ -72,7 +72,7 @@ if(isset($_GET['chan'])){
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="18"
-                            length="18"
+                            data-length="18"
                         />
                         <label for="search">Find or create radio channel</label>
                         <datalist id="searches">
@@ -85,8 +85,8 @@ if(isset($_GET['chan'])){
             <div id="preloader" class="progress">
                 <div class="indeterminate"></div>
             </div>
+            <div id="channel-list-container">
             <ul class="row" id="channels">
-              <ul>
                     <li id="chan-card" class="col s12 m4 l3">
                         <div class="card">
                             <a class="chan-link">
@@ -108,8 +108,8 @@ if(isset($_GET['chan'])){
                             </div>
                         </div>
                     </li>
-                  </ul>
-            </ul>
+                </ul>
+            </div>
         </div>
     </main>
 
