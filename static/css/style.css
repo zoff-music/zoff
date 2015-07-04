@@ -694,7 +694,7 @@ ul #chat-log{
     background-color:rgba(0, 0, 0, 0.5);
     border: none;
     outline: none;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
 }
 
 #volume .ui-slider-range-min {
@@ -704,7 +704,7 @@ ul #chat-log{
     background-color:rgba(255, 255, 255, 0.8);
     border: none;
     outline: none;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
 }
 
 #volume .ui-slider-handle {
@@ -715,7 +715,8 @@ ul #chat-log{
     cursor: pointer;
     outline: none;
     border: none;
-    display: none;
+    /*display: none;*/
+    margin-left:-2.5px;
 }
 
 .ui-slider-handle
