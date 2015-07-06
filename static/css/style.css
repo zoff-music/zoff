@@ -68,7 +68,18 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 	color: rgb(68,68,68);
 }
 
+.import-icon{
+  position: absolute;
+}
+
+#import{
+  width:65%;
+  margin-left:10px;
+  color:rgb(68,68,68);
+}
+
 #password{
+  width:70%;
 	margin-left:10px;
 }
 

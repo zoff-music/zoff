@@ -122,3 +122,25 @@
         </li>
     </ul>
 </li>
+
+<li class="no-padding remote-panel">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Import Playlist
+                <i class="mdi-communication-import-export"></i>
+            </a>
+            <div class="collapsible-body">
+                <ul>
+                    <li class="white-bg">
+                        <div class="input-field field-settings">
+                            <form action="#" id="listImport" onsubmit="return false;">
+                                <i class="mdi-av-playlist-add import-icon"></i>
+                                <input title="Only works with 49 or less songs.." placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" />
+                            </form>
+                        </div>
+                    </li>   
+                </ul>
+            </div>
+        </li>
+    </ul>
+</li>
