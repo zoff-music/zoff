@@ -59,6 +59,7 @@ var Admin = {
 
     	socket.on("pw", function(msg)
     	{
+            console.log("fuck");
     		w_p = false;
     		adminpass = msg;
     		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
@@ -147,8 +148,7 @@ var Admin = {
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
                 $("#admin-lock").addClass("mdi-action-lock");
             $("#admin-lock").removeClass("mdi-action-lock-open clickable");
-        }else
-            $("#password").attr("placeholder", "Change channel password");
+        }
     },
 
     submitAdmin: function(form)
