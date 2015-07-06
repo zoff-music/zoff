@@ -79,7 +79,7 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 }
 
 #password{
-  width:70%;
+  width:84%;
 	margin-left:10px;
 }
 

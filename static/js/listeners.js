@@ -91,21 +91,21 @@ $(document).ready(function()
 		Notification.requestPermission();
 	}
 
+	if(localStorage[chan.toLowerCase()])
+	{
+		//localStorage.removeItem(chan.toLowerCase());
+		if(localStorage[chan.toLowerCase()].length != 64)
+			localStorage.removeItem(chan.toLowerCase());
+		else
+			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
+	}
+
 	if(window.mobilecheck()){
 		document.getElementById("search").blur();
 		Youtube.readyLooks();
 	}else{
 		Youtube.loadPlayer();
 		window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
-
-		if(localStorage[chan.toLowerCase()])
-		{
-			//localStorage.removeItem(chan.toLowerCase());
-			if(localStorage[chan.toLowerCase()].length != 64)
-				localStorage.removeItem(chan.toLowerCase());
-			else
-				socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
-		}
 
 		if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
 			$(".main").height(window.innerHeight-64);
