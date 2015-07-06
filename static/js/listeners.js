@@ -149,28 +149,6 @@ $(document).ready(function()
 				i = 0;
 				timer=100;
 			}
-		}else if(event.keyCode == 13)
-		{
-			pId = search_input.split("list=");
-			if(pId.length > 1)
-			{
-				playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=40&key="+api_key+"&playlistId="+pId[1];
-				$.ajax({
-					type: "GET",
-					url: playlist_url,
-					dataType:"jsonp",
-					success: function(response)
-					{
-						var ids="";
-						$.each(response.items, function(i,data)
-						{
-							ids+=data.contentDetails.videoId+",";
-						});
-						addVideos(ids);
-						document.getElementById("search").value = "";
-					}
-				});
-			}
 		}
 
 
@@ -234,6 +212,10 @@ $(document).keyup(function(e) {
 $('input[class=conf]').change(function()
 {
     Admin.save();
+});
+
+$('#listImport').on("submit", function(){
+	Search.importPlaylist(document.getElementById("import").value);
 });
 
 $(window).focus(function(){
