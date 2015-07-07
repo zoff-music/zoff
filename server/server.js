@@ -542,7 +542,6 @@ io.on('connection', function(socket){
 
 function left_channel(coll, guid, name, short_id)
 {
-  if(coll == undefined || guid == undefined) console.log(coll, guid)
   if(lists[coll] !== undefined && contains(lists[coll], guid))
   {
     var index = lists[coll].indexOf(guid);
