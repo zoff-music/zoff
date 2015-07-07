@@ -37,8 +37,7 @@ var began = false;
 var id;
 
 var connection_options = {
-	'sync disconnect on unload':true,
-	transports: ['websocket', 'xhr-polling', 'polling', 'htmlfile', 'flashsocket']
+	'sync disconnect on unload':true
 };
 
 var socket = io.connect('//'+window.location.hostname+':3000', connection_options);
