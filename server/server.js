@@ -158,7 +158,7 @@ io.on('connection', function(socket){
       in_list = true;
     	coll = emojiStrip(list).toLowerCase();
       coll = decodeURIComponent(coll);
-      coll = coll.replace(/\s+/g, '');
+      coll = coll.replace(/\W/g, '');
       socket.join(coll);
       socket.join(short_id);
       socket.emit("id", short_id);
@@ -557,7 +557,7 @@ function del(params, socket)
 {
   var coll = emojiStrip(params[0]).toLowerCase();
   coll = decodeURIComponent(coll);
-  coll = coll.replace(/\s+/g, '');
+  coll = coll.replace(/\W/g, '');
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
     if(docs !== null && docs.length != 0 && docs[0]["adminpass"] == hash_pass(params[3]))
     {
