@@ -75,6 +75,17 @@ var Nochan = {
     return 0;
   },
 
+  getCookie: function(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+  }
+
 
 
 }
@@ -111,7 +122,7 @@ $(document).ready(function (){
 
     if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
-        if(getCookie("show_prompt") == ""){
+        if(Nochan.getCookie("show_prompt") == ""){
             var r = confirm("Do you want to download the native app for this webpage?");
             if(r)
                 window.location.href = 'https://play.google.com/store/apps/details?id=no.lqasse.zoff';
