@@ -33,6 +33,8 @@ var db = mongojs.connect('mydb');
 //crypto
 var crypto = require('crypto');
 
+var emojiStrip = require('emoji-strip');
+
 var port = 3000;
 var lists = {};
 var unique_ids = [];
@@ -154,7 +156,7 @@ io.on('connection', function(socket){
     if(list !== undefined && list !== null && list != "")
     {
       in_list = true;
-    	coll = list.toLowerCase();
+    	coll = emojiStrip(list).toLowerCase();
       coll = decodeURIComponent(coll);
       coll = coll.replace(/\s+/g, '');
       socket.join(coll);
@@ -553,7 +555,7 @@ function left_channel(coll, guid, name, short_id)
 
 function del(params, socket)
 {
-  var coll = params[0].toLowerCase();
+  var coll = emojiStrip(params[0]).toLowerCase();
   coll = decodeURIComponent(coll);
   coll = coll.replace(/\s+/g, '');
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
