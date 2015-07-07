@@ -57,6 +57,10 @@ io.on('connection', function(socket){
 
   var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
 
+  socket.on('close', function() {
+    console.log("closing socket");
+  })
+
   socket.on('ping', function() {
     socket.emit("ok");
   });
@@ -524,6 +528,11 @@ io.on('connection', function(socket){
     left_channel(coll, guid, name, short_id);
   });
 
+  socket.on('error', function()
+  {
+    left_channel(coll, guid, name, short_id);
+  });
+
   socket.on('pos', function()
   {
     check_inlist(coll, guid, socket, name);
@@ -533,6 +542,7 @@ io.on('connection', function(socket){
 
 function left_channel(coll, guid, name, short_id)
 {
+  if(coll == undefined || guid == undefined) console.log(coll, guid)
   if(lists[coll] !== undefined && contains(lists[coll], guid))
   {
     var index = lists[coll].indexOf(guid);
