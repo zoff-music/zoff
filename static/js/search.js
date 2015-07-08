@@ -36,7 +36,6 @@ var Search = {
           url: yt_url,
           dataType:"jsonp",
           success: function(response){
-            console.log(response.items.length);
             if(response.items){
             //get list of IDs and make new request for video info
               $.each(response.items, function(i,data)
