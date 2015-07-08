@@ -52,35 +52,41 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
     </header>
 
-    <main class="center-align container">
-        <div class="section">
-            <form class="row" id="base" method="get">
-                    <div class="input-field col s12">
-                        <input
-                            class="input-field"
-                            type="text"
-                            id="search"
-                            name="chan"
-                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                            autocomplete="off"
-                            list="searches"
-                            required pattern="[a-zA-Z0-9]+"
-                            spellcheck="false"
-                            maxlength="18"
-                            data-length="18"
-                        />
-                        <label for="search">Find or create radio channel</label>
-                        <datalist id="searches">
-                        </datalist>
-                </div>
+    <div class="section mega">
+        <h5>Create a radio channel, collaborate and listen</h5>
+            <form class="">
+                <p class="prething">zoff.no/</p>
+                <input
+                    class="input-field room-namer"
+                    type="text"
+                    id="search"
+                    name="chan"
+                    placeholder="indie-rock"
+                    title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                    autocomplete="off"
+                    autofocus=""
+                    list="searches"
+                    required
+                    pattern="[a-zA-Z0-9]+"
+                    spellcheck="false"
+                    maxlength="18"
+                />
+                <datalist id="searches"></datalist>
+                <a class="refresh-button"><i class="small cached"></i></a>
+                <button class="listen-button" action="submit">Listen</button>
             </form>
-        </div>
+            <div class="pitch outline">
+                <div>Live &amp; democratic playlists with YouTube Music</div>
+                <div>Play everywhere — No login required</div>
+            </div>
+    </div>
 
+    <main class="center-align container">
         <div class="section">
             <div id="preloader" class="progress">
                 <div class="indeterminate"></div>
