@@ -35,7 +35,6 @@ var List = {
 
     	}else if(msg[0] == "deleted")
     	{
-            List.getIndexOfSong(msg[1])[0]
     		var to_delete = $("#wrapper").children()[List.getIndexOfSong(msg[1])];
     		to_delete.style.height = 0;
     		setTimeout(function()
