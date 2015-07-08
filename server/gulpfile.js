@@ -7,7 +7,7 @@ gulp.task('js', function () {
     gulp.src(['../static/js/*.js', '!../static/js/nochan*', '!../static/js/remotecontroller.js'])
         .pipe(uglify({
         	mangle: true,
-        	compress: true,
+            compress: true,
         	enclose: true
         }))
         .pipe(concat('main.min.js'))
