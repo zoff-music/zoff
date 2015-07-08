@@ -25,14 +25,17 @@ var List = {
     	       reverse: true
       		}, 'added'));
 
-    		List.insertAtIndex(List.getIndexOfSong(msg[1].id), msg[1], true);
-            var test = $("#wrapper").children()[List.getIndexOfSong(msg[1].id)];
+            var index = List.getIndexOfSong(msg[1].id);
+
+    		List.insertAtIndex(index, msg[1], true);
+            var test = $("#wrapper").children()[index];
     		setTimeout(function(){
     			$(test).css("height", 66);
     		},5);
 
     	}else if(msg[0] == "deleted")
     	{
+            List.getIndexOfSong(msg[1])[0]
     		var to_delete = $("#wrapper").children()[List.getIndexOfSong(msg[1])];
     		to_delete.style.height = 0;
     		setTimeout(function()
@@ -53,7 +56,6 @@ var List = {
     	       reverse: true
       		}, 'added'));
             $("#"+msg[1]).remove();
-            console.log(msg[1]);
             List.insertAtIndex(List.getIndexOfSong(msg[1]), song_voted_on, false);
 
     		//List.populate_list(full_playlist, false);
@@ -181,11 +183,9 @@ var List = {
     insertAtIndex: function(i, song_info, transition) {
         if(i === 0) {
          	$("#wrapper").prepend(List.generateSong(song_info, transition));
-    			return;
+      		return;
         }
-
         $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition));
-
     },
 
     generateSong: function(song_info, transition)
@@ -211,7 +211,8 @@ var List = {
         $(".lazy").lazyload({
             container: $("#wrapper")
         }).removeClass("lazy"); 
-*/
+*/      
+
     	return song.html();
     },
 
