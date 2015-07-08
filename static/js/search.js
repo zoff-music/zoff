@@ -31,6 +31,9 @@ var Search = {
         if(Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
           $("#search_loader").removeClass("hide");
 
+        if(Helper.contains($("#results").attr("class").split(" "), "hide"))
+          $("#results").removeClass("hide");
+
         $.ajax({
           type: "GET",
           url: yt_url,

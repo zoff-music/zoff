@@ -1,24 +1,19 @@
 var server;
-/******
 
-This if for the localhost running
-
-******/
-localhost = false;
-
-//https server
-if(localhost)
-{
-  var http = require('http');
-  server = http.createServer(app);
-}else
-{
+try{
   var fs = require('fs');
   var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
   var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
   var credentials = {key: privateKey, cert: certificate};
   var https = require('https');
   server = https.createServer(credentials, app);
+}
+catch(err){
+  console.log("Starting without https (probably on localhost)");
+  if(err["errno"] != 34)console.log(err);
+  
+  var http = require('http');
+  server = http.createServer(app);
 }
 
 var express = require('express');
