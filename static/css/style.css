@@ -282,6 +282,16 @@ hide mdi-action-visibility mdi-action-visibility-off
   display:none;
 }
 
+#empty-results {
+  text-align:center;
+  height:100px;
+  cursor: default;
+}
+
+#empty-results span {
+  margin:auto;
+}
+
 #donate_form a {
   padding-right:10px;
 }

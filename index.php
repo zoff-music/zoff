@@ -129,6 +129,11 @@
                           </div>
                       </div>
                     </div>
+                    <div id="empty-results-container">
+                      <div id='empty-results' class='valign-wrapper'>
+                        <span class='valign'>No results found..</span>
+                      </div>
+                    </div>
                 </div>
             </div>
         </nav>

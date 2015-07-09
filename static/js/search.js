@@ -39,7 +39,14 @@ var Search = {
           url: yt_url,
           dataType:"jsonp",
           success: function(response){
-            if(response.items){
+            if(response.items.length == 0)
+            {
+
+              $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+              if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
+                $("#search_loader").addClass("hide");
+            
+            }else if(response.items){
             //get list of IDs and make new request for video info
               $.each(response.items, function(i,data)
               {
