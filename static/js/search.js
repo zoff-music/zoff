@@ -80,7 +80,7 @@ var Search = {
 
                       songs.find(".search-title").text(title);
                       songs.find(".result_info").text(duration);
-                      songs.find(".thumb").attr("src", thumb);
+                      songs.find(".thumb").attr("data-original", thumb);
                       songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
                       $($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
                       $($(songs).find("div")[0]).attr("id", id)
@@ -90,6 +90,8 @@ var Search = {
                   });
 
                   $("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+
+                  setTimeout(function(){$(".thumb").lazyload({container: $("#results")})}, 250);
 
                   if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
                     $("#search_loader").addClass("hide");

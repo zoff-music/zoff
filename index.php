@@ -118,7 +118,7 @@
                     <div id="temp-results-container">
                       <div id="temp-results">
                           <div id="result" class="result">
-                              <img class="thumb" src="/static/images/loading.gif" alt="Thumb"/>
+                              <img class="thumb" src="/static/images/loading.png" alt="Thumb"/>
 
                                   <div class="search-title truncate"></div>
                                   <span class="result_info"></span>
