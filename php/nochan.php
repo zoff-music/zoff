@@ -180,8 +180,8 @@ if(isset($_GET['chan'])){
         <div class="footer-copyright">
             <div class="container">
                 &copy; 2014 - <?php echo date("Y"); ?>
-                <a href="//nixo.no">Nixo</a> &amp;
-                <a href="//kasperrt.no">KasperRT</a>
+                <a href="http://nixo.no">Nixo</a> &amp;
+                <a href="http://kasperrt.no">KasperRT</a>
             </div>
         </div>
     </footer>
