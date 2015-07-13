@@ -162,7 +162,7 @@ var Search = {
     		{
     			var duration=Search.durationToSeconds(song.contentDetails.duration);
     			if(!longsongs || duration<720){
-    				enc_title=encodeURIComponent(song.snippet.title).replace(/'/g, "\\\'");
+    				enc_title=encodeURIComponent(song.snippet.title);
     				Search.submit(song.id, enc_title, duration);
     			}
     		});
