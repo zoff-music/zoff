@@ -7,7 +7,7 @@ try{
   var credentials = {key: privateKey, cert: certificate};
   var https = require('https');
   server = https.createServer(credentials, app);
-  
+
   var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
  
   var cors_proxy = require('cors-anywhere');
@@ -16,8 +16,8 @@ try{
       requireHeader: ['origin', 'x-requested-with'],
       removeHeaders: ['cookie', 'cookie2'],
       httpsOptions: credentials
-  }).listen(8080, host, function() {
-      console.log('Running CORS Anywhere on ' + host + ':' + 8080);
+  }).listen(8080, function() {
+      console.log('Running CORS Anywhere on :' + 8080);
   });
 }
 catch(err){
