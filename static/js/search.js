@@ -125,8 +125,11 @@ var Search = {
     	$(".main").removeClass("clickthrough");
     },
 
-    importPlaylist: function(pId){
-      playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId;
+    importPlaylist: function(pId,pageToken){
+      token = "";
+      if(pageToken !== undefined)
+        token = "&pageToken="+pageToken;
+      playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId+token;
       $.ajax({
         type: "GET",
         url: playlist_url,
@@ -139,6 +142,7 @@ var Search = {
             ids+=data.contentDetails.videoId+",";
           });
           Search.addVideos(ids);
+          if(response.nextPageToken) Search.importPlaylist(pId, response.nextPageToken);
           document.getElementById("import").value = "";
         }
       });
