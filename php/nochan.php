@@ -38,7 +38,7 @@ if(isset($_GET['chan'])){
                 <br>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="about" class="modal">
@@ -52,7 +52,21 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="donation" class="modal">
+            <div class="modal-content">
+                <h4>Thanks!</h4>
+                <p>Thanks for your donation, we love you &lt;3
+                    <br><br>
+                    We will use the money for something awesome, just you wait and see!
+                    <br><br>
+                    We might also add your name somewhere in the code as a sign of gratitude, see if you can find it! (Might take a day or two for us to see the donation and implement it..)
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
     </header>
