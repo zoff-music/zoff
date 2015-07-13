@@ -646,7 +646,7 @@ function change_song_post(coll)
       {$match:{now_playing:false}},
       {$sort:{votes:-1, added:1}},
       {$limit:1}], function(err, docs){
-        if(docs !== null && docs.length > 0){
+         if(docs !== null && docs.length > 0){
           db.collection(coll).update({id:docs[0]["id"]},
           {$set:{
             now_playing:true,
