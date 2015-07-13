@@ -142,7 +142,7 @@ var Youtube = {
     			//$("body").css("background-color", colorThief.getColor(img));
     		};
     		img.crossOrigin = 'Anonymous';
-    		img.src = '//localhost:8080/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    		img.src = 'https://zoff.no:8080/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     	}
     },
 
