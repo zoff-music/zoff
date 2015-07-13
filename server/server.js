@@ -7,6 +7,18 @@ try{
   var credentials = {key: privateKey, cert: certificate};
   var https = require('https');
   server = https.createServer(credentials, app);
+  
+  var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
+ 
+  var cors_proxy = require('cors-anywhere');
+
+  cors_proxy.createServer({
+      requireHeader: ['origin', 'x-requested-with'],
+      removeHeaders: ['cookie', 'cookie2'],
+      httpsOptions: credentials
+  }).listen(8080, host, function() {
+      console.log('Running CORS Anywhere on ' + host + ':' + 8080);
+  });
 }
 catch(err){
   console.log("Starting without https (probably on localhost)");
@@ -33,17 +45,6 @@ var emojiStrip = require('emoji-strip');
 var port = 3000;
 var lists = {};
 var unique_ids = [];
-
-var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
- 
-var cors_proxy = require('cors-anywhere');
-
-cors_proxy.createServer({
-    requireHeader: ['origin', 'x-requested-with'],
-    removeHeaders: ['cookie', 'cookie2']
-}).listen(8080, host, function() {
-    console.log('Running CORS Anywhere on ' + host + ':' + 8080);
-});
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
