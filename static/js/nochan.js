@@ -99,6 +99,8 @@ String.prototype.capitalizeFirstLetter = function() {
 $(document).ready(function (){
 
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
+    if(window.location.hash == "#donation")
+      $('#donation').openModal()
 
     list_html = $("#channel-list-container").html();
     window.list_html = list_html;
