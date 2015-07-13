@@ -137,6 +137,7 @@ var Search = {
         success: function(response)
         {
           var ids="";
+          Search.addVideos(response.items[0].contentDetails.videoId);
           $.each(response.items, function(i,data)
           {
             ids+=data.contentDetails.videoId+",";
