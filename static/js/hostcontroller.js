@@ -13,7 +13,7 @@ var Hostcontroller = {
         began = false;
         old_id = id;
       }
-      var codeURL = "//"+window.location.hostname+"/remote/"+id;
+      var codeURL = "http://"+window.location.hostname+"/remote/"+id;
       $("#code-text").text(id)
       $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
       $("#code-link").attr("href", codeURL);

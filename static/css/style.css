@@ -312,6 +312,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #channelchat, #all_chat{
   height: calc(100vh - 193px);
+  margin: 0px 5px;
 }
 
 #chatchannel, #chatall {
