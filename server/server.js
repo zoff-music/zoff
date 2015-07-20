@@ -6,10 +6,8 @@ try{
   var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
   var credentials = {key: privateKey, cert: certificate};
   var https = require('https');
-  server = https.createServer(credentials, app);
+  server = https.createServer(credentials, handler);
 
-  var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
- 
   var cors_proxy = require('cors-anywhere');
 
   cors_proxy.createServer({
@@ -25,11 +23,8 @@ catch(err){
   if(err["errno"] != 34)console.log(err);
   
   var http = require('http');
-  server = http.createServer(app);
+  server = http.createServer(handler);
 }
-
-var express = require('express');
-var app = express();
 
 var io = require('socket.io')(server);
 
@@ -45,6 +40,11 @@ var emojiStrip = require('emoji-strip');
 var port = 3000;
 var lists = {};
 var unique_ids = [];
+
+function handler (req, res) {
+  res.writeHead(302, {'Location': 'http://'+req.headers.host.split(":")[0]});
+  return res.end('Wrong port');
+}
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
