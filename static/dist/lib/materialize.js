@@ -3190,7 +3190,7 @@ $(document).ready(function(){
   };
 
 
-    $.fn.slider = function(methodOrOptions) {
+    $.fn.materializeSlider = function(methodOrOptions) {
       if ( methods[methodOrOptions] ) {
         return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
       } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
