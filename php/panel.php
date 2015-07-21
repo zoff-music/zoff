@@ -144,3 +144,9 @@
         </li>
     </ul>
 </li>
+<!--
+<li class="no-padding">
+    <h5 id="desc-title">List description</h5>
+    <span id="description"></span>
+</li>
+-->

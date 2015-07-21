@@ -149,6 +149,11 @@ var Admin = {
                 $("#admin-lock").addClass("mdi-action-lock");
             $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         }
+
+        /*if(conf_array.desc !== undefined)
+        {
+            document.getElementById("description").innerHTML = conf_array.desc;
+        }*/
     },
 
     submitAdmin: function(form)

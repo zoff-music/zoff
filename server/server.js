@@ -186,7 +186,7 @@ io.on('connection', function(socket){
       	}else
       	{
       		db.createCollection(coll, function(err, docs){
-    				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
+    				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs)
     				{
               send_list(coll, socket, true, false, true);
 
@@ -432,6 +432,8 @@ io.on('connection', function(socket){
     	var adminpass = params[6];
     	var skipping = params[7];
     	var shuffling = params[8];
+      var description = "";
+      if(params.length == 10) description = params[9];
 
       if(adminpass != "")
         var hash = hash_pass(adminpass);
@@ -450,7 +452,8 @@ io.on('connection', function(socket){
               removeplay:removeplay,
               shuffle:shuffling,
               longsongs:longsongs,
-              adminpass:hash}}, function(err, docs){
+              adminpass:hash,
+              desc: description}}, function(err, docs){
               db.collection(coll).find({views:{$exists:true}}, function(err, docs)
               {
                 io.to(coll).emit("conf", docs);
@@ -692,7 +695,10 @@ function send_list(coll, socket, send, list_send, configs)
 
   if(configs)
   {
-    db.collection(coll).find({views:{$exists:true}}, function(err, conf){     
+    db.collection(coll).find({views:{$exists:true}}, function(err, conf){ 
+      if(conf[0].desc === undefined)
+        db.collection(coll).update({views:{$exists:true}}, {$set:{"desc":""}});
+      //db.collection(coll).update({views:{$exists:true}}, {$set:{"desc":""}}, function(err, d){console.log(d)});
       io.to(coll).emit("conf", conf);
     });
   }
