@@ -261,6 +261,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+#description, #desc-title{
+  color:#444;
+}
+
 #main-row{
   margin-bottom:-64px;
 }
@@ -496,7 +500,7 @@ ul #chat-log{
     text-transform: none;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    content: "\e684";/*"\e800";*/
+    content: "\e686";/*"\e800";*/
     color:white;
     font-size:65px;
     position:absolute;
