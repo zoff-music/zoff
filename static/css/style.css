@@ -10,6 +10,9 @@
 
 /* GLOBAL STYLES */
 
+#toast-container{
+  left:2% !important;
+}
 
 ::-webkit-scrollbar-track
 {
