@@ -739,10 +739,11 @@ function contains(a, obj) {
     return false;
 }
 
-function rndName(seed, endlen) {
+function rndName(seed, len) {
   var vowels = ['a', 'e', 'i', 'o', 'u'];
   consts =  ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'tt', 'ch', 'sh'];
-  len = 8;
+  //len = 8;
+  len = Math.floor(len);
   word = '';
   is_vowel = false;
   var arr;
@@ -752,7 +753,7 @@ function rndName(seed, endlen) {
     is_vowel = !is_vowel;
     word += arr[(seed[i%seed.length].charCodeAt()+i) % arr.length-1];
   }
-  return word.substring(0, Math.ceil(endlen))
+  return word
 }
 
 function uniqueID(seed, minlen){

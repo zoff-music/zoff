@@ -59,23 +59,25 @@ var Admin = {
 
     	socket.on("pw", function(msg)
     	{
-            console.log("fuck");
-    		w_p = false;
+    		w_p       = false;
     		adminpass = msg;
-    		names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
+    		names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
+            "removeplay", "skip", "shuffle"];
+
+            localStorage.setItem(chan.toLowerCase(), msg);
+
     		for (var i = 0; i < names.length; i++) {
     				$("input[name="+names[i]+"]").attr("disabled", false);
     		}
-    		$(".card-action").removeClass("hide");
 
+    		$(".card-action").removeClass("hide");
     		$("#admin-lock").removeClass("mdi-action-lock");
-            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
-    		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
-    		localStorage.setItem(chan.toLowerCase(), msg);
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
-    		//Materialize.toast("Correct password. You now have access to the sacred realm of The Admin.", 4000);
-    	});
+
+            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
+    		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
+        });
 
     	socket.on("conf", function(msg)
     	{
@@ -103,18 +105,27 @@ var Admin = {
 
     display_logged_out: function()
     {
-    	w_p = true;
-    	names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-    	for (var i = 0; i < names.length; i++) {
-    			$("input[name="+names[i]+"]").attr("disabled", true);
+    	w_p       = true;
+        adminpass = "";
+    	names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
+                "removeplay", "skip", "shuffle"];
+
+        document.getElementById("password").value = "";
+
+    	for (i = 0; i < names.length; i++) {
+    		$("input[name="+names[i]+"]").attr("disabled", true);
     	}
-    	if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
+
+    	if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock")){
     		$("#admin-lock").addClass("mdi-action-lock");
-    	$("#admin-lock").removeClass("mdi-action-lock-open clickable");
-    	if($(".card-action").length != 0 && !Helper.contains($(".card-action").attr("class").split(" "), "hide"))
+        }
+
+    	if($(".card-action").length != 0 && 
+            !Helper.contains($(".card-action").attr("class").split(" "), "hide")){
     		$(".card-action").addClass("hide");
-    	adminpass = "";
-    	document.getElementById("password").value = "";
+        }
+
+        $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password")
     },
 
@@ -125,29 +136,24 @@ var Admin = {
 
     set_conf: function(conf_array)
     {
-        if(conf_array['adminpass'] == "" || !w_p) hasadmin = false;
-        else hasadmin = true;
-        music = conf_array["allvideos"];
+        music     = conf_array["allvideos"];
         longsongs = conf_array["longsongs"];
-        names=["vote","addsongs","longsongs","frontpage", "allvideos", "removeplay", "skip", "shuffle"];
-        for (var i = 0; i < names.length; i++) {
+        names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
+                    "removeplay", "skip", "shuffle"];
+        
+        if(conf_array['adminpass'] == "" || !w_p) 
+            hasadmin = false;
+        else hasadmin = true;
+        
+        for (var i = 0; i < names.length; i++) 
+        {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
-        if(hasadmin && !localStorage[chan.toLowerCase()])
-        {
-            $("#password").attr("placeholder", "Enter channel password");
-            Admin.display_logged_out();
-            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
-                $("#admin-lock").addClass("mdi-action-lock");
-            $("#admin-lock").removeClass("mdi-action-lock-open clickable");
-        }else if(!hasadmin && !localStorage[chan.toLowerCase()])
-        {
-            $("#password").attr("placeholder", "Enter channel password");
 
-            if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock"))
-                $("#admin-lock").addClass("mdi-action-lock");
-            $("#admin-lock").removeClass("mdi-action-lock-open clickable");
+        if((hasadmin && !localStorage[chan.toLowerCase()]) ||
+            (!hasadmin && !localStorage[chan.toLowerCase()])){
+            Admin.display_logged_out();
         }
 
         /*if(conf_array.desc !== undefined)
@@ -158,17 +164,17 @@ var Admin = {
 
     submitAdmin: function(form)
     {
-    	voting = form.vote.checked;
-    	addsongs = form.addsongs.checked;
-    	longsongs = form.longsongs.checked;
-    	frontpage = form.frontpage.checked;
-    	allvideos = form.allvideos.checked;
+    	voting     = form.vote.checked;
+    	addsongs   = form.addsongs.checked;
+    	longsongs  = form.longsongs.checked;
+    	frontpage  = form.frontpage.checked;
+    	allvideos  = form.allvideos.checked;
     	removeplay = form.removeplay.checked;
-    	//adminpass = document.getElementById("password").value;
-    	skipping = form.skip.checked;
-    	shuffling = form.shuffle.checked;
+    	skipping   = form.skip.checked;
+    	shuffling  = form.shuffle.checked;
+    	configs    = [voting, addsongs, longsongs, frontpage, allvideos, 
+                    removeplay, adminpass, skipping, shuffling];
 
-    	configs = [voting, addsongs, longsongs, frontpage, allvideos, removeplay, adminpass, skipping, shuffling];
     	socket.emit("conf", configs);
     },
 
@@ -176,24 +182,9 @@ var Admin = {
     	$('#settings').sideNav('hide');
     },
 
-    remove_bar: function()
-    {
-    	setTimeout(function(){
-    		$("#adminPanel").removeClass("success");
-    		$("#adminPanel").removeClass("fadeerror");
-    		$("#eBar").removeClass("opacityFull");
-    		$("#sBar").removeClass("opacityFull");
-    	},1500);
-    },
-
     shuffle: function()
     {
     	socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
     },
-
-    get_wp: function()
-    {
-        return w_p;
-    }
 
  }

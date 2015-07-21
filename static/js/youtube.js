@@ -8,6 +8,7 @@ var Youtube = {
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
+
     			if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
                 try{
                     ytplayer.stopVideo();
@@ -16,12 +17,13 @@ var Youtube = {
     		}
     		else{
     			//console.log("gotten new song");
+                video_id   = obj[0][0]["id"];
+                conf       = obj[1][0];
+                time       = obj[2];
+                seekTo     = time - conf["startTime"];
+                song_title = obj[0][0]["title"];
+
     			$("#player_overlay").addClass("hide");
-    			video_id = obj[0][0]["id"];
-    			conf = obj[1][0];
-    			time = obj[2];
-    			seekTo = time - conf["startTime"];
-    			song_title = obj[0][0]["title"];
 
           		Youtube.getTitle(song_title, viewers);
     			Youtube.setBGimage(video_id);
@@ -48,6 +50,7 @@ var Youtube = {
     	socket.on("viewers", function(view)
     	{
     		viewers = view;
+
     		if(song_title !== undefined)
     			Youtube.getTitle(song_title, viewers);
     	});
@@ -59,12 +62,14 @@ var Youtube = {
     		case -1:
     			break;
     		case 0:
+                playing = false;
+                paused  = false;
+
     			socket.emit("end", video_id);
-    			playing = false;
-    			paused = false;
     			break;
     		case 1:
     			playing = true;
+
     			if(document.getElementById("play").className.split(" ").length == 1)
     				$("#play").toggleClass("hide");
     			if(document.getElementById("pause").className.split(" ").length == 2)
@@ -77,6 +82,7 @@ var Youtube = {
     			break;
     		case 2:
     			paused = true;
+
     			if(document.getElementById("pause").className.split(" ").length == 1)
     				$("#pause").toggleClass("hide");
     			if(document.getElementById("play").className.split(" ").length == 2)
@@ -89,21 +95,23 @@ var Youtube = {
 
     getTitle: function(titt, v)
     {
-    	var outPutWord = v > 1 ? "viewers" : "viewer";
-    	var title= decodeURIComponent(titt);
-    	var elem = document.getElementById('song-title');
+    	var outPutWord    = v > 1 ? "viewers" : "viewer";
+    	var title         = decodeURIComponent(titt);
+    	var elem          = document.getElementById('song-title');
+        var viewers       = document.getElementById('viewers');
 
-    	document.title = title + " • Zöff / "+chan;
-    		elem.innerHTML = title;
-    		document.getElementById('viewers').innerHTML = v + " " + outPutWord;
-    		elem.title = title + " • " + v + " " + outPutWord;
+    	document.title    = title + " • Zöff / "+chan;
+		elem.innerHTML    = title;
+		viewers.innerHTML = v + " " + outPutWord;
+		elem.title        = title + " • " + v + " " + outPutWord;
 
     },
 
     errorHandler: function(newState)
     {
-    	if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150)
-    			socket.emit("skip", newState.data);
+    	if(newState.data == 5 || newState.data == 100 
+            || newState.data == 101 || newState.data == 150)
+    		socket.emit("skip", newState.data);
     	else if(video_id !== undefined)
     			ytplayer.loadVideoById(video_id);
     },
@@ -133,21 +141,20 @@ var Youtube = {
     setBGimage: function(id){
     	if(id !== undefined)
     	{
-    		var img = new Image();
-    		img.onload = function () {
-    		  var colorThief = new ColorThief();
-    			//console.log(rgbToHsl(colorThief.getColor(img)));
-    			document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(colorThief.getColor(img))
-    			//$("body").css("background-color", rgbToHsl(colorThief.getColor(img)));
-    			//$("body").css("background-color", colorThief.getColor(img));
+    		var img    = new Image();
+    		img.onload = function ()
+            {
+    		    var colorThief = new ColorThief();
+    		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(colorThief.getColor(img));
     		};
+
     		img.crossOrigin = 'Anonymous';
-    		img.src = '//zoff.no:8080/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    		img.src         = '//zoff.no:8080/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     	}
     },
 
     notifyUser: function(id, title) {
-    	title= title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
+    	title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
       	if (Notification.permission === "granted" && document.hidden && id != "30H2Z8Lr-4c" && !window.mobilecheck()) {
     	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
     	    notification.onclick = function(x) { window.focus(); this.cancel(); };
@@ -183,8 +190,8 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-      tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
+      tag            = document.createElement('script');
+      tag.src        = "https://www.youtube.com/iframe_api";
       firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }

@@ -12,6 +12,7 @@
 
 #toast-container{
   left:2% !important;
+  pointer-events:none;
 }
 
 ::-webkit-scrollbar-track
@@ -563,9 +564,10 @@ ul #chat-log{
     max-height: 600px;
     overflow: overlay;
 }
-.result:hover {
+.result:hover, .hoverResults {
   background-color: rgba(0,0,0,0.4);
  }
+
  .search-title{
     height: 40px;
  }
