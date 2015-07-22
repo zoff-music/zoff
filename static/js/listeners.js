@@ -168,6 +168,7 @@ $(document).keyup(function(e) {
     	}
     	$("#results").toggleClass("hide");
   	}else if ($("div.result").length > 2){
+  		children = $("#mock-div").children();
       	if (e.keyCode == 40) {
         	$(children[i-1]).removeClass("hoverResults");
         	$(children[i]).addClass("hoverResults");
