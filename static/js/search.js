@@ -83,7 +83,7 @@ var Search = {
                       songs.find(".thumb").attr("data-original", thumb);
                       songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
                       $($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-                      $($(songs).find("div")[0]).attr("id", id)
+                      //$($(songs).find("div")[0]).attr("id", id)
                       output += songs.html();
 
                     }
