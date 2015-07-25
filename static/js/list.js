@@ -49,7 +49,7 @@ var List = {
 
 		$.each(full_playlist, function(j, current_song){
 			if(!current_song.now_playing){ //check that the song isnt playing
-                $("#wrapper").append(List.generateSong(current_song, false));
+                $("#wrapper").append(List.generateSong(current_song, false, true));
 			}
 		});
 
@@ -193,23 +193,28 @@ var List = {
         }
     },
 
-    generateSong: function(song_info, transition)
+    generateSong: function(song_info, transition, lazy)
     {
     	var video_id    = song_info.id;
     	var video_title = song_info.title;
     	var video_votes = song_info.votes;
     	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
         var song        = $("<div>"+list_html+"</div>");
+        var image_attr  = "style";
 
         if(transition) song.find("#list-song").css("height", 0);
         if(!w_p) song.find(".card-action").removeClass("hide");
         if(video_votes == 1)song.find(".vote-text").text("vote");
+        if(lazy){
+            video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
+            image_attr  = "data-original";
+        } 
 
     	song.find(".list-title").text(video_title);
     	song.find(".list-title").attr("title", video_title);
     	song.find(".list-votes").text(video_votes);
     	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-    	song.find(".list-image").attr("style",video_thumb);
+    	song.find(".list-image").attr(image_attr,video_thumb);
     	song.find("#list-song").attr("id", video_id);
     	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 
