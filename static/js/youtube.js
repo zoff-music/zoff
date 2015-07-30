@@ -141,11 +141,14 @@ var Youtube = {
     setBGimage: function(id){
     	if(id !== undefined)
     	{
+            console.log($("meta[name=theme-color]").attr("content", ""));
     		var img    = new Image();
     		img.onload = function ()
             {
+
     		    var colorThief = new ColorThief();
     		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(colorThief.getColor(img));
+                $("meta[name=theme-color]").attr("content", Helper.rgbToHex(colorThief.getColor(img)));
     		};
 
     		img.crossOrigin = 'Anonymous';
