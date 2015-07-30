@@ -10,6 +10,7 @@
 <meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 <meta charset="UTF-8"/>
+<meta name="theme-color" content="#2D2D2D" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta property="og:image" content="/static/images/highlogo.png" />
 <meta property="og:title" content="Zöff"/>
