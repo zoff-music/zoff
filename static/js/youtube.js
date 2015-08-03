@@ -113,7 +113,7 @@ var Youtube = {
             || newState.data == 101 || newState.data == 150)
     		socket.emit("skip", newState.data);
     	else if(video_id !== undefined)
-    			ytplayer.loadVideoById(video_id);
+    		ytplayer.loadVideoById(video_id);
     },
 
     onPlayerReady: function(event) {
@@ -147,7 +147,7 @@ var Youtube = {
 
     		    var colorThief = new ColorThief();
                 var color      = colorThief.getColor(img);
-                
+
     		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color);
                 console.log(colorThief.getColor(img));
                 $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
