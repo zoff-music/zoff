@@ -26,7 +26,7 @@ catch(err){
   server = http.createServer(handler);
 }
 
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {'pingTimeout': 25000});
 
 //db
 var mongojs = require('mongojs');
