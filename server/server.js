@@ -79,7 +79,6 @@ io.on('connection', function(socket){
   var short_id = uniqueID(socket.id,4);
   unique_ids.push(short_id);
 
-
   socket.on('namechange', function(data)
   {
     if(name.length < 9 && name.indexOf(" ") == -1)
@@ -740,7 +739,7 @@ function contains(a, obj) {
 }
 
 function rndName(seed, len) {
-  var vowels = ['a', 'e', 'i', 'o', 'u'];
+  var vowels = ['a', 'e', 'i', 'o', 'u', 'aa', 'ae', 'oe'];
   consts =  ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'tt', 'ch', 'sh'];
   //len = 8;
   len = Math.floor(len);
@@ -758,7 +757,7 @@ function rndName(seed, len) {
 
 function uniqueID(seed, minlen){
   var len = minlen;
-  var id = rndName(seed, len);
+  var id = rndName(seed, minlen);
 
   while( contains(unique_ids, id) && len<=8){
     id = rndName(String(len)+id, len);
