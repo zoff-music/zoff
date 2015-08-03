@@ -750,7 +750,7 @@ function rndName(seed, len) {
     if (is_vowel) arr = vowels
     else arr = consts
     is_vowel = !is_vowel;
-    word += arr[(seed[i%seed.length].charCodeAt()+i) % arr.length-1];
+    word += arr[(seed[i%seed.length].charCodeAt()+i) % (arr.length-1)];
   }
   return word
 }
