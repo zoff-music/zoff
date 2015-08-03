@@ -1,5 +1,4 @@
 var start = true;
-var id;
 
 $(document).ready(function (){
     document.title = "Zöff Remote";
@@ -30,10 +29,13 @@ $("#skipbutton").on("click", function()
 
 $("#remoteform").on("submit", function()
 {
+  /*
   if(start)
     window.location.href = '/remote/'+document.getElementById("remoteform").chan.value;
   else
     Remotecontroller.control();
+  */
+  Remotecontroller.control();
 });
 
 var Remotecontroller = {
@@ -42,8 +44,12 @@ var Remotecontroller = {
   {
     if(start)
     {
-      if(!id)id = $("#code-input").val().toLowerCase();
-      $("#code-input").val("");
+      if(!id)
+      {
+          id = document.getElementById("remoteform").chan.value;
+          window.history.pushState("object or string", "Title", "/remote/"+id);
+      }
+      document.getElementById("remoteform").chan.value = "";
       start = false;
 
       $(".rc").css("display", "block");
