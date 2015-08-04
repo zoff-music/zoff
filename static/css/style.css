@@ -416,8 +416,9 @@ ul #chat-log{
     margin: 0px;
     padding:0px;
 }
-#nav{
-    background-color:rgba(255,255,255, 0.1);
+
+#nav {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .control-list{
@@ -488,6 +489,10 @@ ul #chat-log{
 .nav-btn:hover{background-color:rgb(0,0,0);}
 .hover-text{display:none;}
 .nav-btn:hover > .hover-text {display:inline;}
+
+nav ul li:hover, nav ul li.active {
+  background-color: rgba(0,0,0,0.5);
+}
 
 .list-image{
     width: 34%;

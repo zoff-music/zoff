@@ -179,9 +179,10 @@ if(isset($_GET['chan'])){
         </div>
         <div class="footer-copyright">
             <div class="container">
-                &copy; 2014 - <?php echo date("Y"); ?>
+                &copy; <?php echo date("Y"); ?>
                 <a href="http://nixo.no">Nixo</a> &amp;
                 <a href="http://kasperrt.no">KasperRT</a>
+                &nbsp;&nbsp;All Rights Reserved.
             </div>
         </div>
     </footer>
