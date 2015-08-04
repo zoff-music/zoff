@@ -2,6 +2,7 @@
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
     <?php include("header.php"); ?>
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jemjlblambcgjmmhheaklfnphncdmfmb" />
 </head>
 <body>
     <header>
@@ -98,7 +99,7 @@
     </main>
 
     <?php include("footer.php"); ?>
-    
+
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" src="/static/dist/remote.min.js"></script>
 	</body>
