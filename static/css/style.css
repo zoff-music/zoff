@@ -33,7 +33,18 @@
   border-radius:0px;
 }
 
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
+.rounded{
+  border-radius: 4px;
+}
 
 body {
     display: flex;
@@ -182,6 +193,7 @@ display: inline;
 
 .card .card-content {
     padding: 10px 20px;
+    color: rgba(0, 0, 0, 0.870588);
 }
 
 .card .card-action {
@@ -486,7 +498,7 @@ ul #chat-log{
     min-width: 64px;
     float:right;
 }
-.nav-btn:hover{background-color:rgb(0,0,0);}
+.nav-btn:hover{background-color:rgba(0,0,0,0.6);}
 .hover-text{display:none;}
 .nav-btn:hover > .hover-text {display:inline;}
 
@@ -526,6 +538,7 @@ nav ul li:hover, nav ul li.active {
 .vote-span{
     opacity: 0.7;
     padding: 0 0 0 10px;
+    color:white !important;
 }
 
 .list-song{
@@ -547,7 +560,12 @@ nav ul li:hover, nav ul li.active {
     line-height: 2.6rem;
 }
 .card-image{cursor:pointer}
-.card{margin:5px 0 5px 0 !important;}
+.card{
+  margin:5px 0 5px 0 !important;
+}
+.card:hover{
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
+}
 .result img{
     float:left;
     height: 70px;
