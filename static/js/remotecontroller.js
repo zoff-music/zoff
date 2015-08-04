@@ -10,6 +10,20 @@ $(document).ready(function (){
       id = id.toLowerCase();
       Remotecontroller.control();
     }
+
+    git_info = $.ajax({ type: "GET",
+        url: "https://api.github.com/repos/zoff-music/zoff/commits",
+        async: false
+    }).responseText;
+
+    git_info = $.parseJSON(git_info);
+    $("#latest-commit").html("Latest Commit: <br>"
+        + git_info[0].commit.author.date.substring(0,10)
+        + ": " + git_info[0].committer.login
+        + "<br><a href='"+git_info[0].html_url+"'>"
+        + git_info[0].sha.substring(0,10) + "</a>: "
+        + git_info[0].commit.message+"<br");
+
 });
 
 $("#playbutton").on("click", function()
