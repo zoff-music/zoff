@@ -2,7 +2,7 @@
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
     <?php include("header.php"); ?>
-    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jemjlblambcgjmmhheaklfnphncdmfmb" />
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/z%C3%B6ff-remote/jemjlblambcgjmmhheaklfnphncdmfmb" />
 </head>
 <body>
     <header>
