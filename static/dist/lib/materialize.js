@@ -1848,6 +1848,26 @@ $(document).ready(function(){
           }
         });
 
+        hammerHandler.on('tap', function(e) {
+          var deltaX = e.deltaX;
+          var activationDistance = 80;
+
+          // If toast dragged past activation point
+         
+            Vel(toast, {marginTop: '-40px', opacity: 0}, { duration: 375,
+                easing: 'easeOutExpo',
+                queue: false,
+                complete: function(){
+                  if(typeof(completeCallback) === "function") {
+                    completeCallback();
+                  }
+                  toast.parentNode.removeChild(toast);
+                }
+            });
+
+          
+        });
+
         return toast;
     }
 };
