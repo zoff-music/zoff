@@ -14,7 +14,7 @@ if(isset($_GET['chan'])){
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo hide-on-small-only">
+                <a href="#" class="brand-logo hide-on-small-only noselect">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
@@ -88,7 +88,7 @@ if(isset($_GET['chan'])){
                             maxlength="18"
                             data-length="18"
                         />
-                        <label for="search">Find or create radio channel</label>
+                        <label for="search" class="noselect">Find or create radio channel</label>
                         <datalist id="searches">
                         </datalist>
                 </div>
@@ -105,21 +105,21 @@ if(isset($_GET['chan'])){
                         <div class="card">
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
+                                <div class="card-content">
+                                    <p class="left-align">
+                                        <span class="chan-name flow-text truncate"></span>
+                                        <br>
+                                        <span class="highlighted">Viewers:&nbsp;</span>
+                                        <span class="chan-views"></span>
+                                        <br>
+                                        <span class="highlighted">Songs:&nbsp;</span>
+                                        <span class="chan-songs"></span>
+                                    </p>
+                                </div>
+                                <div class="card-action noselect">
+                                    <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
+                                </div>
                             </a>
-                            <div class="card-content">
-                                <p class="left-align">
-                                    <span class="chan-name flow-text truncate"></span>
-                                    <br>
-                                    <span class="highlighted">Viewers:&nbsp;</span>
-                                    <span class="chan-views"></span>
-                                    <br>
-                                    <span class="highlighted">Songs:&nbsp;</span>
-                                    <span class="chan-songs"></span>
-                                </p>
-                            </div>
-                            <div class="card-action">
-                                <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
-                            </div>
                         </div>
                     </li>
                 </ul>

@@ -16,7 +16,7 @@
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo hide-on-med-and-down">
+                <a href="/" class="brand-logo hide-on-med-and-down noselect">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <div class="brand-logo truncate zbrand">
@@ -34,7 +34,7 @@
                     </li>
                 </ul>
 
-                <ul class="right control-list">
+                <ul class="right control-list noselect">
                   <li id="search_loader" class="valign-wrapper hide">
                       <div class="valign">
                          <div class="preloader-wrapper small active">
@@ -181,7 +181,7 @@
                     Waiting for Video
                   </div>
                 </div>
-                <div id="controls">
+                <div id="controls" class="noselect">
                   <div id="playpause">
                     <i id="play" class="mdi-av-play-arrow hide"></i>
                     <i id="pause" class="mdi-av-pause"></i>
