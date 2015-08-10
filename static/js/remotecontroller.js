@@ -26,7 +26,7 @@ $(document).ready(function (){
 
     var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     setTimeout(function(){
-      if (_isChrome && !document.getElementById('extension-is-installed')) 
+      if (_isChrome && !document.getElementById('extension-is-installed') && !window.mobilecheck()) 
         Materialize.toast("<a href='#' onclick='installRemote();' style='pointer-events:all;color:white;'>Install the extension!</a>", 100000);
     }, 5);
     window.installRemote = installRemote;
