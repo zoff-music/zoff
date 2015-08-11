@@ -283,6 +283,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #main-row{
   margin-bottom:-64px;
+  display: flex;
 }
 
 @media only screen and (min-width: 993px){
@@ -479,6 +480,7 @@ ul #chat-log{
 }
 #playlist{
     /*padding:0px 15px;*/
+    flex:1;
 }
 
 #player{
