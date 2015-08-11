@@ -69,6 +69,11 @@ $(document).ready(function()
       edge: 'right', // Choose the horizontal origin
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
+    //awdwad
+    $(".video-container").resizable({
+        handles: "e",
+        minWidth: 350
+    });
 
 	if(localStorage[chan.toLowerCase()])
 	{
