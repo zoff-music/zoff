@@ -767,7 +767,7 @@ nav ul li:hover, nav ul li.active {
 #volume .ui-slider-handle {
     height:15px;
     width:5px;
-    background-color:white;
+    background:#fff 50% 50% repeat-x;
     position: absolute;
     cursor: pointer;
     outline: none;
