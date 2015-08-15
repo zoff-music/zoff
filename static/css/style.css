@@ -747,7 +747,8 @@ nav ul li:hover, nav ul li.active {
     margin: 13px auto;
     height:5px;
     width: 75px;
-    background-color:rgba(0, 0, 0, 0.5);
+    /*background-color:rgba(0, 0, 0, 0.5);*/
+    background:#000 50% 50% repeat-x;
     border: none;
     outline: none;
     /*border-radius: 2px;*/
@@ -773,6 +774,7 @@ nav ul li:hover, nav ul li.active {
     border: none;
     /*display: none;*/
     margin-left:-2.5px;
+    margin-top:0px;
 }
 
 .ui-slider-handle
