@@ -140,7 +140,7 @@ var Admin = {
         longsongs = conf_array["longsongs"];
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
                     "removeplay", "skip", "shuffle"];
-        
+
         if(conf_array['adminpass'] == "" || !w_p) 
             hasadmin = false;
         else hasadmin = true;
@@ -151,9 +151,11 @@ var Admin = {
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
 
-        if((hasadmin && !localStorage[chan.toLowerCase()]) ||
-            (!hasadmin && !localStorage[chan.toLowerCase()])){
+        console.log(hasadmin)
+        if((hasadmin && !localStorage[chan.toLowerCase()])){
             Admin.display_logged_out();
+        }else if(!hasadmin && !localStorage[chan.toLowerCase()]){
+            $("#password").attr("placeholder", "Create channel password");
         }
 
         /*if(conf_array.desc !== undefined)
