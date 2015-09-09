@@ -962,7 +962,7 @@ nav ul li:hover, nav ul li.active {
     margin: 13px auto;
     height:5px;
     width: 97%;
-    background-color:rgba(0, 0, 0, 0.5);
+    background:rgba(0, 0, 0, 0.5);
     border: none;
     outline: none;
     border-radius: 2px;
@@ -972,7 +972,7 @@ nav ul li:hover, nav ul li.active {
     height:5px;
     width: 75px;
     position: absolute;
-    background-color:rgba(47, 47, 47, 1);
+    background:rgba(47, 47, 47, 1);
     border: none;
     outline: none;
     border-radius: 2px;
@@ -981,13 +981,14 @@ nav ul li:hover, nav ul li.active {
 #volume-control .ui-slider-handle {
   height: 15px;
   width: 36px;
-  background-color: rgb(255, 44, 44);
+  background: rgb(255, 44, 44);
   position: absolute;
   cursor: pointer;
   outline: none;
   border: none;
   border-radius: 17px;
   margin-left: -17px;
+  margin-top:0px;
 }
 
 .slider-vol{
