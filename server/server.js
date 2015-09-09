@@ -14,8 +14,8 @@ try{
       requireHeader: ['origin', 'x-requested-with'],
       removeHeaders: ['cookie', 'cookie2'],
       httpsOptions: credentials
-  }).listen(8080, function() {
-      console.log('Running CORS Anywhere on :' + 8080);
+  }).listen(2053, function() {
+      console.log('Running CORS Anywhere on :' + 2053);
   });
 }
 catch(err){
@@ -37,7 +37,7 @@ var crypto = require('crypto');
 
 var emojiStrip = require('emoji-strip');
 
-var port = 3000;
+var port = 2083;
 var lists = {};
 var unique_ids = [];
 

@@ -43,7 +43,7 @@ var connection_options = {
 	'sync disconnect on unload':true
 };
 
-var socket = io.connect('//'+window.location.hostname+':3000', connection_options);
+var socket = io.connect('https://'+window.location.hostname+':2083', connection_options);
 socket.on("get_list", function(){
     socket.emit('list', chan.toLowerCase());
 });
