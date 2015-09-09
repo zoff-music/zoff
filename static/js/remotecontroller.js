@@ -9,7 +9,7 @@ window.mobilecheck = function() {
 $(document).ready(function (){
     document.title = "Zöff Remote";
     setTimeout(function(){$("#search").focus();},500);
-    socket = io.connect('//'+window.location.hostname+'8880');
+    socket = io.connect('//'+window.location.hostname+':8880');
     id = window.location.pathname.split("/")[2];
     if(id)
     {
