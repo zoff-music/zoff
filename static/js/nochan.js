@@ -112,6 +112,7 @@ $(document).ready(function (){
         Nochan.populate_channels(msg);
     })
 
+    console.log(socket);
 
 
     var pad = 0;
