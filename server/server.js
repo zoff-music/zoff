@@ -60,6 +60,9 @@ db.on('error',function(err) {
 });
 
 io.on('connection', function(socket){
+
+  console.log("connected");
+
   socket.emit("get_list");
 
   var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
