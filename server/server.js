@@ -37,7 +37,7 @@ var crypto = require('crypto');
 
 var emojiStrip = require('emoji-strip');
 
-var port = 2083;
+var port = 8080;
 var lists = {};
 var unique_ids = [];
 
