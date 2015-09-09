@@ -20,7 +20,7 @@ var server;
 }
 catch(err){*/
   console.log("Starting without https (probably on localhost)");
-  if(err["errno"] != 34)console.log(err);
+  //if(err["errno"] != 34)console.log(err);
   
   var http = require('http');
   server = http.createServer(handler);
