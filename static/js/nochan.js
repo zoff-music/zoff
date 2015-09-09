@@ -106,7 +106,7 @@ $(document).ready(function (){
     window.list_html = list_html;
     $("#channels").empty();
 
-    var socket = io.connect('//'+window.location.hostname+':8880');
+    var socket = io.connect('//'+window.location.hostname+':3000');
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
