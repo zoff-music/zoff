@@ -26,7 +26,7 @@ var server;
   cors_proxy.createServer({
       requireHeader: ['origin', 'x-requested-with'],
       removeHeaders: ['cookie', 'cookie2'],
-      httpsOptions: credentials
+      //httpsOptions: credentials
   }).listen(8080, function() {
       console.log('Running CORS Anywhere on :' + 8080);
   });
