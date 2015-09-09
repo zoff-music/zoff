@@ -151,7 +151,6 @@ var Admin = {
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
 
-        console.log(hasadmin)
         if((hasadmin && !localStorage[chan.toLowerCase()])){
             Admin.display_logged_out();
         }else if(!hasadmin && !localStorage[chan.toLowerCase()]){

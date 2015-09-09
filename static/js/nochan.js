@@ -112,9 +112,6 @@ $(document).ready(function (){
         Nochan.populate_channels(msg);
     })
 
-    console.log(socket);
-
-
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
         pad+=10;
