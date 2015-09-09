@@ -1,6 +1,6 @@
 var server;
 
-/*try{
+try{
   var fs = require('fs');
   var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
   var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
@@ -14,17 +14,17 @@ var server;
       requireHeader: ['origin', 'x-requested-with'],
       removeHeaders: ['cookie', 'cookie2'],
       httpsOptions: credentials
-  }).listen(2053, function() {
-      console.log('Running CORS Anywhere on :' + 2053);
+  }).listen(8080, function() {
+      console.log('Running CORS Anywhere on :' + 8080);
   });
 }
-catch(err){*/
+catch(err){
   console.log("Starting without https (probably on localhost)");
-  //if(err["errno"] != 34)console.log(err);
+  if(err["errno"] != 34)console.log(err);
   
   var http = require('http');
   server = http.createServer(handler);
-//}
+}
 
 var io = require('socket.io')(server, {'pingTimeout': 25000});
 
@@ -37,7 +37,7 @@ var crypto = require('crypto');
 
 var emojiStrip = require('emoji-strip');
 
-var port = 8080;
+var port = 8880;
 var lists = {};
 var unique_ids = [];
 
@@ -60,9 +60,6 @@ db.on('error',function(err) {
 });
 
 io.on('connection', function(socket){
-
-  console.log("connected");
-
   socket.emit("get_list");
 
   var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
