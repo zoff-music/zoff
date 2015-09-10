@@ -10,6 +10,10 @@
 
 /* GLOBAL STYLES */
 
+#toast-container{
+  left:2% !important;
+  pointer-events:none;
+}
 
 ::-webkit-scrollbar-track
 {
@@ -29,7 +33,18 @@
   border-radius:0px;
 }
 
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
+.rounded{
+  border-radius: 4px;
+}
 
 body {
     display: flex;
@@ -178,6 +193,7 @@ display: inline;
 
 .card .card-content {
     padding: 10px 20px;
+    color: rgba(0, 0, 0, 0.870588);
 }
 
 .card .card-action {
@@ -331,8 +347,13 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
 
+#description, #desc-title{
+  color:#444;
+}
+
 #main-row{
   margin-bottom:-64px;
+  display: flex;
 }
 
 @media only screen and (min-width: 993px){
@@ -350,6 +371,16 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #list-song-html {
   display:none;
+}
+
+#empty-results {
+  text-align:center;
+  height:100px;
+  cursor: default;
+}
+
+#empty-results span {
+  margin:auto;
 }
 
 #donate_form a {
@@ -372,6 +403,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #channelchat, #all_chat{
   height: calc(100vh - 193px);
+  margin: 0px 5px;
 }
 
 #chatchannel, #chatall {
@@ -467,8 +499,9 @@ ul #chat-log{
     margin: 0px;
     padding:0px;
 }
-#nav{
-    background-color:rgba(255,255,255, 0.1);
+
+#nav {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .control-list{
@@ -517,6 +550,7 @@ ul #chat-log{
 }
 #playlist{
     /*padding:0px 15px;*/
+    flex:1;
 }
 
 #player{
@@ -536,9 +570,13 @@ ul #chat-log{
     min-width: 64px;
     float:right;
 }
-.nav-btn:hover{background-color:rgb(0,0,0);}
+.nav-btn:hover{background-color:rgba(0,0,0,0.6);}
 .hover-text{display:none;}
 .nav-btn:hover > .hover-text {display:inline;}
+
+nav ul li:hover, nav ul li.active {
+  background-color: rgba(0,0,0,0.5);
+}
 
 .list-image{
     width: 34%;
@@ -555,7 +593,7 @@ ul #chat-log{
     text-transform: none;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    content: "\e684";/*"\e800";*/
+    content: "\e686";/*"\e800";*/
     color:white;
     font-size:65px;
     position:absolute;
@@ -572,6 +610,7 @@ ul #chat-log{
 .vote-span{
     opacity: 0.7;
     padding: 0 0 0 10px;
+    color:white !important;
 }
 
 .list-song{
@@ -593,7 +632,12 @@ ul #chat-log{
     line-height: 2.6rem;
 }
 .card-image{cursor:pointer}
-.card{margin:5px 0 5px 0 !important;}
+.card{
+  margin:5px 0 5px 0 !important;
+}
+.card:hover{
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
+}
 .result img{
     float:left;
     height: 70px;
@@ -615,9 +659,10 @@ ul #chat-log{
     max-height: 600px;
     overflow: overlay;
 }
-.result:hover {
+.result:hover, .hoverResults {
   background-color: rgba(0,0,0,0.4);
  }
+
  .search-title{
     height: 40px;
  }
@@ -772,7 +817,8 @@ ul #chat-log{
     margin: 13px auto;
     height:5px;
     width: 75px;
-    background-color:rgba(0, 0, 0, 0.5);
+    /*background-color:rgba(0, 0, 0, 0.5);*/
+    background:rgba(0, 0, 0, 0.5) 50% 50% repeat-x;
     border: none;
     outline: none;
     /*border-radius: 2px;*/
@@ -791,13 +837,14 @@ ul #chat-log{
 #volume .ui-slider-handle {
     height:15px;
     width:5px;
-    background-color:white;
+    background:#fff 50% 50% repeat-x;
     position: absolute;
     cursor: pointer;
     outline: none;
     border: none;
     /*display: none;*/
     margin-left:-2.5px;
+    margin-top:0px;
 }
 
 .ui-slider-handle
@@ -985,7 +1032,7 @@ ul #chat-log{
     margin: 13px auto;
     height:5px;
     width: 97%;
-    background-color:rgba(0, 0, 0, 0.5);
+    background:rgba(0, 0, 0, 0.5);
     border: none;
     outline: none;
     border-radius: 2px;
@@ -995,7 +1042,7 @@ ul #chat-log{
     height:5px;
     width: 75px;
     position: absolute;
-    background-color:rgba(47, 47, 47, 1);
+    background:rgba(47, 47, 47, 1);
     border: none;
     outline: none;
     border-radius: 2px;
@@ -1004,13 +1051,14 @@ ul #chat-log{
 #volume-control .ui-slider-handle {
   height: 15px;
   width: 36px;
-  background-color: rgb(255, 44, 44);
+  background: rgb(255, 44, 44);
   position: absolute;
   cursor: pointer;
   outline: none;
   border: none;
   border-radius: 17px;
   margin-left: -17px;
+  margin-top:0px;
 }
 
 .slider-vol{

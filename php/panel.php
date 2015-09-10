@@ -135,7 +135,7 @@
                         <div class="input-field field-settings">
                             <form action="#" id="listImport" onsubmit="return false;">
                                 <i class="mdi-av-playlist-add import-icon"></i>
-                                <input title="Only works with 49 or less songs.." placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" />
+                                <input title="Input YouTube-playlist id here!" placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" />
                             </form>
                         </div>
                     </li>   
@@ -144,3 +144,9 @@
         </li>
     </ul>
 </li>
+<!--
+<li class="no-padding">
+    <h5 id="desc-title">List description</h5>
+    <span id="description"></span>
+</li>
+-->

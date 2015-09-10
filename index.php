@@ -16,7 +16,7 @@
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo hide-on-med-and-down">
+                <a href="/" class="brand-logo hide-on-med-and-down noselect">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <div class="brand-logo truncate zbrand">
@@ -34,7 +34,7 @@
                     </li>
                 </ul>
 
-                <ul class="right control-list">
+                <ul class="right control-list noselect">
                   <li id="search_loader" class="valign-wrapper hide">
                       <div class="valign">
                          <div class="preloader-wrapper small active">
@@ -118,7 +118,7 @@
                     <div id="temp-results-container">
                       <div id="temp-results">
                           <div id="result" class="result">
-                              <img class="thumb" src="/static/images/loading.gif" alt="Thumb"/>
+                              <img class="thumb" src="/static/images/loading.png" alt="Thumb"/>
 
                                   <div class="search-title truncate"></div>
                                   <span class="result_info"></span>
@@ -127,6 +127,11 @@
                                   <i class="mdi-av-playlist-add"></i>
                               </a>
                           </div>
+                      </div>
+                    </div>
+                    <div id="empty-results-container">
+                      <div id='empty-results' class='valign-wrapper'>
+                        <span class='valign'>No results found..</span>
                       </div>
                     </div>
                 </div>
@@ -176,7 +181,7 @@
                     Waiting for Video
                   </div>
                 </div>
-                <div id="controls">
+                <div id="controls" class="noselect">
                   <div id="playpause">
                     <i id="play" class="mdi-av-play-arrow hide"></i>
                     <i id="pause" class="mdi-av-pause"></i>
@@ -226,6 +231,10 @@
     </main>
 
     <?php include("php/footer.php"); ?>
+    <script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
+    <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+    <script type="text/javascript" src="/static/dist/main.min.js"></script>
 
     </body>
 </html>
