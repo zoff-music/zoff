@@ -99,18 +99,18 @@ String.prototype.capitalizeFirstLetter = function() {
 $(document).ready(function (){
 
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
+    if(window.location.hash == "#donation")
+      $('#donation').openModal()
 
     list_html = $("#channel-list-container").html();
     window.list_html = list_html;
     $("#channels").empty();
 
-    var socket = io.connect('//'+window.location.hostname+':3000');
+    var socket = io.connect('//'+window.location.hostname+':8880');
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
     })
-
-
 
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){

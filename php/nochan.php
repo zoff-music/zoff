@@ -14,7 +14,7 @@ if(isset($_GET['chan'])){
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo hide-on-small-only">
+                <a href="#" class="brand-logo hide-on-small-only noselect">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
@@ -38,7 +38,7 @@ if(isset($_GET['chan'])){
                 <br>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="about" class="modal">
@@ -53,6 +53,20 @@ if(isset($_GET['chan'])){
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="donation" class="modal">
+            <div class="modal-content">
+                <h4>Thanks!</h4>
+                <p>Thanks for your donation, we love you &lt;3
+                    <br><br>
+                    We will use the money for something awesome, just you wait and see!
+                    <br><br>
+                    We might also add your name somewhere in the code as a sign of gratitude, see if you can find it! (Might take a day or two for us to see the donation and implement it..)
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
     </header>
@@ -97,21 +111,21 @@ if(isset($_GET['chan'])){
                         <div class="card">
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
+                                <div class="card-content">
+                                    <p class="left-align">
+                                        <span class="chan-name flow-text truncate"></span>
+                                        <br>
+                                        <span class="highlighted">Viewers:&nbsp;</span>
+                                        <span class="chan-views"></span>
+                                        <br>
+                                        <span class="highlighted">Songs:&nbsp;</span>
+                                        <span class="chan-songs"></span>
+                                    </p>
+                                </div>
+                                <div class="card-action noselect">
+                                    <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
+                                </div>
                             </a>
-                            <div class="card-content">
-                                <p class="left-align">
-                                    <span class="chan-name flow-text truncate"></span>
-                                    <br>
-                                    <span class="highlighted">Viewers:&nbsp;</span>
-                                    <span class="chan-views"></span>
-                                    <br>
-                                    <span class="highlighted">Songs:&nbsp;</span>
-                                    <span class="chan-songs"></span>
-                                </p>
-                            </div>
-                            <div class="card-action">
-                                <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
-                            </div>
                         </div>
                     </li>
                 </ul>
@@ -119,68 +133,7 @@ if(isset($_GET['chan'])){
         </div>
     </main>
 
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Zöff</h5>
-                    <p class="grey-text text-lighten-4">The shared YouTube radio</p>
-                    <p class="grey-text text-lighten-4">
-                        Being built around the YouTube search and video API
-                        it enables the creation of collaborative and shared live playlists,
-                        with billions of videos and songs to choose from, all for free and without registration.
-                        <br>
-                        Enjoy!
-                    </p>
-                    <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
-                </div>
-                <div class="col l4 offset-l2 s12 valign-wrapper">
-                    <ul>
-                      <li>
-                          <a href="https://play.google.com/store/apps/details?id=no.lqasse.zoff">
-                              <img title="Get it on Google Play" src="static/images/google_play.png">
-                          </a>
-                          <a href="https://github.com/zoff-music/Zoff">
-                              <img title="Contribute on GitHub" src="static/images/GitHub_Logo.png" alt="GitHub" />
-                          </a>
-                          <p>
-                              <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST']; ?>','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/facebook.png" alt="Share on Facebook" />Share on Facebook
-                              </a>
-                          </p>
-                          <p>
-                              <a class="waves-effect waves-light btn light-blue share" href="https://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
-                                  <img class="left" src="static/images/twitter.png" alt="Share on Twitter" />Share on Twitter
-                              </a>
-                          </p>
-                          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                            <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
-                            </a>
-                          </form>
-                          <p>
-                              <a href="https://chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
-                                  <img src="https://chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST']; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
-                              </a>
-                          </p>
-                      </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                &copy; 2014 - <?php echo date("Y"); ?>
-                <a href="//nixo.no">Nixo</a> &amp;
-                <a href="//kasperrt.no">KasperRT</a>
-            </div>
-        </div>
-    </footer>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="static/dist/lib/materialize.min.js"></script>
+    <?php include("php/footer.php"); ?>
     <script type="text/javascript" src="static/dist/frontpage.min.js"></script>
 	</body>
 </html>

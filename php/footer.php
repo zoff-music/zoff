@@ -40,7 +40,7 @@
                         </form>
                         <p>
                             <a href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
-                                <img src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                                <img class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                             </a>
                         </p>
                     </li>
@@ -51,18 +51,14 @@
     <div class="footer-copyright">
         <div class="container">
             &copy; <?php echo date("Y"); ?>
-            <a href="//nixo.no">Nixo</a> &amp;
-            <a href="//kasperrt.no">KasperRT</a>
+            <a href="http://nixo.no">Nixo</a> &amp;
+            <a href="http://kasperrt.no">KasperRT</a>
             &nbsp;&nbsp;All Rights Reserved.
         </div>
     </div>
 </footer>
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
-<script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
 <script type="text/javascript" src="//cdn.socket.io/socket.io-1.3.5.js"></script>
-<script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-<script type="text/javascript" src="/static/dist/main.min.js"></script>

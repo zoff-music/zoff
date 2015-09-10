@@ -39,7 +39,14 @@ var Search = {
           url: yt_url,
           dataType:"jsonp",
           success: function(response){
-            if(response.items){
+            if(response.items.length == 0)
+            {
+
+              $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+              if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
+                $("#search_loader").addClass("hide");
+            
+            }else if(response.items){
             //get list of IDs and make new request for video info
               $.each(response.items, function(i,data)
               {
@@ -73,16 +80,18 @@ var Search = {
 
                       songs.find(".search-title").text(title);
                       songs.find(".result_info").text(duration);
-                      songs.find(".thumb").attr("src", thumb);
+                      songs.find(".thumb").attr("data-original", thumb);
                       songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
                       $($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-                      $($(songs).find("div")[0]).attr("id", id)
+                      //$($(songs).find("div")[0]).attr("id", id)
                       output += songs.html();
 
                     }
                   });
 
                   $("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+
+                  setTimeout(function(){$(".thumb").lazyload({container: $("#results")})}, 250);
 
                   if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
                     $("#search_loader").addClass("hide");
@@ -116,8 +125,11 @@ var Search = {
     	$(".main").removeClass("clickthrough");
     },
 
-    importPlaylist: function(pId){
-      playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId;
+    importPlaylist: function(pId,pageToken){
+      token = "";
+      if(pageToken !== undefined)
+        token = "&pageToken="+pageToken;
+      playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId+token;
       $.ajax({
         type: "GET",
         url: playlist_url,
@@ -125,11 +137,13 @@ var Search = {
         success: function(response)
         {
           var ids="";
+          Search.addVideos(response.items[0].contentDetails.videoId);
           $.each(response.items, function(i,data)
           {
             ids+=data.contentDetails.videoId+",";
           });
           Search.addVideos(ids);
+          if(response.nextPageToken) Search.importPlaylist(pId, response.nextPageToken);
           document.getElementById("import").value = "";
         }
       });
@@ -148,7 +162,7 @@ var Search = {
     		{
     			var duration=Search.durationToSeconds(song.contentDetails.duration);
     			if(!longsongs || duration<720){
-    				enc_title=encodeURIComponent(song.snippet.title).replace(/'/g, "\\\'");
+    				enc_title=encodeURIComponent(song.snippet.title);
     				Search.submit(song.id, enc_title, duration);
     			}
     		});

@@ -157,6 +157,15 @@ var Helper = {
         if(l>0.5)l=0.5; //make sure it isnt too light
 
         return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
+    },
+
+    componentToHex: function(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    },
+
+    rgbToHex: function(r, g, b) {
+        return "#" + Helper.componentToHex(r) + Helper.componentToHex(g) + Helper.componentToHex(b);
     }
 
   }

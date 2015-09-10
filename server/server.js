@@ -1,25 +1,39 @@
 var server;
 
-try{
+/*try{
   var fs = require('fs');
   var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
   var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
   var credentials = {key: privateKey, cert: certificate};
   var https = require('https');
-  server = https.createServer(credentials, app);
-}
-catch(err){
+  server = https.createServer(credentials, handler);
+
+  var cors_proxy = require('cors-anywhere');
+
+  cors_proxy.createServer({
+      requireHeader: ['origin', 'x-requested-with'],
+      removeHeaders: ['cookie', 'cookie2'],
+      httpsOptions: credentials
+  }).listen(8080, function() {
+      console.log('Running CORS Anywhere on :' + 8080);
+  });
+}*/
+//catch(err){
   console.log("Starting without https (probably on localhost)");
-  if(err["errno"] != 34)console.log(err);
-  
+  //if(err["errno"] != 34)console.log(err);
+  var cors_proxy = require('cors-anywhere');
+
+  cors_proxy.createServer({
+      requireHeader: ['origin', 'x-requested-with'],
+      removeHeaders: ['cookie', 'cookie2'],
+  }).listen(8080, function() {
+      console.log('Running CORS Anywhere on :' + 8080);
+  });
   var http = require('http');
-  server = http.createServer(app);
-}
+  server = http.createServer(handler);
+//}
 
-var express = require('express');
-var app = express();
-
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {'pingTimeout': 25000});
 
 //db
 var mongojs = require('mongojs');
@@ -30,9 +44,14 @@ var crypto = require('crypto');
 
 var emojiStrip = require('emoji-strip');
 
-var port = 3000;
+var port = 8880;
 var lists = {};
 var unique_ids = [];
+
+function handler (req, res) {
+  res.writeHead(302, {'Location': 'http://'+req.headers.host.split(":")[0]});
+  return res.end('Wrong port');
+}
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -66,7 +85,6 @@ io.on('connection', function(socket){
   var name = rndName(guid,8);
   var short_id = uniqueID(socket.id,4);
   unique_ids.push(short_id);
-
 
   socket.on('namechange', function(data)
   {
@@ -174,7 +192,7 @@ io.on('connection', function(socket){
       	}else
       	{
       		db.createCollection(coll, function(err, docs){
-    				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false}, function(err, docs)
+    				db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":false, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs)
     				{
               send_list(coll, socket, true, false, true);
 
@@ -420,6 +438,8 @@ io.on('connection', function(socket){
     	var adminpass = params[6];
     	var skipping = params[7];
     	var shuffling = params[8];
+      var description = "";
+      if(params.length == 10) description = params[9];
 
       if(adminpass != "")
         var hash = hash_pass(adminpass);
@@ -438,7 +458,8 @@ io.on('connection', function(socket){
               removeplay:removeplay,
               shuffle:shuffling,
               longsongs:longsongs,
-              adminpass:hash}}, function(err, docs){
+              adminpass:hash,
+              desc: description}}, function(err, docs){
               db.collection(coll).find({views:{$exists:true}}, function(err, docs)
               {
                 io.to(coll).emit("conf", docs);
@@ -646,7 +667,7 @@ function change_song_post(coll)
       {$match:{now_playing:false}},
       {$sort:{votes:-1, added:1}},
       {$limit:1}], function(err, docs){
-        if(docs !== null && docs.length > 0){
+         if(docs !== null && docs.length > 0){
           db.collection(coll).update({id:docs[0]["id"]},
           {$set:{
             now_playing:true,
@@ -680,7 +701,10 @@ function send_list(coll, socket, send, list_send, configs)
 
   if(configs)
   {
-    db.collection(coll).find({views:{$exists:true}}, function(err, conf){     
+    db.collection(coll).find({views:{$exists:true}}, function(err, conf){ 
+      if(conf[0].desc === undefined)
+        db.collection(coll).update({views:{$exists:true}}, {$set:{"desc":""}});
+      //db.collection(coll).update({views:{$exists:true}}, {$set:{"desc":""}}, function(err, d){console.log(d)});
       io.to(coll).emit("conf", conf);
     });
   }
@@ -721,10 +745,11 @@ function contains(a, obj) {
     return false;
 }
 
-function rndName(seed, endlen) {
-  var vowels = ['a', 'e', 'i', 'o', 'u'];
+function rndName(seed, len) {
+  var vowels = ['a', 'e', 'i', 'o', 'u', 'aa', 'ae', 'oe'];
   consts =  ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'tt', 'ch', 'sh'];
-  len = 8;
+  //len = 8;
+  len = Math.floor(len);
   word = '';
   is_vowel = false;
   var arr;
@@ -732,14 +757,14 @@ function rndName(seed, endlen) {
     if (is_vowel) arr = vowels
     else arr = consts
     is_vowel = !is_vowel;
-    word += arr[(seed[i%seed.length].charCodeAt()+i) % arr.length-1];
+    word += arr[(seed[i%seed.length].charCodeAt()+i) % (arr.length-1)];
   }
-  return word.substring(0, Math.ceil(endlen))
+  return word
 }
 
 function uniqueID(seed, minlen){
   var len = minlen;
-  var id = rndName(seed, len);
+  var id = rndName(seed, minlen);
 
   while( contains(unique_ids, id) && len<=8){
     id = rndName(String(len)+id, len);

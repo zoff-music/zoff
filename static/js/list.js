@@ -9,75 +9,24 @@ var List = {
 
     channel_function: function(msg)
     {
-    	if(msg[0] == "list")
-    	{
-    		full_playlist = msg[1];
-    		full_playlist.sort(Helper.predicate({
-    	       name: 'votes',
-    	       reverse: true
-      		}, 'added'));
-    		List.populate_list(full_playlist);
-    	}else if(msg[0] == "added")
-    	{
-    		full_playlist.push(msg[1]);
-    		full_playlist.sort(Helper.predicate({
-    	       name: 'votes',
-    	       reverse: true
-      		}, 'added'));
-
-            var index = List.getIndexOfSong(msg[1].id);
-
-    		List.insertAtIndex(index, msg[1], true);
-            var test = $("#wrapper").children()[index];
-    		setTimeout(function(){
-    			$(test).css("height", 66);
-    		},5);
-
-    	}else if(msg[0] == "deleted")
-    	{
-    		var to_delete = $("#wrapper").children()[List.getIndexOfSong(msg[1])];
-    		to_delete.style.height = 0;
-    		setTimeout(function()
-    		{
-    			$("#"+msg[1]).remove();
-    			full_playlist.splice(List.getIndexOfSong(msg[1]), 1);
-    		}, 305);
-            document.getElementById('wrapper').scrollTop += 1;
-            document.getElementById('wrapper').scrollTop += -1;
-    	}else if(msg[0] == "vote")
-    	{
-    		var index_of_song = List.getIndexOfSong(msg[1]);
-            var song_voted_on = full_playlist[index_of_song];
-    		full_playlist[index_of_song].votes += 1;
-    		full_playlist[index_of_song].added = msg[2];
-    		full_playlist.sort(Helper.predicate({
-    	       name: 'votes',
-    	       reverse: true
-      		}, 'added'));
-            $("#"+msg[1]).remove();
-            List.insertAtIndex(List.getIndexOfSong(msg[1]), song_voted_on, false);
-
-    		//List.populate_list(full_playlist, false);
-    	}else if(msg[0] == "song_change")
-    	{
-
-    		full_playlist[0].now_playing = true;
-    		full_playlist[0].votes = 0;
-    		full_playlist[0].guids = [];
-    		full_playlist[0].added = msg[1];
-    		full_playlist[full_playlist.length-1].now_playing = false;
-    		/*full_playlist.sort(predicate({
-    	    name: 'votes',
-    	    reverse: true
-      		}, 'added'));
-    		*/
-    		full_playlist.push(full_playlist.shift());
-    		$("#wrapper").children()[0].remove();
-    		List.insertAtIndex($("#wrapper").children().length, full_playlist[full_playlist.length-2], false);
-            document.getElementById('wrapper').scrollTop += 1;
-            document.getElementById('wrapper').scrollTop += -1;
-    		//populate_list(full_playlist);
-    	}
+        switch(msg[0])
+        {
+            case "list":
+                List.populate_list(msg[1]);
+                break;
+            case "added":
+                List.added_song(msg[1]);
+                break;
+            case "deleted":
+                List.deleted_song(msg[1]);
+                break;
+            case "vote":
+                List.voted_song(msg[1], msg[2]);
+                break;
+            case "song_change":
+                List.song_change(msg[1]);
+                break;
+        }
     },
 
     skipping_listener: function(){
@@ -93,27 +42,14 @@ var List = {
 
     populate_list: function(msg)
     {
+        full_playlist = msg;
+        
+        List.sortList();
 		$("#wrapper").empty();
 
-		$.each(msg, function(j, listeID){
-			if(!listeID.now_playing){ //check that the song isnt playing
-
-				var video_title=decodeURIComponent(listeID.title);
-				var video_id = listeID.id;
-				var video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
-				//var delsong = ""; if(pass_corr=="correct");
-				var video_votes = listeID.votes;
-				$("#wrapper").append(list_html);
-				var song = $("#list-song");
-				song.find(".list-title").text(video_title);
-				song.find(".list-title").attr("title", video_title);
-				song.find(".list-votes").text(video_votes);
-				song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-				song.find(".list-image").attr("data-original",video_thumb);
-				song.attr("id",video_id);
-				song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
-				if(!w_p) $(".card-action").removeClass("hide");
-				if(video_votes==1)song.find(".vote-text").text("vote");
+		$.each(full_playlist, function(j, current_song){
+			if(!current_song.now_playing){ //check that the song isnt playing
+                $("#wrapper").append(List.generateSong(current_song, false, true));
 			}
 		});
 
@@ -123,6 +59,56 @@ var List = {
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
 
+    },
+
+    added_song: function(added){
+        full_playlist.push(added);
+        List.sortList();
+        List.insertAtIndex(added, true);
+    },
+
+    deleted_song: function(deleted){
+        var index              = List.getIndexOfSong(deleted);
+        var to_delete          = $("#wrapper").children()[index];
+        to_delete.style.height = 0;
+
+        setTimeout(function()
+        {
+            $("#"+deleted).remove();
+            full_playlist.splice(List.getIndexOfSong(deleted), 1);
+        }, 305);
+
+        document.getElementById('wrapper').scrollTop += 1;
+        document.getElementById('wrapper').scrollTop += -1;
+    },
+
+    voted_song: function(voted, time){
+        var index_of_song = List.getIndexOfSong(voted);
+        var song_voted_on = full_playlist[index_of_song];
+
+        full_playlist[index_of_song].votes += 1;
+        full_playlist[index_of_song].added = time;
+
+        List.sortList();
+        $("#"+voted).remove();
+        List.insertAtIndex(song_voted_on, false);
+    },
+
+    song_change: function(time){
+        var length = full_playlist.length-1;
+
+        full_playlist[0].now_playing        = true;
+        full_playlist[0].votes              = 0;
+        full_playlist[0].guids              = [];
+        full_playlist[0].added              = time;
+        full_playlist[length].now_playing   = false;
+
+        full_playlist.push(full_playlist.shift());
+        $("#wrapper").children()[0].remove();
+
+        List.insertAtIndex(full_playlist[length-1], false);
+        document.getElementById('wrapper').scrollTop += 1;
+        document.getElementById('wrapper').scrollTop += -1;
     },
 
     vote: function(id, vote){
@@ -136,29 +122,40 @@ var List = {
     },
 
     importOldList: function(chan){
+        var ids="";
+        var num=0;
+
     	playlist_url = "lists/"+chan+".json";
 
-    	list = $.ajax({
-    		type: "GET",
-    		url: playlist_url,
-    		async: false
-    	}).responseText;
-    	list = $.parseJSON(list);
-    	var ids="";
-    	var num=0;
+    	list = $.parseJSON($.ajax({
+    		      type: "GET",
+    		      url: playlist_url,
+    		      async: false
+    	       }).responseText);
+
     	$.each(list.songs, function(i,data)
     	{
     		ids+=data.id+",";
+
     		if(num>45){
     			Search.addVideos(ids);
-    			ids="";
-    			num=0;
+
+    			ids = "";
+    			num = 0;
     		}
     		num++;
     	});
 
     	Search.addVideos(ids);
     	document.getElementById("search").value = "";
+    },
+
+    sortList: function()
+    {
+        full_playlist.sort(Helper.predicate({
+           name: 'votes',
+           reverse: true
+        }, 'added'));
     },
 
     show: function(){
@@ -179,38 +176,47 @@ var List = {
     	}
     },
 
-    insertAtIndex: function(i, song_info, transition) {
-        if(i === 0) {
+    insertAtIndex: function(song_info, transition) {
+        i = List.getIndexOfSong(song_info.id);
+
+        if(i === 0) 
          	$("#wrapper").prepend(List.generateSong(song_info, transition));
-      		return;
+        else
+            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition));
+        
+        if(transition)
+        {
+            setTimeout(function(){
+                var added = $("#wrapper").children()[i];
+                $(added).css("height", 66);
+            },5);
         }
-        $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition));
     },
 
-    generateSong: function(song_info, transition)
+    generateSong: function(song_info, transition, lazy)
     {
-    	var video_id = song_info.id;
+    	var video_id    = song_info.id;
     	var video_title = song_info.title;
     	var video_votes = song_info.votes;
     	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+        var song        = $("<div>"+list_html+"</div>");
+        var image_attr  = "style";
 
-    	var song = $("<div>"+list_html+"</div>");
-    	if(transition) song.find("#list-song").css("height", 0);
+        if(transition) song.find("#list-song").css("height", 0);
+        if(!w_p) song.find(".card-action").removeClass("hide");
+        if(video_votes == 1)song.find(".vote-text").text("vote");
+        if(lazy){
+            video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
+            image_attr  = "data-original";
+        } 
+
     	song.find(".list-title").text(video_title);
     	song.find(".list-title").attr("title", video_title);
     	song.find(".list-votes").text(video_votes);
     	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-    	song.find(".list-image").attr("style",video_thumb);
+    	song.find(".list-image").attr(image_attr,video_thumb);
     	song.find("#list-song").attr("id", video_id);
     	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
-    	if(!w_p) song.find(".card-action").removeClass("hide");
-    	if(video_votes == 1)song.find(".vote-text").text("vote");
-
-/*
-        $(".lazy").lazyload({
-            container: $("#wrapper")
-        }).removeClass("lazy"); 
-*/      
 
     	return song.html();
     },
