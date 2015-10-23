@@ -110,11 +110,11 @@
                 <ul>
                     <li>
                         <a id="code-link" target="_blank">
-                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=https://zoff.no" />
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.no" />
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>
-                          You can control this Zöff instance from another device by going to <b>https://zoff.no/remote</b>
+                          You can control this Zöff instance from another device by going to <b>http://zoff.no/remote</b>
                         </a>
                     </li>
                 </ul>
