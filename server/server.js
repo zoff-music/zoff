@@ -138,11 +138,16 @@ io.on('connection', function(socket){
       {
         var id = list[0]["id"];
         var title = list[0]["title"];
+        var pinned = 0;
+        if(conf[0].pinned == 1) pinned = 1;
         try{
           var viewers = lists[name].length;
         }catch(err){var viewers = 0;}
-        var to_push = [viewers, id, title, name, count];
-        if(conf[0]["frontpage"])
+        var to_push = [viewers, id, title, name, count, pinned];
+        if(conf[0].pinned == 1)
+        {
+          playlists_to_send.unshift(to_push);
+        }else if(conf[0]["frontpage"])
           playlists_to_send.push(to_push);
       }
       if(curr == tot)

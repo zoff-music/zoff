@@ -78,6 +78,12 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     color: #2D2D2D;
 }
 
+.pin {
+  position:absolute;
+  right:10px;
+  font-size:25px;
+}
+
 .field-settings{
 	margin-left: 25px !important;
 	color: rgb(68,68,68);

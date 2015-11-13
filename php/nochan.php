@@ -106,6 +106,7 @@ if(isset($_GET['chan'])){
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
                                 <div class="card-content">
+                                    <i class="mdi-action-star-rate pin"></i>
                                     <p class="left-align">
                                         <span class="chan-name flow-text truncate"></span>
                                         <br>
