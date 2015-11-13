@@ -129,6 +129,6 @@ if(isset($_GET['chan'])){
     </main>
 
     <?php include("php/footer.php"); ?>
-    <script type="text/javascript" src="static/dist/frontpage.min.js"></script>
+    <script type="text/javascript" src="static/js/nochan.js"></script>
 	</body>
 </html>
