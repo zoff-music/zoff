@@ -67,7 +67,7 @@ db.on('error',function(err) {
 });
 
 io.on('connection', function(socket){
-	console.log("connection");
+
     socket.emit("get_list");
 
     var guid = hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
@@ -112,7 +112,6 @@ io.on('connection', function(socket){
 
     socket.on('frontpage_lists', function()
     {
-        console.log("connected");
         var playlists_to_send = [];
         var i = 0;
         var playlists_to_send = [];
