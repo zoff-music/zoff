@@ -21,7 +21,6 @@ var Nochan = {
       var output = "";
       var num = 0;
       var pinned;
-      console.log(lists);
       if(lists[0][5] == 1){
         pinned = lists.shift();
       }
