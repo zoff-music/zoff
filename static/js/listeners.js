@@ -71,6 +71,12 @@ $(document).ready(function()
     });
     //awdwad
     $(".video-container").resizable({
+    	start: function(event, ui) {
+        	$('iframe').css('pointer-events','none');
+        },
+    	stop: function(event, ui) {
+        	$('iframe').css('pointer-events','auto');
+      	},
         handles: "e",
         minWidth: 350
     });
