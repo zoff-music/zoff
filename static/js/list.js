@@ -68,7 +68,7 @@ var List = {
     },
 
     deleted_song: function(deleted){
-        console.log(deleted);
+
         var index              = List.getIndexOfSong(deleted);
         var to_delete          = $("#wrapper").children()[index];
         try{
@@ -84,8 +84,6 @@ var List = {
             document.getElementById('wrapper').scrollTop += -1;
         }catch(err){
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-            console.log(full_playlist.length-1);
-            console.log("here");
             $("#wrapper").children()[$("#wrapper").children().length-1].remove();
         }
     },
@@ -104,9 +102,7 @@ var List = {
 
     song_change: function(time){
         var length = full_playlist.length-1;
-        console.log(full_playlist[0]);
-        console.log(full_playlist[full_playlist.length-1]);
-        console.log(full_playlist);
+
         full_playlist[0].now_playing        = true;
         full_playlist[0].votes              = 0;
         full_playlist[0].guids              = [];
