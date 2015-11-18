@@ -109,12 +109,22 @@
             <div class="collapsible-body">
                 <ul>
                     <li>
+                        <span class="switch-text">
+                            Enable Remote
+                        </span>
+                        <div class="switch"><label>
+                            Disabled
+                            <input name="remote_switch" type="checkbox" class="remote_switch_class" checked /><span class="lever"></span>
+                            Enabled
+                            </label>
+                            </div>
                         <a id="code-link" target="_blank">
                             <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.no" />
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>
                           You can control this Zöff instance from another device by going to <b>http://zoff.no/remote</b>
+                          
                         </a>
                     </li>
                 </ul>
@@ -126,7 +136,7 @@
 <li class="no-padding remote-panel">
     <ul class="collapsible collapsible-accordion">
         <li>
-            <a class="collapsible-header bold waves-effect">Import Playlist
+            <a class="collapsible-header bold waves-effect import-a">Import Playlist
                 <i class="mdi-communication-import-export"></i>
             </a>
             <div class="collapsible-body">
