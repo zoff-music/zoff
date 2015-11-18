@@ -68,18 +68,26 @@ var List = {
     },
 
     deleted_song: function(deleted){
+        console.log(deleted);
         var index              = List.getIndexOfSong(deleted);
         var to_delete          = $("#wrapper").children()[index];
-        to_delete.style.height = 0;
+        try{
+            to_delete.style.height = 0;
 
-        setTimeout(function()
-        {
-            $("#"+deleted).remove();
+            setTimeout(function()
+            {
+                $("#"+deleted).remove();
+                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+            }, 305);
+
+            document.getElementById('wrapper').scrollTop += 1;
+            document.getElementById('wrapper').scrollTop += -1;
+        }catch(err){
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-        }, 305);
-
-        document.getElementById('wrapper').scrollTop += 1;
-        document.getElementById('wrapper').scrollTop += -1;
+            console.log(full_playlist.length-1);
+            console.log("here");
+            $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+        }
     },
 
     voted_song: function(voted, time){
@@ -96,7 +104,9 @@ var List = {
 
     song_change: function(time){
         var length = full_playlist.length-1;
-
+        console.log(full_playlist[0]);
+        console.log(full_playlist[full_playlist.length-1]);
+        console.log(full_playlist);
         full_playlist[0].now_playing        = true;
         full_playlist[0].votes              = 0;
         full_playlist[0].guids              = [];

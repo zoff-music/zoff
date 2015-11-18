@@ -22,6 +22,7 @@ var server;
     console.log("Starting without https (probably on localhost)");
 //if(err["errno"] != 34)console.log(err);
 var cors_proxy = require('cors-anywhere');
+var request = require('request');
 
 cors_proxy.createServer({
     requireHeader: ['origin', 'x-requested-with'],
@@ -396,7 +397,7 @@ io.on('connection', function(socket){
                         || (lists[coll].length == 2 && docs[0]["skips"].length+1 == 2 && !contains(docs[0]["skips"], guid))
                         || (docs[0]["adminpass"] == hash && docs[0]["adminpass"] != "" && docs[0]["skip"]))
                         {
-                            change_song(coll);
+                            change_song(coll, error);
                             socket.emit("toast", "skip");
                             io.to(coll).emit('chat', [name, " skipped"]);
                         }else if(!contains(docs[0]["skips"], guid)){
@@ -625,27 +626,48 @@ function vote(coll, id, guid, socket)
 }
 
 
-function change_song(coll, id, np_id)
+function change_song(coll, error)
 {
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         var startTime = docs[0]["startTime"];
         if(docs !== null && docs.length != 0)
         {
-            if(docs[0]["removeplay"] == true)
-            {
-                db.collection(coll).remove({now_playing:true}, function(err, docs){
-                    change_song_post(coll);
-                });
-            }else{
-                db.collection(coll).update({now_playing:true},
-                    {$set:{
-                    now_playing:false,
-                    votes:0,
-                    guids:[]
-                }},{multi:true}, function(err, docs){
-                    change_song_post(coll);
-                });
-            }
+            db.collection(coll).find({now_playing:true}, function(err, now_playing_doc){
+                if(error){
+                    request('http://img.youtube.com/vi/'+docs[0].id+'/mqdefault.jpg', function (err, response, body) {
+                        if (err || response.statusCode == 404) {
+                            db.collection(coll).remove({now_playing:true}, function(err, docs){
+                                change_song_post(coll);
+                                io.to(coll).emit("channel", ["deleted", now_playing_doc[0].id]);
+                            });
+                        }else{
+                            db.collection(coll).update({now_playing:true},
+                                {$set:{
+                                now_playing:false,
+                                votes:0,
+                                guids:[]
+                            }},{multi:true}, function(err, docs){
+                                change_song_post(coll);
+                            });
+                        }
+                    });
+                
+                }else if(docs[0]["removeplay"] == true){
+                    db.collection(coll).remove({now_playing:true}, function(err, docs){
+                        change_song_post(coll);
+                        io.to(coll).emit("channel", ["deleted", now_playing_doc[0].id]);
+                    });
+                }else{
+                    db.collection(coll).update({now_playing:true},
+                        {$set:{
+                        now_playing:false,
+                        votes:0,
+                        guids:[]
+                    }},{multi:true}, function(err, docs){
+                        change_song_post(coll);
+                    });
+                }
+            });
         }
     });
 }
