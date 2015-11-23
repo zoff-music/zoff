@@ -323,7 +323,7 @@ io.on('connection', function(socket){
             else
             {
                 var id = msg[1];
-                var hash = hash_pass(msg[3]);
+                var hash = hash_pass(decrypt_password(socket.id, msg[3]));
                 db.collection(coll).find({views:{$exists:true}}, function(err, docs){
                     if(docs !== null && docs.length != 0 && ((docs[0]["vote"] == true && (hash == docs[0]["adminpass"] || docs[0]["adminpass"] == ""))
                         || docs[0]["vote"] == false))
@@ -392,7 +392,7 @@ io.on('connection', function(socket){
             }
 
             if(adminpass !== undefined && adminpass !== null && adminpass != "")
-                var hash = hash_pass(adminpass);
+                var hash = hash_pass(decrypt_password(socket.id, adminpass));
             else
                 var hash = "";
 
@@ -446,7 +446,7 @@ io.on('connection', function(socket){
             if(params.length == 10) description = params[9];
 
             if(adminpass != "")
-                var hash = hash_pass(adminpass);
+                var hash = hash_pass(decrypt_password(socket.id, adminpass));
             else
                 var hash = adminpass;
 
@@ -484,7 +484,7 @@ io.on('connection', function(socket){
             check_inlist(coll, guid, socket, name);
 
             if(pass == "") var hash = pass;
-            else var hash = hash_pass(pass);
+            else var hash = hash_pass(decrypt_password(socket.id, pass));
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
                 if(docs !== null && docs.length != 0 && ((docs[0]["adminpass"] == hash || docs[0]["adminpass"] == "") || docs[0]["shuffle"] == false))
                 {

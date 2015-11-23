@@ -15,10 +15,11 @@ var Playercontrols = {
 
     initSlider: function()
     {
-    	if(Crypt.getCookie("_opts"))
+    	if(localStorage.volume)
     	{
     		//vol = localStorage.getItem("volume");
             vol = (Crypt.get_volume());
+
     	}else{
     		vol = 100;
     		//localStorage.setItem("volume", vol);
@@ -31,12 +32,14 @@ var Playercontrols = {
     			range: "min",
     			animate: true,
     	    slide: function(event, ui) {
-            Playercontrols.setVolume(ui.value);
+
+                Playercontrols.setVolume(ui.value);
     				//localStorage.setItem("volume", ui.value);
                     Crypt.set_volume(ui.value);
     	    }
     	});
-      Playercontrols.choose_button(vol, false);
+        Playercontrols.choose_button(vol, false);
+        Playercontrols.setVolume(ui.value);
     	//$("#volume").slider("value", ytplayer.getVolume());
     },
 
@@ -91,13 +94,13 @@ var Playercontrols = {
     setVolume: function(vol)
     {
     	ytplayer.setVolume(vol);
-      Playercontrols.choose_button(vol, false);
+        Playercontrols.choose_button(vol, false);
     	if(ytplayer.isMuted())
     		ytplayer.unMute();
     },
 
     choose_button: function(vol, mute)
-    {
+    {  
     	if(!mute){
     		if(vol >= 0 && vol <= 33){
     			if(document.getElementById("v-full").className.split(" ").length == 1)
