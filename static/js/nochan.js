@@ -127,7 +127,9 @@ $(document).ready(function (){
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
-    })
+    });
+
+    window.socket = socket;
 
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){

@@ -80,14 +80,14 @@ $(document).ready(function()
         handles: "e",
         minWidth: 350
     });
-
+    /*
 	if(localStorage[chan.toLowerCase()])
 	{
 		if(localStorage[chan.toLowerCase()].length != 64)
 			localStorage.removeItem(chan.toLowerCase());
 		else
 			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
-	}
+	}*/
 
 	if(window.mobilecheck()){
 		document.getElementById("search").blur();

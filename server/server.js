@@ -42,6 +42,10 @@ var db = mongojs.connect('mydb');
 
 //crypto
 var crypto = require('crypto');
+var node_cryptojs = require('node-cryptojs-aes');
+ 
+// node-cryptojs-aes main object; 
+var CryptoJS = node_cryptojs.CryptoJS;
 
 var emojiStrip = require('emoji-strip');
 
@@ -75,7 +79,7 @@ io.on('connection', function(socket){
 
     socket.on('close', function() {
         console.log("closing socket");
-    })
+    });
 
     socket.on('ping', function() {
         socket.emit("ok");
@@ -341,12 +345,16 @@ io.on('connection', function(socket){
             opw = inp[0];
             coll = inp[1];
 
+            uncrypted = pw;
+            pw = decrypt_password(socket.id, pw);
+
             check_inlist(coll, guid, socket, name);
 
             if(inp.length == 3)
             {
                 opw = inp[2];
             }
+            opw = decrypt_password(socket.id, opw);
 
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
                 if(docs !== null && docs.length != 0)
@@ -358,7 +366,7 @@ io.on('connection', function(socket){
                                 socket.emit("toast", "changedpass");
                             else
                                 socket.emit("toast", "correctpass");
-                            socket.emit("pw", pw);
+                            socket.emit("pw", uncrypted);
                         });
                     }else
                         socket.emit("toast", "wrongpass");
@@ -548,6 +556,18 @@ io.on('connection', function(socket){
         send_play(coll, socket);
     });
 });
+
+function decrypt_password(socket_id, pw){
+    var decrypted = CryptoJS.AES.decrypt(
+        pw,socket_id,
+        {
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        }
+    );
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
 
 function left_channel(coll, guid, name, short_id)
 {

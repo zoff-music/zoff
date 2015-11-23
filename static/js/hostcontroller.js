@@ -1,10 +1,10 @@
 var Hostcontroller = {
 
+  enabled: true,
 
   host_listener: function() {
     
     var old_id;
-    var enabled = true;
 
     socket.on("id", function(id)
     {
@@ -63,6 +63,12 @@ var Hostcontroller = {
     $('input[class=remote_switch_class]').change(function()
     {
       enabled = document.getElementsByName("remote_switch")[0].checked;
+      Crypt.set_remote(enabled);
     });
+  },
+
+  change_enabled:function(val){
+    enabled = val;
+    document.getElementsByName("remote_switch")[0].checked = enabled;
   }
 }
