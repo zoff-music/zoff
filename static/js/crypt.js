@@ -51,8 +51,10 @@ var Crypt = {
 		
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-
-        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+        if(cookie != "_opt") add = chan.toLowerCase();
+        else add = ";"
+        console.log(add);
+        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
 	},
 
 	get_volume: function(){
@@ -84,7 +86,10 @@ var Crypt = {
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+        if(name != "_opt") add = chan.toLowerCase();
+        else add = ";"
+        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+        //document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         return Crypt.getCookie(name);
 	},
