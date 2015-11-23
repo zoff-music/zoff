@@ -15,12 +15,14 @@ var Playercontrols = {
 
     initSlider: function()
     {
-    	if(localStorage.volume)
+    	if(Crypt.getCookie("_opts"))
     	{
-    		vol = localStorage.getItem("volume");
+    		//vol = localStorage.getItem("volume");
+            vol = (Crypt.get_volume());
     	}else{
     		vol = 100;
-    		localStorage.setItem("volume", vol);
+    		//localStorage.setItem("volume", vol);
+            Crypt.set_volume(vol);
     	}
     	$("#volume").slider({
     	    min: 0,
@@ -30,7 +32,8 @@ var Playercontrols = {
     			animate: true,
     	    slide: function(event, ui) {
             Playercontrols.setVolume(ui.value);
-    				localStorage.setItem("volume", ui.value);
+    				//localStorage.setItem("volume", ui.value);
+                    Crypt.set_volume(ui.value);
     	    }
     	});
       Playercontrols.choose_button(vol, false);

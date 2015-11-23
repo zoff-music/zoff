@@ -1,7 +1,10 @@
 var Admin = {
 
+    beginning:true,
+
     admin_listener: function()
     {
+
     	socket.on("toast", function(msg)
     	{
     		switch(msg) {
@@ -13,9 +16,7 @@ var Admin = {
     		        break;
     		    case "wrongpass":
     		        msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."])
-					if(localStorage[chan.toLowerCase()]){
-						localStorage.removeItem(chan.toLowerCase());
-					}
+					Crypt.remove_pass(chan.toLowerCase());
                     Admin.display_logged_out();
                     w_p = true;
 					break;
@@ -64,7 +65,7 @@ var Admin = {
     		names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
             "removeplay", "skip", "shuffle"];
 
-            localStorage.setItem(chan.toLowerCase(), msg);
+            Crypt.set_pass(chan.toLowerCase(), Crypt.decrypt_pass(msg))
 
     		for (var i = 0; i < names.length; i++) {
     				$("input[name="+names[i]+"]").attr("disabled", false);
@@ -82,20 +83,29 @@ var Admin = {
     	socket.on("conf", function(msg)
     	{
     		Admin.set_conf(msg[0]);
+            Crypt.init();
+            if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) != ""){
+                socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+                Admin.beginning = false;
+            }
     	});
     },
 
     pass_save: function()
     {
         if(!w_p)
-    	   socket.emit('password', [CryptoJS.SHA256(document.getElementById("password").value).toString(), chan.toLowerCase(), localStorage[chan.toLowerCase()]]);
+        {
+    	   socket.emit('password', [Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), chan.toLowerCase(), Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))]);
+        }
         else
-            socket.emit('password', [CryptoJS.SHA256(document.getElementById("password").value).toString(), chan.toLowerCase()]);
+        {
+            socket.emit('password', [Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), chan.toLowerCase()]);
+        }
     },
 
     log_out: function(){
-    	if(localStorage[chan.toLowerCase()]){
-    		localStorage.removeItem(chan.toLowerCase());
+    	if(Crypt.get_pass(chan.toLowerCase())){
+            Crypt.remove_pass(chan.toLowerCase());
     		Admin.display_logged_out();
     		Materialize.toast("Logged out", 4000);
     	}else{
@@ -151,9 +161,9 @@ var Admin = {
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
 
-        if((hasadmin && !localStorage[chan.toLowerCase()])){
+        if((hasadmin)){
             Admin.display_logged_out();
-        }else if(!hasadmin && !localStorage[chan.toLowerCase()]){
+        }else if(!hasadmin){
             $("#password").attr("placeholder", "Create channel password");
         }
 
