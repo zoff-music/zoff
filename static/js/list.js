@@ -123,7 +123,7 @@ var List = {
     },
 
     skip: function(){
-    	socket.emit('skip', [chan, localStorage[chan.toLowerCase()]]);
+    	socket.emit('skip', [chan, adminpass]);
     	return true;
     },
 
