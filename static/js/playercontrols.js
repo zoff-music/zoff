@@ -19,7 +19,6 @@ var Playercontrols = {
     	{
     		//vol = localStorage.getItem("volume");
             vol = (Crypt.get_volume());
-
     	}else{
     		vol = 100;
     		//localStorage.setItem("volume", vol);
@@ -39,7 +38,6 @@ var Playercontrols = {
     	    }
     	});
         Playercontrols.choose_button(vol, false);
-        Playercontrols.setVolume(ui.value);
     	//$("#volume").slider("value", ytplayer.getVolume());
     },
 
