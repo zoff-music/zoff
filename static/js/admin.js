@@ -160,8 +160,6 @@ var Admin = {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
-        //console.log(hasadmin);
-        console.log(Crypt.get_pass(chan.toLowerCase()));
 
         if((hasadmin)){
             Admin.display_logged_out();
