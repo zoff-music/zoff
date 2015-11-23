@@ -82,8 +82,8 @@ var Admin = {
 
     	socket.on("conf", function(msg)
     	{
-    		Admin.set_conf(msg[0]);
             Crypt.init();
+    		Admin.set_conf(msg[0]);
             if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) != ""){
                 socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
                 Admin.beginning = false;
@@ -160,10 +160,12 @@ var Admin = {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
+        //console.log(hasadmin);
+        console.log(Crypt.get_pass(chan.toLowerCase()));
 
         if((hasadmin)){
             Admin.display_logged_out();
-        }else if(!hasadmin){
+        }else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined){
             $("#password").attr("placeholder", "Create channel password");
         }
 
