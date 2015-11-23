@@ -5,13 +5,13 @@ var Crypt = {
 	init: function(){
 		
 		
-        conf_arr = Crypt.decrypt(Crypt.getCookie("_opts"));
+        conf_arr = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()));
         Hostcontroller.change_enabled(conf_arr.remote);
 	},
 
 	decrypt: function(cookie){
 
-		if(Crypt.getCookie("_opts") === undefined) {
+		if(Crypt.getCookie(chan.toLowerCase()) === undefined) {
 			cookie = Crypt.create_cookie();
 		}
 
@@ -53,11 +53,11 @@ var Crypt = {
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        document.cookie = "_opts="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+        document.cookie = chan.toLowerCase()+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
 	},
 
 	get_volume: function(){
-		return Crypt.decrypt(Crypt.getCookie("_opts")).volume;
+		return Crypt.decrypt(Crypt.getCookie(chan.toLowerCase())).volume;
 		//return conf_arr.volume;
 	},
 
@@ -84,8 +84,8 @@ var Crypt = {
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
 
-        document.cookie = "_opts="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
-        return Crypt.getCookie("_opts");
+        document.cookie = chan.toLowerCase()+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+        return Crypt.getCookie(chan.toLowerCase());
 	},
 
 	set_pass: function(chan, pass){
