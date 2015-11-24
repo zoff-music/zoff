@@ -51,9 +51,8 @@ var Crypt = {
 		
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-        if(cookie != "_opt") add = chan.toLowerCase();
+        if(cookie != "_opt") add = chan.toLowerCase()+";";
         else add = ";"
-        console.log(add);
         document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
 	},
 
@@ -96,7 +95,7 @@ var Crypt = {
 
 	set_pass: function(chan, pass){
 		conf_pass.passwords[chan] = pass;
-		Crypt.encrypt(conf_pass);
+		Crypt.encrypt(conf_pass, chan);
 	},
 
 	remove_pass:function(chan){
