@@ -3,9 +3,14 @@ var Crypt = {
 	conf_arr: {},
 
 	init: function(){
-		
-        conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-        conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+		try{
+        	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
+        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+        }catch(err){
+        	console.log("err")
+        	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
+        	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+        }
         Hostcontroller.change_enabled(conf_arr.remote);
 	},
 
@@ -15,12 +20,12 @@ var Crypt = {
 		}
 
 		var decrypted = CryptoJS.AES.decrypt(
-        cookie,navigator.userAgent+navigator.languages,
-        {
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        }
-    	);
+	        cookie,navigator.userAgent+navigator.languages,
+	        {
+	            mode: CryptoJS.mode.CBC,
+	            padding: CryptoJS.pad.Pkcs7
+			}
+		);
 
     	return $.parseJSON(decrypted.toString(CryptoJS.enc.Utf8));
 	},
