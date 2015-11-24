@@ -597,7 +597,7 @@ function del(params, socket)
     coll = decodeURIComponent(coll);
     coll = coll.replace(/\W/g, '');
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-        if(docs !== null && docs.length != 0 && docs[0]["adminpass"] == hash_pass(params[3]))
+        if(docs !== null && docs.length != 0 && docs[0]["adminpass"] == hash_pass(decrypt_password(socket.id, params[3])))
         {
             db.collection(coll).remove({id:params[1]}, function(err, docs){
                 socket.emit("toast", "deletesong");
