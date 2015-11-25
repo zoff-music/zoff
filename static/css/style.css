@@ -281,12 +281,25 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .mega{
   padding: 6% 0px;
-  background: #FF2626;
-  -webkit-transition:opacity 1s;
+  height: 100%;
+  position: relative;
+}
+
+#mega-background{
+  -webkit-transition:opacity 0.5s;
+  height:400px;
+  width:400px;
+  position: absolute;
+  top: 0px;
+  left:0px;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
 }
 
 .room-namer::-webkit-input-placeholder{
-  color:red !important;
+  color:rgb(155, 155, 155) !important;
+  -webkit-transition:opacity 0.5s;
 }
 
 .mega h5{

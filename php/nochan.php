@@ -72,6 +72,7 @@ if(isset($_GET['chan'])){
     </header>
 
     <div class="section mega">
+        <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
             <form class="">
                 <p class="prething">zoff.no/</p>
