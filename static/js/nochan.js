@@ -129,7 +129,7 @@ var Nochan = {
       });
     }
     setTimeout(function(){
-      //Nochan.add_backdrop(list, i+1);
+      Nochan.add_backdrop(list, i+1);
     },6000);
     
   }
