@@ -1,6 +1,6 @@
 <?php
 
-$url = file_get_contents("https://img.youtube.com/vi/" . $_POST['id'] . "/mqdefault.jpg");
+$url = file_get_contents("https://img.youtube.com/vi/" . $_POST['id'] . "/hqdefault.jpg");
 
 $image = new Imagick();
 $image->readImageBlob($url);
