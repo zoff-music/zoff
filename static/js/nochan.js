@@ -45,7 +45,7 @@ var Nochan = {
       {
 
           var chan = lists[x][3];
-          if(num<20)
+          if(num<8)
           {
             var id = lists[x][1];
             var viewers = lists[x][0];
