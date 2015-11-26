@@ -283,6 +283,8 @@ hide mdi-action-visibility mdi-action-visibility-off
   padding: 6% 0px;
   height: 100%;
   position: relative;
+  z-index: 1;
+  background-color:grey;
 }
 
 #mega-background{
@@ -391,9 +393,13 @@ hide mdi-action-visibility mdi-action-visibility-off
     color: rgb(255, 255, 255);
     text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
     -webkit-transition : border 500ms ease-out;
-  -moz-transition : border 500ms ease-out;
-  -o-transition : border 500ms ease-out;
-  transition : border 500ms ease-out;
+    -moz-transition : border 500ms ease-out;
+    -o-transition : border 500ms ease-out;
+    transition : border 500ms ease-out;
+    border-left:1px solid rgba(255,255,255,1);
+  border-right:1px solid rgba(255,255,255,1);
+  border-top:1px solid rgba(255,255,255,1);
+  border-radius: 2px;
 }
 
 .listen-button:hover{
@@ -401,6 +407,9 @@ hide mdi-action-visibility mdi-action-visibility-off
   border-right:1px solid rgba(255,255,255,1);
   border-top:1px solid rgba(255,255,255,1);
   border-radius: 2px;
+  background-color:white;
+  color:rgba(255,255,255,0);
+  text-shadow: rgba(18, 18, 18, 0.76) 0px 0px 0px;
 }
 
 .listen-button:focus{
@@ -408,9 +417,9 @@ hide mdi-action-visibility mdi-action-visibility-off
   border-right:1px solid rgba(255,255,255,1);
   border-top:1px solid rgba(255,255,255,1);
   border-radius: 2px;
-  background-color:white;
-  color:rgba(255,255,255,0);
-  text-shadow: rgba(18, 18, 18, 0.76) 0px 0px 0px;
+  background-color:rgba(255,255,255,0);
+  color:rgba(255,255,255,1);
+  text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
 }
 
 .mega .pitch{
