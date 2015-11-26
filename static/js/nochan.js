@@ -121,13 +121,13 @@ var Nochan = {
 
     if(Nochan.blob_list[i] !== undefined){
       $("#mega-background").css("opacity", 0);
-      $(".room-namer").css("opacity", 0);
+      //$(".room-namer").css("opacity", 0);
       setTimeout(function(){ 
         $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
         $("#mega-background").css("background-size" , "200%");
         $("#mega-background").css("opacity", 1);
         $("#search").attr("placeholder", list[i][3]);
-        $(".room-namer").css("opacity", 1);
+        //$(".room-namer").css("opacity", 1);
       },500); 
     }else{
       $.ajax({
