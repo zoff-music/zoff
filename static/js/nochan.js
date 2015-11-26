@@ -16,6 +16,8 @@ function getCookie(cname) {
 
 var Nochan = {
 
+  blob_list: [],
+
   populate_channels: function(lists)
   {
       var output = "";
@@ -29,6 +31,8 @@ var Nochan = {
         lists.unshift(pinned);
       }
       pre_card = $(list_html);
+
+      Nochan.add_backdrop(lists, 0);
 
       for(x in lists)
       {
@@ -101,6 +105,50 @@ var Nochan = {
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return "";
+  },
+
+  add_backdrop: function(list, i) {
+    if(i >= list.length || i >= 8) i = 0;
+
+    var id = list[i][1];
+
+    if(Nochan.blob_list[i] !== undefined){
+      $("#mega-background").css("opacity", 0);
+      $(".room-namer").css("opacity", 0);
+      setTimeout(function(){ 
+        $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
+        $("#mega-background").css("background-size" , "200%");
+        $("#mega-background").css("opacity", 1);
+        $("#search").attr("placeholder", list[i][3]);
+        $(".room-namer").css("opacity", 1);
+      },500); 
+    }else{
+      $.ajax({
+        type: "POST",
+        data: {id:id},
+        url: "/php/imageblob.php",
+        success: function(data){
+            Nochan.blob_list.push(data);
+           //data will contain the vote count echoed by the controller i.e.
+            $("#mega-background").css("opacity", 0);
+            //$(".room-namer").css("opacity", 0);
+            setTimeout(function(){ 
+              $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
+              $("#mega-background").css("background-size" , "200%");
+              $("#mega-background").css("opacity", 1);
+              $("#search").attr("placeholder", list[i][3]);
+              //$(".room-namer").css("opacity", 1);
+            },500); 
+          //then append the result where ever you want like
+          //$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
+
+          }
+      });
+    }
+    setTimeout(function(){
+      Nochan.add_backdrop(list, i+1);
+    },6000);
+    
   }
 
 
