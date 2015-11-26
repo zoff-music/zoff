@@ -68,18 +68,24 @@ var List = {
     },
 
     deleted_song: function(deleted){
+
         var index              = List.getIndexOfSong(deleted);
         var to_delete          = $("#wrapper").children()[index];
-        to_delete.style.height = 0;
+        try{
+            to_delete.style.height = 0;
 
-        setTimeout(function()
-        {
-            $("#"+deleted).remove();
+            setTimeout(function()
+            {
+                $("#"+deleted).remove();
+                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+            }, 305);
+
+            document.getElementById('wrapper').scrollTop += 1;
+            document.getElementById('wrapper').scrollTop += -1;
+        }catch(err){
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-        }, 305);
-
-        document.getElementById('wrapper').scrollTop += 1;
-        document.getElementById('wrapper').scrollTop += -1;
+            $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+        }
     },
 
     voted_song: function(voted, time){
@@ -117,7 +123,7 @@ var List = {
     },
 
     skip: function(){
-    	socket.emit('skip', [chan, localStorage[chan.toLowerCase()]]);
+    	socket.emit('skip', [chan, adminpass]);
     	return true;
     },
 

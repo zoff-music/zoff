@@ -81,7 +81,7 @@ if(isset($_GET['chan'])){
                     type="text"
                     id="search"
                     name="chan"
-                    placeholder="indie-rock"
+                    placeholder="chill"
                     title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                     autocomplete="off"
                     autofocus=""
@@ -113,6 +113,7 @@ if(isset($_GET['chan'])){
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
                                 <div class="card-content">
+                                    <i class="mdi-action-star-rate pin"></i>
                                     <p class="left-align">
                                         <span class="chan-name flow-text truncate"></span>
                                         <br>

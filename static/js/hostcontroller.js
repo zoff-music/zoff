@@ -1,5 +1,7 @@
 var Hostcontroller = {
 
+  enabled: true,
+
   host_listener: function() {
     
     var old_id;
@@ -22,14 +24,13 @@ var Hostcontroller = {
         began = true;
         socket.on(id, function(arr)
         {
-            if(arr[0] == "volume")
-            {
+          if(enabled){
+            if(arr[0] == "volume"){
               $("#volume").slider("value", arr[1]);
               ytplayer.setVolume(arr[1]);
               localStorage.setItem("volume", arr[1]);
               Playercontrols.choose_button(arr[1], false);
-            }else if(arr[0] == "channel")
-            {
+            }else if(arr[0] == "channel"){
               socket.emit("change_channel");
 
               chan = arr[1].toLowerCase();
@@ -38,8 +39,7 @@ var Hostcontroller = {
               w_p = true;
               socket.emit("list", chan.toLowerCase());
 
-              if(localStorage[chan.toLowerCase()])
-              {
+              if(localStorage[chan.toLowerCase()]){
                 //localStorage.removeItem(chan.toLowerCase());
                 if(localStorage[chan.toLowerCase()].length != 64)
                   localStorage.removeItem(chan.toLowerCase());
@@ -54,8 +54,21 @@ var Hostcontroller = {
               ytplayer.playVideo();
             else if(arr[0] == "skip")
               List.skip();
+          }
         });
       }
     });
+
+    
+    $('input[class=remote_switch_class]').change(function()
+    {
+      enabled = document.getElementsByName("remote_switch")[0].checked;
+      Crypt.set_remote(enabled);
+    });
+  },
+
+  change_enabled:function(val){
+    enabled = val;
+    document.getElementsByName("remote_switch")[0].checked = enabled;
   }
 }
