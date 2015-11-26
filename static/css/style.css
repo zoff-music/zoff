@@ -992,9 +992,11 @@ nav ul li:hover, nav ul li.active {
 ****************************************************************************
 ***************************************************************************/
 
-
+.mobile-search{display:none;}
 
 @media only screen and (max-width: 600px){
+    .mega {display:none;}
+    .mobile-search{display:block;}
 
     .toast {
       height:auto;
