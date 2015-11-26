@@ -307,6 +307,12 @@ hide mdi-action-visibility mdi-action-visibility-off
   z-index: -1;
   height: 100%;
   width: 100%;
+      background-position: 50% 50%;
+    background-size: inherit;
+    /* background-repeat: no-repeat; */
+    background-size: 124%;
+    background-size: 400% 400% !important;
+    background-position: 50% 50% !important;
 }
 
 .room-namer::-webkit-input-placeholder{
