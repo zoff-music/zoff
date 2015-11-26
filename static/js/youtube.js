@@ -130,7 +130,7 @@ var Youtube = {
 		Youtube.readyLooks();
 		Playercontrols.initYoutubeControls(ytplayer);
 		Playercontrols.initSlider();
-		ytplayer.setVolume(localStorage.getItem("volume"));
+		ytplayer.setVolume(Crypt.get_volume());
     },
 
     readyLooks: function()

@@ -22,8 +22,14 @@ var Nochan = {
   {
       var output = "";
       var num = 0;
+      var pinned;
+      if(lists[0][5] == 1){
+        pinned = lists.shift();
+      }
       lists.sort(Nochan.sortFunction);
-
+      if(pinned !== undefined){
+        lists.unshift(pinned);
+      }
       pre_card = $(list_html);
 
       Nochan.add_backdrop(lists, 0);
@@ -42,6 +48,17 @@ var Nochan = {
             //$("#channels").append(list_html);
 
             var card = pre_card;
+
+            if(lists[x][5] == 1) 
+            {
+              card.find(".pin").attr("style", "display:block;");
+              card.find(".card").attr("title", "Pinned!");
+            }
+            else 
+            {
+              card.find(".pin").attr("style", "display:none;");
+              card.find(".card").attr("title", "");
+            }
             card.find(".chan-name").text(chan);
             card.find(".chan-name").attr("title", chan);
             card.find(".chan-views").text(viewers);
@@ -158,7 +175,9 @@ $(document).ready(function (){
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
-    })
+    });
+
+    window.socket = socket;
 
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){

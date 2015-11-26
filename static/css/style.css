@@ -41,7 +41,7 @@
     -ms-user-select: none;
     user-select: none;
 }
-
+ 
 .rounded{
   border-radius: 4px;
 }
@@ -76,6 +76,12 @@ nav, .tabs .tab a,
 input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label
 {
     color: #2D2D2D;
+}
+
+.pin{
+  position:absolute;
+  right:10px;
+  font-size:25px;
 }
 
 .field-settings{
@@ -121,6 +127,10 @@ nav .brand-logo{
 
 #fp-nav {
   background-color:rgba(45,45,45,1);
+}
+
+.import-a{
+  width:100%;
 }
 
 #nav-mobile .green:hover{
@@ -848,6 +858,10 @@ nav ul li:hover, nav ul li.active {
   position:absolute;
 }
 
+
+.ui-resizable-e{
+  width:15px;
+}
 
 
 /************** Youtube controls **************/
