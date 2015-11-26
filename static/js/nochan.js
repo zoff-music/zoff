@@ -114,13 +114,13 @@ var Nochan = {
             Nochan.blob_list.push(data);
            //data will contain the vote count echoed by the controller i.e.
             $("#mega-background").css("opacity", 0);
-            $(".room-namer").css("opacity", 0);
+            //$(".room-namer").css("opacity", 0);
             setTimeout(function(){ 
               $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
               $("#mega-background").css("background-size" , "200%");
               $("#mega-background").css("opacity", 1);
               $("#search").attr("placeholder", list[i][3]);
-              $(".room-namer").css("opacity", 1);
+              //$(".room-namer").css("opacity", 1);
             },500); 
           //then append the result where ever you want like
           //$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
