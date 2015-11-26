@@ -382,7 +382,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     border-right:1px solid rgba(255,255,255,0);
     border-top:1px solid rgba(255,255,255,0);
     cursor: pointer;
-    height: 41px;
+    height: 43px;
     line-height: 35.625px;
     margin-left: 20px;
     padding-left: 30px;
@@ -402,6 +402,17 @@ hide mdi-action-visibility mdi-action-visibility-off
   border-top:1px solid rgba(255,255,255,1);
   border-radius: 2px;
 }
+
+.listen-button:focus{
+  border-left:1px solid rgba(255,255,255,1);
+  border-right:1px solid rgba(255,255,255,1);
+  border-top:1px solid rgba(255,255,255,1);
+  border-radius: 2px;
+  background-color:white;
+  color:rgba(255,255,255,0);
+  text-shadow: rgba(18, 18, 18, 0.76) 0px 0px 0px;
+}
+
 .mega .pitch{
     box-sizing: border-box;
     color: rgba(255, 255, 255, 0.85);
