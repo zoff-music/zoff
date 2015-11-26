@@ -43,7 +43,9 @@ var connection_options = {
 	'sync disconnect on unload':true
 };
 
-var socket = io.connect('http://'+window.location.hostname+':8880', connection_options);
+if(window.location.hostname == "zoff.no") add = "dev.zoff.no";
+else add = "localhost";
+var socket = io.connect('http://'+add+':8880', connection_options);
 socket.on("get_list", function(){
     socket.emit('list', chan.toLowerCase());
 });
@@ -71,17 +73,23 @@ $(document).ready(function()
     });
     //awdwad
     $(".video-container").resizable({
+    	start: function(event, ui) {
+        	$('iframe').css('pointer-events','none');
+        },
+    	stop: function(event, ui) {
+        	$('iframe').css('pointer-events','auto');
+      	},
         handles: "e",
         minWidth: 350
     });
-
+    /*
 	if(localStorage[chan.toLowerCase()])
 	{
 		if(localStorage[chan.toLowerCase()].length != 64)
 			localStorage.removeItem(chan.toLowerCase());
 		else
 			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
-	}
+	}*/
 
 	if(window.mobilecheck()){
 		document.getElementById("search").blur();
