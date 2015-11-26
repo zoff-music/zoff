@@ -81,7 +81,7 @@ if(isset($_GET['chan'])){
                     type="text"
                     id="search"
                     name="chan"
-                    placeholder="indie-rock"
+                    placeholder="chill"
                     title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                     autocomplete="off"
                     autofocus=""
