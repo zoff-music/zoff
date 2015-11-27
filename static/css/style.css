@@ -1057,7 +1057,7 @@ nav ul li:hover, nav ul li.active {
     .video-container{
       position: fixed;
       display: block !important;
-      width: 105vw !important;
+      width: 106vw !important;
       height: 200px !important;
       z-index: 2;
       bottom: 4px;
