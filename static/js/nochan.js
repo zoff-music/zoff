@@ -199,8 +199,8 @@ $(document).ready(function (){
         if(pad >= 100)
             window.location.href = 'https://www.youtube.com/v/0IGsNdVoEh0?autoplay=1&showinfo=0&autohide=1';
     });
-
-    if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
+    
+    /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
         if(Nochan.getCookie("show_prompt") == ""){
             var r = confirm("Do you want to download the native app for this webpage?");
@@ -214,7 +214,7 @@ $(document).ready(function (){
                 document.cookie = "show_prompt=false;"+expires;
             }
         }
-     }
+     }*/
 
      git_info = $.ajax({ type: "GET",
 		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
