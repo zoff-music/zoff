@@ -2,6 +2,12 @@ var Playercontrols = {
 
     initYoutubeControls: function(player)
     {
+        if(window.mobilecheck()){
+            console.log(window.mobilecheck())
+            console.log($("#controls"));
+            $("#controls").appendTo("#playbar");
+            //$("#controls").remove();
+        }
         setInterval(Playercontrols.durationSetter, 1000);
         Playercontrols.initControls();
     },

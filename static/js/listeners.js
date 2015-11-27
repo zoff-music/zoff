@@ -92,10 +92,10 @@ $(document).ready(function()
 			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
 	}*/
 
-	if(window.mobilecheck()){
+	/*if(window.mobilecheck()){
 		document.getElementById("search").blur();
 		Youtube.readyLooks();
-	}else{
+	}else{*/
 
 		Chat.setup_chat_listener(chan);
 		Chat.allchat_listener();
@@ -129,7 +129,7 @@ $(document).ready(function()
 				+ git_info[0].commit.message+"<br");
 
 		Helper.sample();
-	}
+	//}
 
   	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function() { });
 	$("#search").focus();
