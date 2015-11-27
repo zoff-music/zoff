@@ -13,7 +13,7 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ###Screenshots of desktop version:
 
-![alt tag](http://puu.sh/ivYFF/e74a007058.jpg)
+![alt tag](http://i.imgur.com/f9MoSDN.png)
 
 ![alt tag](http://puu.sh/ivYKz/b1b65b339c.jpg)
 

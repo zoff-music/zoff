@@ -368,7 +368,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   /*font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;*/
   font-size: 17px;
   height: 42px;
-  line-height: 25px;
+  line-height: 24px;
   min-width: 307px;
   width: 400px;
   word-spacing: 0px;
@@ -377,7 +377,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   color: rgb(255, 255, 255);
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
   border-bottom: 1px solid white !important;
-  padding-left: 100px;
+  padding-left: 91px;
 }
 
 .mega .refresh-button{
