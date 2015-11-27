@@ -1,9 +1,10 @@
 var server;
 
-/*try{
+try{
     var fs = require('fs');
     var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
     var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
+    //var ca          = fs.readFileSync('/etc/apache2/ssl/ca.')
     var credentials = {key: privateKey, cert: certificate};
     var https = require('https');
     server = https.createServer(credentials, handler);
@@ -17,10 +18,10 @@ var server;
     }).listen(8080, function() {
         console.log('Running CORS Anywhere on :' + 8080);
     });
-}*/
-//catch(err){
+}
+catch(err){
     console.log("Starting without https (probably on localhost)");
-//if(err["errno"] != 34)console.log(err);
+if(err["errno"] != 34)console.log(err);
 var cors_proxy = require('cors-anywhere');
 var request = require('request');
 
@@ -32,7 +33,7 @@ cors_proxy.createServer({
 });
 var http = require('http');
 server = http.createServer(handler);
-//}
+}
 
 var io = require('socket.io')(server, {'pingTimeout': 25000});
 
