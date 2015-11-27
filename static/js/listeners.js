@@ -44,9 +44,9 @@ var connection_options = {
 	'secure': true
 };
 
-if(window.location.hostname == "zoff.no") add = "dev.zoff.no";
+if(window.location.hostname == "zoff.no") add = "https://dev.zoff.no";
 else add = "localhost";
-var socket = io.connect('https://'+add+':8880', connection_options);
+var socket = io.connect(''+add+':8880', connection_options);
 socket.on("get_list", function(){
     socket.emit('list', chan.toLowerCase());
 });
