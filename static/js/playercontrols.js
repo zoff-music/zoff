@@ -6,6 +6,7 @@ var Playercontrols = {
             console.log(window.mobilecheck())
             console.log($("#controls"));
             $("#controls").appendTo("#playbar");
+            ytplayer.pauseVideo();
             //$("#controls").remove();
         }
         setInterval(Playercontrols.durationSetter, 1000);

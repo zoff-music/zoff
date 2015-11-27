@@ -38,7 +38,7 @@ var Youtube = {
     					if(paused)
     						ytplayer.pauseVideo();
     				}
-    				if(!paused)
+    				if(!paused && !window.mobilecheck())
     					ytplayer.playVideo();
     				if(ytplayer.getDuration() > seekTo || ytplayer.getDuration() == 0)
     					ytplayer.seekTo(seekTo);
@@ -125,7 +125,8 @@ var Youtube = {
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
 			ytplayer.loadVideoById(video_id);
-			ytplayer.playVideo();
+            if(!window.mobilecheck())
+			 ytplayer.playVideo();
 			ytplayer.seekTo(seekTo);
 		//}
 		Youtube.readyLooks();
