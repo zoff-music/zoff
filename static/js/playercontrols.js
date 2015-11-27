@@ -17,8 +17,6 @@ var Playercontrols = {
     	document.getElementById("volume-button").addEventListener("click", Playercontrols.mute_video);
     	document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
     	document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
-        ytplayer.pauseVideo();
-        Playercontrols.play_pause();
     },
 
     initSlider: function()
