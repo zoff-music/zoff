@@ -178,7 +178,13 @@ $(document).ready(function (){
     window.list_html = list_html;
     $("#channels").empty();
 
-    var socket = io.connect('https://'+window.location.hostname+':8880');
+    var connection_options = {
+      'secure': true
+    };
+
+    if(window.location.hostname == "zoff.no") add = "https://dev.zoff.no";
+    else add = "localhost";
+    var socket = io.connect(''+add+':8880', connection_options);
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
