@@ -1047,6 +1047,7 @@ nav ul li:hover, nav ul li.active {
 
     .page-footer{
       margin-top:40px !important;
+      padding-bottom:200px;
     }
 
     .main, #main-row, .video-container, #playlist{
