@@ -4,8 +4,9 @@ try{
     var fs = require('fs');
     var privateKey  = fs.readFileSync('/etc/apache2/ssl/private.key', 'utf8');
     var certificate = fs.readFileSync('/etc/apache2/ssl/ssl.crt', 'utf8');
-    var ca          = fs.readFileSync('/etc/apache2/ssl/ca.pem')
-    var credentials = {key: privateKey, cert: certificate, ca: ca};
+    var cert          = fs.readFileSync('/etc/apache2/ssl/ca.pem');
+    var ca_bundle     = fs.readFileSync('/etc/apache2/ssl/ca-bundle.pem')
+    var credentials = {key: privateKey, cert: cert, ca: ca_bundle,};
     var https = require('https');
     server = https.createServer(credentials, handler);
 
