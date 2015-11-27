@@ -1016,7 +1016,11 @@ nav ul li:hover, nav ul li.active {
       left: 0;
       right: 0;
     }
-    
+    #controls{
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 1);
+    }
+
     .mega {display:none;}
     .mobile-search{display:block;}
 
