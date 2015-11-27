@@ -199,7 +199,7 @@ $(document).ready(function (){
         if(pad >= 100)
             window.location.href = 'https://www.youtube.com/v/0IGsNdVoEh0?autoplay=1&showinfo=0&autohide=1';
     });
-    
+
     /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
         if(Nochan.getCookie("show_prompt") == ""){
@@ -229,4 +229,11 @@ $(document).ready(function (){
  				+ git_info[0].sha.substring(0,10) + "</a>: "
  				+ git_info[0].commit.message+"<br");
 
+});
+
+$(".listen-button").click(function(){
+  //console.log($(".room-namer").attr("placeholder"));
+  if($(".room-namer").val() == ""){
+    window.location = "?chan="+$(".room-namer").attr("placeholder");
+  }
 });

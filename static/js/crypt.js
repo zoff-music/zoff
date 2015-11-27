@@ -7,7 +7,6 @@ var Crypt = {
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
         	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
         }catch(err){
-        	console.log("err")
         	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
         	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
