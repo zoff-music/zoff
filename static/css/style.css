@@ -299,6 +299,9 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #mega-background{
   -webkit-transition:opacity 0.5s;
+  -moz-transition:opacity 0.5s;
+  -o-transition:opacity 0.5s;
+  transition:opacity 0.5s;
   height:400px;
   width:400px;
   position: absolute;
