@@ -1018,7 +1018,11 @@ nav ul li:hover, nav ul li.active {
     }
     #controls{
     opacity: 1;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #bar{
+      background-color:rgba(0,0,0,1);
     }
 
     .mega {display:none;}
