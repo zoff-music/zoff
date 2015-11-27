@@ -9,7 +9,7 @@ var Youtube = {
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
 
-    			//if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
+    			if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
                 try{
                     ytplayer.stopVideo();
                 }catch(e){}
