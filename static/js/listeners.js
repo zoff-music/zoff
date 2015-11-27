@@ -211,6 +211,10 @@ $('input[class=conf]').change(function()
     Admin.save();
 });
 
+$("#clickme").click(function(){
+	ytplayer.playVideo();
+});
+
 $('#listImport').on("submit", function(){
 	Search.importPlaylist(document.getElementById("import").value);
 });

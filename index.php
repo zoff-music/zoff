@@ -228,6 +228,9 @@
                 </div>
             </div>
         </div>
+        <div id="playbar">
+          <button id="clickme">Play</button>
+        </div>
     </main>
 
     <?php include("php/footer.php"); ?>
