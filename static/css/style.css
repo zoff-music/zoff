@@ -10,6 +10,10 @@
 
 /* GLOBAL STYLES */
 
+#playbar{
+  display:none;
+}
+
 #toast-container{
   left:2% !important;
   pointer-events:none;
@@ -1081,6 +1085,15 @@ nav ul li:hover, nav ul li.active {
 }
 
 @media only screen and (min-width: 992px){
+    #playbar{
+      display:block;
+          position: fixed;
+        bottom: 0px;
+        z-index: 1000;
+        left: 0;
+        right: 0;
+    }
+
     .navbar-fixed {
         height: 64px;
     }
