@@ -1016,6 +1016,7 @@ nav ul li:hover, nav ul li.active {
       left: 0;
       right: 0;
     }
+
     #controls{
       opacity: 1;
       background-color: rgba(255, 255, 255, 0.3);
@@ -1051,6 +1052,15 @@ nav ul li:hover, nav ul li.active {
     .main, #main-row, .video-container, #playlist{
       height:100% !important;
       margin-bottom: -5px;
+    }
+
+    .video-container{
+      position: fixed;
+      display: block !important;
+      width: 105vw !important;
+      height: 200px !important;
+      z-index: 2;
+      bottom: 4px;
     }
 
     .chan {
