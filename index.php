@@ -229,7 +229,25 @@
             </div>
         </div>
         <div id="playbar">
-          <button id="clickme">Play</button>
+          <div id="controls" class="noselect">
+                  <div id="playpause">
+                    <i id="play" class="mdi-av-play-arrow hide"></i>
+                    <i id="pause" class="mdi-av-pause"></i>
+                  </div>
+                  <div id="duration">00:00 / 00:00</div>
+                  <div id="volume-button">
+                    <i id="v-mute" class="mdi-av-volume-off"></i>
+                    <i id="v-low" class="mdi-av-volume-mute"></i>
+                    <i id="v-medium" class="mdi-av-volume-down"></i>
+                    <i id="v-full" class="mdi-av-volume-up"></i>
+                  </div>
+                  <div id="volume"></div>
+                  <div id="fullscreen">
+                    <i class="mdi-navigation-fullscreen"></i>
+                  </div>
+                  <div id="viewers"></div>
+                  <div id="bar"></div>
+                </div>
         </div>
     </main>
 
