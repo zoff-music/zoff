@@ -52,6 +52,7 @@ var Playercontrols = {
 
     play_pause: function()
     {
+        console.log(ytplayer.getPlayerState());
     	if(ytplayer.getPlayerState() == 1)
     	{
     		ytplayer.pauseVideo();
