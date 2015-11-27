@@ -1018,7 +1018,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #controls{
-      opacity: 1;
+      /*opacity: 1;*/
       background-color: rgb(70, 70, 70);
     }
 

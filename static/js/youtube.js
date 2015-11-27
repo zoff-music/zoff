@@ -70,7 +70,10 @@ var Youtube = {
     			break;
     		case 1:
     			playing = true;
-
+                if(beginning && window.mobilecheck()){
+                    ytplayer.pauseVideo();
+                    beginning = false;
+                }
     			if(document.getElementById("play").className.split(" ").length == 1)
     				$("#play").toggleClass("hide");
     			if(document.getElementById("pause").className.split(" ").length == 2)
@@ -118,6 +121,7 @@ var Youtube = {
     },
 
     onPlayerReady: function(event) {
+        beginning = true;
       	player_ready = true;
 		/*if(!window.mobilecheck())
 		{*/
