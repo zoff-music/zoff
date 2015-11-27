@@ -1008,6 +1008,15 @@ nav ul li:hover, nav ul li.active {
 .mobile-search{display:none;}
 
 @media only screen and (max-width: 600px){
+    #playbar{
+      display:block;
+      position: fixed;
+      bottom: 0px;
+      z-index: 1000;
+      left: 0;
+      right: 0;
+    }
+    
     .mega {display:none;}
     .mobile-search{display:block;}
 
@@ -1085,14 +1094,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 @media only screen and (min-width: 992px){
-    #playbar{
-      display:block;
-          position: fixed;
-        bottom: 0px;
-        z-index: 1000;
-        left: 0;
-        right: 0;
-    }
+    
 
     .navbar-fixed {
         height: 64px;
