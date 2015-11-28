@@ -660,9 +660,11 @@ function change_song(coll, error)
                     console.log("err: " + err);
                     console.log("error: " + error);
                     console.log("now_playing_doc: " + now_playing_doc);
-                    request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
+                    console.log("request: " + request);
+                    request.get('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg')
+                        .on('response', function (response) {
                         console.log(response);
-                        if (err || response.statusCode == 404) {
+                        if (response.statusCode == 404) {
                             db.collection(coll).remove({now_playing:true}, function(err, docs){
                                 change_song_post(coll);
                                 io.to(coll).emit("channel", ["deleted", now_playing_doc[0].id]);
