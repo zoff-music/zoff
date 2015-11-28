@@ -298,28 +298,27 @@ hide mdi-action-visibility mdi-action-visibility-off
   height: 100%;
   position: relative;
   z-index: 1;
-  background-color:grey;
+  background-color:#191919;
 }
 
 #mega-background{
-  -webkit-transition:opacity 0.5s;
-  -moz-transition:opacity 0.5s;
-  -o-transition:opacity 0.5s;
-  transition:opacity 0.5s;
+  -webkit-transition:background 0.5s, opacity 0.5s;
+  -moz-transition:background 0.5s, opacity 0.5s;
+  -o-transition:background 0.5s, opacity 0.5s;
+  transition:background 0.5s, opacity 0.5s;
   height:400px;
   width:400px;
   position: absolute;
+  opacity: 0;
   top: 0px;
   left:0px;
   z-index: -1;
   height: 100%;
   width: 100%;
-      background-position: 50% 50%;
-    background-size: inherit;
-    /* background-repeat: no-repeat; */
-    background-size: 124%;
-    background-size: 400% 400% !important;
-    background-position: 50% 50% !important;
+  background-size: 200% !important;
+  background-position: 50% 50% !important;
+  -webkit-filter: brightness(0.8);
+
 }
 
 .room-namer::-webkit-input-placeholder{
@@ -385,6 +384,19 @@ hide mdi-action-visibility mdi-action-visibility-off
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
   border-bottom: 1px solid white !important;
   padding-left: 91px;
+}
+
+.mega ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  opacity: 0.72;
+}
+.mega :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   opacity: 0.72;
+}
+.mega ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   opacity: 0.72;
+}
+.mega :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  opacity: 0.72;
 }
 
 .mega .refresh-button{
