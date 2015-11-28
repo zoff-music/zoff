@@ -788,7 +788,7 @@ nav ul li:hover, nav ul li.active {
 #results{
     background-color: rgba(0,0,0,0.8);
     margin-top: -27px;
-    max-height: 600px;
+    max-height: calc(100vh - 64px);
     overflow: overlay;
 }
 .result:hover, .hoverResults {
@@ -1043,6 +1043,33 @@ nav ul li:hover, nav ul li.active {
     #controls{
       /*opacity: 1;*/
       background-color: rgb(70, 70, 70);
+      height: 50px;
+      margin-top: inherit;
+    }
+
+    #play, #pause, #volume-button, #fullscreen {
+      font-size: 31px;
+    }
+
+    #viewers, #volume{
+      display: none;
+    }
+
+    #duration{
+      font-size: 20px;
+      font-weight: 400;
+      margin-top: 9px;
+      letter-spacing: -0.7px;
+      margin-left: 10px;
+    }
+
+    #volume-button{
+      float: right;
+      margin-right: 20px;
+    }
+
+    #fullscreen{
+      float: right;
     }
 
     #bar{

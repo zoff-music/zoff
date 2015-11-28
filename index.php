@@ -187,6 +187,9 @@
                     <i id="pause" class="mdi-av-pause"></i>
                   </div>
                   <div id="duration">00:00 / 00:00</div>
+                  <div id="fullscreen">
+                    <i class="mdi-navigation-fullscreen"></i>
+                  </div>
                   <div id="volume-button">
                     <i id="v-mute" class="mdi-av-volume-off"></i>
                     <i id="v-low" class="mdi-av-volume-mute"></i>
@@ -194,9 +197,6 @@
                     <i id="v-full" class="mdi-av-volume-up"></i>
                   </div>
                   <div id="volume"></div>
-                  <div id="fullscreen">
-                    <i class="mdi-navigation-fullscreen"></i>
-                  </div>
                   <div id="viewers"></div>
                   <div id="bar"></div>
                 </div>
