@@ -122,7 +122,7 @@ var Nochan = {
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
       var img = new Image();
-      img.src = "/images/thumbnails/"+id;
+      img.src = "/images/thumbnails/"+id+".jpg";
 
       img.onerror = function(){ // Failed to load
           console.log("didn't find");
