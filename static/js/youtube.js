@@ -158,7 +158,7 @@ var Youtube = {
     		};
 
     		img.crossOrigin = 'Anonymous';
-    		img.src         = 'https://zoff.no:8080/http://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    		img.src         = 'https://zoff.no:8080/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     	}
     },
 
