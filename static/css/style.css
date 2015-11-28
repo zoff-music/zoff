@@ -318,6 +318,9 @@ hide mdi-action-visibility mdi-action-visibility-off
   background-size: 200% !important;
   background-position: 50% 50% !important;
   -webkit-filter: brightness(0.8);
+  -moz-filter: brightness(0.8);
+  -o-filter: brightness(0.8);
+  filter: brightness(0.8);
 
 }
 
