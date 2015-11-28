@@ -152,6 +152,7 @@ var Nochan = {
         data: {id:id},
         url: "/php/imageblob.php",
         success: function(data){
+            console.log(data);
             Nochan.blob_list.push(data);
            //data will contain the vote count echoed by the controller i.e.
             //$(".room-namer").css("opacity", 0);
