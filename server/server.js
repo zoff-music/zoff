@@ -656,8 +656,10 @@ function change_song(coll, error)
         {
             db.collection(coll).find({now_playing:true}, function(err, now_playing_doc){
                 if(error){
-                    console.log(error, coll, err);
-                    console.log(request);
+                    console.log("coll: " + coll);
+                    console.log("err: " + err);
+                    console.log("error: " + error);
+                    console.log("now_playing_doc: " + now_playing_doc);
                     request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
                         console.log(response);
                         if (err || response.statusCode == 404) {
