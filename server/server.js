@@ -656,7 +656,7 @@ function change_song(coll, error)
         {
             db.collection(coll).find({now_playing:true}, function(err, now_playing_doc){
                 if(error){
-                    request('http://img.youtube.com/vi/'+docs[0].id+'/mqdefault.jpg', function (err, response, body) {
+                    request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
                         if (err || response.statusCode == 404) {
                             db.collection(coll).remove({now_playing:true}, function(err, docs){
                                 change_song_post(coll);
