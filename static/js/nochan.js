@@ -121,15 +121,6 @@ var Nochan = {
 
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
-      var img = new Image();
-      img.src = "/images/thumbnails/"+id+".jpg";
-
-      img.onerror = function(){ // Failed to load
-          console.log("didn't find");
-      };
-      img.onload = function(){ // Loaded successfully
-          console.log("found");
-      };
       setTimeout(function(){ 
         $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
         $("#mega-background").css("background-size" , "200%");
@@ -138,36 +129,39 @@ var Nochan = {
         //$(".room-namer").css("opacity", 1);
       },500); 
     }else{
+
       var img = new Image();
-      img.src = "/images/thumbnails/"+id+".jpg";
+      img.src = "/static/images/thumbnails/"+id+".jpg";
 
       img.onerror = function(){ // Failed to load
-          console.log("didn't find");
+          $.ajax({
+            type: "POST",
+            data: {id:id},
+            url: "/php/imageblob.php",
+            success: function(data){
+                Nochan.blob_list.push(data);
+               //data will contain the vote count echoed by the controller i.e.
+                //$(".room-namer").css("opacity", 0);
+                setTimeout(function(){ 
+                  $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
+                  $("#mega-background").css("background-size" , "200%");
+                  $("#mega-background").css("opacity", 1);
+                  $("#search").attr("placeholder", list[i][3]);
+                  //$(".room-namer").css("opacity", 1);
+                },500); 
+              //then append the result where ever you want like
+              //$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
+
+              }
+          });
       };
       img.onload = function(){ // Loaded successfully
-          console.log("found");
+          $("#mega-background").css("background", "url("+img.src+")");
+          $("#mega-background").css("background-size" , "200%");
+          $("#mega-background").css("opacity", 1);
+          $("#search").attr("placeholder", list[i][3]);
       };
-      $.ajax({
-        type: "POST",
-        data: {id:id},
-        url: "/php/imageblob.php",
-        success: function(data){
-            console.log(data);
-            Nochan.blob_list.push(data);
-           //data will contain the vote count echoed by the controller i.e.
-            //$(".room-namer").css("opacity", 0);
-            setTimeout(function(){ 
-              $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
-              $("#mega-background").css("background-size" , "200%");
-              $("#mega-background").css("opacity", 1);
-              $("#search").attr("placeholder", list[i][3]);
-              //$(".room-namer").css("opacity", 1);
-            },500); 
-          //then append the result where ever you want like
-          //$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
-
-          }
-      });
+   
     }
     setTimeout(function(){
       Nochan.add_backdrop(list, i+1);
