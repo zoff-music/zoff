@@ -9,7 +9,7 @@ var Youtube = {
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
 
-    			if(!window.mobilecheck()) $("#player_overlay").toggleClass("hide");
+    			if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) $("#player_overlay").toggleClass("hide");
                 try{
                     ytplayer.stopVideo();
                 }catch(e){}
@@ -28,7 +28,7 @@ var Youtube = {
           		Youtube.getTitle(song_title, viewers);
     			Youtube.setBGimage(video_id);
     			//if(player_ready && !window.mobilecheck())
-                if(player_ready)
+                if(player_ready && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     			{
     				if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
     				{
@@ -123,15 +123,15 @@ var Youtube = {
     onPlayerReady: function(event) {
         beginning = true;
       	player_ready = true;
-		/*if(!window.mobilecheck())
-		{*/
+		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+		{
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
 			ytplayer.loadVideoById(video_id);
 			ytplayer.playVideo();
 			ytplayer.seekTo(seekTo);
-		//}
+		}
 		Youtube.readyLooks();
 		Playercontrols.initYoutubeControls(ytplayer);
 		Playercontrols.initSlider();
