@@ -22,19 +22,20 @@ try{
 }
 catch(err){
     console.log("Starting without https (probably on localhost)");
-if(err["errno"] != 34)console.log(err);
-var cors_proxy = require('cors-anywhere');
-var request = require('request');
+    if(err["errno"] != 34)console.log(err);
+    var cors_proxy = require('cors-anywhere');
 
-cors_proxy.createServer({
-    requireHeader: ['origin', 'x-requested-with'],
-    removeHeaders: ['cookie', 'cookie2'],
-}).listen(8080, function() {
-    console.log('Running CORS Anywhere on :' + 8080);
-});
-var http = require('http');
-server = http.createServer(handler);
+    cors_proxy.createServer({
+        requireHeader: ['origin', 'x-requested-with'],
+        removeHeaders: ['cookie', 'cookie2'],
+    }).listen(8080, function() {
+        console.log('Running CORS Anywhere on :' + 8080);
+    });
+    var http = require('http');
+    server = http.createServer(handler);
 }
+
+var request = require('request');
 
 var io = require('socket.io')(server, {'pingTimeout': 25000});
 
@@ -656,7 +657,6 @@ function change_song(coll, error)
         {
             db.collection(coll).find({now_playing:true}, function(err, now_playing_doc){
                 if(error){
-                    console.log(now_playing_doc);
                     request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
                         console.log(response);
                         if (err || response.statusCode == 404) {
