@@ -120,7 +120,6 @@ var Nochan = {
     var id = list[i][1];
 
     if(Nochan.blob_list[i] !== undefined){
-      $("#mega-background").css("opacity", 0);
       //$(".room-namer").css("opacity", 0);
       setTimeout(function(){ 
         $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
@@ -137,7 +136,6 @@ var Nochan = {
         success: function(data){
             Nochan.blob_list.push(data);
            //data will contain the vote count echoed by the controller i.e.
-            $("#mega-background").css("opacity", 0);
             //$(".room-namer").css("opacity", 0);
             setTimeout(function(){ 
               $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
