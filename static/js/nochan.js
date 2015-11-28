@@ -121,6 +121,15 @@ var Nochan = {
 
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
+      var img = new Image();
+      img.src = "/images/thumbnails/"+id;
+
+      img.onerror = function(){ // Failed to load
+          console.log("didn't find");
+      };
+      img.onload = function(){ // Loaded successfully
+          console.log("found");
+      };
       setTimeout(function(){ 
         $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
         $("#mega-background").css("background-size" , "200%");
