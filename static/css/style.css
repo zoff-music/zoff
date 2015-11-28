@@ -1116,6 +1116,15 @@ nav ul li:hover, nav ul li.active {
     }
 }
 
+@media only screen and (max-device-width: 736px)  and (orientation: landscape){
+    .video-container{
+    width: 315px !important;
+    /* height: auto !important; */
+    right: -5px;
+    bottom: 20px;
+    }
+}
+
 @media only screen and (min-width: 992px){
     
 
