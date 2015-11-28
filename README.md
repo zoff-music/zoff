@@ -13,20 +13,20 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ###Screenshots of desktop version:
 
-![alt tag](http://i.imgur.com/f9MoSDN.png)
+![Frontpage desktop](http://i.imgur.com/f9MoSDN.png)
 
-![alt tag](http://puu.sh/ivYKz/b1b65b339c.jpg)
+![Channel desktop](http://puu.sh/ivYKz/b1b65b339c.jpg)
 
-![alt tag](http://puu.sh/ivYVo/9036795b95.jpg)
+![Channel desktop 2](http://puu.sh/ivYVo/9036795b95.jpg)
 
 ###Screenshots of the mobile version:
 
-![alt tag](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![alt tag](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![alt tag](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
+![Frontpage mobile](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![Channel mobile](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![Channel mobile 2](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
 
 ###Android exclusive screens:
 
-![alt tag](http://i.imgur.com/2LMOnUe.png)
-![alt tag](http://i.imgur.com/mIOrtng.png)
+![Android Channel](http://i.imgur.com/2LMOnUe.png)
+![Android Channel 2](http://i.imgur.com/mIOrtng.png)
 
 ###Events
 
