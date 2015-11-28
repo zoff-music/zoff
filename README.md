@@ -25,8 +25,10 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ###Android exclusive screens:
 
-![Android Channel](http://i.imgur.com/2LMOnUe.png)
-![Android Channel 2](http://i.imgur.com/mIOrtng.png)
+<div style="text-align:center;">
+<img src="http://i.imgur.com/2LMOnUe.png" alt="android1" height="600px"> 
+<img src="http://i.imgur.com/mIOrtng.png" alt="android2" height="400px">
+</div>
 
 ###Events
 
