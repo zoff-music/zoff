@@ -1007,7 +1007,7 @@ nav ul li:hover, nav ul li.active {
 
 .mobile-search{display:none;}
 
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 736px) and (max-width:600px){
     #playbar{
       display:block;
       position: fixed;
@@ -1051,7 +1051,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .main, #main-row, .video-container, #playlist{
-      height:100% !important;
+      height:auto !important;
       margin-bottom: -5px;
     }
 
