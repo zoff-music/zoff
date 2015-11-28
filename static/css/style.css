@@ -1007,7 +1007,7 @@ nav ul li:hover, nav ul li.active {
 
 .mobile-search{display:none;}
 
-@media only screen and (max-width: 736px) and (max-width:600px), (orientation: landscape){
+@media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
     #playbar{
       display:block;
       position: fixed;
