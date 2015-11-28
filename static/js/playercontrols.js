@@ -14,6 +14,7 @@ var Playercontrols = {
     	document.getElementById("volume-button").addEventListener("click", Playercontrols.mute_video);
     	document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
     	document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
+
     },
 
     initSlider: function()
@@ -58,9 +59,13 @@ var Playercontrols = {
     	if(ytplayer.getPlayerState() == 1)
     	{
     		ytplayer.pauseVideo();
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+                document.getElementById("player").style.display = "none";
     	}else if(ytplayer.getPlayerState() == 2 || ytplayer.getPlayerState() == 0)
     	{
     		ytplayer.playVideo();
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+                document.getElementById("player").style.display = "block";
     	}
     },
 
