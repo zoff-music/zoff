@@ -154,6 +154,10 @@ var Youtube = {
                 var color      = colorThief.getColor(img);
 
     		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color);
+                if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+                {
+                    $("#controls").style.backgroundColor = Helper.rgbToHsl(color);
+                }
                 $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
     		};
 
