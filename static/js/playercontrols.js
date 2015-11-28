@@ -2,7 +2,7 @@ var Playercontrols = {
 
     initYoutubeControls: function(player)
     {
-        if(window.mobilecheck()){
+        if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
         setInterval(Playercontrols.durationSetter, 1000);
