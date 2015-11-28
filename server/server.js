@@ -277,7 +277,7 @@ io.on('connection', function(socket){
 
             var id = arr[0];
             var title = arr[1];
-            var hash = hash_pass(arr[2]);
+            var hash = hash_pass(decrypt_password(socket.id, arr[2]));
             var duration = parseInt(arr[3]);
             db.collection(coll).find({views:{$exists:true}}, function(err, docs)
             {
@@ -656,7 +656,9 @@ function change_song(coll, error)
         {
             db.collection(coll).find({now_playing:true}, function(err, now_playing_doc){
                 if(error){
+                    console.log(now_playing_doc);
                     request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
+                        console.log(response);
                         if (err || response.statusCode == 404) {
                             db.collection(coll).remove({now_playing:true}, function(err, docs){
                                 change_song_post(coll);
