@@ -12,7 +12,7 @@ $output = $image->getimageblob();
 
 $image->setImageFormat("jpeg");
 
-file_put_contents ("/static/images/thumbnails/".$_POST['id'].".jpg", $image);
+$im->imageWriteFile (fopen ("/static/images/thumbnails/".$_POST['id'].".jpg", "wb"));
 
 echo base64_encode($output);
 ?>
