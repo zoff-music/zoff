@@ -1029,6 +1029,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #player{
+      display:none;
+    }
+
     .hide-on-small-only{
       display:none;
     }
