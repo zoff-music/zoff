@@ -1007,7 +1007,7 @@ nav ul li:hover, nav ul li.active {
 
 .mobile-search{display:none;}
 
-@media only screen and (max-width: 736px) and (max-width:600px){
+@media only screen and (max-width: 736px) and (max-width:600px), (orientation: landscape){
     #playbar{
       display:block;
       position: fixed;
@@ -1015,6 +1015,10 @@ nav ul li:hover, nav ul li.active {
       z-index: 1000;
       left: 0;
       right: 0;
+    }
+
+    .hide-on-small-only{
+      display:none;
     }
 
     #controls{
