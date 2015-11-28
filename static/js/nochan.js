@@ -138,6 +138,15 @@ var Nochan = {
         //$(".room-namer").css("opacity", 1);
       },500); 
     }else{
+      var img = new Image();
+      img.src = "/images/thumbnails/"+id+".jpg";
+
+      img.onerror = function(){ // Failed to load
+          console.log("didn't find");
+      };
+      img.onload = function(){ // Loaded successfully
+          console.log("found");
+      };
       $.ajax({
         type: "POST",
         data: {id:id},
