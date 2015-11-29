@@ -16,7 +16,7 @@
             <div class="col l4 offset-l2 s12 valign-wrapper">
                 <ul>
                     <li>
-                        <a href="https://github.com/zoff-music/Zoff">
+                        <a href="https://github.com/zoff-music/">
                             <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
                         </a>
                         <p>
