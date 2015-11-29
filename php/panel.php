@@ -123,7 +123,7 @@
                             <h4 id="code-text">ABBADUR</h4>
                         </a>
                         <a>
-                          You can control this Zöff instance from another device by going to <b>http://remote.zoff.no/</b>
+                          You can control this Zöff instance from another device by going to <b>https://remote.zoff.no/</b>
                           
                         </a>
                     </li>
