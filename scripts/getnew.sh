@@ -3,4 +3,3 @@ cd /var/www/
 git stash
 git pull
 scripts/./setperms.sh
-forever restart zoff
