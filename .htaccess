@@ -4,6 +4,10 @@ RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
+RewriteCond %{HTTP_HOST} ^remote\.(.*)$ [NC]
+RewriteCond %{REQUEST_URI} !remote/
+RewriteRule ^(.*)$ remote/$1 [L]
+
 #Comment out the two folling lines when running server locally to fix issues with localhost
 #RewriteCond %{HTTPS} !=on
 #RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
