@@ -31,16 +31,16 @@ $(document).ready(function (){
         + git_info[0].sha.substring(0,10) + "</a>: "
         + git_info[0].commit.message+"<br");
 
-    var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    /*var _isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     setTimeout(function(){
       if (_isChrome && !document.getElementById('extension-is-installed') && !window.mobilecheck()) 
         Materialize.toast("<a href='#' onclick='installRemote();' style='pointer-events:all;color:white;'>Install the extension!</a>", 100000);
     }, 5);
     window.installRemote = installRemote;
     window.failed = failed;
-    window.success = success;
+    window.success = success;*/
 });
-
+/*
 function installRemote()
 {
   chrome.webstore.install("", success, failed);
@@ -54,7 +54,7 @@ function failed(e)
 function success()
 {
   console.log("Successfully installed");
-}
+}*/
 
 $("#playbutton").on("click", function()
 {
