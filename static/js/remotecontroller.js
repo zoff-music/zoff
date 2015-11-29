@@ -9,7 +9,11 @@ window.mobilecheck = function() {
 $(document).ready(function (){
     document.title = "Zöff Remote";
     setTimeout(function(){$("#search").focus();},500);
-    socket = io.connect('//'+window.location.hostname+':8880');
+    var connection_options = {
+      'sync disconnect on unload':true,
+      'secure': true
+    };
+    socket = io.connect('https://zoff.no:8880', connection_options);
     id = window.location.pathname.split("/")[1];
     if(id)
     {
