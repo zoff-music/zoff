@@ -61,7 +61,7 @@ var Admin = {
     	socket.on("pw", function(msg)
     	{
     		w_p       = false;
-    		adminpass = msg;
+    		adminpass = Crypt.decrypt_pass(msg);
     		names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
             "removeplay", "skip", "shuffle"];
 
