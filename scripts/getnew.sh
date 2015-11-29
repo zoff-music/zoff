@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /home/kasper/zoff-server
+cd /var/www/
 git stash
 git pull
-/var/www/scripts/./setperms.sh
+scripts/./setperms.sh
 forever restart zoff
