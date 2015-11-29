@@ -1,7 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-    <?php include("header.php"); ?>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+        
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |    Zöff                                                         |
+    |    Project is on github: https://github.com/zoff-music/Zoff       |
+    |    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <title>Zöff</title>
+    <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
+    <meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="UTF-8"/>
+    <meta name="theme-color" content="#2D2D2D" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta property="og:image" content="../static/images/highlogo.png" />
+    <meta property="og:title" content="Zöff"/>
+    <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+    <meta property="og:type" content="website"/>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="../static/css/materialize.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" title="Default" />
+    <link rel="icon" id="favicon" type="image/png" href="../static/images/favicon.png"/>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '***REMOVED***', 'auto');
+      ga('send', 'pageview');
+
+    </script>
     <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jemjlblambcgjmmhheaklfnphncdmfmb" />
 </head>
 <body>
@@ -98,9 +129,71 @@
         </div>
     </main>
 
-    <?php include("../php/footer.php"); ?>
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Zöff</h5>
+                    <p class="grey-text text-lighten-4">The shared YouTube radio</p>
+                    <p class="grey-text text-lighten-4">
+                        Being built around the YouTube search and video API
+                        it enables the creation of collaborative and shared live playlists,
+                        with billions of videos and songs to choose from, all for free and without registration.
+                        <br />
+                        Enjoy!
+                    </p>
+                    <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
+                </div>
+                <div class="col l4 offset-l2 s12 valign-wrapper">
+                    <ul>
+                        <li>
+                            <a href="https://github.com/zoff-music/Zoff">
+                                <img title="Contribute on GitHub" src="../static/images/GitHub_Logo.png" alt="GitHub" />
+                            </a>
+                            <p>
+                                <a class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
+                                    <img class="left" src="../static/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
+                                </a>
+                            </p>
+                            <p>
+                                <a class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                    <img class="left" src="../static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
+                                </a>
+                            </p>
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
+                              <input type="hidden" name="cmd" value="_s-xclick">
+                              <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
+                              <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
+                              </a>
+                            </form>
+                            <p>
+                                <a href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
+                                    <img class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                                </a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; <?php echo date("Y"); ?>
+                <a href="http://nixo.no">Nixo</a> &amp;
+                <a href="http://kasperrt.no">KasperRT</a>
+                &nbsp;&nbsp;All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
+    <script type="text/javascript" src="//cdn.socket.io/socket.io-1.3.5.js"></script>
+
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" src="/static/dist/remote.min.js"></script>
+    <script type="text/javascript" src="../static/dist/remote.min.js"></script>
 	</body>
 </html>
