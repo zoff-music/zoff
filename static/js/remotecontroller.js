@@ -10,9 +10,10 @@ $(document).ready(function (){
     document.title = "Zöff Remote";
     setTimeout(function(){$("#search").focus();},500);
     socket = io.connect('//'+window.location.hostname+':8880');
-    id = window.location.pathname.split("/")[2];
+    id = window.location.pathname.split("/")[1];
     if(id)
     {
+      console.log("remote exists");
       id = id.toLowerCase();
       Remotecontroller.control();
     }
