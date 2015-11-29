@@ -90,7 +90,7 @@ var Remotecontroller = {
       if(!id)
       {
           id = document.getElementById("remoteform").chan.value;
-          window.history.pushState("object or string", "Title", "/remote/"+id);
+          window.history.pushState("object or string", "Title", "/"+id);
       }
       document.getElementById("remoteform").chan.value = "";
       start = false;
