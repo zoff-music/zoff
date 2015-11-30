@@ -1,3 +1,5 @@
+//script for frontpage
+
 var list_html;
 var git_info;
 
@@ -45,7 +47,7 @@ var Nochan = {
       {
 
           var chan = lists[x][3];
-          if(num<8)
+          if(num<16)
           {
             var id = lists[x][1];
             var viewers = lists[x][0];
