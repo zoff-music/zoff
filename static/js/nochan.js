@@ -205,6 +205,9 @@ $(document).ready(function (){
 
     window.socket = socket;
 
+    if(!localStorage["ok_cookie"])
+      Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#ok' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
+
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
         pad+=10;
@@ -242,6 +245,13 @@ $(document).ready(function (){
  				+ git_info[0].sha.substring(0,10) + "</a>: "
  				+ git_info[0].commit.message+"<br");
 
+});
+
+$(document).on('click', '#cookieok', function() {
+    $(this).fadeOut(function(){
+        $(this).remove();
+        localStorage["ok_cookie"] = true;
+    });
 });
 
 $(".listen-button").click(function(){
