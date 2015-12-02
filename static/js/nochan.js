@@ -184,7 +184,7 @@ var Nochan = {
       parent.appendChild(snow);
       Nochan.fall_snow(snow);
       Nochan.start_snowfall();
-    }, 1200);
+    }, 700);
   },
 
   fall_snow: function(corn){
