@@ -184,12 +184,12 @@ var Nochan = {
       parent.appendChild(snow);
       Nochan.fall_snow(snow);
       Nochan.start_snowfall();
-    }, 700);
+    }, 800);
   },
 
   fall_snow: function(corn){
     corn.style.top = (parseInt(corn.style.top.replace("px", ""))+2)+"px";
-    if(parseInt(corn.style.top.replace("px", "")) < document.getElementById("mega-background").offsetHeight-5){
+    if(parseInt(corn.style.top.replace("px", "")) < document.getElementById("mega-background").offsetHeight-2.5){
       setTimeout(function(){
         Nochan.fall_snow(corn);
       },50);
