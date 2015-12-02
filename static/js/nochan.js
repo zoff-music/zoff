@@ -169,9 +169,34 @@ var Nochan = {
       Nochan.add_backdrop(list, i+1);
     },6000);
     
+  },
+
+  start_snowfall: function(){
+    setTimeout(function(){
+      var x = Math.floor((Math.random() * window.innerWidth) + 1);
+      var snow = document.createElement("div");
+      var parent = document.getElementsByClassName("mega")[0];
+
+      snow.className = "snow";
+      //snow.attr("left", x);
+      snow.style.left = x+"px";
+      snow.style.top = "0px";
+      parent.appendChild(snow);
+      Nochan.fall_snow(snow);
+      Nochan.start_snowfall();
+    }, 1200);
+  },
+
+  fall_snow: function(corn){
+    corn.style.top = (parseInt(corn.style.top.replace("px", ""))+2)+"px";
+    if(parseInt(corn.style.top.replace("px", "")) < document.getElementById("mega-background").offsetHeight-5){
+      setTimeout(function(){
+        Nochan.fall_snow(corn);
+      },50);
+    }else{
+      corn.remove();
+    }
   }
-
-
 
 }
 
@@ -215,6 +240,9 @@ $(document).ready(function (){
         if(pad >= 100)
             window.location.href = 'https://www.youtube.com/v/0IGsNdVoEh0?autoplay=1&showinfo=0&autohide=1';
     });
+
+
+    Nochan.start_snowfall();
 
     /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
