@@ -31,7 +31,7 @@ var Crypt = {
 
 	decrypt_pass: function(pass){
 		var decrypted = CryptoJS.AES.decrypt(
-        pass,socket.io.engine.id,
+        pass,socket.id,
         {
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
@@ -58,6 +58,18 @@ var Crypt = {
         if(cookie != "_opt") add = chan.toLowerCase()+";";
         else add = ";"
         document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+	},
+
+	encrypt_string: function(string){
+		var encrypted = CryptoJS.AES.encrypt(
+		  string,
+		  socket.id,
+		  {
+		    mode: CryptoJS.mode.CBC,
+		    padding: CryptoJS.pad.Pkcs7
+		  }
+		);
+		return encrypted.toString();
 	},
 
 	get_volume: function(){
@@ -123,7 +135,7 @@ var Crypt = {
 	crypt_pass: function(pass){
         var encrypted = CryptoJS.AES.encrypt(
 		  pass,
-		  socket.io.engine.id,
+		  socket.id,
 		  {
 		    mode: CryptoJS.mode.CBC,
 		    padding: CryptoJS.pad.Pkcs7
