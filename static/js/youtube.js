@@ -162,6 +162,10 @@ var Youtube = {
     	}
     },
 
+    set_width: function(val){
+        $(".video-container").width(val);
+    },
+
     notifyUser: function(id, title) {
     	title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
       	if (Notification.permission === "granted" && document.hidden && id != "30H2Z8Lr-4c" && !window.mobilecheck()) {

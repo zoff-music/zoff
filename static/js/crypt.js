@@ -11,6 +11,7 @@ var Crypt = {
         	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
+        Youtube.set_width(conf_arr["width"]);
 	},
 
 	decrypt: function(cookie, name){
@@ -142,6 +143,15 @@ var Crypt = {
 		  }
 		);
 		return encrypted.toString();
+	},
+
+	get_width: function(){
+		return conf_arr["width"];
+	},
+
+	set_width: function(val){
+		conf_arr["width"] = val;
+		Crypt.encrypt(conf_arr, "_opt");
 	},
 
 	getCookie: function(name) {
