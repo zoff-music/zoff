@@ -81,8 +81,14 @@ var Search = {
                       songs.find(".search-title").text(title);
                       songs.find(".result_info").text(duration);
                       songs.find(".thumb").attr("data-original", thumb);
-                      songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
-                      $($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+                      //songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
+                      songs.find("#add-many").attr("data-video-id", id);
+                      songs.find("#add-many").attr("data-video-title", enc_title);
+                      songs.find("#add-many").attr("data-video-length", secs);
+                      //$($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+                      songs.find("#temp-results").attr("data-video-id", id);
+                      songs.find("#temp-results").attr("data-video-title", enc_title);
+                      songs.find("#temp-results").attr("data-video-length", secs);
                       //$($(songs).find("div")[0]).attr("id", id)
                       output += songs.html();
 

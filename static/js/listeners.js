@@ -53,9 +53,9 @@ socket.on("get_list", function(){
 
 $(document).ready(function()
 {
-	window.vote 		  = List.vote;
-	window.submit 		  = Search.submit;
-	window.submitAndClose = Search.submitAndClose;
+	//window.vote 		  = List.vote;
+	//window.submit 		  = Search.submit;
+	//window.submitAndClose = Search.submitAndClose;
 
 	if(!localStorage["list_update"] || localStorage["list_update"] != "13.06.15")
 	{
@@ -98,7 +98,6 @@ $(document).ready(function()
 		document.getElementById("search").blur();
 		Youtube.readyLooks();
 	}else{
-
 		Chat.setup_chat_listener(chan);
 		Chat.allchat_listener();
 		Hostcontroller.host_listener();
@@ -243,6 +242,7 @@ $(".chat-tab").click(function(){
     $("#text-chat-input").focus();
 });
 
+
 $("#skip").on("click", function(){
   List.skip();
 });
@@ -282,4 +282,30 @@ $("#admin-lock").on("click", function()
 $("#closeSettings").on("click", function()
 {
   Admin.hide_settings();
+});
+
+$("#results").on( "click", "#temp-results", function(e){
+	if($(e.target).html() != $("<i class='mdi-av-playlist-add'></i>").html()){
+		var id = $(this).attr("data-video-id");
+		var title = $(this).attr("data-video-title");
+		var length = $(this).attr("data-video-length")
+		Search.submitAndClose(id, title, length);
+	}
+});
+
+$("#results").on( "click", "#add-many", function(e){
+	var id = $(this).attr("data-video-id");
+	var title = $(this).attr("data-video-title");
+	var length = $(this).attr("data-video-length")
+	Search.submit(id, title, length);
+});
+
+$("#wrapper").on( "click", ".vote-container", function(e){
+	var id = $(this).attr("data-video-id");
+	List.vote(id, "pos");
+});
+
+$("#wrapper").on( "click", "#del", function(e){
+	var id = $(this).attr("data-video-id");
+	List.vote(id, "del");
 });

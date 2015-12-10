@@ -22,7 +22,7 @@
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="hide-on-large-only">Zöff</a>
                     <span class="hide-on-large-only">/</span>
-                    <span id="chan" class="chan clickable" title="Show big URL" onclick="show()"><?php echo(ucfirst($list));?></span>
+                    <span id="chan" class="chan clickable" title="Show big URL"><?php echo(ucfirst($list));?></span>
                 </div>
 
                 <ul class="title-container">
@@ -123,9 +123,9 @@
                                   <div class="search-title truncate"></div>
                                   <span class="result_info"></span>
 
-                              <a href="#add" class="waves-effect waves-orange btn-flat add-many" title="Add several videos">
+                              <div class="waves-effect waves-orange btn-flat" id="add-many" title="Add several videos">
                                   <i class="mdi-av-playlist-add"></i>
-                              </a>
+                              </div>
                           </div>
                       </div>
                     </div>
@@ -221,7 +221,7 @@
                                 </span>
                             </span>
                             <div class="card-action center-align list-remove hide">
-                                <a title="Remove song" id="del" onclick="vote('id','del')" class="waves-effect btn-flat clickable">Delete</a>
+                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable">Delete</a>
                             </div>
                         </div>
                     </div>
