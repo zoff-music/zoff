@@ -219,10 +219,12 @@ var List = {
     	song.find(".list-title").text(video_title);
     	song.find(".list-title").attr("title", video_title);
     	song.find(".list-votes").text(video_votes);
-    	song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
+    	//song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
+        song.find(".vote-container").attr("data-video-id", video_id);
     	song.find(".list-image").attr(image_attr,video_thumb);
     	song.find("#list-song").attr("id", video_id);
-    	song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
+        song.find("#del").attr("data-video-id", video_id);
+    	//song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 
     	return song.html();
     },

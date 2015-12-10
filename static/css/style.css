@@ -779,14 +779,14 @@ nav ul li:hover, nav ul li.active {
     margin: 15px 20px;
 }
 .result{height:100px;margin-left:40px;}
-.add-many{
+#add-many{
     float:right;
     color:white;
 }
-.add-many:hover{
+#add-many:hover{
     color:orange;
 }
-.add-many i{ line-height: 36px !important;}
+#add-many i{ line-height: 36px !important;}
 #results{
     background-color: rgba(0,0,0,0.8);
     margin-top: -27px;
