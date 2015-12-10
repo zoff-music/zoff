@@ -79,10 +79,12 @@ $(document).ready(function()
         },
     	stop: function(event, ui) {
         	$('iframe').css('pointer-events','auto');
+        	Crypt.set_width($(this).width());
       	},
         handles: "e",
         minWidth: 350
     });
+    
     /*
 	if(localStorage[chan.toLowerCase()])
 	{
