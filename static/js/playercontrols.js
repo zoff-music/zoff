@@ -19,15 +19,7 @@ var Playercontrols = {
 
     initSlider: function()
     {
-    	if(localStorage.volume)
-    	{
-    		//vol = localStorage.getItem("volume");
-            vol = (Crypt.get_volume());
-    	}else{
-    		vol = 100;
-    		//localStorage.setItem("volume", vol);
-            Crypt.set_volume(vol);
-    	}
+        vol = (Crypt.get_volume());
     	$("#volume").slider({
     	    min: 0,
     	    max: 100,
