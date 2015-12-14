@@ -49,7 +49,8 @@ var List = {
 
 		$.each(full_playlist, function(j, current_song){
 			if(!current_song.now_playing){ //check that the song isnt playing
-                $("#wrapper").append(List.generateSong(current_song, false, true));
+                console.log(current_song);
+                $("#wrapper").append(List.generateSong(current_song, false, true, true));
 			}
 		});
 
@@ -186,9 +187,9 @@ var List = {
         i = List.getIndexOfSong(song_info.id);
 
         if(i === 0) 
-         	$("#wrapper").prepend(List.generateSong(song_info, transition));
+         	$("#wrapper").prepend(List.generateSong(song_info, transition, false, true));
         else
-            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition));
+            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition, false, true));
         
         if(transition)
         {
@@ -199,7 +200,7 @@ var List = {
         }
     },
 
-    generateSong: function(song_info, transition, lazy)
+    generateSong: function(song_info, transition, lazy, list)
     {
     	var video_id    = song_info.id;
     	var video_title = song_info.title;
@@ -207,6 +208,9 @@ var List = {
     	var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
         var song        = $("<div>"+list_html+"</div>");
         var image_attr  = "style";
+
+        var attr;
+        var del_attr;
 
         if(transition) song.find("#list-song").css("height", 0);
         if(!w_p) song.find(".card-action").removeClass("hide");
@@ -216,14 +220,32 @@ var List = {
             image_attr  = "data-original";
         } 
 
+        if(list){
+            song.find(".list-votes").text(video_votes);
+            song.find("#list-song").attr("id", video_id);
+
+            attr     = ".vote-container";
+            del_attr = "#del";
+        }else if(!list){
+            console.log(song_info);
+            song.find(".vote-text").text(song_info.duration);
+
+            attr     = ".add-suggested";
+            del_attr = "#del_suggested";
+
+            song.find(".vote-container").attr("class", "clickable add-suggested");
+            song.find("#del").attr("id", "del_suggested");
+            song.find(attr).attr("data-video-title", video_title);
+            song.find(attr).attr("data-video-length", song_info.length);
+            song.find("#list-song").attr("id", "suggested-" + video_id);
+        }
+
     	song.find(".list-title").text(video_title);
     	song.find(".list-title").attr("title", video_title);
-    	song.find(".list-votes").text(video_votes);
     	//song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
-        song.find(".vote-container").attr("data-video-id", video_id);
+        song.find(attr).attr("data-video-id", video_id);
     	song.find(".list-image").attr(image_attr,video_thumb);
-    	song.find("#list-song").attr("id", video_id);
-        song.find("#del").attr("data-video-id", video_id);
+        song.find(del_attr).attr("data-video-id", video_id);
     	//song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 
     	return song.html();

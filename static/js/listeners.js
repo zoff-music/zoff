@@ -313,18 +313,18 @@ $("#wrapper").on( "click", "#del", function(e){
 	List.vote(id, "del");
 });
 
-$(".suggestion-container").on( "click", ".accept", function(e){
+$("#suggestions").on( "click", ".add-suggested", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
 
 
 	Search.submit(id, title, length);
-	$(".suggest-" + id).remove();
+	$("#suggested-" + id).remove();
 });
 
-$(".suggestion-container").on( "click", ".decline", function(e){
+$("#suggestions").on( "click", "#del_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 
-	$(".suggest-" + id).remove();
+	$("#suggested-" + id).remove();
 });

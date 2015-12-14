@@ -515,12 +515,28 @@ hide mdi-action-visibility mdi-action-visibility-off
   line-height:24px;
 }
 
+.playlist-tabs .indicator{
+  background-color:white !important;
+}
+
+.playlist-tabs .indicator, .tabs .indicator{
+  width:50%;
+}
+
+.playlist-tab-links{
+  color:white !important;
+}
+
+.playlist-tabs{
+  background-color:rgba(0,0,0,0) !important;
+}
+
 .duration-song{
   font-size:12px;
 }
 
 .suggest-title-info{
-  color: rgb(68,68,68);
+  color: white;
   padding: 10px 0 10px 10px !important;
   line-height: 34px;
   margin: 0 0 -10px 0 !important;
@@ -855,10 +871,11 @@ nav ul li:hover, nav ul li.active {
   padding-left: 10px;
 }
 
-#del{
+#del, #del_suggested{
     height: 100%;
     line-height: normal;
     padding: 2px 12px;
+    color:white;
 }
 
 .result {
