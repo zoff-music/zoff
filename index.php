@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
-              <ul class="tabs playlist-tabs hide">
+              <ul class="tabs playlist-tabs hide-on-small-only hide">
                 <li class="tab col s3"><a class="playlist-tab-links" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links" href="#suggestions">Suggested</a></li>
               </ul>
