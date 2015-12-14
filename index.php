@@ -202,6 +202,10 @@
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
+              <ul class="tabs playlist-tabs hide">
+                <li class="tab col s3"><a class="playlist-tab-links" href="#wrapper">Playlist</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links" href="#suggestions">Suggested</a></li>
+              </ul>
                 <div id="wrapper">
                     <div id="preloader" class="progress channel_preloader">
                         <div class="indeterminate"></div>
@@ -225,6 +229,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="suggestions">
+                        <p class="suggest-title-info">YouTube Suggests:</p>
+                        <div class="suggest_bar" id="suggest-song-html">
+                            
+                        </div>  
                 </div>
             </div>
         </div>
