@@ -49,7 +49,6 @@ var List = {
 
 		$.each(full_playlist, function(j, current_song){
 			if(!current_song.now_playing){ //check that the song isnt playing
-                console.log(current_song);
                 $("#wrapper").append(List.generateSong(current_song, false, true, true));
 			}
 		});
@@ -227,7 +226,6 @@ var List = {
             attr     = ".vote-container";
             del_attr = "#del";
         }else if(!list){
-            console.log(song_info);
             song.find(".vote-text").text(song_info.duration);
 
             attr     = ".add-suggested";

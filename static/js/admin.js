@@ -60,6 +60,7 @@ var Admin = {
 
     	socket.on("pw", function(msg)
     	{
+
     		w_p       = false;
     		adminpass = msg;
     		names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
@@ -158,8 +159,10 @@ var Admin = {
                     "removeplay", "skip", "shuffle"];
 
 
-        if(conf_array['adminpass'] == "" || !w_p) 
+        if(conf_array['adminpass'] == "" || !w_p){
             hasadmin = false;
+            $(".playlist-tabs").removeClass("hide");
+        }
         else hasadmin = true;
         
         for (var i = 0; i < names.length; i++) 
@@ -207,7 +210,7 @@ var Admin = {
 
     get_admin:function()
     {
-        return w_p;
+        return [w_p, hasadmin];
     }
 
  }
