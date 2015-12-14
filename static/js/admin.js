@@ -75,6 +75,7 @@ var Admin = {
     		$("#admin-lock").removeClass("mdi-action-lock");
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
+            $(".suggestion-panel").removeClass("hide");
 
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
@@ -130,13 +131,17 @@ var Admin = {
     		$("#admin-lock").addClass("mdi-action-lock");
         }
 
+        if(!Helper.contains($(".suggestion-panel").attr("class").split(" "), "hide")){
+            $(".suggestion-panel").addClass("hide");
+        }
+
     	if($(".card-action").length != 0 && 
             !Helper.contains($(".card-action").attr("class").split(" "), "hide")){
     		$(".card-action").addClass("hide");
         }
 
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
-        $("#password").attr("placeholder", "Enter channel password")
+        $("#password").attr("placeholder", "Enter channel password");
     },
 
     //function used in html onlick
@@ -150,6 +155,7 @@ var Admin = {
         longsongs = conf_array["longsongs"];
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos", 
                     "removeplay", "skip", "shuffle"];
+
 
         if(conf_array['adminpass'] == "" || !w_p) 
             hasadmin = false;
@@ -197,5 +203,10 @@ var Admin = {
     {
     	socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
     },
+
+    get_admin:function()
+    {
+        return w_p;
+    }
 
  }
