@@ -154,6 +154,35 @@
         </li>
     </ul>
 </li>
+
+<li class="no-padding suggestion-panel hide-on-small-only hide">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect suggested">Suggested Songs
+                <i class="mdi-av-playlist-add"></i>
+            </a>
+            <div class="collapsible-body">
+                <ul>
+                    <li class="white-bg suggestion-container">
+                        <p class="suggest-title-info">YouTube Suggests:</p>
+                        <div class="suggest_bar" id="suggest-song-html">
+                            <div class="suggest-songs">
+                                <div class="inner-suggest">
+                                <img class="suggest_thumb" src="/static/images/loading.png" alt="Thumb"/>
+                                <div class="collection-suggestion-info">
+                                <span class="suggest_title truncate"></span>
+                                <span class="duration-song truncate">10m 20s</span>
+                                </div>
+                                <span class="suggest_buttons"><button class="accept waves-effect waves-light btn light-green">Add</button><button class="decline waves-effect waves-light btn red">Delete</button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>   
+                </ul>
+            </div>
+        </li>
+    </ul>
+</li>
 <!--
 <li class="no-padding">
     <h5 id="desc-title">List description</h5>

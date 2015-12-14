@@ -135,7 +135,7 @@ nav .brand-logo{
   background-color:rgba(45,45,45,1);
 }
 
-.import-a{
+.import-a, .suggested{
   width:100%;
 }
 
@@ -480,6 +480,51 @@ hide mdi-action-visibility mdi-action-visibility-off
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
+
+.suggest_thumb {
+  width:25%;
+  float:left;
+}
+
+.suggest_bar {
+  /*margin-left:5px !important;*/
+  color:rgb(68,68,68);
+}
+
+.suggest_buttons button{
+  padding-left:10px !important;
+  padding-right:10px !important;
+  margin-right: 20px; 
+  width:90px;
+}
+
+.inner-suggest{
+  padding-left:20px;
+}
+
+.suggest-songs:nth-child(odd) {background: rgba(204,204,204,0.40)}
+.suggest-songs:nth-child(even) {background: #FFF}
+
+.suggest-songs {
+  padding-top:20px;
+  border-bottom:1px solid black;
+}
+
+.suggest_title, .duration-song{
+  padding-left:10px;
+  line-height:24px;
+}
+
+.duration-song{
+  font-size:12px;
+}
+
+.suggest-title-info{
+  color: rgb(68,68,68);
+  padding: 10px 0 10px 10px !important;
+  line-height: 34px;
+  margin: 0 0 -10px 0 !important;
+}
 
 #description, #desc-title{
   color:#444;

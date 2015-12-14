@@ -17,6 +17,11 @@ var Youtube = {
     		}
     		else{
     			//console.log("gotten new song");
+                if(previous_video_id == undefined) 
+                    previous_video_id = obj[0][0]["id"];
+                else if(previous_video_id != video_id)
+                    previous_video_id = video_id;
+
                 video_id   = obj[0][0]["id"];
                 conf       = obj[1][0];
                 time       = obj[2];
@@ -25,6 +30,7 @@ var Youtube = {
 
     			$("#player_overlay").addClass("hide");
 
+                Suggestions.fetchYoutubeSuggests(video_id);
           		Youtube.getTitle(song_title, viewers);
     			Youtube.setBGimage(video_id);
     			//if(player_ready && !window.mobilecheck())

@@ -3,6 +3,7 @@ var w_p 				  = true;
 var hasadmin			  = 0;
 var showToggle 			  = true;
 var list_html 			  = $("#list-song-html").html();
+var suggest_html		  = $("#suggest-song-html").html();
 var blink_interval_exists = false;
 var unseen 			   	  = false;
 var timer 			   	  = 0;
@@ -38,7 +39,7 @@ var video_id;
 var list;
 var seekTo;
 var song_title;
-
+var previous_video_id;
 var connection_options = {
 	'sync disconnect on unload':true,
 	'secure': true
@@ -286,17 +287,19 @@ $("#closeSettings").on("click", function()
 
 $("#results").on( "click", "#temp-results", function(e){
 	if($(e.target).html() != $("<i class='mdi-av-playlist-add'></i>").html()){
-		var id = $(this).attr("data-video-id");
-		var title = $(this).attr("data-video-title");
-		var length = $(this).attr("data-video-length")
+		var id 		= $(this).attr("data-video-id");
+		var title 	= $(this).attr("data-video-title");
+		var length 	= $(this).attr("data-video-length");
+
 		Search.submitAndClose(id, title, length);
 	}
 });
 
 $("#results").on( "click", "#add-many", function(e){
-	var id = $(this).attr("data-video-id");
-	var title = $(this).attr("data-video-title");
-	var length = $(this).attr("data-video-length")
+	var id 		= $(this).attr("data-video-id");
+	var title 	= $(this).attr("data-video-title");
+	var length 	= $(this).attr("data-video-length");
+
 	Search.submit(id, title, length);
 });
 
@@ -308,4 +311,20 @@ $("#wrapper").on( "click", ".vote-container", function(e){
 $("#wrapper").on( "click", "#del", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "del");
+});
+
+$(".suggestion-container").on( "click", ".accept", function(e){
+	var id 		= $(this).attr("data-video-id");
+	var title 	= $(this).attr("data-video-title");
+	var length 	= $(this).attr("data-video-length");
+
+
+	Search.submit(id, title, length);
+	$(".suggest-" + id).remove();
+});
+
+$(".suggestion-container").on( "click", ".decline", function(e){
+	var id = $(this).attr("data-video-id");
+
+	$(".suggest-" + id).remove();
 });
