@@ -232,9 +232,11 @@
                 </div>
                 <div id="suggestions">
                         <p class="suggest-title-info">YouTube Suggests:</p>
-                        <div class="suggest_bar" id="suggest-song-html">
-                            
+                        <div class="suggest_bar" id="suggest-song-html"> 
                         </div>  
+                        <p class="suggest-title-info hide">Users Suggests:</p>
+                        <div class="suggest_bar hide" id="user-suggest-html">
+                        </div>
                 </div>
             </div>
         </div>
