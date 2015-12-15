@@ -56,6 +56,9 @@ var Admin = {
                 case "suggested":
                     msg="Your song was suggested!";
                     break;
+                case "alreadyplay":
+                    msg="Seems the song you want is already playing. No fooling the system!";
+                    break;
     		}
     		Materialize.toast(msg, 4000);
     	});
