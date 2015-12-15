@@ -296,7 +296,7 @@ $("#results").on( "click", "#temp-results", function(e){
 		var id 		= $(this).attr("data-video-id");
 		var title 	= $(this).attr("data-video-title");
 		var length 	= $(this).attr("data-video-length");
-
+		
 		Search.submitAndClose(id, title, length);
 	}
 });
