@@ -1,7 +1,26 @@
 var Suggestions = {
 
-	catchUserSuggests: function(suggested){
+	catchUserSuggests: function(params, single){
+		if(single){
+			Suggestions.createSuggested(params);
+		}else{
+			for(x in params){
+				Suggestions.createSuggested(params[x]);
+			}
+		}
+	},
 
+	createSuggested: function(params){
+		var secs 	= params.duration;
+		var video_id 	= params.id;
+		var video_title = params.title;
+		var minutes 	= Math.floor(secs / 60);
+		var seconds 	= secs - minutes * 60;
+
+		duration 		= minutes+"m " + seconds + "s";
+
+		var song 		= List.generateSong({id: video_id, title: video_title, length: secs, duration: duration}, false, false, false, true);
+		$("#user-suggest-html").append(song);
 	},
 
 	fetchYoutubeSuggests: function(id){
@@ -33,20 +52,10 @@ var Suggestions = {
                     	var secs 		 = Search.durationToSeconds(duration);
                     	var video_id 	 = song.id;
                     	var video_title  = song.snippet.title;
-                    	var suggest_song = $("<div><div class='suggest-songs suggest-"+video_id+"'>" + $(suggest_html).html() + "</div></div>");
-                    	
+
                     	duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
 
-                    	window.suggest_song = suggest_song;
-                    	suggest_song.find(".suggest_thumb").attr("src", "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg")
-                    	suggest_song.find(".suggest_title").text(video_title);
-                    	suggest_song.find(".duration-song").text(duration);
-                    	suggest_song.find(".accept").attr("data-video-id", video_id);
-                    	suggest_song.find(".accept").attr("data-video-title", video_title);
-                    	suggest_song.find(".accept").attr("data-video-length", secs);
-						suggest_song.find(".decline").attr("data-video-id", video_id);
-
-                    	$("#suggest-song-html").append(List.generateSong({id: song.id, title: song.snippet.title, length: secs, duration: duration}, false, false, false));
+                    	$("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: secs, duration: duration}, false, false, false));
                     });
           		}
           	});

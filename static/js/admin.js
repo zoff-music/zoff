@@ -53,6 +53,9 @@ var Admin = {
                 case "changedpass":
                     msg="Your password has been changed!";
                     break;
+                case "suggested":
+                    msg="Your song was suggested!";
+                    break;
     		}
     		Materialize.toast(msg, 4000);
     	});
@@ -77,6 +80,7 @@ var Admin = {
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
             $(".playlist-tabs").removeClass("hide");
+            $("#wrapper").toggleClass("tabs_height");
 
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
@@ -134,6 +138,7 @@ var Admin = {
 
         if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")){
             $(".playlist-tabs").addClass("hide");
+            $("#wrapper").toggleClass("tabs_height");
         }
 
     	if($(".card-action").length != 0 && 
@@ -162,6 +167,7 @@ var Admin = {
         if(conf_array['adminpass'] == "" || !w_p){
             hasadmin = false;
             $(".playlist-tabs").removeClass("hide");
+            $("#wrapper").toggleClass("tabs_height")
         }
         else hasadmin = true;
         

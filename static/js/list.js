@@ -64,6 +64,7 @@ var List = {
     added_song: function(added){
         full_playlist.push(added);
         List.sortList();
+        $("#suggested-"+added.id).remove();
         List.insertAtIndex(added, true);
     },
 
@@ -86,6 +87,7 @@ var List = {
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
             $("#wrapper").children()[$("#wrapper").children().length-1].remove();
         }
+        $("#suggested-"+deleted).remove();
     },
 
     voted_song: function(voted, time){
@@ -199,7 +201,7 @@ var List = {
         }
     },
 
-    generateSong: function(song_info, transition, lazy, list)
+    generateSong: function(song_info, transition, lazy, list, user)
     {
     	var video_id    = song_info.id;
     	var video_title = song_info.title;
@@ -224,18 +226,25 @@ var List = {
             song.find("#list-song").attr("id", video_id);
 
             attr     = ".vote-container";
-            del_attr = "#del";
+            del_attr = "del";
         }else if(!list){
+
             song.find(".vote-text").text(song_info.duration);
 
             attr     = ".add-suggested";
-            del_attr = "#del_suggested";
+            if(user)
+                del_attr = "del_user_suggested";
+            else
+                del_attr = "del_suggested";
 
             song.find(".vote-container").attr("class", "clickable add-suggested");
-            song.find("#del").attr("id", "del_suggested");
+            song.find(".add-suggested").attr("title", "Add song!");
+            song.find("#del").attr("id", del_attr);
             song.find(attr).attr("data-video-title", video_title);
             song.find(attr).attr("data-video-length", song_info.length);
             song.find("#list-song").attr("id", "suggested-" + video_id);
+            song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
+
         }
 
     	song.find(".list-title").text(video_title);
@@ -243,7 +252,8 @@ var List = {
     	//song.find(".vote-container").attr("onclick", "vote('"+video_id+"','pos')");
         song.find(attr).attr("data-video-id", video_id);
     	song.find(".list-image").attr(image_attr,video_thumb);
-        song.find(del_attr).attr("data-video-id", video_id);
+        song.find(".list-suggested-image").attr(image_attr,video_thumb);
+        song.find("#"+del_attr).attr("data-video-id", video_id);
     	//song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 
     	return song.html();
