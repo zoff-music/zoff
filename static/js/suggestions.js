@@ -8,6 +8,7 @@ var Suggestions = {
 				Suggestions.createSuggested(params[x]);
 			}
 		}
+		Suggestions.checkUserEmpty();
 	},
 
 	createSuggested: function(params){
@@ -61,6 +62,16 @@ var Suggestions = {
           	});
         }
       });
-	}
+	},
+
+	checkUserEmpty: function(){
+		var length = $("#user-suggest-html").children().length
+		if(length == 0){
+			if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
+    		  $("#user_suggests").addClass("hide");
+		}else{
+			$("#user_suggests").removeClass("hide");
+		}
+	},
 
 }
