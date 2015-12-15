@@ -88,6 +88,7 @@ var List = {
             $("#wrapper").children()[$("#wrapper").children().length-1].remove();
         }
         $("#suggested-"+deleted).remove();
+        Suggestions.checkUserEmpty();
     },
 
     voted_song: function(voted, time){

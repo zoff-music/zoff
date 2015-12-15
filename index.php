@@ -234,7 +234,7 @@
                         <p class="suggest-title-info">YouTube Suggests:</p>
                         <div class="suggest_bar" id="suggest-song-html"> 
                         </div>  
-                        <p class="suggest-title-info">Users Suggests:</p>
+                        <p class="suggest-title-info" id="user_suggests">Users Suggests:</p>
                         <div class="suggest_bar" id="user-suggest-html">
                         </div>
                 </div>
