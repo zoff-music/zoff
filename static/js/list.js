@@ -186,7 +186,6 @@ var List = {
     },
 
     insertAtIndex: function(song_info, transition) {
-        if(video_id == song_info.id) return;
         i = List.getIndexOfSong(song_info.id);
 
         if(i === 0) 
