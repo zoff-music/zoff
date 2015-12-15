@@ -1,6 +1,8 @@
 Zöff
 ====
 
+For the server-side repo, go to <a href="https://github.com/zoff-music/zoff-server">here</a>
+
 Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. 
 
 Zöff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
