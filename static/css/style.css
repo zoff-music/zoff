@@ -911,7 +911,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .tabs_height{
-  height:calc(100vh - 48px - 64px) !important;
+  height:91% !important;
   overflow:auto;
 }
 
