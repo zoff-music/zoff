@@ -230,7 +230,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="suggestions" class="tabs_height">
+                <div id="suggestions" class="tabs_height hide-on-small-only">
                         <p class="suggest-title-info">YouTube Suggests:</p>
                         <div class="suggest_bar" id="suggest-song-html"> 
                         </div>  
