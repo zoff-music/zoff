@@ -3,7 +3,6 @@ var w_p 				  = true;
 var hasadmin			  = 0;
 var showToggle 			  = true;
 var list_html 			  = $("#list-song-html").html();
-var suggest_html		  = $("#suggest-song-html").html();
 var blink_interval_exists = false;
 var unseen 			   	  = false;
 var timer 			   	  = 0;
@@ -50,6 +49,13 @@ else add = "localhost";
 var socket = io.connect(''+add+':8880', connection_options);
 socket.on("get_list", function(){
     socket.emit('list', chan.toLowerCase());
+});
+
+socket.on("suggested", function(params){
+	var single = true;
+	if(params.id == undefined)
+		single = false;
+	Suggestions.catchUserSuggests(params, single);
 });
 
 $(document).ready(function()
@@ -327,4 +333,10 @@ $("#suggestions").on( "click", "#del_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 
 	$("#suggested-" + id).remove();
+});
+
+$("#suggestions").on( "click", "#del_user_suggested", function(e){
+	var id = $(this).attr("data-video-id");
+	$("#suggested-" + id).remove();
+	List.vote(id, "del");
 });

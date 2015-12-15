@@ -230,12 +230,12 @@
                         </div>
                     </div>
                 </div>
-                <div id="suggestions">
+                <div id="suggestions" class="tabs_height">
                         <p class="suggest-title-info">YouTube Suggests:</p>
                         <div class="suggest_bar" id="suggest-song-html"> 
                         </div>  
-                        <p class="suggest-title-info hide">Users Suggests:</p>
-                        <div class="suggest_bar hide" id="user-suggest-html">
+                        <p class="suggest-title-info">Users Suggests:</p>
+                        <div class="suggest_bar" id="user-suggest-html">
                         </div>
                 </div>
             </div>
