@@ -68,6 +68,20 @@ footer{
 }
 
 /* global colors */
+
+.modal-header-fixed{
+  position:fixed;
+  width:100px;
+  right:0px;
+}
+
+.help-button-footer{
+  padding: 10px;
+  background: white;
+  border-radius: 2px;
+  color:#2d2d2d;
+}
+
 footer.page-footer,
 nav, .tabs .tab a,
 .side-nav .collapsible-body li.active,

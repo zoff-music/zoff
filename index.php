@@ -138,6 +138,20 @@
             </div>
         </nav>
       </div>
+      <div id="help" class="modal">
+        <div class="modal-header-fixed">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+            <div class="modal-content">
+                <h4>So you need help?</h4>
+                <p>When listening on a channel, there are some different buttons you can click.</p>
+                <p>If you click the cogwheel, you'll open the settings panel. Here you can change channel settings, decide if you want the computer you're on can be remote-controlled, and import playlists from YouTube.</p>
+                <p>The search-icon, opens up a search inputfield. If you start typing here, the site will automagically search for your input!</p>
+                <p>If you click the button next to the search icon, you'll skip on a song. The one next to that one, is shuffleling of the list. Next one there again is to open the chat.</p>
+                <p>Clicking a song in the playlist, gives it a vote. If you're logged in, you'll have a delete button at your disposal.</p>
+                <p>Also, whenever you're logged in, you'll have two tabs in the top of the playlist thats called "Playlist" and "Suggested". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
+            </div>
+        </div>
     </header>
     <main class="container center-align main">
         <div id="main-row" class="row">

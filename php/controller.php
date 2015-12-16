@@ -13,6 +13,7 @@
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                  <li><a class="modal-trigger waves-effect waves-green" title="Need help with the site?" onclick="$('#help').openModal()">Help</a></li>
                   <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
                   <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
@@ -46,6 +47,17 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="help" class="modal">
+        <div class="modal-header-fixed">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+            <div class="modal-content">
+                <h4>So you need help?</h4>
+                <p>To remote-controll a computer, just type in the ID for that computer. (This can be found in the settings panel on the computer you want to remote controll. There is also a QR code for you to scan.</p>
+                <p>When you've entered the ID for the computer you want to controll, you'll be able to change the volume, have the controlled computer vote for skipping, pause the video or play the video.</p>
+                <p>The inputfield you used to enter the ID (if you entered it), has now changed some. If you type in something here now, the controlled computer will change channel!</p>
             </div>
         </div>
     </header>
