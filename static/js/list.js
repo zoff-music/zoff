@@ -189,9 +189,9 @@ var List = {
         i = List.getIndexOfSong(song_info.id);
 
         if(i === 0) 
-         	$("#wrapper").prepend(List.generateSong(song_info, transition, false, true));
+         	$("#wrapper").prepend(List.generateSong(song_info, transition, false, true, false));
         else
-            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition, false, true));
+            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition, false, true, false));
         
         if(transition)
         {
