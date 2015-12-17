@@ -281,6 +281,12 @@ $(document).on('click', '#cookieok', function() {
     });
 });
 
+$(document).on('click', '#toast-container', function(){
+  $(this).fadeOut(function(){
+        $(this).remove();
+    });
+});
+
 $(".listen-button").click(function(){
   //console.log($(".room-namer").attr("placeholder"));
   if($(".room-namer").val() == ""){

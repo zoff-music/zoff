@@ -340,3 +340,9 @@ $("#suggestions").on( "click", "#del_user_suggested", function(e){
 	$("#suggested-" + id).remove();
 	List.vote(id, "del");
 });
+
+$(document).on('click', '#toast-container', function(){
+  $(this).fadeOut(function(){
+        $(this).remove();
+    });
+});
