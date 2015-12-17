@@ -18,7 +18,8 @@
 
 #toast-container{
   left:2% !important;
-  pointer-events:none;
+  cursor:pointer;
+  /*pointer-events:none;*/
 }
 
 ::-webkit-scrollbar-track
