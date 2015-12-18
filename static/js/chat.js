@@ -4,7 +4,10 @@ var Chat = {
   {
     if(data.value.length > 150)
       return;
-    if($(".tab a.active").attr("href") == "#all_chat")
+    if(data.value.startsWith("/name ")){
+      socket.emit("namechange", data.value.substring(6));
+    }
+    else if($(".tab a.active").attr("href") == "#all_chat")
       socket.emit("all,chat", data.value);
     else
       socket.emit("chat", data.value);
