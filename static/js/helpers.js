@@ -168,16 +168,22 @@ var Helper = {
         return "#" + Helper.componentToHex(r) + Helper.componentToHex(g) + Helper.componentToHex(b);
     }
 
-  }
+}
 
-  Element.prototype.remove = function() {
-      this.parentElement.removeChild(this);
-  }
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
 
-  NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-      for(var i = 0, len = this.length; i < len; i++) {
-          if(this[i] && this[i].parentElement) {
-              this[i].parentElement.removeChild(this[i]);
-          }
-      }
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+
+String.prototype.startsWith = function(searchString, position) {
+    position = position || 0;
+    return this.indexOf(searchString, position) === position;
 }
