@@ -26,6 +26,8 @@ var Nochan = {
 
   blob_list: [],
 
+  winter: false,
+
   populate_channels: function(lists)
   {
       var output = "";
@@ -241,7 +243,7 @@ $(document).ready(function (){
             window.location.href = 'https://www.youtube.com/v/0IGsNdVoEh0?autoplay=1&showinfo=0&autohide=1';
     });
 
-    if(!window.mobilecheck()) Nochan.start_snowfall();
+    if(!window.mobilecheck() && Nochan.winter) Nochan.start_snowfall();
 
     /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
         //console.log("android");
