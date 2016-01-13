@@ -1,9 +1,15 @@
 var Youtube = {
 
+    loaded: true,
+    before_load: "",
+    after_load: "",
+
     setup_youtube_listener: function(channel)
     {
     	socket.on("np", function(obj)
     	{
+            Youtube.loaded      = false;
+            if(video_id != undefined) Youtube.before_load = ytplayer.getVideoUrl();
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -48,6 +54,8 @@ var Youtube = {
     					ytplayer.playVideo();
     				if(ytplayer.getDuration() > seekTo || ytplayer.getDuration() == 0)
     					ytplayer.seekTo(seekTo);
+                    Youtube.after_load  = video_id;
+                    setTimeout(function(){Youtube.loaded = true;},500);
     			}
     			else
             		Youtube.getTitle(song_title, viewers);
@@ -121,8 +129,26 @@ var Youtube = {
     {
     	if(newState.data == 5 || newState.data == 100 
             || newState.data == 101 || newState.data == 150)
-    		socket.emit("skip", newState.data);
-    	else if(video_id !== undefined)
+        {
+            /*if(Youtube.count == 2){
+                Youtube.count = 0;*/
+            /*console.log("Before: " + Youtube.before_load);
+            console.log("Now: " + video_id);
+            console.log("After: " + Youtube.after_load);
+            console.log(Youtube.before_load == ytplayer.getVideoUrl);*/
+            curr_playing = ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
+
+            if(Youtube.loaded && video_id == curr_playing) {
+                socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass});
+                //console.log(video_id, ytplayer.getVideoUrl(), ytplayer.getPlayerState());
+            }
+            /*}else{
+                setTimeout(function(){
+                ytplayer.loadVideoById(video_id);
+                Youtube.count ++;
+                }, Math.floor((Math.random() * 100) + 1));
+            }*/
+    	}else if(video_id !== undefined)
     		ytplayer.loadVideoById(video_id);
     },
 
