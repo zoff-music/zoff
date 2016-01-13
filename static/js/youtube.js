@@ -138,10 +138,10 @@ var Youtube = {
             console.log(Youtube.before_load == ytplayer.getVideoUrl);*/
             curr_playing = ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
-            if(Youtube.loaded && video_id == curr_playing) {
+            
                 socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass});
                 //console.log(video_id, ytplayer.getVideoUrl(), ytplayer.getPlayerState());
-            }
+            
             /*}else{
                 setTimeout(function(){
                 ytplayer.loadVideoById(video_id);
