@@ -289,9 +289,10 @@ $(document).on('click', '#toast-container', function(){
     });
 });
 
-$(".listen-button").click(function(){
+$(".listen-button").click(function(e){
   //console.log($(".room-namer").attr("placeholder"));
   if($(".room-namer").val() == ""){
+    e.preventDefault();
     window.location = "?chan="+$(".room-namer").attr("placeholder");
   }
 });
