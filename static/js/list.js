@@ -126,7 +126,7 @@ var List = {
     },
 
     skip: function(){
-    	socket.emit('skip', [chan, adminpass]);
+    	socket.emit('skip', {pass: adminpass, id:video_id});
     	return true;
     },
 
