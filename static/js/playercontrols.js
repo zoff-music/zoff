@@ -1,11 +1,13 @@
 var Playercontrols = {
 
+    interval: null,
+
     initYoutubeControls: function(player)
     {
         if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
-        setInterval(Playercontrols.durationSetter, 1000);
+        Playercontrols.interval = setInterval(Playercontrols.durationSetter, 1000);
         Playercontrols.initControls();
     },
 
@@ -15,6 +17,11 @@ var Playercontrols = {
     	document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
     	document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
 
+    },
+
+    clearDurationInterval: function()
+    {
+        clearInterval(Playercontrols.interval);
     },
 
     initSlider: function()

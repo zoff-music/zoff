@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<?php
-    $guid=substr(base64_encode(crc32($_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_ACCEPT_LANGUAGE'])), 0, 8);
-    if(isset($_GET['chan'])) {header('Location: '.$_GET['chan']); exit;}
-    $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
+<?php $list = explode("/", htmlspecialchars(strtolower($_SERVER["REQUEST_URI"])));
     if($list[1]==""||!isset($list[1])||count($list)<=1){$list="";include('php/nochan.php');die();}
     else $list=$list[1];
 
 ?>
-<html lang="en">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-	<?php include("php/header.php"); ?>
-</head>
-<body id="channelpage">
-    <header>
+
+<header>
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
@@ -112,7 +104,7 @@
                     </li>
                 </ul>
                 <ul class="side-nav" id="settings-bar">
-                    <?php include("php/panel.php");?>
+                    <?php include("panel.php");?>
                 </ul>
                 <div id="results" class="search_results hide">
                     <div id="temp-results-container">
@@ -259,13 +251,11 @@
         </div>
     </main>
 
-    <?php include("php/footer.php"); ?>
     <div id="scripts">
-        <script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
-        <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
-        <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
-        <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
-        <script type="text/javascript" src="/static/dist/main.min.js"></script>
+      <script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+      <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
+      <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+      <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+      <script type="text/javascript" src="/static/dist/main.min.js"></script>
+
     </div>
-    </body>
-</html>

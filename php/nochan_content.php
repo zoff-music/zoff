@@ -1,17 +1,4 @@
-<?php
-
-if(isset($_GET['chan'])){
-    $chan = htmlspecialchars($_GET['chan']);
-    header('Location: '.$chan);
-}
-
-?>
-<html lang="en">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-  <?php include("header.php"); ?>
-</head>
-<body>
-    <header>
+<header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo hide-on-small-only noselect">
@@ -167,10 +154,6 @@ if(isset($_GET['chan'])){
             </div>
         </div>
     </main>
-
-    <?php include("php/footer.php"); ?>
     <div id="scripts">
         <script type="text/javascript" src="static/dist/frontpage.min.js"></script>
     </div>
-	</body>
-</html>
