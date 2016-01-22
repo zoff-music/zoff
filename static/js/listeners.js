@@ -41,25 +41,28 @@ var song_title;
 var previous_video_id;
 var connection_options = {
 	'sync disconnect on unload':true,
-	'secure': true
+	'secure': true,
+	'force new connection': true 
 };
 
 if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 else add = "localhost";
 var socket = io.connect(''+add+':8880', connection_options);
 socket.on("get_list", function(){
-    socket.emit('list', chan.toLowerCase());
+    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
 });
 
 socket.on("suggested", function(params){
+	console.log(params);
 	var single = true;
 	if(params.id == undefined)
 		single = false;
-	Suggestions.catchUserSuggests(params, single);
+	setTimeout(function(){Suggestions.catchUserSuggests(params, single)}, 1000);
 });
 
 $(document).ready(function()
 {
+	setTimeout(function(){
 	//window.vote 		  = List.vote;
 	//window.submit 		  = Search.submit;
 	//window.submitAndClose = Search.submitAndClose;
@@ -69,6 +72,7 @@ $(document).ready(function()
 		localStorage.setItem("list_update", "13.06.15");
 		window.location.reload(true);
 	}
+	console.log(Youtube);
     Youtube.setup_youtube_listener(chan);
     Admin.admin_listener();
 	List.channel_listener();
@@ -108,8 +112,8 @@ $(document).ready(function()
 		Chat.setup_chat_listener(chan);
 		Chat.allchat_listener();
 		Hostcontroller.host_listener();
-		Youtube.loadPlayer();
 		window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
+		Youtube.loadPlayer();
 
 		$("#chat-btn").sideNav({
 			menuWidth: 272, // Default is 240
@@ -173,6 +177,7 @@ $(document).ready(function()
 			Search.search($(".search_input").val());
 		}
 	}, 1);
+	}, 1000);
 });
 
 $(document).keyup(function(e) {
@@ -346,3 +351,86 @@ $(document).on('click', '#toast-container', function(){
         $(this).remove();
     });
 });
+
+window.onpopstate = function(e){
+	var url_split = window.location.href.split("/");
+
+	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
+		$.ajax({
+		    url: "php/nochan_content.php",
+		    success: function(e){
+		    	ytplayer.destroy();
+		    	Playercontrols.clearDurationInterval();
+
+		    	socket.disconnect();
+
+		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
+    			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
+    			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
+
+    			delete ytplayer
+		    	delete Admin
+		    	delete Chat
+		    	delete Crypt
+		    	delete Hostcontroller
+		    	delete Playercontrols
+		    	delete List
+		    	delete Search
+		    	delete Suggestions
+		    	delete Youtube
+		    	delete chan;
+				delete w_p;
+				delete hasadmin;
+				delete showToggle;
+				delete list_html;
+				delete blink_interval_exists;
+				delete unseen;
+				delete timer;
+				delete api_key;
+				delete result_html;
+				delete empty_results_html;
+				delete searching;
+				delete time_regex;
+				delete conf;
+				delete music;
+				delete frontpage;
+				delete adminpass;
+				delete filesadded;
+				delete player_ready;
+				delete viewers;
+				delete paused;
+				delete playing;
+				delete SAMPLE_RATE;
+				delete lastSample;
+				delete began;
+				delete i;
+				delete id;
+				delete full_playlist;
+				delete conf;
+				delete blink_interval;
+				delete tag;
+				delete firstScriptTag;
+				delete ytplayer;
+				delete title;
+				delete viewers;
+				delete video_id;
+				delete list;
+				delete seekTo;
+				delete song_title;
+				delete previous_video_id;
+				delete connection_options;
+				delete socket;
+				delete window.onYouTubeIframeAPIReady;
+
+		    	$("main").attr("class", "center-align container");
+		    	$("body").attr("id", "");
+		      	$("header").html($($(e)[0]).html());
+		      	$($(e)[2]).insertAfter("header");
+		      	$($(e)[4]).insertAfter(".mega");
+		      	$("main").html($($(e)[6]).html());
+		      	$("#scripts").html($($(e)[8]).html());
+
+		    }
+		  });
+	}
+}

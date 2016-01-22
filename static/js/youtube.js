@@ -6,10 +6,11 @@ var Youtube = {
 
     setup_youtube_listener: function(channel)
     {
+        console.log("Setup shit");
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
-            if(video_id != undefined) Youtube.before_load = ytplayer.getVideoUrl();
+            if(video_id != undefined && ytplayer !== undefined) Youtube.before_load = ytplayer.getVideoUrl();
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -223,6 +224,7 @@ var Youtube = {
     },
 
     onYouTubeIframeAPIReady: function() {
+        console.log("helloo?");
       ytplayer = new YT.Player('player', {
         videoId: "asd",
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
@@ -235,10 +237,12 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-      tag            = document.createElement('script');
-      tag.src        = "https://www.youtube.com/iframe_api";
-      firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        console.log(ytplayer);
+        console.log("load the player");
+        tag            = document.createElement('script');
+        tag.src        = "https://www.youtube.com/iframe_api";
+        firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
 
 }
