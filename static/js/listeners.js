@@ -365,6 +365,8 @@ window.onpopstate = function(e){
 
 function onepage_load(){
 	$("#channel-load").css("display", "block");
+	window.scrollTo(0, 0);
+
 	var url_split = window.location.href.split("/");
 	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
 		$.ajax({
