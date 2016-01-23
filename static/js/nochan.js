@@ -202,7 +202,8 @@ var Nochan = {
   to_channel: function(chan, popstate){
 
     $("#channel-load").css("display", "block");
-
+    window.scrollTo(0, 0);
+    
     $.ajax({
       url: chan + "/php/channel.php",
       success: function(e){
@@ -325,6 +326,7 @@ $(document).on('click', '#toast-container', function(){
 
 $(document).on('click', ".chan-link", function(e){
   e.preventDefault();
+
   Nochan.to_channel($(this).attr("href"), false);
 });
 
@@ -333,6 +335,7 @@ $(".listen-button").click(function(e){
   if($(".room-namer").val() == ""){
     e.preventDefault();
     //window.location = "?chan="+
+    
     Nochan.to_channel($(".room-namer").attr("placeholder"));
   }
 });
