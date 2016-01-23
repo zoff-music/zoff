@@ -199,7 +199,7 @@ var Nochan = {
     }
   },
 
-  to_channel: function(chan){
+  to_channel: function(chan, popstate){
 
     $.ajax({
       url: chan + "/php/channel.php",
@@ -208,7 +208,9 @@ var Nochan = {
         delete Nochan
 
         socket.disconnect();
-        window.history.pushState("to the channel!", "Title", "/" + chan);
+
+        if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan);
+
         $.holdReady(true);
         $(".mega").remove();
         $(".mobile-search").remove();
@@ -221,6 +223,14 @@ var Nochan = {
     });
   }
 
+}
+
+window.onpopstate = function(e){
+  var url_split = window.location.href.split("/");
+
+  if(url_split[3] != "" || url_split[3].substring(0,1) != "#"){
+    Nochan.to_channel(url_split[3], true);
+  }
 }
 
 
@@ -313,7 +323,7 @@ $(document).on('click', '#toast-container', function(){
 
 $(document).on('click', ".chan-link", function(e){
   e.preventDefault();
-  Nochan.to_channel($(this).attr("href"));
+  Nochan.to_channel($(this).attr("href"), false);
 });
 
 $(".listen-button").click(function(e){

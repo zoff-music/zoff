@@ -6,7 +6,6 @@ var Youtube = {
 
     setup_youtube_listener: function(channel)
     {
-        console.log("Setup shit");
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
@@ -224,7 +223,6 @@ var Youtube = {
     },
 
     onYouTubeIframeAPIReady: function() {
-        console.log("helloo?");
       ytplayer = new YT.Player('player', {
         videoId: "asd",
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
@@ -237,7 +235,9 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-        if($(document.getElementsByTagName('script')[0]).attr("src") == "https://www.youtube.com/iframe_api"){
+        console.log($("script[src='https://www.youtube.com/iframe_api']")["length"]);
+        if($("script[src='https://www.youtube.com/iframe_api']")["length"] == 1){
+            console.log("script exists");
             Youtube.onYouTubeIframeAPIReady();
         }else{
         tag            = document.createElement('script');
