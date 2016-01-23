@@ -2,7 +2,7 @@ var Playercontrols = {
 
     stopInterval: false,
 
-    initYoutubeControls: function(player)
+    initYoutubeControls: function()
     {
         if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
@@ -158,6 +158,7 @@ var Playercontrols = {
     durationSetter: function()
     {
     	duration = Youtube.ytplayer.getDuration();
+        console.log(duration)
         if(duration != undefined){
         	dMinutes = Math.floor(duration / 60);
         	dSeconds = duration - dMinutes * 60;
