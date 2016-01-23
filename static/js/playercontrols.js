@@ -156,29 +156,6 @@ var Playercontrols = {
     	}
     },
 
-    durationSetter: function()
-    {
-    	duration = Youtube.ytplayer.getDuration();
-        console.log(duration)
-        if(duration != undefined){
-        	dMinutes = Math.floor(duration / 60);
-        	dSeconds = duration - dMinutes * 60;
-        	currDurr = Youtube.ytplayer.getCurrentTime();
-        	if(currDurr > duration)
-        		currDurr = duration;
-        	minutes = Math.floor(currDurr / 60);
-        	seconds = currDurr - minutes * 60;
-        	document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
-        	per = (100 / duration) * currDurr;
-        	if(per >= 100)
-        		per = 100;
-        	else if(duration == 0)
-        		per = 0;
-        	$("#bar").width(per+"%");
-        }
-        if(!Playercontrols.stopInterval) setTimeout(Playercontrols.durationSetter, 1000);
-    },
-
     volumeOptions: function()
     {
     	if(Youtube.ytplayer.isMuted())
