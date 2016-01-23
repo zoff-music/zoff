@@ -59,7 +59,6 @@ var Nochan = {
             //$("#channels").append(list_html);
 
             var card = pre_card;
-
             if(lists[x][5] == 1) 
             {
               card.find(".pin").attr("style", "display:block;");
@@ -198,8 +197,43 @@ var Nochan = {
     }else{
       corn.remove();
     }
+  },
+
+  to_channel: function(chan, popstate){
+
+    $("#channel-load").css("display", "block");
+    window.scrollTo(0, 0);
+
+    $.ajax({
+      url: chan + "/php/channel.php",
+      success: function(e){
+
+        delete Nochan
+
+        socket.disconnect();
+
+        if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan);
+
+        $.holdReady(true);
+        $(".mega").remove();
+        $(".mobile-search").remove();
+        $("main").attr("class", "container center-align main");
+        $("body").attr("id", "channelpage");
+        $("header").html($($(e)[0]).html());
+        $("main").html($($(e)[2]).html());
+        $("#scripts").html($($(e)[4]).html());
+      }
+    });
   }
 
+}
+
+window.onpopstate = function(e){
+  var url_split = window.location.href.split("/");
+
+  if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
+    Nochan.to_channel(url_split[3], true);
+  }
 }
 
 
@@ -219,7 +253,8 @@ $(document).ready(function (){
     $("#channels").empty();
 
     var connection_options = {
-      'secure': true
+      'secure': true,
+      'force new connection': true 
     };
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
@@ -289,10 +324,18 @@ $(document).on('click', '#toast-container', function(){
     });
 });
 
+$(document).on('click', ".chan-link", function(e){
+  e.preventDefault();
+
+  Nochan.to_channel($(this).attr("href"), false);
+});
+
 $(".listen-button").click(function(e){
   //console.log($(".room-namer").attr("placeholder"));
   if($(".room-namer").val() == ""){
     e.preventDefault();
-    window.location = "?chan="+$(".room-namer").attr("placeholder");
+    //window.location = "?chan="+
+    
+    Nochan.to_channel($(".room-namer").attr("placeholder"));
   }
 });

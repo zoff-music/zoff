@@ -5,9 +5,12 @@ var Crypt = {
 	init: function(){
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
         }catch(err){
         	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
+        }
+        try{
+        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+        }catch(err){
         	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
@@ -56,9 +59,7 @@ var Crypt = {
 		
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-        if(cookie != "_opt") add = chan.toLowerCase()+";";
-        else add = ";"
-        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
 	},
 
 	encrypt_string: function(string){
@@ -86,7 +87,6 @@ var Crypt = {
 	create_cookie: function(name){
 		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true};
 		else cookie_object = {passwords: {}};
-		
 
         var string_it = JSON.stringify(cookie_object);
 
@@ -102,9 +102,7 @@ var Crypt = {
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        if(name != "_opt") add = chan.toLowerCase();
-        else add = ";"
-        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
         //document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         return Crypt.getCookie(name);
