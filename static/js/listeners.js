@@ -76,14 +76,16 @@ $(document).ready(function()
 	List.channel_listener();
 	List.skipping_listener();
 
+	$('ul.tabs').tabs();
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
-      closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
     $('.collapsible').collapsible({
       accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
+
     //awdwad
     $(".video-container").resizable({
     	start: function(event, ui) {
@@ -367,7 +369,7 @@ window.onpopstate = function(e){
 function onepage_load(){
 
 	var url_split = window.location.href.split("/");
-	if(url_split[3] == "" && url_split[3].substring(0,1) != "#" && url_split[4].substring(0,1) != "#"){
+	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
