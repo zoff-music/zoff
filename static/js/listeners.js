@@ -53,7 +53,6 @@ socket.on("get_list", function(){
 });
 
 socket.on("suggested", function(params){
-	console.log(params);
 	var single = true;
 	if(params.id == undefined)
 		single = false;
@@ -72,7 +71,6 @@ $(document).ready(function()
 		localStorage.setItem("list_update", "13.06.15");
 		window.location.reload(true);
 	}
-	console.log(Youtube);
     Youtube.setup_youtube_listener(chan);
     Admin.admin_listener();
 	List.channel_listener();
@@ -354,7 +352,10 @@ $(document).on('click', '#toast-container', function(){
 
 $(".brand-logo").click(function(e){
 	e.preventDefault();
-	console.log("Hellooo");
+
+	console.log("move to frontpage")
+
+	window.history.pushState("to the frontpage!", "Title", "/");
 	onepage_load();
 });
 
@@ -432,28 +433,18 @@ function onepage_load(){
 				delete socket;
 				delete window.onYouTubeIframeAPIReady;
 
+				document.title = "Zöff";
+
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
+		    	$("body").attr("style", "");
 		      	$("header").html($($(e)[0]).html());
 		      	$($(e)[2]).insertAfter("header");
 		      	$($(e)[4]).insertAfter(".mega");
 		      	$("main").html($($(e)[6]).html());
-
-		      	removejscssfile("main.min", "js");
-
 		      	$("#scripts").html($($(e)[8]).html());
 
 		    }
 		});
-}
-
-	function removejscssfile(filename, filetype){
-    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
-    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
-    var allsuspects=document.getElementsByTagName(targetelement)
-    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
-    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
-        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
-    }
-}
+	}
 }
