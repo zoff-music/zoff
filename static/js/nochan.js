@@ -203,7 +203,7 @@ var Nochan = {
 
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
-    
+
     $.ajax({
       url: chan + "/php/channel.php",
       success: function(e){
@@ -231,7 +231,7 @@ var Nochan = {
 window.onpopstate = function(e){
   var url_split = window.location.href.split("/");
 
-  if(url_split[3] != "" || url_split[3].substring(0,1) != "#"){
+  if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
     Nochan.to_channel(url_split[3], true);
   }
 }
