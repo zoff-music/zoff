@@ -4,6 +4,7 @@ var Youtube = {
     before_load: "",
     after_load: "",
     ytplayer: "",
+    stopInterval: false,
 
     setup_youtube_listener: function(channel)
     {
@@ -53,7 +54,7 @@ var Youtube = {
     				}
     				if(!paused){
     					Youtube.ytplayer.playVideo();
-                        Playercontrols.durationSetter();
+                        Youtube.durationSetter();
                     }
     				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
     					Youtube.ytplayer.seekTo(seekTo);
@@ -165,7 +166,7 @@ var Youtube = {
 			$(".playlist").css("opacity", "1");
 			Youtube.ytplayer.loadVideoById(video_id);
 			Youtube.ytplayer.playVideo();
-            Playercontrols.durationSetter();
+            Youtube.durationSetter();
 			Youtube.ytplayer.seekTo(seekTo);
 		}
 		Youtube.readyLooks();
@@ -236,6 +237,30 @@ var Youtube = {
           'onError': Youtube.errorHandler
         }
       });
+      //Youtube.durationSetter();
+    },
+
+    durationSetter: function()
+    {
+        //console.log(Youtube.stopInterval);
+        duration = Youtube.ytplayer.getDuration();
+        if(duration != undefined){
+            dMinutes = Math.floor(duration / 60);
+            dSeconds = duration - dMinutes * 60;
+            currDurr = Youtube.ytplayer.getCurrentTime();
+            if(currDurr > duration)
+                currDurr = duration;
+            minutes = Math.floor(currDurr / 60);
+            seconds = currDurr - minutes * 60;
+            document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+            per = (100 / duration) * currDurr;
+            if(per >= 100)
+                per = 100;
+            else if(duration == 0)
+                per = 0;
+            $("#bar").width(per+"%");
+        }
+        if(!Youtube.stopInterval) setTimeout(Youtube.durationSetter, 1000);
     },
 
     loadPlayer: function() {

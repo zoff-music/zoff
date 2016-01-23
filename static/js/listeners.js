@@ -368,7 +368,7 @@ function onepage_load(){
 	$("#channel-load").css("display", "block");
 	window.scrollTo(0, 0);
 
-	Playercontrols.stopInterval = true;
+	Youtube.stopInterval = true;
 
 
 	var url_split = window.location.href.split("/");
