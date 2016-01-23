@@ -7,6 +7,7 @@ var Playercontrols = {
         if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
+        Playercontrols.initControls();
     },
 
     initControls: function()
@@ -48,6 +49,7 @@ var Playercontrols = {
 
     play_pause: function()
     {
+        console.log("play pause");
     	if(Youtube.ytplayer.getPlayerState() == 1)
     	{
     		Youtube.ytplayer.pauseVideo();
