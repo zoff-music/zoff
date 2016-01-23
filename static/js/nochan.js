@@ -201,6 +201,8 @@ var Nochan = {
 
   to_channel: function(chan, popstate){
 
+    $("#channel-load").css("display", "block");
+
     $.ajax({
       url: chan + "/php/channel.php",
       success: function(e){
@@ -330,6 +332,7 @@ $(".listen-button").click(function(e){
   //console.log($(".room-namer").attr("placeholder"));
   if($(".room-namer").val() == ""){
     e.preventDefault();
-    window.location = "?chan="+$(".room-namer").attr("placeholder");
+    //window.location = "?chan="+
+    Nochan.to_channel($(".room-namer").attr("placeholder"));
   }
 });

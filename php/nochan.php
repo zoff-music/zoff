@@ -82,6 +82,9 @@ if(isset($_GET['chan'])){
     </header>
 
     <div class="section mega">
+        <div id="channel-load" class="progress">
+            <div class="indeterminate" id="channel-load-move"></div>
+        </div>
         <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
             <form class="channel-finder">
@@ -102,7 +105,6 @@ if(isset($_GET['chan'])){
                     maxlength="18"
                 />
                 <datalist id="searches"></datalist>
-                <a class="refresh-button"><i class="small cached"></i></a>
                 <button class="listen-button" action="submit">Listen</button>
             </form>
             <div class="pitch outline">
