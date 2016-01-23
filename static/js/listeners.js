@@ -372,7 +372,7 @@ function onepage_load(){
 
 
 	var url_split = window.location.href.split("/");
-	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
+	if(url_split[3] == "" && url_split[3].substring(0,1) != "#" && url_split[4].substring(0,1) != "#"){
 		$.ajax({
 		    url: "php/nochan_content.php",
 		    success: function(e){
