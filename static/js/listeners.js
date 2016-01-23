@@ -365,14 +365,14 @@ window.onpopstate = function(e){
 }
 
 function onepage_load(){
-	$("#channel-load").css("display", "block");
-	window.scrollTo(0, 0);
-
-	Youtube.stopInterval = true;
-
 
 	var url_split = window.location.href.split("/");
 	if(url_split[3] == "" && url_split[3].substring(0,1) != "#" && url_split[4].substring(0,1) != "#"){
+		$("#channel-load").css("display", "block");
+		window.scrollTo(0, 0);
+
+		Youtube.stopInterval = true;
+
 		$.ajax({
 		    url: "php/nochan_content.php",
 		    success: function(e){
