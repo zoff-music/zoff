@@ -9,7 +9,7 @@ var Youtube = {
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
-            if(video_id != undefined) Youtube.before_load = ytplayer.getVideoUrl();
+            if(video_id != undefined && ytplayer !== undefined) Youtube.before_load = ytplayer.getVideoUrl();
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -235,10 +235,16 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-      tag            = document.createElement('script');
-      tag.src        = "https://www.youtube.com/iframe_api";
-      firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        console.log($("script[src='https://www.youtube.com/iframe_api']")["length"]);
+        if($("script[src='https://www.youtube.com/iframe_api']")["length"] == 1){
+            console.log("script exists");
+            Youtube.onYouTubeIframeAPIReady();
+        }else{
+        tag            = document.createElement('script');
+        tag.src        = "https://www.youtube.com/iframe_api";
+        firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
     }
 
 }

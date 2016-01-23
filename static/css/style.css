@@ -48,6 +48,17 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+#channel-load{
+  display:none;
+  position: absolute;
+  top: -8px;
+  background-color:rgba(0,0,0,0);
+}
+
+#channel-load-move{
+  background-color: #FFFFFF !important;
+}
  
 .rounded{
   border-radius: 4px;
