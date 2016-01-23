@@ -3,13 +3,14 @@ var Youtube = {
     loaded: true,
     before_load: "",
     after_load: "",
+    ytplayer: "",
 
     setup_youtube_listener: function(channel)
     {
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
-            if(video_id != undefined && ytplayer !== undefined) Youtube.before_load = ytplayer.getVideoUrl();
+            if(video_id != undefined && Youtube.ytplayer !== undefined) Youtube.before_load = Youtube.ytplayer.getVideoUrl();
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -17,7 +18,7 @@ var Youtube = {
 
     			if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) $("#player_overlay").toggleClass("hide");
                 try{
-                    ytplayer.stopVideo();
+                    Youtube.ytplayer.stopVideo();
                 }catch(e){}
     			//List.importOldList(channel.toLowerCase());
     		}
@@ -42,18 +43,18 @@ var Youtube = {
     			//if(player_ready && !window.mobilecheck())
                 if(player_ready && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     			{
-    				if(ytplayer.getVideoUrl().split('v=')[1] != video_id)
+    				if(Youtube.ytplayer.getVideoUrl().split('v=')[1] != video_id)
     				{
-    					ytplayer.loadVideoById(video_id);
+    					Youtube.ytplayer.loadVideoById(video_id);
     					Youtube.notifyUser(video_id, song_title);
-    					ytplayer.seekTo(seekTo);
+    					Youtube.ytplayer.seekTo(seekTo);
     					if(paused)
-    						ytplayer.pauseVideo();
+    						Youtube.ytplayer.pauseVideo();
     				}
     				if(!paused)
-    					ytplayer.playVideo();
-    				if(ytplayer.getDuration() > seekTo || ytplayer.getDuration() == 0)
-    					ytplayer.seekTo(seekTo);
+    					Youtube.ytplayer.playVideo();
+    				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
+    					Youtube.ytplayer.seekTo(seekTo);
                     Youtube.after_load  = video_id;
                     setTimeout(function(){Youtube.loaded = true;},500);
     			}
@@ -85,7 +86,7 @@ var Youtube = {
     		case 1:
     			playing = true;
                 if(beginning && window.mobilecheck()){
-                    ytplayer.pauseVideo();
+                    Youtube.ytplayer.pauseVideo();
                     beginning = false;
                 }
     			if(document.getElementById("play").className.split(" ").length == 1)
@@ -135,21 +136,21 @@ var Youtube = {
             /*console.log("Before: " + Youtube.before_load);
             console.log("Now: " + video_id);
             console.log("After: " + Youtube.after_load);
-            console.log(Youtube.before_load == ytplayer.getVideoUrl);*/
-            curr_playing = ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
+            console.log(Youtube.before_load == Youtube.ytplayer.getVideoUrl);*/
+            curr_playing = Youtube.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
             
                 socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass});
-                //console.log(video_id, ytplayer.getVideoUrl(), ytplayer.getPlayerState());
+                //console.log(video_id, Youtube.ytplayer.getVideoUrl(), Youtube.ytplayer.getPlayerState());
             
             /*}else{
                 setTimeout(function(){
-                ytplayer.loadVideoById(video_id);
+                Youtube.ytplayer.loadVideoById(video_id);
                 Youtube.count ++;
                 }, Math.floor((Math.random() * 100) + 1));
             }*/
     	}else if(video_id !== undefined)
-    		ytplayer.loadVideoById(video_id);
+    		Youtube.ytplayer.loadVideoById(video_id);
     },
 
     onPlayerReady: function(event) {
@@ -160,14 +161,14 @@ var Youtube = {
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
-			ytplayer.loadVideoById(video_id);
-			ytplayer.playVideo();
-			ytplayer.seekTo(seekTo);
+			Youtube.ytplayer.loadVideoById(video_id);
+			Youtube.ytplayer.playVideo();
+			Youtube.ytplayer.seekTo(seekTo);
 		}
 		Youtube.readyLooks();
-		Playercontrols.initYoutubeControls(ytplayer);
+		Playercontrols.initYoutubeControls(Youtube.ytplayer);
 		Playercontrols.initSlider();
-		ytplayer.setVolume(Crypt.get_volume());
+		Youtube.ytplayer.setVolume(Crypt.get_volume());
     },
 
     readyLooks: function()
@@ -223,7 +224,7 @@ var Youtube = {
     },
 
     onYouTubeIframeAPIReady: function() {
-      ytplayer = new YT.Player('player', {
+      Youtube.ytplayer = new YT.Player('player', {
         videoId: "asd",
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
         events: {
@@ -235,9 +236,7 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-        console.log($("script[src='https://www.youtube.com/iframe_api']")["length"]);
         if($("script[src='https://www.youtube.com/iframe_api']")["length"] == 1){
-            console.log("script exists");
             Youtube.onYouTubeIframeAPIReady();
         }else{
         tag            = document.createElement('script');

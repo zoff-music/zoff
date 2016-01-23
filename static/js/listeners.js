@@ -223,7 +223,7 @@ $('input[class=conf]').change(function()
 });
 
 $("#clickme").click(function(){
-	ytplayer.playVideo();
+	Youtube.ytplayer.playVideo();
 });
 
 $('#listImport').on("submit", function(){
@@ -365,13 +365,15 @@ function onepage_load(){
 	$("#channel-load").css("display", "block");
 	window.scrollTo(0, 0);
 
+	Playercontrols.stopInterval = true;
+
+
 	var url_split = window.location.href.split("/");
 	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
 		$.ajax({
 		    url: "php/nochan_content.php",
 		    success: function(e){
-		    	ytplayer.destroy();
-		    	Playercontrols.clearDurationInterval();
+		    	Youtube.ytplayer.destroy();
 
 		    	socket.disconnect();
 
@@ -379,7 +381,6 @@ function onepage_load(){
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 
-    			delete ytplayer
 		    	delete Admin
 		    	delete Chat
 		    	delete Crypt
@@ -421,7 +422,7 @@ function onepage_load(){
 				delete blink_interval;
 				delete tag;
 				delete firstScriptTag;
-				delete ytplayer;
+				delete Youtube.ytplayer;
 				delete title;
 				delete viewers;
 				delete video_id;

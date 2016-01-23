@@ -1,14 +1,13 @@
 var Playercontrols = {
 
-    interval: null,
+    stopInterval: false,
 
     initYoutubeControls: function(player)
     {
         if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
-        Playercontrols.interval = setInterval(Playercontrols.durationSetter, 1000);
-        Playercontrols.initControls();
+        Playercontrols.durationSetter();
     },
 
     initControls: function()
@@ -17,11 +16,6 @@ var Playercontrols = {
     	document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
     	document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
 
-    },
-
-    clearDurationInterval: function()
-    {
-        clearInterval(Playercontrols.interval);
     },
 
     initSlider: function()
@@ -55,14 +49,14 @@ var Playercontrols = {
 
     play_pause: function()
     {
-    	if(ytplayer.getPlayerState() == 1)
+    	if(Youtube.ytplayer.getPlayerState() == 1)
     	{
-    		ytplayer.pauseVideo();
+    		Youtube.ytplayer.pauseVideo();
             if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
                 document.getElementById("player").style.display = "none";
-    	}else if(ytplayer.getPlayerState() == 2 || ytplayer.getPlayerState() == 0)
+    	}else if(Youtube.ytplayer.getPlayerState() == 2 || Youtube.ytplayer.getPlayerState() == 0)
     	{
-    		ytplayer.playVideo();
+    		Youtube.ytplayer.playVideo();
             if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
                 document.getElementById("player").style.display = "block";
     	}
@@ -75,33 +69,33 @@ var Playercontrols = {
 
     changeQuality: function(wantedQ)
     {
-    	if(ytplayer.getPlaybackQuality != wantedQ)
+    	if(Youtube.ytplayer.getPlaybackQuality != wantedQ)
     	{
-    		ytplayer.setPlaybackQuality(wantedQ);
-    		ytplayer.getPlaybackQuality();
+    		Youtube.ytplayer.setPlaybackQuality(wantedQ);
+    		Youtube.ytplayer.getPlaybackQuality();
     	}
     	$("#qS").toggleClass("hide");
     },
 
     mute_video: function()
     {
-    	if(!ytplayer.isMuted())
+    	if(!Youtube.ytplayer.isMuted())
     	{
         Playercontrols.choose_button(0, true);
-    		ytplayer.mute();
+    		Youtube.ytplayer.mute();
     	}else
     	{
-    		ytplayer.unMute();
-        Playercontrols.choose_button(ytplayer.getVolume(), false);
+    		Youtube.ytplayer.unMute();
+        Playercontrols.choose_button(Youtube.ytplayer.getVolume(), false);
     	}
     },
 
     setVolume: function(vol)
     {
-    	ytplayer.setVolume(vol);
+    	Youtube.ytplayer.setVolume(vol);
         Playercontrols.choose_button(vol, false);
-    	if(ytplayer.isMuted())
-    		ytplayer.unMute();
+    	if(Youtube.ytplayer.isMuted())
+    		Youtube.ytplayer.unMute();
     },
 
     choose_button: function(vol, mute)
@@ -150,54 +144,57 @@ var Playercontrols = {
 
     playPause: function()
     {
-    	state = ytplayer.getPlayerState();
+    	state = Youtube.ytplayer.getPlayerState();
     	button = document.getElementById("playpause");
     	if(state == 1)
     	{
-    		ytplayer.pauseVideo();
+    		Youtube.ytplayer.pauseVideo();
     	}else if(state == 2)
     	{
-    		ytplayer.playVideo();
+    		Youtube.ytplayer.playVideo();
     	}
     },
 
     durationSetter: function()
     {
-    	duration = ytplayer.getDuration();
-    	dMinutes = Math.floor(duration / 60);
-    	dSeconds = duration - dMinutes * 60;
-    	currDurr = ytplayer.getCurrentTime();
-    	if(currDurr > duration)
-    		currDurr = duration;
-    	minutes = Math.floor(currDurr / 60);
-    	seconds = currDurr - minutes * 60;
-    	document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
-    	per = (100 / duration) * currDurr;
-    	if(per >= 100)
-    		per = 100;
-    	else if(duration == 0)
-    		per = 0;
-    	$("#bar").width(per+"%");
+    	duration = Youtube.ytplayer.getDuration();
+        if(duration != undefined){
+        	dMinutes = Math.floor(duration / 60);
+        	dSeconds = duration - dMinutes * 60;
+        	currDurr = Youtube.ytplayer.getCurrentTime();
+        	if(currDurr > duration)
+        		currDurr = duration;
+        	minutes = Math.floor(currDurr / 60);
+        	seconds = currDurr - minutes * 60;
+        	document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+        	per = (100 / duration) * currDurr;
+        	if(per >= 100)
+        		per = 100;
+        	else if(duration == 0)
+        		per = 0;
+        	$("#bar").width(per+"%");
+        }
+        if(!Playercontrols.stopInterval) setTimeout(Playercontrols.durationSetter, 1000);
     },
 
     volumeOptions: function()
     {
-    	if(ytplayer.isMuted())
+    	if(Youtube.ytplayer.isMuted())
     	{
-    		ytplayer.unMute();
-    		vol = ytplayer.getVolume();
-    		$("#volume").slider("value", ytplayer.getVolume());
+    		Youtube.ytplayer.unMute();
+    		vol = Youtube.ytplayer.getVolume();
+    		$("#volume").slider("value", Youtube.ytplayer.getVolume());
     	}
     	else
     	{
-    		ytplayer.mute();
+    		Youtube.ytplayer.mute();
     		$("#volume").slider("value", 0);
     	}
     },
 
     hoverMute: function(foo)
     {
-    	vol = ytplayer.getVolume();
+    	vol = Youtube.ytplayer.getVolume();
 
     }
 
