@@ -352,7 +352,17 @@ $(document).on('click', '#toast-container', function(){
     });
 });
 
+$(".brand-logo").click(function(e){
+	e.preventDefault();
+	console.log("Hellooo");
+	onepage_load();
+});
+
 window.onpopstate = function(e){
+	onepage_load();
+}
+
+function onepage_load(){
 	var url_split = window.location.href.split("/");
 
 	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
@@ -428,9 +438,22 @@ window.onpopstate = function(e){
 		      	$($(e)[2]).insertAfter("header");
 		      	$($(e)[4]).insertAfter(".mega");
 		      	$("main").html($($(e)[6]).html());
+
+		      	removejscssfile("main.min", "js");
+
 		      	$("#scripts").html($($(e)[8]).html());
 
 		    }
-		  });
-	}
+		});
+}
+
+	function removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+    }
+}
 }

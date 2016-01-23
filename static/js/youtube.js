@@ -237,12 +237,14 @@ var Youtube = {
     },
 
     loadPlayer: function() {
-        console.log(ytplayer);
-        console.log("load the player");
+        if($(document.getElementsByTagName('script')[0]).attr("src") == "https://www.youtube.com/iframe_api"){
+            Youtube.onYouTubeIframeAPIReady();
+        }else{
         tag            = document.createElement('script');
         tag.src        = "https://www.youtube.com/iframe_api";
         firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
     }
 
 }
