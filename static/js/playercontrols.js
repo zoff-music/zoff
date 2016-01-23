@@ -7,7 +7,6 @@ var Playercontrols = {
         if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
-        Playercontrols.durationSetter();
     },
 
     initControls: function()

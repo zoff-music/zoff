@@ -51,8 +51,10 @@ var Youtube = {
     					if(paused)
     						Youtube.ytplayer.pauseVideo();
     				}
-    				if(!paused)
+    				if(!paused){
     					Youtube.ytplayer.playVideo();
+                        Playercontrols.durationSetter();
+                    }
     				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
     					Youtube.ytplayer.seekTo(seekTo);
                     Youtube.after_load  = video_id;
@@ -163,6 +165,7 @@ var Youtube = {
 			$(".playlist").css("opacity", "1");
 			Youtube.ytplayer.loadVideoById(video_id);
 			Youtube.ytplayer.playVideo();
+            Playercontrols.durationSetter();
 			Youtube.ytplayer.seekTo(seekTo);
 		}
 		Youtube.readyLooks();
