@@ -353,8 +353,6 @@ $(document).on('click', '#toast-container', function(){
 $(".brand-logo").click(function(e){
 	e.preventDefault();
 
-	console.log("move to frontpage")
-
 	window.history.pushState("to the frontpage!", "Title", "/");
 	onepage_load();
 });
