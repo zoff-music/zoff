@@ -79,7 +79,10 @@ $(document).ready(function()
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
-      closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    });
+    $('.collapsible').collapsible({
+      accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
     //awdwad
     $(".video-container").resizable({
@@ -436,6 +439,8 @@ function onepage_load(){
 
 				document.title = "Zöff";
 
+				$(".drag-target").remove();
+				$(".sidenav-overlay").remove();
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");

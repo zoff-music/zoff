@@ -59,9 +59,7 @@ var Crypt = {
 		
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-        if(cookie != "_opt") add = chan.toLowerCase()+";";
-        else add = ";"
-        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+        document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
 	},
 
 	encrypt_string: function(string){
@@ -104,11 +102,7 @@ var Crypt = {
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        //if(name != "_opt") add = chan.toLowerCase();
-        //else
-         add = ";"
-
-        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add;
+        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
         //document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         return Crypt.getCookie(name);
