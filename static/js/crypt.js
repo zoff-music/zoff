@@ -5,9 +5,13 @@ var Crypt = {
 	init: function(){
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+        	console.log("channel: " + chan.toLowerCase());
         }catch(err){
         	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
+        }
+        try{
+        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+        }catch(err){
         	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
@@ -17,6 +21,7 @@ var Crypt = {
 	decrypt: function(cookie, name){
 		if(Crypt.getCookie(name) === undefined) {
 			cookie = Crypt.create_cookie(name);
+			console.log(cookie);
 		}
 
 		var decrypted = CryptoJS.AES.decrypt(
@@ -87,6 +92,7 @@ var Crypt = {
 		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true};
 		else cookie_object = {passwords: {}};
 		
+		console.log(cookie_object);
 
         var string_it = JSON.stringify(cookie_object);
 
@@ -102,9 +108,13 @@ var Crypt = {
         var CookieDate = new Date;
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        if(name != "_opt") add = chan.toLowerCase();
-        else add = ";"
-        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add
+        //if(name != "_opt") add = chan.toLowerCase();
+        //else
+         add = ";"
+
+        console.log(name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add);
+
+        document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/"+add;
         //document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         return Crypt.getCookie(name);
