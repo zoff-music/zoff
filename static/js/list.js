@@ -9,6 +9,7 @@ var List = {
 
     channel_function: function(msg)
     {
+
         switch(msg[0])
         {
             case "list":
@@ -42,6 +43,7 @@ var List = {
 
     populate_list: function(msg)
     {
+
         full_playlist = msg;
         
         List.sortList();
