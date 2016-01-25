@@ -49,7 +49,7 @@ var Playercontrols = {
 
     play_pause: function()
     {
-        console.log("play pause");
+
     	if(Youtube.ytplayer.getPlayerState() == 1)
     	{
     		Youtube.ytplayer.pauseVideo();

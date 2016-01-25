@@ -46,6 +46,7 @@ var Youtube = {
     			//if(player_ready && !window.mobilecheck())
                 if(player_ready && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     			{
+
     				try{
                         if(Youtube.ytplayer.getVideoUrl().split('v=')[1] != video_id)
         				{
@@ -64,7 +65,7 @@ var Youtube = {
         					Youtube.ytplayer.seekTo(seekTo);
                         Youtube.after_load  = video_id;
                         setTimeout(function(){Youtube.loaded = true;},500);
-                    }catch(e){}
+                    }catch(e){Youtube.durationSetter();}
     			}
     			else
             		Youtube.getTitle(song_title, viewers);
@@ -162,6 +163,7 @@ var Youtube = {
     },
 
     onPlayerReady: function(event) {
+        try{
         beginning = true;
       	player_ready = true;
 		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
@@ -169,6 +171,7 @@ var Youtube = {
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
+            window.ytplayer = Youtube.ytplayer;
 			Youtube.ytplayer.loadVideoById(video_id);
 			Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
@@ -178,6 +181,7 @@ var Youtube = {
 		Playercontrols.initYoutubeControls(Youtube.ytplayer);
 		Playercontrols.initSlider();
 		Youtube.ytplayer.setVolume(Crypt.get_volume());
+        }catch(e){window.location.reload();};   
     },
 
     readyLooks: function()
@@ -248,7 +252,9 @@ var Youtube = {
     durationSetter: function()
     {
         //console.log(Youtube.stopInterval);
-        duration = Youtube.ytplayer.getDuration();
+        try{
+            duration = Youtube.ytplayer.getDuration();
+        }catch(e){duration = 0};
         if(duration != undefined){
             try{
                 dMinutes = Math.floor(duration / 60);
@@ -266,7 +272,7 @@ var Youtube = {
                     per = 0;
                 $("#bar").width(per+"%");
             }catch(e){
-                Youtube.stopInterval = true;
+                
             }
         }
         if(!Youtube.stopInterval) setTimeout(Youtube.durationSetter, 1000);
