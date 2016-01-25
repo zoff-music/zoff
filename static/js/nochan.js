@@ -342,7 +342,7 @@ $(document).on('click', '#cookieok', function() {
         Nochan.to_channel($(this).attr("href"), false);
       });
 
-      $(".listen-button").click(function(e){
+      $(document).on("click", ".listen-button", function(e){
         //console.log($(".room-namer").attr("placeholder"));
         if($(".room-namer").val() == ""){
           e.preventDefault();
