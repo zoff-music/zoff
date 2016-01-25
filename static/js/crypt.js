@@ -3,12 +3,9 @@ var Crypt = {
 	conf_arr: {},
 
 	init: function(){
-		if(localStorage["full_update"] == undefined)
-		{
-			document.cookie = chan.toLowerCase() + '=; path=/; expires=' + new Date(0).toUTCString();
-			document.cookie = chan.toLowerCase() + '=; path=/' + chan.toLowerCase() + '; expires=' + new Date(0).toUTCString();
-			localStorage["full_update"] = "25.01.2016";
-		}
+
+		document.cookie = chan.toLowerCase() + '=; path=/' + chan.toLowerCase() + '; expires=' + new Date(0).toUTCString();
+
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
         }catch(err){
