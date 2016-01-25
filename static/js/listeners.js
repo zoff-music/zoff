@@ -254,8 +254,8 @@ $(window).focus(function(){
   }
 });
 
-document.getElementById("chat-btn").addEventListener("click", function(){
-    $("#text-chat-input").focus();
+$(document).on("click", "#chat-btn", function(){
+	$("#text-chat-input").focus();
     //$("#chat-btn").css("color", "white");
     $("#chat-btn i").css("opacity", 1);
     clearInterval(blink_interval);
@@ -264,53 +264,61 @@ document.getElementById("chat-btn").addEventListener("click", function(){
     $("#favicon").attr("href", "static/images/favicon.png");
 });
 
-$(".chat-tab").click(function(){
+$(document).on("click", ".chat-tab", function(){
     $("#text-chat-input").focus();
 });
 
 
-$("#skip").on("click", function(){
-  List.skip();
+$(document).on("click", "#skip", function(e){
+	e.preventDefault();
+  	List.skip();
 });
 
-$(document).on("click", "#chan", function(){
-  List.show();
+$(document).on("click", "#chan", function(e){
+	e.preventDefault();
+  	List.show();
 });
 
-$("#adminForm").on("submit", function(){
-  Admin.pass_save();
+$(document).on("submit", "#adminForm", function(e){
+	e.preventDefault();
+  	Admin.pass_save();
 });
 
-$("#chatForm").on("submit", function(){
+$(document).on("submit", "#chatForm", function(){
   Chat.chat(document.getElementById("chatForm").input);
 });
 
-$("#shuffle").on("click", function()
+$(document).on("click", "#shuffle", function(e)
 {
-  Admin.shuffle();
+	e.preventDefault();
+  	Admin.shuffle();
 });
 
-$("#search-btn").on("click", function()
+$(document).on("click", "#search-btn", function(e)
 {
-  Search.showSearch();
+	e.preventDefault();
+ 	Search.showSearch();
 });
 
-$("#song-title").on("click", function()
+$(document).on("click", "#song-title", function(e)
 {
-  Search.showSearch();
+	e.preventDefault();
+  	Search.showSearch();
 });
 
-$("#admin-lock").on("click", function()
+$(document).on("click", "#admin-lock", function(e)
 {
-  Admin.log_out();
+	e.preventDefault();
+  	Admin.log_out();
 });
 
-$("#closeSettings").on("click", function()
+$(document).on("click", "#closeSettings", function(e)
 {
-  Admin.hide_settings();
+	e.preventDefault();
+  	Admin.hide_settings();
 });
 
-$("#results").on( "click", "#temp-results", function(e){
+$(document).on( "click", "#temp-results", function(e){
 	if($(e.target).html() != $("<i class='mdi-av-playlist-add'></i>").html()){
 		var id 		= $(this).attr("data-video-id");
 		var title 	= $(this).attr("data-video-title");
@@ -320,7 +328,7 @@ $("#results").on( "click", "#temp-results", function(e){
 	}
 });
 
-$("#results").on( "click", "#add-many", function(e){
+$(document).on( "click", "#add-many", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
@@ -328,17 +336,17 @@ $("#results").on( "click", "#add-many", function(e){
 	Search.submit(id, title, length);
 });
 
-$("#wrapper").on( "click", ".vote-container", function(e){
+$(document).on( "click", ".vote-container", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "pos");
 });
 
-$("#wrapper").on( "click", "#del", function(e){
+$(document).on( "click", "#del", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "del");
 });
 
-$("#suggestions").on( "click", ".add-suggested", function(e){
+$(document).on( "click", ".add-suggested", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
@@ -348,13 +356,13 @@ $("#suggestions").on( "click", ".add-suggested", function(e){
 	$("#suggested-" + id).remove();
 });
 
-$("#suggestions").on( "click", "#del_suggested", function(e){
+$(document).on( "click", "#del_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 
 	$("#suggested-" + id).remove();
 });
 
-$("#suggestions").on( "click", "#del_user_suggested", function(e){
+$(document).on( "click", "#del_user_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 	$("#suggested-" + id).remove();
 	List.vote(id, "del");
@@ -466,11 +474,12 @@ function onepage_load(){
 			      	$("header").html($($(e)[0]).html());
 			      	$($(e)[2]).insertAfter("header");
 			      	$($(e)[4]).insertAfter(".mega");
-			      	$("main").html($($(e)[6]).html());
+			      	$("main").html($($(e)[8]).html());
 
 			      	if($("#alreadychannel").length == 0) $("head").append("<div id='alreadychannel'></div")
 			      	if($("#alreadyfp").length == 1) window.initfp();
-			      	else $("#scripts").append($($(e)[8]).html());
+			      	else $("#scripts").append($($(e)[10]).html());
+			      	$("#channel-load").css("display", "none");
 				}, 1000);
 
 				document.title = "Zöff";
