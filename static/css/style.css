@@ -50,7 +50,7 @@
 }
 
 #channel-load{
-  display:none;
+  /*display:none;*/
   position: absolute;
   top: 52px;
   background-color:rgba(0,0,0,0);
