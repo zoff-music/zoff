@@ -22,7 +22,6 @@ var connection_options = {
 };
 
 $(document).ready(function(){
-	console.log("loadshit");
 
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
