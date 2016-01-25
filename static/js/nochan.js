@@ -218,8 +218,6 @@ var Nochan = {
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
 
-        console.log($(e));
-
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
