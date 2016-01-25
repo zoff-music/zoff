@@ -12,7 +12,7 @@
                     Enjoy!
                 </p>
                 <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
-                <a class="modal-trigger waves-effect help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
+                <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
             </div>
             <div class="col l4 offset-l2 s12 valign-wrapper">
