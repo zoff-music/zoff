@@ -16,11 +16,11 @@ gulp.task('js', function () {
 
 gulp.task('embed', function () {
     gulp.src(['static/js/youtube.js', 'static/js/helpers.js', 'static/js/playercontrols.js', 'static/js/list.js', 'static/js/embed.js', '!static/js/nochan*', '!static/js/remotecontroller.js'])
-        /*.pipe(uglify({
+        .pipe(uglify({
             mangle: true,
             compress: true,
             enclose: true
-        }))*/
+        }))
         .pipe(concat('embed.min.js'))
         .pipe(gulp.dest('static/dist'));
 });
