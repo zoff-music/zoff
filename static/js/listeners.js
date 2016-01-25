@@ -26,7 +26,7 @@ var began 				  = false;
 var i 					  = -1;
 var lazy_load    		  = true;
 var embed				  = false;
-var embed_code    		  = '<script src="static/dist/embed.min.js"></script>';
+var embed_code    		  = '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script src="static/dist/embed.min.js"></script>';
 var id;
 var full_playlist;
 var conf;
