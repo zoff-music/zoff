@@ -74,7 +74,7 @@
         </div>
         <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
-            <form class="channel-finder">
+            <form class="channel-finder" onsubmit="return false;">
                 <p class="prething">zoff.no/</p>
                 <input
                     class="input-field room-namer"
