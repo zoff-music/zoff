@@ -1,6 +1,6 @@
 //script for frontpage
 
-var list_html;
+var channel_list;
 var git_info;
 
 /*
@@ -40,7 +40,7 @@ var Nochan = {
       if(pinned !== undefined){
         lists.unshift(pinned);
       }
-      pre_card = $(list_html);
+      pre_card = $(channel_list);
 
       if(!window.mobilecheck())
         Nochan.add_backdrop(lists, 0);
@@ -56,7 +56,7 @@ var Nochan = {
             var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
             var song_count = lists[x][4];
 
-            //$("#channels").append(list_html);
+            //$("#channels").append(channel_list);
 
             var card = pre_card;
             if(lists[x][5] == 1) 
@@ -204,6 +204,8 @@ var Nochan = {
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
 
+    socket.removeAllListeners();
+
     $.ajax({
       url: chan + "/php/channel.php",
       success: function(e){
@@ -212,16 +214,21 @@ var Nochan = {
 
         socket.disconnect();
 
-        if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan);
+        if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
 
-        $.holdReady(true);
+        
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[0]).html());
         $("main").html($($(e)[2]).html());
-        $("#scripts").html($($(e)[4]).html());
+        if($("#alreadychannel").length == 1){
+          window.init();
+        }else{
+          $("#scripts").append($($(e)[4]).html());
+        }
+        if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
     });
   }
@@ -242,14 +249,16 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-$(document).ready(function (){
+$().ready(initfp);
+
+function initfp(){
 
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
     if(window.location.hash == "#donation")
       $('#donation').openModal()
 
-    list_html = $("#channel-list-container").html();
-    window.list_html = list_html;
+    channel_list = $("#channel-list-container").html();
+    //window.channel_list = channel_list;
     $("#channels").empty();
 
     var connection_options = {
@@ -309,33 +318,37 @@ $(document).ready(function (){
  				+ git_info[0].sha.substring(0,10) + "</a>: "
  				+ git_info[0].commit.message+"<br");
 
-});
+
+}
+
+window.initfp = initfp;
 
 $(document).on('click', '#cookieok', function() {
-    $(this).fadeOut(function(){
-        $(this).remove();
-        localStorage["ok_cookie"] = true;
-    });
-});
+          $(this).fadeOut(function(){
+              $(this).remove();
+              localStorage["ok_cookie"] = true;
+          });
+      });
 
-$(document).on('click', '#toast-container', function(){
-  $(this).fadeOut(function(){
-        $(this).remove();
-    });
-});
+      $(document).on('click', '#toast-container', function(){
+        $(this).fadeOut(function(){
+              $(this).remove();
+          });
+      });
 
-$(document).on('click', ".chan-link", function(e){
-  e.preventDefault();
+      $(document).on('click', ".chan-link", function(e){
+        e.preventDefault();
 
-  Nochan.to_channel($(this).attr("href"), false);
-});
+        Nochan.to_channel($(this).attr("href"), false);
+      });
 
-$(".listen-button").click(function(e){
-  //console.log($(".room-namer").attr("placeholder"));
-  if($(".room-namer").val() == ""){
-    e.preventDefault();
-    //window.location = "?chan="+
-    
-    Nochan.to_channel($(".room-namer").attr("placeholder"));
-  }
-});
+      $(".listen-button").click(function(e){
+        //console.log($(".room-namer").attr("placeholder"));
+        if($(".room-namer").val() == ""){
+          e.preventDefault();
+          //window.location = "?chan="+
+          
+          Nochan.to_channel($(".room-namer").attr("placeholder"));
+        }
+      });
+
