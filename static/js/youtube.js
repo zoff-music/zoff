@@ -11,9 +11,7 @@ var Youtube = {
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
-            try{
-                if(video_id != undefined && Youtube.ytplayer !== undefined) Youtube.before_load = Youtube.ytplayer.getVideoUrl();
-            }catch(e){}
+
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -40,7 +38,9 @@ var Youtube = {
 
     			$("#player_overlay").addClass("hide");
 
-                Suggestions.fetchYoutubeSuggests(video_id);
+                try{
+                    Suggestions.fetchYoutubeSuggests(video_id);
+                }catch(e){}
           		Youtube.getTitle(song_title, viewers);
     			Youtube.setBGimage(video_id);
     			//if(player_ready && !window.mobilecheck())
@@ -182,7 +182,7 @@ var Youtube = {
 		Playercontrols.initYoutubeControls(Youtube.ytplayer);
 		Playercontrols.initSlider();
 		Youtube.ytplayer.setVolume(Crypt.get_volume());
-        }catch(e){window.location.reload();};   
+        }catch(e){}
     },
 
     readyLooks: function()
@@ -191,7 +191,8 @@ var Youtube = {
     },
 
     setBGimage: function(id){
-    	if(id !== undefined)
+
+    	if(id !== undefined && !embed)
     	{
     		var img    = new Image();
     		img.onload = function ()
@@ -252,7 +253,6 @@ var Youtube = {
 
     durationSetter: function()
     {
-        //console.log(Youtube.stopInterval);
         try{
             duration = Youtube.ytplayer.getDuration();
         }catch(e){duration = 0};
