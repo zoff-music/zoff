@@ -357,7 +357,7 @@ $(document).on('click', '#cookieok', function() {
 
       $(document).on("submit", ".channel-finder", function(e){
         e.preventDefault();
-        Nochan.to_channel($(".room-namer").attr("placeholder"));
+        Nochan.to_channel($(".room-namer").val());
         return false;
       });
 
