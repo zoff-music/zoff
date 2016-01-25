@@ -52,7 +52,7 @@ var Hostcontroller = {
               ytplayer.pauseVideo()
             else if(arr[0] == "play")
               ytplayer.playVideo();
-            else if(arr[0] == "skip")
+            else if(arr[0] == "skip")
               List.skip();
           }
         });

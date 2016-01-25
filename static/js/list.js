@@ -30,17 +30,6 @@ var List = {
         }
     },
 
-    skipping_listener: function(){
-    	socket.on("skipping", function(obj)
-    	{
-    		document.getElementById("pBar").innerHTML = "Vote registrated! "+obj[0]+" of "+obj[1]+" has skipped. "+(Math.ceil(obj[1]/2))+" or more is needed!";
-    		$("#pBar").addClass("opacityFull");
-    		setTimeout(function(){
-    			$("#pBar").removeClass("opacityFull");
-    		},1500);
-    	});
-    },
-
     populate_list: function(msg)
     {
 
@@ -51,12 +40,15 @@ var List = {
 
 		$.each(full_playlist, function(j, current_song){
 			if(!current_song.now_playing){ //check that the song isnt playing
-                $("#wrapper").append(List.generateSong(current_song, false, true, true));
+                $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true));
 			}
 		});
 
-        if(window.mobilecheck()) $(".list-image").lazyload({});
-        else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+
+        if(lazy_load){
+            if(window.mobilecheck()) $(".list-image").lazyload({});
+            else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+        }
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
