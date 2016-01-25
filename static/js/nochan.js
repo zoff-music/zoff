@@ -214,14 +214,15 @@ var Nochan = {
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan);
 
-        $.holdReady(true);
+        
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[0]).html());
         $("main").html($($(e)[2]).html());
-        $("#scripts").html($($(e)[4]).html());
+        window.init();
+        //$("#scripts").html($($(e)[4]).html());
       }
     });
   }
