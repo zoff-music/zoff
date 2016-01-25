@@ -39,29 +39,36 @@ var list;
 var seekTo;
 var song_title;
 var previous_video_id;
+var socket;
 var connection_options = {
 	'sync disconnect on unload':true,
 	'secure': true,
 	'force new connection': true 
 };
 
-if(window.location.hostname == "zoff.no") add = "https://zoff.no";
-else add = "localhost";
-var socket = io.connect(''+add+':8880', connection_options);
-socket.on("get_list", function(){
-    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
-});
+$().ready(function(){init();});
 
-socket.on("suggested", function(params){
-	var single = true;
-	if(params.id == undefined)
-		single = false;
-	setTimeout(function(){Suggestions.catchUserSuggests(params, single)}, 1000);
-});
 
-$(document).ready(function()
-{
+function init(){
+
+	chan = $("#chan").html();
+	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+	else add = "localhost";
+	socket = io.connect(''+add+':8880', connection_options);
+
+	socket.on("get_list", function(){
+	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
+	});
+
+	socket.on("suggested", function(params){
+		var single = true;
+		if(params.id == undefined)
+			single = false;
+		setTimeout(function(){Suggestions.catchUserSuggests(params, single)}, 1000);
+	});
+
 	setTimeout(function(){
+	Youtube.stopInterval= false;
 	//window.vote 		  = List.vote;
 	//window.submit 		  = Search.submit;
 	//window.submitAndClose = Search.submitAndClose;
@@ -181,7 +188,11 @@ $(document).ready(function()
 		}
 	}, 1);
 	}, 1000);
-});
+
+
+}
+
+window.init = init;
 
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){
@@ -262,7 +273,7 @@ $("#skip").on("click", function(){
   List.skip();
 });
 
-$("#chan").on("click", function(){
+$(document).on("click", "#chan", function(){
   List.show();
 });
 
@@ -355,7 +366,7 @@ $(document).on('click', '#toast-container', function(){
     });
 });
 
-$(".brand-logo").click(function(e){
+$(document).on("click", ".brand-logo-navigate", function(e){
 	e.preventDefault();
 
 	window.history.pushState("to the frontpage!", "Title", "/");
@@ -369,16 +380,22 @@ window.onpopstate = function(e){
 function onepage_load(){
 
 	var url_split = window.location.href.split("/");
+
 	if(url_split[3] == "" || url_split[3].substring(0,1) == "#"){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
+
 		Youtube.stopInterval = true;
+		Admin.display_logged_out();
+		Admin.beginning = true;
+		chan = "";
+
+		socket.removeAllListeners();
 
 		$.ajax({
 		    url: "php/nochan_content.php",
 		    success: function(e){
-		    	Youtube.ytplayer.destroy();
 
 		    	socket.disconnect();
 
@@ -387,7 +404,7 @@ function onepage_load(){
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 
     			setTimeout(function(){
-			    	delete Admin
+			    	/*delete Admin
 			    	delete Chat
 			    	delete Crypt
 			    	delete Hostcontroller
@@ -438,21 +455,26 @@ function onepage_load(){
 					delete previous_video_id;
 					delete connection_options;
 					delete socket;
-					delete window.onYouTubeIframeAPIReady;
+					delete window.onYouTubeIframeAPIReady;*/
+					Youtube.ytplayer.destroy();
+
+					$(".drag-target").remove();
+					$(".sidenav-overlay").remove();
+			    	$("main").attr("class", "center-align container");
+			    	$("body").attr("id", "");
+			    	$("body").attr("style", "");
+			      	$("header").html($($(e)[0]).html());
+			      	$($(e)[2]).insertAfter("header");
+			      	$($(e)[4]).insertAfter(".mega");
+			      	$("main").html($($(e)[6]).html());
+
+			      	if($("#alreadychannel").length == 0) $("head").append("<div id='alreadychannel'></div")
+			      	if($("#alreadyfp").length == 1) window.initfp();
+			      	else $("#scripts").append($($(e)[8]).html());
 				}, 1000);
 
 				document.title = "Zöff";
 
-				$(".drag-target").remove();
-				$(".sidenav-overlay").remove();
-		    	$("main").attr("class", "center-align container");
-		    	$("body").attr("id", "");
-		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[0]).html());
-		      	$($(e)[2]).insertAfter("header");
-		      	$($(e)[4]).insertAfter(".mega");
-		      	$("main").html($($(e)[6]).html());
-		      	$("#scripts").html($($(e)[8]).html());
 
 		    }
 		});

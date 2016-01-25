@@ -11,7 +11,9 @@ var Youtube = {
     	socket.on("np", function(obj)
     	{
             Youtube.loaded      = false;
-            if(video_id != undefined && Youtube.ytplayer !== undefined) Youtube.before_load = Youtube.ytplayer.getVideoUrl();
+            try{
+                if(video_id != undefined && Youtube.ytplayer !== undefined) Youtube.before_load = Youtube.ytplayer.getVideoUrl();
+            }catch(e){}
     		if(obj[0].length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -44,22 +46,26 @@ var Youtube = {
     			//if(player_ready && !window.mobilecheck())
                 if(player_ready && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
     			{
-    				if(Youtube.ytplayer.getVideoUrl().split('v=')[1] != video_id)
-    				{
-    					Youtube.ytplayer.loadVideoById(video_id);
-    					Youtube.notifyUser(video_id, song_title);
-    					Youtube.ytplayer.seekTo(seekTo);
-    					if(paused)
-    						Youtube.ytplayer.pauseVideo();
-    				}
-    				if(!paused){
-    					Youtube.ytplayer.playVideo();
-                        Youtube.durationSetter();
-                    }
-    				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
-    					Youtube.ytplayer.seekTo(seekTo);
-                    Youtube.after_load  = video_id;
-                    setTimeout(function(){Youtube.loaded = true;},500);
+
+    				try{
+                        if(Youtube.ytplayer.getVideoUrl().split('v=')[1] != video_id)
+        				{
+        					Youtube.ytplayer.loadVideoById(video_id);
+        					Youtube.notifyUser(video_id, song_title);
+        					Youtube.ytplayer.seekTo(seekTo);
+        					if(paused)
+        						Youtube.ytplayer.pauseVideo();
+        				}
+
+        				if(!paused){
+        					Youtube.ytplayer.playVideo();
+                            Youtube.durationSetter();
+                        }
+        				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
+        					Youtube.ytplayer.seekTo(seekTo);
+                        Youtube.after_load  = video_id;
+                        setTimeout(function(){Youtube.loaded = true;},500);
+                    }catch(e){Youtube.durationSetter();}
     			}
     			else
             		Youtube.getTitle(song_title, viewers);
@@ -157,6 +163,7 @@ var Youtube = {
     },
 
     onPlayerReady: function(event) {
+        try{
         beginning = true;
       	player_ready = true;
 		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
@@ -164,6 +171,7 @@ var Youtube = {
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
+            window.ytplayer = Youtube.ytplayer;
 			Youtube.ytplayer.loadVideoById(video_id);
 			Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
@@ -173,6 +181,7 @@ var Youtube = {
 		Playercontrols.initYoutubeControls(Youtube.ytplayer);
 		Playercontrols.initSlider();
 		Youtube.ytplayer.setVolume(Crypt.get_volume());
+        }catch(e){window.location.reload();};   
     },
 
     readyLooks: function()
@@ -243,22 +252,28 @@ var Youtube = {
     durationSetter: function()
     {
         //console.log(Youtube.stopInterval);
-        duration = Youtube.ytplayer.getDuration();
+        try{
+            duration = Youtube.ytplayer.getDuration();
+        }catch(e){duration = 0};
         if(duration != undefined){
-            dMinutes = Math.floor(duration / 60);
-            dSeconds = duration - dMinutes * 60;
-            currDurr = Youtube.ytplayer.getCurrentTime();
-            if(currDurr > duration)
-                currDurr = duration;
-            minutes = Math.floor(currDurr / 60);
-            seconds = currDurr - minutes * 60;
-            document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
-            per = (100 / duration) * currDurr;
-            if(per >= 100)
-                per = 100;
-            else if(duration == 0)
-                per = 0;
-            $("#bar").width(per+"%");
+            try{
+                dMinutes = Math.floor(duration / 60);
+                dSeconds = duration - dMinutes * 60;
+                currDurr = Youtube.ytplayer.getCurrentTime();
+                if(currDurr > duration)
+                    currDurr = duration;
+                minutes = Math.floor(currDurr / 60);
+                seconds = currDurr - minutes * 60;
+                document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+                per = (100 / duration) * currDurr;
+                if(per >= 100)
+                    per = 100;
+                else if(duration == 0)
+                    per = 0;
+                $("#bar").width(per+"%");
+            }catch(e){
+                
+            }
         }
         if(!Youtube.stopInterval) setTimeout(Youtube.durationSetter, 1000);
     },
