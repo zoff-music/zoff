@@ -2,6 +2,7 @@
 
 var channel_list;
 var git_info;
+var frontpage = true;
 
 /*
 function getCookie(cname) {
@@ -167,7 +168,7 @@ var Nochan = {
    
     }
     setTimeout(function(){
-      Nochan.add_backdrop(list, i+1);
+      if(frontpage) Nochan.add_backdrop(list, i+1);
     },6000);
     
   },
@@ -203,6 +204,7 @@ var Nochan = {
 
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
+    frontpage = false;
 
     socket.removeAllListeners();
 
@@ -216,17 +218,19 @@ var Nochan = {
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
 
-        
+        console.log($(e));
+
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[0]).html());
-        $("main").html($($(e)[2]).html());
+        $("main").html($($(e)[4]).html());
+        $("#search").attr("placeholder", "Find song on youtube");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
-          $("#scripts").append($($(e)[4]).html());
+          $("#scripts").append($($(e)[6]).html());
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }

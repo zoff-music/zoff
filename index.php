@@ -153,10 +153,10 @@
             </div>
         </div>
     </header>
-    <main class="container center-align main">
-    <div id="channel-load" class="progress" style="top:52px;">
+     <div id="channel-load" class="progress">
             <div class="indeterminate" id="channel-load-move"></div>
         </div>
+    <main class="container center-align main">
         <div id="main-row" class="row">
             <div class="col s12 m9 video-container hide-on-small-only">
 

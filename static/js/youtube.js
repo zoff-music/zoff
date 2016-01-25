@@ -163,6 +163,7 @@ var Youtube = {
     },
 
     onPlayerReady: function(event) {
+        $("#channel-load").css("display", "none");
         try{
         beginning = true;
       	player_ready = true;
