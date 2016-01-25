@@ -144,6 +144,16 @@
                 <p>Also, whenever you're logged in, you'll have two tabs in the top of the playlist thats called "Playlist" and "Suggested". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
             </div>
         </div>
+        <div id="embed" class="modal">
+        <div class="modal-header-fixed">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+            <div class="modal-content">
+              <h4>Embed code (in beta)</h4>
+              <p>Copy the code in the textarea, and paste on your website.</p>
+              <textarea id="embed-area"></textarea>
+            </div>
+        </div>
     </header>
     <div id="channel-load" class="progress" style="top:52px;">
             <div class="indeterminate" id="channel-load-move"></div>

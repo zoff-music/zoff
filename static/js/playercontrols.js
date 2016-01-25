@@ -20,7 +20,9 @@ var Playercontrols = {
 
     initSlider: function()
     {
-        vol = (Crypt.get_volume());
+        try{
+            vol = (Crypt.get_volume());
+        }catch(e){}
     	$("#volume").slider({
     	    min: 0,
     	    max: 100,
@@ -31,7 +33,7 @@ var Playercontrols = {
 
                 Playercontrols.setVolume(ui.value);
     				//localStorage.setItem("volume", ui.value);
-                    Crypt.set_volume(ui.value);
+                try{Crypt.set_volume(ui.value);}catch(e){}
     	    }
     	});
         Playercontrols.choose_button(vol, false);

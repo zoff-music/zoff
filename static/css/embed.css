@@ -1,0 +1,235 @@
+.card-image{
+    height: 100px;
+    width: 100px;
+    background-position: center;
+    background-size: 180%;
+}
+
+.card{
+	cursor:pointer;
+	background-color: grey !important;
+}
+
+
+#list-song-html {
+  display:none;
+}
+
+#song-title{
+	display:none;
+}
+
+.list-image, .list-suggested-image{
+    width: 34%;
+    height: 66px;
+    float: left;
+}
+
+.list-image:after {
+    font-family: "Material-Design-Icons";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\e686";/*"\e800";*/
+    color:white;
+    font-size:65px;
+    position:absolute;
+    width:100%; height:100%;
+    top:0; left:0;
+    background:rgba(0,0,0,0.8);
+    opacity:0;
+    transition: all .1s ease;
+}
+
+.list-suggested-image:after {
+  font-family: "Material-Design-Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  content: "\e625";/*"\e800";*/
+  color:white;
+  font-size:65px;
+  position:absolute;
+  width:100%; height:100%;
+  top:0; left:0;
+  background:rgba(0,0,0,0.8);
+  opacity:0;
+  transition: all .1s ease;
+}
+
+.vote-container:hover .list-image:after, .add-suggested:hover .list-suggested-image:after {
+    opacity:1;
+}
+
+
+
+.vote-span{
+    opacity: 0.7;
+    padding: 0 0 0 10px;
+    color:white !important;
+}
+
+.list-song{
+    background-color: rgba(255, 255, 255, 0.04);
+    color:white;
+    font:12px Arial,sans-serif;
+		-webkit-transition:height .3s;
+    -moz-transition:height .3s;
+    -o-transition:height .3s;
+    transition:height .3s;
+		height:66px;
+}
+.list-song .card-content{padding:0;}
+.list-title{
+	font-size:13px !important;
+    display:block;
+    color:white;font-size:1em;
+    text-align:left;
+    padding: 0 10px 0 10px;
+    line-height: 2.6rem;
+}
+.card-image{cursor:pointer}
+.card{
+  margin:5px 0 5px 0 !important;
+}
+.card:hover{
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
+}
+
+#playlist{
+	background-color:grey;
+	height:332px;
+}
+
+.progress{background-color:rgba(0,0,0,0) !important;}
+
+.indeterminate {
+  background-color:white !important;
+}
+
+#controls
+{
+    opacity:0;
+    height:32px;
+    background-color:grey;
+    width:300px;
+    color:white;
+    margin-top:0px;
+}
+
+#playpause, #duration, #volume-button
+{
+  float:left;
+  color:white;
+}
+
+#playpause, #volume-button
+{
+  margin-left:10px;
+}
+
+#playpause:hover, #volume-button:hover, #fullscreen:hover
+{
+    color:rgba(255,255,255,0.5);
+}
+
+#fullscreen
+{
+  float:right;
+  color:white;
+  margin-right:15px;
+}
+
+#duration, #viewers
+{
+  margin-top:5px;
+  font-family:"Roboto", sans-serif;
+  font-weight:300;
+  margin-left:15px;
+}
+
+#viewers{
+  float: right;
+}
+
+#play, #pause, #volume-button, #fullscreen
+{
+  font-size:20px;
+  cursor:pointer;
+}
+
+#volume {
+    cursor:pointer;
+  float:left;
+    position: relative;
+    left: 10px;
+    margin: 13px auto;
+    height:5px;
+    width: 75px;
+    /*background-color:rgba(0, 0, 0, 0.5);*/
+    background:rgba(0, 0, 0, 0.5) 50% 50% repeat-x;
+    border: none;
+    outline: none;
+    /*border-radius: 2px;*/
+}
+
+#volume .ui-slider-range-min {
+    height:5px;
+    width: 75px;
+    position: absolute;
+    background-color:rgba(255, 255, 255, 0.8);
+    border: none;
+    outline: none;
+    /*border-radius: 2px;*/
+}
+
+#volume .ui-slider-handle {
+    height:15px;
+    width:5px;
+    background:#fff 50% 50% repeat-x;
+    position: absolute;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    display: none;
+    margin-left:-2.5px;
+    margin-top:0px;
+}
+
+.ui-slider-handle
+{
+    margin-top:-5px;
+}
+
+.play
+{
+    background-size: auto;
+    width: 55px;
+    height: 27px;
+}
+
+.pause
+{
+    background-size: auto;
+    width: 55px;
+    height: 27px;
+}
+
+.hide
+{
+    display:none !important;
+}
+
+#bar
+{
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+}
