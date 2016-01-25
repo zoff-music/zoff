@@ -19,6 +19,10 @@
 	display:none;
 }
 
+#zoffchannel{
+  display:none;
+}
+
 .list-image, .list-suggested-image{
     width: 34%;
     height: 66px;
