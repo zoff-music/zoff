@@ -13,7 +13,7 @@ var seekTo;
 var socket;
 var video_id;
 var previous_video_id;
-var chan = ($("#zoffchannel").html()).toLowerCase();
+var chan = window.location.hash.substring(1);
 
 var connection_options = {
 	'sync disconnect on unload':true,
@@ -25,6 +25,9 @@ $(document).ready(function(){
 
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
+
+	console.log(document);
+	console.log(window.location.hash)
 
 	add = "https://zoff.no";
 	socket = io.connect(''+add+':8880', connection_options);

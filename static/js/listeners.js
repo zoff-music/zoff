@@ -26,7 +26,7 @@ var began 				  = false;
 var i 					  = -1;
 var lazy_load    		  = true;
 var embed				  = false;
-var embed_code    		  = '<embed src="https://zoff.no/embed.html" width="615px" height="356px">';
+var embed_code    		  = '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '" width="615px" height="356px">';
 var id;
 var full_playlist;
 var conf;
