@@ -10,6 +10,12 @@
 	background-color: grey !important;
 }
 
+#player{
+  width:50vw;
+  height: calc(100vh - 32px);
+}
+
+
 
 #list-song-html {
   display:none;
@@ -110,7 +116,9 @@
 
 #playlist{
 	background-color:grey;
-	height:332px;
+	height:100vh;
+  width:50vw;
+  overflow-y:scroll;
 }
 
 .progress{background-color:rgba(0,0,0,0) !important;}
@@ -124,7 +132,7 @@
     opacity:0;
     height:32px;
     background-color:grey;
-    width:300px;
+    width:50vw;
     color:white;
     margin-top:0px;
 }
@@ -162,6 +170,7 @@
 
 #viewers{
   float: right;
+  display:none;
 }
 
 #play, #pause, #volume-button, #fullscreen
