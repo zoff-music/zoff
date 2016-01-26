@@ -191,7 +191,7 @@ function init(){
 	}, 1000);
 	
 	$("#embed-button").css("display", "inline-block");
-	$("#embed-area").val('<div id="zoffchannel">' + chan.toLowerCase() + '</div>' + embed_code);
+	$("#embed-area").val(embed_code);
 
 }
 
