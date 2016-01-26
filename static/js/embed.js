@@ -47,6 +47,10 @@ $(document).ready(function(){
 	Playercontrols.initSlider();
 });
 
+$(document).on( "click", "#zoffbutton", function(e){
+	window.open("https://zoff.no/" + chan.toLowerCase() + "/", '_blank');
+});
+
 $(document).on( "click", ".vote-container", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "pos");
