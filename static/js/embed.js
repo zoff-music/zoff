@@ -29,7 +29,8 @@ $(document).ready(function(){
 	console.log(document);
 	console.log(window.location.hash)
 
-	add = "https://zoff.no";
+	//add = "https://zoff.no";
+	add = "localhost";
 	socket = io.connect(''+add+':8880', connection_options);
 
 	socket.on("get_list", function(){

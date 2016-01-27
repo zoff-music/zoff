@@ -172,11 +172,16 @@ var Youtube = {
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
-            window.ytplayer = Youtube.ytplayer;
 			Youtube.ytplayer.loadVideoById(video_id);
-			Youtube.ytplayer.playVideo();
+            Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
-			Youtube.ytplayer.seekTo(seekTo);
+            if(embed){
+                setTimeout(function(){
+                    Youtube.ytplayer.playVideo();
+                    Youtube.ytplayer.seekTo(seekTo);
+                    console.log("delayed search");
+                }, 1000);
+            }else Youtube.ytplayer.seekTo(seekTo);
 		}
 		Youtube.readyLooks();
 		Playercontrols.initYoutubeControls(Youtube.ytplayer);
