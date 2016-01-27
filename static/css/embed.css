@@ -180,11 +180,11 @@
   font-family:"Roboto", sans-serif;
   font-weight:300;
   margin-left:15px;
+  margin-right:5px;
 }
 
 #viewers{
   float: right;
-  display:none;
 }
 
 #play, #pause, #volume-button, #fullscreen
@@ -200,7 +200,7 @@
     left: 10px;
     margin: 13px auto;
     height:5px;
-    width: 75px;
+    width: 60px;
     /*background-color:rgba(0, 0, 0, 0.5);*/
     background:rgba(0, 0, 0, 0.5) 50% 50% repeat-x;
     border: none;

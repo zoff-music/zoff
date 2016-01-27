@@ -178,7 +178,6 @@ var Youtube = {
             if(embed){
                 setTimeout(function(){
                     Youtube.ytplayer.seekTo(seekTo);
-                    console.log("delayed search");
                 }, 1000);
             }else
             Youtube.ytplayer.seekTo(seekTo);

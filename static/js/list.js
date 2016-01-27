@@ -219,6 +219,7 @@ var List = {
         if(list){
             song.find(".list-votes").text(video_votes);
             song.find("#list-song").attr("id", video_id);
+            song.find(".vote-container").attr("title", video_title);
 
             attr     = ".vote-container";
             del_attr = "del";
@@ -233,7 +234,7 @@ var List = {
                 del_attr = "del_suggested";
 
             song.find(".vote-container").attr("class", "clickable add-suggested");
-            song.find(".add-suggested").attr("title", "Add song!");
+            song.find(".add-suggested").attr("title", video_title);
             song.find("#del").attr("id", del_attr);
             song.find(attr).attr("data-video-title", video_title);
             song.find(attr).attr("data-video-length", song_info.length);
