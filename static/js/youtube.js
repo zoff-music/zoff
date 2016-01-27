@@ -175,13 +175,12 @@ var Youtube = {
 			Youtube.ytplayer.loadVideoById(video_id);
             Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
-            /*if(embed){
+            if(embed){
                 setTimeout(function(){
-                    Youtube.ytplayer.playVideo();
                     Youtube.ytplayer.seekTo(seekTo);
                     console.log("delayed search");
                 }, 1000);
-            }else */
+            }else
             Youtube.ytplayer.seekTo(seekTo);
 		}
 		Youtube.readyLooks();
