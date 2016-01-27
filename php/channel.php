@@ -150,7 +150,7 @@
             </div>
             <div class="modal-content">
               <h4>Embed code (in beta)</h4>
-              <p>Copy the code in the textarea, and paste on your website.</p>
+              <p>Copy the code in the textarea, and paste on your website. Remove the &amp; and autoplay, to prevent the player to autoplay.</p>
               <textarea id="embed-area"></textarea>
             </div>
         </div>

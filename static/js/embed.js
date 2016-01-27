@@ -13,7 +13,9 @@ var seekTo;
 var socket;
 var video_id;
 var previous_video_id;
-var chan = window.location.hash.substring(1);
+var hash 	 = window.location.hash.substring(1).split("&");
+var chan 	 = hash[0];
+var autoplay = false;
 
 var connection_options = {
 	'sync disconnect on unload':true,
@@ -22,6 +24,11 @@ var connection_options = {
 };
 
 $(document).ready(function(){
+
+	if(hash.length == 2 && hash[1] == "autoplay"){
+		autoplay = true;
+		paused   = true;
+	}
 
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
@@ -33,9 +40,9 @@ $(document).ready(function(){
 	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
 	});
 
+
 	Youtube.setup_youtube_listener(chan);
 	List.channel_listener();
-
 
 	window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
 
