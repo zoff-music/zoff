@@ -26,9 +26,6 @@ $(document).ready(function(){
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
 
-	console.log(document);
-	console.log(window.location.hash)
-
 	add = "https://zoff.no";
 	socket = io.connect(''+add+':8880', connection_options);
 
