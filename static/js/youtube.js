@@ -172,6 +172,7 @@ var Youtube = {
 			$("#player").css("opacity", "1");
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
+            console.log(video_id);
 			Youtube.ytplayer.loadVideoById(video_id);
             Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
