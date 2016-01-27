@@ -111,10 +111,7 @@ var Youtube = {
     		case 2:
     			paused = true;
 
-    			if(document.getElementById("pause").className.split(" ").length == 1)
-    				$("#pause").toggleClass("hide");
-    			if(document.getElementById("play").className.split(" ").length == 2)
-    				$("#play").toggleClass("hide");
+    			Playercontrols.play_pause_show();
     			break;
     		case 3:
     			break;
@@ -173,11 +170,15 @@ var Youtube = {
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
 			Youtube.ytplayer.loadVideoById(video_id);
-            Youtube.ytplayer.playVideo();
+            if(autoplay) Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
             if(embed){
                 setTimeout(function(){
                     Youtube.ytplayer.seekTo(seekTo);
+                    if(!autoplay){
+                        Youtube.ytplayer.pauseVideo();
+                        Playercontrols.play_pause_show();
+                    }
                 }, 1000);
             }else
             Youtube.ytplayer.seekTo(seekTo);

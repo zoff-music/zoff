@@ -65,6 +65,14 @@ var Playercontrols = {
     	}
     },
 
+    play_pause_show: function()
+    {
+        if(document.getElementById("pause").className.split(" ").length == 1)
+            $("#pause").toggleClass("hide");
+        if(document.getElementById("play").className.split(" ").length == 2)
+            $("#play").toggleClass("hide");
+    },
+
     settings: function()
     {
     	$("#qS").toggleClass("hide");
