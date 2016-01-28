@@ -27,7 +27,8 @@ $(document).ready(function(){
 
 	if(hash.length == 2 && hash[1] == "autoplay"){
 		autoplay = true;
-		paused   = true;
+	}else{
+		paused = true;
 	}
 
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
