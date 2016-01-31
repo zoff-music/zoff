@@ -1154,6 +1154,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    .brand-mobile{
+      padding-left:0px !important;
+    }
+
     #player{
       display:none;
     }
