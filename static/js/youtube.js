@@ -245,7 +245,7 @@ var Youtube = {
 
     onYouTubeIframeAPIReady: function() {
       Youtube.ytplayer = new YT.Player('player', {
-        videoId: "asd",
+        videoId: video_id,
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
         events: {
           'onReady': Youtube.onPlayerReady,
