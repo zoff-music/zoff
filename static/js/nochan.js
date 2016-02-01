@@ -285,7 +285,7 @@ function initfp(){
         pad+=10;
         document.getElementById("zicon").style.paddingLeft = pad+"%";
         if(pad >= 100)
-            window.location.href = 'https://www.youtube.com/v/0IGsNdVoEh0?autoplay=1&showinfo=0&autohide=1';
+            window.location.href = 'http://etys.no';
     });
 
     if(!window.mobilecheck() && Nochan.winter) Nochan.start_snowfall();
