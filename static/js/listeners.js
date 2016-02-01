@@ -476,7 +476,7 @@ function onepage_load(){
 					Youtube.ytplayer.destroy();
 
 					$(".drag-target").remove();
-					$(".sidenav-overlay").remove();
+					$("#sidenav-overlay").remove();
 			    	$("main").attr("class", "center-align container");
 			    	$("body").attr("id", "");
 			    	$("body").attr("style", "");
