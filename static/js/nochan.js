@@ -241,7 +241,7 @@ var Nochan = {
 window.onpopstate = function(e){
   var url_split = window.location.href.split("/");
 
-  if(url_split[3] != "" && (url_split[3].substring(0,1) != "#" || url_split[3] == "#!")){
+  if(url_split[3] != "" && (url_split[3].substring(0,1) != "#")){
     Nochan.to_channel(url_split[3], true);
   }
 }
@@ -259,7 +259,10 @@ function initfp(){
     $("#channel-load").css("display", "none");
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
     if(window.location.hash == "#donation")
+    {
+      window.location.hash = "#";
       $('#donation').openModal()
+    }
 
     channel_list = $("#channel-list-container").html();
     //window.channel_list = channel_list;
