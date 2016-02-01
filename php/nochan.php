@@ -39,7 +39,7 @@ if(isset($_GET['chan'])){
                 <br>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="about" class="modal">
@@ -52,7 +52,7 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="donation" class="modal">
@@ -66,12 +66,12 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
         <div id="help" class="modal">
         <div class="modal-header-fixed">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
             <div class="modal-content">
                 <h4>So you need help?</h4>
