@@ -3,6 +3,7 @@
 var channel_list;
 var git_info;
 var frontpage = true;
+var socket;
 
 /*
 function getCookie(cname) {
@@ -240,7 +241,7 @@ var Nochan = {
 window.onpopstate = function(e){
   var url_split = window.location.href.split("/");
 
-  if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
+  if(url_split[3] != "" && (url_split[3].substring(0,1) != "#" || url_split[3] == "#!")){
     Nochan.to_channel(url_split[3], true);
   }
 }
@@ -271,7 +272,7 @@ function initfp(){
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = "localhost";
-    var socket = io.connect(''+add+':8880', connection_options);
+    socket = io.connect(''+add+':8880', connection_options);
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         Nochan.populate_channels(msg);
