@@ -421,58 +421,8 @@ function onepage_load(){
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 
     			setTimeout(function(){
-			    	/*delete Admin
-			    	delete Chat
-			    	delete Crypt
-			    	delete Hostcontroller
-			    	delete Playercontrols
-			    	delete List
-			    	delete Search
-			    	delete Suggestions
-			    	delete Youtube
-			    	delete chan;
-					delete w_p;
-					delete hasadmin;
-					delete showToggle;
-					delete list_html;
-					delete blink_interval_exists;
-					delete unseen;
-					delete timer;
-					delete api_key;
-					delete result_html;
-					delete empty_results_html;
-					delete searching;
-					delete time_regex;
-					delete conf;
-					delete music;
-					delete frontpage;
-					delete adminpass;
-					delete filesadded;
-					delete player_ready;
-					delete viewers;
-					delete paused;
-					delete playing;
-					delete SAMPLE_RATE;
-					delete lastSample;
-					delete began;
-					delete i;
-					delete id;
-					delete full_playlist;
-					delete conf;
-					delete blink_interval;
-					delete tag;
-					delete firstScriptTag;
-					delete Youtube.ytplayer;
-					delete title;
-					delete viewers;
-					delete video_id;
-					delete list;
-					delete seekTo;
-					delete song_title;
-					delete previous_video_id;
-					delete connection_options;
-					delete socket;
-					delete window.onYouTubeIframeAPIReady;*/
+			    	
+			    	$("meta[name=theme-color]").attr("content", "#2D2D2D");
 					Youtube.ytplayer.destroy();
 
 					$(".drag-target").remove();
