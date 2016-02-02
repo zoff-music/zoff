@@ -53,7 +53,7 @@ var Nochan = {
       {
 
           var chan = lists[x][3];
-          if(num<16)
+          if(num<12)
           {
             var id = lists[x][1];
             var viewers = lists[x][0];
@@ -171,7 +171,7 @@ var Nochan = {
    
     }
     setTimeout(function(){
-      if(Nochan.times_rotated == 50 && frontpage){
+      if(Nochan.times_rotated == 2 && frontpage){
         Nochan.times_rotated = 0;
         socket.emit("frontpage_lists");
       }else if(frontpage){
@@ -270,12 +270,19 @@ String.prototype.capitalizeFirstLetter = function() {
 $().ready(initfp);
 
 function initfp(){
+    channel_list = $("#channel-list-container").html();
+
+    var connection_options = {
+      'secure': true,
+      'force new connection': true 
+    };
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = "localhost";
     socket = io.connect(''+add+':8880', connection_options);
     socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
+        $("#channels").empty();
 
         Nochan.populate_channels(msg.channels);
 
@@ -289,15 +296,8 @@ function initfp(){
       window.location.hash = "#";
       $('#donation').openModal()
     }
-
-    channel_list = $("#channel-list-container").html();
     //window.channel_list = channel_list;
-    $("#channels").empty();
 
-    var connection_options = {
-      'secure': true,
-      'force new connection': true 
-    };
 
     if(!localStorage["ok_cookie"])
       Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#ok' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
@@ -378,6 +378,12 @@ $(document).on('click', '#cookieok', function() {
       $(document).on("submit", ".channel-finder", function(e){
         e.preventDefault();
         Nochan.to_channel($(".room-namer").val());
+        return false;
+      });
+
+      $(document).on("submit", "#base", function(e){
+        e.preventDefault();
+        Nochan.to_channel($("#search-mobile").val());
         return false;
       });
 
