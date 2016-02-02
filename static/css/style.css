@@ -20,6 +20,12 @@
   display:none;
 }
 
+#frontpage-viewer-counter{
+  position: absolute;
+  top: 0px;
+  left: 125px;
+}
+
 #toast-container{
   left:2% !important;
   cursor:pointer;

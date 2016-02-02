@@ -91,7 +91,6 @@ var Admin = {
 
     	socket.on("conf", function(msg)
     	{
-            
             Crypt.init();
     		Admin.set_conf(msg[0]);
             if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) != ""){
