@@ -112,12 +112,12 @@ if(isset($_GET['chan'])){
     </div>
 
     <div class="section mobile-search">
-            <form class="row" id="base" method="get">
+            <form class="row" id="base" method="get" onsubmit="return false;">
                     <div class="input-field col s12">
                         <input
                             class="input-field"
                             type="text"
-                            id="search"
+                            id="search-mobile"
                             name="chan"
                             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                             autocomplete="off"
@@ -127,7 +127,7 @@ if(isset($_GET['chan'])){
                             maxlength="18"
                             data-length="18"
                         />
-                        <label for="search" class="noselect">Find or create radio channel</label>
+                        <label for="search-mobile" class="noselect">Find or create radio channel</label>
                         <datalist id="searches">
                         </datalist>
                 </div>
