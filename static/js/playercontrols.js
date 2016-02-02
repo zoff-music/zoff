@@ -55,13 +55,17 @@ var Playercontrols = {
     	if(Youtube.ytplayer.getPlayerState() == 1)
     	{
     		Youtube.ytplayer.pauseVideo();
-            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "none";
+                $(".page-footer").toggleClass("padding-bottom-extra");
+            }
     	}else if(Youtube.ytplayer.getPlayerState() == 2 || Youtube.ytplayer.getPlayerState() == 0)
     	{
     		Youtube.ytplayer.playVideo();
-            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "block";
+                $(".page-footer").toggleClass("padding-bottom-extra");
+            }
     	}
     },
 
