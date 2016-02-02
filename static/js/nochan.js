@@ -171,7 +171,8 @@ var Nochan = {
    
     }
     setTimeout(function(){
-      if(Nochan.times_rotated == 2 && frontpage){
+      if(Nochan.times_rotated == 50 && frontpage){
+        Nochan.times_rotated = 0;
         socket.emit("frontpage_lists");
       }else if(frontpage){
         Nochan.times_rotated += 1;
