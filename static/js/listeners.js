@@ -422,7 +422,8 @@ function onepage_load(){
 
     			setTimeout(function(){
 			    	
-			    	$("meta[name=theme-color]").attr("content", "#2D2D2D");
+			    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
+			    	
 					Youtube.ytplayer.destroy();
 
 					$(".drag-target").remove();
