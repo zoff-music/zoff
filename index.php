@@ -11,7 +11,7 @@
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 	<?php include("php/header.php"); ?>
 </head>
-<body id="channelpage">
+<body id="channelpage" class="noselect">
     <header>
       <div class="navbar-fixed">
         <nav id="nav">
