@@ -30,6 +30,8 @@ var Nochan = {
 
   winter: false,
 
+  times_rotated: 0,
+
   populate_channels: function(lists)
   {
       var output = "";
@@ -169,7 +171,12 @@ var Nochan = {
    
     }
     setTimeout(function(){
-      if(frontpage) Nochan.add_backdrop(list, i+1);
+      if(Nochan.times_rotated == 2 && frontpage){
+        socket.emit("frontpage_lists");
+      }else if(frontpage){
+        Nochan.times_rotated += 1;
+        Nochan.add_backdrop(list, i+1);
+      }
     },6000);
     
   },
@@ -198,6 +205,13 @@ var Nochan = {
       },50);
     }else{
       corn.remove();
+    }
+  },
+
+  set_viewers: function(viewers){
+    if(viewers > 0){
+      var to_add = viewers > 1 ? "listeners" : "listener";
+      $("#frontpage-viewer-counter").html(viewers + " " + to_add);
     }
   },
 
@@ -256,6 +270,17 @@ $().ready(initfp);
 
 function initfp(){
 
+    if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+    else add = "localhost";
+    socket = io.connect(''+add+':8880', connection_options);
+    socket.emit('frontpage_lists');
+    socket.on('playlists', function(msg){
+
+        Nochan.populate_channels(msg.channels);
+
+        Nochan.set_viewers(msg.viewers);
+    });
+
     $("#channel-load").css("display", "none");
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
     if(window.location.hash == "#donation")
@@ -272,14 +297,6 @@ function initfp(){
       'secure': true,
       'force new connection': true 
     };
-
-    if(window.location.hostname == "zoff.no") add = "https://zoff.no";
-    else add = "localhost";
-    socket = io.connect(''+add+':8880', connection_options);
-    socket.emit('frontpage_lists');
-    socket.on('playlists', function(msg){
-        Nochan.populate_channels(msg);
-    });
 
     if(!localStorage["ok_cookie"])
       Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#ok' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
