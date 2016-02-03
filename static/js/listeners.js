@@ -422,8 +422,11 @@ function onepage_load(){
 
     			setTimeout(function(){
 			    	
+			    	video_id   = "";
+			    	song_title = "";
+
 			    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
-			    	
+
 					Youtube.ytplayer.destroy();
 
 					$(".drag-target").remove();
