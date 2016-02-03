@@ -122,7 +122,7 @@ var Nochan = {
   },
 
   add_backdrop: function(list, i) {
-    if(i >= list.length || i >= 8) i = 0;
+    if(i >= list.length || i >= 12) i = 0;
 
     var id = list[i][1];
 
