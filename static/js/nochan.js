@@ -122,7 +122,7 @@ var Nochan = {
   },
 
   add_backdrop: function(list, i) {
-    if(i >= list.length || i >= 12) i = 0;
+    if(i >= list.length || i >= 8) i = 0;
 
     var id = list[i][1];
 
@@ -173,6 +173,7 @@ var Nochan = {
     setTimeout(function(){
       if(Nochan.times_rotated == 50 && frontpage){
         Nochan.times_rotated = 0;
+        i = 0;
         socket.emit("frontpage_lists");
       }else if(frontpage){
         Nochan.times_rotated += 1;
