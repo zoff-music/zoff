@@ -11,7 +11,7 @@
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 	<?php include("php/header.php"); ?>
 </head>
-<body id="channelpage" class="noselect">
+<body id="channelpage" class="noselect cursor-default">
     <header>
       <div class="navbar-fixed">
         <nav id="nav">
@@ -26,7 +26,7 @@
                 </div>
 
                 <ul class="title-container">
-                    <li class="song-title truncate" id="song-title">
+                    <li class="song-title cursor-pointer truncate" id="song-title">
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
