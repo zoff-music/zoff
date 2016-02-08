@@ -411,7 +411,7 @@ function onepage_load(){
 		socket.removeAllListeners();
 
 		$.ajax({
-		    url: "php/nochan_content.php",
+		    url: "php/nochan.php",
 		    success: function(e){
 
 		    	socket.disconnect();
@@ -434,14 +434,14 @@ function onepage_load(){
 			    	$("main").attr("class", "center-align container");
 			    	$("body").attr("id", "");
 			    	$("body").attr("style", "");
-			      	$("header").html($($(e)[0]).html());
-			      	$($(e)[2]).insertAfter("header");
-			      	$($(e)[4]).insertAfter(".mega");
-			      	$("main").html($($(e)[8]).html());
+			      	$("header").html($($(e)[35]).html());
+			      	$($(e)[37]).insertAfter("header");
+			      	$($(e)[39]).insertAfter(".mega");
+			      	$("main").html($($(e)[43]).html());
 
 			      	if($("#alreadychannel").length == 0) $("head").append("<div id='alreadychannel'></div")
 			      	if($("#alreadyfp").length == 1) window.initfp();
-			      	else $("#scripts").append($($(e)[10]).html());
+			      	else $("#scripts").append($($(e)[63]).html());
 			      	$("#channel-load").css("display", "none");
 				}, 1000);
 
