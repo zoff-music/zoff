@@ -226,8 +226,10 @@ var Nochan = {
     socket.removeAllListeners();
 
     $.ajax({
-      url: chan + "/php/channel.php",
+      url: chan + "/php/index.php",
       success: function(e){
+
+        //console.log($(e));
 
         delete Nochan
 
@@ -239,13 +241,13 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[0]).html());
-        $("main").html($($(e)[4]).html());
+        $("header").html($($(e)[35]).html());
+        $("main").html($($(e)[39]).html());
         $("#search").attr("placeholder", "Find song on youtube");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
-          $("#scripts").append($($(e)[6]).html());
+          $("#scripts").append($($(e)[51]).html());
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
