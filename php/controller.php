@@ -4,7 +4,7 @@
     <?php include("header.php"); ?>
     <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jemjlblambcgjmmhheaklfnphncdmfmb" />
 </head>
-<body>
+<body class="noselect cursor-default">
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">

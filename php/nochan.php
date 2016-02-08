@@ -10,7 +10,7 @@ if(isset($_GET['chan'])){
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <?php include("header.php"); ?>
 </head>
-<body class="noselect">
+<body class="noselect cursor-default">
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">

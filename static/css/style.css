@@ -59,6 +59,25 @@
     user-select: none;
 }
 
+.select{
+  -webkit-touch-callout: initial;
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+}
+
+#chatchannel li, #chatall li{
+  cursor:text;
+  -webkit-touch-callout: initial;
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+}
+
 #channel-load{
   /*display:none;*/
   position: absolute;
@@ -498,6 +517,14 @@ hide mdi-action-visibility mdi-action-visibility-off
   border-bottom:1px solid #2D2D2D;
   border-radius: 2px;
   text-shadow:rgba(0,0,0,0) 0px 0px 0px;
+}
+
+.cursor-pointer{
+  cursor:pointer;
+}
+
+.cursor-default{
+  cursor:default;
 }
 
 .contact-button-submit:hover{
