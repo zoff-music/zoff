@@ -441,18 +441,8 @@ hide mdi-action-visibility mdi-action-visibility-off
   opacity: 0.72;
 }
 
-.mega .refresh-button{
-  box-sizing: border-box;   color: rgb(175, 175, 175);   cursor: pointer;   display: block;   font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;   font-size: 25.5px;   font-weight: normal;   height: 40px;   line-height: 36.4285736083984px;   margin-left: -40px;   text-align: center;   text-decoration: none;   width: 40px;
-}
 
-.mega .listen-button{
-  /*-webkit-appearance: none;   -webkit-background-clip: border-box;   -webkit-background-origin: padding-box;   -webkit-background-size: auto;   -webkit-writing-mode: horizontal-tb;   align-items: flex-start;   background-attachment: scroll;   background-clip: border-box;   
-  background-color: rgb(45, 45, 45);   background-image: none;   background-origin: padding-box;   background-size: auto;   border-bottom-color: rgb(250, 70, 104);   border-bottom-left-radius: 3px;   border-bottom-right-radius: 3px;   border-bottom-style: none;   border-bottom-width: 0px;   border-image-outset: 0px;   border-image-repeat: stretch;   border-image-slice: 100%;   border-image-source: none;   border-image-width: 1;   border-left-color: rgb(250, 70, 104);   border-left-style: none;   border-left-width: 0px;   border-right-color: rgb(250, 70, 104);   border-right-style: none;   border-right-width: 0px;   border-top-color: rgb(250, 70, 104);   border-top-left-radius: 3px;   border-top-right-radius: 3px;   border-top-style: none;   border-top-width: 0px;   box-sizing: border-box;   color: rgb(255, 255, 255);   cursor: pointer;   display: block;   font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;   font-size: 15px;   font-style: normal;   font-variant: normal;   font-weight: normal;   height: 40px;   letter-spacing: normal;   line-height: 35.625px;   margin-bottom: 0px;   margin-left: 0px;   margin-right: 0px;   margin-top: 0px;   padding-bottom: 0px;   padding-left: 30px;   padding-right: 30px;   padding-top: 0px;   text-align: center;   text-decoration: none;   text-indent: 0px;   text-shadow: none;   
-  text-transform: none;   
-  word-spacing: 0px;
-  color: rgb(255, 255, 255);
-  text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
-  height:41px;*/
+.listen-button, .contact-button-submit{
     background: none;
     border: none;
     background-size: auto;
@@ -497,6 +487,38 @@ hide mdi-action-visibility mdi-action-visibility-off
   background-color:rgba(255,255,255,0);
   color:rgba(255,255,255,1);
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
+}
+
+.contact-button-submit{
+  background-color:#FAFAFA;
+  color:#2d2d2d;
+  border-left:1px solid #2D2D2D;
+  border-right:1px solid #2D2D2D;
+  border-top:1px solid #2D2D2D;
+  border-bottom:1px solid #2D2D2D;
+  border-radius: 2px;
+  text-shadow:rgba(0,0,0,0) 0px 0px 0px;
+}
+
+.contact-button-submit:hover{
+  background-color:#2d2d2d;
+  color:white;
+  border-left:1px solid #2D2D2D;
+  border-right:1px solid #2D2D2D;
+  border-top:1px solid #2D2D2D;
+  border-bottom:1px solid #2D2D2D;
+  border-radius: 2px;
+}
+
+.contact-button-submit:focus{
+  background-color:#FAFAFA;
+  color:#2d2d2d;
+  border-left:1px solid #2D2D2D;
+  border-right:1px solid #2D2D2D;
+  border-top:1px solid #2D2D2D;
+  border-bottom:1px solid #2D2D2D;
+  border-radius: 2px;
+  text-shadow:rgba(0,0,0,0) 0px 0px 0px;
 }
 
 .mega .pitch{

@@ -166,6 +166,24 @@ var Helper = {
 
     rgbToHex: function(r, g, b) {
         return "#" + Helper.componentToHex(r) + Helper.componentToHex(g) + Helper.componentToHex(b);
+    },
+
+    send_mail: function(from, message){
+
+        $.ajax({
+            type: "POST",
+            data: {from: from, message: message},
+            url: "/php/mail.php",
+            success: function(data){
+                if(data == "success"){
+                    $("#contact-container").empty();
+                    $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
+                }else{
+                    $("#contact-container").empty();
+                    $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff'>contact@zoff.no</a>")
+                }
+            }
+        });
     }
 
 }

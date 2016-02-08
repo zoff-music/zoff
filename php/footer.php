@@ -1,3 +1,61 @@
+<div id="contact" class="modal">
+            <div class="modal-header-fixed">
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+            <div class="modal-content">
+                <h4>Want to contact us?</h4>
+                <div id="contact-container">
+                    <form id="contact-form" method="post" onsubmit="return false;">
+                        <input id="contact-form-from" name="from" type="email" placeholder="your@mail.com">
+                        <input id="contact-form-message" name="message" type="text" placeholder="Your message to us...">
+                        <button class="contact-button-submit" action="submit" id="submit-contact-form">Send</button>
+                        <div class="valign hide" id="send-loader">
+                             <div class="preloader-wrapper small active">
+                              <div class="spinner-layer spinner-blue">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-red">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-yellow">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-green">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </form>
+                </div>  
+            </div>
+        </div>
 <footer class="page-footer">
     <div class="container">
         <div class="row">
@@ -12,6 +70,7 @@
                     Enjoy!
                 </p>
                 <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
+                <a class="modal-trigger waves-effect red help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
                 <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
             </div>
