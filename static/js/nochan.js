@@ -256,16 +256,6 @@ var Nochan = {
 
 }
 
-window.onpopstate = function(e){
-  var url_split = window.location.href.split("/");
-
-  if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
-    Nochan.to_channel(url_split[3], true);
-  }
-}
-
-
-
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -273,6 +263,16 @@ String.prototype.capitalizeFirstLetter = function() {
 $().ready(initfp);
 
 function initfp(){
+
+    
+    window.onpopstate = function(e){
+      var url_split = window.location.href.split("/");
+
+      if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
+        Nochan.to_channel(url_split[3], true);
+      }
+    }
+
     channel_list = $("#channel-list-container").html();
 
     var connection_options = {

@@ -54,6 +54,11 @@ $().ready(function(){init();});
 
 function init(){
 
+	
+	window.onpopstate = function(e){
+		onepage_load();
+	}
+
 	chan = $("#chan").html();
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
@@ -389,9 +394,6 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 	onepage_load();
 });
 
-window.onpopstate = function(e){
-	onepage_load();
-}
 
 function onepage_load(){
 
