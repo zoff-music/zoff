@@ -71,7 +71,7 @@ if(isset($_GET['chan'])){
             </div>
         </div>
         <div id="help" class="modal">
-        <div class="modal-header-fixed">
+            <div class="modal-header-fixed">
                 <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
             <div class="modal-content">
@@ -80,6 +80,7 @@ if(isset($_GET['chan'])){
                 <p>Underneath the input fields, there are several tiles. These are channels that already exists, and they can be clicked! To enter one of these channels and listen to it's content, it is just to click the tile.</p>
             </div>
         </div>
+        
     </header>
 
     <div class="section mega">

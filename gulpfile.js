@@ -26,7 +26,7 @@ gulp.task('embed', function () {
 });
 
 gulp.task('nochan', function () {
-    gulp.src(['static/js/nochan.js'])
+    gulp.src(['static/js/nochan.js', 'static/js/helpers.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,
@@ -50,6 +50,6 @@ gulp.task('remotecontroller', function () {
 gulp.task('default', function(){
     gulp.watch('static/js/*.js', ['js']); 
     gulp.watch('static/js/*.js', ['embed']); 
-    gulp.watch('static/js/nochan.js', ['nochan']);
+    gulp.watch('static/js/*.js', ['nochan']);
     gulp.watch('static/js/remotecontroller.js', ['remotecontroller']);
 });

@@ -247,7 +247,7 @@ var Nochan = {
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
-          $("#scripts").append($($(e)[51]).html());
+          $("#scripts").append($($(e)[53]).html());
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
@@ -349,44 +349,59 @@ function initfp(){
 
 window.initfp = initfp;
 
+
+$(document).on('submit', '#contact-form', function(e){
+  e.preventDefault();
+
+  var message = $("#contact-form-message").val();
+  var from    = $("#contact-form-from").val();
+
+  $("#submit-contact-form").addClass("hide");
+  $("#send-loader").removeClass("hide");
+  $("#contact-form-from").attr("disabled", "true");
+  $("#contact-form-message").attr("disabled", "true");
+
+  Helper.send_mail(from, message);
+});
+
 $(document).on('click', '#cookieok', function() {
-          $(this).fadeOut(function(){
-              $(this).remove();
-              localStorage["ok_cookie"] = true;
-          });
-      });
+    $(this).fadeOut(function(){
+        $(this).remove();
+        localStorage["ok_cookie"] = true;
+    });
+});
 
-      $(document).on('click', '#toast-container', function(){
-        $(this).fadeOut(function(){
-              $(this).remove();
-          });
-      });
+$(document).on('click', '#toast-container', function(){
+  $(this).fadeOut(function(){
+        $(this).remove();
+    });
+});
 
-      $(document).on('click', ".chan-link", function(e){
-        e.preventDefault();
+$(document).on('click', ".chan-link", function(e){
+  e.preventDefault();
 
-        Nochan.to_channel($(this).attr("href"), false);
-      });
+  Nochan.to_channel($(this).attr("href"), false);
+});
 
-      $(document).on("click", ".listen-button", function(e){
-        //console.log($(".room-namer").attr("placeholder"));
-        if($(".room-namer").val() == ""){
-          e.preventDefault();
-          //window.location = "?chan="+
-          
-          Nochan.to_channel($(".room-namer").attr("placeholder"));
-        }
-      });
+$(document).on("click", ".listen-button", function(e){
+  //console.log($(".room-namer").attr("placeholder"));
+  if($(".room-namer").val() == ""){
+    e.preventDefault();
+    //window.location = "?chan="+
+    
+    Nochan.to_channel($(".room-namer").attr("placeholder"));
+  }
+});
 
-      $(document).on("submit", ".channel-finder", function(e){
-        e.preventDefault();
-        Nochan.to_channel($(".room-namer").val());
-        return false;
-      });
+$(document).on("submit", ".channel-finder", function(e){
+  e.preventDefault();
+  Nochan.to_channel($(".room-namer").val());
+  return false;
+});
 
-      $(document).on("submit", "#base", function(e){
-        e.preventDefault();
-        Nochan.to_channel($("#search-mobile").val());
-        return false;
-      });
+$(document).on("submit", "#base", function(e){
+  e.preventDefault();
+  Nochan.to_channel($("#search-mobile").val());
+  return false;
+});
 
