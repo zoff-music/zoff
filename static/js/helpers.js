@@ -176,7 +176,7 @@ var Helper = {
                 data: {from: from, message: message},
                 url: "/php/mail.php",
                 success: function(data){
-                    if(data == "success"){
+                    if(data == "success" && 1 == 2){
                         $("#contact-container").empty();
                         $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
                     }else{
