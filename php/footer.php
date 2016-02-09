@@ -6,7 +6,7 @@
                 <h4>Want to contact us?</h4>
                 <div id="contact-container">
                     <form id="contact-form" method="post" onsubmit="return false;">
-                        <input id="contact-form-from" name="from" type="email" placeholder="your@mail.com" autocomplete="off">
+                        <input id="contact-form-from" name="from" type="email" placeholder="your@mail.com" autocomplete="off" class="validate">
                         <input id="contact-form-message" name="message" type="text" placeholder="Your message to us..." autocomplete="off">
                         <button class="contact-button-submit" action="submit" id="submit-contact-form">Send</button>
                         <div class="valign hide" id="send-loader">
