@@ -231,8 +231,6 @@ var Nochan = {
 
         //console.log($(e));
 
-        delete Nochan
-
         socket.disconnect();
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
@@ -283,14 +281,17 @@ function initfp(){
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = "localhost";
     socket = io.connect(''+add+':8880', connection_options);
-    socket.emit('frontpage_lists');
     socket.on('playlists', function(msg){
         $("#channels").empty();
+
 
         Nochan.populate_channels(msg.channels);
 
         Nochan.set_viewers(msg.viewers);
     });
+
+
+    socket.emit('frontpage_lists');
 
     $("#channel-load").css("display", "none");
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
