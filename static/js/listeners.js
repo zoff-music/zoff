@@ -441,9 +441,17 @@ function onepage_load(){
 			      	$($(e)[39]).insertAfter(".mega");
 			      	$("main").html($($(e)[43]).html());
 
-			      	if($("#alreadychannel").length == 0) $("head").append("<div id='alreadychannel'></div")
-			      	if($("#alreadyfp").length == 1) window.initfp();
-			      	else $("#scripts").append($($(e)[63]).html());
+			      	console.log($($(e)[63]).html());
+
+			      	if($("#alreadyfp").length == 1){
+			      		window.initfp();
+			      	}else {
+			      		$("#scripts").append($($(e)[63]).html());
+			      	}
+
+			      	if($("#alreadychannel").length == 0){
+			      		$("head").append("<div id='alreadychannel'></div")
+			      	}
 			      	$("#channel-load").css("display", "none");
 				}, 1000);
 
