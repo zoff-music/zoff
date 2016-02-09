@@ -240,7 +240,6 @@ var Youtube = {
     	Chat.setup_chat_listener(chan);
     	Chat.allchat_listener();
     	List.channel_listener();
-    	List.skipping_listener();
     },
 
     onYouTubeIframeAPIReady: function() {
