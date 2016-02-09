@@ -170,7 +170,9 @@ var Helper = {
 
     send_mail: function(from, message){
 
+        
         if(from != "" && message != ""){
+            /*
             $.ajax({
                 type: "POST",
                 data: {from: from, message: message},
@@ -184,7 +186,14 @@ var Helper = {
                         $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff'>contact@zoff.no</a>")
                     }
                 }
-            });
+            });*/
+            var from    = $("#contact-form-from").val();
+            var message = $("#contact-form-message").val();
+            $("#contact-container").empty();
+            window.open("mailto:contact@zoff.no?Subject=Contact%20Zoff&Body=" + message + "'", "_blank");
+            $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff&Body=" + message + "'>contact@zoff.no</a>");
+
+        
         }
     }
 
