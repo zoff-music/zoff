@@ -170,7 +170,7 @@ var Youtube = {
 			$("#controls").css("opacity", "1");
 			$(".playlist").css("opacity", "1");
 			Youtube.ytplayer.loadVideoById(video_id);
-            if(autoplay) Youtube.ytplayer.playVideo();
+            if(autoplay && !window.mobilecheck()) Youtube.ytplayer.playVideo();
             Youtube.durationSetter();
             if(embed){
                 setTimeout(function(){
