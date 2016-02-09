@@ -6,12 +6,16 @@
 		$message = htmlspecialchars($_POST['message']);
 		$headers = "From: " . $from . "\r\n";
 
-		$result  = mail("contact@zoff.no", "Contact from form", $message, $headers);
+		if(filter_var($from, FILTER_VALIDATE_EMAIL) && $message != ""){
+			$result  = mail("contact@zoff.no", "Contact from form", $message, $headers);
 
-		if($result == FALSE){
-			echo "failure";
+			if($result == FALSE){
+				echo "failure";
+			}else{
+				echo "success";
+			}
 		}else{
-			echo "success";
+			echo "failure";
 		}
 	}
 
