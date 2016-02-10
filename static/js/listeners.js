@@ -444,7 +444,9 @@ function onepage_load(){
 			      	if($("#alreadyfp").length == 1){
 			      		window.initfp();
 			      	}else {
-			      		$("#scripts").append($($(e)[45]).html());
+			      		if(window.location.hostname == "zoff.no") number = 45;
+						else number = 63;
+			      		$("#scripts").append($($(e)[number]).html());
 			      	}
 
 			      	if($("#alreadychannel").length == 0){
