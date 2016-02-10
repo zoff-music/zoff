@@ -13,11 +13,12 @@ $(document).ready(function (){
       'sync disconnect on unload':true,
       'secure': true
     };
-    socket = io.connect('https://zoff.no:8880', connection_options);
+    if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+    else add = "localhost";
+    socket = io.connect(add + ':8880', connection_options);
     id = window.location.pathname.split("/")[1];
     if(id)
     {
-      console.log("remote exists");
       id = id.toLowerCase();
       Remotecontroller.control();
     }

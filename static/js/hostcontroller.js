@@ -3,7 +3,7 @@ var Hostcontroller = {
   enabled: true,
 
   host_listener: function() {
-    
+
     var old_id;
 
     socket.on("id", function(id)
@@ -51,7 +51,7 @@ var Hostcontroller = {
             }else if(arr[0] == "pause")
               Youtube.ytplayer.pauseVideo()
             else if(arr[0] == "play")
-              YouTube.ytplayer.playVideo();
+              Youtube.ytplayer.playVideo();
             else if(arr[0] == "skip")
               List.skip();
           }

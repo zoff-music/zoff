@@ -406,9 +406,11 @@ function onepage_load(){
 
 		Youtube.stopInterval = true;
 		Admin.display_logged_out();
-		Admin.beginning = true;
-		chan = "";
+		Admin.beginning 	 = true;
+		chan 				 = "";
+		began 				 = false;
 		$("#embed-button").css("display", "none");
+
 
 		socket.removeAllListeners();
 
