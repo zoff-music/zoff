@@ -119,9 +119,14 @@ footer{
 
 .help-button-footer{
   padding: 10px;
-  background: white;
+  background: #1e88e5;
   border-radius: 2px;
-  color:#2d2d2d;
+  color:white;
+  width:200px;
+}
+
+#footer-buttons li{
+  padding-top:10px;
 }
 
 footer.page-footer,
@@ -197,6 +202,10 @@ nav .brand-logo{
 
 #nav-mobile .green:hover{
   background-color: #38803C !important;
+}
+
+.footer-copyright{
+  text-align: center;
 }
 
 .footer-copyright a { color: #fff;}
@@ -317,7 +326,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 #latest-commit{
 	font-size: 12px !important;
   padding-left: 15px !important;
-  padding-top: 40px !important;
+  /*padding-top: 40px !important;*/
 }
 
 #latest-commit a{
@@ -570,6 +579,17 @@ hide mdi-action-visibility mdi-action-visibility-off
 .suggest_thumb {
   width:25%;
   float:left;
+}
+
+.video-container{
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+}
+
+.no-opacity{
+  opacity:0;
 }
 
 .suggest_bar {

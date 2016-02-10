@@ -398,7 +398,7 @@ function onepage_load(){
 
 	var url_split = window.location.href.split("/");
 
-	if(url_split[3] != "#" && url_split[3] != ""){
+	if(url_split[3].substr(0,1) != "#!" && url_split[3] != "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
 		socket.emit("change_channel");
 	    Admin.beginning = true;
 

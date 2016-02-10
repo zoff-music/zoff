@@ -187,6 +187,7 @@ var Youtube = {
 		Playercontrols.initYoutubeControls(Youtube.ytplayer);
 		Playercontrols.initSlider();
 		Youtube.ytplayer.setVolume(Crypt.get_volume());
+        $(".video-container").removeClass("no-opacity");
         }catch(e){}
     },
 
