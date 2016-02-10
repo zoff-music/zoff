@@ -106,12 +106,14 @@ var List = {
         full_playlist[0].added              = time;
         full_playlist[length].now_playing   = false;
 
-        full_playlist.push(full_playlist.shift());
-        $("#wrapper").children()[0].remove();
+        try{
+            full_playlist.push(full_playlist.shift());
+            $("#wrapper").children()[0].remove();
 
-        List.insertAtIndex(full_playlist[length-1], false);
-        document.getElementById('wrapper').scrollTop += 1;
-        document.getElementById('wrapper').scrollTop += -1;
+            List.insertAtIndex(full_playlist[length-1], false);
+            document.getElementById('wrapper').scrollTop += 1;
+            document.getElementById('wrapper').scrollTop += -1;
+        }catch(e){}
     },
 
     vote: function(id, vote){
