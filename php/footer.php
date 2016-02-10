@@ -74,7 +74,7 @@
                     <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
+                    <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">Embed this channel</a>
                   </li>
                   <li>
                     <a class="modal-trigger waves-effect red help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
