@@ -60,7 +60,7 @@ function init(){
 	}
 
 	chan = $("#chan").html();
-	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+	if(window.location._name == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
 	socket = io.connect(''+add+':8880', connection_options);
 
@@ -128,7 +128,7 @@ function init(){
 	}else{
 		Chat.setup_chat_listener(chan);
 		Chat.allchat_listener();
-		Hostcontroller.host_listener();
+		if(!window.mobilecheck()) Hostcontroller.host_listener();
 		window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
 		Youtube.loadPlayer();
 
