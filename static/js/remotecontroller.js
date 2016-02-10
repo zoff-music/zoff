@@ -13,7 +13,7 @@ $(document).ready(function (){
       'sync disconnect on unload':true,
       'secure': true
     };
-    if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+    if(window.location.hostname == "remote.zoff.no") add = "https://zoff.no";
     else add = "localhost";
     socket = io.connect(add + ':8880', connection_options);
     id = window.location.pathname.split("/")[1];
