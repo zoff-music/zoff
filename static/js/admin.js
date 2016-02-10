@@ -141,7 +141,6 @@ var Admin = {
 
         if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")){
             $(".playlist-tabs").addClass("hide");
-            $("#wrapper").toggleClass("tabs_height");
         }
 
     	if($(".card-action").length != 0 && 
@@ -150,6 +149,7 @@ var Admin = {
         }
 
         $('ul.tabs').tabs('select_tab', 'wrapper');
+        $("#wrapper").removeClass("tabs_height");
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password");
     },
