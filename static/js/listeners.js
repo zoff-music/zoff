@@ -444,7 +444,7 @@ function onepage_load(){
 			      	if($("#alreadyfp").length == 1){
 			      		window.initfp();
 			      	}else {
-			      		$("#scripts").append($($(e)[63]).html());
+			      		$("#scripts").append($($(e)[45]).html());
 			      	}
 
 			      	if($("#alreadychannel").length == 0){
