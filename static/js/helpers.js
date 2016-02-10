@@ -172,6 +172,12 @@ var Helper = {
         return string.substring(0,1).toUpperCase()+string.substring(1).toLowerCase();
     },
 
+    addClass: function(object, toAdd){
+        if(!Helper.contains($(object).attr("class").split(" "), toAdd)){
+            $(object).addClass(toAdd);
+        }
+    },
+
     send_mail: function(from, message){
 
         
