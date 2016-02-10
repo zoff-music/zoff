@@ -350,21 +350,6 @@ function initfp(){
 
 window.initfp = initfp;
 
-
-$(document).on('submit', '#contact-form', function(e){
-  e.preventDefault();
-
-  var message = $("#contact-form-message").val();
-  var from    = $("#contact-form-from").val();
-
-  $("#submit-contact-form").addClass("hide");
-  $("#send-loader").removeClass("hide");
-  $("#contact-form-from").attr("disabled", "true");
-  $("#contact-form-message").attr("disabled", "true");
-
-  Helper.send_mail(from, message);
-});
-
 $(document).on('click', '#cookieok', function() {
     $(this).fadeOut(function(){
         $(this).remove();
