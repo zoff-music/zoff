@@ -422,7 +422,7 @@ function onepage_load(){
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 
-    			setTimeout(function(){
+    			//setTimeout(function(){
 			    	
 			    	video_id   = "";
 			    	song_title = "";
@@ -444,14 +444,14 @@ function onepage_load(){
 			      	if($("#alreadyfp").length == 1){
 			      		window.initfp();
 			      	}else {
-			      		$("#scripts").append($($(e)[45]).html());
+			      		$("#scripts").append($($(e)[63]).html());
 			      	}
 
 			      	if($("#alreadychannel").length == 0){
 			      		$("head").append("<div id='alreadychannel'></div")
 			      	}
 			      	$("#channel-load").css("display", "none");
-				}, 1000);
+				//}, 1000);
 
 				document.title = "Zöff";
 
