@@ -1,11 +1,10 @@
 <div id="contact" class="modal">
             <div class="modal-header-fixed">
-                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
             <div class="modal-content">
                 <h4>Want to contact us?</h4>
                 <div id="contact-container">
-                    <a href="mailto"
                     <form id="contact-form" method="post" onsubmit="return false;">
                         <input id="contact-form-from" name="from" type="email" placeholder="your@mail.com" autocomplete="off" class="validate">
                         <input id="contact-form-message" name="message" type="text" placeholder="Your message to us..." autocomplete="off">
@@ -70,9 +69,17 @@
                     <br />
                     Enjoy!
                 </p>
-                <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
-                <a class="modal-trigger waves-effect red help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
-                <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
+                <ul id="footer-buttons">
+                  <li>
+                    <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
+                  </li>
+                  <li>
+                    <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed? (In beta)" onclick="$('#embed').openModal()">Embed this channel</a>
+                  </li>
+                  <li>
+                    <a class="modal-trigger waves-effect red help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
+                  </li>
+                </ul>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
             </div>
             <div class="col l4 offset-l2 s12 valign-wrapper">

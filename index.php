@@ -140,7 +140,7 @@
       </div>
       <div id="help" class="modal">
         <div class="modal-header-fixed">
-                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
             <div class="modal-content">
                 <h4>So you need help?</h4>
@@ -154,7 +154,7 @@
         </div>
         <div id="embed" class="modal">
         <div class="modal-header-fixed">
-                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
             <div class="modal-content">
               <h4>Embed code (in beta)</h4>
@@ -168,7 +168,7 @@
         </div>
     <main class="container center-align main">
         <div id="main-row" class="row">
-            <div class="col s12 m9 video-container hide-on-small-only">
+            <div class="col s12 m9 video-container no-opacity hide-on-small-only">
 
                 <ul class="side-nav left-aligned chat-bar" id="chat-bar">
                     <li id="chat-log">
