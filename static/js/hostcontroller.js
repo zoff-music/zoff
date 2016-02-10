@@ -32,16 +32,17 @@ var Hostcontroller = {
               Playercontrols.choose_button(arr[1], false);
             }else if(arr[0] == "channel"){
               socket.emit("change_channel");
+              Admin.beginning = true;
 
               chan = arr[1].toLowerCase();
-              $("#chan").html(chan.substring(0,1).toUpperCase()+chan.substring(1).toLowerCase());
+              $("#chan").html(Helper.upperFirst(chan));
 
               w_p = true;
               socket.emit("list", chan.toLowerCase());
 
-              if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
+              /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
                 socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
-              }
+              }*/
 
               window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
             }else if(arr[0] == "pause")
