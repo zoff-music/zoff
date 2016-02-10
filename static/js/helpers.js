@@ -168,6 +168,10 @@ var Helper = {
         return "#" + Helper.componentToHex(r) + Helper.componentToHex(g) + Helper.componentToHex(b);
     },
 
+    upperFirst: function(string){
+        return string.substring(0,1).toUpperCase()+string.substring(1).toLowerCase();
+    },
+
     send_mail: function(from, message){
 
         

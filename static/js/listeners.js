@@ -34,7 +34,6 @@ var conf;
 var blink_interval;
 var tag;
 var firstScriptTag;
-var ytplayer;
 var title;
 var viewers;
 var video_id;
@@ -399,7 +398,16 @@ function onepage_load(){
 
 	var url_split = window.location.href.split("/");
 
-	if(url_split[3] == ""){
+	if(url_split[3] != "#" && url_split[3] != ""){
+		socket.emit("change_channel");
+	    Admin.beginning = true;
+
+	    chan = url_split[3].replace("#", "");
+	    $("#chan").html(Helper.upperFirst(chan));
+
+	    w_p = true;
+	    socket.emit("list", chan.toLowerCase());
+	}else if(url_split[3] == ""){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
