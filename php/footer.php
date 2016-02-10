@@ -5,6 +5,7 @@
             <div class="modal-content">
                 <h4>Want to contact us?</h4>
                 <div id="contact-container">
+                    <a href="mailto"
                     <form id="contact-form" method="post" onsubmit="return false;">
                         <input id="contact-form-from" name="from" type="email" placeholder="your@mail.com" autocomplete="off" class="validate">
                         <input id="contact-form-message" name="message" type="text" placeholder="Your message to us..." autocomplete="off">

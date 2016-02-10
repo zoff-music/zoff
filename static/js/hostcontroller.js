@@ -27,7 +27,7 @@ var Hostcontroller = {
           if(enabled){
             if(arr[0] == "volume"){
               $("#volume").slider("value", arr[1]);
-              ytplayer.setVolume(arr[1]);
+              Youtube.ytplayer.setVolume(arr[1]);
               localStorage.setItem("volume", arr[1]);
               Playercontrols.choose_button(arr[1], false);
             }else if(arr[0] == "channel"){
@@ -39,12 +39,8 @@ var Hostcontroller = {
               w_p = true;
               socket.emit("list", chan.toLowerCase());
 
-              if(localStorage[chan.toLowerCase()]){
-                //localStorage.removeItem(chan.toLowerCase());
-                if(localStorage[chan.toLowerCase()].length != 64)
-                  localStorage.removeItem(chan.toLowerCase());
-                else
-                  socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
+              if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
+                socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
               }
 
               window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
