@@ -227,6 +227,7 @@ var Nochan = {
 
     $.ajax({
       url: chan + "/php/index.php",
+      
       success: function(e){
 
         //console.log($(e));
