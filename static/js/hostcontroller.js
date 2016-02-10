@@ -49,9 +49,9 @@ var Hostcontroller = {
 
               window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
             }else if(arr[0] == "pause")
-              ytplayer.pauseVideo()
+              Youtube.ytplayer.pauseVideo()
             else if(arr[0] == "play")
-              ytplayer.playVideo();
+              YouTubeytplayer.playVideo();
             else if(arr[0] == "skip")
               List.skip();
           }
