@@ -12,7 +12,7 @@ var Youtube = {
     	{
             Youtube.loaded      = false;
 
-    		if(obj[0].length == 0){
+    		if(obj.length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
@@ -35,8 +35,6 @@ var Youtube = {
                 time       = obj[2];
                 seekTo     = time - conf["startTime"];
                 song_title = obj[0][0]["title"];
-
-    			$("#player_overlay").addClass("hide");
 
                 try{
                     Suggestions.fetchYoutubeSuggests(video_id);
@@ -64,6 +62,7 @@ var Youtube = {
         				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
         					Youtube.ytplayer.seekTo(seekTo);
                         Youtube.after_load  = video_id;
+
                         setTimeout(function(){Youtube.loaded = true;},500);
                     }catch(e){Youtube.durationSetter();}
     			}
@@ -98,6 +97,7 @@ var Youtube = {
                     Youtube.ytplayer.pauseVideo();
                     beginning = false;
                 }
+                Helper.addClass("#player_overlay", "hide");
     			if(document.getElementById("play").className.split(" ").length == 1)
     				$("#play").toggleClass("hide");
     			if(document.getElementById("pause").className.split(" ").length == 2)
