@@ -60,7 +60,7 @@ function init(){
 	}
 
 	chan = $("#chan").html();
-	if(window.location._name == "zoff.no") add = "https://zoff.no";
+	if(window.location.name == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
 	socket = io.connect(''+add+':8880', connection_options);
 
