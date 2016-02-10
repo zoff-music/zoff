@@ -51,7 +51,7 @@ var Hostcontroller = {
             }else if(arr[0] == "pause")
               Youtube.ytplayer.pauseVideo()
             else if(arr[0] == "play")
-              YouTubeytplayer.playVideo();
+              YouTube.ytplayer.playVideo();
             else if(arr[0] == "skip")
               List.skip();
           }
