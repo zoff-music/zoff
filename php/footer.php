@@ -71,13 +71,13 @@
                 </p>
                 <ul id="footer-buttons">
                   <li>
-                    <a class="modal-trigger waves-effect help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
+                    <a class="modal-trigger waves-effect cyan darken-2 help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect green help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">Embed this channel</a>
+                    <a class="modal-trigger waves-effect blue-grey darken-2 help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">Embed this channel</a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect red help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
+                    <a class="modal-trigger waves-effect red darken-2 help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
                   </li>
                 </ul>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
