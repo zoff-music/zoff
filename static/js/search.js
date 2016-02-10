@@ -70,7 +70,7 @@ var Search = {
                     secs=Search.durationToSeconds(duration)
                     if(!longsongs || secs<720){
                       title=song.snippet.title;
-                      enc_title=encodeURIComponent(title).replace(/'/g, "\\\'");
+                      enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
                       id=song.id;
                       duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
                       thumb=song.snippet.thumbnails.medium.url;
@@ -168,7 +168,7 @@ var Search = {
     		{
     			var duration=Search.durationToSeconds(song.contentDetails.duration);
     			if(!longsongs || duration<720){
-    				enc_title=encodeURIComponent(song.snippet.title);
+    				enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
     				Search.submit(song.id, enc_title, duration);
     			}
     		});
