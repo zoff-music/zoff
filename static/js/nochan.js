@@ -230,6 +230,7 @@ var Nochan = {
       
       success: function(e){
 
+        $("body").css("background-color", "#2d2d2d");
         socket.disconnect();
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
