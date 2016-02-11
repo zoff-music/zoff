@@ -1247,6 +1247,11 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #fp-nav{
+      position:initial;
+      width:initial;
+    }
+
     #toast-container{
       left:0% !important;
     }
