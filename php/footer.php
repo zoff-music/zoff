@@ -117,7 +117,7 @@
                           <i class="mdi-action-payment left footer-button-icon"></i>Donate
                           </a>
                         </form>
-                        <p>
+                        <p class="hide-on-small-only">
                             <a id="qr-code-link" target="_blank" href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" >
                                 <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
                             </a>
