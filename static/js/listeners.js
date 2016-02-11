@@ -426,6 +426,8 @@ function onepage_load(){
 		    url: "php/nochan.php",
 		    success: function(e){
 
+		    	console.log($(e));
+
 		    	socket.disconnect();
 
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
@@ -446,16 +448,16 @@ function onepage_load(){
 			    	$("main").attr("class", "center-align container");
 			    	$("body").attr("id", "");
 			    	$("body").attr("style", "");
-			      	$("header").html($($(e)[35]).html());
-			      	$($(e)[37]).insertAfter("header");
-			      	$($(e)[39]).insertAfter(".mega");
-			      	$("main").html($($(e)[43]).html());
+			      	$("header").html($($(e)[37]).html());
+			      	$($(e)[39]).insertAfter("header");
+			      	$($(e)[41]).insertAfter(".mega");
+			      	$("main").html($($(e)[45]).html());
 
 			      	if($("#alreadyfp").length == 1){
 			      		window.initfp();
 			      	}else {
-			      		if(window.location.hostname == "zoff.no") number = 45;
-						else number = 63;
+			      		if(window.location.hostname == "zoff.no") number = 47;
+						else number = 65;
 			      		$("#scripts").append($($(e)[number]).html());
 			      	}
 

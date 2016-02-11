@@ -230,8 +230,6 @@ var Nochan = {
       
       success: function(e){
 
-        //console.log($(e));
-
         socket.disconnect();
 
         if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
@@ -240,13 +238,13 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[35]).html());
-        $("main").html($($(e)[39]).html());
+        $("header").html($($(e)[37]).html());
+        $("main").html($($(e)[41]).html());
         $("#search").attr("placeholder", "Find song on youtube");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
-          $("#scripts").append($($(e)[53]).html());
+          $("#scripts").append($($(e)[55]).html());
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
