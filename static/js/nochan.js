@@ -270,6 +270,8 @@ function initfp(){
       }
     }
 
+    Helper.share_link_modifier(false);
+
     channel_list = $("#channel-list-container").html();
 
     var connection_options = {

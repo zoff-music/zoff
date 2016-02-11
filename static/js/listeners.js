@@ -58,6 +58,8 @@ function init(){
 		onepage_load();
 	}
 
+	Helper.share_link_modifier(true);
+
 	chan = $("#chan").html();
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
