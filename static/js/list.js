@@ -1,5 +1,7 @@
 var List = {
 
+    empty: false,
+
     channel_listener: function()
     {
     	socket.on("channel", function(msg){
@@ -34,20 +36,25 @@ var List = {
     {
 
         full_playlist = msg;
-        
+
         List.sortList();
 		$("#wrapper").empty();
 
-		$.each(full_playlist, function(j, current_song){
-			if(!current_song.now_playing){ //check that the song isnt playing
-                $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true));
-			}
-		});
+        if(full_playlist.length > 1){
+    		$.each(full_playlist, function(j, current_song){
+    			if(!current_song.now_playing){ //check that the song isnt playing
+                    $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true));
+    			}
+    		});
 
 
-        if(lazy_load){
-            if(window.mobilecheck()) $(".list-image").lazyload({});
-            else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+            if(lazy_load){
+                if(window.mobilecheck()) $(".list-image").lazyload({});
+                else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+            }
+        }else{
+            List.empty = true;
+            $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
@@ -59,6 +66,10 @@ var List = {
         full_playlist.push(added);
         List.sortList();
         $("#suggested-"+added.id).remove();
+        if(List.empty){
+            $("#empty-channel-message").remove();
+            List.empty = false;
+        }
         List.insertAtIndex(added, true);
     },
 
@@ -79,7 +90,12 @@ var List = {
             document.getElementById('wrapper').scrollTop += -1;
         }catch(err){
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-            $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+            if(!List.empty)
+                $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+        }
+        if(full_playlist.length <= 2){
+            List.empty = true;
+            $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         $("#suggested-"+deleted).remove();
         Suggestions.checkUserEmpty();
@@ -108,7 +124,8 @@ var List = {
 
         try{
             full_playlist.push(full_playlist.shift());
-            $("#wrapper").children()[0].remove();
+            if(!List.empty)
+                $("#wrapper").children()[0].remove();
 
             List.insertAtIndex(full_playlist[length-1], false);
             document.getElementById('wrapper').scrollTop += 1;

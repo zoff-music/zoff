@@ -582,6 +582,14 @@ hide mdi-action-visibility mdi-action-visibility-off
   float:left;
 }
 
+#empty-channel-message{
+  font-size:22px;
+  color:white;
+  font-weight:300;
+  position: relative;
+  top:20px;
+}
+
 .video-container{
   -webkit-transition: opacity 0.5s;
   -moz-transition: opacity 0.5s;

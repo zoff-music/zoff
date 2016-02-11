@@ -234,9 +234,6 @@
                 <li class="tab col s3"><a class="playlist-tab-links" href="#suggestions">Suggested</a></li>
               </ul>
                 <div id="wrapper">
-                    <div id="preloader" class="progress channel_preloader">
-                        <div class="indeterminate"></div>
-                    </div>
                     <div id="list-song-html">
                         <div id="list-song" class="card left-align list-song">
                             <span class="clickable vote-container" title="Vote!">
