@@ -378,6 +378,10 @@ hide mdi-action-visibility mdi-action-visibility-off
   margin-top:64px;
 }
 
+.remote-container{
+  margin-top:64px;
+}
+
 #mega-background{
   -webkit-transition:background 0.5s, opacity 0.5s;
   -moz-transition:background 0.5s, opacity 0.5s;

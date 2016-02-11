@@ -62,7 +62,7 @@
         </div>
     </header>
 
-    <main class="center-align container">
+    <main class="center-align container remote-container">
     <div class="section">
     <h3 id="remote-text">Remote Controller</h3>
     </div>
