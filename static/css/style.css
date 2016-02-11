@@ -375,6 +375,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   position: relative;
   z-index: 1;
   background-color:#191919;
+  margin-top:64px;
 }
 
 #mega-background{
