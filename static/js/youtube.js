@@ -101,7 +101,7 @@ var Youtube = {
                     Youtube.ytplayer.pauseVideo();
                     beginning = false;
                 }
-                Helper.addClass("#player_overlay", "hide");
+                if(!embed) Helper.addClass("#player_overlay", "hide");
     			if(document.getElementById("play").className.split(" ").length == 1)
     				$("#play").toggleClass("hide");
     			if(document.getElementById("pause").className.split(" ").length == 2)
