@@ -1,7 +1,4 @@
 <div id="contact" class="modal">
-            <div class="modal-header-fixed">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            </div>
             <div class="modal-content">
                 <h4>Want to contact us?</h4>
                 <div id="contact-container">
@@ -60,6 +57,9 @@
                           </div>
                     </form>
                 </div>  
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
 <footer class="page-footer cursor-default">

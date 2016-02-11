@@ -71,13 +71,13 @@ if(isset($_GET['chan'])){
             </div>
         </div>
         <div id="help" class="modal">
-            <div class="modal-header-fixed">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            </div>
             <div class="modal-content">
                 <h4>So you need help?</h4>
                 <p>At the center of the site, you'll se a input field. This is meant to navigate to new or existing channels. If you input something here that already doesn't exist, a new channel will be create at the blink of an eye! Remember to put a password on the list you've created, so noone else takes it from you! (It's on a first come, first serve basis). When you're ready to proceed, just click the listen button!</p>
                 <p>Underneath the input fields, there are several tiles. These are channels that already exists, and they can be clicked! To enter one of these channels and listen to it's content, it is just to click the tile.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         
