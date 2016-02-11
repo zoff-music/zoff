@@ -77,13 +77,19 @@
                 </p>
                 <ul id="footer-buttons">
                   <li>
-                    <a class="modal-trigger waves-effect cyan darken-2 help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">Help, how does this work?!</a>
+                    <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
+                      <i class="material-icons left footer-button-icon">info_outline</i>HELP
+                    </a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect blue-grey darken-2 help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">Embed this channel</a>
+                    <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
+                    <i class="material-icons left footer-button-icon">code</i>EMBED
+                    </a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect red darken-2 help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">Contact us</a>
+                    <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">
+                    <i class="mdi-communication-email left footer-button-icon"></i>CONTACT
+                    </a>
                   </li>
                 </ul>
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
@@ -107,7 +113,8 @@
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
                           <input type="hidden" name="cmd" value="_s-xclick">
                           <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                          <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">Donate
+                          <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
+                          <i class="mdi-action-payment left footer-button-icon"></i>Donate
                           </a>
                         </form>
                         <p>
