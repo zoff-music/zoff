@@ -36,6 +36,10 @@ var Youtube = {
                 seekTo     = time - conf["startTime"];
                 song_title = obj[0][0]["title"];
 
+                if(full_playlist[0].id == video_id){
+                    List.song_change(full_playlist[0].added);
+                }
+
                 try{
                     Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
