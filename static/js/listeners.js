@@ -398,7 +398,8 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 $(document).on("mousemove", "#playlist", function(e)
 {
     var y = e.pageY - this.offsetTop;
-	if(y <= 27){
+    console.log(y);
+	if((y <= 27 && adminpass == "") || (y <= 80 && y >= 48 && adminpass != "")){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
 	}else if(y >= $("#playlist").height() - 18){
