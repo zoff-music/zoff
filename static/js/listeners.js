@@ -413,6 +413,7 @@ function onepage_load(){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
+		Helper.share_link_modifier(false);
 
 		Youtube.stopInterval = true;
 		Admin.display_logged_out();
@@ -427,8 +428,6 @@ function onepage_load(){
 		$.ajax({
 		    url: "php/nochan.php",
 		    success: function(e){
-
-		    	console.log($(e));
 
 		    	socket.disconnect();
 
