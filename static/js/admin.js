@@ -84,6 +84,7 @@ var Admin = {
             $("#password").attr("placeholder", "Change channel password")
             $(".playlist-tabs").removeClass("hide");
             $("#wrapper").toggleClass("tabs_height");
+            $("#top-button").toggleClass("top-button-with-tabs");
 
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
@@ -152,6 +153,7 @@ var Admin = {
         $("#wrapper").removeClass("tabs_height");
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password");
+        $("#top-button").removeClass("top-button-with-tabs");
     },
 
     //function used in html onlick

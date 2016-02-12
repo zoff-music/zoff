@@ -875,6 +875,7 @@ ul #chat-log{
 #playlist{
     /*padding:0px 15px;*/
     flex:1;
+    position: relative;
 }
 
 #player{
@@ -1110,6 +1111,30 @@ nav ul li:hover, nav ul li.active {
 
 .ui-resizable-e{
   width:15px;
+}
+
+#top-button, #bottom-button{
+  color: white;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #2d2d2d;
+  width: 70px;
+  height: 27px;
+  z-index: 1;
+  cursor:pointer;
+}
+
+#top-button{
+  top:0px;
+}
+
+.top-button-with-tabs{
+  top:53px !important;
+}
+
+#bottom-button{
+  bottom: 0px;
 }
 
 
