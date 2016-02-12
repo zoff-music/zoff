@@ -260,6 +260,15 @@ String.prototype.capitalizeFirstLetter = function() {
 
 $().ready(initfp);
 
+function share_link_modifier(){
+  $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
+  $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/', 'Share Zöff','width=600,height=300'); return false;");
+  $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic")
+  $("#twitter-code-link").attr("onclick", "window.open('http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+  $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
+  $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
+}
+
 function initfp(){
 
     
@@ -272,6 +281,8 @@ function initfp(){
     }
 
     channel_list = $("#channel-list-container").html();
+
+    share_link_modifier();
 
     var connection_options = {
       'secure': true,

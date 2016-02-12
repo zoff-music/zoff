@@ -212,6 +212,9 @@ var Youtube = {
                 var color      = colorThief.getColor(img);
 
     		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color);
+                document.getElementById("top-button").style.backgroundColor    = Helper.rgbToHsl(color);
+                document.getElementById("bottom-button").style.backgroundColor = Helper.rgbToHsl(color);
+
                 $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
     		};
 

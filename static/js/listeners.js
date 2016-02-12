@@ -58,7 +58,7 @@ function init(){
 		onepage_load();
 	}
 
-	Helper.share_link_modifier(true);
+	share_link_modifier();
 
 	chan = $("#chan").html();
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
@@ -395,6 +395,42 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 	onepage_load();
 });
 
+$(document).on("mousemove", "#playlist", function(e)
+{
+    var y = e.pageY - this.offsetTop;
+	if(y <= 27){
+		$("#top-button").removeClass("hide");
+		Helper.addClass("#bottom-button", "hide");
+	}else if(y >= $("#playlist").height() - 18){
+		$("#bottom-button").removeClass("hide");
+		Helper.addClass("#top-button", "hide");
+	}else{
+		Helper.addClass("#bottom-button", "hide");
+		Helper.addClass("#top-button", "hide");
+	}
+});
+
+$(document).on("mouseleave", "#playlist", function(){
+	Helper.addClass("#bottom-button", "hide");
+	Helper.addClass("#top-button", "hide");
+});
+
+$(document).on("click", "#top-button", function(){
+	List.scrollTop();
+});
+
+$(document).on("click", "#bottom-button", function(){
+	List.scrollBottom();
+});
+
+function share_link_modifier(){
+	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
+    $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
+    $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic")
+    $("#twitter-code-link").attr("onclick", "window.open('http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+    $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+    $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+}
 
 function onepage_load(){
 
@@ -412,8 +448,6 @@ function onepage_load(){
 	}else if(url_split[3] == ""){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
-
-		Helper.share_link_modifier(false);
 
 		Youtube.stopInterval = true;
 		Admin.display_logged_out();
