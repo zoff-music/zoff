@@ -282,5 +282,13 @@ var List = {
     	    }
     	});
     	return indexes[0];
+    },
+
+    scrollTop: function(){
+        $("#wrapper").scrollTop(0);
+    },
+
+    scrollBottom: function(){
+        $("#wrapper").scrollTop($("#wrapper")[0].scrollHeight);
     }
 }
