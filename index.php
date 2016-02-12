@@ -229,8 +229,8 @@
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
-              <div id="top-button" title="Scroll to the top" class="hide hide-on-small-only">Top</div>
-              <div id="bottom-button" title="Scroll to the bottom" class="hide hide-on-small-only">Bottom</div>
+              <div id="top-button" title="Scroll to the top" class="rounded-bottom hide hide-on-small-only">Top</div>
+              <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
               <ul class="tabs playlist-tabs hide-on-small-only hide">
                 <li class="tab col s3"><a class="playlist-tab-links" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links" href="#suggestions">Suggested</a></li>
