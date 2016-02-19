@@ -116,7 +116,7 @@
                 </ul>
                 <div id="results" class="search_results hide">
                     <div id="temp-results-container">
-                      <div id="temp-results">
+                      <div id="temp-results" class="result-object">
                           <div id="result" class="result">
                               <img class="thumb" src="/static/images/loading.png" alt="Thumb"/>
 
