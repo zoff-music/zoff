@@ -328,8 +328,10 @@ $(document).on("click", "#closeSettings", function(e)
   	Admin.hide_settings();
 });
 
-$(document).on( "click", "#temp-results", function(e){
-	if($(e.target).html() != $("<i class='mdi-av-playlist-add'></i>").html()){
+$(document).on( "click", ".result-object", function(e){
+	var $html  = $(e.target);
+	var substr = $html.prop('outerHTML').substring(0,4);
+	if(substr != "<i c"){
 		var id 		= $(this).attr("data-video-id");
 		var title 	= $(this).attr("data-video-title");
 		var length 	= $(this).attr("data-video-length");
@@ -398,7 +400,6 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 $(document).on("mousemove", "#playlist", function(e)
 {
     var y = e.pageY - this.offsetTop;
-    console.log(y);
 	if((y <= 27 && adminpass == "") || (y <= 80 && y >= 48 && adminpass != "")){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
