@@ -239,13 +239,25 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[37]).html());
-        $("main").html($($(e)[41]).html());
+        $("header").html($($(e)[53]).html());
+        $("main").html($($(e)[57]).html());
         $("#search").attr("placeholder", "Find song on youtube");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
-          $("#scripts").append($($(e)[55]).html());
+          window.fromFront = true;
+          //console.log($($(e)[55]).html());
+          //$("#scripts").append($($(e)[55]).html());
+          var scriptScript   = document.createElement('script');
+          scriptScript.type  = "text/javascript";
+          scriptScript.src   = "/static/dist/main.min.js";
+          //scriptScript.async = true;
+          //$.holdReady( true );
+          scriptScript.onreadystatechange = scriptScript.onload = function() {
+            window.init();
+          }
+
+          document.getElementById("scripts").appendChild(scriptScript);
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
@@ -258,7 +270,9 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-$().ready(initfp);
+$().ready(function(){
+  if(!window.fromChannel) initfp();
+});
 
 function share_link_modifier(){
   $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
