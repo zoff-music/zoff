@@ -5,7 +5,7 @@ var showToggle 			  = true;
 var list_html 			  = $("#list-song-html").html();
 var blink_interval_exists = false;
 var unseen 			   	  = false;
-var timer 			   	  = 0;
+//var timer 			   	  = 0;
 var api_key 		   	  = "***REMOVED***";
 var result_html 	   	  = $("#temp-results-container");
 var empty_results_html 	  = $("#empty-results-container").html();
@@ -28,6 +28,7 @@ var lazy_load    		  = true;
 var embed				  = false;
 var autoplay			  = true;
 
+var timeout_search;
 var id;
 var full_playlist;
 var conf;
@@ -48,7 +49,9 @@ var connection_options = {
 	'force new connection': true 
 };
 
-$().ready(function(){init();});
+$().ready(function(){
+	if(!window.fromFront) init();
+});
 
 
 function init(){
@@ -63,139 +66,153 @@ function init(){
 	chan = $("#chan").html();
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
+	
+
+	//setTimeout(function(){
+		if(Youtube != undefined) Youtube.stopInterval= false;
+		//window.vote 		  = List.vote;
+		//window.submit 		  = Search.submit;
+		//window.submitAndClose = Search.submitAndClose;
+
+		if(!localStorage["list_update"] || localStorage["list_update"] != "13.06.15")
+		{
+			localStorage.setItem("list_update", "13.06.15");
+			window.location.reload(true);
+		}
+
+		$('ul.tabs').tabs();
+		$("#settings").sideNav({
+	      menuWidth: 300, // Default is 240
+	      edge: 'right', // Choose the horizontal origin
+	      closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+	    });
+	    $('.collapsible').collapsible({
+	      accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+	    });
+
+	    //awdwad
+	    $(".video-container").resizable({
+	    	start: function(event, ui) {
+	        	$('iframe').css('pointer-events','none');
+	        },
+	    	stop: function(event, ui) {
+	        	$('iframe').css('pointer-events','auto');
+	        	Crypt.set_width($(this).width());
+	      	},
+	        handles: "e",
+	        minWidth: 350
+	    });
+	    
+	    /*
+		if(localStorage[chan.toLowerCase()])
+		{
+			if(localStorage[chan.toLowerCase()].length != 64)
+				localStorage.removeItem(chan.toLowerCase());
+			else
+				socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
+		}*/
+
+
 	socket = io.connect(''+add+':8880', connection_options);
+	Youtube.setup_youtube_listener(chan);
+	    Admin.admin_listener();
+		List.channel_listener();
 
 	socket.on("get_list", function(){
-	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
+	    //setTimeout(function(){
+	    	socket.emit('list', chan.toLowerCase())
+	    	//},1000);
 	});
 
 	socket.on("suggested", function(params){
 		var single = true;
 		if(params.id == undefined)
 			single = false;
-		setTimeout(function(){Suggestions.catchUserSuggests(params, single)}, 1000);
+		//setTimeout(function(){
+			Suggestions.catchUserSuggests(params, single);
+			//}, 1000);
 	});
 
-	setTimeout(function(){
-	Youtube.stopInterval= false;
-	//window.vote 		  = List.vote;
-	//window.submit 		  = Search.submit;
-	//window.submitAndClose = Search.submitAndClose;
+		if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+			document.getElementById("search").blur();
+			Youtube.readyLooks();
+		}else{
+			Chat.setup_chat_listener(chan);
+			Chat.allchat_listener();
+			if(!window.mobilecheck()) Hostcontroller.host_listener();
+			window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
+			Youtube.loadPlayer();
 
-	if(!localStorage["list_update"] || localStorage["list_update"] != "13.06.15")
-	{
-		localStorage.setItem("list_update", "13.06.15");
-		window.location.reload(true);
-	}
-    Youtube.setup_youtube_listener(chan);
-    Admin.admin_listener();
-	List.channel_listener();
+			$("#chat-btn").sideNav({
+				menuWidth: 272, // Default is 240
+				edge: 'left', // Choose the horizontal origin
+				closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+			});
 
-	$('ul.tabs').tabs();
-	$("#settings").sideNav({
-      menuWidth: 300, // Default is 240
-      edge: 'right', // Choose the horizontal origin
-      closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    });
-    $('.collapsible').collapsible({
-      accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
-    });
+			$(".drag-target")[1].remove();
 
-    //awdwad
-    $(".video-container").resizable({
-    	start: function(event, ui) {
-        	$('iframe').css('pointer-events','none');
-        },
-    	stop: function(event, ui) {
-        	$('iframe').css('pointer-events','auto');
-        	Crypt.set_width($(this).width());
-      	},
-        handles: "e",
-        minWidth: 350
-    });
-    
-    /*
-	if(localStorage[chan.toLowerCase()])
-	{
-		if(localStorage[chan.toLowerCase()].length != 64)
-			localStorage.removeItem(chan.toLowerCase());
-		else
-			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
-	}*/
+			if(!Helper.msieversion()) Notification.requestPermission();
+			if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
+				$(".main").height(window.innerHeight-64);
 
-	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-		document.getElementById("search").blur();
-		Youtube.readyLooks();
-	}else{
-		Chat.setup_chat_listener(chan);
-		Chat.allchat_listener();
-		if(!window.mobilecheck()) Hostcontroller.host_listener();
-		window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
-		Youtube.loadPlayer();
+			git_info = $.ajax({ type: "GET",
+					url: "https://api.github.com/repos/zoff-music/zoff/commits",
+					async: false
+			}).responseText;
 
-		$("#chat-btn").sideNav({
-			menuWidth: 272, // Default is 240
-			edge: 'left', // Choose the horizontal origin
-			closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+			git_info = $.parseJSON(git_info);
+			$("#latest-commit").html("Latest Commit: <br>"
+					+ git_info[0].commit.author.date.substring(0,10)
+					+ ": " + git_info[0].committer.login
+					+ "<br><a href='"+git_info[0].html_url+"'>"
+					+ git_info[0].sha.substring(0,10) + "</a>: "
+					+ git_info[0].commit.message+"<br");
+
+			Helper.sample();
+		}
+
+	  	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
+		$("#search").focus();
+
+		$('#base').bind("keyup keypress", function(e) {
+			var code = e.keyCode || e.which;
+			if (code  == 13) {
+				e.preventDefault();
+				return false;
+			}
 		});
 
-		$(".drag-target")[1].remove();
+		$(".search_input").focus();
+		$(".search_input").keyup(function(event) {
 
-		if(!Helper.msieversion()) Notification.requestPermission();
-		if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
-			$(".main").height(window.innerHeight-64);
+			search_input = $(this).val();
 
-		git_info = $.ajax({ type: "GET",
-				url: "https://api.github.com/repos/zoff-music/zoff/commits",
-				async: false
-		}).responseText;
+			if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
+				event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
+				clearTimeout(timeout_search);
+				if(search_input.length < 3){$("#results").html("");}
+				if(event.keyCode == 13){
+				 	Search.search(search_input);
+				}else{
 
-		git_info = $.parseJSON(git_info);
-		$("#latest-commit").html("Latest Commit: <br>"
-				+ git_info[0].commit.author.date.substring(0,10)
-				+ ": " + git_info[0].committer.login
-				+ "<br><a href='"+git_info[0].html_url+"'>"
-				+ git_info[0].sha.substring(0,10) + "</a>: "
-				+ git_info[0].commit.message+"<br");
-
-		Helper.sample();
-	}
-
-  	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
-	$("#search").focus();
-
-	$('#base').bind("keyup keypress", function(e) {
-		var code = e.keyCode || e.which;
-		if (code  == 13) {
-			e.preventDefault();
-			return false;
-		}
-	});
-
-	$(".search_input").focus();
-	$(".search_input").keyup(function(event) {
-		search_input = $(this).val();
-
-		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37) {
-			if(search_input.length < 3){$("#results").html("");}
-			if(event.keyCode == 13){
-			 	Search.search(search_input);
-			}else{
-				i = 0;
-				timer=100;
+					timeout_search = setTimeout(function(){
+						Search.search(search_input);
+					}, 1000);
+					/*i = 0;
+					timer=100;*/
+				}
 			}
-		}
 
 
-	});
+		});
 
-	setInterval(function(){
-		timer--;
-		if(timer===0){
-			Search.search($(".search_input").val());
-		}
-	}, 1);
-	}, 1000);
+		/*setInterval(function(){
+			timer--;
+			if(timer===0){
+				Search.search($(".search_input").val());
+			}
+		}, 1);*/
+	//}, 1000);
 	
 	$("#embed-button").css("display", "inline-block");
 	$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&autplay" width="600px" height="300px">');
@@ -465,6 +482,7 @@ function onepage_load(){
 		    url: "php/nochan.php",
 		    success: function(e){
 
+
 		    	socket.disconnect();
 
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
@@ -485,17 +503,27 @@ function onepage_load(){
 			    	$("main").attr("class", "center-align container");
 			    	$("body").attr("id", "");
 			    	$("body").attr("style", "");
-			      	$("header").html($($(e)[37]).html());
-			      	$($(e)[39]).insertAfter("header");
-			      	$($(e)[41]).insertAfter(".mega");
-			      	$("main").html($($(e)[45]).html());
+			      	$("header").html($($(e)[53]).html());
+			      	$($(e)[55]).insertAfter("header");
+			      	$($(e)[57]).insertAfter(".mega");
+			      	$("main").html($($(e)[61]).html());
 
 			      	if($("#alreadyfp").length == 1){
 			      		window.initfp();
 			      	}else {
 			      		if(window.location.hostname == "zoff.no") number = 47;
 						else number = 65;
-			      		$("#scripts").append($($(e)[number]).html());
+						window.fromChannel = true;
+			      		//$("#scripts").append($($(e)[number]).html());
+			      		var scriptScript   = document.createElement('script');
+			          	scriptScript.type  = "text/javascript";
+			          	scriptScript.src   = "/static/dist/frontpage.min.js";
+			          	//scriptScript.async = true;
+			          	//$.holdReady( true );
+			          	scriptScript.onreadystatechange = scriptScript.onload = function() {
+			            	window.initfp();
+			          	}
+			          	document.getElementById("scripts").appendChild(scriptScript);
 			      	}
 
 			      	if($("#alreadychannel").length == 0){

@@ -31,3 +31,12 @@
   ga('send', 'pageview');
 
 </script>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
+<script type="text/javascript" src="//cdn.socket.io/socket.io-1.4.5.js"></script>
+<script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+<script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
+<script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+<script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
