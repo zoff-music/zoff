@@ -1,4 +1,4 @@
-var Youtube = {
+var Player = {
 
     loaded: true,
     before_load: "",
@@ -10,7 +10,7 @@ var Youtube = {
     {
     	socket.on("np", function(obj)
     	{
-            Youtube.loaded      = false;
+            Player.loaded      = false;
 
     		if(obj.length == 0){
 
@@ -19,7 +19,7 @@ var Youtube = {
 
     			if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) $("#player_overlay").toggleClass("hide");
                 try{
-                    Youtube.ytplayer.stopVideo();
+                    Player.ytplayer.stopVideo();
                 }catch(e){}
     			//List.importOldList(channel.toLowerCase());
     		}
@@ -36,6 +36,10 @@ var Youtube = {
                 seekTo     = time - conf["startTime"];
                 song_title = obj[0][0]["title"];
 
+
+                if(mobile_beginning && window.mobilecheck() && seekTo == 0)
+                    seekTo = 1;
+
                 if(full_playlist[0].id == video_id){
                     List.song_change(full_playlist[0].added);
                 }
@@ -43,45 +47,40 @@ var Youtube = {
                 try{
                     Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
-          		Youtube.getTitle(song_title, viewers);
-    			Youtube.setBGimage(video_id);
+          		Player.getTitle(song_title, viewers);
+    			Player.setBGimage(video_id);
     			//if(player_ready && !window.mobilecheck())
-                if(player_ready && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+                if(player_ready && !window.MSStream)
     			{
-
+                    
     				try{
-                        if(Youtube.ytplayer.getVideoUrl().split('v=')[1] != video_id)
+                        if(Player.ytplayer.getVideoUrl().split('v=')[1] != video_id)
         				{
-        					Youtube.ytplayer.loadVideoById(video_id);
-        					Youtube.notifyUser(video_id, song_title);
-        					Youtube.ytplayer.seekTo(seekTo);
+        					Player.ytplayer.loadVideoById(video_id);
+        					Player.notifyUser(video_id, song_title);
+        					Player.ytplayer.seekTo(seekTo);
         					if(paused)
-        						Youtube.ytplayer.pauseVideo();
+        						Player.ytplayer.pauseVideo();
         				}
 
         				if(!paused){
-        					Youtube.ytplayer.playVideo();
-                            Youtube.durationSetter();
+                            if(!mobile_beginning)
+        					   Player.ytplayer.playVideo();
+                            Player.durationSetter();
+                            mobile_beginning = false;
                         }
-        				if(Youtube.ytplayer.getDuration() > seekTo || Youtube.ytplayer.getDuration() == 0)
-        					Youtube.ytplayer.seekTo(seekTo);
-                        Youtube.after_load  = video_id;
+        				if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
+        					Player.ytplayer.seekTo(seekTo);
+                        Player.after_load  = video_id;
 
-                        setTimeout(function(){Youtube.loaded = true;},500);
-                    }catch(e){Youtube.durationSetter();}
+                        setTimeout(function(){Player.loaded = true;},500);
+                    }catch(e){Player.durationSetter();}
     			}
     			else
-            		Youtube.getTitle(song_title, viewers);
+            		Player.getTitle(song_title, viewers);
     		}
     	});
 
-    	socket.on("viewers", function(view)
-    	{
-    		viewers = view;
-
-    		if(song_title !== undefined)
-    			Youtube.getTitle(song_title, viewers);
-    	});
     },
 
     onPlayerStateChange: function(newState) {
@@ -98,7 +97,7 @@ var Youtube = {
     		case 1:
     			playing = true;
                 if(beginning && window.mobilecheck()){
-                    Youtube.ytplayer.pauseVideo();
+                    Player.ytplayer.pauseVideo();
                     beginning = false;
                 }
                 if(!embed) Helper.addClass("#player_overlay", "hide");
@@ -141,63 +140,63 @@ var Youtube = {
     	if(newState.data == 5 || newState.data == 100 
             || newState.data == 101 || newState.data == 150)
         {
-            /*if(Youtube.count == 2){
-                Youtube.count = 0;*/
-            /*console.log("Before: " + Youtube.before_load);
+            /*if(Player.count == 2){
+                Player.count = 0;*/
+            /*console.log("Before: " + Player.before_load);
             console.log("Now: " + video_id);
-            console.log("After: " + Youtube.after_load);
-            console.log(Youtube.before_load == Youtube.ytplayer.getVideoUrl);*/
-            curr_playing = Youtube.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
+            console.log("After: " + Player.after_load);
+            console.log(Player.before_load == Player.ytplayer.getVideoUrl);*/
+            curr_playing = Player.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
             
                 socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass});
-                //console.log(video_id, Youtube.ytplayer.getVideoUrl(), Youtube.ytplayer.getPlayerState());
+                //console.log(video_id, Player.ytplayer.getVideoUrl(), Player.ytplayer.getPlayerState());
             
             /*}else{
                 setTimeout(function(){
-                Youtube.ytplayer.loadVideoById(video_id);
-                Youtube.count ++;
+                Player.ytplayer.loadVideoById(video_id);
+                Player.count ++;
                 }, Math.floor((Math.random() * 100) + 1));
             }*/
     	}else if(video_id !== undefined)
-    		Youtube.ytplayer.loadVideoById(video_id);
+    		Player.ytplayer.loadVideoById(video_id);
     },
 
     onPlayerReady: function(event) {
         $("#channel-load").css("display", "none");
         try{
-        beginning = true;
-      	player_ready = true;
-		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
-		{
-			$("#player").css("opacity", "1");
-			$("#controls").css("opacity", "1");
-			$(".playlist").css("opacity", "1");
-			Youtube.ytplayer.loadVideoById(video_id);
-            if(autoplay && !window.mobilecheck()) Youtube.ytplayer.playVideo();
-            Youtube.durationSetter();
-            if(embed){
-                setTimeout(function(){
-                    Youtube.ytplayer.seekTo(seekTo);
-                    if(!autoplay){
-                        Youtube.ytplayer.pauseVideo();
-                        Playercontrols.play_pause_show();
-                    }
-                }, 1000);
-            }else
-            Youtube.ytplayer.seekTo(seekTo);
-		}
-		Youtube.readyLooks();
-		Playercontrols.initYoutubeControls(Youtube.ytplayer);
-		Playercontrols.initSlider();
-		Youtube.ytplayer.setVolume(Crypt.get_volume());
-        $(".video-container").removeClass("no-opacity");
+            beginning = true;
+          	player_ready = true;
+    		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+    		{
+    			$("#player").css("opacity", "1");
+    			$("#controls").css("opacity", "1");
+    			$(".playlist").css("opacity", "1");
+    			Player.ytplayer.loadVideoById(video_id);
+                if(autoplay && !window.mobilecheck()) Player.ytplayer.playVideo();
+                Player.durationSetter();
+                if(embed){
+                    setTimeout(function(){
+                        Player.ytplayer.seekTo(seekTo);
+                        if(!autoplay){
+                            Player.ytplayer.pauseVideo();
+                            Playercontrols.play_pause_show();
+                        }
+                    }, 1000);
+                }else
+                Player.ytplayer.seekTo(seekTo);
+    		}
+    		Player.readyLooks();
+    		Playercontrols.initYoutubeControls(Player.ytplayer);
+    		Playercontrols.initSlider();
+    		Player.ytplayer.setVolume(Crypt.get_volume());
+            $(".video-container").removeClass("no-opacity");
         }catch(e){}
     },
 
     readyLooks: function()
     {
-    	Youtube.setBGimage(video_id);
+    	Player.setBGimage(video_id);
     },
 
     setBGimage: function(id){
@@ -243,7 +242,7 @@ var Youtube = {
     	socket.on("get_list", function(){
     			socket.emit('list', chan.toLowerCase());
     	});
-    	Youtube.setup_youtube_listener(chan);
+    	Player.setup_youtube_listener(chan);
     	Admin.admin_listener();
     	Chat.setup_chat_listener(chan);
     	Chat.allchat_listener();
@@ -251,13 +250,13 @@ var Youtube = {
     },
 
     onYouTubeIframeAPIReady: function() {
-      Youtube.ytplayer = new YT.Player('player', {
+      Player.ytplayer = new YT.Player('player', {
         videoId: video_id,
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
         events: {
-          'onReady': Youtube.onPlayerReady,
-          'onStateChange': Youtube.onPlayerStateChange,
-          'onError': Youtube.errorHandler
+          'onReady': Player.onPlayerReady,
+          'onStateChange': Player.onPlayerStateChange,
+          'onError': Player.errorHandler
         }
       });
       //Youtube.durationSetter();
@@ -266,13 +265,13 @@ var Youtube = {
     durationSetter: function()
     {
         try{
-            duration = Youtube.ytplayer.getDuration();
+            duration = Player.ytplayer.getDuration();
         }catch(e){duration = 0};
         if(duration != undefined){
             try{
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
-                currDurr = Youtube.ytplayer.getCurrentTime();
+                currDurr = Player.ytplayer.getCurrentTime();
                 if(currDurr > duration)
                     currDurr = duration;
                 minutes = Math.floor(currDurr / 60);
@@ -288,12 +287,12 @@ var Youtube = {
                 
             }
         }
-        if(!Youtube.stopInterval) setTimeout(Youtube.durationSetter, 1000);
+        if(!Player.stopInterval) setTimeout(Player.durationSetter, 1000);
     },
 
     loadPlayer: function() {
         if($("script[src='https://www.youtube.com/iframe_api']")["length"] == 1){
-            Youtube.onYouTubeIframeAPIReady();
+            Player.onYouTubeIframeAPIReady();
         }else{
         tag            = document.createElement('script');
         tag.src        = "https://www.youtube.com/iframe_api";

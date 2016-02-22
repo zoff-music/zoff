@@ -103,7 +103,7 @@ var Helper = {
     		socket.removeAllListeners()
     		socket.disconnect();
     		socket.connect();
-    		Youtube.setup_all_listeners();
+    		Player.setup_all_listeners();
     	}
     	lastSample = Date.now();
     	setTimeout(Helper.sample, SAMPLE_RATE);

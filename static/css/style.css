@@ -1303,7 +1303,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #player{
-      /*display:none;*/
+      display:none;
     }
 
     .hide-on-small-only{
