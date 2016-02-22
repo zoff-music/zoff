@@ -42,12 +42,12 @@ $(document).ready(function(){
 	});
 
 
-	Youtube.setup_youtube_listener(chan);
+	Player.setup_youtube_listener(chan);
 	List.channel_listener();
 
-	window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
+	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
 
-	Youtube.loadPlayer();
+	Player.loadPlayer();
 
 	Playercontrols.initSlider();
 });

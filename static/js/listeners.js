@@ -28,6 +28,7 @@ var lazy_load    		  = true;
 var embed				  = false;
 var autoplay			  = true;
 
+var mobile_beginning;
 var timeout_search;
 var id;
 var full_playlist;
@@ -56,7 +57,8 @@ $().ready(function(){
 
 function init(){
 
-	
+	mobile_beginning = window.mobilecheck();
+
 	window.onpopstate = function(e){
 		onepage_load();
 	}
@@ -69,7 +71,7 @@ function init(){
 	
 
 	//setTimeout(function(){
-		if(Youtube != undefined) Youtube.stopInterval= false;
+		if(Player != undefined) Player.stopInterval= false;
 		//window.vote 		  = List.vote;
 		//window.submit 		  = Search.submit;
 		//window.submitAndClose = Search.submitAndClose;
@@ -113,35 +115,43 @@ function init(){
 		}*/
 
 
-	socket = io.connect(''+add+':8880', connection_options);
-	Youtube.setup_youtube_listener(chan);
-	    Admin.admin_listener();
-		List.channel_listener();
+		socket = io.connect(''+add+':8880', connection_options);
+		Player.setup_youtube_listener(chan);
+		    Admin.admin_listener();
+			List.channel_listener();
 
-	socket.on("get_list", function(){
-	    //setTimeout(function(){
-	    	socket.emit('list', chan.toLowerCase())
-	    	//},1000);
-	});
+		socket.on("get_list", function(){
+		    //setTimeout(function(){
+		    	socket.emit('list', chan.toLowerCase())
+		    	//},1000);
+		});
 
-	socket.on("suggested", function(params){
-		var single = true;
-		if(params.id == undefined)
-			single = false;
-		//setTimeout(function(){
-			Suggestions.catchUserSuggests(params, single);
-			//}, 1000);
-	});
+		socket.on("suggested", function(params){
+			var single = true;
+			if(params.id == undefined)
+				single = false;
+			//setTimeout(function(){
+				Suggestions.catchUserSuggests(params, single);
+				//}, 1000);
+		});
+
+		socket.on("viewers", function(view)
+    	{
+    		viewers = view;
+
+    		if(song_title !== undefined)
+    			Player.getTitle(song_title, viewers);
+    	});
 
 		if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 			document.getElementById("search").blur();
-			Youtube.readyLooks();
+			Player.readyLooks();
 		}else{
 			Chat.setup_chat_listener(chan);
 			Chat.allchat_listener();
 			if(!window.mobilecheck()) Hostcontroller.host_listener();
-			window.onYouTubeIframeAPIReady = Youtube.onYouTubeIframeAPIReady;
-			Youtube.loadPlayer();
+			window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
+			Player.loadPlayer();
 
 			$("#chat-btn").sideNav({
 				menuWidth: 272, // Default is 240
@@ -266,7 +276,7 @@ $('input[class=conf]').change(function()
 });
 
 $("#clickme").click(function(){
-	Youtube.ytplayer.playVideo();
+	Player.ytplayer.playVideo();
 });
 
 $('#listImport').on("submit", function(){
@@ -468,7 +478,7 @@ function onepage_load(){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
-		Youtube.stopInterval = true;
+		Player.stopInterval = true;
 		Admin.display_logged_out();
 		Admin.beginning 	 = true;
 		chan 				 = "";
@@ -496,7 +506,7 @@ function onepage_load(){
 
 			    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
-					Youtube.ytplayer.destroy();
+					Player.ytplayer.destroy();
 
 					$(".drag-target").remove();
 					$("#sidenav-overlay").remove();

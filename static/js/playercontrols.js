@@ -52,16 +52,16 @@ var Playercontrols = {
     play_pause: function()
     {
 
-    	if(Youtube.ytplayer.getPlayerState() == 1)
+    	if(Player.ytplayer.getPlayerState() == 1)
     	{
-    		Youtube.ytplayer.pauseVideo();
+    		Player.ytplayer.pauseVideo();
             if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "none";
                 $(".page-footer").toggleClass("padding-bottom-extra");
             }
-    	}else if(Youtube.ytplayer.getPlayerState() == 2 || Youtube.ytplayer.getPlayerState() == 0)
+    	}else if(Player.ytplayer.getPlayerState() == 2 || Player.ytplayer.getPlayerState() == 0)
     	{
-    		Youtube.ytplayer.playVideo();
+    		Player.ytplayer.playVideo();
             if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "block";
                 $(".page-footer").toggleClass("padding-bottom-extra");
@@ -84,33 +84,33 @@ var Playercontrols = {
 
     changeQuality: function(wantedQ)
     {
-    	if(Youtube.ytplayer.getPlaybackQuality != wantedQ)
+    	if(Player.ytplayer.getPlaybackQuality != wantedQ)
     	{
-    		Youtube.ytplayer.setPlaybackQuality(wantedQ);
-    		Youtube.ytplayer.getPlaybackQuality();
+    		Player.ytplayer.setPlaybackQuality(wantedQ);
+    		Player.ytplayer.getPlaybackQuality();
     	}
     	$("#qS").toggleClass("hide");
     },
 
     mute_video: function()
     {
-    	if(!Youtube.ytplayer.isMuted())
+    	if(!Player.ytplayer.isMuted())
     	{
         Playercontrols.choose_button(0, true);
-    		Youtube.ytplayer.mute();
+    		Player.ytplayer.mute();
     	}else
     	{
-    		Youtube.ytplayer.unMute();
-        Playercontrols.choose_button(Youtube.ytplayer.getVolume(), false);
+    		Player.ytplayer.unMute();
+        Playercontrols.choose_button(Player.ytplayer.getVolume(), false);
     	}
     },
 
     setVolume: function(vol)
     {
-    	Youtube.ytplayer.setVolume(vol);
+    	Player.ytplayer.setVolume(vol);
         Playercontrols.choose_button(vol, false);
-    	if(Youtube.ytplayer.isMuted())
-    		Youtube.ytplayer.unMute();
+    	if(Player.ytplayer.isMuted())
+    		Player.ytplayer.unMute();
     },
 
     choose_button: function(vol, mute)
@@ -159,35 +159,35 @@ var Playercontrols = {
 
     playPause: function()
     {
-    	state = Youtube.ytplayer.getPlayerState();
+    	state = Player.ytplayer.getPlayerState();
     	button = document.getElementById("playpause");
     	if(state == 1)
     	{
-    		Youtube.ytplayer.pauseVideo();
+    		Player.ytplayer.pauseVideo();
     	}else if(state == 2)
     	{
-    		Youtube.ytplayer.playVideo();
+    		Player.ytplayer.playVideo();
     	}
     },
 
     volumeOptions: function()
     {
-    	if(Youtube.ytplayer.isMuted())
+    	if(Player.ytplayer.isMuted())
     	{
-    		Youtube.ytplayer.unMute();
-    		vol = Youtube.ytplayer.getVolume();
-    		$("#volume").slider("value", Youtube.ytplayer.getVolume());
+    		Player.ytplayer.unMute();
+    		vol = Player.ytplayer.getVolume();
+    		$("#volume").slider("value", Player.ytplayer.getVolume());
     	}
     	else
     	{
-    		Youtube.ytplayer.mute();
+    		Player.ytplayer.mute();
     		$("#volume").slider("value", 0);
     	}
     },
 
     hoverMute: function(foo)
     {
-    	vol = Youtube.ytplayer.getVolume();
+    	vol = Player.ytplayer.getVolume();
 
     }
 
