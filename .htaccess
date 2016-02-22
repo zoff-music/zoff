@@ -2,7 +2,11 @@ Options +FollowSymLinks
 RewriteEngine on
 RewriteBase /
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%1/$1 [L]
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^remote.zoff.no
 RewriteCond %{REQUEST_URI} !/static
