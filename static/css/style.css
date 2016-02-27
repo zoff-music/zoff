@@ -1298,6 +1298,10 @@ nav ul li:hover, nav ul li.active {
       width:100vw;
     }
 
+    .tabs_height{
+      height:auto !important;
+    }
+
     .brand-mobile{
       padding-left:0px !important;
     }

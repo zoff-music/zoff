@@ -82,9 +82,12 @@ var Admin = {
     		$("#admin-lock").removeClass("mdi-action-lock");
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
-            $(".playlist-tabs").removeClass("hide");
-            $("#wrapper").toggleClass("tabs_height");
-            $("#top-button").toggleClass("top-button-with-tabs");
+            if(!window.mobilecheck()){
+                console.log("adding");
+                $(".playlist-tabs").removeClass("hide");
+                $("#top-button").toggleClass("top-button-with-tabs");
+                $("#wrapper").toggleClass("tabs_height");
+            }
 
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
@@ -171,8 +174,10 @@ var Admin = {
 
         if(conf_array['adminpass'] == "" || !w_p){
             hasadmin = false;
-            $(".playlist-tabs").removeClass("hide");
-            $("#wrapper").toggleClass("tabs_height")
+            if(!window.mobilecheck()){
+                $(".playlist-tabs").removeClass("hide");
+                $("#wrapper").toggleClass("tabs_height");
+            }
         }
         else hasadmin = true;
         

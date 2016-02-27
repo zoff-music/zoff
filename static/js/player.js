@@ -17,7 +17,7 @@ var Player = {
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
     			$("#player_overlay").height($("#player").height());
 
-    			if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) $("#player_overlay").toggleClass("hide");
+    			if(!window.MSStream) $("#player_overlay").toggleClass("hide");
                 try{
                     Player.ytplayer.stopVideo();
                 }catch(e){}
