@@ -126,11 +126,11 @@ var Player = {
     	var outPutWord    = v > 1 ? "viewers" : "viewer";
     	var title         = decodeURIComponent(titt);
     	var elem          = document.getElementById('song-title');
-        var viewers       = document.getElementById('viewers');
+        var getTitleViews = document.getElementById('viewers');
 
     	document.title    = title + " • Zöff / "+chan;
 		elem.innerHTML    = title;
-		viewers.innerHTML = v + " " + outPutWord;
+		getTitleViews.innerHTML = v + " " + outPutWord;
 		elem.title        = title + " • " + v + " " + outPutWord;
 
     },
