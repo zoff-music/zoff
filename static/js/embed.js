@@ -8,6 +8,7 @@ var lazy_load			  = false;
 var embed				  = true;
 var vol					  = 100;
 var adminpass 			  = "";
+var mobile_beginning      = false;
 
 var seekTo;
 var socket;
