@@ -42,6 +42,14 @@ $(document).ready(function(){
 	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
 	});
 
+	socket.on("viewers", function(view)
+	{
+		viewers = view;
+
+		if(song_title !== undefined)
+			Player.getTitle(song_title, viewers);
+	});
+
 
 	Player.setup_youtube_listener(chan);
 	List.channel_listener();
