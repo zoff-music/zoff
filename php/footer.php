@@ -82,7 +82,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
+                    <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
                     <i class="material-icons left footer-button-icon">code</i>EMBED
                     </a>
                   </li>
