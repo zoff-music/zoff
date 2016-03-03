@@ -24,7 +24,7 @@ if(isset($_GET['chan'])){
                     <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                     <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
                     <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
-                    <!--<li><a class="waves-effect waves-purple" href="https://github.com/zoff-music/">GitHub</a></li>-->
+                    <li><a class="waves-effect waves-purple" href="https://github.com/zoff-music/">GitHub</a></li>
                 </ul>
             </div>
         </nav>
