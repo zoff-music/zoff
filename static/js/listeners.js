@@ -27,6 +27,7 @@ var i 					  = -1;
 var lazy_load    		  = true;
 var embed				  = false;
 var autoplay			  = true;
+var durationBegun 	      = false;
 
 var mobile_beginning;
 var timeout_search;

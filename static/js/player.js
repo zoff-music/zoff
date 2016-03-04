@@ -67,7 +67,8 @@ var Player = {
         				if(!paused){
                             if(!mobile_beginning)
         					   Player.ytplayer.playVideo();
-                            Player.durationSetter();
+                            if(!durationBegun)
+                                Player.durationSetter();
                             mobile_beginning = false;
                         }
         				if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
@@ -75,7 +76,10 @@ var Player = {
                         Player.after_load  = video_id;
 
                         setTimeout(function(){Player.loaded = true;},500);
-                    }catch(e){Player.durationSetter();}
+                    }catch(e){
+                        if(!durationBegun)
+                            Player.durationSetter();
+                    }
     			}
     			else
             		Player.getTitle(song_title, viewers);
@@ -180,7 +184,8 @@ var Player = {
     			$(".playlist").css("opacity", "1");
     			Player.ytplayer.loadVideoById(video_id);
                 if(autoplay && !window.mobilecheck()) Player.ytplayer.playVideo();
-                Player.durationSetter();
+                if(!durationBegun)
+                    Player.durationSetter();
                 if(embed){
                     setTimeout(function(){
                         Player.ytplayer.seekTo(seekTo);
@@ -275,13 +280,14 @@ var Player = {
         }catch(e){};*/
         if(duration != undefined){
             try{
+                durationBegun = true;
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
-                currDurr = Player.ytplayer.getCurrentTime() != undefined ? Player.ytplayer.getCurrentTime() : seekTo;
+                currDurr = Player.ytplayer.getCurrentTime() != undefined ? Math.floor(Player.ytplayer.getCurrentTime()) : seekTo;
                 if(currDurr > duration)
                     currDurr = duration;
                 minutes = Math.floor(currDurr / 60);
-                seconds = currDurr - minutes * 60;
+                seconds = currDurr - (minutes * 60);
                 document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
                 per = (100 / duration) * currDurr;
                 if(per >= 100)
