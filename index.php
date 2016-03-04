@@ -213,7 +213,7 @@
                     <i id="play" class="mdi-av-play-arrow hide"></i>
                     <i id="pause" class="mdi-av-pause"></i>
                   </div>
-                  <div id="duration">00:00 / 00:00</div>
+                  <div id="duration"></div>
                   <div id="fullscreen">
                     <i class="mdi-navigation-fullscreen"></i>
                   </div>
