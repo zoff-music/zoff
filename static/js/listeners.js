@@ -428,10 +428,10 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 $(document).on("mousemove", "#playlist", function(e)
 {
     var y = e.pageY - this.offsetTop;
-	if((y <= 27 && adminpass == "") || (y <= 80 && y >= 48 && adminpass != "")){
+	if(((y <= 27 && adminpass == "") || (y <= 80 && y >= 48 && adminpass != "")) && $("#wrapper").scrollTop() > 0){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
-	}else if(y >= $("#playlist").height() - 18){
+	}else if(y >= $("#playlist").height() - 18 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
 		$("#bottom-button").removeClass("hide");
 		Helper.addClass("#top-button", "hide");
 	}else{
