@@ -9,6 +9,7 @@ var embed				  = true;
 var vol					  = 100;
 var adminpass 			  = "";
 var mobile_beginning      = false;
+var durationBegun    	  = false;
 
 var seekTo;
 var socket;
