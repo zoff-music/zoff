@@ -85,12 +85,12 @@
             </form>
 
             <div class="rc" id="remote-controls">
-                <a id="playbutton" class="remote-button chan-link waves-effect btn green">
+                <!--<a id="playbutton" class="remote-button chan-link waves-effect btn green">
                     <i id="remote_play" class="mdi-av-play-arrow"></i>
                 </a>
                 <a id="pausebutton" class="remote-button chan-link waves-effect btn gray">
                     <i id="remote_pause" class="mdi-av-pause"></i>
-                </a>
+                </a>-->
                 <a id="skipbutton" class="remote-button chan-link waves-effect btn blue">
                     <i id="remote_skip" class="mdi-av-skip-next"></i>
                 </a>
