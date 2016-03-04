@@ -37,7 +37,6 @@ var Player = {
                 song_title = obj[0][0]["title"];
                 duration   = obj[0][0]["duration"];
 
-
                 if(mobile_beginning && window.mobilecheck() && seekTo == 0)
                     seekTo = 1;
 
@@ -278,6 +277,7 @@ var Player = {
         /*try{
             //duration = Player.ytplayer.getDuration();
         }catch(e){};*/
+        console.log(duration);
         if(duration != undefined){
             try{
                 durationBegun = true;
