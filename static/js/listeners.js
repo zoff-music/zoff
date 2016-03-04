@@ -492,6 +492,7 @@ function onepage_load(){
 		Admin.beginning 	 = true;
 		chan 				 = "";
 		began 				 = false;
+		durationBegun  		 = false;
 		$("#embed-button").css("display", "none");
 
 
