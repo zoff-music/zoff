@@ -35,6 +35,7 @@ var Player = {
                 time       = obj[2];
                 seekTo     = time - conf["startTime"];
                 song_title = obj[0][0]["title"];
+                duration   = obj[0][0]["duration"];
 
 
                 if(mobile_beginning && window.mobilecheck() && seekTo == 0)
@@ -269,14 +270,14 @@ var Player = {
 
     durationSetter: function()
     {
-        try{
-            duration = Player.ytplayer.getDuration();
-        }catch(e){duration = 0};
+        /*try{
+            //duration = Player.ytplayer.getDuration();
+        }catch(e){};*/
         if(duration != undefined){
             try{
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
-                currDurr = Player.ytplayer.getCurrentTime();
+                currDurr = Player.ytplayer.getCurrentTime() != undefined ? Player.ytplayer.getCurrentTime() : seekTo;
                 if(currDurr > duration)
                     currDurr = duration;
                 minutes = Math.floor(currDurr / 60);
