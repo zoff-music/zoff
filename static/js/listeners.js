@@ -292,6 +292,14 @@ $(window).focus(function(){
   }
 });
 
+$(document).on("change", "#autoplay", function() {
+	if(this.checked) {
+		$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&autplay" width="600px" height="300px">');
+	} else {
+		$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '" width="600px" height="300px">');
+	}
+});
+
 $(document).on("click", "#chat-btn", function(){
 	$("#text-chat-input").focus();
     //$("#chat-btn").css("color", "white");
