@@ -11,7 +11,6 @@ var List = {
 
     channel_function: function(msg)
     {
-
         switch(msg[0])
         {
             case "list":
