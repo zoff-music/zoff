@@ -39,6 +39,7 @@ $(document).ready(function(){
 	socket = io.connect(''+add+':8880', connection_options);
 
 	socket.on("get_list", function(){
+		console.log(chan);
 	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
 	});
 
