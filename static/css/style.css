@@ -1450,7 +1450,7 @@ nav ul li:hover, nav ul li.active {
     }
 }
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 769px){
     
 
     .navbar-fixed {
