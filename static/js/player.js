@@ -66,7 +66,7 @@ var Player = {
         				if(!paused){
                             if(!mobile_beginning)
         					   Player.ytplayer.playVideo();
-                            if(!durationBegun || embed)
+                            if(!durationBegun)
                                 Player.durationSetter();
                             mobile_beginning = false;
                         }
@@ -76,7 +76,7 @@ var Player = {
 
                         setTimeout(function(){Player.loaded = true;},500);
                     }catch(e){
-                        if(!durationBegun || embed)
+                        if(!durationBegun)
                             Player.durationSetter();
                     }
     			}
@@ -176,14 +176,14 @@ var Player = {
         try{
             beginning = true;
           	player_ready = true;
-    		if(!/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+    		if(!window.MSStream)
     		{
     			$("#player").css("opacity", "1");
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
     			Player.ytplayer.loadVideoById(video_id);
                 if(autoplay && !window.mobilecheck()) Player.ytplayer.playVideo();
-                if(!durationBegun || embed)
+                if(!durationBegun)
                     Player.durationSetter();
                 if(embed){
                     setTimeout(function(){
@@ -277,7 +277,6 @@ var Player = {
         /*try{
             //duration = Player.ytplayer.getDuration();
         }catch(e){};*/
-        console.log(duration);
         if(duration != undefined){
             try{
                 durationBegun = true;
