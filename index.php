@@ -154,8 +154,12 @@
         </div>
         <div id="embed" class="modal">
             <div class="modal-content">
-              <h4>Embed code (in beta)</h4>
-              <p>Copy the code in the textarea, and paste on your website. Remove the &amp; and autoplay, to prevent the player to autoplay.</p>
+              <h4>Embed code</h4>
+              <p>Copy the code in the textarea, and paste on your website.</p>
+              <p>
+                <input type="checkbox" id="autoplay" checked="checked" />
+                <label for="autoplay">Autoplay</label>
+              </p>
               <textarea id="embed-area"></textarea>
             </div>
             <div class="modal-footer">
