@@ -209,7 +209,7 @@
                   </div>
                 </div>
                 <div id="controls" class="noselect">
-                  <div id="playpause">
+                  <div id="playpause" class="hide-on-large-only">
                     <i id="play" class="mdi-av-play-arrow hide"></i>
                     <i id="pause" class="mdi-av-pause"></i>
                   </div>

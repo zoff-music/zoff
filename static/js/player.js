@@ -112,9 +112,14 @@ var Player = {
     			}
     			break;
     		case 2:
-    			paused = true;
-
-    			Playercontrols.play_pause_show();
+                if(window.mobilecheck())
+                {
+    			    paused = true;
+                    Playercontrols.play_pause_show();
+                }
+                else
+                    Player.ytplayer.playVideo();
+    			//
     			break;
     		case 3:
     			break;
@@ -252,7 +257,7 @@ var Player = {
     onYouTubeIframeAPIReady: function() {
       Player.ytplayer = new YT.Player('player', {
         videoId: video_id,
-        playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white"},
+        playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
         events: {
           'onReady': Player.onPlayerReady,
           'onStateChange': Player.onPlayerStateChange,
