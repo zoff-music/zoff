@@ -279,7 +279,7 @@ var Player = {
         }catch(e){};*/
         if(duration != undefined){
             try{
-                durationBegun = true;
+                if(!Player.stopInterval) durationBegun = true;
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
                 currDurr = Player.ytplayer.getCurrentTime() != undefined ? Math.floor(Player.ytplayer.getCurrentTime()) : seekTo;
