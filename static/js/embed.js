@@ -60,7 +60,14 @@ $(document).ready(function(){
 	Player.loadPlayer();
 
 	Playercontrols.initSlider();
+
+	window.setVolume = setVolume;
 });
+
+function setVolume(val) {
+	$("#volume").slider('value', val);
+	Playercontrols.setVolume(val);
+}
 
 $(document).on( "click", "#zoffbutton", function(e){
 	window.open("https://zoff.no/" + chan.toLowerCase() + "/", '_blank');
