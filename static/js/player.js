@@ -116,13 +116,13 @@ var Player = {
     			}
     			break;
     		case 2:
-                if(window.mobilecheck() || embed)
-                {
+                /*if(window.mobilecheck() || embed)
+                {*/
     			    paused = true;
                     Playercontrols.play_pause_show();
-                }
+                /*}
                 else
-                    Player.ytplayer.playVideo();
+                    Player.ytplayer.playVideo();*/
     			//
     			break;
     		case 3:
