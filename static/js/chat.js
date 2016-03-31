@@ -1,11 +1,25 @@
 var Chat = {
 
+  namechange: function(newName)
+  {
+    socket.emit("namechange", newName);
+    Crypt.set_name(newName);
+  },
+
+  removename: function()
+  {
+    socket.emit("removename");
+    Crypt.remove_name();
+  },
+
   chat: function(data)
   {
     if(data.value.length > 150)
       return;
     if(data.value.startsWith("/name ")){
-      socket.emit("namechange", data.value.substring(6));
+      Chat.namechange(data.value.substring(6));
+    }else if(data.value.startsWith("/removename")){
+      Chat.removename();
     }
     else if($(".tab a.active").attr("href") == "#all_chat")
       socket.emit("all,chat", data.value);
@@ -23,7 +37,8 @@ var Chat = {
       if($("#chat-bar").position()["left"] != 0)
       {
         //$("#chat-btn").css("color", "grey");
-        if(!blink_interval_exists)
+
+        if(!blink_interval_exists && inp.indexOf("changed name to") > -1)
         {
           $("#favicon").attr("href", "static/images/highlogo.png");
           blink_interval_exists = true;
@@ -51,7 +66,7 @@ var Chat = {
       {
         if(data[1].indexOf(":") >= 0){
           //$("#chat-btn").css("color", "grey");
-          if(!blink_interval_exists)
+          if(!blink_interval_exists && data.indexOf("changed name to") > -1)
           {
             $("#favicon").attr("href", "static/images/highlogo.png");
             blink_interval_exists = true;
