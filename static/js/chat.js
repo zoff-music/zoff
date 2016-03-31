@@ -3,13 +3,13 @@ var Chat = {
   namechange: function(newName)
   {
     socket.emit("namechange", newName);
-    //Crypt.set_name(newName);
+    Crypt.set_name(newName);
   },
 
   removename: function()
   {
     socket.emit("removename");
-    //Crypt.remove_name();
+    Crypt.remove_name();
   },
 
   chat: function(data)
