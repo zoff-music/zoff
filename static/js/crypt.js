@@ -18,6 +18,7 @@ var Crypt = {
         }
         Hostcontroller.change_enabled(conf_arr.remote);
         if(conf_arr["width"] != 100) Player.set_width(conf_arr["width"]);
+        if(conf_arr["name"] != undefined && conf_arr["name"] != "") Chat.namechange(conf_arr["name"]);
 	},
 
 	decrypt: function(cookie, name){
@@ -88,7 +89,7 @@ var Crypt = {
 	},
 
 	create_cookie: function(name){
-		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true};
+		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true, name: ""};
 		else cookie_object = {passwords: {}};
 
         var string_it = JSON.stringify(cookie_object);
@@ -119,6 +120,16 @@ var Crypt = {
 	remove_pass:function(chan){
 		delete conf_pass.passwords[chan];
 		Crypt.encrypt(conf_pass, chan.toLowerCase());
+	},
+
+	set_name:function(name){
+		conf_arr.name = name;
+		Crypt.encrypt(conf_arr, "_opt");
+	},
+
+	remove_name:function(){
+		conf_arr.name = "";
+		Crypt.encrypt(conf_arr, "_opt");
 	},
 
 	get_pass: function(chan){
