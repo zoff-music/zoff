@@ -290,7 +290,7 @@ function initfp(){
     if(date.getMonth() == 3 && date.getDate() == 1){
       $(".mega").css("-webkit-transform", "rotate(180deg)");
       $(".mega").css("-moz-transform", "rotate(180deg)");
-      Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
+      //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
     }
     
 
