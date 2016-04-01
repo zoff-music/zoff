@@ -285,7 +285,15 @@ function share_link_modifier(){
 
 function initfp(){
 
+    var date = new Date();
+
+    if(date.getMonth() == 3 && date.getDate() == 1){
+      $(".mega").css("-webkit-transform", "rotate(180deg)");
+      $(".mega").css("-moz-transform", "rotate(180deg)");
+      Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
+    }
     
+
     window.onpopstate = function(e){
       var url_split = window.location.href.split("/");
 
@@ -386,6 +394,11 @@ $(document).on('click', '#toast-container', function(){
   $(this).fadeOut(function(){
         $(this).remove();
     });
+});
+
+$(document).on('click', "#aprilfools", function(){
+  $(".mega").css("-webkit-transform", "rotate(0deg)");
+  $(".mega").css("-moz-transform", "rotate(0deg)");
 });
 
 $(document).on('click', ".chan-link", function(e){
