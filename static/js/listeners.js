@@ -163,9 +163,7 @@ function init(){
 			$(".drag-target")[1].remove();
 
 			if(!Helper.msieversion()) Notification.requestPermission();
-			if(navigator.userAgent.toLowerCase().indexOf("firefox") > -1) //quickdickfix for firefoxs weird percent handling
-				$(".main").height(window.innerHeight-64);
-
+			
 			git_info = $.ajax({ type: "GET",
 					url: "https://api.github.com/repos/zoff-music/zoff/commits",
 					async: false

@@ -1476,9 +1476,9 @@ nav ul li:hover, nav ul li.active {
 
     #wrapper {
       height: 100%;
-      width: 113%;
+      width: 100%;
       overflow: auto;
-      padding-right: 5vh;
+      /*padding-right: 5vh;*/
       opacity: 1;
     }
 
