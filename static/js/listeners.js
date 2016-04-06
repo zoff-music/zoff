@@ -123,8 +123,10 @@ function init(){
 
 		socket.on("get_list", function(){
 		    //setTimeout(function(){
-		    	socket.emit('list', chan.toLowerCase())
-		    	//},1000);
+		    	socket.emit('list', chan.toLowerCase());
+		    	if(Crypt.get_pass(chan.toLowerCase()) != undefined){
+		    		socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+		    	}
 		});
 
 		socket.on("suggested", function(params){
