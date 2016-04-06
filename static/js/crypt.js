@@ -1,6 +1,6 @@
 var Crypt = {
 
-	conf_arr: {},
+	conf_pass: undefined,
 
 	init: function(){
 
@@ -12,9 +12,9 @@ var Crypt = {
         	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
         }
         try{
-        	conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+        	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
         }catch(err){
-        	conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+        	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
         if(conf_arr["width"] != 100) Player.set_width(conf_arr["width"]);
@@ -113,13 +113,13 @@ var Crypt = {
 	},
 
 	set_pass: function(chan, pass){
-		conf_pass.passwords[chan] = pass;
-		Crypt.encrypt(conf_pass, chan);
+		Crypt.conf_pass.passwords[chan] = pass;
+		Crypt.encrypt(Crypt.conf_pass, chan);
 	},
 
 	remove_pass:function(chan){
-		delete conf_pass.passwords[chan];
-		Crypt.encrypt(conf_pass, chan.toLowerCase());
+		delete Crypt.conf_pass.passwords[chan];
+		Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
 	},
 
 	set_name:function(name){
@@ -133,7 +133,8 @@ var Crypt = {
 	},
 
 	get_pass: function(chan){
-		return conf_pass.passwords[chan];
+		if(Crypt.conf_pass != undefined) return Crypt.conf_pass.passwords[chan];
+		return undefined;
 	},
 
 	set_remote: function(val){
