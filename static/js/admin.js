@@ -83,7 +83,6 @@ var Admin = {
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
             if(!window.mobilecheck()){
-                console.log("adding");
                 $(".playlist-tabs").removeClass("hide");
                 $("#top-button").toggleClass("top-button-with-tabs");
                 $("#wrapper").toggleClass("tabs_height");
