@@ -64,7 +64,24 @@
 
     <main class="center-align container remote-container">
     <div class="section">
-    <h3 id="remote-text">Bot!</h3>
+    <h3 id="remote-text">Twitch Bot</h3>
+    <div class="row">
+        <div class="col s6">
+            <p>
+                Commands
+            </p>
+            <p>
+                join
+            </p>
+            <p>
+                leave
+            </p>
+            <p>
+                np
+            </p>
+        </div>
+        <div class="col s6">Sign up</div>
+    </div>
     </div>
     </main>
 
