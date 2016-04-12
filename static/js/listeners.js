@@ -52,21 +52,22 @@ var connection_options = {
 };
 
 $().ready(function(){
-	if(!window.fromFront) init();
+	console.log(window.location);
+	if(!window.fromFront && window.location.pathname != "/") init();
 });
 
 
 function init(){
 
+	chan = $("#chan").html();
 	mobile_beginning = window.mobilecheck();
 
 	window.onpopstate = function(e){
 		onepage_load();
 	}
 
-	share_link_modifier();
+	share_link_modifier_channel();
 
-	chan = $("#chan").html();
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 	else add = "localhost";
 	
@@ -162,7 +163,7 @@ function init(){
 				closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
 			});
 
-			$(".drag-target")[1].remove();
+			if($(".drag-target").length > 0) $(".drag-target")[1].remove();
 
 			if(!Helper.msieversion()) Notification.requestPermission();
 			
@@ -461,7 +462,7 @@ $(document).on("click", "#bottom-button", function(){
 	List.scrollBottom();
 });
 
-function share_link_modifier(){
+function share_link_modifier_channel(){
 	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
     $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
     $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic")
@@ -508,52 +509,40 @@ function onepage_load(){
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
-
-    			//setTimeout(function(){
 			    	
-			    	video_id   = "";
-			    	song_title = "";
+		    	video_id   = "";
+		    	song_title = "";
 
-			    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
+		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
-					Player.ytplayer.destroy();
+				Player.ytplayer.destroy();
 
-					$(".drag-target").remove();
-					$("#sidenav-overlay").remove();
-			    	$("main").attr("class", "center-align container");
-			    	$("body").attr("id", "");
-			    	$("body").attr("style", "");
-			      	$("header").html($($(e)[53]).html());
-			      	$($(e)[55]).insertAfter("header");
-			      	$($(e)[57]).insertAfter(".mega");
-			      	$("main").html($($(e)[61]).html());
+				$(".drag-target").remove();
+				$("#sidenav-overlay").remove();
+		    	$("main").attr("class", "center-align container");
+		    	$("body").attr("id", "");
+		    	$("body").attr("style", "");
+		    	console.log($($(e)));
+		      	$("header").html($($(e)[57]).html());
+		      	$($(e)[59]).insertAfter("header");
+		      	$($(e)[61]).insertAfter(".mega");
+		      	$("main").html($($(e)[65]).html());
 
-			      	if($("#alreadyfp").length == 1){
-			      		window.initfp();
-			      	}else {
-			      		if(window.location.hostname == "zoff.no") number = 47;
-						else number = 65;
-						window.fromChannel = true;
-			      		//$("#scripts").append($($(e)[number]).html());
-			      		var scriptScript   = document.createElement('script');
-			          	scriptScript.type  = "text/javascript";
-			          	scriptScript.src   = "/static/dist/frontpage.min.js";
-			          	//scriptScript.async = true;
-			          	//$.holdReady( true );
-			          	scriptScript.onreadystatechange = scriptScript.onload = function() {
-			            	window.initfp();
-			          	}
-			          	document.getElementById("scripts").appendChild(scriptScript);
-			      	}
+		      	if($("#alreadyfp").length == 1){
+		      		window.initfp();
+		      	}else {
+					window.fromChannel = true;
+		            window.initfp();
+		        }
 
-			      	if($("#alreadychannel").length == 0){
-			      		$("head").append("<div id='alreadychannel'></div")
-			      	}
-			      	$("#channel-load").css("display", "none");
-				//}, 1000);
+		      	if($("#alreadychannel").length == 0){
+		      		$("head").append("<div id='alreadychannel'></div")
+		      	}
+		      	$("#channel-load").css("display", "none");
 
 				document.title = "Zöff";
 
+				window.initfp();
 
 		    }
 		});

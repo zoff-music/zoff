@@ -33,7 +33,7 @@ var List = {
 
     populate_list: function(msg)
     {
-
+        if(list_html == undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
 
         List.sortList();
@@ -49,7 +49,12 @@ var List = {
 
             if(lazy_load){
                 if(window.mobilecheck()) $(".list-image").lazyload({});
-                else $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+                else{ 
+                    $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
+
+                    document.getElementById('wrapper').scrollTop += 1;
+                    document.getElementById('wrapper').scrollTop += -1;
+                }
             }
         }else{
             List.empty = true;
