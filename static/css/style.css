@@ -1009,6 +1009,7 @@ nav ul li:hover, nav ul li.active {
     margin-top: -27px;
     max-height: calc(100vh - 64px);
     overflow: overlay;
+    overflow-x: hidden;
 }
 .result:hover, .hoverResults {
   background-color: rgba(0,0,0,0.4);
