@@ -52,7 +52,6 @@ var connection_options = {
 };
 
 $().ready(function(){
-	console.log(window.location);
 	if(!window.fromFront && window.location.pathname != "/") init();
 });
 
@@ -522,7 +521,6 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		    	console.log($($(e)));
 		      	$("header").html($($(e)[57]).html());
 		      	$($(e)[59]).insertAfter("header");
 		      	$($(e)[61]).insertAfter(".mega");

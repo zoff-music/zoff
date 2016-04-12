@@ -239,8 +239,6 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        console.log($($(e)));
-        console.log($($(e)));
         $("header").html($($(e)[57]).html());
         $("main").html($($(e)[61]).html());
         $("#search").attr("placeholder", "Find song on youtube");
