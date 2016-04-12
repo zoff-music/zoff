@@ -4,12 +4,12 @@ var gulp    = require('gulp'),
 	concat  = require('gulp-concat');
 
 gulp.task('js', function () {
-    gulp.src(['static/js/*.js', '!static/js/embed*', '!static/js/nochan*', '!static/js/remotecontroller.js'])
-        .pipe(uglify({
+    gulp.src(['static/js/*.js', '!static/js/embed*', '!static/js/remotecontroller.js'])
+        /*.pipe(uglify({
         	mangle: true,
             compress: true,
         	enclose: true
-        }))
+        }))*/
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('static/dist'));
 });
@@ -25,6 +25,7 @@ gulp.task('embed', function () {
         .pipe(gulp.dest('static/dist'));
 });
 
+/*
 gulp.task('nochan', function () {
     gulp.src(['static/js/nochan.js', 'static/js/helpers.js'])
         .pipe(uglify({
@@ -34,7 +35,7 @@ gulp.task('nochan', function () {
         }))
         .pipe(concat('frontpage.min.js'))
         .pipe(gulp.dest('static/dist'));
-});
+});*/
 
 gulp.task('remotecontroller', function () {
     gulp.src(['static/js/remotecontroller.js'])
@@ -50,6 +51,6 @@ gulp.task('remotecontroller', function () {
 gulp.task('default', function(){
     gulp.watch('static/js/*.js', ['js']); 
     gulp.watch('static/js/*.js', ['embed']); 
-    gulp.watch('static/js/*.js', ['nochan']);
+    //gulp.watch('static/js/*.js', ['nochan']);
     gulp.watch('static/js/remotecontroller.js', ['remotecontroller']);
 });

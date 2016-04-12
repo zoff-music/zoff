@@ -239,25 +239,16 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[53]).html());
-        $("main").html($($(e)[57]).html());
+        console.log($($(e)));
+        console.log($($(e)));
+        $("header").html($($(e)[57]).html());
+        $("main").html($($(e)[61]).html());
         $("#search").attr("placeholder", "Find song on youtube");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{
           window.fromFront = true;
-          //console.log($($(e)[55]).html());
-          //$("#scripts").append($($(e)[55]).html());
-          var scriptScript   = document.createElement('script');
-          scriptScript.type  = "text/javascript";
-          scriptScript.src   = "/static/dist/main.min.js";
-          //scriptScript.async = true;
-          //$.holdReady( true );
-          scriptScript.onreadystatechange = scriptScript.onload = function() {
-            window.init();
-          }
-
-          document.getElementById("scripts").appendChild(scriptScript);
+          window.init();
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
       }
@@ -271,10 +262,10 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 $().ready(function(){
-  if(!window.fromChannel) initfp();
+  if(!window.fromChannel && window.location.pathname == "/") initfp();
 });
 
-function share_link_modifier(){
+function share_link_modifier_frontpage(){
   $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
   $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/', 'Share Zöff','width=600,height=300'); return false;");
   $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic")
@@ -304,7 +295,7 @@ function initfp(){
 
     channel_list = $("#channel-list-container").html();
 
-    share_link_modifier();
+    share_link_modifier_frontpage();
 
     var connection_options = {
       'secure': true,
