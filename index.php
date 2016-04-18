@@ -30,7 +30,7 @@
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
-                        <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on youtube" onsubmit="null;" autocomplete="off" />
+                        <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on YouTube..." onsubmit="null;" autocomplete="off" />
                     </li>
                 </ul>
 

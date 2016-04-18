@@ -91,7 +91,7 @@ if(isset($_GET['chan'])){
                 <input
                     class="input-field room-namer"
                     type="text"
-                    id="search"
+                    id="searchFrontpage"
                     name="chan"
                     placeholder="chill"
                     title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
