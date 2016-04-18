@@ -93,7 +93,7 @@ var Nochan = {
       document.getElementById("searches").innerHTML = output;
       //Materialize.fadeInImage('#channels');
       $("#channels").fadeIn(800);
-      $("#search").focus();
+      $("#searchFrontpage").focus();
   },
 
   sortFunction: function(a, b) {
@@ -129,11 +129,13 @@ var Nochan = {
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
       setTimeout(function(){ 
-        $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
-        $("#mega-background").css("background-size" , "200%");
-        $("#mega-background").css("opacity", 1);
-        $("#search").attr("placeholder", list[i][3]);
-        //$(".room-namer").css("opacity", 1);
+        if(frontpage){
+          $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
+          $("#mega-background").css("background-size" , "200%");
+          $("#mega-background").css("opacity", 1);
+          $("#searchFrontpage").attr("placeholder", list[i][3]);
+          //$(".room-namer").css("opacity", 1);
+        }
       },500); 
     }else{
 
@@ -153,7 +155,7 @@ var Nochan = {
                   $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
                   $("#mega-background").css("background-size" , "200%");
                   $("#mega-background").css("opacity", 1);
-                  $("#search").attr("placeholder", list[i][3]);
+                  $("#searchFrontpage").attr("placeholder", list[i][3]);
                   //$(".room-namer").css("opacity", 1);
                 },500); 
               //then append the result where ever you want like
@@ -166,7 +168,7 @@ var Nochan = {
           $("#mega-background").css("background", "url("+img.src+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#search").attr("placeholder", list[i][3]);
+          $("#searchFrontpage").attr("placeholder", list[i][3]);
       };
    
     }
@@ -241,7 +243,7 @@ var Nochan = {
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[57]).html());
         $("main").html($($(e)[61]).html());
-        $("#search").attr("placeholder", "Find song on youtube");
+        $("#search").attr("placeholder", "Find song on YouTube...");
         if($("#alreadychannel").length == 1){
           window.init();
         }else{

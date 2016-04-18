@@ -1573,17 +1573,17 @@ nav ul li:hover, nav ul li.active {
   height:50% !important;
 }
 
-#search::-webkit-input-placeholder { /* WebKit browsers */
+#search::-webkit-input-placeholder, #searchFrontpage::-webkit-input-placeholder { /* WebKit browsers */
     color:    #FFF;
 }
-#search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+#search:-moz-placeholder, #searchFrontpage:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
    color:    #FFF;
    opacity:  1;
 }
-#search::-moz-placeholder { /* Mozilla Firefox 19+ */
+#search::-moz-placeholder, #searchFrontpage::-moz-placeholder { /* Mozilla Firefox 19+ */
    color:    #FFF;
    opacity:  1;
 }
-#search:-ms-input-placeholder { /* Internet Explorer 10+ */
+#search:-ms-input-placeholder, #searchFrontpage:-ms-input-placeholder { /* Internet Explorer 10+ */
    color:    #FFF;
 }
