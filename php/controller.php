@@ -40,7 +40,7 @@
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-                Zöff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/zoff-music/Zoff">GitHub</a><br><br>
+                Zöff is mainly a web-based service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/zoff-music/Zoff">GitHub</a><br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
                 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
                 </p>
@@ -52,9 +52,9 @@
         <div id="help" class="modal">
             <div class="modal-content">
                 <h4>So you need help?</h4>
-                <p>To remote-controll a computer, just type in the ID for that computer. (This can be found in the settings panel on the computer you want to remote controll. There is also a QR code for you to scan.</p>
-                <p>When you've entered the ID for the computer you want to controll, you'll be able to change the volume, have the controlled computer vote for skipping, pause the video or play the video.</p>
-                <p>The inputfield you used to enter the ID (if you entered it), has now changed some. If you type in something here now, the controlled computer will change channel!</p>
+                <p>To remote-control a computer, just type in the ID for that computer. (This can be found in the settings panel on the computer you want to remote control. There is also a QR code for you to scan.</p>
+                <p>When you've entered the ID for the computer you want to control, you'll be able to change the volume, have the controled computer vote for skipping, pause the video or play the video.</p>
+                <p>The input field you used to enter the ID (if you entered it), has now changed some. If you type in something here now, the controled computer will change channel!</p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
