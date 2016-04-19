@@ -750,7 +750,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #chatchannel, #chatall {
   height: inherit;
-  overflow-y:scroll;
+  overflow-y:auto;
   text-align:left;
   word-wrap:break-word;
 }
