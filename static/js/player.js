@@ -220,7 +220,7 @@ var Player = {
     		    var colorThief = new ColorThief();
                 var color      = colorThief.getColor(img);
 
-    		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color);
+    		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color,true);
                 /*document.getElementById("top-button").style.backgroundColor    = Helper.rgbToHsl(color);
                 document.getElementById("bottom-button").style.backgroundColor = Helper.rgbToHsl(color);*/
 

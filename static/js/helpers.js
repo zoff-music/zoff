@@ -82,6 +82,16 @@ var Helper = {
                (i&0xFF).toString(16);
     },
 
+    hexToRgb: function(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    },
+
+
     pad: function(n)
     {
     	return n < 10 ? "0"+Math.floor(n) : Math.floor(n);
@@ -135,7 +145,7 @@ var Helper = {
       return Math.floor(Math.random() * (max - min)) + min;
     },
 
-    rgbToHsl: function(arr){
+    rgbToHsl: function(arr, light){
     		r = arr[0], g = arr[1], b = arr[2];
         r /= 255, g /= 255, b /= 255;
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -154,7 +164,8 @@ var Helper = {
             h /= 6;
         }
 
-        if(l>0.5)l=0.5; //make sure it isnt too light
+        if(l>0.5 && light)l=0.5; //make sure it isnt too light
+        else if(l<0.65 && !light)l=0.65;
 
         return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
     },
