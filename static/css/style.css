@@ -647,7 +647,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   line-height:24px;
 }
 
-.playlist-tabs .indicator{
+.playlist-tabs .indicator, .playlist-tabs-loggedIn .indicator{
   background-color:white !important;
 }
 
@@ -655,11 +655,15 @@ hide mdi-action-visibility mdi-action-visibility-off
   width:50%;
 }
 
+.playlist-tabs-loggedIn .indicator{
+  width:33.333%;
+}
+
 .playlist-tab-links{
   color:white !important;
 }
 
-.playlist-tabs{
+.playlist-tabs, .playlist-tabs-loggedIn{
   background-color:rgba(0,0,0,0) !important;
 }
 
@@ -724,12 +728,16 @@ hide mdi-action-visibility mdi-action-visibility-off
   margin:0 !important;
 }
 
+#text-chat-input{
+  width:95%;
+}
+
 .indicator {
   background-color:black !important;
 }
 
 #channelchat, #all_chat{
-  height: calc(100vh - 193px);
+  height: calc(100vh - 241px);
   margin: 0px 5px;
 }
 
@@ -747,12 +755,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 #chat-bar{
-    position: absolute;
-    display: inline;
-    will-change: left;
     margin: 0;
-    padding: 0;
-    float: left;
+    background: white;
+    background: white;
+    overflow-x: hidden;
 }
 
 #chat-btn i {
@@ -761,7 +767,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 ul #chat-log{
-  padding: 0px 0px 0px 11px !important;
+  /*padding: 0px 0px 0px 11px !important;*/
 }
 
 #chat li{
@@ -1292,6 +1298,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #all_chat, #channelchat{
+      height: calc(100vh - 352px);
+    }
+
     #fp-nav{
       position:initial;
       width:initial;
@@ -1386,6 +1396,11 @@ nav ul li:hover, nav ul li.active {
     .main, #main-row, .video-container, #playlist{
       height:auto !important;
       margin-bottom: -5px;
+      margin-top:-6px;
+    }
+
+    .click-through{
+      pointer-events:none;
     }
 
     .video-container{
@@ -1394,7 +1409,7 @@ nav ul li:hover, nav ul li.active {
       width: 106vw !important;
       height: 200px !important;
       z-index: 2;
-      bottom: 4px;
+      bottom: 22px;
     }
 
     .chan {

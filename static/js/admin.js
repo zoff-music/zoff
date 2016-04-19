@@ -82,11 +82,12 @@ var Admin = {
     		$("#admin-lock").removeClass("mdi-action-lock");
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
-            if(!window.mobilecheck()){
-                $(".playlist-tabs").removeClass("hide");
-                $("#top-button").toggleClass("top-button-with-tabs");
-                $("#wrapper").toggleClass("tabs_height");
-            }
+            //if(!window.mobilecheck()){
+                $(".playlist-tabs-loggedIn").removeClass("hide");
+                $(".playlist-tabs").addClass("hide");
+                //$("#top-button").toggleClass("top-button-with-tabs");
+                //$("#wrapper").toggleClass("tabs_height");
+            //}
 
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
@@ -142,8 +143,9 @@ var Admin = {
     		$("#admin-lock").addClass("mdi-action-lock");
         }
 
-        if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")){
-            $(".playlist-tabs").addClass("hide");
+        if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")){
+            $(".playlist-tabs-loggedIn").addClass("hide");
+            $(".playlist-tabs").removeClass("hide");
         }
 
     	if($(".card-action").length != 0 && 
@@ -152,10 +154,10 @@ var Admin = {
         }
 
         $('ul.tabs').tabs('select_tab', 'wrapper');
-        $("#wrapper").removeClass("tabs_height");
+        //$("#wrapper").removeClass("tabs_height");
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password");
-        $("#top-button").removeClass("top-button-with-tabs");
+        //$("#top-button").removeClass("top-button-with-tabs");
     },
 
     //function used in html onlick
@@ -174,8 +176,8 @@ var Admin = {
         if(conf_array['adminpass'] == "" || !w_p){
             hasadmin = false;
             if(!window.mobilecheck()){
-                $(".playlist-tabs").removeClass("hide");
-                $("#wrapper").toggleClass("tabs_height");
+                //$(".playlist-tabs").removeClass("hide");
+                //$("#wrapper").toggleClass("tabs_height");
             }
         }
         else hasadmin = true;
