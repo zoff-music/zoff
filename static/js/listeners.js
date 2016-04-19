@@ -28,6 +28,7 @@ var lazy_load    		  = true;
 var embed				  = false;
 var autoplay			  = true;
 var durationBegun 	      = false;
+var chat_active 		  = false;
 
 var mobile_beginning;
 var timeout_search;
@@ -321,6 +322,8 @@ $(document).on("submit", "#adminForm", function(e){
 });
 
 $(document).on("click", ".chat-link", function(e){
+	chat_active = true;
+	$("#favicon").attr("href", "static/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "none");
@@ -328,12 +331,14 @@ $(document).on("click", ".chat-link", function(e){
 });
 
 $(document).on("click", ".playlist-link", function(e){
+	chat_active = false;
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "block");
 	$("#suggestions").css("display", "none");
 });
 
 $(document).on("click", ".suggested-link", function(e){
+	chat_active = false;
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "block");
