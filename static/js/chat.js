@@ -50,11 +50,18 @@ var Chat = {
         $("#favicon").attr("href", "static/images/highlogo.png");
         unseen = true;
       }
-      var color = Helper.intToARGB(Helper.hashCode(inp[0])).substring(0,6);
-      $("#chatall").append("<li title='"+inp[2]+"'><span style='color:#"+color+";'>"+inp[0]+"</span></li>");
+      var color = Helper.intToARGB(Helper.hashCode(inp[0]));
+      if(color.length < 6) {
+        for(x = color.length; x < 6; x++){
+          color = "0" + color;
+        }
+      }
+      color = Helper.hexToRgb(color.substring(0,6));
+      var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
+      $("#chatall").append("<li title='"+inp[2]+"''><span style='color:"+color_temp+";'>"+inp[0]+"</span></li>");
       var in_text = document.createTextNode(inp[1]);
       $("#chatall li:last")[0].appendChild(in_text);
-      document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight
+      document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
     });
   },
 
@@ -74,11 +81,18 @@ var Chat = {
           }
         }
       }
-      var color = Helper.intToARGB(Helper.hashCode(data[0])).substring(0,6);
-      $("#chatchannel").append("<li><span style='color:#"+color+";'>"+data[0]+"</span></li>");
+      var color = Helper.intToARGB(Helper.hashCode(data[0]));
+      if(color.length < 6) {
+        for(x = color.length; x < 6; x++){
+          color = "0" + color;
+        }
+      }
+      color = Helper.hexToRgb(color.substring(0,6));
+      var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
+      $("#chatchannel").append("<li><span style='color:"+color_temp+";'>"+data[0]+"</span></li>");
       var in_text = document.createTextNode(data[1]);
       $("#chatchannel li:last")[0].appendChild(in_text);
-      document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight
+      document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
     });
   },
 

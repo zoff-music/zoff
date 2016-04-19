@@ -892,6 +892,7 @@ ul #chat-log{
     /*padding:0px 15px;*/
     flex:1;
     position: relative;
+    /*background-color:rgba(0,0,0,0.2);*/
 }
 
 #player{
