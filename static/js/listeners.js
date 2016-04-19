@@ -324,6 +324,7 @@ $(document).on("click", ".chat-link", function(e){
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "none");
+	$("#text-chat-input").focus();
 });
 
 $(document).on("click", ".playlist-link", function(e){
