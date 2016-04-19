@@ -895,6 +895,13 @@ ul #chat-log{
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
+.chat-link{
+  -webkit-transition:color 1s;
+  -moz-transition:color 1s;
+  -o-transition:color 1s;
+  transition: color 1s;
+}
+
 #player{
   height:95%;
   height: calc(100% - 32px);

@@ -50,7 +50,6 @@ var Chat = {
       if(document.hidden)
       {
         $("#favicon").attr("href", "static/images/highlogo.png");
-        unseen = true;
       }
       var color = Helper.intToARGB(Helper.hashCode(inp[0]));
       if(color.length < 6) {
@@ -74,8 +73,8 @@ var Chat = {
       if(!blink_interval_exists && data.indexOf("changed name to") < 0 && !chat_active)
       {
         $("#favicon").attr("href", "static/images/highlogo.png");
-        blink_interval_exists = true;
-        blink_interval = setInterval(Chat.chat_blink, 2000);
+        unseen = true;
+        blink_interval = setTimeout(Chat.chat_blink, 1000);
       }
 
       var color = Helper.intToARGB(Helper.hashCode(data[0]));
@@ -95,8 +94,15 @@ var Chat = {
 
   chat_blink: function()
   {
-    $("#chat-btn i").css("opacity", 0.5);
-    setTimeout(function(){$("#chat-btn i").css("opacity", 1);}, 1000);
+    console.log("chat_blink");
+    $(".chat-link").css("color", "red");
+    setTimeout(function(){
+      $(".chat-link").css("color", "white"); 
+      
+      if(unseen){
+        Chat.chat_blink();
+      }
+    }, 1000);
   }
 
 }
