@@ -38,7 +38,7 @@ var Chat = {
       {
         //$("#chat-btn").css("color", "grey");
 
-        if(!blink_interval_exists && inp.indexOf("changed name to") > -1)
+        if(!blink_interval_exists && inp.indexOf("changed name to") < 0)
         {
           $("#favicon").attr("href", "static/images/highlogo.png");
           blink_interval_exists = true;
@@ -73,7 +73,7 @@ var Chat = {
       {
         if(data[1].indexOf(":") >= 0){
           //$("#chat-btn").css("color", "grey");
-          if(!blink_interval_exists && data.indexOf("changed name to") > -1)
+          if(!blink_interval_exists && data.indexOf("changed name to") < 0)
           {
             $("#favicon").attr("href", "static/images/highlogo.png");
             blink_interval_exists = true;
