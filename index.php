@@ -99,12 +99,6 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-btn hide-on-small-only" href="#chat_btn" data-activates="chat-bar" id="chat-btn">
-                            <i class="tiny mdi-communication-message"></i>
-                            <span class="hover-text">Chat</span>
-                        </a>
-                    </li>
-                    <li>
                         <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
                             <i class="mdi-action-settings"></i>
                             <span class="hover-text">Conf</span>
@@ -172,36 +166,7 @@
         </div>
     <main class="container center-align main">
         <div id="main-row" class="row">
-            <div class="col s12 m9 video-container no-opacity hide-on-small-only">
-
-                <ul class="side-nav left-aligned chat-bar" id="chat-bar">
-                    <li id="chat-log">
-                        <ul class="collapsible collapsible-accordion inherit-height">
-                            <li class="active inherit-height">
-
-                                <div class="collapsible-body inherit-height" style="display: block;">
-                                    <!--<ul id="chat inherit-height">-->
-                                      <div class="row inherit-height">
-                                        <div class="col s12">
-                                          <ul class="tabs">
-                                            <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
-                                            <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
-                                          </ul>
-                                        </div>
-                                        <div id="channelchat" class="col s12 inherit-height"><ul id="chatchannel" class="inherit-height"></ul></div>
-                                        <div id="all_chat" class="col s12 inherit-height"><ul id="chatall" class="inherit-height"></ul></div>
-                                      </div>
-                                    <!--</ul>-->
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li id="chat-input">
-                      <form action="#" id="chatForm" onsubmit="return false;">
-                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
-                      </form>
-                    </li>
-                </ul>
+            <div class="col s12 m9 video-container no-opacity click-through">
                 <!--
                   width: calc(100% - 261px);
                   display: inline;
@@ -233,13 +198,18 @@
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
-              <div id="top-button" title="Scroll to the top" class="rounded-bottom hide hide-on-small-only">Top</div>
+              <div id="top-button" title="Scroll to the top" class="rounded-bottom hide top-button-with-tabs hide-on-small-only">Top</div>
               <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
-              <ul class="tabs playlist-tabs hide-on-small-only hide">
-                <li class="tab col s3"><a class="playlist-tab-links" href="#wrapper">Playlist</a></li>
-                <li class="tab col s3"><a class="playlist-tab-links" href="#suggestions">Suggested</a></li>
+              <ul class="tabs playlist-tabs">
+                <li class="tab col s3"><a class="playlist-tab-links playlist-link active" href="#wrapper">Playlist</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links chat-link" href="#chat">Chat</a></li>
               </ul>
-                <div id="wrapper">
+              <ul class="tabs playlist-tabs-loggedIn hide" style="width: 100%;">
+                <li class="tab col s3"><a class="playlist-tab-links playlist-link active" href="#wrapper">Playlist</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links suggested-link" href="#suggestions">Suggested</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links chat-link" href="#chat">Chat</a></li>
+              </ul>
+                <div id="wrapper" class="tabs_height">
                     <div id="list-song-html">
                         <div id="list-song" class="card left-align list-song">
                             <span class="clickable vote-container" title="Vote!">
@@ -260,13 +230,40 @@
                         </div>
                     </div>
                 </div>
-                <div id="suggestions" class="tabs_height hide-on-small-only">
+                <div id="suggestions" class="tabs_height" style="display:none;">
                         <p class="suggest-title-info">YouTube Suggests:</p>
                         <div class="suggest_bar" id="suggest-song-html"> 
                         </div>  
                         <p class="suggest-title-info" id="user_suggests">Users Suggests:</p>
                         <div class="suggest_bar" id="user-suggest-html">
                         </div>
+                </div>
+                <div id="chatPlaylist" class="tabs_height" style="display:none;">
+                  <ul class="" id="chat-bar">
+                    <li id="chat-log">
+                        <ul class="inherit-height">
+                            <li class="active inherit-height">
+                                <!--<ul id="chat inherit-height">-->
+                                  <div class="row inherit-height">
+                                    <div class="col s12">
+                                      <ul class="tabs chatTabs">
+                                        <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
+                                        <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
+                                      </ul>
+                                    </div>
+                                    <div id="channelchat" class="col s12 inherit-height"><ul id="chatchannel" class="inherit-height"></ul></div>
+                                    <div id="all_chat" class="col s12 inherit-height"><ul id="chatall" class="inherit-height"></ul></div>
+                                  </div>
+                                <!--</ul>-->
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="chat-input">
+                      <form action="#" id="chatForm" onsubmit="return false;">
+                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
+                      </form>
+                    </li>
+                </ul>
                 </div>
             </div>
         </div>

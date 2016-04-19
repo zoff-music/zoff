@@ -83,7 +83,8 @@ function init(){
 		window.location.reload(true);
 	}
 
-	$('ul.tabs').tabs();
+	$('ul.playlist-tabs').tabs();
+	$('.chatTabs').tabs();
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: 'right', // Choose the horizontal origin
@@ -146,41 +147,28 @@ function init(){
 			Player.getTitle(song_title, viewers);
 	});
 
-	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-		document.getElementById("search").blur();
-		Player.readyLooks();
-	}else{
-		Chat.setup_chat_listener(chan);
-		Chat.allchat_listener();
-		if(!window.mobilecheck()) Hostcontroller.host_listener();
-		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
-		Player.loadPlayer();
+	Chat.setup_chat_listener(chan);
+	Chat.allchat_listener();
+	if(!window.mobilecheck()) Hostcontroller.host_listener();
+	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
+	Player.loadPlayer();
 
-		$("#chat-btn").sideNav({
-			menuWidth: 272, // Default is 240
-			edge: 'left', // Choose the horizontal origin
-			closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
-		});
+	if(!Helper.msieversion()) Notification.requestPermission();
+	
+	git_info = $.ajax({ type: "GET",
+			url: "https://api.github.com/repos/zoff-music/zoff/commits",
+			async: false
+	}).responseText;
 
-		if($(".drag-target").length > 0) $(".drag-target")[1].remove();
+	git_info = $.parseJSON(git_info);
+	$("#latest-commit").html("Latest Commit: <br>"
+			+ git_info[0].commit.author.date.substring(0,10)
+			+ ": " + git_info[0].committer.login
+			+ "<br><a href='"+git_info[0].html_url+"'>"
+			+ git_info[0].sha.substring(0,10) + "</a>: "
+			+ git_info[0].commit.message+"<br");
 
-		if(!Helper.msieversion()) Notification.requestPermission();
-		
-		git_info = $.ajax({ type: "GET",
-				url: "https://api.github.com/repos/zoff-music/zoff/commits",
-				async: false
-		}).responseText;
-
-		git_info = $.parseJSON(git_info);
-		$("#latest-commit").html("Latest Commit: <br>"
-				+ git_info[0].commit.author.date.substring(0,10)
-				+ ": " + git_info[0].committer.login
-				+ "<br><a href='"+git_info[0].html_url+"'>"
-				+ git_info[0].sha.substring(0,10) + "</a>: "
-				+ git_info[0].commit.message+"<br");
-
-		Helper.sample();
-	}
+	Helper.sample();
 
   	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
@@ -330,6 +318,24 @@ $(document).on("click", "#chan", function(e){
 $(document).on("submit", "#adminForm", function(e){
 	e.preventDefault();
   	Admin.pass_save();
+});
+
+$(document).on("click", ".chat-link", function(e){
+	$("#chatPlaylist").css("display", "block");
+	$("#wrapper").css("display", "none");
+	$("#suggestions").css("display", "none");
+});
+
+$(document).on("click", ".playlist-link", function(e){
+	$("#chatPlaylist").css("display", "none");
+	$("#wrapper").css("display", "block");
+	$("#suggestions").css("display", "none");
+});
+
+$(document).on("click", ".suggested-link", function(e){
+	$("#chatPlaylist").css("display", "none");
+	$("#wrapper").css("display", "none");
+	$("#suggestions").css("display", "block");
 });
 
 $(document).on("submit", "#chatForm", function(){

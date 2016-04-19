@@ -21,7 +21,7 @@ var Chat = {
     }else if(data.value.startsWith("/removename")){
       Chat.removename();
     }
-    else if($(".tab a.active").attr("href") == "#all_chat")
+    else if($(".chat-tab-li a.active").attr("href") == "#all_chat")
       socket.emit("all,chat", data.value);
     else
       socket.emit("chat", data.value);
