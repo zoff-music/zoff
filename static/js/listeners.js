@@ -323,6 +323,7 @@ $(document).on("submit", "#adminForm", function(e){
 
 $(document).on("click", ".chat-link", function(e){
 	chat_active = true;
+	unseen = false;
 	$("#favicon").attr("href", "static/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
