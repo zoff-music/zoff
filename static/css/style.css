@@ -725,16 +725,22 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .chat-tab, .chat-tab-li {
-  color:black !important;
+  color:white !important;
   margin:0 !important;
+}
+
+.chatTabs{
+  color:white !important;
+  background-color:rgba(0,0,0,0);
 }
 
 #text-chat-input{
   width:95%;
+  color:white;
 }
 
 .indicator {
-  background-color:black !important;
+  background-color:white !important;
 }
 
 #channelchat, #all_chat{
@@ -757,8 +763,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 #chat-bar{
     margin: 0;
-    background: white;
-    background: white;
     overflow-x: hidden;
     width:98%;
 }
@@ -769,6 +773,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 ul #chat-log{
+  color:white;
   /*padding: 0px 0px 0px 11px !important;*/
 }
 
@@ -777,7 +782,7 @@ ul #chat-log{
 }
 
 #chat-input{
-    background-color: rgba(0,0,0,0.1);
+    /*background-color: rgba(0,0,0,0.1);*/
 }
 
 #search_loader {
