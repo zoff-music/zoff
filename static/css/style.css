@@ -665,6 +665,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .playlist-tabs, .playlist-tabs-loggedIn{
   background-color:rgba(0,0,0,0) !important;
+  width: 96% !important;
 }
 
 .duration-song{
@@ -759,6 +760,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     background: white;
     background: white;
     overflow-x: hidden;
+    width:98%;
 }
 
 #chat-btn i {

@@ -89,6 +89,8 @@ var Admin = {
                 //$("#wrapper").toggleClass("tabs_height");
             //}
 
+            $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
+
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
         });
@@ -153,7 +155,8 @@ var Admin = {
     		$(".card-action").addClass("hide");
         }
 
-        $('ul.tabs').tabs('select_tab', 'wrapper');
+        $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
+        $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
         //$("#wrapper").removeClass("tabs_height");
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password");
