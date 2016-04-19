@@ -34,18 +34,20 @@ var Chat = {
     socket.on("chat.all", function(inp)
     {
 
-      if($("#chat-bar").position()["left"] != 0)
-      {
-        //$("#chat-btn").css("color", "grey");
+    
+      //$("#chat-btn").css("color", "grey");
 
-        if(!blink_interval_exists && inp.indexOf("changed name to") < 0)
-        {
-          $("#favicon").attr("href", "static/images/highlogo.png");
-          blink_interval_exists = true;
-          unseen = true;
-          blink_interval = setInterval(Chat.chat_blink, 2000);
-        }
-      }else if(document.hidden)
+      console.log(inp.indexOf("changed name to"));
+
+      if(!blink_interval_exists && inp.indexOf("changed name to") < 0 && !chat_active)
+      {
+        $("#favicon").attr("href", "static/images/highlogo.png");
+        blink_interval_exists = true;
+        unseen = true;
+        blink_interval = setInterval(Chat.chat_blink, 2000);
+      }
+
+      if(document.hidden)
       {
         $("#favicon").attr("href", "static/images/highlogo.png");
         unseen = true;
@@ -69,18 +71,13 @@ var Chat = {
   {
     socket.on("chat", function(data)
     {
-      if($("#chat-bar").position()["left"] != 0)
+      if(!blink_interval_exists && data.indexOf("changed name to") < 0 && !chat_active)
       {
-        if(data[1].indexOf(":") >= 0){
-          //$("#chat-btn").css("color", "grey");
-          if(!blink_interval_exists && data.indexOf("changed name to") < 0)
-          {
-            $("#favicon").attr("href", "static/images/highlogo.png");
-            blink_interval_exists = true;
-            blink_interval = setInterval(Chat.chat_blink, 2000);
-          }
-        }
+        $("#favicon").attr("href", "static/images/highlogo.png");
+        blink_interval_exists = true;
+        blink_interval = setInterval(Chat.chat_blink, 2000);
       }
+
       var color = Helper.intToARGB(Helper.hashCode(data[0]));
       if(color.length < 6) {
         for(x = color.length; x < 6; x++){
