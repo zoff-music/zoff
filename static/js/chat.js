@@ -37,14 +37,13 @@ var Chat = {
     
       //$("#chat-btn").css("color", "grey");
 
-      console.log(inp.indexOf("changed name to"));
-
       if(!blink_interval_exists && inp.indexOf("changed name to") < 0 && !chat_active)
       {
         $("#favicon").attr("href", "static/images/highlogo.png");
         blink_interval_exists = true;
         unseen = true;
-        blink_interval = setInterval(Chat.chat_blink, 2000);
+        chat_unseen = true;
+        //blink_interval = setTimeout(Chat.chat_blink, 2000);
       }
 
       if(document.hidden)
@@ -74,7 +73,8 @@ var Chat = {
       {
         $("#favicon").attr("href", "static/images/highlogo.png");
         unseen = true;
-        blink_interval = setTimeout(Chat.chat_blink, 1000);
+        chat_unseen = true;
+        //blink_interval = setTimeout(Chat.chat_blink, 1000);
       }
 
       var color = Helper.intToARGB(Helper.hashCode(data[0]));
@@ -90,19 +90,6 @@ var Chat = {
       $("#chatchannel li:last")[0].appendChild(in_text);
       document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
     });
-  },
-
-  chat_blink: function()
-  {
-    console.log("chat_blink");
-    $(".chat-link").css("color", "red");
-    setTimeout(function(){
-      $(".chat-link").css("color", "white"); 
-      
-      if(unseen){
-        Chat.chat_blink();
-      }
-    }, 1000);
   }
 
 }

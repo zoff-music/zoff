@@ -27,6 +27,7 @@ var embed				  = false;
 var autoplay			  = true;
 var durationBegun 	      = false;
 var chat_active 		  = false;
+var chat_unseen 		  = false;
 
 var result_html;
 var empty_results_html;
@@ -327,6 +328,7 @@ $(document).on("submit", "#adminForm", function(e){
 $(document).on("click", ".chat-link", function(e){
 	chat_active = true;
 	unseen = false;
+	chat_unseen = false;
 	$("#favicon").attr("href", "static/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
