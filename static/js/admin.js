@@ -89,10 +89,10 @@ var Admin = {
                 //$("#wrapper").toggleClass("tabs_height");
             //}
 
-            $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-
             if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
     		  $("#admin-lock").addClass("mdi-action-lock-open clickable");
+
+            $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
         });
 
     	socket.on("conf", function(msg)
@@ -155,9 +155,14 @@ var Admin = {
     		$(".card-action").addClass("hide");
         }
 
-        $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
-        $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-        //$("#wrapper").removeClass("tabs_height");
+        if($(".playlist-tabs-li a.active").attr("href") == "#suggestions")
+        {
+            $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
+            $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
+            $("#wrapper").removeClass("tabs_height");
+        } else {
+            $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
+        }
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
         $("#password").attr("placeholder", "Enter channel password");
         //$("#top-button").removeClass("top-button-with-tabs");
