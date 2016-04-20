@@ -281,11 +281,8 @@ $('#listImport').on("submit", function(){
 });
 
 $(window).focus(function(){
-  if(unseen)
-  {
     $("#favicon").attr("href", "static/images/favicon.png");
     unseen = false;
-  }
 });
 
 $(document).on("change", "#autoplay", function() {
@@ -550,6 +547,7 @@ function onepage_load(){
 		      	$("main").html($($(e)[65]).html());
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
+		      	$("#favicon").attr("href", "static/images/favicon.png");
 
 		      	if($("#alreadyfp").length == 1){
 		      		window.initfp();
