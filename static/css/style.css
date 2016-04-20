@@ -1400,12 +1400,14 @@ nav ul li:hover, nav ul li.active {
 
     .page-footer{
       margin-top:40px !important;
+    }
+
+    .padding-bottom-novideo{
       padding-bottom:40px;
-      
     }
 
     .padding-bottom-extra{
-      padding-bottom:200px;
+      padding-bottom:210px;
     }
 
     .main, #main-row, .video-container, #playlist{
