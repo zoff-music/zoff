@@ -7,8 +7,6 @@ var blink_interval_exists = false;
 var unseen 			   	  = false;
 //var timer 			   	  = 0;
 var api_key 		   	  = "***REMOVED***";
-var result_html 	   	  = $("#temp-results-container");
-var empty_results_html 	  = $("#empty-results-container").html();
 var searching 		   	  = false
 var time_regex 		   	  = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
 var conf 			   	  = [];
@@ -30,6 +28,8 @@ var autoplay			  = true;
 var durationBegun 	      = false;
 var chat_active 		  = false;
 
+var result_html;
+var empty_results_html;
 var mobile_beginning;
 var timeout_search;
 var id;
@@ -95,6 +95,8 @@ function init(){
     $('.collapsible').collapsible({
       accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
+    result_html 	   	  = $("#temp-results-container");
+	empty_results_html 	  = $("#empty-results-container").html();
 
     //awdwad
     $(".video-container").resizable({
