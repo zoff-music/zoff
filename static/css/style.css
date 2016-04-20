@@ -663,9 +663,17 @@ hide mdi-action-visibility mdi-action-visibility-off
   color:white !important;
 }
 
+.playlist-tabs-loggedIn{
+  width:calc(100% - 7px) !important;
+}
+
+.playlist-tabs{
+  width: calc(100% - 8px) !important;
+}
+
 .playlist-tabs, .playlist-tabs-loggedIn{
   background-color:rgba(0,0,0,0) !important;
-  width: calc(96% - -2px) !important;
+  margin:0;
   border-bottom: 1px solid white;
 }
 
