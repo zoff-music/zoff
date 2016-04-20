@@ -666,7 +666,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 .playlist-tabs, .playlist-tabs-loggedIn{
   background-color:rgba(0,0,0,0) !important;
   width: calc(96% - -2px) !important;
-  border-top: 1px solid white;
+  border-bottom: 1px solid white;
 }
 
 .duration-song{
