@@ -671,6 +671,13 @@ hide mdi-action-visibility mdi-action-visibility-off
   width: calc(100% - 8px) !important;
 }
 
+.chat-link {
+  -webkit-transition: color 1s !important;
+  -moz-transition: color 1s !important;
+  -o-transition: color 1s !important;
+  transition: color 1s !important;
+}
+
 .playlist-tabs, .playlist-tabs-loggedIn{
   background-color:rgba(0,0,0,0) !important;
   margin:0;

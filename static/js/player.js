@@ -68,7 +68,6 @@ var Player = {
         					   Player.ytplayer.playVideo();
                             if(!durationBegun)
                                 Player.durationSetter();
-                            mobile_beginning = false;
                         }
         				if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
         					Player.ytplayer.seekTo(seekTo);
@@ -103,6 +102,7 @@ var Player = {
                 if(beginning && window.mobilecheck()){
                     Player.ytplayer.pauseVideo();
                     beginning = false;
+                    mobile_beginning = false;
                 }
                 if(!embed) Helper.addClass("#player_overlay", "hide");
     			if(document.getElementById("play").className.split(" ").length == 1)
@@ -120,6 +120,7 @@ var Player = {
                 {*/
     			    paused = true;
                     Playercontrols.play_pause_show();
+                    mobile_beginning = true;
                 /*}
                 else
                     Player.ytplayer.playVideo();*/

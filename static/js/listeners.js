@@ -28,6 +28,7 @@ var autoplay			  = true;
 var durationBegun 	      = false;
 var chat_active 		  = false;
 var chat_unseen 		  = false;
+var blinking 			  = false;
 
 var result_html;
 var empty_results_html;
@@ -329,6 +330,8 @@ $(document).on("click", ".chat-link", function(e){
 	chat_active = true;
 	unseen = false;
 	chat_unseen = false;
+	$(".chat-link").attr("style", "color: white !important;");
+	blinking = false;
 	$("#favicon").attr("href", "static/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
