@@ -543,6 +543,8 @@ function onepage_load(){
 		      	$($(e)[59]).insertAfter("header");
 		      	$($(e)[61]).insertAfter(".mega");
 		      	$("main").html($($(e)[65]).html());
+		      	$(".page-footer").removeClass("padding-bottom-extra");
+		      	$(".page-footer").removeClass("padding-bottom-novideo");
 
 		      	if($("#alreadyfp").length == 1){
 		      		window.initfp();
