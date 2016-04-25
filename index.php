@@ -30,7 +30,9 @@
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
+                        <form id="song_search_form">
                         <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on YouTube..." onsubmit="null;" autocomplete="off" />
+                        </form>
                     </li>
                 </ul>
 
@@ -259,7 +261,7 @@
                         </ul>
                     </li>
                     <li id="chat-input">
-                      <form action="#" id="chatForm" onsubmit="return false;">
+                      <form action="#" id="chatForm">
                         <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
                       </form>
                     </li>
