@@ -514,7 +514,7 @@ function onepage_load(){
 
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
-				Player.ytplayer.destroy();
+		    	if(!/iPad|iPhone|iPod/.test(navigator.userAgent)) Player.ytplayer.destroy();
 
 				$(".drag-target").remove();
 				$("#sidenav-overlay").remove();
