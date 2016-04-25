@@ -157,7 +157,7 @@ function init(){
 
 	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 		document.getElementById("search").blur();
-		Player.readyLooks();
+		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
  		Player.loadPlayer();
@@ -169,27 +169,7 @@ function init(){
 	if(!Helper.msieversion()) Notification.requestPermission();
 	
 	$(".search_input").focus();
-	$(".search_input").keyup(function(event) {
-
-		search_input = $(this).val();
-
-		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
-			event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
-			clearTimeout(timeout_search);
-			if(search_input.length < 3){$("#results").html("");}
-			if(event.keyCode == 13){
-			 	Search.search(search_input);
-			}else{
-				timeout_search = setTimeout(function(){
-					Search.search(search_input);
-				}, 1000);
-				/*i = 0;
-				timer=100;*/
-			}
-		}
-
-
-	});
+	
 
 	git_info = $.ajax({ type: "GET",
 			url: "https://api.github.com/repos/zoff-music/zoff/commits",
@@ -208,15 +188,6 @@ function init(){
 
   	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
-
-	$('#base').bind("keyup keypress", function(e) {
-		var code = e.keyCode || e.which;
-		if (code  == 13) {
-			e.preventDefault();
-			return false;
-		}
-	});
-
 
 		/*setInterval(function(){
 			timer--;
@@ -248,28 +219,6 @@ $(document).keyup(function(e) {
       		$("#search-btn i").toggleClass("mdi-action-search");
     	}
     	$("#results").toggleClass("hide");
-  	}else if ($("div.result").length > 2){
-  		children = $("#mock-div").children();
-      	if (e.keyCode == 40) {
-        	$(children[i-1]).removeClass("hoverResults");
-        	$(children[i]).addClass("hoverResults");
-        	if(i < children.length -2)
-          		i++;
-      	} else if (e.keyCode == 38) {
-      		if(i > 1)
-          		i--;
-        	$(children[i]).removeClass("hoverResults");
-        	$(children[i-1]).addClass("hoverResults");
-      	} else if(e.keyCode == 13) {
-        	i = 0;
-        	var elem = document.getElementsByClassName("hoverResults")[0];
-      		if (typeof elem.onclick == "function") {
-          		elem.onclick.apply(elem);
-      		}
-        	$("div.hoverResults").removeClass("hoverResults");
-        	$("#results").html('');
-        	document.getElementById("search").value = "";
-      	}
   	}
 });
 
@@ -307,6 +256,30 @@ $(document).on("click", "#chat-btn", function(){
     blink_interval_exists = false;
     unseen = false;
     $("#favicon").attr("href", "static/images/favicon.png");
+});
+
+$(document).on('keydown', ".search_input", function(event) {
+
+	search_input = $(this).val();
+
+	code = event.keyCode || event.which;
+
+	if (code != 40 && code != 38 && code != 13 && code != 39 && code != 37 &&
+		code != 17 && code != 16 && code != 225 && code != 18) {
+		clearTimeout(timeout_search);
+		if(search_input.length < 3){$("#results").html("");}
+		if(code == 13){
+		 	Search.search(search_input);
+		}else{
+			timeout_search = setTimeout(function(){
+				Search.search(search_input);
+			}, 1000);
+			/*i = 0;
+			timer=100;*/
+		}
+	}
+
+
 });
 
 $(document).on("click", ".chat-tab", function(){
