@@ -30,9 +30,7 @@
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
-                        <form id="song_search_form">
                         <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on YouTube..." onsubmit="null;" autocomplete="off" />
-                        </form>
                     </li>
                 </ul>
 

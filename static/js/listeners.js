@@ -180,7 +180,6 @@ function init(){
 			if(event.keyCode == 13){
 			 	Search.search(search_input);
 			}else{
-
 				timeout_search = setTimeout(function(){
 					Search.search(search_input);
 				}, 1000);
@@ -357,7 +356,8 @@ $(document).on("click", ".suggested-link", function(e){
 	$("#suggestions").css("display", "block");
 });
 
-$(document).on("submit", "#chatForm", function(){
+$(document).on("submit", "#chatForm", function(e){
+	e.preventDefault();
   Chat.chat(document.getElementById("chatForm").input);
 });
 
