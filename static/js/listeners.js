@@ -125,6 +125,7 @@ function init(){
 
 	socket = io.connect(''+add+':8880', connection_options);
 	Player.setup_youtube_listener(chan);
+	    
 	    Admin.admin_listener();
 		List.channel_listener();
 
@@ -153,11 +154,17 @@ function init(){
 			Player.getTitle(song_title, viewers);
 	});
 
+
+	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+		document.getElementById("search").blur();
+		Player.readyLooks();
+ 	} else {
+ 		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
+ 		Player.loadPlayer();
+ 	}
 	Chat.setup_chat_listener(chan);
 	Chat.allchat_listener();
 	if(!window.mobilecheck()) Hostcontroller.host_listener();
-	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
-	Player.loadPlayer();
 
 	if(!Helper.msieversion()) Notification.requestPermission();
 	

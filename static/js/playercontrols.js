@@ -4,7 +4,7 @@ var Playercontrols = {
 
     initYoutubeControls: function()
     {
-        if(window.mobilecheck() && !window.MSStream){
+        if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
         Playercontrols.initControls();
@@ -55,7 +55,7 @@ var Playercontrols = {
     	if(Player.ytplayer.getPlayerState() == 1)
     	{
     		Player.ytplayer.pauseVideo();
-            if(window.mobilecheck() && !window.MSStream){
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "none";
                 $(".video-container").toggleClass("click-through");
                 $(".page-footer").toggleClass("padding-bottom-extra");
@@ -63,7 +63,7 @@ var Playercontrols = {
     	}else if(Player.ytplayer.getPlayerState() == 2 || Player.ytplayer.getPlayerState() == 0)
     	{
     		Player.ytplayer.playVideo();
-            if(window.mobilecheck() && !window.MSStream){
+            if(window.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "block";
                 $(".video-container").toggleClass("click-through");
                 $(".page-footer").toggleClass("padding-bottom-extra");
