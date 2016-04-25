@@ -168,6 +168,30 @@ function init(){
 
 	if(!Helper.msieversion()) Notification.requestPermission();
 	
+	$(".search_input").focus();
+	$(".search_input").keyup(function(event) {
+
+		search_input = $(this).val();
+
+		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
+			event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
+			clearTimeout(timeout_search);
+			if(search_input.length < 3){$("#results").html("");}
+			if(event.keyCode == 13){
+			 	Search.search(search_input);
+			}else{
+
+				timeout_search = setTimeout(function(){
+					Search.search(search_input);
+				}, 1000);
+				/*i = 0;
+				timer=100;*/
+			}
+		}
+
+
+	});
+
 	git_info = $.ajax({ type: "GET",
 			url: "https://api.github.com/repos/zoff-music/zoff/commits",
 			async: false
@@ -192,30 +216,6 @@ function init(){
 			e.preventDefault();
 			return false;
 		}
-	});
-
-	$(".search_input").focus();
-	$(".search_input").keyup(function(event) {
-
-		search_input = $(this).val();
-
-		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
-			event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
-			clearTimeout(timeout_search);
-			if(search_input.length < 3){$("#results").html("");}
-			if(event.keyCode == 13){
-			 	Search.search(search_input);
-			}else{
-
-				timeout_search = setTimeout(function(){
-					Search.search(search_input);
-				}, 1000);
-				/*i = 0;
-				timer=100;*/
-			}
-		}
-
-
 	});
 
 
