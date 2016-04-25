@@ -16,8 +16,6 @@ var Search = {
     },
 
     search: function(search_input){
-      console.log(result_html);
-      console.log(empty_results_html);
       if(result_html == undefined || empty_results_html == undefined) {
         result_html         = $("#temp-results-container");
         empty_results_html    = $("#empty-results-container").html();
