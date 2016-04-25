@@ -157,7 +157,7 @@ function init(){
 
 	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 		document.getElementById("search").blur();
-		Player.readyLooks();
+		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
  		Player.loadPlayer();
@@ -166,7 +166,7 @@ function init(){
 	Chat.allchat_listener();
 	if(!window.mobilecheck()) Hostcontroller.host_listener();
 
-	if(!Helper.msieversion()) Notification.requestPermission();
+	if(!Helper.msieversion() && !window.mobilecheck()) Notification.requestPermission();
 	
 	git_info = $.ajax({ type: "GET",
 			url: "https://api.github.com/repos/zoff-music/zoff/commits",
@@ -196,27 +196,20 @@ function init(){
 
 	$(".search_input").focus();
 	$(".search_input").keyup(function(event) {
-
-		search_input = $(this).val();
-
-		if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
-			event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
-			clearTimeout(timeout_search);
-			if(search_input.length < 3){$("#results").html("");}
-			if(event.keyCode == 13){
-			 	Search.search(search_input);
-			}else{
-
-				timeout_search = setTimeout(function(){
-					Search.search(search_input);
-				}, 1000);
-				/*i = 0;
-				timer=100;*/
-			}
-		}
-
-
+		searching(event);
 	});
+
+	if(iPad|iPhone|iPod/.test(navigator.userAgent)){
+		if ($.browser.mozilla) {
+			$(".search_input").keyup(function(event) {
+				searching(event);
+			});
+		} else {
+			$(".search_input").keydown(function(event) {
+				searching(event);
+			});
+		}
+	}
 
 
 		/*setInterval(function(){
@@ -234,6 +227,26 @@ function init(){
 }
 
 window.init = init;
+
+function searching(event) {
+	search_input = $(this).val();
+
+	if (event.keyCode != 40 && event.keyCode != 38 && event.keyCode != 13 && event.keyCode != 39 && event.keyCode != 37 &&
+		event.keyCode != 17 && event.keyCode != 16 && event.keyCode != 225 && event.keyCode != 18) {
+		clearTimeout(timeout_search);
+		if(search_input.length < 3){$("#results").html("");}
+		if(event.keyCode == 13){
+		 	Search.search(search_input);
+		}else{
+
+			timeout_search = setTimeout(function(){
+				Search.search(search_input);
+			}, 1000);
+			/*i = 0;
+			timer=100;*/
+		}
+	}
+}
 
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){
@@ -332,7 +345,7 @@ $(document).on("submit", "#adminForm", function(e){
 
 $(document).on("click", ".chat-link", function(e){
 	chat_active = true;
-	unseen = false;
+	unseen = false;display
 	chat_unseen = false;
 	$(".chat-link").attr("style", "color: white !important;");
 	blinking = false;
@@ -357,8 +370,13 @@ $(document).on("click", ".suggested-link", function(e){
 	$("#suggestions").css("display", "block");
 });
 
-$(document).on("submit", "#chatForm", function(){
-  Chat.chat(document.getElementById("chatForm").input);
+$(document).on("submit", "#chatForm", function(e){
+	e.preventDefault();
+  	Chat.chat(document.getElementById("chatForm").input);
+});
+
+$(document).on("submit", "#song_search_form", function(e){
+	e.preventDefault();
 });
 
 $(document).on("click", "#shuffle", function(e)
