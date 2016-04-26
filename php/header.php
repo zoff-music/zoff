@@ -18,6 +18,7 @@
 <meta property="og:title" content="Zöff"/>
 <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
 <meta property="og:type" content="website"/>
+<link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
 <link tyle="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />

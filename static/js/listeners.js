@@ -1,4 +1,4 @@
-var chan 				  = $("#chan").html();
+var chan 				  = window.chan == undefined ? $("#chan").html() : window.chan;
 var w_p 				  = true;
 var hasadmin			  = 0;
 var showToggle 			  = true;
@@ -54,6 +54,18 @@ var connection_options = {
 	'force new connection': true 
 };
 
+if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(function (registration) {
+            console.log(registration);
+        })
+        .catch(function (e) {
+            console.error(e);
+        })
+} else {
+    console.log('Service Worker is not supported in this browser.');
+}
+
 $().ready(function(){
 	if(!window.fromFront && window.location.pathname != "/") init();
 });
@@ -61,7 +73,8 @@ $().ready(function(){
 
 function init(){
 
-	chan = $("#chan").html();
+	chan = window.chan == undefined ? $("#chan").html() : window.chan;
+	console.log(chan);
 	mobile_beginning = window.mobilecheck();
 
 	window.onpopstate = function(e){
@@ -71,7 +84,7 @@ function init(){
 	share_link_modifier_channel();
 
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
-	else add = "localhost";
+	else add = window.location.hostname;
 	
 
 	//setTimeout(function(){
@@ -79,12 +92,6 @@ function init(){
 	//window.vote 		  = List.vote;
 	//window.submit 		  = Search.submit;
 	//window.submitAndClose = Search.submitAndClose;
-
-	if(!localStorage["list_update"] || localStorage["list_update"] != "13.06.15")
-	{
-		localStorage.setItem("list_update", "13.06.15");
-		window.location.reload(true);
-	}
 
 	$('ul.playlist-tabs').tabs();
 	$('ul.playlist-tabs-loggedIn').tabs();
@@ -502,7 +509,6 @@ function onepage_load(){
 		    url: "php/nochan.php",
 		    success: function(e){
 
-
 		    	socket.disconnect();
 
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
@@ -521,10 +527,10 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[57]).html());
-		      	$($(e)[59]).insertAfter("header");
-		      	$($(e)[61]).insertAfter(".mega");
-		      	$("main").html($($(e)[65]).html());
+		      	$("header").html($($(e)[59]).html());
+		      	$($(e)[61]).insertAfter("header");
+		      	$($(e)[63]).insertAfter(".mega");
+		      	$("main").html($($(e)[67]).html());
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
