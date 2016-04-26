@@ -5,12 +5,7 @@ var CACHE_FILES = [
     '/static/images/favicon.png',
     '/static/css/style.css',
     '/static/css/materialize.min.css',
-    'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css',
-    'https://fonts.googleapis.com/icon?family=Material+Icons',
-    'https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
-    'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js',
     '/static/dist/lib/materialize.min.js',
-    'https://cdn.socket.io/socket.io-1.4.5.js',
     '/static/dist/lib/jquery.lazyload.js',
     '/static/dist/lib/color-thief.js',
     '/static/dist/main.min.js'
@@ -39,18 +34,11 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-    console.log(event);
     event.respondWith(
-        caches.match(event.request).then(function(res){
-            if(res && event.request.url.indexOf("https://zoff.no:8880/socket.io") == -1 &&
-                event.request.url.indexOf("https://chart.googleapis.com/chart" == -1) &&
-                event.request.url.indexOf("https://www.google-analytics.com/analytics.js") &&
-                event.request.url.indexOf("https://fonts.gstatic.com/s/materialicons") == -1){
-                return res;
-            }
-            requestBackend(event);
+        fetch(event.request).catch(function() {
+            return caches.match(event.request);
         })
-    )
+    );
 });
 
 function requestBackend(event){
