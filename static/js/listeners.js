@@ -54,7 +54,7 @@ var connection_options = {
 	'force new connection': true 
 };
 
-/*
+
 if (navigator.serviceWorker) {
     navigator.serviceWorker.register('/static/service-worker.js', {scope: '/static/'})
         .then(function (registration) {
@@ -65,7 +65,7 @@ if (navigator.serviceWorker) {
         })
 } else {
     console.log('Service Worker is not supported in this browser.');
-}*/
+}
 
 $().ready(function(){
 	if(!window.fromFront && window.location.pathname != "/") init();
