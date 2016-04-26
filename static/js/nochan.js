@@ -235,14 +235,17 @@ var Nochan = {
         $("body").css("background-color", "#2d2d2d");
         socket.disconnect();
 
-        if(!popstate) window.history.pushState("to the channel!", "Title", "/" + chan + "/");
+        if(!popstate){
+          window.history.pushState("to the channel!", "Title", "/" + chan);
+          window.chan = chan;
+        }
 
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[57]).html());
-        $("main").html($($(e)[61]).html());
+        $("header").html($($(e)[59]).html());
+        $("main").html($($(e)[63]).html());
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
         if($("#alreadychannel").length == 1){
@@ -252,6 +255,7 @@ var Nochan = {
           window.init();
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
+        
       }
     });
   }
@@ -304,7 +308,7 @@ function initfp(){
     };
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
-    else add = "localhost";
+    else add = window.location.hostname;
     socket = io.connect(''+add+':8880', connection_options);
     socket.on('playlists', function(msg){
         $("#channels").empty();
