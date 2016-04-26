@@ -42,7 +42,10 @@ self.addEventListener('fetch', function (event) {
     console.log(event);
     event.respondWith(
         caches.match(event.request).then(function(res){
-            if(res){
+            if(res && event.request.url.indexOf("https://zoff.no:8880/socket.io") == -1 &&
+                event.request.url.indexOf("https://chart.googleapis.com/chart" == -1) &&
+                event.request.url.indexOf("https://www.google-analytics.com/analytics.js") &&
+                event.request.url.indexOf("https://fonts.gstatic.com/s/materialicons") == -1){
                 return res;
             }
             requestBackend(event);
