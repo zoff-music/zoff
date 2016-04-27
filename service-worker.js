@@ -1,8 +1,8 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.1';
+var version = 'v0.2';
 var CACHE_FILES = [
-    'http://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
+    'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     '/static/dist/lib/jquery-2.1.3.min.js',
     '/static/dist/lib/jquery-ui-1.10.3.min.js',
