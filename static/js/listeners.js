@@ -54,9 +54,9 @@ var connection_options = {
 	'force new connection': true 
 };
 
-
+/*
 if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/static/service-worker.js', {scope: '/static/'})
+    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
         .then(function (registration) {
             console.log(registration);
         })
@@ -65,7 +65,7 @@ if (navigator.serviceWorker) {
         })
 } else {
     console.log('Service Worker is not supported in this browser.');
-}
+}*/
 
 $().ready(function(){
 	if(!window.fromFront && window.location.pathname != "/") init();
@@ -74,7 +74,7 @@ $().ready(function(){
 
 function init(){
 
-	chan = window.chan == undefined ? $("#chan").html() : window.chan;
+	chan = $("#chan").html();
 	console.log(chan);
 	mobile_beginning = window.mobilecheck();
 
