@@ -1,8 +1,7 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.3';
+var version = 'v0.4';
 var CACHE_FILES = [
-    '/static/offline/offline.html',
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     '/static/dist/lib/jquery-2.1.3.min.js',
@@ -18,7 +17,8 @@ var CACHE_FILES = [
     '/static/images/squareicon_small.png',
     '/static/images/GitHub_Logo.png',
     '/static/images/facebook.png',
-    '/static/images/twitter.png'
+    '/static/images/twitter.png',
+    '/static/offline/offline.html'
 ];
 
 self.addEventListener("install", function(event) {
