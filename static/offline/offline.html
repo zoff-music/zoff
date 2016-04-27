@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    |    Zöff                                                         |
+    |    Project is on github: https://github.com/zoff-music/Zoff       |
+    |    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <title>Zöff</title>
+    <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
+    <meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="UTF-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2D2D2D" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta property="og:image" content="/static/images/favicon.png" />
+    <meta property="og:title" content="Zöff"/>
+    <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+    <meta property="og:type" content="website"/>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+    <link tyle="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" title="Default" />
+    <link rel="icon" id="favicon" type="image/png" href="/static/images/favicon.png"/>
+    <script type="text/javascript" src="/static/dist/lib/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/jquery-ui-1.10.3.min.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
+    <script type="text/javascript" src="//cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+    <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
+    <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+    <script type="text/javascript" src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+</head>
+<body class="noselect cursor-default">
+    <header>
+        <nav id="fp-nav">
+            <div class="nav-wrapper">
+                <a href="//zoff.no" class="brand-logo hide-on-small-only">
+                    <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                </a>
+                <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                  <li><a class="modal-trigger waves-effect waves-red" title="Need help with the site?" onclick="$('#help').openModal()">Help</a></li>
+                  <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
+                  <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                  <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
+                  <li><a class="waves-effect waves-purple" href="https://github.com/zoff-music/">GitHub</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div id="legal" class="modal">
+            <div class="modal-content">
+                <h4>Legal</h4>
+                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+                <br><br>
+                Creative Commons License<br>
+                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                <br>
+                Do not redistribute without permission from the developers.
+                <br>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="about" class="modal">
+            <div class="modal-content">
+                <h4>About</h4>
+                <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
+                Zöff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/zoff-music/Zoff">GitHub</a><br><br>
+                The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
+                The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="help" class="modal">
+            <div class="modal-content">
+                <h4>So you need help?</h4>
+                <p>To remote-controll a computer, just type in the ID for that computer. (This can be found in the settings panel on the computer you want to remote controll. There is also a QR code for you to scan.</p>
+                <p>When you've entered the ID for the computer you want to controll, you'll be able to change the volume, have the controlled computer vote for skipping, pause the video or play the video.</p>
+                <p>The inputfield you used to enter the ID (if you entered it), has now changed some. If you type in something here now, the controlled computer will change channel!</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="center-align container remote-container">
+    <div class="section">
+    <h3 id="remote-text">Zöff is currently unavailable</h3>
+    <p>Have you checked your internet connection lately? Because we require an internet connection to be established to our servers for Zöff to work.</p>
+    </div>
+    </main>
+
+    <div id="contact" class="modal">
+            <div class="modal-content">
+                <h4>Want to contact us?</h4>
+                <div id="contact-container">
+                    <form id="contact-form" method="post" onsubmit="return false;">
+                      <div class="input-field">
+                        <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
+                        <label for="contact-form-from" class="noselect">Email</label>
+                      </div>
+                      <div class="input-field">
+                        <input id="contact-form-message" name="message" type="text" autocomplete="off">
+                        <label for="contact-form-message" class="noselect">Message</label>
+                      </div>
+                        <button class="contact-button-submit" action="submit" id="submit-contact-form">Send</button>
+                        <div class="valign hide" id="send-loader">
+                             <div class="preloader-wrapper small active">
+                              <div class="spinner-layer spinner-blue">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-red">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-yellow">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+
+                              <div class="spinner-layer spinner-green">
+                                <div class="circle-clipper left">
+                                  <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                  <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                  <div class="circle"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </form>
+                </div>  
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <footer class="page-footer cursor-default">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Zöff</h5>
+                        <p class="grey-text text-lighten-4">The shared YouTube radio</p>
+                        <p class="grey-text text-lighten-4">
+                            Being built around the YouTube search and video API
+                            it enables the creation of collaborative and shared live playlists,
+                            with billions of videos and songs to choose from, all for free and without registration.
+                            <br />
+                            Enjoy!
+                        </p>
+                        <ul id="footer-buttons">
+                          <li>
+                            <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
+                              <i class="material-icons left footer-button-icon">info_outline</i>HELP
+                            </a>
+                          </li>
+                          <li>
+                            <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
+                            <i class="material-icons left footer-button-icon">code</i>EMBED
+                            </a>
+                          </li>
+                          <li>
+                            <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">
+                            <i class="mdi-communication-email left footer-button-icon"></i>CONTACT
+                            </a>
+                          </li>
+                        </ul>
+                        <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
+                    </div>
+                    <div class="col l4 offset-l2 s12 valign-wrapper">
+                        <ul>
+                            <li>
+                                <a href="https://github.com/zoff-music/">
+                                    <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
+                                </a>
+                                <p>
+                                    <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=https://zoff.no" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no','Share Playlist','width=600,height=300')">
+                                        <img class="left" src="/static/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
+                                    </a>
+                                </p>
+                                <p>
+                                    <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=https://zoff.no&amp;text=Check%20out%20this%20playlist%20%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=https://zoff.no&amp;text=Check%20out%20this%20playlist%20%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                                        <img class="left" src="/static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
+                                    </a>
+                                </p>
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
+                                  <input type="hidden" name="cmd" value="_s-xclick">
+                                  <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
+                                  <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
+                                  <i class="mdi-action-payment left footer-button-icon"></i>Donate
+                                  </a>
+                                </form>
+                                <p class="hide-on-small-only">
+                                    <a id="qr-code-link" target="_blank" href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=https://zoff.no&amp;choe=UTF-8&amp;chld=L%7C1" >
+                                        <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=https://zoff.no&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                                    </a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; 2016
+                    <a href="http://nixo.no">Nixo</a> &amp;
+                    <a href="http://kasperrt.no">KasperRT</a>
+                    &nbsp;&nbsp;All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <!--<script type="text/javascript" src="/static/dist/remote.min.js"></script>-->
+    </body>
+</html>

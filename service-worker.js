@@ -1,7 +1,8 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.2';
+var version = 'v0.3';
 var CACHE_FILES = [
+    '/static/offline/offline.html',
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     '/static/dist/lib/jquery-2.1.3.min.js',
@@ -179,12 +180,15 @@ self.addEventListener("fetch", function(event) {
                 /* Here we're creating a response programmatically. The first parameter is the
                     response body, and the second one defines the options for the response.
                 */
-                return new Response('<h1>Zöff is currently unavailable, sorry</h1>', {
+                /*return new Response('<h1>Zöff is currently unavailable, sorry</h1>', {
                     status: 503,
                     statusText: 'Service Unavailable',
                     headers: new Headers({
                         'Content-Type': 'text/html'
                     })
+                });*/
+                return caches.open(version + "fundamentals").then(function(cache) {
+                    return cache.match('/static/offline/offline.html');
                 });
             }
         })
