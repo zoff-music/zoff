@@ -1332,7 +1332,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #settings-bar{
-      overflow:hidden;
+      overflow-x:hidden;
     }
 
     #remote_channel{
