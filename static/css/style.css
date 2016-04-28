@@ -1329,6 +1329,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #remote_channel{
+      color:#2d2d2d;
+    }
+
     #all_chat, #channelchat{
       height: calc(100vh - 352px);
     }
@@ -1567,7 +1571,7 @@ nav ul li:hover, nav ul li.active {
   color: black;
   text-align: center;
 }
-#volume-control {
+#volume-control, #volume-control-remote {
     cursor:pointer;
   float:left;
     position: relative;
@@ -1581,7 +1585,7 @@ nav ul li:hover, nav ul li.active {
     border-radius: 2px;
 }
 
-#volume-control .ui-slider-range-min {
+#volume-control .ui-slider-range-min, , #volume-control-remote .ui-slider-range-min{
     height:5px;
     width: 75px;
     position: absolute;
@@ -1591,7 +1595,7 @@ nav ul li:hover, nav ul li.active {
     border-radius: 2px;
 }
 
-#volume-control .ui-slider-handle {
+#volume-control .ui-slider-handle, #volume-control-remote .ui-slider-range-min {
   height: 15px;
   width: 36px;
   background: rgb(255, 44, 44);
@@ -1602,6 +1606,26 @@ nav ul li:hover, nav ul li.active {
   border-radius: 17px;
   margin-left: -17px;
   margin-top:0px;
+}
+
+#volume-control-remote{
+  float:none;
+  width:75%;
+  margin:auto;
+  margin-top:40px;
+}
+
+#volume-control-remote .ui-slider-range-min{
+  margin-left:0px;
+  margin-top:-4px;
+  height:10px;
+}
+
+#volume-control-remote .ui-slider-handle{
+  margin-left:-25px !important;
+  margin-top:-3px;
+  background: #2d2d2d;
+  border:none;
 }
 
 .slider-vol{

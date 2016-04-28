@@ -67,7 +67,7 @@
     <h3 id="remote-text">Remote Controller</h3>
     </div>
         <div class="section">
-            <form action="#" class="row" id="remoteform" onsubmit="return false;">
+            <form action="#" class="row" id="remoteform">
                     <div class="input-field col s12">
                         <input
                             class="input-field"

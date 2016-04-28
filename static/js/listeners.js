@@ -173,6 +173,9 @@ function init(){
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
  		Player.loadPlayer();
  	}
+
+ 	if(window.mobilecheck()) Mobile_remote.initiate_volume();
+
 	Chat.setup_chat_listener(chan);
 	Chat.allchat_listener();
 	if(!window.mobilecheck()) Hostcontroller.host_listener();
@@ -257,6 +260,26 @@ $(document).on("change", "#autoplay", function() {
 	} else {
 		$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '" width="600px" height="300px">');
 	}
+});
+
+$(document).on("click", "#playbutton_remote", function(e) {
+	e.preventDefault();
+	Mobile_remote.play_remote();
+});
+
+$(document).on("click", "#pausebutton_remote", function(e) {
+	e.preventDefault();
+	Mobile_remote.pause_remote();
+});
+
+$(document).on("click", "#skipbutton_remote", function(e) {
+	e.preventDefault();
+	Mobile_remote.skip_remote();
+});
+
+$(document).on("submit", "#remoteform", function(e) {
+	e.preventDefault();
+	Mobile_remote.get_input($("#remote_channel").val());
 });
 
 $(document).on("click", "#chat-btn", function(){
