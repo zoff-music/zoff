@@ -1318,6 +1318,8 @@ nav ul li:hover, nav ul li.active {
 ***************************************************************************/
 
 .mobile-search{display:none;}
+.show-only-mobile{display:none;
+}
 
 @media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
     #playbar{
@@ -1331,6 +1333,19 @@ nav ul li:hover, nav ul li.active {
 
     #remote_channel{
       color:#2d2d2d;
+      width:90%;
+    }
+    .show-only-mobile{display:block;}
+
+    #volume-control-remote{
+      display: none;
+    }
+
+    #remote_header{
+      color: #2d2d2d;
+      font-size: 1.5em;
+      padding: 10px;
+      text-align: center;
     }
 
     #all_chat, #channelchat{

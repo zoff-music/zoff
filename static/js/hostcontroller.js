@@ -24,6 +24,7 @@ var Hostcontroller = {
         began = true;
         socket.on(id, function(arr)
         {
+
           if(enabled){
             if(arr[0] == "volume"){
               $("#volume").slider("value", arr[1]);
@@ -31,6 +32,7 @@ var Hostcontroller = {
               localStorage.setItem("volume", arr[1]);
               Playercontrols.choose_button(arr[1], false);
             }else if(arr[0] == "channel"){
+              console.log("changing channel");
               socket.emit("change_channel");
               Admin.beginning = true;
 

@@ -104,7 +104,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Remote Control
-                <i class="mdi-action-account-circle"></i>
+                <i class="material-icons">settings_remote</i>
             </a>
             <div class="collapsible-body">
                 <ul>
@@ -155,15 +155,16 @@
     </ul>
 </li>
 
-<li class="no-padding hide-on-large-only">
+<li class="no-padding show-only-mobile">
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Remote Controller
-                <i class="mdi-communication-import-export"></i>
+                <i class="material-icons">settings_remote</i>
             </a>
             <div class="collapsible-body">
                 <ul>
                     <li class="white-bg">
+                        <p id="remote_header">Control another client</p>
                         <form action="#" class="row" id="remoteform">
                             <div class="input-field col s12">
                                 <input
