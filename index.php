@@ -200,11 +200,11 @@
             <div id="playlist" class="col s12 m3">
               <div id="top-button" title="Scroll to the top" class="rounded-bottom hide top-button-with-tabs hide-on-small-only">Top</div>
               <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
-              <ul class="tabs playlist-tabs hide" style="width:96%">
+              <ul class="tabs playlist-tabs" style="width:96%">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link" href="#chat">Chat</a></li>
               </ul>
-              <ul class="tabs playlist-tabs-loggedIn" style="width: 96%;">
+              <ul class="tabs playlist-tabs-loggedIn hide" style="width: 96%;">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links suggested-link" href="#suggestions">Suggested</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link" href="#chat">Chat</a></li>

@@ -83,8 +83,10 @@ var Admin = {
             $("#password").val("");
             $("#password").attr("placeholder", "Change channel password")
             //if(!window.mobilecheck()){
+            if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
                 $(".playlist-tabs-loggedIn").removeClass("hide");
                 $(".playlist-tabs").addClass("hide");
+            }
                 //$("#top-button").toggleClass("top-button-with-tabs");
                 //$("#wrapper").toggleClass("tabs_height");
             //}
@@ -199,6 +201,10 @@ var Admin = {
         if((hasadmin)){
             Admin.display_logged_out();
         }else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined){
+            if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
+                $(".playlist-tabs-loggedIn").removeClass("hide");
+                $(".playlist-tabs").addClass("hide");
+            }
             $("#password").attr("placeholder", "Create channel password");
         }
 
