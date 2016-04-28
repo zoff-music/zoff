@@ -210,10 +210,11 @@ var List = {
         else
             $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition, false, true, false));
         
+        var added = $("#wrapper").children()[i];
+
         if(transition)
         {
             setTimeout(function(){
-                var added = $("#wrapper").children()[i];
                 $(added).css("height", 66);
             },5);
         }
