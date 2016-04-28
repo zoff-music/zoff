@@ -145,7 +145,7 @@
                         <div class="input-field field-settings">
                             <form action="#" id="listImport" onsubmit="return false;">
                                 <i class="mdi-av-playlist-add import-icon"></i>
-                                <input title="Input YouTube-playlist id here!" placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" />
+                                <input title="Input YouTube-playlist id here!" placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" autocomplete="off" />
                             </form>
                         </div>
                     </li>   
