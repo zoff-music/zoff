@@ -77,6 +77,7 @@ function init(){
 	chan = $("#chan").html();
 	console.log(chan);
 	mobile_beginning = window.mobilecheck();
+	var side = window.mobilecheck() ? "left" : "right";
 
 	window.onpopstate = function(e){
 		onepage_load();
@@ -94,12 +95,14 @@ function init(){
 	//window.submit 		  = Search.submit;
 	//window.submitAndClose = Search.submitAndClose;
 
+
+
 	$('ul.playlist-tabs').tabs();
 	$('ul.playlist-tabs-loggedIn').tabs();
 	$('.chatTabs').tabs();
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
-      edge: 'right', // Choose the horizontal origin
+      edge: side, // Choose the horizontal origin
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
     $('.collapsible').collapsible({
