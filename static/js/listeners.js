@@ -75,7 +75,6 @@ $().ready(function(){
 function init(){
 
 	chan = $("#chan").html();
-	console.log(chan);
 	mobile_beginning = window.mobilecheck();
 	var side = window.mobilecheck() ? "left" : "right";
 
