@@ -266,9 +266,8 @@ $(document).on("click", "#chat-btn", function(){
     $("#favicon").attr("href", "static/images/favicon.png");
 });
 
-$(document).on('keydown', ".search_input", function(event) {
-
-	search_input = $(this).val();
+function searchTimeout(event) {
+	search_input = $(".search_input").val();
 
 	code = event.keyCode || event.which;
 
@@ -286,9 +285,17 @@ $(document).on('keydown', ".search_input", function(event) {
 			timer=100;*/
 		}
 	}
+}
 
-
-});
+if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+	$document.on('keydown', '.search_input', function(event) {
+		searchTimeout(event);
+	});
+} else {
+	$(document).on('keyup', ".search_input", function(event) {
+		searchTimeout(event);
+	});
+}
 
 $(document).on("click", ".chat-tab", function(){
     $("#text-chat-input").focus();

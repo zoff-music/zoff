@@ -24,7 +24,6 @@ var Search = {
       if(window.search_input !== ""){
         searching = true;
         var keyword= encodeURIComponent(window.search_input);
-
         //response= x
         var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
         yt_url+="&q="+keyword;
