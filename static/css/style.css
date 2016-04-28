@@ -1331,6 +1331,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #settings-bar{
+      overflow:hidden;
+    }
+
     #remote_channel{
       color:#2d2d2d;
       width:90%;
