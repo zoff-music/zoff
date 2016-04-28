@@ -1,6 +1,6 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.5';
+var version = 'v0.6';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -52,11 +52,23 @@ self.addEventListener("activate", function(event) {
     */
     //console.log('WORKER: activate event in progress.');
 
+    var cacheWhitelist = version;
+
+    event.waitUntil(
+        caches.keys().then(function(keyList) {
+            return Promise.all(keyList.map(function(key) {
+                if (!key.startsWith(cacheWhitelist)) {
+                    return caches.delete(key);
+                }
+            }));
+        })
+    );
+/*
     event.waitUntil(
         caches
         /* This method returns a promise which will resolve to an array of available
                 cache keys.
-        */
+            
         .keys()
         .then(function (keys) {
             // We return a promise that settles when all outdated caches are deleted.
@@ -69,7 +81,7 @@ self.addEventListener("activate", function(event) {
                 .map(function (key) {
                 /* Return a promise that's fulfilled
                     when each outdated cache is deleted.
-                */
+                
                     return caches.delete(key);
                 })
             );
@@ -78,6 +90,7 @@ self.addEventListener("activate", function(event) {
             //console.log('WORKER: activate completed.');
         })
     );
+*/
 });
 
 self.addEventListener("fetch", function(event) {
