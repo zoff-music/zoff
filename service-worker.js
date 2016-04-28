@@ -1,6 +1,6 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.9.2';
+var version = 'v1';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -18,7 +18,11 @@ var CACHE_FILES = [
     '/static/images/GitHub_Logo.png',
     '/static/images/facebook.png',
     '/static/images/twitter.png',
-    '/static/offline/offline.html'
+    '/static/offline/offline.html',
+    '/static/font/roboto/Roboto-Light.woff2',
+    '/static/font/roboto/Roboto-Regular.woff2',
+    '/static/font/roboto/Roboto-Thin.woff2',
+    '/static/images/loading.png'
 ];
 
 self.addEventListener("install", function(event) {
@@ -154,16 +158,18 @@ self.addEventListener("fetch", function(event) {
                         available to caches.match(event.request) calls, when looking
                         for cached responses.
                     */
-                    if(event.request.url.indexOf(":8880") == -1 &&
-                        event.request.url.indexOf("img.youtube.com/vi/") == -1 &&
-                        event.request.url.indexOf("static/images/thumbnails") == -1 &&
-                        event.request.url.indexOf("chart.googleapis") == -1 &&
-                        event.request.url != "https://zoff.no/" == -1&& 
-                        event.request.url != "http://localhost/" &&
+                    if(event.request.url.indexOf(":8880")                      == -1 &&
+                        event.request.url.indexOf("img.youtube.com/vi/")       == -1 &&
+                        event.request.url.indexOf("static/images/thumbnails")  == -1 &&
+                        event.request.url.indexOf("chart.googleapis")          == -1 &&
+                        event.request.url != "https://zoff.no/"                      && 
+                        event.request.url != "http://localhost/"                     &&
                         event.request.url.indexOf("googleapis.com/youtube/v3") == -1 &&
-                        event.request.url.indexOf("google-analytics.com/") == -1 &&
-                        event.request.url.indexOf("google-analytics.com/") == -1 &&
-                        event.request.url.indexOf("i.ytimg.com") == -1) {
+                        event.request.url.indexOf("google-analytics.com/")     == -1 &&
+                        event.request.url.indexOf("google-analytics.com/")     == -1 &&
+                        event.request.url.indexOf("i.ytimg.com")               == -1 &&
+                        event.request.url.indexOf("php/")                      == -1 &&
+                        event.request.url.indexOf("/static/")                  == -1) {
                         cache.put(event.request, cacheCopy);
                     }
                 })
