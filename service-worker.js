@@ -22,7 +22,6 @@ var CACHE_FILES = [
 ];
 
 self.addEventListener("install", function(event) {
-    console.log('WORKER: install event in progress.');
     event.waitUntil(
         /* The caches built-in is a promise-based API that helps you cache responses,
             as well as finding and deleting them.
@@ -32,7 +31,7 @@ self.addEventListener("install", function(event) {
             a versioned cache name here so that we can remove old cache entries in
             one fell swoop later, when phasing out an older service worker.
         */
-        .open(version + 'fundamentals')
+        .open(version + '::bare')
         .then(function(cache) {
             /* After the cache is opened, we can fill it with the offline fundamentals.
                 The method below will add all resources we've indicated to the cache,
@@ -57,9 +56,7 @@ self.addEventListener("activate", function(event) {
 
     event.waitUntil(
         caches.keys().then(function(keyList) {
-            console.log(keyList);
             return Promise.all(keyList.map(function(key) {
-                console.log(key);
                 if (!key.startsWith(cacheWhitelist)) {
                     return caches.delete(key);
                 }
@@ -151,7 +148,7 @@ self.addEventListener("fetch", function(event) {
                 //console.log(event.request.url == "http://localhost/");
                 caches
                 // We open a cache to store the response for this request.
-                .open(version + 'pages')
+                .open(version + '::plus')
                 .then(function add(cache) {
                     /* We store the response for this request. It'll later become
                         available to caches.match(event.request) calls, when looking
