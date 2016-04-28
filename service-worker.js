@@ -1,6 +1,6 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v1';
+var version = 'v1.0.1';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -169,7 +169,9 @@ self.addEventListener("fetch", function(event) {
                         event.request.url.indexOf("google-analytics.com/")     == -1 &&
                         event.request.url.indexOf("i.ytimg.com")               == -1 &&
                         event.request.url.indexOf("php/")                      == -1 &&
-                        event.request.url.indexOf("/static/")                  == -1) {
+                        event.request.url.indexOf("/static/")                  == -1 &&
+                        event.request.url.indexOf("https://zoff.no/")          == -1 && 
+                        event.request.url.indexOf("http://localhost/")         == -1) {
                         cache.put(event.request, cacheCopy);
                     }
                 })
