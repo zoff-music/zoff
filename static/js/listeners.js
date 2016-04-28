@@ -239,7 +239,7 @@ $("#clickme").click(function(){
 	Player.ytplayer.playVideo();
 });
 
-$('#listImport').on("submit", function(){
+$(document).on("submit", "#listImport", function(){
 	Search.importPlaylist(document.getElementById("import").value);
 });
 
@@ -288,7 +288,7 @@ function searchTimeout(event) {
 }
 
 if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
-	$document.on('keydown', '.search_input', function(event) {
+	$(document).on('keydown', '.search_input', function(event) {
 		searchTimeout(event);
 	});
 } else {
