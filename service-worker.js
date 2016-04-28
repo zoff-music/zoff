@@ -1,6 +1,6 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.6';
+var version = 'v0.7';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -54,9 +54,12 @@ self.addEventListener("activate", function(event) {
 
     var cacheWhitelist = version;
 
+
     event.waitUntil(
         caches.keys().then(function(keyList) {
+            console.log(keyList);
             return Promise.all(keyList.map(function(key) {
+                console.log(key);
                 if (!key.startsWith(cacheWhitelist)) {
                     return caches.delete(key);
                 }
@@ -158,8 +161,12 @@ self.addEventListener("fetch", function(event) {
                         event.request.url.indexOf("img.youtube.com/vi/") == -1 &&
                         event.request.url.indexOf("static/images/thumbnails") == -1 &&
                         event.request.url.indexOf("chart.googleapis") == -1 &&
-                        event.request.url != "https://zoff.no/" && 
-                        event.request.url != "http://localhost/") {
+                        event.request.url != "https://zoff.no/" == -1&& 
+                        event.request.url != "http://localhost/" &&
+                        event.request.url.indexOf("googleapis.com/youtube/v3") == -1 &&
+                        event.request.url.indexOf("google-analytics.com/") == -1 &&
+                        event.request.url.indexOf("google-analytics.com/") == -1 &&
+                        event.request.url.indexOf("i.ytimg.com")) {
                         cache.put(event.request, cacheCopy);
                     }
                 })
