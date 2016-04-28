@@ -1,6 +1,6 @@
 //importScripts('/static/dist/lib/cache-polyfill.js');
 
-var version = 'v0.9.1';
+var version = 'v0.9.2';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -163,7 +163,7 @@ self.addEventListener("fetch", function(event) {
                         event.request.url.indexOf("googleapis.com/youtube/v3") == -1 &&
                         event.request.url.indexOf("google-analytics.com/") == -1 &&
                         event.request.url.indexOf("google-analytics.com/") == -1 &&
-                        event.request.url.indexOf("i.ytimg.com")) {
+                        event.request.url.indexOf("i.ytimg.com") == -1) {
                         cache.put(event.request, cacheCopy);
                     }
                 })
