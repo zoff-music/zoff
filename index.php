@@ -212,7 +212,7 @@
                 <div id="wrapper" class="tabs_height">
                     <div id="list-song-html">
                         <div id="list-song" class="card left-align list-song">
-                            <span class="clickable vote-container" title="Vote!">
+                            <div class="clickable vote-container" title="Vote!">
                                 <a class="clickable center-align votebg">
                                     <span class="lazy card-image cardbg list-image" style="background-image:url('/static/images/loading.png');"></span>
                                 </a>
@@ -223,7 +223,7 @@
                                         <span class="highlighted vote-text">&nbsp;votes</span>
                                     </span>
                                 </span>
-                            </span>
+                            </div>
                             <div class="card-action center-align list-remove hide">
                                 <a title="Remove song" id="del" class="waves-effect btn-flat clickable">Delete</a>
                             </div>

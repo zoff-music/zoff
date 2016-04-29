@@ -27,7 +27,7 @@ var Crypt = {
 		}
 
 		var decrypted = CryptoJS.AES.decrypt(
-	        cookie,navigator.userAgent+navigator.languages,
+	        cookie,"0103060703080703080701",
 	        {
 	            mode: CryptoJS.mode.CBC,
 	            padding: CryptoJS.pad.Pkcs7
@@ -54,7 +54,7 @@ var Crypt = {
 
         var encrypted = CryptoJS.AES.encrypt(
 		  to_encrypt,
-		  navigator.userAgent+navigator.languages,
+		  "0103060703080703080701",
 		  {
 		    mode: CryptoJS.mode.CBC,
 		    padding: CryptoJS.pad.Pkcs7
@@ -96,7 +96,7 @@ var Crypt = {
 
         var encrypted = CryptoJS.AES.encrypt(
 		  string_it,
-		  navigator.userAgent+navigator.languages,
+		  "0103060703080703080701",
 		  {
 		    mode: CryptoJS.mode.CBC,
 		    padding: CryptoJS.pad.Pkcs7
