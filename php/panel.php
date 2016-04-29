@@ -162,7 +162,7 @@
                 <i class="material-icons">settings_remote</i>
             </a>
             <div class="collapsible-body">
-                <ul>
+                <ul id="remote-mobile-container">
                     <li class="white-bg">
                         <p id="remote_header">Control another client</p>
                         <form action="#" class="row" id="remoteform">

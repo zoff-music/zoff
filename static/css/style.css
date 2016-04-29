@@ -989,6 +989,10 @@ nav ul li:hover, nav ul li.active {
   transition: all .1s ease;
 }
 
+.vote-container{
+  height:66px;
+}
+
 .vote-container:hover .list-image:after, .add-suggested:hover .list-suggested-image:after {
     opacity:1;
 }
@@ -1057,7 +1061,7 @@ nav ul li:hover, nav ul li.active {
  }
 
 .list-remove{
-    margin-top: 5px;
+    margin-top: -23px;
   font-size: 12px;
   height: 20px;
   display: inline-table;
@@ -1331,8 +1335,16 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    /*.list-remove{
+      margin-top:-68px;
+    }*/
+
     #settings-bar{
       overflow-x:hidden;
+    }
+
+    #remote-mobile-container{
+      margin-left:-7px;
     }
 
     #remote_channel{
