@@ -40,11 +40,10 @@ var Player = {
                 if(mobile_beginning && window.mobilecheck() && seekTo == 0)
                     seekTo = 1;
 
-                if(full_playlist[0].id == video_id){
-                    List.song_change(full_playlist[0].added);
-                }
-
                 try{
+                    if(full_playlist[0].id == video_id){
+                        List.song_change(full_playlist[0].added);
+                    }
                     Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
           		Player.getTitle(song_title, viewers);
