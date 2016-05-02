@@ -136,6 +136,10 @@ footer{
   margin-right:10px;
 }
 
+.side-nav{
+  overflow-x:hidden;
+}
+
 footer.page-footer,
 nav, .tabs .tab a,
 .side-nav .collapsible-body li.active,
