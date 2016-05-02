@@ -31,6 +31,33 @@ var List = {
         }
     },
 
+    insertAtBeginning: function(song_info, transition) {
+        var add = List.generateSong(song_info, transition, false, true, false);
+        $("#wrapper").append(add);
+    },
+
+    insertAtIndex: function(song_info, transition) {
+        var i = List.getIndexOfSong(song_info.id);
+
+        if(!song_info.now_playing){
+
+            var add = List.generateSong(song_info, transition, false, true, false);
+            if(i == 0) {
+                $("#wrapper").prepend(add);
+            } else {
+                $("#wrapper > div:nth-child(" + (i) + ")").after(add);
+            }
+        }
+       var added = $("#wrapper").children()[i];
+
+        if(transition)
+        {
+            setTimeout(function(){
+                $(added).css("height", 66);
+            },5);
+        }
+    },
+
     populate_list: function(msg)
     {
         if(list_html == undefined) list_html = $("#list-song-html").html();
@@ -63,18 +90,20 @@ var List = {
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
-
     },
 
     added_song: function(added){
+        now_playing = full_playlist.pop();
         full_playlist.push(added);
         List.sortList();
+        full_playlist.push(now_playing);
         $("#suggested-"+added.id).remove();
         if(List.empty){
-            $("#empty-channel-message").remove();
             List.empty = false;
-        }
+        } 
+        $("#empty-channel-message").remove();
         List.insertAtIndex(added, true);
+        
     },
 
     deleted_song: function(deleted){
@@ -130,7 +159,10 @@ var List = {
             full_playlist.push(full_playlist.shift());
             if(!List.empty)
                 $("#wrapper").children()[0].remove();
-
+            if($("#wrapper").children().length == 0) {
+                List.empty = true;
+                $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
+            }
             List.insertAtIndex(full_playlist[length-1], false);
             document.getElementById('wrapper').scrollTop += 1;
             document.getElementById('wrapper').scrollTop += -1;
@@ -200,24 +232,6 @@ var List = {
     	    	$("#chan").html(chan);
     	   }
     	}
-    },
-
-    insertAtIndex: function(song_info, transition) {
-        i = List.getIndexOfSong(song_info.id);
-
-        if(i === 0) 
-         	$("#wrapper").prepend(List.generateSong(song_info, transition, false, true, false));
-        else
-            $("#wrapper > div:nth-child(" + (i) + ")").after(List.generateSong(song_info, transition, false, true, false));
-        
-        var added = $("#wrapper").children()[i];
-
-        if(transition)
-        {
-            setTimeout(function(){
-                $(added).css("height", 66);
-            },5);
-        }
     },
 
     generateSong: function(song_info, transition, lazy, list, user)
