@@ -333,7 +333,7 @@ function initfp(){
 
 
     if(!localStorage["ok_cookie"])
-      Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#ok' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
+      Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
 
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){

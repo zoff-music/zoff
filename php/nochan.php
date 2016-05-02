@@ -14,7 +14,7 @@ if(isset($_GET['chan'])){
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="#!" class="brand-logo hide-on-small-only noselect">
+                <a href="#" class="brand-logo hide-on-small-only noselect">
                     <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <span id="frontpage-viewer-counter" class="hide-on-small-only noselect" title="Divided among all channels. Hidden or not"></span>
@@ -40,7 +40,7 @@ if(isset($_GET['chan'])){
                 <br>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="about" class="modal">
@@ -53,7 +53,7 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         <div id="donation" class="modal">
@@ -67,7 +67,7 @@ if(isset($_GET['chan'])){
                 </p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
+                <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
         <div id="help" class="modal">
@@ -77,7 +77,7 @@ if(isset($_GET['chan'])){
                 <p>Underneath the input fields, there are several tiles. These are channels that already exists, and they can be clicked! To enter one of these channels and listen to it's content, it is just to click the tile.</p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
         
