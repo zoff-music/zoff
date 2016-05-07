@@ -172,8 +172,5 @@ if(isset($_GET['chan'])){
     </main>
 
     <?php include("php/footer.php"); ?>
-    <div id="scripts">
-        <script type="text/javascript" src="static/dist/main.min.js"></script>
-    </div>
 	</body>
 </html>

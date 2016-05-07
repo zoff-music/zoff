@@ -560,10 +560,10 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[59]).html());
-		      	$($(e)[61]).insertAfter("header");
-		      	$($(e)[63]).insertAfter(".mega");
-		      	$("main").html($($(e)[67]).html());
+		      	$("header").html($($(e)[61]).html());
+		      	$($(e)[63]).insertAfter("header");
+		      	$($(e)[65]).insertAfter(".mega");
+		      	$("main").html($($(e)[69]).html());
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
