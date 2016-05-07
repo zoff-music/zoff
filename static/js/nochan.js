@@ -244,8 +244,8 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[59]).html());
-        $("main").html($($(e)[63]).html());
+        $("header").html($($(e)[61]).html());
+        $("main").html($($(e)[65]).html());
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
         if($("#alreadychannel").length == 1){

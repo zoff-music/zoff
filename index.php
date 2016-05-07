@@ -268,14 +268,9 @@
             </div>
         </div>
         <div id="playbar">
-          
         </div>
     </main>
 
     <?php include("php/footer.php"); ?>
-    <div id="scripts">
-
-    </div>
-    <script type="text/javascript" src="/static/dist/main.min.js"></script>
     </body>
 </html>
