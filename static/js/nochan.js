@@ -4,6 +4,7 @@ var channel_list;
 var git_info;
 var frontpage = true;
 var socket;
+var rotation_timeout;
 
 /*
 function getCookie(cname) {
@@ -171,7 +172,7 @@ var Nochan = {
       };
    
     }
-    setTimeout(function(){
+    rotation_timeout = setTimeout(function(){
       if(Nochan.times_rotated == 50 && frontpage){
         Nochan.times_rotated = 0;
         i = 0;
@@ -223,6 +224,7 @@ var Nochan = {
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
     frontpage = false;
+    clearTimeout(rotation_timeout);
     if(window.mobilecheck()) socket.removeAllListeners();
     $("body").css("background-color", "#2d2d2d"); 
     $.ajax({
