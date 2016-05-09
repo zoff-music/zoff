@@ -219,7 +219,7 @@ var Nochan = {
     }
   },
 
-  to_channel: function(chan, popstate){
+  to_channel: function(new_channel, popstate){
 
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
@@ -227,20 +227,20 @@ var Nochan = {
     if(window.mobilecheck()) socket.removeAllListeners();
     $("body").css("background-color", "#2d2d2d"); 
     $.ajax({
-      url: chan + "/php/index.php",
+      url: new_channel + "/php/index.php",
       
       success: function(e){
 
         if(Player.ytplayer != ""){
           Player.ytplayer.destroy();
-          socket.emit("change_channel");
+          socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
         $("#frontpage_player").empty();
         if(window.mobilecheck()) socket.disconnect();
 
         if(!popstate){
-          window.history.pushState("to the channel!", "Title", "/" + chan);
-          window.chan = chan;
+          window.history.pushState("to the channel!", "Title", "/" + new_channel);
+          window.chan = new_channel;
         }
 
         $(".mega").remove();
