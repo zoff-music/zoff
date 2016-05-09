@@ -283,7 +283,7 @@ function share_link_modifier_frontpage(){
 function initfp(){
 
     var date = new Date();
-
+    Nochan.blob_list = [];
     if(date.getMonth() == 3 && date.getDate() == 1){
       $(".mega").css("-webkit-transform", "rotate(180deg)");
       $(".mega").css("-moz-transform", "rotate(180deg)");
