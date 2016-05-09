@@ -74,6 +74,8 @@ $().ready(function(){
 
 function init(){
 
+	var no_socket = true;
+
 	chan = $("#chan").html();
 	mobile_beginning = window.mobilecheck();
 	var side = window.mobilecheck() ? "left" : "right";
@@ -132,8 +134,11 @@ function init(){
 			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
 	}*/
 
+	if(socket == undefined){
+		no_socket = false;
+		socket = io.connect(''+add+':8880', connection_options);
+	}
 
-	socket = io.connect(''+add+':8880', connection_options);
 	Player.setup_youtube_listener(chan);
 	    
 	    Admin.admin_listener();
@@ -163,6 +168,8 @@ function init(){
 		if(song_title !== undefined)
 			Player.getTitle(song_title, viewers);
 	});
+
+	if(no_socket) socket.emit('list', chan.toLowerCase());
 
 
 	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
@@ -530,30 +537,36 @@ function onepage_load(){
 		Player.stopInterval = true;
 		Admin.display_logged_out();
 		Admin.beginning 	 = true;
-		chan 				 = "";
 		began 				 = false;
 		durationBegun  		 = false;
 		$("#embed-button").css("display", "none");
 
 
-		socket.removeAllListeners();
+		//socket.removeAllListeners();
+		//$("#player").appendTo("#frontpage_player");
 
 		$.ajax({
 		    url: "php/nochan.php",
 		    success: function(e){
 
-		    	socket.disconnect();
-
+		    	//socket.disconnect();
+		    	socket.removeEventListener("chat.all");
+		    	socket.removeEventListener("chat");
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 			    	
-		    	video_id   = "";
-		    	song_title = "";
+		    	//video_id   = "";
+		    	//song_title = "";
 
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
 		    	if(!/iPad|iPhone|iPod/.test(navigator.userAgent)) Player.ytplayer.destroy();
+		    	if(!window.mobilecheck()){
+		    		$("<a id='closePlayer'>X</a>").appendTo("#frontpage_player");
+		    		$("#player").appendTo("#frontpage_player");
+		    		Player.onYouTubeIframeAPIReady();
+		    	}
 
 				$(".drag-target").remove();
 				$("#sidenav-overlay").remove();

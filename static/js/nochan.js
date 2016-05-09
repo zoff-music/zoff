@@ -224,16 +224,19 @@ var Nochan = {
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
     frontpage = false;
-
-    socket.removeAllListeners();
-
+    //socket.removeAllListeners();
+    $("body").css("background-color", "#2d2d2d"); 
     $.ajax({
       url: chan + "/php/index.php",
       
       success: function(e){
 
-        $("body").css("background-color", "#2d2d2d");
-        socket.disconnect();
+        if(Player.ytplayer != ""){
+          Player.ytplayer.destroy();
+          socket.emit("change_channel");
+        }
+        $("#frontpage_player").empty();
+        //socket.disconnect();
 
         if(!popstate){
           window.history.pushState("to the channel!", "Title", "/" + chan);
@@ -259,7 +262,6 @@ var Nochan = {
       }
     });
   }
-
 }
 
 String.prototype.capitalizeFirstLetter = function() {
@@ -384,6 +386,15 @@ $(document).on('click', '#cookieok', function() {
         $(this).remove();
         localStorage["ok_cookie"] = true;
     });
+});
+
+$(document).on("click", "#closePlayer", function(e){
+  e.preventDefault();
+  socket.emit("change_channel");
+  Player.ytplayer.destroy();
+  Player.ytplayer = "";
+  document.title = "Zöff";
+  $("#frontpage_player").empty();
 });
 
 $(document).on('click', '#toast-container', function(){
