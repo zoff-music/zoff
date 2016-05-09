@@ -565,12 +565,19 @@ function onepage_load(){
 
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
-		    	if(!/iPad|iPhone|iPod/.test(navigator.userAgent)) Player.ytplayer.destroy();
 		    	if(!window.mobilecheck()){
-		    		$("<a id='closePlayer'>X</a>").appendTo("#frontpage_player");
+		    		/*$("<a id='closePlayer'>X</a>").appendTo("#frontpage_player");
 		    		$("#player").appendTo("#frontpage_player");
-		    		Player.onYouTubeIframeAPIReady();
+		    		Player.onYouTubeIframeAPIReady();*/
+		    		$("main").append("<a id='closePlayer'>X</a>");
+		    		$("#player_overlay").remove();
+		    		$("#controls").remove();
+		    		$("#playlist").remove();
+		    		$(".ui-resizable-handle").remove();
+		    		$("#player").addClass("player_bottom");
+		    		$("#main-row").addClass("frontpage_modified_heights");
 		    	} else {
+		    		if(!/iPad|iPhone|iPod/.test(navigator.userAgent)) Player.ytplayer.destroy();
 		    		Player.ytplayer = "";
 		    	}
 
@@ -582,7 +589,8 @@ function onepage_load(){
 		      	$("header").html($($(e)[61]).html());
 		      	$($(e)[63]).insertAfter("header");
 		      	$($(e)[65]).insertAfter(".mega");
-		      	$("main").html($($(e)[69]).html());
+		      	if(window.mobilecheck()) $("main").html($($(e)[69]).html());
+		      	else $("main").append($($($(e)[69]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");

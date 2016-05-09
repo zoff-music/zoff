@@ -80,13 +80,29 @@
 }
 
 #closePlayer{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
+  position: fixed;
+  bottom: 175px;
+  right: 20px;
+  z-index: 11;
   font-size: 18px;
   color: white;
   text-shadow: 0px 0px 2px black;
+}
+
+.frontpage_modified_heights{
+  height: 0px !important;
+  margin-bottom:0px !important;
+}
+
+.player_bottom{
+  position: fixed !important;
+  left: auto !important;
+  top: auto !important;
+  bottom: 10px;
+  width: 250px !important;
+  height: 200px !important;
+  right: 10px;
+  z-index: 10;
 }
 
 #frontpage_player{
@@ -135,7 +151,7 @@ body {
 }
 
 .main, #main-row, .video-container, #playlist{
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh - 64px);
 }
 
 footer{
@@ -944,6 +960,7 @@ ul #chat-log{
     /*padding:0px 15px;*/
     flex:1;
     position: relative;
+    height: calc(100vh - 64px) !important;
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
