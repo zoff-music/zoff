@@ -394,7 +394,7 @@ $(document).on("click", "#closePlayer", function(e){
   Player.ytplayer.destroy();
   Player.ytplayer = "";
   document.title = "Zöff";
-  $("#frontpage_player").empty();
+  $("#closePlayer").remove();
 });
 
 $(document).on('click', '#toast-container', function(){
