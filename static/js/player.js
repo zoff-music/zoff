@@ -45,10 +45,9 @@ var Player = {
                     }
                     Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
-                if(window.location.pathname != "/"){
-              		Player.getTitle(song_title, viewers);
-        			Player.setBGimage(video_id);
-                }
+            
+          		Player.getTitle(song_title, viewers);
+    			Player.setBGimage(video_id);
     			//if(player_ready && !window.mobilecheck())
                 if(player_ready && !window.MSStream)
     			{
