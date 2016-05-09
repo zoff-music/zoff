@@ -11,7 +11,6 @@ var Player = {
     	socket.on("np", function(obj)
     	{
             Player.loaded      = false;
-
     		if(obj.length == 0){
 
     			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -46,8 +45,10 @@ var Player = {
                     }
                     Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
-          		Player.getTitle(song_title, viewers);
-    			Player.setBGimage(video_id);
+                if(window.location.pathname != "/"){
+              		Player.getTitle(song_title, viewers);
+        			Player.setBGimage(video_id);
+                }
     			//if(player_ready && !window.mobilecheck())
                 if(player_ready && !window.MSStream)
     			{
@@ -94,7 +95,7 @@ var Player = {
                 playing = false;
                 paused  = false;
 
-    			socket.emit("end", video_id);
+    			socket.emit("end", {id: video_id, channel: chan.toLowerCase()});
     			break;
     		case 1:
     			playing = true;
@@ -103,14 +104,16 @@ var Player = {
                     beginning = false;
                     mobile_beginning = false;
                 }
-                if(!embed) Helper.addClass("#player_overlay", "hide");
-    			if(document.getElementById("play").className.split(" ").length == 1)
-    				$("#play").toggleClass("hide");
-    			if(document.getElementById("pause").className.split(" ").length == 2)
-    				$("#pause").toggleClass("hide");
+                if(!embed && window.location.pathname != "/") Helper.addClass("#player_overlay", "hide");
+                if(window.location.pathname != "/"){
+        			if(document.getElementById("play").className.split(" ").length == 1)
+        				$("#play").toggleClass("hide");
+        			if(document.getElementById("pause").className.split(" ").length == 2)
+        				$("#pause").toggleClass("hide");
+                }
     			if(paused)
     			{
-    				socket.emit('pos');
+    				socket.emit('pos', {channel: chan.toLowerCase()});
     				paused = false;
     			}
     			break;
@@ -118,7 +121,7 @@ var Player = {
                 /*if(window.mobilecheck() || embed)
                 {*/
     			    paused = true;
-                    Playercontrols.play_pause_show();
+                    if(window.location.pathname != "/") Playercontrols.play_pause_show();
                     mobile_beginning = true;
                 /*}
                 else
@@ -158,7 +161,7 @@ var Player = {
             curr_playing = Player.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
             
-                socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass});
+                socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase});
                 //console.log(video_id, Player.ytplayer.getVideoUrl(), Player.ytplayer.getPlayerState());
             
             /*}else{

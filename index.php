@@ -270,6 +270,7 @@
         <div id="playbar">
         </div>
     </main>
+    <div id="frontpage_player"></div>
 
     <?php include("php/footer.php"); ?>
     </body>

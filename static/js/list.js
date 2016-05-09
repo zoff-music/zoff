@@ -26,7 +26,7 @@ var List = {
                 List.voted_song(msg[1], msg[2]);
                 break;
             case "song_change":
-                List.song_change(msg[1]);
+                if(window.location.pathname != "/") List.song_change(msg[1]);
                 break;
         }
     },

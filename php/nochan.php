@@ -170,6 +170,7 @@ if(isset($_GET['chan'])){
             </div>
         </div>
     </main>
+    <div id="frontpage_player"></div>
 
     <?php include("php/footer.php"); ?>
 	</body>
