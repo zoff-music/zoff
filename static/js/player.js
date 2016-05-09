@@ -223,11 +223,10 @@ var Player = {
     		    var colorThief = new ColorThief();
                 var color      = colorThief.getColor(img);
 
-    		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color,true);
-                /*document.getElementById("top-button").style.backgroundColor    = Helper.rgbToHsl(color);
-                document.getElementById("bottom-button").style.backgroundColor = Helper.rgbToHsl(color);*/
-
-                $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+                if(window.location.pathname != "/"){
+        		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color,true);
+                    $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+                }
     		};
 
     		img.crossOrigin = 'Anonymous';
