@@ -224,7 +224,7 @@ var Nochan = {
     $("#channel-load").css("display", "block");
     window.scrollTo(0, 0);
     frontpage = false;
-    //socket.removeAllListeners();
+    if(window.mobilecheck()) socket.removeAllListeners();
     $("body").css("background-color", "#2d2d2d"); 
     $.ajax({
       url: chan + "/php/index.php",
@@ -236,7 +236,7 @@ var Nochan = {
           socket.emit("change_channel");
         }
         $("#frontpage_player").empty();
-        //socket.disconnect();
+        if(window.mobilecheck()) socket.disconnect();
 
         if(!popstate){
           window.history.pushState("to the channel!", "Title", "/" + chan);
