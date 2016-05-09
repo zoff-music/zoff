@@ -137,8 +137,7 @@ var Nochan = {
           //$(".room-namer").css("opacity", 1);
         }
       },500); 
-    }else{
-
+    } else {
       var img = new Image();
       img.src = "/static/images/thumbnails/"+id+".jpg";
 
@@ -315,7 +314,7 @@ function initfp(){
     socket.on('playlists', function(msg){
         $("#channels").empty();
 
-
+        frontpage = true;
         Nochan.populate_channels(msg.channels);
 
         Nochan.set_viewers(msg.viewers);

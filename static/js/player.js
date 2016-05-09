@@ -135,15 +135,18 @@ var Player = {
 
     getTitle: function(titt, v)
     {
+
     	var outPutWord    = v > 1 ? "viewers" : "viewer";
     	var title         = decodeURIComponent(titt);
-    	var elem          = document.getElementById('song-title');
-        var getTitleViews = document.getElementById('viewers');
+        if(window.location.pathname != "/"){
+        	var elem          = document.getElementById('song-title');
+            var getTitleViews = document.getElementById('viewers');
 
-    	document.title    = title + " • Zöff / "+chan;
-		elem.innerHTML    = title;
-		getTitleViews.innerHTML = v + " " + outPutWord;
-		elem.title        = title + " • " + v + " " + outPutWord;
+    		elem.innerHTML    = title;
+    		getTitleViews.innerHTML = v + " " + outPutWord;
+    		elem.title        = title + " • " + v + " " + outPutWord;
+        }
+        document.title    = title + " • Zöff / "+chan;
 
     },
 

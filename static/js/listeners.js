@@ -599,6 +599,8 @@ function onepage_load(){
 		      		window.initfp();
 		      	}else {
 					window.fromChannel = true;
+					frontpage 			 = true;
+
 		            window.initfp();
 		        }
 
