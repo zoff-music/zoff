@@ -90,6 +90,10 @@
   top: 52px;
   background-color:rgba(0,0,0,0);
 }
+
+#channel-load-move{
+  background-color: #FFFFFF !important;
+}
  
 .rounded{
   border-radius: 4px;
