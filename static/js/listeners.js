@@ -53,6 +53,8 @@ var connection_options = {
 	'secure': true,
 	'force new connection': true 
 };
+var fromFront = false;
+var fromChannel = false;
 
 /*
 if (navigator.serviceWorker) {
@@ -68,7 +70,23 @@ if (navigator.serviceWorker) {
 }
 */
 $().ready(function(){
-	if(!window.fromFront && window.location.pathname != "/") init();
+	if(!fromFront && window.location.pathname != "/") init();
+	else if(!fromChannel && window.location.pathname == "/"){
+		initfp();
+	}
+	
+	git_info = $.ajax({ type: "GET",
+		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
+		     async: false
+	   }).responseText;
+
+     git_info = $.parseJSON(git_info);
+     $("#latest-commit").html("Latest Commit: <br>"
+ 				+ git_info[0].commit.author.date.substring(0,10)
+ 				+ ": " + git_info[0].committer.login
+ 				+ "<br><a href='"+git_info[0].html_url+"'>"
+ 				+ git_info[0].sha.substring(0,10) + "</a>: "
+ 				+ git_info[0].commit.message+"<br");
 });
 
 
@@ -77,8 +95,8 @@ function init(){
 	var no_socket = true;
 
 	chan = $("#chan").html();
-	mobile_beginning = window.mobilecheck();
-	var side = window.mobilecheck() ? "left" : "right";
+	mobile_beginning = Helper.mobilecheck();
+	var side = Helper.mobilecheck() ? "left" : "right";
 
 	window.onpopstate = function(e){
 		onepage_load();
@@ -134,38 +152,17 @@ function init(){
 			socket.emit("password", [localStorage[chan.toLowerCase()], chan.toLowerCase()]);
 	}*/
 
-	if(socket == undefined || window.mobilecheck()){
+	if(socket == undefined || Helper.mobilecheck()){
 		no_socket = false;
 		socket = io.connect(''+add+':8880', connection_options);
 	}
 
-	if($("#alreadychannel").length == 0 || window.mobilecheck()){
-		Player.setup_youtube_listener(chan);
-
-		socket.on("get_list", function(){
-		    //setTimeout(function(){
-		    	socket.emit('list', chan.toLowerCase());
-		    	/*if(Crypt.get_pass(chan.toLowerCase()) != undefined){
-		    		socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
-		    	}*/
-		});
-
-		socket.on("suggested", function(params){
-			var single = true;
-			if(params.id == undefined)
-				single = false;
-			//setTimeout(function(){
-				Suggestions.catchUserSuggests(params, single);
-				//}, 1000);
-		});
-
-		socket.on("viewers", function(view)
-		{
-			viewers = view;
-
-			if(song_title !== undefined)
-				Player.getTitle(song_title, viewers);
-		});
+	if($("#alreadychannel").length == 0 || Helper.mobilecheck()){
+		setup_youtube_listener();
+		get_list_listener();
+		setup_suggested_listener();
+		setup_viewers_listener();
+		
 	} else {
         $("#channel-load").css("display", "none");
 		$("#player").css("opacity", "1");
@@ -187,35 +184,20 @@ function init(){
 		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
- 		if(Player.ytplayer == "" || Player.ytplayer == undefined || window.mobilecheck()) Player.loadPlayer();
+ 		if(Player.ytplayer == "" || Player.ytplayer == undefined || Helper.mobilecheck()) Player.loadPlayer();
  	}
 
- 	if(window.mobilecheck()) Mobile_remote.initiate_volume();
+ 	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
 
- 	Admin.admin_listener();
-	List.channel_listener();
-	Chat.setup_chat_listener(chan);
-	Chat.allchat_listener();
-	if(!window.mobilecheck()) Hostcontroller.host_listener();
+ 	setup_admin_listener();
+	setup_list_listener();
+	setup_chat_listener();
+	if(!Helper.mobilecheck()) setup_host_listener();
 
 	if(!Helper.msieversion()) Notification.requestPermission();
 	
 	$(".search_input").focus();
 	
-
-	git_info = $.ajax({ type: "GET",
-			url: "https://api.github.com/repos/zoff-music/zoff/commits",
-			async: false
-	}).responseText;
-
-	git_info = $.parseJSON(git_info);
-	$("#latest-commit").html("Latest Commit: <br>"
-			+ git_info[0].commit.author.date.substring(0,10)
-			+ ": " + git_info[0].committer.login
-			+ "<br><a href='"+git_info[0].html_url+"'>"
-			+ git_info[0].sha.substring(0,10) + "</a>: "
-			+ git_info[0].commit.message+"<br");
-
 	Helper.sample();
 
   	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
@@ -235,7 +217,56 @@ function init(){
 	
 }
 
-window.init = init;
+function setup_youtube_listener(){
+	socket.on("np", Player.youtube_listener);
+}
+
+function get_list_listener(){
+	socket.on("get_list", function(){
+    	socket.emit('list', chan.toLowerCase());
+	});
+}
+
+function setup_suggested_listener(){
+	socket.on("suggested", function(params){
+		var single = true;
+		if(params.id == undefined)
+			single = false;
+			Suggestions.catchUserSuggests(params, single);
+	});
+}
+
+function setup_viewers_listener(){
+	socket.on("viewers", function(view){
+		viewers = view;
+
+		if(song_title !== undefined)
+			Player.getTitle(song_title, viewers);
+	});
+}
+
+function setup_admin_listener(){
+	socket.on("toast", Admin.toast);
+	socket.on("pw", Admin.pw);
+	socket.on("conf", Admin.conf);
+}
+
+function setup_chat_listener(){
+	socket.on("chat.all", Chat.allchat);
+	socket.on("chat", Chat.channelchat);
+}
+
+function setup_list_listener(){
+	socket.on("channel", List.channel_function);
+}
+
+function setup_playlist_listener(){
+	socket.on('playlists', Nochan.frontpage_function);
+}
+
+function setup_host_listener(){
+	socket.on("id", Hostcontroller.host_listener);
+}
 
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){
@@ -252,6 +283,72 @@ $(document).keyup(function(e) {
     	}
     	$("#results").toggleClass("hide");
   	}
+});
+
+
+$(document).on('click', '#cookieok', function() {
+    $(this).fadeOut(function(){
+        $(this).remove();
+        localStorage["ok_cookie"] = true;
+    });
+});
+
+$(document).on("click", "#closePlayer", function(e){
+  e.preventDefault();
+  socket.emit("change_channel");
+  Player.ytplayer.destroy();
+  socket.removeEventListener("np");
+  $("#alreadychannel").remove();
+  Player.ytplayer = "";
+  document.title = "Zöff";
+  $("#closePlayer").remove();
+  console.log("removed shit");
+});
+
+$(document).on('click', '#toast-container', function(){
+  $(this).fadeOut(function(){
+        $(this).remove();
+    });
+});
+
+$(document).on('click', "#aprilfools", function(){
+  $(".mega").css("-webkit-transform", "rotate(0deg)");
+  $(".mega").css("-moz-transform", "rotate(0deg)");
+});
+
+$(document).on('click', ".chan-link", function(e){
+  e.preventDefault();
+
+  Nochan.to_channel($(this).attr("href"), false);
+});
+
+$(document).on("click", ".listen-button", function(e){
+  //console.log($(".room-namer").attr("placeholder"));
+  if($(".room-namer").val() == ""){
+    e.preventDefault();
+    //window.location = "?chan="+
+    
+    Nochan.to_channel($(".room-namer").attr("placeholder"));
+  }
+});
+
+$(document).on("submit", ".channel-finder", function(e){
+  e.preventDefault();
+  Nochan.to_channel($(".room-namer").val());
+  return false;
+});
+
+$(document).on("submit", "#base", function(e){
+  e.preventDefault();
+  Nochan.to_channel($("#search-mobile").val());
+  return false;
+});
+
+
+$('input[class=remote_switch_class]').change(function()
+{
+  enabled = document.getElementsByName("remote_switch")[0].checked;
+  Crypt.set_remote(enabled);
 });
 
 $('input[class=conf]').change(function()
@@ -554,14 +651,14 @@ function onepage_load(){
 		$("#embed-button").css("display", "none");
 
 
-		if(window.mobilecheck()) socket.removeAllListeners();
+		if(Helper.mobilecheck()) socket.removeAllListeners();
 		//$("#player").appendTo("#frontpage_player");
 
 		$.ajax({
 		    url: "php/nochan.php",
 		    success: function(e){
 
-		    	if(window.mobilecheck())  socket.disconnect();
+		    	if(Helper.mobilecheck())  socket.disconnect();
 		    	else {
 			    	socket.removeEventListener("chat.all");
 			    	socket.removeEventListener("chat");
@@ -575,14 +672,14 @@ function onepage_load(){
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 			    
-			    if(window.mobilecheck()) {	
+			    if(Helper.mobilecheck()) {	
 			    	video_id   = "";
 			    	song_title = "";
 		    	}
 
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
-		    	if(!window.mobilecheck()){
+		    	if(!Helper.mobilecheck()){
 		    		/*$("<a id='closePlayer'>X</a>").appendTo("#frontpage_player");
 		    		$("#player").appendTo("#frontpage_player");
 		    		Player.onYouTubeIframeAPIReady();*/
@@ -611,19 +708,19 @@ function onepage_load(){
 		      	$("header").html($($(e)[61]).html());
 		      	$($(e)[63]).insertAfter("header");
 		      	$($(e)[65]).insertAfter(".mega");
-		      	if(window.mobilecheck()) $("main").html($($(e)[69]).html());
+		      	if(Helper.mobilecheck()) $("main").html($($(e)[69]).html());
 		      	else $("main").append($($($(e)[69]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
 
 		      	if($("#alreadyfp").length == 1){
-		      		window.initfp();
+		      		initfp();
 		      	}else {
-					window.fromChannel = true;
+					fromChannel = true;
 					frontpage 			 = true;
 
-		            window.initfp();
+		            initfp();
 		        }
 
 		      	if($("#alreadychannel").length == 0){

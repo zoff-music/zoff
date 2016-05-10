@@ -29,69 +29,62 @@ var Chat = {
     return;
   },
 
-  allchat_listener: function()
+  allchat: function(inp)
   {
-    socket.on("chat.all", function(inp)
+    //$("#chat-btn").css("color", "grey");
+
+    if(!blink_interval_exists && inp[1].substring(0,1) == ":" && !chat_active)
     {
+      $("#favicon").attr("href", "static/images/highlogo.png");
+      blink_interval_exists = true;
+      unseen = true;
+      chat_unseen = true;
+      if(!blinking) Chat.chat_blink();
+      //blink_interval = setTimeout(Chat.chat_blink, 2000);
+    }
 
-    
-      //$("#chat-btn").css("color", "grey");
-
-      if(!blink_interval_exists && inp[1].substring(0,1) == ":" && !chat_active)
-      {
-        $("#favicon").attr("href", "static/images/highlogo.png");
-        blink_interval_exists = true;
-        unseen = true;
-        chat_unseen = true;
-        if(!blinking) Chat.chat_blink();
-        //blink_interval = setTimeout(Chat.chat_blink, 2000);
+    if(document.hidden)
+    {
+      $("#favicon").attr("href", "static/images/highlogo.png");
+    }
+    var color = Helper.intToARGB(Helper.hashCode(inp[0]));
+    if(color.length < 6) {
+      for(x = color.length; x < 6; x++){
+        color = "0" + color;
       }
-
-      if(document.hidden)
-      {
-        $("#favicon").attr("href", "static/images/highlogo.png");
-      }
-      var color = Helper.intToARGB(Helper.hashCode(inp[0]));
-      if(color.length < 6) {
-        for(x = color.length; x < 6; x++){
-          color = "0" + color;
-        }
-      }
-      color = Helper.hexToRgb(color.substring(0,6));
-      var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-      $("#chatall").append("<li title='"+inp[2]+"''><span style='color:"+color_temp+";'>"+inp[0]+"</span></li>");
-      var in_text = document.createTextNode(inp[1]);
-      $("#chatall li:last")[0].appendChild(in_text);
-      document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
-    });
+    }
+    color = Helper.hexToRgb(color.substring(0,6));
+    var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
+    $("#chatall").append("<li title='"+inp[2]+"''><span style='color:"+color_temp+";'>"+inp[0]+"</span></li>");
+    var in_text = document.createTextNode(inp[1]);
+    $("#chatall li:last")[0].appendChild(in_text);
+    document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
   },
 
-  setup_chat_listener: function(channel)
+  channelchat: function(data)
   {
-    socket.on("chat", function(data)
+    if(!blink_interval_exists && data[1].substring(0,1) == ":" && !chat_active)
     {
-      if(!blink_interval_exists && data[1].substring(0,1) == ":" && !chat_active)
-      {
-        $("#favicon").attr("href", "static/images/highlogo.png");
-        unseen = true;
-        chat_unseen = true;
-        if(!blinking) Chat.chat_blink();
-        //blink_interval = setTimeout(Chat.chat_blink, 1000);
-      }
+      $("#favicon").attr("href", "static/images/highlogo.png");
+      unseen = true;
+      chat_unseen = true;
+      if(!blinking) Chat.chat_blink();
+      //blink_interval = setTimeout(Chat.chat_blink, 1000);
+    }
 
-      var color = Helper.intToARGB(Helper.hashCode(data[0]));
-      if(color.length < 6) {
-        for(x = color.length; x < 6; x++){
-          color = "0" + color;
-        }
+    var color = Helper.intToARGB(Helper.hashCode(data[0]));
+    if(color.length < 6) {
+      for(x = color.length; x < 6; x++){
+        color = "0" + color;
       }
-      color = Helper.hexToRgb(color.substring(0,6));
-      var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-      $("#chatchannel").append("<li><span style='color:"+color_temp+";'>"+data[0]+"</span></li>");
-      var in_text = document.createTextNode(data[1]);
-      $("#chatchannel li:last")[0].appendChild(in_text);
-      document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
-    });
+    }
+    color = Helper.hexToRgb(color.substring(0,6));
+    var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
+    $("#chatchannel").append("<li><span style='color:"+color_temp+";'>"+data[0]+"</span></li>");
+    var in_text = document.createTextNode(data[1]);
+    $("#chatchannel li:last")[0].appendChild(in_text);
+    document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
+    socket.on("chat", Chat.channelchat);
   },
 
   chat_blink: function() {

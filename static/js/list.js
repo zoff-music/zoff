@@ -2,13 +2,6 @@ var List = {
 
     empty: false,
 
-    channel_listener: function()
-    {
-    	socket.on("channel", function(msg){
-    		List.channel_function(msg);
-    	});
-    },
-
     channel_function: function(msg)
     {
         switch(msg[0])
@@ -75,7 +68,7 @@ var List = {
 
 
             if(lazy_load){
-                if(window.mobilecheck()) $(".list-image").lazyload({});
+                if(Helper.mobilecheck()) $(".list-image").lazyload({});
                 else{ 
                     $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
 
@@ -217,7 +210,7 @@ var List = {
     },
 
     show: function(){
-    	if(!window.mobilecheck())
+    	if(!Helper.mobilecheck())
     	{
     		if(showToggle){
     	    	showToggle=false;
