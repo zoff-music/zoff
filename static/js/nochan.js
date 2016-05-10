@@ -250,8 +250,9 @@ var Nochan = {
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[61]).html());
-        if($("#alreadychannel").length == 0 || window.mobilecheck()) $("main").html($($(e)[65]).html());
-        else {
+        if($("#alreadychannel").length == 0 || window.mobilecheck() || Player.ytplayer == undefined){
+          $("main").html($($(e)[65]).html());
+        } else {
           var main = $($($($($(e)[65]).html())[0]).html());
           $("#main-row").append($(main[2]).clone().wrap("<div>").parent().html());
           $("#video-container").append($($($(main[0]).html())[4]).clone().wrap("<div>").parent().html());
@@ -407,9 +408,12 @@ $(document).on("click", "#closePlayer", function(e){
   e.preventDefault();
   socket.emit("change_channel");
   Player.ytplayer.destroy();
+  socket.removeEventListener("np");
+  $("#alreadychannel").remove();
   Player.ytplayer = "";
   document.title = "Zöff";
   $("#closePlayer").remove();
+  console.log("removed shit");
 });
 
 $(document).on('click', '#toast-container', function(){
