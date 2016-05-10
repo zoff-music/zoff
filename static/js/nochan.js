@@ -233,7 +233,7 @@ var Nochan = {
       success: function(e){
 
         if(Player.ytplayer != ""){
-          Player.ytplayer.destroy();
+          //Player.ytplayer.destroy();
           socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
         $("#frontpage_player").empty();
@@ -244,12 +244,23 @@ var Nochan = {
           window.chan = new_channel;
         }
 
+        
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[61]).html());
-        $("main").html($($(e)[65]).html());
+        if($("#alreadychannel").length == 0) $("main").html($($(e)[65]).html());
+        else {
+          var main = $($($($($(e)[65]).html())[0]).html());
+          $("#main-row").append($(main[2]).clone().wrap("<div>").parent().html());
+          $("#video-container").append($($($(main[0]).html())[4]).clone().wrap("<div>").parent().html());
+          $("#main-row").append("<div id='playbar'></div>");
+          $("#player").removeClass("player_bottom");
+          $("#main-row").removeClass("frontpage_modified_heights");
+          $("#main_section_frontpage").remove();
+          $("#closePlayer").remove();
+        }
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
         if($("#alreadychannel").length == 1){
@@ -270,7 +281,9 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 $().ready(function(){
-  if(!window.fromChannel && window.location.pathname == "/") initfp();
+  if(!window.fromChannel && window.location.pathname == "/"){
+    initfp();
+  }
 });
 
 function share_link_modifier_frontpage(){
@@ -312,15 +325,16 @@ function initfp(){
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
-    socket = io.connect(''+add+':8880', connection_options);
-    socket.on('playlists', function(msg){
-        $("#channels").empty();
+    if(socket == undefined) socket = io.connect(''+add+':8880', connection_options);
+    if($("#alreadyfp").length == 0){
+      socket.on('playlists', function(msg){
+          $("#channels").empty();
+          frontpage = true;
+          Nochan.populate_channels(msg.channels);
 
-        frontpage = true;
-        Nochan.populate_channels(msg.channels);
-
-        Nochan.set_viewers(msg.viewers);
-    });
+          Nochan.set_viewers(msg.viewers);
+      });
+    }
 
 
     socket.emit('frontpage_lists');

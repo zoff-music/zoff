@@ -139,35 +139,45 @@ function init(){
 		socket = io.connect(''+add+':8880', connection_options);
 	}
 
-	Player.setup_youtube_listener(chan);
-	    
-	    Admin.admin_listener();
-		List.channel_listener();
+	if($("#alreadychannel").length == 0){
+		Player.setup_youtube_listener(chan);
 
-	socket.on("get_list", function(){
-	    //setTimeout(function(){
-	    	socket.emit('list', chan.toLowerCase());
-	    	/*if(Crypt.get_pass(chan.toLowerCase()) != undefined){
-	    		socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
-	    	}*/
-	});
+		socket.on("get_list", function(){
+		    //setTimeout(function(){
+		    	socket.emit('list', chan.toLowerCase());
+		    	/*if(Crypt.get_pass(chan.toLowerCase()) != undefined){
+		    		socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+		    	}*/
+		});
 
-	socket.on("suggested", function(params){
-		var single = true;
-		if(params.id == undefined)
-			single = false;
-		//setTimeout(function(){
-			Suggestions.catchUserSuggests(params, single);
-			//}, 1000);
-	});
+		socket.on("suggested", function(params){
+			var single = true;
+			if(params.id == undefined)
+				single = false;
+			//setTimeout(function(){
+				Suggestions.catchUserSuggests(params, single);
+				//}, 1000);
+		});
 
-	socket.on("viewers", function(view)
-	{
-		viewers = view;
+		socket.on("viewers", function(view)
+		{
+			viewers = view;
 
-		if(song_title !== undefined)
-			Player.getTitle(song_title, viewers);
-	});
+			if(song_title !== undefined)
+				Player.getTitle(song_title, viewers);
+		});
+	} else {
+        $("#channel-load").css("display", "none");
+		$("#player").css("opacity", "1");
+		$("#controls").css("opacity", "1");
+		$(".playlist").css("opacity", "1");
+		Player.readyLooks();
+		Playercontrols.initYoutubeControls(Player.ytplayer);
+		Playercontrols.initSlider();
+		Player.ytplayer.setVolume(Crypt.get_volume());
+        $(".video-container").removeClass("no-opacity");
+
+	}
 
 	if(no_socket) socket.emit('list', chan.toLowerCase());
 
@@ -177,11 +187,13 @@ function init(){
 		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
- 		Player.loadPlayer();
+ 		if(Player.ytplayer == "" || Player.ytplayer == undefined) Player.loadPlayer();
  	}
 
  	if(window.mobilecheck()) Mobile_remote.initiate_volume();
 
+ 	Admin.admin_listener();
+	List.channel_listener();
 	Chat.setup_chat_listener(chan);
 	Chat.allchat_listener();
 	if(!window.mobilecheck()) Hostcontroller.host_listener();
@@ -553,6 +565,11 @@ function onepage_load(){
 		    	else {
 			    	socket.removeEventListener("chat.all");
 			    	socket.removeEventListener("chat");
+			    	socket.removeEventListener("conf");
+			    	socket.removeEventListener("pw");
+			    	socket.removeEventListener("toast");
+			    	socket.removeEventListener("id");
+			    	socket.removeEventListener(id);
 			    }
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
@@ -570,10 +587,12 @@ function onepage_load(){
 		    		$("#player").appendTo("#frontpage_player");
 		    		Player.onYouTubeIframeAPIReady();*/
 		    		$("main").append("<a id='closePlayer'>X</a>");
-		    		$("#player_overlay").remove();
-		    		$("#controls").remove();
+		    		/*$("#player_overlay").remove();
+		    		$("#controls").remove();*/
+		    		$("#playbar").remove();
 		    		$("#playlist").remove();
 		    		$(".ui-resizable-handle").remove();
+		    		$("#main_components").remove();
 		    		$("#player").addClass("player_bottom");
 		    		$("#main-row").addClass("frontpage_modified_heights");
 		    	} else {
@@ -610,8 +629,6 @@ function onepage_load(){
 		      	$("#channel-load").css("display", "none");
 
 				document.title = "Zöff";
-
-				window.initfp();
 
 		    }
 		});

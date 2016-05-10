@@ -138,7 +138,7 @@ if(isset($_GET['chan'])){
             <div class="indeterminate" id="channel-load-move"></div>
         </div>
     <main class="center-align container">
-        <div class="section">
+        <div id="main_section_frontpage" class="section">
             <div id="preloader" class="progress">
                 <div class="indeterminate"></div>
             </div>
@@ -170,7 +170,6 @@ if(isset($_GET['chan'])){
             </div>
         </div>
     </main>
-    <div id="frontpage_player"></div>
 
     <?php include("php/footer.php"); ?>
 	</body>
