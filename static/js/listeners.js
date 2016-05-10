@@ -595,6 +595,8 @@ function onepage_load(){
 		    		$("#main_components").remove();
 		    		$("#player").addClass("player_bottom");
 		    		$("#main-row").addClass("frontpage_modified_heights");
+		    		$("#player").css("opacity", "1");
+		    		$("#video-container").removeClass("no-opacity");
 		    	} else {
 		    		console.log("destroying video");
 		    		Player.ytplayer.destroy();
