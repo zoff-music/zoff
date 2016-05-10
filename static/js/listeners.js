@@ -74,7 +74,7 @@ $().ready(function(){
 	else if(!fromChannel && window.location.pathname == "/"){
 		initfp();
 	}
-	
+
 	git_info = $.ajax({ type: "GET",
 		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
 		     async: false
@@ -302,7 +302,6 @@ $(document).on("click", "#closePlayer", function(e){
   Player.ytplayer = "";
   document.title = "Zöff";
   $("#closePlayer").remove();
-  console.log("removed shit");
 });
 
 $(document).on('click', '#toast-container', function(){
