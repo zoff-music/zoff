@@ -187,7 +187,8 @@ var Player = {
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
     			Player.ytplayer.loadVideoById(video_id);
-                if(autoplay && !window.mobilecheck()) Player.ytplayer.playVideo();
+                if(autoplay && !window.mobilecheck())
+                    Player.ytplayer.playVideo();
                 if(!durationBegun)
                     Player.durationSetter();
                 if(embed){
