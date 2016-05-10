@@ -139,7 +139,7 @@ function init(){
 		socket = io.connect(''+add+':8880', connection_options);
 	}
 
-	if($("#alreadychannel").length == 0){
+	if($("#alreadychannel").length == 0 || window.mobilecheck()){
 		Player.setup_youtube_listener(chan);
 
 		socket.on("get_list", function(){
@@ -187,7 +187,7 @@ function init(){
 		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
- 		if(Player.ytplayer == "" || Player.ytplayer == undefined) Player.loadPlayer();
+ 		if(Player.ytplayer == "" || Player.ytplayer == undefined || window.mobilecheck()) Player.loadPlayer();
  	}
 
  	if(window.mobilecheck()) Mobile_remote.initiate_volume();
@@ -596,7 +596,8 @@ function onepage_load(){
 		    		$("#player").addClass("player_bottom");
 		    		$("#main-row").addClass("frontpage_modified_heights");
 		    	} else {
-		    		if(!/iPad|iPhone|iPod/.test(navigator.userAgent)) Player.ytplayer.destroy();
+		    		console.log("destroying video");
+		    		Player.ytplayer.destroy();
 		    		Player.ytplayer = "";
 		    	}
 

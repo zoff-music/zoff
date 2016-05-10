@@ -250,7 +250,7 @@ var Nochan = {
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[61]).html());
-        if($("#alreadychannel").length == 0) $("main").html($($(e)[65]).html());
+        if($("#alreadychannel").length == 0 || window.mobilecheck()) $("main").html($($(e)[65]).html());
         else {
           var main = $($($($($(e)[65]).html())[0]).html());
           $("#main-row").append($(main[2]).clone().wrap("<div>").parent().html());
@@ -325,8 +325,8 @@ function initfp(){
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
-    if(socket == undefined) socket = io.connect(''+add+':8880', connection_options);
-    if($("#alreadyfp").length == 0){
+    if(socket == undefined || window.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
+    if($("#alreadyfp").length == 0 || window.mobilecheck()){
       socket.on('playlists', function(msg){
           $("#channels").empty();
           frontpage = true;
