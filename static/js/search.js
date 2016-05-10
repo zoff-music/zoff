@@ -2,7 +2,7 @@ var Search = {
 
     showSearch: function(){
     	$("#search-wrapper").toggleClass("hide");
-    	if(window.mobilecheck())
+    	if(Helper.mobilecheck())
     	{
     		$(".search_input").focus();
     	}

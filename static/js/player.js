@@ -6,83 +6,79 @@ var Player = {
     ytplayer: "",
     stopInterval: false,
 
-    setup_youtube_listener: function(channel)
+    youtube_listener: function(obj)
     {
-    	socket.on("np", function(obj)
-    	{
-            Player.loaded      = false;
-    		if(obj.length == 0){
+        Player.loaded      = false;
+        if(obj.length == 0){
 
-    			document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
-    			$("#player_overlay").height($("#player").height());
+            document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
+            $("#player_overlay").height($("#player").height());
 
-    			if(!window.MSStream) $("#player_overlay").toggleClass("hide");
+            if(!window.MSStream) $("#player_overlay").toggleClass("hide");
+            try{
+                Player.ytplayer.stopVideo();
+            }catch(e){}
+            //List.importOldList(channel.toLowerCase());
+        }
+        else{
+            //console.log("gotten new song");
+            if(previous_video_id == undefined) 
+                previous_video_id = obj[0][0]["id"];
+            else if(previous_video_id != video_id)
+                previous_video_id = video_id;
+
+            video_id   = obj[0][0]["id"];
+            conf       = obj[1][0];
+            time       = obj[2];
+            seekTo     = time - conf["startTime"];
+            song_title = obj[0][0]["title"];
+            duration   = obj[0][0]["duration"];
+
+            if(mobile_beginning && Helper.mobilecheck() && seekTo == 0)
+                seekTo = 1;
+
+            try{
+                if(full_playlist[0].id == video_id){
+                    List.song_change(full_playlist[0].added);
+                }
+                Suggestions.fetchYoutubeSuggests(video_id);
+            }catch(e){}
+        
+            Player.getTitle(song_title, viewers);
+            Player.setBGimage(video_id);
+            //if(player_ready && !Helper.mobilecheck())
+            if(player_ready && !window.MSStream)
+            {
+                
                 try{
-                    Player.ytplayer.stopVideo();
-                }catch(e){}
-    			//List.importOldList(channel.toLowerCase());
-    		}
-    		else{
-    			//console.log("gotten new song");
-                if(previous_video_id == undefined) 
-                    previous_video_id = obj[0][0]["id"];
-                else if(previous_video_id != video_id)
-                    previous_video_id = video_id;
-
-                video_id   = obj[0][0]["id"];
-                conf       = obj[1][0];
-                time       = obj[2];
-                seekTo     = time - conf["startTime"];
-                song_title = obj[0][0]["title"];
-                duration   = obj[0][0]["duration"];
-
-                if(mobile_beginning && window.mobilecheck() && seekTo == 0)
-                    seekTo = 1;
-
-                try{
-                    if(full_playlist[0].id == video_id){
-                        List.song_change(full_playlist[0].added);
+                    if(Player.ytplayer.getVideoUrl().split('v=')[1] != video_id)
+                    {
+                        Player.ytplayer.loadVideoById(video_id);
+                        Player.notifyUser(video_id, song_title);
+                        Player.ytplayer.seekTo(seekTo);
+                        if(paused)
+                            Player.ytplayer.pauseVideo();
                     }
-                    Suggestions.fetchYoutubeSuggests(video_id);
-                }catch(e){}
-            
-          		Player.getTitle(song_title, viewers);
-    			Player.setBGimage(video_id);
-    			//if(player_ready && !window.mobilecheck())
-                if(player_ready && !window.MSStream)
-    			{
-                    
-    				try{
-                        if(Player.ytplayer.getVideoUrl().split('v=')[1] != video_id)
-        				{
-        					Player.ytplayer.loadVideoById(video_id);
-        					Player.notifyUser(video_id, song_title);
-        					Player.ytplayer.seekTo(seekTo);
-        					if(paused)
-        						Player.ytplayer.pauseVideo();
-        				}
 
-        				if(!paused){
-                            if(!mobile_beginning)
-        					   Player.ytplayer.playVideo();
-                            if(!durationBegun)
-                                Player.durationSetter();
-                        }
-        				if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
-        					Player.ytplayer.seekTo(seekTo);
-                        Player.after_load  = video_id;
-
-                        setTimeout(function(){Player.loaded = true;},500);
-                    }catch(e){
+                    if(!paused){
+                        if(!mobile_beginning)
+                           Player.ytplayer.playVideo();
                         if(!durationBegun)
                             Player.durationSetter();
                     }
-    			}
-    			else
-            		Player.getTitle(song_title, viewers);
-    		}
-    	});
+                    if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
+                        Player.ytplayer.seekTo(seekTo);
+                    Player.after_load  = video_id;
 
+                    setTimeout(function(){Player.loaded = true;},500);
+                }catch(e){
+                    if(!durationBegun)
+                        Player.durationSetter();
+                }
+            }
+            else
+                Player.getTitle(song_title, viewers);
+        }
     },
 
     onPlayerStateChange: function(newState) {
@@ -98,7 +94,7 @@ var Player = {
     			break;
     		case 1:
     			playing = true;
-                if(beginning && window.mobilecheck()){
+                if(beginning && Helper.mobilecheck()){
                     Player.ytplayer.pauseVideo();
                     beginning = false;
                     mobile_beginning = false;
@@ -117,7 +113,7 @@ var Player = {
     			}
     			break;
     		case 2:
-                /*if(window.mobilecheck() || embed)
+                /*if(Helper.mobilecheck() || embed)
                 {*/
     			    paused = true;
                     if(window.location.pathname != "/") Playercontrols.play_pause_show();
@@ -187,7 +183,7 @@ var Player = {
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
     			Player.ytplayer.loadVideoById(video_id);
-                if(autoplay && !window.mobilecheck())
+                if(autoplay && !Helper.mobilecheck())
                     Player.ytplayer.playVideo();
                 if(!durationBegun)
                     Player.durationSetter();
@@ -254,14 +250,11 @@ var Player = {
 
     setup_all_listeners: function()
     {
-    	socket.on("get_list", function(){
-    			socket.emit('list', chan.toLowerCase());
-    	});
-    	Player.setup_youtube_listener(chan);
-    	Admin.admin_listener();
-    	Chat.setup_chat_listener(chan);
-    	Chat.allchat_listener();
-    	List.channel_listener();
+    	get_list_listener();
+    	setup_youtube_listener();
+    	setup_admin_listener();
+    	setup_chat_listener();
+    	setup_list_listener();
     },
 
     onYouTubeIframeAPIReady: function() {

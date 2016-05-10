@@ -19,12 +19,6 @@ function getCookie(cname) {
 }
 */
 
-window.mobilecheck = function() {
-    var check = false;
-    (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))check = true;})(navigator.userAgent||navigator.vendor||window.opera);
-    return check; 
-};
-
 var Nochan = {
 
   blob_list: [],
@@ -32,6 +26,15 @@ var Nochan = {
   winter: false,
 
   times_rotated: 0,
+
+  frontpage_function: function(msg)
+  {
+    $("#channels").empty();
+    frontpage = true;
+    Nochan.populate_channels(msg.channels);
+
+    Nochan.set_viewers(msg.viewers);
+  },
 
   populate_channels: function(lists)
   {
@@ -47,7 +50,7 @@ var Nochan = {
       }
       pre_card = $(channel_list);
 
-      if(!window.mobilecheck())
+      if(!Helper.mobilecheck())
         Nochan.add_backdrop(lists, 0);
 
       for(x in lists)
@@ -225,7 +228,7 @@ var Nochan = {
     window.scrollTo(0, 0);
     frontpage = false;
     clearTimeout(rotation_timeout);
-    if(window.mobilecheck()) socket.removeAllListeners();
+    if(Helper.mobilecheck()) socket.removeAllListeners();
     $("body").css("background-color", "#2d2d2d"); 
     $.ajax({
       url: new_channel + "/php/index.php",
@@ -237,7 +240,7 @@ var Nochan = {
           socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
         $("#frontpage_player").empty();
-        if(window.mobilecheck()) socket.disconnect();
+        if(Helper.mobilecheck()) socket.disconnect();
 
         if(!popstate){
           window.history.pushState("to the channel!", "Title", "/" + new_channel);
@@ -250,7 +253,7 @@ var Nochan = {
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[61]).html());
-        if($("#alreadychannel").length == 0 || window.mobilecheck() || Player.ytplayer == undefined){
+        if($("#alreadychannel").length == 0 || Helper.mobilecheck() || Player.ytplayer == undefined){
           $("main").html($($(e)[65]).html());
         } else {
           var main = $($($($($(e)[65]).html())[0]).html());
@@ -265,10 +268,10 @@ var Nochan = {
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
         if($("#alreadychannel").length == 1){
-          window.init();
+          init();
         }else{
-          window.fromFront = true;
-          window.init();
+          fromFront = true;
+          init();
         }
         if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
         
@@ -280,12 +283,6 @@ var Nochan = {
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
-
-$().ready(function(){
-  if(!window.fromChannel && window.location.pathname == "/"){
-    initfp();
-  }
-});
 
 function share_link_modifier_frontpage(){
   $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
@@ -326,15 +323,9 @@ function initfp(){
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
-    if(socket == undefined || window.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
-    if($("#alreadyfp").length == 0 || window.mobilecheck()){
-      socket.on('playlists', function(msg){
-          $("#channels").empty();
-          frontpage = true;
-          Nochan.populate_channels(msg.channels);
-
-          Nochan.set_viewers(msg.viewers);
-      });
+    if(socket == undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
+    if($("#alreadyfp").length == 0 || Helper.mobilecheck()){
+      setup_playlist_listener();
     }
 
 
@@ -361,97 +352,5 @@ function initfp(){
             window.location.href = 'http://etys.no';
     });
 
-    if(!window.mobilecheck() && Nochan.winter) Nochan.start_snowfall();
-
-    /*if(navigator.userAgent.toLowerCase().indexOf("android") > -1){
-        //console.log("android");
-        if(Nochan.getCookie("show_prompt") == ""){
-            var r = confirm("Do you want to download the native app for this webpage?");
-            if(r)
-                window.location.href = 'https://play.google.com/store/apps/details?id=no.lqasse.zoff';
-            else
-            {
-                var d = new Date();
-                d.setTime(d.getTime() + (10*24*60*60*1000));
-                var expires = "expires="+d.toUTCString();
-                document.cookie = "show_prompt=false;"+expires;
-            }
-        }
-     }*/
-
-     git_info = $.ajax({ type: "GET",
-		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
-		     async: false
-	   }).responseText;
-
-     git_info = $.parseJSON(git_info);
-     $("#latest-commit").html("Latest Commit: <br>"
- 				+ git_info[0].commit.author.date.substring(0,10)
- 				+ ": " + git_info[0].committer.login
- 				+ "<br><a href='"+git_info[0].html_url+"'>"
- 				+ git_info[0].sha.substring(0,10) + "</a>: "
- 				+ git_info[0].commit.message+"<br");
-
-
+    if(!Helper.mobilecheck() && Nochan.winter) Nochan.start_snowfall();
 }
-
-window.initfp = initfp;
-
-$(document).on('click', '#cookieok', function() {
-    $(this).fadeOut(function(){
-        $(this).remove();
-        localStorage["ok_cookie"] = true;
-    });
-});
-
-$(document).on("click", "#closePlayer", function(e){
-  e.preventDefault();
-  socket.emit("change_channel");
-  Player.ytplayer.destroy();
-  socket.removeEventListener("np");
-  $("#alreadychannel").remove();
-  Player.ytplayer = "";
-  document.title = "Zöff";
-  $("#closePlayer").remove();
-  console.log("removed shit");
-});
-
-$(document).on('click', '#toast-container', function(){
-  $(this).fadeOut(function(){
-        $(this).remove();
-    });
-});
-
-$(document).on('click', "#aprilfools", function(){
-  $(".mega").css("-webkit-transform", "rotate(0deg)");
-  $(".mega").css("-moz-transform", "rotate(0deg)");
-});
-
-$(document).on('click', ".chan-link", function(e){
-  e.preventDefault();
-
-  Nochan.to_channel($(this).attr("href"), false);
-});
-
-$(document).on("click", ".listen-button", function(e){
-  //console.log($(".room-namer").attr("placeholder"));
-  if($(".room-namer").val() == ""){
-    e.preventDefault();
-    //window.location = "?chan="+
-    
-    Nochan.to_channel($(".room-namer").attr("placeholder"));
-  }
-});
-
-$(document).on("submit", ".channel-finder", function(e){
-  e.preventDefault();
-  Nochan.to_channel($(".room-namer").val());
-  return false;
-});
-
-$(document).on("submit", "#base", function(e){
-  e.preventDefault();
-  Nochan.to_channel($("#search-mobile").val());
-  return false;
-});
-
