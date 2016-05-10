@@ -166,12 +166,13 @@
         </div>
     <main class="container center-align main">
         <div id="main-row" class="row">
-            <div class="col s12 m9 video-container no-opacity click-through">
+            <div id="video-container" class="col s12 m9 video-container no-opacity click-through">
                 <!--
                   width: calc(100% - 261px);
                   display: inline;
                   -->
                 <div id="player" class="ytplayer"></div>
+                <div id="main_components">
                 <div id="player_overlay" class="hide valign-wrapper">
                   <div id="player_overlay_text" class="valign center-align">
                     Waiting for Video
@@ -195,6 +196,7 @@
                   <div id="volume"></div>
                   <div id="viewers"></div>
                   <div id="bar"></div>
+                </div>
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
@@ -270,7 +272,6 @@
         <div id="playbar">
         </div>
     </main>
-    <div id="frontpage_player"></div>
 
     <?php include("php/footer.php"); ?>
     </body>
