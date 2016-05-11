@@ -257,13 +257,14 @@ var Nochan = {
           $("main").html($($(e)[65]).html());
         } else {
           var main = $($($($($(e)[65]).html())[0]).html());
-          $("#main-row").append($(main[2]).clone().wrap("<div>").parent().html());
-          $("#video-container").append($($($(main[0]).html())[4]).clone().wrap("<div>").parent().html());
+          $("#main-row").append($(main[2]).wrap("<div>").parent().html());
+          $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
           $("#main-row").append("<div id='playbar'></div>");
           $("#player").removeClass("player_bottom");
           $("#main-row").removeClass("frontpage_modified_heights");
           $("#main_section_frontpage").remove();
           $("#closePlayer").remove();
+          $("#player_bottom_overlay").remove();
         }
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
