@@ -665,6 +665,7 @@ function onepage_load(){
 			    	socket.removeEventListener("pw");
 			    	socket.removeEventListener("toast");
 			    	socket.removeEventListener("id");
+			    	socket.removeEventListener("channel");
 			    	socket.removeEventListener(id);
 			    }
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
