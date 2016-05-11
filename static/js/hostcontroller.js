@@ -20,39 +20,39 @@ var Hostcontroller = {
     if(!began)
     {
       began = true;
-      socket.on(id, function(arr)
-      {
+      setup_host_listener(id);
+    }
+  },
 
-        if(enabled){
-          if(arr[0] == "volume"){
-            $("#volume").slider("value", arr[1]);
-            Player.ytplayer.setVolume(arr[1]);
-            localStorage.setItem("volume", arr[1]);
-            Playercontrols.choose_button(arr[1], false);
-          }else if(arr[0] == "channel"){
-            console.log("changing channel");
-            socket.emit("change_channel");
-            Admin.beginning = true;
+  host_on_action: function(arr)
+  {
+    if(enabled){
+      if(arr[0] == "volume"){
+        $("#volume").slider("value", arr[1]);
+        Player.ytplayer.setVolume(arr[1]);
+        localStorage.setItem("volume", arr[1]);
+        Playercontrols.choose_button(arr[1], false);
+      }else if(arr[0] == "channel"){
+        socket.emit("change_channel");
+        Admin.beginning = true;
 
-            chan = arr[1].toLowerCase();
-            $("#chan").html(Helper.upperFirst(chan));
+        chan = arr[1].toLowerCase();
+        $("#chan").html(Helper.upperFirst(chan));
 
-            w_p = true;
-            socket.emit("list", chan.toLowerCase());
+        w_p = true;
+        socket.emit("list", chan.toLowerCase());
 
-            /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
-              socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
-            }*/
+        /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
+          socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+        }*/
 
-            window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
-          }else if(arr[0] == "pause")
-            Player.ytplayer.pauseVideo()
-          else if(arr[0] == "play")
-            Player.ytplayer.playVideo();
-          else if(arr[0] == "skip")
-            List.skip();
-        }
-      });
+        window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
+      }else if(arr[0] == "pause")
+        Player.ytplayer.pauseVideo()
+      else if(arr[0] == "play")
+        Player.ytplayer.playVideo();
+      else if(arr[0] == "skip")
+        List.skip();
     }
   },
 

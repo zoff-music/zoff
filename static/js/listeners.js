@@ -143,7 +143,7 @@ function init(){
 		Playercontrols.initSlider();
 		Player.ytplayer.setVolume(Crypt.get_volume());
         $(".video-container").removeClass("no-opacity");
-        
+
         var codeURL = "https://remote."+window.location.hostname+"/"+id;
 	    $("#code-text").text(id)
 	    $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
@@ -167,7 +167,7 @@ function init(){
  	setup_admin_listener();
 	setup_list_listener();
 	setup_chat_listener();
-	if(!Helper.mobilecheck() && $("#alreadychannel").length == 0) setup_host_listener();
+	if(!Helper.mobilecheck() && $("#alreadychannel").length == 0) setup_host_initialization();
 
 	if(!Helper.msieversion()) Notification.requestPermission();
 	
@@ -230,8 +230,12 @@ function setup_playlist_listener(){
 	socket.on('playlists', Nochan.frontpage_function);
 }
 
-function setup_host_listener(){
+function setup_host_initialization(){
 	socket.on("id", Hostcontroller.host_listener);
+}
+
+function setup_host_listener(id){
+	socket.on(id, Hostcontroller.host_on_action);
 }
 
 $(document).keyup(function(e) {
@@ -308,13 +312,13 @@ $(document).on("submit", "#base", function(e){
 });
 
 
-$('input[class=remote_switch_class]').change(function()
+$(document).on("change", 'input[class=remote_switch_class]', function()
 {
-  enabled = document.getElementsByName("remote_switch")[0].checked;
-  Crypt.set_remote(enabled);
+ 	Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
+  	Crypt.set_remote(enabled);
 });
 
-$('input[class=conf]').change(function()
+$(document).on("change", 'input[class=conf]', function()
 {
     Admin.save();
 });
