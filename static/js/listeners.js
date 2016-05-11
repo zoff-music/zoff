@@ -544,10 +544,14 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 	onepage_load();
 });
 
+$(document).on("click", "#player_bottom_overlay", function(){
+	Nochan.to_channel(chan.toLowerCase(), false);
+});
+
 $(document).on("mousemove", "#playlist", function(e)
 {
     var y = e.pageY - this.offsetTop;
-	if(((y <= 27 && adminpass == "") || (y <= 80 && y >= 48 && adminpass != "")) && $("#wrapper").scrollTop() > 0){
+	if(((y <= 80 && y >= 48)) && $("#wrapper").scrollTop() > 0){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
 	}else if(y >= $("#playlist").height() - 18 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
@@ -634,7 +638,7 @@ function onepage_load(){
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
 
 		    	if(!Helper.mobilecheck()){
-		    		$("main").append("<a id='closePlayer'>X</a>");
+		    		$("main").append("<a id='closePlayer' title='Close Player'>X</a>");
 		    		$("#playbar").remove();
 		    		$("#playlist").remove();
 		    		$(".ui-resizable-handle").remove();
@@ -643,9 +647,11 @@ function onepage_load(){
 		    		$("#main-row").addClass("frontpage_modified_heights");
 		    		$("#player").css("opacity", "1");
 		    		$("#video-container").removeClass("no-opacity");
+		    		$("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='ytplayer player_bottom'></div>");
 		    	} else {
 		    		Player.ytplayer.destroy();
 		    		Player.ytplayer = "";
+		    		document.title = "Zöff";
 		    	}
 
 				$(".drag-target").remove();
@@ -662,6 +668,7 @@ function onepage_load(){
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
 
+
 		      	if($("#alreadyfp").length == 1){
 		      		initfp();
 		      	}else {
@@ -674,8 +681,6 @@ function onepage_load(){
 		      		$("head").append("<div id='alreadychannel'></div")
 		      	}
 		      	$("#channel-load").css("display", "none");
-
-				document.title = "Zöff";
 
 		    }
 		});
