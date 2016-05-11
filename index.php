@@ -10,6 +10,7 @@
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 	<?php include("php/header.php"); ?>
+  <script type="text/javascript" src="/static/dist/main.min.js"></script>
 </head>
 <body id="channelpage" class="noselect cursor-default">
     <header>
