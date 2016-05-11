@@ -143,6 +143,11 @@ function init(){
 		Playercontrols.initSlider();
 		Player.ytplayer.setVolume(Crypt.get_volume());
         $(".video-container").removeClass("no-opacity");
+        
+        var codeURL = "https://remote."+window.location.hostname+"/"+id;
+	    $("#code-text").text(id)
+	    $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+	    $("#code-link").attr("href", codeURL);
 
 	}
 
@@ -162,7 +167,7 @@ function init(){
  	setup_admin_listener();
 	setup_list_listener();
 	setup_chat_listener();
-	if(!Helper.mobilecheck()) setup_host_listener();
+	if(!Helper.mobilecheck() && $("#alreadychannel").length == 0) setup_host_listener();
 
 	if(!Helper.msieversion()) Notification.requestPermission();
 	
@@ -255,14 +260,16 @@ $(document).on('click', '#cookieok', function() {
 });
 
 $(document).on("click", "#closePlayer", function(e){
-  e.preventDefault();
-  socket.emit("change_channel");
-  Player.ytplayer.destroy();
-  socket.removeEventListener("np");
-  $("#alreadychannel").remove();
-  Player.ytplayer = "";
-  document.title = "Zöff";
-  $("#closePlayer").remove();
+  	e.preventDefault();
+	socket.emit("change_channel");
+  	Player.ytplayer.destroy();
+  	socket.removeEventListener("np");
+  	socket.removeEventListener("id");
+	socket.removeEventListener(id);
+  	$("#alreadychannel").remove();
+  	Player.ytplayer = "";
+  	document.title = "Zöff";
+  	$("#closePlayer").remove();
 });
 
 $(document).on('click', '#toast-container', function(){
@@ -622,9 +629,9 @@ function onepage_load(){
 			    	socket.removeEventListener("conf");
 			    	socket.removeEventListener("pw");
 			    	socket.removeEventListener("toast");
-			    	socket.removeEventListener("id");
+			    	//socket.removeEventListener("id");
 			    	socket.removeEventListener("channel");
-			    	socket.removeEventListener(id);
+			    	//socket.removeEventListener(id);
 			    }
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
