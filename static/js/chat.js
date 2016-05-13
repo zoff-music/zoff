@@ -84,7 +84,6 @@ var Chat = {
     var in_text = document.createTextNode(data[1]);
     $("#chatchannel li:last")[0].appendChild(in_text);
     document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
-    socket.on("chat", Chat.channelchat);
   },
 
   chat_blink: function() {
