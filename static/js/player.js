@@ -9,6 +9,16 @@ var Player = {
     youtube_listener: function(obj)
     {
         Player.loaded      = false;
+        if(window.debug){
+            console.log("--------youtube_listener--------");
+
+            console.log("Received: " + obj);
+            console.log("paused variable: " + paused);
+            console.log("mobile_beginning variable: " + mobile_beginning);
+            console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            console.log("video_id variable: " + video_id);
+            console.log("---------------------------------");
+        }
         if(obj.length == 0){
 
             document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -70,7 +80,7 @@ var Player = {
                         Player.ytplayer.seekTo(seekTo);
                     Player.after_load  = video_id;
 
-                    setTimeout(function(){Player.loaded = true;},500);
+                    if(!Player.loaded) setTimeout(function(){Player.loaded = true;},500);
                 }catch(e){
                     if(!durationBegun)
                         Player.durationSetter();
@@ -82,6 +92,14 @@ var Player = {
     },
 
     onPlayerStateChange: function(newState) {
+        if(window.debug){
+            console.log("-------onPlayerStateChange------");
+            console.log("New state\nState: " + newState);
+            console.log("Duration: " + Player.ytplayer.getDuration(), "Current time: " + Player.ytplayer.getCurrentTime());
+            console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            console.log("video_id variable: " + video_id);
+            console.log("---------------------------------");
+        }
     	switch(newState.data)
     	{
     		case -1:
@@ -89,7 +107,6 @@ var Player = {
     		case 0:
                 playing = false;
                 paused  = false;
-
     			socket.emit("end", {id: video_id, channel: chan.toLowerCase()});
     			break;
     		case 1:
