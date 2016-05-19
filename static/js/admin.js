@@ -34,6 +34,9 @@ var Admin = {
                 break;
             case "listhaspass":
                 msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"])
+                Crypt.remove_pass(chan.toLowerCase());
+                Admin.display_logged_out();
+                w_p = true;
                 break;
             case "noskip":
                 msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"])
