@@ -28,6 +28,7 @@ var durationBegun 	      = false;
 var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
+var debug 		          = false;
 
 var result_html;
 var empty_results_html;
@@ -54,6 +55,8 @@ var connection_options = {
 };
 var fromFront = false;
 var fromChannel = false;
+
+window.debug = debug;
 
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
