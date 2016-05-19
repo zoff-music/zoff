@@ -12,7 +12,8 @@ var Player = {
         if(window.debug){
             console.log("--------youtube_listener--------");
 
-            console.log("Received: " + obj);
+            console.log("Received: ");
+            console.log(obj);
             console.log("paused variable: " + paused);
             console.log("mobile_beginning variable: " + mobile_beginning);
             console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
@@ -94,7 +95,8 @@ var Player = {
     onPlayerStateChange: function(newState) {
         if(window.debug){
             console.log("-------onPlayerStateChange------");
-            console.log("New state\nState: " + newState);
+            console.log("New state\nState: ");
+            console.log(newState);
             console.log("Duration: " + Player.ytplayer.getDuration(), "Current time: " + Player.ytplayer.getCurrentTime());
             console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
             console.log("video_id variable: " + video_id);
