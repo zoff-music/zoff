@@ -29,12 +29,9 @@ var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
 
-if(localStorage.debug != undefined){
-	window.debug = localStorage.debug;
-} else {
+if(localStorage.debug == undefined){
 	var debug = false;
 	localStorage.debug = debug;
-	window.debug = debug;
 }
 
 var result_html;
@@ -62,8 +59,6 @@ var connection_options = {
 };
 var fromFront = false;
 var fromChannel = false;
-
-window.debug = debug;
 
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
@@ -247,6 +242,17 @@ function setup_host_initialization(){
 function setup_host_listener(id){
 	socket.on(id, Hostcontroller.host_on_action);
 }
+
+function enable_debug(){
+	localStorage.debug = true;
+}
+
+function disable_debug(){
+	localStorage.debug = false;
+}
+
+window.enable_debug = enable_debug;
+window.disable_debug = disable_debug;
 
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){
