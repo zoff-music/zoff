@@ -60,6 +60,12 @@ var connection_options = {
 var fromFront = false;
 var fromChannel = false;
 
+if ('serviceWorker' in navigator) {
+  	navigator.serviceWorker.getRegistration().then(function(r) { 
+  		r.unregister();
+	});
+};
+
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
 	else if(!fromChannel && window.location.pathname == "/"){
