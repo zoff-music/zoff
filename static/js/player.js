@@ -16,7 +16,9 @@ var Player = {
             console.log(obj);
             console.log("paused variable: " + paused);
             console.log("mobile_beginning variable: " + mobile_beginning);
-            console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            try{
+                console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            } catch(e){}
             console.log("video_id variable: " + video_id);
             console.log("---------------------------------");
         }
@@ -97,8 +99,10 @@ var Player = {
             console.log("-------onPlayerStateChange------");
             console.log("New state\nState: ");
             console.log(newState);
-            console.log("Duration: " + Player.ytplayer.getDuration(), "Current time: " + Player.ytplayer.getCurrentTime());
-            console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            try{
+                console.log("Duration: " + Player.ytplayer.getDuration(), "Current time: " + Player.ytplayer.getCurrentTime());
+                console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
+            }catch(e){}
             console.log("video_id variable: " + video_id);
             console.log("---------------------------------");
         }
