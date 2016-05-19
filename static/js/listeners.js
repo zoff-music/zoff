@@ -28,7 +28,14 @@ var durationBegun 	      = false;
 var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
-var debug 		          = false;
+
+if(localStorage.debug != undefined){
+	window.debug = localStorage.debug;
+} else {
+	var debug = false;
+	localStorage.debug = debug;
+	window.debug = debug;
+}
 
 var result_html;
 var empty_results_html;
