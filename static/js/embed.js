@@ -52,8 +52,8 @@ $(document).ready(function(){
 	});
 
 
-	Player.setup_youtube_listener(chan);
-	List.channel_listener();
+	setup_youtube_listener();
+	setup_list_listener();
 
 	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
 
@@ -63,6 +63,15 @@ $(document).ready(function(){
 
 	window.setVolume = setVolume;
 });
+
+
+function setup_youtube_listener(){
+	socket.on("np", Player.youtube_listener);
+}
+
+function setup_list_listener(){
+	socket.on("channel", List.channel_function);
+}
 
 function setVolume(val) {
 	$("#volume").slider('value', val);
