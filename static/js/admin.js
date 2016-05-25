@@ -91,7 +91,6 @@ var Admin = {
 
         if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
           $("#admin-lock").addClass("mdi-action-lock-open clickable");
-
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
 
@@ -160,6 +159,7 @@ var Admin = {
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
             $("#wrapper").removeClass("tabs_height");
         } else {
+            console.log("not-suggested");
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");
@@ -196,7 +196,7 @@ var Admin = {
         }
 
         if((hasadmin)){
-            Admin.display_logged_out();
+            if($(".mdi-action-lock").length == 0) Admin.display_logged_out();
         }else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined){
             if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
                 $(".playlist-tabs-loggedIn").removeClass("hide");
