@@ -123,7 +123,7 @@ var Crypt = {
 	},
 
 	set_name:function(name){
-		conf_arr.name = name;
+		conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
