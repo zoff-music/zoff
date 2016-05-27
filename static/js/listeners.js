@@ -60,13 +60,13 @@ var connection_options = {
 var fromFront = false;
 var fromChannel = false;
 
-try {
-	if ('serviceWorker' in navigator) {
-	  	navigator.serviceWorker.getRegistration().then(function(r) { 
-	  		r.unregister();
-		});
-	};
-} catch(e){}
+if ('serviceWorker' in navigator) {
+  	navigator.serviceWorker.getRegistration().then(function(r) { 
+  		try {
+  			r.unregister();
+  		} catch(e) {}
+	});
+};
 
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
