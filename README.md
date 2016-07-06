@@ -1,7 +1,7 @@
 Zöff
 ====
 
-For the server-side repo, go to <a href="https://github.com/zoff-music/zoff-server">here</a>
+##### The server-side is required for this website, and it's found at :<a href="https://github.com/zoff-music/zoff-server">here</a>
 
 Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. 
 
