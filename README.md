@@ -5,7 +5,7 @@ Zöff
 
 ##### Config
 
-To get the website to run as intended, please add ```AllowOverride All``` to the directory containing the webserver in Apache2 (it's usually /var/www/html/sites-enabled/000-default.conf)
+To get the website to run as intended, please add ```AllowOverride All``` to the directory containing the webserver in Apache2 (it's usually /etc/apache2/sites-enabled/000-default.conf)
 
 ### About
 
