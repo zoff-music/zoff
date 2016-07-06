@@ -1,13 +1,21 @@
 Zöff
 ====
 
-##### The server-side is required for this website, and it's found at :<a href="https://github.com/zoff-music/zoff-server">here</a>
+##### The server-side is required for this website, and it's found at: <a href="https://github.com/zoff-music/zoff-server">here</a>
+
+##### Config
+
+To get the website to run as intended, please add ```AllowOverride All``` to the directory containing the webserver in Apache2 (it's usually 000-default.conf)
+
+### About
 
 Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. 
 
 Zöff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
 
 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.
+
+### Contact
 
 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
 
@@ -19,18 +27,18 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![Channel desktop 2](http://puu.sh/ivYVo/9036795b95.jpg)
 
-###Screenshots of the mobile version:
+### Screenshots of the mobile version:
 
 ![Frontpage mobile](http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png)     ![Channel mobile](http://lh5.googleusercontent.com/-YaH8pUMzjRM/VUKTpr7ZpdI/AAAAAAAABLQ/ABOOB-1RWcw/w330-h586-no/Screenshot_2015-04-30-22-39-44.png)     ![Channel mobile 2](http://lh5.googleusercontent.com/-wVKAxHBwIAI/VUKToHhHxgI/AAAAAAAABLI/RyCteTkdvDY/w330-h586-no/Screenshot_2015-04-30-22-36-00.png)
 
-###Android exclusive screens:
+### Android exclusive screens:
 
 <div style="text-align:center;">
 <img src="http://i.imgur.com/2LMOnUe.png" alt="android1" height="600px"> 
 <img src="http://i.imgur.com/mIOrtng.png" alt="android2" height="400px">
 </div>
 
-###Events
+### Events
 
 Emitted events between the server and client
 ```
@@ -65,7 +73,7 @@ socket.on("np", [NOW_PLAYING, CONFIGURATION, SERVER_TIME])															Recieve
 socket.on("viewers", VALUE)															Recieves number of viewers on the current channel
 ```
 
-###Legal
+### Legal
 
 Copyright © 2015 
 Nicolas Almagro Tonne and Kasper Rynning-Tønnesen 
