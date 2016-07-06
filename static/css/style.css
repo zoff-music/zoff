@@ -526,7 +526,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   height: 42px;
   line-height: 24px;
   min-width: 307px;
-  width: 400px;
+  /*width: 400px;*/
   word-spacing: 0px;
   box-shadow: none !important;
   border:none !important;
