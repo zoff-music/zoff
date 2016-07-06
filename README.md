@@ -75,7 +75,7 @@ socket.on("viewers", VALUE)															Recieves number of viewers on the curr
 
 ### Legal
 
-Copyright © 2015 
+Copyright © 2016 
 Nicolas Almagro Tonne and Kasper Rynning-Tønnesen 
 
 Creative Commons License
