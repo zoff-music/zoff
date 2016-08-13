@@ -1,14 +1,14 @@
-var version = 'v2.2';
+var version = 'v2.4 ';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     '/static/dist/lib/jquery-2.1.3.min.js',
     '/static/dist/lib/jquery-ui-1.10.3.min.js',
     '/static/images/favicon.png',
-    '/static/css/style.css',
     '/static/css/materialize.min.css',
+    '/static/css/style.css',
     '/static/dist/lib/materialize.min.js',
-    'https://cdn.socket.io/socket.io-1.4.5.js',
+    '/static/dist/lib/socket.io-1.4.5.js',
     '/static/dist/lib/jquery.lazyload.js',
     '/static/dist/lib/color-thief.js',
     '/static/dist/main.min.js',
@@ -16,7 +16,7 @@ var CACHE_FILES = [
     '/static/images/GitHub_Logo.png',
     '/static/images/facebook.png',
     '/static/images/twitter.png',
-    'offline.html',
+    '/offline.html',
     '/static/font/roboto/Roboto-Light.woff2',
     '/static/font/roboto/Roboto-Regular.woff2',
     '/static/font/roboto/Roboto-Thin.woff2',
@@ -101,8 +101,12 @@ self.addEventListener('fetch', event => {
   // versions older than 49, so we need to include a less precise fallback,
   // which checks for a GET request with an Accept: text/html header.
   if (event.request.mode === 'navigate' ||
-      (event.request.method === 'GET' &&
-       event.request.headers.get('accept').includes('text/html'))) {
+    (event.request.method === 'GET' &&
+        (event.request.headers.get('accept').includes('text/html') ||
+         event.request.headers.get('accept').includes('text/css') ||
+            (event.request.headers.get('accept').includes('*/*') &&
+            //event.request.mode == "no-cors" &&
+                (event.request.url.includes('localhost') || event.request.url.includes('zoff.no')))))) {
     event.respondWith(
       fetch(event.request.url).catch(error => {
         // The catch is only triggered if fetch() throws an exception, which will most likely
@@ -111,7 +115,7 @@ self.addEventListener('fetch', event => {
         // range, the catch() will NOT be called. If you need custom handling for 4xx or 5xx
         // errors, see https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker/fallback-response
         return caches.open(version + "::bare").then(function(cache) {
-            return cache.match('/static/offline/offline.html');
+            return cache.match("/offline.html");
         });
       })
     );
