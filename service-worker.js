@@ -1,4 +1,4 @@
-var version = 'v2.1';
+var version = 'v2.2';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
@@ -16,7 +16,7 @@ var CACHE_FILES = [
     '/static/images/GitHub_Logo.png',
     '/static/images/facebook.png',
     '/static/images/twitter.png',
-    '/static/offline/offline.html',
+    'offline.html',
     '/static/font/roboto/Roboto-Light.woff2',
     '/static/font/roboto/Roboto-Regular.woff2',
     '/static/font/roboto/Roboto-Thin.woff2',
@@ -69,7 +69,7 @@ self.addEventListener("activate", function(event) {
         caches
         /* This method returns a promise which will resolve to an array of available
                 cache keys.
-            
+
         .keys()
         .then(function (keys) {
             // We return a promise that settles when all outdated caches are deleted.
@@ -82,7 +82,7 @@ self.addEventListener("activate", function(event) {
                 .map(function (key) {
                 /* Return a promise that's fulfilled
                     when each outdated cache is deleted.
-                
+
                     return caches.delete(key);
                 })
             );
