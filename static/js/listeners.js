@@ -60,11 +60,14 @@ var connection_options = {
 var fromFront = false;
 var fromChannel = false;
 
-if (navigator.serviceWorker) {
-    navigator.serviceWorker.getRegistration('/').then(function(registration) {registration.unregister() ;});
-} else {
-    console.log('Service Worker is not supported in this browser.');
+if ('serviceWorker' in navigator) {
+  	navigator.serviceWorker.getRegistration().then(function(r) {
+  		try {
+  			r.unregister();
+  		} catch(e) {}
+	});
 }
+
 
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
