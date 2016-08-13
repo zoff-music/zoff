@@ -53,7 +53,7 @@ var Nochan = {
       if(!Helper.mobilecheck())
         Nochan.add_backdrop(lists, 0);
 
-      for(x in lists)
+      for(var x in lists)
       {
 
           var chan = lists[x][3];
@@ -67,12 +67,12 @@ var Nochan = {
             //$("#channels").append(channel_list);
 
             var card = pre_card;
-            if(lists[x][5] == 1) 
+            if(lists[x][5] == 1)
             {
               card.find(".pin").attr("style", "display:block;");
               card.find(".card").attr("title", "Pinned!");
             }
-            else 
+            else
             {
               card.find(".pin").attr("style", "display:none;");
               card.find(".card").attr("title", "");
@@ -120,7 +120,7 @@ var Nochan = {
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        if (c.indexOf(name) === 0) return c.substring(name.length,c.length);
     }
     return "";
   },
@@ -132,7 +132,7 @@ var Nochan = {
 
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
-      setTimeout(function(){ 
+      setTimeout(function(){
         if(frontpage){
           $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
           $("#mega-background").css("background-size" , "200%");
@@ -140,7 +140,7 @@ var Nochan = {
           $("#searchFrontpage").attr("placeholder", list[i][3]);
           //$(".room-namer").css("opacity", 1);
         }
-      },500); 
+      },500);
     } else {
       var img = new Image();
       img.src = "/static/images/thumbnails/"+id+".jpg";
@@ -154,13 +154,13 @@ var Nochan = {
                 Nochan.blob_list.push(data);
                //data will contain the vote count echoed by the controller i.e.
                 //$(".room-namer").css("opacity", 0);
-                setTimeout(function(){ 
+                setTimeout(function(){
                   $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
                   $("#mega-background").css("background-size" , "200%");
                   $("#mega-background").css("opacity", 1);
                   $("#searchFrontpage").attr("placeholder", list[i][3]);
                   //$(".room-namer").css("opacity", 1);
-                },500); 
+                },500);
               //then append the result where ever you want like
               //$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
 
@@ -173,7 +173,7 @@ var Nochan = {
           $("#mega-background").css("opacity", 1);
           $("#searchFrontpage").attr("placeholder", list[i][3]);
       };
-   
+
     }
     rotation_timeout = setTimeout(function(){
       if(Nochan.times_rotated == 50 && frontpage){
@@ -185,7 +185,7 @@ var Nochan = {
         Nochan.add_backdrop(list, i+1);
       }
     },6000);
-    
+
   },
 
   start_snowfall: function(){
@@ -229,13 +229,13 @@ var Nochan = {
     frontpage = false;
     clearTimeout(rotation_timeout);
     if(Helper.mobilecheck()) socket.removeAllListeners();
-    $("body").css("background-color", "#2d2d2d"); 
+    $("body").css("background-color", "#2d2d2d");
     $.ajax({
       url: new_channel + "/php/index.php",
-      
+
       success: function(e){
 
-        if(Player.ytplayer != ""){
+        if(Player.ytplayer !== ""){
           //Player.ytplayer.destroy();
           socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
@@ -247,13 +247,13 @@ var Nochan = {
           window.chan = new_channel;
         }
 
-        
+
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[61]).html());
-        if($("#alreadychannel").length == 0 || Helper.mobilecheck() || Player.ytplayer == undefined){
+        if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.ytplayer === undefined){
           $("main").html($($(e)[65]).html());
         } else {
           var main = $($($($($(e)[65]).html())[0]).html());
@@ -274,21 +274,21 @@ var Nochan = {
           fromFront = true;
           init();
         }
-        if($("#alreadyfp").length == 0) $("head").append("<div id='alreadyfp'></div>");
-        
+        if($("#alreadyfp").length === 0) $("head").append("<div id='alreadyfp'></div>");
+
       }
     });
   }
-}
+};
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
 function share_link_modifier_frontpage(){
   $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
   $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/', 'Share Zöff','width=600,height=300'); return false;");
-  $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic")
+  $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic");
   $("#twitter-code-link").attr("onclick", "window.open('http://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
   $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
   $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
@@ -303,15 +303,15 @@ function initfp(){
       $(".mega").css("-moz-transform", "rotate(180deg)");
       //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
     }
-    
+
 
     window.onpopstate = function(e){
       var url_split = window.location.href.split("/");
 
-      if(url_split[3] != "" && url_split[3].substring(0,1) != "#"){
+      if(url_split[3] !== "" && url_split[3].substring(0,1) != "#"){
         Nochan.to_channel(url_split[3], true);
       }
-    }
+    };
 
     channel_list = $("#channel-list-container").html();
 
@@ -319,16 +319,17 @@ function initfp(){
 
     var connection_options = {
       'secure': true,
-      'force new connection': true 
+      'force new connection': true
     };
 
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
-    if(socket == undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
-    if($("#alreadyfp").length == 0 || Helper.mobilecheck()){
+    if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
+    if($("#alreadyfp").length === 0 || Helper.mobilecheck()){
       setup_playlist_listener();
     }
 
+    window.socket = socket;
 
     socket.emit('frontpage_lists');
 
@@ -337,12 +338,12 @@ function initfp(){
     if(window.location.hash == "#donation")
     {
       window.location.hash = "#";
-      $('#donation').openModal()
+      $('#donation').openModal();
     }
     //window.channel_list = channel_list;
 
 
-    if(!localStorage["ok_cookie"])
+    if(!localStorage.ok_cookie)
       Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
 
     var pad = 0;

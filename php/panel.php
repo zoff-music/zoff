@@ -124,7 +124,7 @@
                         </a>
                         <a>
                           You can control this Zöff instance from another device by going to <b>https://remote.zoff.no/</b>
-                          
+
                         </a>
                     </li>
                 </ul>
@@ -146,9 +146,54 @@
                             <form action="#" id="listImport" onsubmit="return false;">
                                 <i class="mdi-av-playlist-add import-icon"></i>
                                 <input title="Input YouTube-playlist id here!" placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" autocomplete="off" />
+                                <li id="playlist_loader" class="valign-wrapper hide">
+                                      <div class="valign">
+                                         <div class="preloader-wrapper small active">
+                                          <div class="spinner-layer spinner-blue">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-red">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-yellow">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-green">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      </li>
                             </form>
                         </div>
-                    </li>   
+                    </li>
                 </ul>
             </div>
         </li>
@@ -190,7 +235,7 @@
                         </button>
                         <i class="mdi-av-volume-up slider-vol"></i>
                         <div class="" id="volume-control-remote" title="Volume"></div>
-                    </li>   
+                    </li>
                 </ul>
             </div>
         </li>

@@ -143,7 +143,7 @@
 #channel-load-move{
   background-color: #FFFFFF !important;
 }
- 
+
 .rounded{
   border-radius: 4px;
 }
@@ -153,11 +153,11 @@ body {
     min-height: 100vh;
     flex-direction: column;
     overflow-x: hidden;
-    -webkit-transition: background-color 1s;  
+    -webkit-transition: background-color 1s;
     -moz-transition:background-color 1s;
     -ms-transition:background-color 1s;
     -o-transition:background-color 1s;
-    transition:background-color 1s;  
+    transition:background-color 1s;
 }
 
 .main, #main-row, .video-container, #playlist{
@@ -479,12 +479,12 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .mega h5{
   /*box-sizing: border-box;   */
-  color: rgb(255, 255, 255);   cursor: default;   display: inline;   
-  /*font-family: futura-pt, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;  */ 
-  font-size: 50px;   
+  color: rgb(255, 255, 255);   cursor: default;   display: inline;
+  /*font-family: futura-pt, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;  */
+  font-size: 50px;
   font-weight: 100;
-  height: auto;   
-  line-height: 90.069229px;   text-align: center;   
+  height: auto;
+  line-height: 90.069229px;   text-align: center;
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;   width: auto;
   margin-left: auto;
   margin-right: auto;
@@ -505,16 +505,16 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .mega .prething{
-  box-sizing: border-box;   
+  box-sizing: border-box;
   /*color: rgb(155, 155, 155);*/
-  cursor: text;   display: block;   
+  cursor: text;   display: block;
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
   color: rgb(255, 255, 255);
   /*font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;   */
-  font-size: 17px;   
+  font-size: 17px;
   /*font-weight: 200; */
-  height: 24px;   line-height: 26px;   margin-bottom: 8px;   margin-left: 0px;   margin-right: 8.5px;   margin-top: 8px;   
-  min-width: 56px;   text-align: center;   
+  height: 24px;   line-height: 26px;   margin-bottom: 8px;   margin-left: 0px;   margin-right: 8.5px;   margin-top: 8px;
+  min-width: 56px;   text-align: center;
   width: 40px;
   margin-right: -85px;
 }
@@ -688,7 +688,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 .suggest_buttons button{
   padding-left:10px !important;
   padding-right:10px !important;
-  margin-right: 20px; 
+  margin-right: 20px;
   width:90px;
 }
 
@@ -772,7 +772,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 	}
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {  
+@media screen and (-webkit-min-device-pixel-ratio:0) {
   #wrapper {
     padding-right:0vh !important;
     width:100% !important;
@@ -867,6 +867,10 @@ ul #chat-log{
   height:64px;
   padding: 0 15px;
   margin-top:15px;
+}
+
+#playlist_loader {
+  padding: 10px 0px 0px 70px;
 }
 
 #search_loader:hover {
@@ -1601,7 +1605,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 @media only screen and (min-width: 769px){
-    
+
 
     .navbar-fixed {
         height: 64px;
