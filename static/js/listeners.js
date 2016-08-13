@@ -61,16 +61,7 @@ var fromFront = false;
 var fromChannel = false;
 
 if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
-        .then(function (registration) {
-            console.log(registration);
-        })
-        .catch(function (e) {
-            console.error(e);
-        });
-    navigator.serviceWorker.getRegistration('/').then(function(registration) {
-        registration.unregister();
-    });
+    navigator.serviceWorker.getRegistration('/').then(function(registration) {registration.unregister() ;});
 } else {
     console.log('Service Worker is not supported in this browser.');
 }
