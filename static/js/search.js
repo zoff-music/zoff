@@ -16,7 +16,7 @@ var Search = {
     },
 
     search: function(search_input){
-      if(result_html == undefined || empty_results_html == undefined) {
+      if(result_html === undefined || empty_results_html === undefined) {
         result_html         = $("#temp-results-container");
         empty_results_html    = $("#empty-results-container").html();
       }
@@ -42,13 +42,13 @@ var Search = {
           url: yt_url,
           dataType:"jsonp",
           success: function(response){
-            if(response.items.length == 0)
+            if(response.items.length === 0)
             {
 
               $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
               if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
                 $("#search_loader").addClass("hide");
-            
+
             }else if(response.items){
             //get list of IDs and make new request for video info
               $.each(response.items, function(i,data)
@@ -70,12 +70,12 @@ var Search = {
                   $.each(response.items, function(i,song)
                   {
                     var duration=song.contentDetails.duration;
-                    secs=Search.durationToSeconds(duration)
+                    secs=Search.durationToSeconds(duration);
                     if(!longsongs || secs<720){
                       title=song.snippet.title;
                       enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
                       id=song.id;
-                      duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
+                      duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
                       thumb=song.snippet.thumbnails.medium.url;
 
                       //$("#results").append(result_html);
@@ -100,7 +100,7 @@ var Search = {
 
                   $("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
 
-                  setTimeout(function(){$(".thumb").lazyload({container: $("#results")})}, 250);
+                  setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
                   if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
                     $("#search_loader").addClass("hide");
@@ -124,7 +124,7 @@ var Search = {
     },
 
     submitAndClose: function(id,title,duration){
-    	Search.submit(id,title, duration);
+    	Search.submit(id,title, duration, false, 0, 1);
     	$("#results").html('');
     	Search.showSearch();
     	document.getElementById("search").value = "";
@@ -161,37 +161,44 @@ var Search = {
 
     addVideos: function(ids, playlist){
     	var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=***REMOVED***&id=";
-    	request_url += ids;  
+    	request_url += ids;
 
     	$.ajax({
     	type: "POST",
     	url: request_url,
     	dataType:"jsonp",
     	success: function(response){
+            var x = 0;
+            var to_add = [];
     		$.each(response.items, function(i,song)
     		{
     			var duration=Search.durationToSeconds(song.contentDetails.duration);
     			if(!longsongs || duration<720){
     				enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
-    				Search.submit(song.id, enc_title, duration, playlist);
+    				//Search.submit(song.id, enc_title, duration, playlist, i);
+                    x += 1;
+                    to_add.push({id: song.id, enc_title: enc_title, duration: duration, playlist: playlist});
     			}
     		});
+            $.each(to_add, function(i, item){
+                Search.submit(item.id, item.enc_title, item.duration, item.playlist, i, x);
+            });
 
     	}
     	});
     },
 
-    submit: function(id,title,duration, playlist){
-    	socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist});
+    submit: function(id,title,duration, playlist, num, full_num){
+    	socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
         //[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 
     durationToSeconds: function(duration) {
         var matches = duration.match(time_regex);
-        hours= parseInt(matches[12])||0,
-        minutes= parseInt(matches[14])||0,
-        seconds= parseInt(matches[16])||0
+        hours= parseInt(matches[12])||0;
+        minutes= parseInt(matches[14])||0;
+        seconds= parseInt(matches[16])||0;
         return hours*60*60+minutes*60+seconds;
     }
 
-}
+};

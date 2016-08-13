@@ -1,4 +1,4 @@
-var chan 				  = window.chan == undefined ? $("#chan").html() : window.chan;
+var chan 				  = window.chan === undefined ? $("#chan").html() : window.chan;
 var w_p 				  = true;
 var hasadmin			  = 0;
 var showToggle 			  = true;
@@ -6,8 +6,8 @@ var list_html 			  = $("#list-song-html").html();
 var blink_interval_exists = false;
 var unseen 			   	  = false;
 var api_key 		   	  = "***REMOVED***";
-var searching 		   	  = false
-var time_regex 		   	  = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/
+var searching 		   	  = false;
+var time_regex 		   	  = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
 var conf 			   	  = [];
 var music 			   	  = 0;
 var frontpage 		   	  = 1;
@@ -29,7 +29,7 @@ var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
 
-if(localStorage.debug == undefined){
+if(localStorage.debug === undefined){
 	var debug = false;
 	localStorage.debug = debug;
 }
@@ -55,7 +55,7 @@ var socket;
 var connection_options = {
 	'sync disconnect on unload':true,
 	'secure': true,
-	'force new connection': true 
+	'force new connection': true
 };
 var fromFront = false;
 var fromChannel = false;
@@ -67,7 +67,7 @@ if (navigator.serviceWorker) {
         })
         .catch(function (e) {
             console.error(e);
-        })
+        });
 } else {
     console.log('Service Worker is not supported in this browser.');
 }
@@ -78,18 +78,20 @@ $().ready(function(){
 		initfp();
 	}
 
+    setup_no_connection_listener();
+
 	git_info = $.ajax({ type: "GET",
 		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
 		     async: false
 	   }).responseText;
 
      git_info = $.parseJSON(git_info);
-     $("#latest-commit").html("Latest Commit: <br>"
- 				+ git_info[0].commit.author.date.substring(0,10)
- 				+ ": " + git_info[0].committer.login
- 				+ "<br><a href='"+git_info[0].html_url+"'>"
- 				+ git_info[0].sha.substring(0,10) + "</a>: "
- 				+ git_info[0].commit.message+"<br");
+     $("#latest-commit").html("Latest Commit: <br>" +
+        git_info[0].commit.author.date.substring(0,10) +
+        ": " + git_info[0].committer.login +
+        "<br><a href='"+git_info[0].html_url+"'>" +
+        git_info[0].sha.substring(0,10) + "</a>: " +
+        git_info[0].commit.message+"<br");
 });
 
 
@@ -103,14 +105,14 @@ function init(){
 
 	window.onpopstate = function(e){
 		onepage_load();
-	}
+	};
 
 	share_link_modifier_channel();
 
 	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
 	else add = window.location.hostname;
 
-	if(Player != undefined) Player.stopInterval= false;
+	if(Player !== undefined) Player.stopInterval= false;
 
 	$('ul.playlist-tabs').tabs();
 	$('ul.playlist-tabs-loggedIn').tabs();
@@ -139,17 +141,17 @@ function init(){
         minWidth: 350
     });
 
-	if(socket == undefined || Helper.mobilecheck()){
+	if(socket === undefined || Helper.mobilecheck()){
 		no_socket = false;
 		socket = io.connect(''+add+':8880', connection_options);
 	}
 
-	if($("#alreadychannel").length == 0 || Helper.mobilecheck()){
+	if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
 		setup_youtube_listener();
 		get_list_listener();
 		setup_suggested_listener();
 		setup_viewers_listener();
-		
+
 	} else {
         $("#channel-load").css("display", "none");
 		$("#player").css("opacity", "1");
@@ -162,7 +164,7 @@ function init(){
         $(".video-container").removeClass("no-opacity");
 
         var codeURL = "https://remote."+window.location.hostname+"/"+id;
-	    $("#code-text").text(id)
+	    $("#code-text").text(id);
 	    $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
 	    $("#code-link").attr("href", codeURL);
 
@@ -176,7 +178,7 @@ function init(){
 		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
- 		if(Player.ytplayer == "" || Player.ytplayer == undefined || Helper.mobilecheck()) Player.loadPlayer();
+ 		if(Player.ytplayer === "" || Player.ytplayer === undefined || Helper.mobilecheck()) Player.loadPlayer();
  	}
 
  	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
@@ -184,20 +186,30 @@ function init(){
  	setup_admin_listener();
 	setup_list_listener();
 	setup_chat_listener();
-	if(!Helper.mobilecheck() && $("#alreadychannel").length == 0) setup_host_initialization();
+	if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
 
 	if(!Helper.msieversion()) Notification.requestPermission();
-	
+
 	$(".search_input").focus();
-	
+
 	Helper.sample();
 
-  	$( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
+  $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
 	$("#embed-button").css("display", "inline-block");
 	$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&autplay" width="600px" height="300px">');
 	$("#search").attr("placeholder", "Find song on YouTube...");
-	
+
+}
+
+function setup_no_connection_listener(){
+    socket.on('connect_failed', function(){
+        console.log('Connection Failed');
+    });
+
+    socket.on("connect_error", function(){
+        console.log("Connection failed.");
+    });
 }
 
 function setup_youtube_listener(){
@@ -213,7 +225,7 @@ function get_list_listener(){
 function setup_suggested_listener(){
 	socket.on("suggested", function(params){
 		var single = true;
-		if(params.id == undefined)
+		if(params.id === undefined)
 			single = false;
 			Suggestions.catchUserSuggests(params, single);
 	});
@@ -287,7 +299,7 @@ $(document).keyup(function(e) {
 $(document).on('click', '#cookieok', function() {
     $(this).fadeOut(function(){
         $(this).remove();
-        localStorage["ok_cookie"] = true;
+        localStorage.ok_cookie = true;
     });
 });
 
@@ -321,7 +333,7 @@ $(document).on('click', ".chan-link", function(e){
 });
 
 $(document).on("click", ".listen-button", function(e){
-  if($(".room-namer").val() == ""){
+  if($(".room-namer").val() === ""){
     e.preventDefault();
     Nochan.to_channel($(".room-namer").attr("placeholder"));
   }
@@ -357,6 +369,10 @@ $("#clickme").click(function(){
 
 $(document).on("submit", "#listImport", function(){
 	Search.importPlaylist(document.getElementById("import").value);
+    document.getElementById("import").value = "";
+    document.getElementById("import").disabled = true;
+    $("#import").addClass("hide");
+    $("#playlist_loader").removeClass("hide");
 });
 
 $(window).focus(function(){
@@ -521,7 +537,7 @@ $(document).on( "click", ".result-object", function(e){
 		var id 		= $(this).attr("data-video-id");
 		var title 	= $(this).attr("data-video-title");
 		var length 	= $(this).attr("data-video-length");
-		
+
 		Search.submitAndClose(id, title, length);
 	}
 });
@@ -573,7 +589,7 @@ $(document).on('click', '#toast-container', function(){
 });
 
 $(document).on("click", "#embed-area", function(){
-	this.select();	
+	this.select();
 });
 
 $(document).on("click", ".brand-logo-navigate", function(e){
@@ -600,7 +616,7 @@ $(document).on("mousemove", "#playlist", function(e)
 		Helper.addClass("#bottom-button", "hide");
 		Helper.addClass("#top-button", "hide");
 	}
-}); 
+});
 
 $(document).on("mouseleave", "#playlist", function(){
 	Helper.addClass("#bottom-button", "hide");
@@ -618,7 +634,7 @@ $(document).on("click", "#bottom-button", function(){
 function share_link_modifier_channel(){
 	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
     $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
-    $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic")
+    $("#twitter-code-link").attr("href", "http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic");
     $("#twitter-code-link").attr("onclick", "window.open('http://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
     $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
     $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
@@ -628,7 +644,7 @@ function onepage_load(){
 
 	var url_split = window.location.href.split("/");
 
-	if(url_split[3].substr(0,1) != "#!" && url_split[3] != "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
+	if(url_split[3].substr(0,1) != "#!" && url_split[3] !== "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
 		socket.emit("change_channel");
 	    Admin.beginning = true;
 
@@ -637,7 +653,7 @@ function onepage_load(){
 
 	    w_p = true;
 	    socket.emit("list", chan.toLowerCase());
-	}else if(url_split[3] == ""){
+	}else if(url_split[3] === ""){
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
@@ -668,13 +684,13 @@ function onepage_load(){
 		    	document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
-			    
-			    if(Helper.mobilecheck()) {	
+
+			    if(Helper.mobilecheck()) {
 			    	video_id   = "";
 			    	song_title = "";
 		    	}
 
-		    	$("meta[name=theme-color]").attr("content", "#2D2D2D"); 
+		    	$("meta[name=theme-color]").attr("content", "#2D2D2D");
 
 		    	if(!Helper.mobilecheck()){
 		    		$("main").append("<a id='closePlayer' title='Close Player'>X</a>");
@@ -716,8 +732,8 @@ function onepage_load(){
 		            initfp();
 		        }
 
-		      	if($("#alreadychannel").length == 0){
-		      		$("head").append("<div id='alreadychannel'></div")
+		      	if($("#alreadychannel").length === 0){
+		      		$("head").append("<div id='alreadychannel'></div");
 		      	}
 		      	$("#channel-load").css("display", "none");
 

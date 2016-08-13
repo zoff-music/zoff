@@ -31,7 +31,6 @@ var List = {
 
     insertAtIndex: function(song_info, transition) {
         var i = List.getIndexOfSong(song_info.id);
-
         if(!song_info.now_playing){
 
             var add = List.generateSong(song_info, transition, false, true, false);
@@ -53,11 +52,18 @@ var List = {
 
     populate_list: function(msg)
     {
-        if(list_html == undefined) list_html = $("#list-song-html").html();
+        if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
 
         List.sortList();
 		$("#wrapper").empty();
+
+        if(localStorage.debug) {
+            console.log("---------------------------");
+            console.log("---------FULL PLAYLIST-----");
+            console.log(full_playlist);
+            console.log("---------------------------");
+        }
 
         if(full_playlist.length > 1){
     		$.each(full_playlist, function(j, current_song){
@@ -69,7 +75,7 @@ var List = {
 
             if(lazy_load){
                 if(Helper.mobilecheck()) $(".list-image").lazyload({});
-                else{ 
+                else{
                     $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
 
                     document.getElementById('wrapper').scrollTop += 1;
@@ -93,10 +99,10 @@ var List = {
         $("#suggested-"+added.id).remove();
         if(List.empty){
             List.empty = false;
-        } 
+        }
         $("#empty-channel-message").remove();
         List.insertAtIndex(added, true);
-        
+
     },
 
     deleted_song: function(deleted){
@@ -147,12 +153,17 @@ var List = {
         full_playlist[0].guids              = [];
         full_playlist[0].added              = time;
         full_playlist[length].now_playing   = false;
-
+        if(localStorage.debug) {
+            console.log("---------------------------");
+            console.log("---SONG ON FIRST INDEX-----");
+            console.log(full_playlist[0]);
+            console.log("---------------------------");
+        }
         try{
             full_playlist.push(full_playlist.shift());
             if(!List.empty)
                 $("#wrapper").children()[0].remove();
-            if($("#wrapper").children().length == 0) {
+            if($("#wrapper").children().length === 0) {
                 List.empty = true;
                 $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
@@ -245,7 +256,7 @@ var List = {
         if(lazy){
             video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
             image_attr  = "data-original";
-        } 
+        }
 
         if(list){
             song.find(".list-votes").text(video_votes);
