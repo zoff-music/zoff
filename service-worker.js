@@ -1,4 +1,4 @@
-var version = 'v2.4 ';
+var version = 'v2.5 ';
 var CACHE_FILES = [
     'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
