@@ -69,7 +69,7 @@ if (navigator.serviceWorker) {
             console.error(e);
         });
     navigator.serviceWorker.getRegistration('/').then(function(registration) {
-        registration.update();
+        registration.unregister();
     });
 } else {
     console.log('Service Worker is not supported in this browser.');
