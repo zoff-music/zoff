@@ -1,18 +1,6 @@
-var version = 'v2.8';
+var version = 'v3.0';
 var CACHE_FILES = [
-    '/static/dist/lib/jquery-2.1.3.min.js',
-    '/static/images/favicon.png',
-    '/static/css/materialize.min.css',
-    '/static/css/style.css',
-    '/static/dist/lib/materialize.min.js',
-    '/static/images/squareicon_small.png',
-    '/static/images/GitHub_Logo.png',
-    '/static/images/facebook.png',
-    '/static/images/twitter.png',
     '/offline.html',
-    '/static/font/roboto/Roboto-Light.woff2',
-    '/static/font/roboto/Roboto-Regular.woff2',
-    '/static/font/roboto/Roboto-Thin.woff2'
 ];
 
 self.addEventListener("install", function(event) {
@@ -25,7 +13,7 @@ self.addEventListener("install", function(event) {
             a versioned cache name here so that we can remove old cache entries in
             one fell swoop later, when phasing out an older service worker.
         */
-        .open(version + '::bare')
+        .open(version + '::zoff')
         .then(function(cache) {
             /* After the cache is opened, we can fill it with the offline fundamentals.
                 The method below will add all resources we've indicated to the cache,
@@ -106,7 +94,7 @@ self.addEventListener('fetch', event => {
         // If fetch() returns a valid HTTP response with an response code in the 4xx or 5xx
         // range, the catch() will NOT be called. If you need custom handling for 4xx or 5xx
         // errors, see https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker/fallback-response
-        return caches.open(version + "::bare").then(function(cache) {
+        return caches.open(version + "::zoff").then(function(cache) {
             return cache.match("/offline.html");
         });
       })
