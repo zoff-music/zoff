@@ -56,7 +56,7 @@
                             </div>
                           </div>
                     </form>
-                </div>  
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -77,9 +77,9 @@
                 </p>
                 <ul id="footer-buttons">
                   <li>
-                    <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
-                      <i class="material-icons left footer-button-icon">info_outline</i>HELP
-                    </a>
+                      <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
+                        <i class="mdi-action-info left footer-button-icon"></i>HELP
+                      </a>
                   </li>
                   <li>
                     <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">

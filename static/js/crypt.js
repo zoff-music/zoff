@@ -17,8 +17,8 @@ var Crypt = {
         	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
-        if(conf_arr["width"] != 100) Player.set_width(conf_arr["width"]);
-        if(conf_arr["name"] != undefined && conf_arr["name"] != "") Chat.namechange(conf_arr["name"]);
+        if(conf_arr.width != 100) Player.set_width(conf_arr.width);
+        if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
 	},
 
 	decrypt: function(cookie, name){
@@ -60,8 +60,8 @@ var Crypt = {
 		    padding: CryptoJS.pad.Pkcs7
 		  }
 		);
-		
-        var CookieDate = new Date;
+
+        var CookieDate = new Date();
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
         document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
 	},
@@ -103,7 +103,7 @@ var Crypt = {
 		  }
 		);
 
-        var CookieDate = new Date;
+        var CookieDate = new Date();
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
         document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
@@ -133,7 +133,7 @@ var Crypt = {
 	},
 
 	get_pass: function(chan){
-		if(Crypt.conf_pass != undefined) return Crypt.conf_pass.passwords[chan];
+		if(Crypt.conf_pass !== undefined) return Crypt.conf_pass.passwords[chan];
 		return undefined;
 	},
 
@@ -159,11 +159,11 @@ var Crypt = {
 	},
 
 	get_width: function(){
-		return conf_arr["width"];
+		return conf_arr.width;
 	},
 
 	set_width: function(val){
-		conf_arr["width"] = val;
+		conf_arr.width = val;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
@@ -172,4 +172,4 @@ var Crypt = {
 	  	var parts = value.split("; " + name + "=");
 	  	if (parts.length == 2) return parts.pop().split(";").shift();
 	}
-}
+};

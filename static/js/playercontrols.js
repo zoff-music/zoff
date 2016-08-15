@@ -60,7 +60,7 @@ var Playercontrols = {
                 $(".video-container").toggleClass("click-through");
                 $(".page-footer").toggleClass("padding-bottom-extra");
             }
-    	}else if(Player.ytplayer.getPlayerState() == 2 || Player.ytplayer.getPlayerState() == 0)
+    	} else if(Player.ytplayer.getPlayerState() == 2 || Player.ytplayer.getPlayerState() === 0)
     	{
     		Player.ytplayer.playVideo();
             if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
@@ -116,7 +116,7 @@ var Playercontrols = {
     },
 
     choose_button: function(vol, mute)
-    {  
+    {
     	if(!mute){
     		if(vol >= 0 && vol <= 33){
     			if(document.getElementById("v-full").className.split(" ").length == 1)
@@ -193,4 +193,4 @@ var Playercontrols = {
 
     }
 
-}
+};

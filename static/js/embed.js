@@ -22,7 +22,7 @@ var autoplay = false;
 var connection_options = {
 	'sync disconnect on unload':true,
 	'secure': true,
-	'force new connection': true 
+	'force new connection': true
 };
 
 $(document).ready(function(){
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	socket = io.connect(''+add+':8880', connection_options);
 
 	socket.on("get_list", function(){
-	    setTimeout(function(){socket.emit('list', chan.toLowerCase())},1000);
+	    setTimeout(function(){socket.emit('list', chan.toLowerCase());},1000);
 	});
 
 	socket.on("viewers", function(view)

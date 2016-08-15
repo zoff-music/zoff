@@ -34,7 +34,7 @@ var List = {
         if(!song_info.now_playing){
 
             var add = List.generateSong(song_info, transition, false, true, false);
-            if(i == 0) {
+            if(i === 0) {
                 $("#wrapper").prepend(add);
             } else {
                 $("#wrapper > div:nth-child(" + (i) + ")").after(add);
@@ -314,4 +314,4 @@ var List = {
     scrollBottom: function(){
         $("#wrapper").scrollTop($("#wrapper")[0].scrollHeight);
     }
-}
+};

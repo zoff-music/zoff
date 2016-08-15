@@ -2,7 +2,7 @@ var Mobile_remote = {
 	id: "",
 
 	get_input: function(value) {
-		if(Mobile_remote.id == "") {
+		if(Mobile_remote.id === "") {
 			Mobile_remote.set_id(value.toLowerCase());
 		} else {
 			Mobile_remote.set_channel(value.toLowerCase());
@@ -56,4 +56,4 @@ var Mobile_remote = {
       });
 	}
 
-}
+};

@@ -4,7 +4,7 @@ var Suggestions = {
 		if(single){
 			Suggestions.createSuggested(params);
 		}else{
-			for(x in params){
+			for(var x in params){
 				Suggestions.createSuggested(params[x]);
 			}
 		}
@@ -54,7 +54,7 @@ var Suggestions = {
                     	var video_id 	 = song.id;
                     	var video_title  = song.snippet.title;
 
-                    	duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s")
+                    	duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
 
                     	$("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: secs, duration: duration}, false, false, false));
                     });
@@ -65,8 +65,8 @@ var Suggestions = {
 	},
 
 	checkUserEmpty: function(){
-		var length = $("#user-suggest-html").children().length
-		if(length == 0){
+		var length = $("#user-suggest-html").children().length;
+		if(length === 0){
 			if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
     		  $("#user_suggests").addClass("hide");
 		}else{
@@ -74,4 +74,4 @@ var Suggestions = {
 		}
 	},
 
-}
+};
