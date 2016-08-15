@@ -6,7 +6,7 @@ var Hostcontroller = {
 
   host_listener: function(id) {
 
-    if(Hostcontroller.old_id == null) Hostcontroller.old_id = id;
+    if(Hostcontroller.old_id === null) Hostcontroller.old_id = id;
     else
     {
       socket.removeAllListeners(id);
@@ -14,7 +14,7 @@ var Hostcontroller = {
       Hostcontroller.old_id = id;
     }
     var codeURL = "https://remote."+window.location.hostname+"/"+id;
-    $("#code-text").text(id)
+    $("#code-text").text(id);
     $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
     $("#code-link").attr("href", codeURL);
     if(!began)
@@ -48,7 +48,7 @@ var Hostcontroller = {
 
         window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
       }else if(arr[0] == "pause")
-        Player.ytplayer.pauseVideo()
+        Player.ytplayer.pauseVideo();
       else if(arr[0] == "play")
         Player.ytplayer.playVideo();
       else if(arr[0] == "skip")
@@ -60,4 +60,4 @@ var Hostcontroller = {
     enabled = val;
     document.getElementsByName("remote_switch")[0].checked = enabled;
   }
-}
+};

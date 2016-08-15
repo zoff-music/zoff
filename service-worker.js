@@ -1,17 +1,10 @@
-var version = 'v2.7';
+var version = 'v2.8';
 var CACHE_FILES = [
-    'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1',
-    'https://fonts.googleapis.com/icon?family=Material+Icons',
     '/static/dist/lib/jquery-2.1.3.min.js',
-    '/static/dist/lib/jquery-ui-1.10.3.min.js',
     '/static/images/favicon.png',
     '/static/css/materialize.min.css',
     '/static/css/style.css',
     '/static/dist/lib/materialize.min.js',
-    '/static/dist/lib/socket.io-1.4.5.js',
-    '/static/dist/lib/jquery.lazyload.js',
-    '/static/dist/lib/color-thief.js',
-    '/static/dist/main.min.js',
     '/static/images/squareicon_small.png',
     '/static/images/GitHub_Logo.png',
     '/static/images/facebook.png',
@@ -19,8 +12,7 @@ var CACHE_FILES = [
     '/offline.html',
     '/static/font/roboto/Roboto-Light.woff2',
     '/static/font/roboto/Roboto-Regular.woff2',
-    '/static/font/roboto/Roboto-Thin.woff2',
-    '/static/images/loading.png'
+    '/static/font/roboto/Roboto-Thin.woff2'
 ];
 
 self.addEventListener("install", function(event) {

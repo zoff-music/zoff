@@ -22,7 +22,7 @@ var Player = {
             console.log("video_id variable: " + video_id);
             console.log("---------------------------------");
         }
-        if(obj.length == 0){
+        if(obj.length === 0){
 
             document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
             $("#player_overlay").height($("#player").height());
@@ -35,19 +35,19 @@ var Player = {
         }
         else{
             //console.log("gotten new song");
-            if(previous_video_id == undefined) 
-                previous_video_id = obj[0][0]["id"];
+            if(previous_video_id === undefined)
+                previous_video_id = obj[0][0].id;
             else if(previous_video_id != video_id)
                 previous_video_id = video_id;
 
-            video_id   = obj[0][0]["id"];
+            video_id   = obj[0][0].id;
             conf       = obj[1][0];
             time       = obj[2];
-            seekTo     = time - conf["startTime"];
-            song_title = obj[0][0]["title"];
-            duration   = obj[0][0]["duration"];
+            seekTo     = time - conf.startTime;
+            song_title = obj[0][0].title;
+            duration   = obj[0][0].duration;
 
-            if(mobile_beginning && Helper.mobilecheck() && seekTo == 0)
+            if(mobile_beginning && Helper.mobilecheck() && seekTo === 0)
                 seekTo = 1;
 
             try{
@@ -56,13 +56,13 @@ var Player = {
                 }
                 Suggestions.fetchYoutubeSuggests(video_id);
             }catch(e){}
-        
+
             Player.getTitle(song_title, viewers);
             Player.setBGimage(video_id);
             //if(player_ready && !Helper.mobilecheck())
             if(player_ready && !window.MSStream)
             {
-                
+
                 try{
                     if(Player.ytplayer.getVideoUrl().split('v=')[1] != video_id)
                     {
@@ -79,7 +79,7 @@ var Player = {
                         if(!durationBegun)
                             Player.durationSetter();
                     }
-                    if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() == 0)
+                    if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() === 0)
                         Player.ytplayer.seekTo(seekTo);
                     Player.after_load  = video_id;
 
@@ -170,8 +170,8 @@ var Player = {
 
     errorHandler: function(newState)
     {
-    	if(newState.data == 5 || newState.data == 100 
-            || newState.data == 101 || newState.data == 150)
+    	if(newState.data == 5 || newState.data == 100 ||
+            newState.data == 101 || newState.data == 150)
         {
             /*if(Player.count == 2){
                 Player.count = 0;*/
@@ -181,10 +181,10 @@ var Player = {
             console.log(Player.before_load == Player.ytplayer.getVideoUrl);*/
             curr_playing = Player.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
-            
+
                 socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase});
                 //console.log(video_id, Player.ytplayer.getVideoUrl(), Player.ytplayer.getPlayerState());
-            
+
             /*}else{
                 setTimeout(function(){
                 Player.ytplayer.loadVideoById(video_id);
@@ -298,12 +298,12 @@ var Player = {
         /*try{
             //duration = Player.ytplayer.getDuration();
         }catch(e){};*/
-        if(duration != undefined){
+        if(duration !== undefined){
             try{
                 if(!Player.stopInterval) durationBegun = true;
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
-                currDurr = Player.ytplayer.getCurrentTime() != undefined ? Math.floor(Player.ytplayer.getCurrentTime()) : seekTo;
+                currDurr = Player.ytplayer.getCurrentTime() !== undefined ? Math.floor(Player.ytplayer.getCurrentTime()) : seekTo;
                 if(currDurr > duration)
                     currDurr = duration;
                 minutes = Math.floor(currDurr / 60);
@@ -312,18 +312,18 @@ var Player = {
                 per = (100 / duration) * currDurr;
                 if(per >= 100)
                     per = 100;
-                else if(duration == 0)
+                else if(duration === 0)
                     per = 0;
                 $("#bar").width(per+"%");
             }catch(e){
-                
+
             }
         }
         if(!Player.stopInterval) setTimeout(Player.durationSetter, 1000);
     },
 
     loadPlayer: function() {
-        if($("script[src='https://www.youtube.com/iframe_api']")["length"] == 1){
+        if($("script[src='https://www.youtube.com/iframe_api']").length == 1){
             Player.onYouTubeIframeAPIReady();
         }else{
         tag            = document.createElement('script');
@@ -333,4 +333,4 @@ var Player = {
         }
     }
 
-}
+};

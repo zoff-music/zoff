@@ -21,19 +21,12 @@
     <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
     <meta property="og:type" content="website"/>
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
-    <link tyle="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" title="Default" />
     <link rel="icon" id="favicon" type="image/png" href="/static/images/favicon.png"/>
     <script type="text/javascript" src="/static/dist/lib/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="/static/dist/lib/jquery-ui-1.10.3.min.js"></script>
     <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
-    <script type="text/javascript" src="/static/dist/lib/socket.io-1.4.5.js"></script>
-    <script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
-    <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
-    <script type="text/javascript" src="/static/dist/lib/sha256.js"></script>
-    <script type="text/javascript" src="/static/dist/lib/aes.js"></script>
 </head>
 <body class="noselect cursor-default">
     <header>
@@ -45,7 +38,6 @@
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                   <li><a class="modal-trigger waves-effect waves-red" title="Need help with the site?" onclick="$('#help').openModal()">Help</a></li>
-                  <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
                   <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
                   <li><a class="waves-effect waves-purple" href="https://github.com/zoff-music/">GitHub</a></li>
@@ -180,12 +172,7 @@
                         <ul id="footer-buttons">
                           <li>
                             <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
-                              <i class="material-icons left footer-button-icon">info_outline</i>HELP
-                            </a>
-                          </li>
-                          <li>
-                            <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
-                            <i class="material-icons left footer-button-icon">code</i>EMBED
+                              <i class="mdi-action-info left footer-button-icon"></i>HELP
                             </a>
                           </li>
                           <li>
@@ -219,11 +206,6 @@
                                   <i class="mdi-action-payment left footer-button-icon"></i>Donate
                                   </a>
                                 </form>
-                                <p class="hide-on-small-only">
-                                    <a id="qr-code-link" target="_blank" href="//chart.googleapis.com/chart?chs=500x500&amp;cht=qr&amp;chl=https://zoff.no&amp;choe=UTF-8&amp;chld=L%7C1" >
-                                        <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=https://zoff.no&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
-                                    </a>
-                                </p>
                             </li>
                         </ul>
                     </div>
