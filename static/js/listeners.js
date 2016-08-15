@@ -60,13 +60,25 @@ var connection_options = {
 var fromFront = false;
 var fromChannel = false;
 
-if ('serviceWorker' in navigator) {
+if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+        .then(function (registration) {
+            console.log(registration);
+        })
+        .catch(function (e) {
+            console.error(e);
+        });
+} else {
+    console.log('Service Worker is not supported in this browser.');
+}
+
+/*if ('serviceWorker' in navigator) {
   	navigator.serviceWorker.getRegistration().then(function(r) {
   		try {
   			r.unregister();
   		} catch(e) {}
 	});
-}
+}*/
 
 
 $().ready(function(){
