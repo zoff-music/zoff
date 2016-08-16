@@ -1,6 +1,8 @@
-var version = 'v3.0';
+var version = 'v3.2';
 var CACHE_FILES = [
     '/offline.html',
+    '/manifest.json',
+    '/static/images/favicon.png'
 ];
 
 self.addEventListener("install", function(event) {
@@ -94,9 +96,23 @@ self.addEventListener('fetch', event => {
         // If fetch() returns a valid HTTP response with an response code in the 4xx or 5xx
         // range, the catch() will NOT be called. If you need custom handling for 4xx or 5xx
         // errors, see https://github.com/GoogleChrome/samples/tree/gh-pages/service-worker/fallback-response
-        return caches.open(version + "::zoff").then(function(cache) {
-            return cache.match("/offline.html");
-        });
+        if(event.request.url.includes('manifest.json')){
+          return caches.open(version + "::zoff").then(function(cache) {
+              return cache.match("/manifest.json");
+          });
+        } else if (event.request.url.includes('favicon')) {
+          return caches.open(version + "::zoff").then(function(cache) {
+              return cache.match("/static/images/favicon.png");
+          });
+        } else if (event.request.url.includes('service-worker')) {
+          return caches.open(version + "::zoff").then(function(cache) {
+              return cache.match("/service-worker.js");
+          });
+        } else {
+          return caches.open(version + "::zoff").then(function(cache) {
+              return cache.match("/offline.html");
+          });
+        }
       })
     );
   }
