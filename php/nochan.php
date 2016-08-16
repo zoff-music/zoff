@@ -87,7 +87,7 @@ if(isset($_GET['chan'])){
     <div class="section mega">
         <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
-            <form class="channel-finder" onsubmit="return false;">
+            <form class="channel-finder">
                 <p class="prething">zoff.no/</p>
                 <input
                     class="input-field room-namer"
@@ -114,7 +114,7 @@ if(isset($_GET['chan'])){
     </div>
 
     <div class="section mobile-search">
-            <form class="row" id="base" method="get" onsubmit="return false;">
+            <form class="channel-finder-mobile row" id="base">
                     <div class="input-field col s12">
                         <input
                             class="input-field"

@@ -247,16 +247,15 @@ var Nochan = {
           window.chan = new_channel;
         }
 
-
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[61]).html());
+        $("header").html($($(e)[59]).html());
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.ytplayer === undefined){
-          $("main").html($($(e)[65]).html());
+          $("main").html($($(e)[63]).html());
         } else {
-          var main = $($($($($(e)[65]).html())[0]).html());
+          var main = $($($($($(e)[63]).html())[0]).html());
           $("#main-row").append($(main[2]).wrap("<div>").parent().html());
           $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
           $("#main-row").append("<div id='playbar'></div>");
