@@ -20,7 +20,6 @@
 <meta property="og:type" content="website"/>
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
-<link tyle="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/style.css" title="Default" />
 <link rel="icon" id="favicon" type="image/png" href="/static/images/favicon.png"/>

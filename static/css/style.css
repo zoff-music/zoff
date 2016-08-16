@@ -168,6 +168,16 @@ footer{
   margin-top:0px !important;
 }
 
+.left-embed{
+  margin-left: -9px !important;
+  margin-right: 1px !important;
+}
+
+.right-embed{
+  margin-right: 3px !important;
+  margin-left: -17px !important;
+}
+
 /* global colors */
 
 .modal-header-fixed{
@@ -770,6 +780,10 @@ hide mdi-action-visibility mdi-action-visibility-off
 	.toast {
 	  float: left;
 	}
+
+  nav .zbrand {
+    left:0px !important;
+  }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -1616,6 +1630,7 @@ nav ul li:hover, nav ul li.active {
     }
     nav .zbrand {
         display: inline-block;
+        left:100px;
     }
     .title-container{
         position: initial;

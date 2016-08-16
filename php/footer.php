@@ -83,7 +83,7 @@
                   </li>
                   <li>
                     <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
-                    <i class="material-icons left footer-button-icon">code</i>EMBED
+                        <i class="mdi-image-navigate-before left footer-button-icon left-embed"></i><i class="mdi-image-navigate-next left footer-button-icon right-embed"></i>EMBED
                     </a>
                   </li>
                   <li>
