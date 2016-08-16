@@ -345,12 +345,11 @@ $(document).on("submit", ".channel-finder", function(e){
   return false;
 });
 
-$(document).on("submit", "#base", function(e){
+$(document).on("submit", ".channel-finder-mobile", function(e){
   e.preventDefault();
   Nochan.to_channel($("#search-mobile").val());
   return false;
 });
-
 
 $(document).on("change", 'input[class=remote_switch_class]', function()
 {
@@ -718,11 +717,11 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[61]).html());
-		      	$($(e)[63]).insertAfter("header");
-		      	$($(e)[65]).insertAfter(".mega");
-		      	if(Helper.mobilecheck()) $("main").html($($(e)[69]).html());
-		      	else $("main").append($($($(e)[69]).html())[0]);
+		      	$("header").html($($(e)[59]).html());
+		      	$($(e)[61]).insertAfter("header");
+		      	$($(e)[63]).insertAfter(".mega");
+		      	if(Helper.mobilecheck()) $("main").html($($(e)[67]).html());
+		      	else $("main").append($($($(e)[67]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
