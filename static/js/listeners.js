@@ -72,15 +72,6 @@ if (navigator.serviceWorker) {
     console.log('Service Worker is not supported in this browser.');
 }
 
-/*if ('serviceWorker' in navigator) {
-  	navigator.serviceWorker.getRegistration().then(function(r) {
-  		try {
-  			r.unregister();
-  		} catch(e) {}
-	});
-}*/
-
-
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
 	else if(!fromChannel && window.location.pathname == "/"){
@@ -713,8 +704,12 @@ function onepage_load(){
 		    		$("#video-container").removeClass("no-opacity");
 		    		$("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='ytplayer player_bottom'></div>");
 		    	} else {
-		    		Player.ytplayer.destroy();
-		    		Player.ytplayer = "";
+                    try{
+                    	Player.ytplayer.destroy();
+                    } catch(error){
+                        //No player to destroy
+                    }
+                    Player.ytplayer = "";
 		    		document.title = "Zöff";
 		    	}
 
