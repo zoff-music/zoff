@@ -104,7 +104,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Remote Control
-                <i class="material-icons">settings_remote</i>
+                <i class="mdi-action-settings-remote"></i>
             </a>
             <div class="collapsible-body">
                 <ul>
@@ -204,7 +204,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Remote Controller
-                <i class="material-icons">settings_remote</i>
+                <i class="mdi-action-settings-remote"></i>
             </a>
             <div class="collapsible-body">
                 <ul id="remote-mobile-container">
