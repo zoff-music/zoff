@@ -1402,6 +1402,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+
+    #zicon{
+      height:100%;
+    }
     /*.list-remove{
       margin-top:-68px;
     }*/
