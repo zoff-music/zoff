@@ -14,6 +14,25 @@
   display:none;
 }
 
+.import-spotify-auth, .import-youtube{
+  color:white !important;
+  height:40px !important;
+  line-height: 40px !important;
+  margin: 0 4rem 0 0 !important;
+}
+
+.import-buttons{
+  padding:10px;
+}
+
+.spotify_authenticated{
+  display: none;
+}
+
+.youtube_clicked{
+  display: none;
+}
+
 #chatPlaylist{
   overflow: hidden;
 }
@@ -239,10 +258,12 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
   position: absolute;
 }
 
-#import{
+#import, #import_spotify{
   width:65%;
-  margin-left:10px;
+  padding-left:35px;
   color:rgb(68,68,68);
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 10px;
 }
 
 #password{
@@ -883,7 +904,7 @@ ul #chat-log{
   margin-top:15px;
 }
 
-#playlist_loader {
+#playlist_loader, #playlist_loader_spotify {
   padding: 10px 0px 0px 70px;
 }
 

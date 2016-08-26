@@ -17,6 +17,10 @@ RewriteCond %{HTTP_HOST} ^bot.zoff.no
 RewriteCond %{REQUEST_URI} !/static
 RewriteRule ^(.*)$ php/bot.php [L,NC,QSA]
 
+RewriteCond %{HTTP_HOST} ^localhost
+RewriteCond %{REQUEST_URI} /spotify_callback
+RewriteRule ^(.*)$ php/spotify.html [L,NC,QSA]
+
 #RewriteCond %{HTTP_HOST} ^(remote\.)?zoff\.no
 #RewriteCond %{REQUEST_URI} !remote/
 #RewriteRule ^(.*)$ remote/$1 [L]

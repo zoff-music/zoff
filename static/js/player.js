@@ -9,7 +9,7 @@ var Player = {
     youtube_listener: function(obj)
     {
         Player.loaded      = false;
-        if(localStorage.debug){
+        if(localStorage.debug === "true"){
             console.log("--------youtube_listener--------");
 
             console.log("Received: ");
@@ -95,7 +95,7 @@ var Player = {
     },
 
     onPlayerStateChange: function(newState) {
-        if(localStorage.debug){
+        if(localStorage.debug === "true"){
             console.log("-------onPlayerStateChange------");
             console.log("New state\nState: ");
             console.log(newState);

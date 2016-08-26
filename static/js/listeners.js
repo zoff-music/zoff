@@ -28,6 +28,8 @@ var durationBegun 	      = false;
 var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
+var access_token_data     = {};
+var spotify_authenticated = false;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -125,6 +127,9 @@ function init(){
     $('.collapsible').collapsible({
       accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
+
+    spotify_is_authenticated(spotify_authenticated);
+
     result_html 	   	  = $("#temp-results-container");
 	empty_results_html 	  = $("#empty-results-container").html();
 
@@ -275,6 +280,29 @@ function disable_debug(){
 	localStorage.debug = false;
 }
 
+function spotify_is_authenticated(bool){
+    if(bool){
+        if(localStorage.debug === "true"){
+            console.log("------------------------");
+            console.log("Spotify is authenticated");
+            console.log("access_token: " + access_token_data.access_token);
+            console.log("token_type:" + access_token_data.token_type);
+            console.log("expires_in: " + access_token_data.expires_in);
+            console.log("------------------------");
+        }
+        $(".spotify_authenticated").css("display", "block");
+        $(".spotify_unauthenticated").css("display", "none");
+    } else {
+        if(localStorage.debug === "true"){
+            console.log("----------------------------");
+            console.log("Spotify is not authenticated");
+            console.log("----------------------------");
+            $(".spotify_authenticated").css("display", "none");
+            $(".spotify_unauthenticated").css("display", "block");
+        }
+    }
+}
+
 window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
 
@@ -366,12 +394,34 @@ $("#clickme").click(function(){
 	Player.ytplayer.playVideo();
 });
 
-$(document).on("submit", "#listImport", function(){
-	Search.importPlaylist(document.getElementById("import").value);
-    document.getElementById("import").value = "";
-    document.getElementById("import").disabled = true;
-    $("#import").addClass("hide");
-    $("#playlist_loader").removeClass("hide");
+$(document).on("submit", "#listImport", function(e){
+    e.preventDefault();
+    if($("#import").val() !== ""){
+    	Search.importPlaylist(document.getElementById("import").value);
+        document.getElementById("import").value = "";
+        document.getElementById("import").disabled = true;
+        $("#import").addClass("hide");
+        $("#playlist_loader").removeClass("hide");
+    }
+});
+
+$(document).on("submit", "#listImportSpotify", function(e){
+    e.preventDefault();
+    if(spotify_authenticated && $("#import_spotify").val() !== ""){
+        //console.log("Import this playlist: " + document.getElementById("import_spotify").value);
+        var url = $("#import_spotify").val().split("https://open.spotify.com/user/");
+        if(url.length == 2) {
+            url = url[1].split("/");
+            var user = url[0];
+            var playlist_id = url[2];
+
+            Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
+        }
+    }
+    document.getElementById("import_spotify").value = "";
+    document.getElementById("import_spotify").disabled = true;
+    $("#import_spotify").addClass("hide");
+    $("#playlist_loader_spotify").removeClass("hide");
 });
 
 $(window).focus(function(){
@@ -492,6 +542,30 @@ $(document).on("click", ".suggested-link", function(e){
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "block");
+});
+
+$(document).on("click", ".import-spotify-auth", function(e){
+    e.preventDefault();
+    window.callback = function(data) {
+        access_token_data = data;
+        spotify_authenticated = true;
+        spotify_is_authenticated(true);
+        setTimeout(function(){
+            spotify_authenticated = false;
+            spotify_is_authenticated(false);
+            $(".spotify_authenticated").css("display", "none");
+            $(".spotify_unauthenticated").css("display", "block");
+        }, access_token_data.expires_in * 1000);
+        spotify_window.close();
+        window.callback = "";
+    };
+    spotify_window = window.open("/spotify_callback", "", "width=600, height=600");
+});
+
+$(document).on("click", ".import-youtube", function(e){
+    e.preventDefault();
+    $(".youtube_unclicked").css("display", "none");
+    $(".youtube_clicked").css("display", "block");
 });
 
 $(document).on("submit", "#chatForm", function(e){
