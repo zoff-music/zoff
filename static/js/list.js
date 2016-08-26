@@ -58,7 +58,7 @@ var List = {
         List.sortList();
 		$("#wrapper").empty();
 
-        if(localStorage.debug) {
+        if(localStorage.debug === "true") {
             console.log("---------------------------");
             console.log("---------FULL PLAYLIST-----");
             console.log(full_playlist);
@@ -153,7 +153,7 @@ var List = {
         full_playlist[0].guids              = [];
         full_playlist[0].added              = time;
         full_playlist[length].now_playing   = false;
-        if(localStorage.debug) {
+        if(localStorage.debug === "true") {
             console.log("---------------------------");
             console.log("---SONG ON FIRST INDEX-----");
             console.log(full_playlist[0]);

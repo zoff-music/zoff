@@ -142,11 +142,74 @@
             <div class="collapsible-body">
                 <ul>
                     <li class="white-bg">
-                        <div class="input-field field-settings">
-                            <form action="#" id="listImport" onsubmit="return false;">
+                        <div class="input-field field-settings youtube_unclicked import-buttons">
+                            <a class="modal-trigger waves-effect red btn import-youtube" title="Need help with the site?">
+                              YouTube
+                            </a>
+                        </div>
+                        <div class="input-field field-settings youtube_clicked">
+                            <form action="#" id="listImport">
                                 <i class="mdi-av-playlist-add import-icon"></i>
                                 <input title="Input YouTube-playlist id here!" placeholder="Enter YouTube-list ID" id="import" type="text" class="validate" autocomplete="off" />
                                 <li id="playlist_loader" class="valign-wrapper hide">
+                                      <div class="valign">
+                                         <div class="preloader-wrapper small active">
+                                          <div class="spinner-layer spinner-blue">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-red">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-yellow">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+
+                                          <div class="spinner-layer spinner-green">
+                                            <div class="circle-clipper left">
+                                              <div class="circle"></div>
+                                            </div><div class="gap-patch">
+                                              <div class="circle"></div>
+                                            </div><div class="circle-clipper right">
+                                              <div class="circle"></div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      </li>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="white-bg">
+                        <div class="input-field field-settings spotify_unauthenticated import-buttons">
+                            <a class="modal-trigger waves-effect green lighten btn import-spotify-auth" title="Import spotify playlist (BETA)">
+                              Spotify
+                            </a>
+                        </div>
+                        <div class="input-field field-settings spotify_authenticated">
+                            <form action="#" id="listImportSpotify">
+                                <i class="mdi-av-playlist-add import-icon"></i>
+                                <input title="Input Spotify-playlist url here! (BETA)" placeholder="(BETA) Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
+                                <li id="playlist_loader_spotify" class="valign-wrapper hide">
                                       <div class="valign">
                                          <div class="preloader-wrapper small active">
                                           <div class="spinner-layer spinner-blue">
