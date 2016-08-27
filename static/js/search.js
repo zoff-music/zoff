@@ -243,16 +243,23 @@ var Search = {
         dataType:"jsonp",
         success: function(response)
         {
-          var ids="";
-          //Search.addVideos(response.items[0].contentDetails.videoId);
-          //response.items.shift();
-          $.each(response.items, function(i,data)
-          {
-            ids+=data.contentDetails.videoId+",";
-          });
-          Search.addVideos(ids, true);
-          if(response.nextPageToken) Search.importPlaylist(pId, response.nextPageToken);
-          document.getElementById("import").value = "";
+            if(response.error){
+                document.getElementById("import").disabled = false;
+                $("#playlist_loader").addClass("hide");
+                $("#import").removeClass("hide");
+                Materialize.toast("It seems you've entered a invalid url.", 4000);
+            } else {
+              var ids="";
+              //Search.addVideos(response.items[0].contentDetails.videoId);
+              //response.items.shift();
+              $.each(response.items, function(i,data)
+              {
+                ids+=data.contentDetails.videoId+",";
+              });
+              Search.addVideos(ids, true);
+              if(response.nextPageToken) Search.importPlaylist(pId, response.nextPageToken);
+              document.getElementById("import").value = "";
+            }
         }
       });
     },
@@ -264,7 +271,6 @@ var Search = {
                'Authorization': 'Bearer ' + access_token_data.access_token
            },
            success: function(response) {
-               console.log(response);
                $.each(response.items, function(i,data)
                {
                  //ids+=data.contentDetails.videoId+",";
@@ -274,6 +280,12 @@ var Search = {
                if(response.next){
                    Search.importSpotifyPlaylist(response.next);
                }
+           },
+           error: function() {
+               document.getElementById("import_spotify").disabled = false;
+               $("#import_spotify").removeClass("hide");
+               $("#playlist_loader_spotify").addClass("hide");
+               Materialize.toast("It seems you've entered a invalid url.", 4000);
            }
         });
     },
