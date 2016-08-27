@@ -21,9 +21,9 @@ var Search = {
         empty_results_html    = $("#empty-results-container").html();
       }
       $(".search_results").html('');
-      if(window.search_input !== ""){
+      if(search_input !== ""){
         searching = true;
-        var keyword= encodeURIComponent(window.search_input);
+        var keyword= encodeURIComponent(search_input);
         //response= x
         var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
         yt_url+="&q="+keyword;
@@ -129,8 +129,8 @@ var Search = {
         yt_url+="&q="+keyword;
         var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
         artist = artist.split(" ");
-        var temptitle = title.toLowerCase().replace(" the ", "").replace(" a ", "").replace("the ", "");
-        temptitle = temptitle.split(" ");
+        var temptitle = title.split("-");
+        temptitle = temptitle.join(" ").split(" ");
         $.ajax({
             type: "GET",
             url: yt_url,
@@ -142,13 +142,15 @@ var Search = {
                     {
                         var acceptable_track = true;
                         //console.log(data.snippet.title.toLowerCase().indexOf("cover"));
-                        $.each(artist, function(i, data_artist){
-                            if(data.snippet.title.toLowerCase().indexOf(data_artist.toLowerCase()) == -1){
+                        //$.each(artist, function(i, data_artist){
+                            if(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                            (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                            data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)){
                                 acceptable_track = false;
                                 return false;
                             }
-                        });
-                        if(data.snippet.title.toLowerCase().indexOf("cover") == -1 && acceptable_track) {
+                        //});
+                        if(data.snippet.title.toLowerCase().indexOf("cover") == -1 && acceptable_track && title.toLowerCase().indexOf("cover") == -1) {
                             vid_url += data.id.videoId+",";
                         }
                     });
@@ -164,21 +166,28 @@ var Search = {
                                   //console.log(data);
                                  //var title = data.snippet.title;
                                  var duration = Search.durationToSeconds(data.contentDetails.duration);
-                                 var not_matched = 0;
+                                 var not_matched = false;
                                  $.each(temptitle, function(i, data_title){
                                     if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1)
-                                        not_matched += 1;
-                                 });
-                                 if(((data.snippet.title.toLowerCase() == artist.join(" ").toLowerCase() + " - " + title.toLowerCase()) ||
-                                 (data.snippet.title.toLowerCase() == artist.join(" ").toLowerCase() + "-" + title.toLowerCase()) ||
-                                 (data.snippet.title.toLowerCase() == title.toLowerCase() + " - " + artist.join(" ").toLowerCase()) ||
-                                 (data.snippet.title.toLowerCase() == title.toLowerCase() + "-" + artist.join(" ").toLowerCase())) ||
-                                 (duration == length) ||
-                                 ((data.snippet.title.toLowerCase().indexOf("lyric") > -1) ||
-                                 (data.snippet.title.toLowerCase().indexOf("music video") > -1) ||
-                                 (data.snippet.title.toLowerCase().indexOf("official video"))) && not_matched != temptitle.length - 1) {
-                                     matched = true;
+                                        not_matched = true;
 
+                                        return false;
+                                 });
+
+                                 if(
+                                     (!not_matched //&&
+                                         //(duration + 1 > length && duration - 1 < length)
+                                     )
+                                 ){
+                                     matched = true;
+                                     /*console.log("------------------------------");
+                                     console.log("MATCH FOR:");
+                                     console.log("YouTube title: " + data.snippet.title);
+                                     console.log("YouTube Channel: " + data.snippet.channelTitle);
+                                     console.log("YouTube duration: " + duration);
+                                     console.log("Spotify title: " + title + " " + artist.join(" "));
+                                     console.log("Spotify length: " + length);
+                                     console.log("------------------------------");*/
                                      Search.submit(data.id,data.snippet.title, duration, true, current, totalNumber);
                                      return false;
                                  }
@@ -191,6 +200,12 @@ var Search = {
                                       console.log("Spotify length: " + length);
                                       console.log("------------------------------");
                                   }
+                                  var not_added_song = $("<div>" + not_import_html + "</div>");
+                                  not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
+                                  not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
+                                  not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
+                                  $(".not-imported-container").append(not_added_song.html());
+                                  $(".not-imported").removeClass("hide");
                               }
                           }
                       }

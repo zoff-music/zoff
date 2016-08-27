@@ -9,7 +9,7 @@ var Admin = {
                 msg=Helper.rnd(["I added your song", "Your song has been added", "Yay, more songs!", "Thats a cool song!", "I added that song for you", "I see you like adding songs..."]);
                 break;
             case "addedplaylist":
-                msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songes!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
+                msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
                 document.getElementById("import").disabled = false;
                 $("#playlist_loader").addClass("hide");
                 $("#import").removeClass("hide");

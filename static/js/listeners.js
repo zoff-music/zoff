@@ -30,6 +30,7 @@ var chat_unseen 		  = false;
 var blinking 			  = false;
 var access_token_data     = {};
 var spotify_authenticated = false;
+var not_import_html       = "";
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -132,8 +133,9 @@ function init(){
 
     result_html 	   	  = $("#temp-results-container");
 	empty_results_html 	  = $("#empty-results-container").html();
+    not_import_html       = $(".not-imported-container").html();
+    $(".not-imported-container").empty();
 
-    //awdwad
     $(".video-container").resizable({
     	start: function(event, ui) {
         	$('iframe').css('pointer-events','none');
@@ -330,6 +332,20 @@ $(document).on('click', '#cookieok', function() {
         localStorage.ok_cookie = true;
     });
 });
+
+$(document).on("click", ".extra-button-search", function(e){
+    e.preventDefault();
+    $("#search").val($(this).attr("data-text"));
+    Search.search($(this).attr("data-text"));
+});
+
+$(document).on("click", ".extra-button-delete", function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    if($(".not-imported-container").children().length == 0){
+        $(".not-imported").toggleClass("hide");
+    }
+})
 
 $(document).on("click", "#closePlayer", function(e){
   	e.preventDefault();
