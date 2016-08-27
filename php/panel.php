@@ -133,7 +133,7 @@
     </ul>
 </li>
 
-<li class="no-padding remote-panel">
+<li class="no-padding">
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Import Playlist
@@ -201,14 +201,14 @@
                     </li>
                     <li class="white-bg">
                         <div class="input-field field-settings spotify_unauthenticated import-buttons">
-                            <a class="modal-trigger waves-effect green lighten btn import-spotify-auth" title="Import spotify playlist (BETA)">
+                            <a class="modal-trigger waves-effect green lighten btn import-spotify-auth" title="Import spotify playlist">
                               Spotify
                             </a>
                         </div>
                         <div class="input-field field-settings spotify_authenticated">
                             <form action="#" id="listImportSpotify">
                                 <i class="mdi-av-playlist-add import-icon"></i>
-                                <input title="Input Spotify-playlist url here! (BETA)" placeholder="(BETA) Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
+                                <input title="Input Spotify-playlist url here!" placeholder="Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
                                 <li id="playlist_loader_spotify" class="valign-wrapper hide">
                                       <div class="valign">
                                          <div class="preloader-wrapper small active">
@@ -256,6 +256,20 @@
                                       </li>
                             </form>
                         </div>
+                    </li>
+                    <li class="not-imported white-bg hide">
+                        <div class="center-align">Not imported</div>
+                            <ul class="input-field field-settings not-imported-container">
+                                <li class="white-bg not-imported-element">
+                                    <div class="extra-add-text truncate"></div>
+                                        <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
+                                        <a href="#" class="waves-effect green lighten btn right extra-button extra-button-search">
+                                        <i class="mdi-action-search search-extra"></i></a>
+                                    </li>
+                                </ul>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
