@@ -418,7 +418,10 @@ $(document).on("submit", "#listImport", function(e){
         document.getElementById("import").disabled = true;
         $("#import").addClass("hide");
         $("#playlist_loader").removeClass("hide");
+    } else {
+        Materialize.toast("It seems you've entered a invalid url.", 4000);
     }
+    document.getElementById("import").value = "";
 });
 
 $(document).on("submit", "#listImportSpotify", function(e){
@@ -431,13 +434,16 @@ $(document).on("submit", "#listImportSpotify", function(e){
             var user = url[0];
             var playlist_id = url[2];
 
+            document.getElementById("import_spotify").disabled = true;
+            $("#import_spotify").addClass("hide");
+            $("#playlist_loader_spotify").removeClass("hide");
+
             Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
+        } else {
+            Materialize.toast("It seems you've entered a invalid url.", 4000);
         }
     }
     document.getElementById("import_spotify").value = "";
-    document.getElementById("import_spotify").disabled = true;
-    $("#import_spotify").addClass("hide");
-    $("#playlist_loader_spotify").removeClass("hide");
 });
 
 $(window).focus(function(){
