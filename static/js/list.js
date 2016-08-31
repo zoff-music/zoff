@@ -217,7 +217,13 @@ var List = {
         full_playlist.sort(Helper.predicate({
            name: 'votes',
            reverse: true
-        }, 'added'));
+       }, {
+           name: 'added',
+           reverse: false
+       }, {
+           name: 'title',
+           reverse: false
+       }));
     },
 
     show: function(){
