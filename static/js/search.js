@@ -144,8 +144,11 @@ var Search = {
                         //console.log(data.snippet.title.toLowerCase().indexOf("cover"));
                         //$.each(artist, function(i, data_artist){
                             if(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                            (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                            data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)){
+                                (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1) &&
+                                (data.snippet.title.toLowerCase().indexOf("remix") >= 0 &&
+                                title.toLowerCase().indexOf("remix") == -1)
+                            ){
                                 acceptable_track = false;
                                 return false;
                             }
