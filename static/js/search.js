@@ -145,15 +145,18 @@ var Search = {
                         //$.each(artist, function(i, data_artist){
                             if(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
                                 (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                                data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1) &&
-                                (data.snippet.title.toLowerCase().indexOf("remix") >= 0 &&
-                                title.toLowerCase().indexOf("remix") == -1)
-                            ){
+                                data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)){
                                 acceptable_track = false;
                                 return false;
                             }
                         //});
-                        if(data.snippet.title.toLowerCase().indexOf("cover") == -1 && acceptable_track && title.toLowerCase().indexOf("cover") == -1) {
+
+                        if(data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
+                        acceptable_track && title.toLowerCase().indexOf("cover") == -1 &&
+                        ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
+                        title.toLowerCase().indexOf("remix") == -1) ||
+                        (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
+                        title.toLowerCase().indexOf("remix") != -1))) {
                             vid_url += data.id.videoId+",";
                         }
                     });
