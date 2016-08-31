@@ -162,7 +162,7 @@ var Player = {
 
     		elem.innerHTML    = title;
     		getTitleViews.innerHTML = v + " " + outPutWord;
-    		elem.title        = title + " • " + v + " " + outPutWord;
+    		elem.title        = title;
         }
         document.title    = title + " • Zöff / "+chan;
 
