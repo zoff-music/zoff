@@ -31,6 +31,9 @@ var blinking 			  = false;
 var access_token_data     = {};
 var spotify_authenticated = false;
 var not_import_html       = "";
+var embed_height          = 300;
+var embed_width           = 600;
+var embed_autoplay        = "&autoplay";
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -204,7 +207,7 @@ function init(){
   $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
 	$("#embed-button").css("display", "inline-block");
-	$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&autplay" width="600px" height="300px">');
+	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
 }
@@ -280,6 +283,10 @@ function enable_debug(){
 
 function disable_debug(){
 	localStorage.debug = false;
+}
+
+function embed_code(autoplay, width, height){
+    return '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
 }
 
 function spotify_is_authenticated(bool){
@@ -371,6 +378,18 @@ $(document).on('click', "#aprilfools", function(){
   $(".mega").css("-moz-transform", "rotate(0deg)");
 });
 
+$(document).on('keyup mouseup', '#width_embed', function(){
+    var that = $(this);
+    embed_width = that.val();
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+});
+
+$(document).on('keyup mouseup', '#height_embed', function(){
+    var that = $(this);
+    embed_height = that.val();
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+});
+
 $(document).on('click', ".chan-link", function(e){
   e.preventDefault();
   Nochan.to_channel($(this).attr("href"), false);
@@ -452,11 +471,9 @@ $(window).focus(function(){
 });
 
 $(document).on("change", "#autoplay", function() {
-	if(this.checked) {
-		$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&autplay" width="600px" height="300px">');
-	} else {
-		$("#embed-area").val('<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '" width="600px" height="300px">');
-	}
+    if(this.checked) embed_autoplay = "&autoplay";
+    else embed_autoplay = "";
+	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
 });
 
 $(document).on("click", "#playbutton_remote", function(e) {
