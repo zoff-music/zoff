@@ -152,7 +152,11 @@
               <p>Copy the code in the textarea, and paste on your website.</p>
               <p>
                 <input type="checkbox" id="autoplay" checked="checked" />
-                <label for="autoplay">Autoplay</label>
+                <label for="autoplay" class="padding_right_26">Autoplay</label>
+                <label for="width_embed" class="embed-label">Width</label>
+                <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
+                <label for="height_embed" class="padding_left_6 embed-label">Height</label>
+                <input type="number" value="300" id="height_embed" class="settings_embed" min="1" />
               </p>
               <textarea id="embed-area"></textarea>
             </div>
@@ -234,8 +238,8 @@
                 </div>
                 <div id="suggestions" class="tabs_height" style="display:none;">
                         <p class="suggest-title-info">YouTube Suggests:</p>
-                        <div class="suggest_bar" id="suggest-song-html"> 
-                        </div>  
+                        <div class="suggest_bar" id="suggest-song-html">
+                        </div>
                         <p class="suggest-title-info" id="user_suggests">Users Suggests:</p>
                         <div class="suggest_bar" id="user-suggest-html">
                         </div>
