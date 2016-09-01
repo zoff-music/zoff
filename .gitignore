@@ -1,3 +1,4 @@
 static/images/thumbnails/
 node_modules/
 scripts/
+.DS_Store
