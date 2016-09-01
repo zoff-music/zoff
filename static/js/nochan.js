@@ -235,8 +235,8 @@ var Nochan = {
 
       success: function(e){
 
-        if(Player.ytplayer !== ""){
-          //Player.ytplayer.destroy();
+        if(Player.player !== ""){
+          //Player.player.destroy();
           socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
         $("#frontpage_player").empty();
@@ -252,7 +252,7 @@ var Nochan = {
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
         $("header").html($($(e)[59]).html());
-        if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.ytplayer === undefined){
+        if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
           $("main").html($($(e)[63]).html());
         } else {
           var main = $($($($($(e)[63]).html())[0]).html());

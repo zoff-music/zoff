@@ -165,7 +165,6 @@ var Admin = {
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
             $("#wrapper").removeClass("tabs_height");
         } else {
-            console.log("not-suggested");
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
         $("#admin-lock").removeClass("mdi-action-lock-open clickable");

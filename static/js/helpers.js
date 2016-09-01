@@ -1,4 +1,11 @@
 var Helper = {
+
+    log: function(to_log){
+        if(localStorage.debug === "true") {
+            console.log(to_log);
+        }
+    },
+
     rnd: function(arr)
     {
     	return arr[Math.floor(Math.random() * arr.length)];

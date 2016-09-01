@@ -3,25 +3,23 @@ var Player = {
     loaded: true,
     before_load: "",
     after_load: "",
-    ytplayer: "",
+    player: "",
     stopInterval: false,
 
     youtube_listener: function(obj)
     {
         Player.loaded      = false;
-        if(localStorage.debug === "true"){
-            console.log("--------youtube_listener--------");
+        Helper.log("--------youtube_listener--------");
 
-            console.log("Received: ");
-            console.log(obj);
-            console.log("paused variable: " + paused);
-            console.log("mobile_beginning variable: " + mobile_beginning);
-            try{
-                console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
-            } catch(e){}
-            console.log("video_id variable: " + video_id);
-            console.log("---------------------------------");
-        }
+        Helper.log("Received: ");
+        Helper.log(obj);
+        Helper.log("paused variable: " + paused);
+        Helper.log("mobile_beginning variable: " + mobile_beginning);
+        try{
+            Helper.log("getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]);
+        } catch(e){}
+        Helper.log("video_id variable: " + video_id);
+        Helper.log("---------------------------------");
         if(obj.length === 0){
 
             document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -29,12 +27,12 @@ var Player = {
 
             if(!window.MSStream) $("#player_overlay").toggleClass("hide");
             try{
-                Player.ytplayer.stopVideo();
+                Player.player.stopVideo();
             }catch(e){}
             //List.importOldList(channel.toLowerCase());
         }
         else{
-            //console.log("gotten new song");
+            //Helper.log("gotten new song");
             if(previous_video_id === undefined)
                 previous_video_id = obj[0][0].id;
             else if(previous_video_id != video_id)
@@ -64,23 +62,23 @@ var Player = {
             {
 
                 try{
-                    if(Player.ytplayer.getVideoUrl().split('v=')[1] != video_id)
+                    if(Player.player.getVideoUrl().split('v=')[1] != video_id)
                     {
-                        Player.ytplayer.loadVideoById(video_id);
+                        Player.player.loadVideoById(video_id);
                         Player.notifyUser(video_id, song_title);
-                        Player.ytplayer.seekTo(seekTo);
+                        Player.player.seekTo(seekTo);
                         if(paused)
-                            Player.ytplayer.pauseVideo();
+                            Player.player.pauseVideo();
                     }
 
                     if(!paused){
                         if(!mobile_beginning)
-                           Player.ytplayer.playVideo();
+                           Player.player.playVideo();
                         if(!durationBegun)
                             Player.durationSetter();
                     }
-                    if(Player.ytplayer.getDuration() > seekTo || Player.ytplayer.getDuration() === 0)
-                        Player.ytplayer.seekTo(seekTo);
+                    if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0)
+                        Player.player.seekTo(seekTo);
                     Player.after_load  = video_id;
 
                     if(!Player.loaded) setTimeout(function(){Player.loaded = true;},500);
@@ -95,17 +93,15 @@ var Player = {
     },
 
     onPlayerStateChange: function(newState) {
-        if(localStorage.debug === "true"){
-            console.log("-------onPlayerStateChange------");
-            console.log("New state\nState: ");
-            console.log(newState);
-            try{
-                console.log("Duration: " + Player.ytplayer.getDuration(), "Current time: " + Player.ytplayer.getCurrentTime());
-                console.log("getVideoUrl(): " + Player.ytplayer.getVideoUrl().split('v=')[1]);
-            }catch(e){}
-            console.log("video_id variable: " + video_id);
-            console.log("---------------------------------");
-        }
+        Helper.log("-------onPlayerStateChange------");
+        Helper.log("New state\nState: ");
+        Helper.log(newState);
+        try{
+            Helper.log("Duration: " + Player.player.getDuration(), "Current time: " + Player.player.getCurrentTime());
+            Helper.log("getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]);
+        }catch(e){}
+        Helper.log("video_id variable: " + video_id);
+        Helper.log("---------------------------------");
     	switch(newState.data)
     	{
     		case -1:
@@ -118,7 +114,7 @@ var Player = {
     		case 1:
     			playing = true;
                 if(beginning && Helper.mobilecheck()){
-                    Player.ytplayer.pauseVideo();
+                    Player.player.pauseVideo();
                     beginning = false;
                     mobile_beginning = false;
                 }
@@ -143,7 +139,7 @@ var Player = {
                     mobile_beginning = true;
                 /*}
                 else
-                    Player.ytplayer.playVideo();*/
+                    Player.player.playVideo();*/
     			//
     			break;
     		case 3:
@@ -175,24 +171,24 @@ var Player = {
         {
             /*if(Player.count == 2){
                 Player.count = 0;*/
-            /*console.log("Before: " + Player.before_load);
-            console.log("Now: " + video_id);
-            console.log("After: " + Player.after_load);
-            console.log(Player.before_load == Player.ytplayer.getVideoUrl);*/
-            curr_playing = Player.ytplayer.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
+            /*Helper.log("Before: " + Player.before_load);
+            Helper.log("Now: " + video_id);
+            Helper.log("After: " + Player.after_load);
+            Helper.log(Player.before_load == Player.player.getVideoUrl);*/
+            curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
 
                 socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase});
-                //console.log(video_id, Player.ytplayer.getVideoUrl(), Player.ytplayer.getPlayerState());
+                //Helper.log(video_id, Player.player.getVideoUrl(), Player.player.getPlayerState());
 
             /*}else{
                 setTimeout(function(){
-                Player.ytplayer.loadVideoById(video_id);
+                Player.player.loadVideoById(video_id);
                 Player.count ++;
                 }, Math.floor((Math.random() * 100) + 1));
             }*/
     	}else if(video_id !== undefined)
-    		Player.ytplayer.loadVideoById(video_id);
+    		Player.player.loadVideoById(video_id);
     },
 
     onPlayerReady: function(event) {
@@ -205,26 +201,26 @@ var Player = {
     			$("#player").css("opacity", "1");
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
-    			Player.ytplayer.loadVideoById(video_id);
+    			Player.player.loadVideoById(video_id);
                 if(autoplay && !Helper.mobilecheck())
-                    Player.ytplayer.playVideo();
+                    Player.player.playVideo();
                 if(!durationBegun)
                     Player.durationSetter();
                 if(embed){
                     setTimeout(function(){
-                        Player.ytplayer.seekTo(seekTo);
+                        Player.player.seekTo(seekTo);
                         if(!autoplay){
-                            Player.ytplayer.pauseVideo();
+                            Player.player.pauseVideo();
                             Playercontrols.play_pause_show();
                         }
                     }, 1000);
                 }else
-                Player.ytplayer.seekTo(seekTo);
+                Player.player.seekTo(seekTo);
     		}
     		Player.readyLooks();
-    		Playercontrols.initYoutubeControls(Player.ytplayer);
+    		Playercontrols.initYoutubeControls(Player.player);
     		Playercontrols.initSlider();
-    		Player.ytplayer.setVolume(Crypt.get_volume());
+    		Player.player.setVolume(Crypt.get_volume());
             $(".video-container").removeClass("no-opacity");
         }catch(e){}
     },
@@ -281,7 +277,7 @@ var Player = {
     },
 
     onYouTubeIframeAPIReady: function() {
-      Player.ytplayer = new YT.Player('player', {
+      Player.player = new YT.Player('player', {
         videoId: video_id,
         playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
         events: {
@@ -296,14 +292,14 @@ var Player = {
     durationSetter: function()
     {
         /*try{
-            //duration = Player.ytplayer.getDuration();
+            //duration = Player.player.getDuration();
         }catch(e){};*/
         if(duration !== undefined){
             try{
                 if(!Player.stopInterval) durationBegun = true;
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
-                currDurr = Player.ytplayer.getCurrentTime() !== undefined ? Math.floor(Player.ytplayer.getCurrentTime()) : seekTo;
+                currDurr = Player.player.getCurrentTime() !== undefined ? Math.floor(Player.player.getCurrentTime()) : seekTo;
                 if(currDurr > duration)
                     currDurr = duration;
                 minutes = Math.floor(currDurr / 60);
@@ -324,8 +320,12 @@ var Player = {
 
     loadPlayer: function() {
         if($("script[src='https://www.youtube.com/iframe_api']").length == 1){
-            Player.onYouTubeIframeAPIReady();
-        }else{
+            try{
+                Player.onYouTubeIframeAPIReady();
+            } catch(error){
+                console.error("Seems YouTube iFrame script isn't correctly loaded. Please reload the page.");
+            }
+        } else {
         tag            = document.createElement('script');
         tag.src        = "https://www.youtube.com/iframe_api";
         firstScriptTag = document.getElementsByTagName('script')[0];

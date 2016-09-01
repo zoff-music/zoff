@@ -1,5 +1,4 @@
 window.addEventListener("load", function(){
-  console.log("hello");
   var client_id = "b934ecdd173648f5bcd38738af529d58";
   var redirect  = window.location.protocol + "//" + window.location.hostname + "/spotify_callback";
   var response  = "token";
