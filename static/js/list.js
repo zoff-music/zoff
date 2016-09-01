@@ -58,12 +58,10 @@ var List = {
         List.sortList();
 		$("#wrapper").empty();
 
-        if(localStorage.debug === "true") {
-            console.log("---------------------------");
-            console.log("---------FULL PLAYLIST-----");
-            console.log(full_playlist);
-            console.log("---------------------------");
-        }
+        Helper.log("---------------------------");
+        Helper.log("---------FULL PLAYLIST-----");
+        Helper.log(full_playlist);
+        Helper.log("---------------------------");
 
         if(full_playlist.length > 1){
     		$.each(full_playlist, function(j, current_song){
@@ -153,12 +151,10 @@ var List = {
         full_playlist[0].guids              = [];
         full_playlist[0].added              = time;
         full_playlist[length].now_playing   = false;
-        if(localStorage.debug === "true") {
-            console.log("---------------------------");
-            console.log("---SONG ON FIRST INDEX-----");
-            console.log(full_playlist[0]);
-            console.log("---------------------------");
-        }
+        Helper.log("---------------------------");
+        Helper.log("---SONG ON FIRST INDEX-----");
+        Helper.log(full_playlist[0]);
+        Helper.log("---------------------------");
         try{
             full_playlist.push(full_playlist.shift());
             if(!List.empty)

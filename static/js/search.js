@@ -139,16 +139,14 @@ var Search = {
             url: yt_url,
             dataType:"jsonp",
             success: function(response){
-                //console.log(response);
+                //Helper.log(response);
                 if(response.items.length === 0){
                     Search.readySubmit(false, {totalLength: totalNumber - 1});
-                    if(localStorage.debug === "true") {
-                        console.log("------------------------------");
-                        console.log("NO MATCH FOR:");
-                        console.log("Spotify title: " + title + " " + artist.join(" "));
-                        console.log("Spotify length: " + length);
-                        console.log("------------------------------");
-                    }
+                    Helper.log("------------------------------");
+                    Helper.log("NO MATCH FOR:");
+                    Helper.log("Spotify title: " + title + " " + artist.join(" "));
+                    Helper.log("Spotify length: " + length);
+                    Helper.log("------------------------------");
                     var not_added_song = $("<div>" + not_import_html + "</div>");
                     not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
                     not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
@@ -169,7 +167,7 @@ var Search = {
                           if(response.items.length > 0) {
                               var matched = false;
                               $.each(response.items, function(i, data){
-                                  //console.log(data);
+                                  //Helper.log(data);
                                  //var title = data.snippet.title;
                                  var duration = Search.durationToSeconds(data.contentDetails.duration);
                                  var not_matched = false;
@@ -195,14 +193,14 @@ var Search = {
                                      )
                                  ){
                                      matched = true;
-                                     /*console.log("------------------------------");
-                                     console.log("MATCH FOR:");
-                                     console.log("YouTube title: " + data.snippet.title);
-                                     console.log("YouTube Channel: " + data.snippet.channelTitle);
-                                     console.log("YouTube duration: " + duration);
-                                     console.log("Spotify title: " + title + " " + artist.join(" "));
-                                     console.log("Spotify length: " + length);
-                                     console.log("------------------------------");*/
+                                     /*Helper.log("------------------------------");
+                                     Helper.log("MATCH FOR:");
+                                     Helper.log("YouTube title: " + data.snippet.title);
+                                     Helper.log("YouTube Channel: " + data.snippet.channelTitle);
+                                     Helper.log("YouTube duration: " + duration);
+                                     Helper.log("Spotify title: " + title + " " + artist.join(" "));
+                                     Helper.log("Spotify length: " + length);
+                                     Helper.log("------------------------------");*/
                                      //Search.submit(data.id,data.snippet.title, duration, true, current, totalNumber);
                                      Search.readySubmit(true, { id: data.id, title: data.snippet.title, duration: duration, totalLength: totalNumber - 1});
                                      return false;
@@ -210,13 +208,11 @@ var Search = {
                               });
                               if(!matched){
                                   Search.readySubmit(false, {totalLength: totalNumber - 1});
-                                  if(localStorage.debug === "true") {
-                                      console.log("------------------------------");
-                                      console.log("NO MATCH FOR:");
-                                      console.log("Spotify title: " + title + " " + artist.join(" "));
-                                      console.log("Spotify length: " + length);
-                                      console.log("------------------------------");
-                                  }
+                                  Helper.log("------------------------------");
+                                  Helper.log("NO MATCH FOR:");
+                                  Helper.log("Spotify title: " + title + " " + artist.join(" "));
+                                  Helper.log("Spotify length: " + length);
+                                  Helper.log("------------------------------");
                                   var not_added_song = $("<div>" + not_import_html + "</div>");
                                   not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
                                   not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));

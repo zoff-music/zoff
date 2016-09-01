@@ -50,7 +50,7 @@ var Mobile_remote = {
           },*/
           stop:function(event, ui) {
             socket.emit("id", [Mobile_remote.id, "volume", ui.value]);
-            console.log("volume");
+            Helper.log("volume");
             //console.log(ui.value);
           }
       });

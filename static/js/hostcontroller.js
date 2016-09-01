@@ -29,7 +29,7 @@ var Hostcontroller = {
     if(enabled){
       if(arr[0] == "volume"){
         $("#volume").slider("value", arr[1]);
-        Player.ytplayer.setVolume(arr[1]);
+        Player.player.setVolume(arr[1]);
         localStorage.setItem("volume", arr[1]);
         Playercontrols.choose_button(arr[1], false);
       }else if(arr[0] == "channel"){
@@ -48,9 +48,9 @@ var Hostcontroller = {
 
         window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
       }else if(arr[0] == "pause")
-        Player.ytplayer.pauseVideo();
+        Player.player.pauseVideo();
       else if(arr[0] == "play")
-        Player.ytplayer.playVideo();
+        Player.player.playVideo();
       else if(arr[0] == "skip")
         List.skip();
     }

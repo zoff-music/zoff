@@ -116,7 +116,7 @@ var Remotecontroller = {
           range: "min",
           animate: true,
           /*slide: function(event, ui) {
-            console.log(ui.value);
+            Helper.log(ui.value);
             //localStorage.setItem("volume", ui.value);
           },*/
           stop:function(event, ui) {

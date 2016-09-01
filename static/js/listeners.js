@@ -34,6 +34,7 @@ var not_import_html       = "";
 var embed_height          = 300;
 var embed_width           = 600;
 var embed_autoplay        = "&autoplay";
+var connect_error         = false;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -69,13 +70,13 @@ var fromChannel = false;
 if (navigator.serviceWorker) {
     navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
         .then(function (registration) {
-            console.log(registration);
+            Helper.log(registration);
         })
         .catch(function (e) {
             console.error(e);
         });
 } else {
-    console.log('Service Worker is not supported in this browser.');
+    Helper.log('Service Worker is not supported in this browser.');
 }
 
 $().ready(function(){
@@ -84,20 +85,35 @@ $().ready(function(){
 		initfp();
 	}
 
+    socket.on("connect", function(){
+        if(connect_error){
+            connect_error = false;
+            $(".connect_error").fadeOut(function(){
+                $(".connect_error").remove();
+                Materialize.toast("Connected!", 2000, "green lighten");
+            });
+
+        }
+    });
+
     setup_no_connection_listener();
 
-	git_info = $.ajax({ type: "GET",
-		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
-		     async: false
-	   }).responseText;
+    try{
+        git_info = $.ajax({ type: "GET",
+    		     url: "https://api.github.com/repos/zoff-music/zoff/commits",
+    		     async: false
+    	   }).responseText;
 
-     git_info = $.parseJSON(git_info);
-     $("#latest-commit").html("Latest Commit: <br>" +
-        git_info[0].commit.author.date.substring(0,10) +
-        ": " + git_info[0].committer.login +
-        "<br><a href='"+git_info[0].html_url+"'>" +
-        git_info[0].sha.substring(0,10) + "</a>: " +
-        git_info[0].commit.message+"<br");
+        git_info = $.parseJSON(git_info);
+        $("#latest-commit").html("Latest Commit: <br>" +
+            git_info[0].commit.author.date.substring(0,10) +
+            ": " + git_info[0].committer.login +
+            "<br><a href='"+git_info[0].html_url+"'>" +
+            git_info[0].sha.substring(0,10) + "</a>: " +
+            git_info[0].commit.message+"<br");
+    } catch(error){
+        Helper.log("Error with fetching GitHub commit info");
+    }
 });
 
 
@@ -157,6 +173,7 @@ function init(){
 	}
 
 	if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
+        Helper.log("ISAJODIJOQIJW");
 		setup_youtube_listener();
 		get_list_listener();
 		setup_suggested_listener();
@@ -168,9 +185,9 @@ function init(){
 		$("#controls").css("opacity", "1");
 		$(".playlist").css("opacity", "1");
 		Player.readyLooks();
-		Playercontrols.initYoutubeControls(Player.ytplayer);
+		Playercontrols.initYoutubeControls(Player.player);
 		Playercontrols.initSlider();
-		Player.ytplayer.setVolume(Crypt.get_volume());
+		Player.player.setVolume(Crypt.get_volume());
         $(".video-container").removeClass("no-opacity");
 
         var codeURL = "https://remote."+window.location.hostname+"/"+id;
@@ -188,7 +205,7 @@ function init(){
 		$("#channel-load").css("display", "none");
  	} else {
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
- 		if(Player.ytplayer === "" || Player.ytplayer === undefined || Helper.mobilecheck()) Player.loadPlayer();
+ 		if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
  	}
 
  	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
@@ -214,11 +231,19 @@ function init(){
 
 function setup_no_connection_listener(){
     socket.on('connect_failed', function(){
-        console.log('Connection Failed');
+        Helper.log('Connection Failed');
+        if(!connect_error){
+            connect_error = true;
+            Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
+        }
     });
 
     socket.on("connect_error", function(){
-        console.log("Connection failed.");
+        Helper.log("Connection Failed.");
+        if(!connect_error){
+            connect_error = true;
+            Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
+        }
     });
 }
 
@@ -291,24 +316,20 @@ function embed_code(autoplay, width, height){
 
 function spotify_is_authenticated(bool){
     if(bool){
-        if(localStorage.debug === "true"){
-            console.log("------------------------");
-            console.log("Spotify is authenticated");
-            console.log("access_token: " + access_token_data.access_token);
-            console.log("token_type:" + access_token_data.token_type);
-            console.log("expires_in: " + access_token_data.expires_in);
-            console.log("------------------------");
-        }
+        Helper.log("------------------------");
+        Helper.log("Spotify is authenticated");
+        Helper.log("access_token: " + access_token_data.access_token);
+        Helper.log("token_type:" + access_token_data.token_type);
+        Helper.log("expires_in: " + access_token_data.expires_in);
+        Helper.log("------------------------");
         $(".spotify_authenticated").css("display", "block");
         $(".spotify_unauthenticated").css("display", "none");
     } else {
-        if(localStorage.debug === "true"){
-            console.log("----------------------------");
-            console.log("Spotify is not authenticated");
-            console.log("----------------------------");
-            $(".spotify_authenticated").css("display", "none");
-            $(".spotify_unauthenticated").css("display", "block");
-        }
+        Helper.log("----------------------------");
+        Helper.log("Spotify is not authenticated");
+        Helper.log("----------------------------");
+        $(".spotify_authenticated").css("display", "none");
+        $(".spotify_unauthenticated").css("display", "block");
     }
 }
 
@@ -340,6 +361,14 @@ $(document).on('click', '#cookieok', function() {
     });
 });
 
+$(document).on("click", ".connect_error", function(e){
+    e.preventDefault();
+    $(this).fadeOut(function(){
+        $(this).remove();
+        connect_error = false;
+    });
+});
+
 $(document).on("click", ".extra-button-search", function(e){
     e.preventDefault();
     $("#search").val($(this).attr("data-text"));
@@ -349,27 +378,29 @@ $(document).on("click", ".extra-button-search", function(e){
 $(document).on("click", ".extra-button-delete", function(e){
     e.preventDefault();
     $(this).parent().remove();
-    if($(".not-imported-container").children().length == 0){
+    if($(".not-imported-container").children().length === 0){
         $(".not-imported").toggleClass("hide");
     }
-})
+});
 
 $(document).on("click", "#closePlayer", function(e){
   	e.preventDefault();
 	socket.emit("change_channel");
-  	Player.ytplayer.destroy();
-  	socket.removeEventListener("np");
+    try{
+        Player.player.destroy();
+    } catch(error){}
+    socket.removeEventListener("np");
   	socket.removeEventListener("id");
 	socket.removeEventListener(id);
   	$("#alreadychannel").remove();
-  	Player.ytplayer = "";
+  	Player.player = "";
   	document.title = "Zöff";
   	$("#closePlayer").remove();
 });
 
 $(document).on('click', '#toast-container', function(){
-  $(this).fadeOut(function(){
-        $(this).remove();
+    $(".toast").fadeOut(function(){
+        $(".toast").remove();
     });
 });
 
@@ -426,7 +457,7 @@ $(document).on("change", 'input[class=conf]', function()
 });
 
 $("#clickme").click(function(){
-	Player.ytplayer.playVideo();
+	Player.player.playVideo();
 });
 
 $(document).on("submit", "#listImport", function(e){
@@ -446,7 +477,7 @@ $(document).on("submit", "#listImport", function(e){
 $(document).on("submit", "#listImportSpotify", function(e){
     e.preventDefault();
     if(spotify_authenticated && $("#import_spotify").val() !== ""){
-        //console.log("Import this playlist: " + document.getElementById("import_spotify").value);
+        //Helper.log("Import this playlist: " + document.getElementById("import_spotify").value);
         var url = $("#import_spotify").val().split("https://open.spotify.com/user/");
         if(url.length == 2) {
             url = url[1].split("/");
@@ -814,14 +845,14 @@ function onepage_load(){
 		    		$("#main-row").addClass("frontpage_modified_heights");
 		    		$("#player").css("opacity", "1");
 		    		$("#video-container").removeClass("no-opacity");
-		    		$("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='ytplayer player_bottom'></div>");
+		    		$("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='player player_bottom'></div>");
 		    	} else {
                     try{
-                    	Player.ytplayer.destroy();
+                    	Player.player.destroy();
                     } catch(error){
                         //No player to destroy
                     }
-                    Player.ytplayer = "";
+                    Player.player = "";
 		    		document.title = "Zöff";
 		    	}
 

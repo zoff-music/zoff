@@ -25,18 +25,6 @@ RewriteCond %{HTTP_HOST} ^localhost
 RewriteCond %{REQUEST_URI} /spotify_callback
 RewriteRule ^(.*)$ php/spotify.html [L,NC,QSA]
 
-#RewriteCond %{HTTP_HOST} ^(remote\.)?zoff\.no
-#RewriteCond %{REQUEST_URI} !remote/
-#RewriteRule ^(.*)$ remote/$1 [L]
-
-#RewriteCond %{HTTP_HOST} ^(www\.)?etys\.no
-#RewriteCond %{REQUEST_URI} !etys/
-#RewriteRule ^(.*)$ etys/$1 [L]
-
-#Comment out the two folling lines when running server locally to fix issues with localhost
-#RewriteCond %{HTTPS} !=on
-#RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
-
 
 #RewriteRule (?i)^remote/(.*) php/controller.php?id=$1 [L]
 #RewriteRule (?i)^remote php/controller.php [L]
