@@ -1,5 +1,8 @@
 var Search = {
 
+    submitArray: [],
+    submitArrayExpected: null,
+
     showSearch: function(){
     	$("#search-wrapper").toggleClass("hide");
     	if(Helper.mobilecheck())
@@ -125,7 +128,7 @@ var Search = {
 
     backgroundSearch: function(title, artist, length, totalNumber, current){
         var keyword= encodeURIComponent(title + " " + artist);
-        var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=5";
+        var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10";
         yt_url+="&q="+keyword;
         var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
         artist = artist.split(" ");
@@ -137,28 +140,25 @@ var Search = {
             dataType:"jsonp",
             success: function(response){
                 //console.log(response);
-                if(response.items.length > 0) {
+                if(response.items.length === 0){
+                    Search.readySubmit(false, {totalLength: totalNumber - 1});
+                    if(localStorage.debug === "true") {
+                        console.log("------------------------------");
+                        console.log("NO MATCH FOR:");
+                        console.log("Spotify title: " + title + " " + artist.join(" "));
+                        console.log("Spotify length: " + length);
+                        console.log("------------------------------");
+                    }
+                    var not_added_song = $("<div>" + not_import_html + "</div>");
+                    not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
+                    not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
+                    not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
+                    $(".not-imported-container").append(not_added_song.html());
+                    $(".not-imported").removeClass("hide");
+                } else if(response.items.length > 0) {
                     $.each(response.items, function(i,data)
                     {
-                        var acceptable_track = true;
-                        //console.log(data.snippet.title.toLowerCase().indexOf("cover"));
-                        //$.each(artist, function(i, data_artist){
-                            if(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                                (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                                data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)){
-                                acceptable_track = false;
-                                return false;
-                            }
-                        //});
-
-                        if(data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
-                        acceptable_track && title.toLowerCase().indexOf("cover") == -1 &&
-                        ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
-                        title.toLowerCase().indexOf("remix") == -1) ||
-                        (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
-                        title.toLowerCase().indexOf("remix") != -1))) {
                             vid_url += data.id.videoId+",";
-                        }
                     });
 
                     $.ajax({
@@ -174,7 +174,16 @@ var Search = {
                                  var duration = Search.durationToSeconds(data.contentDetails.duration);
                                  var not_matched = false;
                                  $.each(temptitle, function(i, data_title){
-                                    if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1)
+                                    if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 || !(
+                                        data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
+                                        title.toLowerCase().indexOf("cover") == -1 &&
+                                        ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
+                                        title.toLowerCase().indexOf("remix") == -1) ||
+                                        (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
+                                        title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                            (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                            data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
+                                    ))
                                         not_matched = true;
 
                                         return false;
@@ -194,11 +203,13 @@ var Search = {
                                      console.log("Spotify title: " + title + " " + artist.join(" "));
                                      console.log("Spotify length: " + length);
                                      console.log("------------------------------");*/
-                                     Search.submit(data.id,data.snippet.title, duration, true, current, totalNumber);
+                                     //Search.submit(data.id,data.snippet.title, duration, true, current, totalNumber);
+                                     Search.readySubmit(true, { id: data.id, title: data.snippet.title, duration: duration, totalLength: totalNumber - 1});
                                      return false;
                                  }
                               });
                               if(!matched){
+                                  Search.readySubmit(false, {totalLength: totalNumber - 1});
                                   if(localStorage.debug === "true") {
                                       console.log("------------------------------");
                                       console.log("NO MATCH FOR:");
@@ -224,6 +235,24 @@ var Search = {
             document.getElementById("import_spotify").disabled = false;
             $("#import_spotify").removeClass("hide");
             $("#playlist_loader_spotify").addClass("hide");
+        }
+    },
+
+    readySubmit: function(found, obj){
+        if(Search.submitArrayExpected === null){
+            Search.submitArrayExpected = obj.totalLength;
+        }
+        if(found){
+            Search.submitArray.push(obj);
+        } else {
+            Search.submitArrayExpected -= 1;
+        }
+        if((Search.submitArray.length - 1) == Search.submitArrayExpected) {
+            $.each(Search.submitArray, function(i, data){
+                Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1);
+            });
+            Search.submitArray = [];
+            Search.submitArrayExpected = null;
         }
     },
 
