@@ -305,7 +305,6 @@ var List = {
 
     getIndexOfSong: function(id)
     {
-        console.log(full_playlist);
     	indexes = $.map(full_playlist, function(obj, index) {
     	    if(obj.id == id) {
     	        return index;
