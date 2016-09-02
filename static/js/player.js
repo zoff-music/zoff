@@ -34,16 +34,16 @@ var Player = {
         else{
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
-                previous_video_id = obj[0][0].id;
+                previous_video_id = obj.np[0].id;
             else if(previous_video_id != video_id)
                 previous_video_id = video_id;
 
-            video_id   = obj[0][0].id;
-            conf       = obj[1][0];
-            time       = obj[2];
+            video_id   = obj.np[0].id;
+            conf       = obj.conf[0];
+            time       = obj.time;
             seekTo     = time - conf.startTime;
-            song_title = obj[0][0].title;
-            duration   = obj[0][0].duration;
+            song_title = obj.np[0].title;
+            duration   = obj.np[0].duration;
 
             if(mobile_beginning && Helper.mobilecheck() && seekTo === 0)
                 seekTo = 1;

@@ -63,17 +63,17 @@ function success()
 
 $("#playbutton").on("click", function()
 {
-  socket.emit("id", [id, "play", "mock"]);
+  socket.emit("id", {id: id, type: "play", value: "mock"});
 });
 
 $("#pausebutton").on("click", function()
 {
-  socket.emit("id", [id, "pause", "mock"]);
+  socket.emit("id", {id: id, type: "pause", value: "mock"});
 });
 
 $("#skipbutton").on("click", function()
 {
-  socket.emit("id", [id, "skip", "mock"]);
+  socket.emit("id", {id: id, type: "skip", value: "mock"});
 });
 
 $("#remoteform").on("submit", function()
@@ -120,14 +120,14 @@ var Remotecontroller = {
             //localStorage.setItem("volume", ui.value);
           },*/
           stop:function(event, ui) {
-            socket.emit("id", [id, "volume", ui.value]);
+            socket.emit("id", {id: id, type: "volume", value: ui.value});
             console.log("volume");
             //console.log(ui.value);
           }
       });
     }else
     {
-      socket.emit("id", [id, "channel", $("#search").val().toLowerCase()]);
+      socket.emit("id", {id: id, type: "channel", value: $("#search").val().toLowerCase()});
       $("#search").val("");
     }
 

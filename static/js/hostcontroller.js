@@ -27,31 +27,31 @@ var Hostcontroller = {
   host_on_action: function(arr)
   {
     if(enabled){
-      if(arr[0] == "volume"){
-        $("#volume").slider("value", arr[1]);
-        Player.player.setVolume(arr[1]);
-        localStorage.setItem("volume", arr[1]);
-        Playercontrols.choose_button(arr[1], false);
-      }else if(arr[0] == "channel"){
+      if(arr.type == "volume"){
+        $("#volume").slider("value", arr.value);
+        Player.player.setVolume(arr.value);
+        localStorage.setItem("volume", arr.value);
+        Playercontrols.choose_button(arr.value, false);
+      }else if(arr.type == "channel"){
         socket.emit("change_channel");
         Admin.beginning = true;
 
-        chan = arr[1].toLowerCase();
+        chan = arr.value.toLowerCase();
         $("#chan").html(Helper.upperFirst(chan));
 
         w_p = true;
         socket.emit("list", chan.toLowerCase());
 
         /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
-          socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+          socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
         }*/
 
         window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
-      }else if(arr[0] == "pause")
+      }else if(arr.type == "pause")
         Player.player.pauseVideo();
-      else if(arr[0] == "play")
+      else if(arr.type == "play")
         Player.player.playVideo();
-      else if(arr[0] == "skip")
+      else if(arr.type == "skip")
         List.skip();
     }
   },
