@@ -4,22 +4,22 @@ var List = {
 
     channel_function: function(msg)
     {
-        switch(msg[0])
+        switch(msg.type)
         {
             case "list":
-                List.populate_list(msg[1]);
+                List.populate_list(msg.playlist);
                 break;
             case "added":
-                List.added_song(msg[1]);
+                List.added_song(msg.value);
                 break;
             case "deleted":
-                List.deleted_song(msg[1]);
+                List.deleted_song(msg.value);
                 break;
             case "vote":
-                List.voted_song(msg[1], msg[2]);
+                List.voted_song(msg.value, msg.time);
                 break;
             case "song_change":
-                if(window.location.pathname != "/") List.song_change(msg[1]);
+                if(window.location.pathname != "/") List.song_change(msg.time);
                 break;
         }
     },
@@ -170,12 +170,12 @@ var List = {
     },
 
     vote: function(id, vote){
-    	socket.emit('vote', [chan, id, vote, adminpass]);
+    	socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
     	return true;
     },
 
     skip: function(){
-    	socket.emit('skip', {pass: adminpass, id:video_id});
+    	socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase()});
     	return true;
     },
 

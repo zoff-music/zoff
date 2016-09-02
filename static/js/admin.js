@@ -105,7 +105,7 @@ var Admin = {
         Crypt.init();
         Admin.set_conf(msg[0]);
         if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) !== ""){
-            socket.emit("password", [Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), chan.toLowerCase()]);
+            socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             Admin.beginning = false;
         }
     },
@@ -114,11 +114,11 @@ var Admin = {
     {
         if(!w_p)
         {
-    	   socket.emit('password', [Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), chan.toLowerCase(), Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))]);
+    	   socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
         }
         else
         {
-            socket.emit('password', [Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), chan.toLowerCase()]);
+            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
         }
     },
 

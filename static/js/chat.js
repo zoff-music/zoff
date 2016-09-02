@@ -33,7 +33,7 @@ var Chat = {
   {
     //$("#chat-btn").css("color", "grey");
 
-    if(!blink_interval_exists && inp[1].substring(0,1) == ":" && !chat_active)
+    if(!blink_interval_exists && inp.msg.substring(0,1) == ":" && !chat_active)
     {
       $("#favicon").attr("href", "static/images/highlogo.png");
       blink_interval_exists = true;
@@ -47,7 +47,7 @@ var Chat = {
     {
       $("#favicon").attr("href", "static/images/highlogo.png");
     }
-    var color = Helper.intToARGB(Helper.hashCode(inp[0]));
+    var color = Helper.intToARGB(Helper.hashCode(inp.from));
     if(color.length < 6) {
       for(x = color.length; x < 6; x++){
         color = "0" + color;
@@ -55,15 +55,15 @@ var Chat = {
     }
     color = Helper.hexToRgb(color.substring(0,6));
     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-    $("#chatall").append("<li title='"+inp[2]+"''><span style='color:"+color_temp+";'>"+inp[0]+"</span></li>");
-    var in_text = document.createTextNode(inp[1]);
+    $("#chatall").append("<li title='"+inp.channel+"''><span style='color:"+color_temp+";'>"+inp.from+"</span></li>");
+    var in_text = document.createTextNode(inp.msg);
     $("#chatall li:last")[0].appendChild(in_text);
     document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
   },
 
   channelchat: function(data)
   {
-    if(!blink_interval_exists && data[1].substring(0,1) == ":" && !chat_active)
+    if(!blink_interval_exists && data.msg.substring(0,1) == ":" && !chat_active)
     {
       $("#favicon").attr("href", "static/images/highlogo.png");
       unseen = true;
@@ -72,7 +72,7 @@ var Chat = {
       //blink_interval = setTimeout(Chat.chat_blink, 1000);
     }
 
-    var color = Helper.intToARGB(Helper.hashCode(data[0]));
+    var color = Helper.intToARGB(Helper.hashCode(data.from));
     if(color.length < 6) {
       for(x = color.length; x < 6; x++){
         color = "0" + color;
@@ -80,8 +80,8 @@ var Chat = {
     }
     color = Helper.hexToRgb(color.substring(0,6));
     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-    $("#chatchannel").append("<li><span style='color:"+color_temp+";'>"+data[0]+"</span></li>");
-    var in_text = document.createTextNode(data[1]);
+    $("#chatchannel").append("<li><span style='color:"+color_temp+";'>"+data.from+"</span></li>");
+    var in_text = document.createTextNode(data.msg);
     $("#chatchannel li:last")[0].appendChild(in_text);
     document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
   },

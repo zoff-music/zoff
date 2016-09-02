@@ -22,19 +22,19 @@ var Mobile_remote = {
 	},
 
 	set_channel: function(channel_name) {
-		socket.emit("id", [Mobile_remote.id, "channel", channel_name]);
+		socket.emit("id", {id: Mobile_remote.id, type: "channel", value: channel_name});
 	},
 
 	play_remote: function() {
-		socket.emit("id", [Mobile_remote.id, "play", "mock"]);
+		socket.emit("id", {id: Mobile_remote.id, type: "play", value: "mock"});
 	},
 
 	pause_remote: function() {
-		socket.emit("id", [Mobile_remote.id, "pause", "mock"]);
+		socket.emit("id", {id: Mobile_remote.id, type: "pause", value: "mock"});
 	},
 
 	skip_remote: function() {
-		socket.emit("id", [Mobile_remote.id, "skip", "mock"]);
+		socket.emit("id", {id: Mobile_remote.id, type: "skip", value: "mock"});
 	},
 
 	initiate_volume: function() {
@@ -49,7 +49,7 @@ var Mobile_remote = {
             //localStorage.setItem("volume", ui.value);
           },*/
           stop:function(event, ui) {
-            socket.emit("id", [Mobile_remote.id, "volume", ui.value]);
+            socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
             Helper.log("volume");
             //console.log(ui.value);
           }
