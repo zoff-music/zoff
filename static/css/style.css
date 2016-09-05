@@ -69,14 +69,14 @@
   line-height: 40px !important;
 }
 
-.import-spotify-auth, .import-youtube{
+.import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist{
   color:white !important;
   height:40px !important;
   line-height: 40px !important;
   margin: 0 4rem 0 0 !important;
 }
 
-.import-buttons{
+.import-buttons, .export-buttons{
   padding:10px;
 }
 
@@ -424,11 +424,11 @@ display: inline;
 }
 
 .white-bg{
-    background-color:white;
+    background-color:white !important;
 }
 
 .white-bg:hover{
-    background-color:white;
+    background-color:white !important;
 }
 
 .card .card-content {
@@ -960,8 +960,9 @@ ul #chat-log{
   margin-top:15px;
 }
 
-#playlist_loader, #playlist_loader_spotify {
+#playlist_loader, #playlist_loader_spotify, #playlist_loader_export {
   padding: 10px 0px 0px 70px;
+  background-color: white !important;
 }
 
 #search_loader:hover {
@@ -1542,6 +1543,7 @@ nav ul li:hover, nav ul li.active {
 
     .tabs_height{
       height:auto !important;
+      overflow:initial;
     }
 
     .brand-mobile{

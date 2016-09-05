@@ -227,11 +227,6 @@ var Search = {
                 }
             }
         });
-        if(current == totalNumber - 1){
-            document.getElementById("import_spotify").disabled = false;
-            $("#import_spotify").removeClass("hide");
-            $("#playlist_loader_spotify").addClass("hide");
-        }
     },
 
     readySubmit: function(found, obj){
@@ -247,6 +242,9 @@ var Search = {
             $.each(Search.submitArray, function(i, data){
                 Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1);
             });
+            document.getElementById("import_spotify").disabled = false;
+            $("#import_spotify").removeClass("hide");
+            $("#playlist_loader_spotify").addClass("hide");
             Search.submitArray = [];
             Search.submitArrayExpected = null;
         }
@@ -265,22 +263,60 @@ var Search = {
 
     importPlaylist: function(pId,pageToken){
       token = "";
+      var headers;
+      var datatype;
       if(pageToken !== undefined)
         token = "&pageToken="+pageToken;
       playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId+token;
+      if(youtube_authenticated){
+          datatype = "html";
+          headers = {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + access_token_data_youtube.access_token
+          };
+      } else {
+          headers = {};//'Content-Type': 'application/json'};
+          datatype = "jsonp";
+      }
       $.ajax({
         type: "GET",
         url: playlist_url,
-        dataType:"jsonp",
+        dataType: datatype,
+        //dataType:"jsonp",
+        headers: headers,
         success: function(response)
         {
             if(response.error){
-                document.getElementById("import").disabled = false;
-                $("#playlist_loader").addClass("hide");
-                $("#import").removeClass("hide");
-                Materialize.toast("It seems you've entered a invalid url.", 4000);
-            } else {
+                if(response.error.errors[0].reason == "playlistItemsNotAccessible"){
+                    var nonce = randomString(29);
+                    window.callback = function(data) {
+                        access_token_data_youtube = data;
+                        if(access_token_data_youtube.state == nonce){
+                            youtube_authenticated = true;
+                            setTimeout(function(){
+                                youtube_authenticated = false;
+                                access_token_data_youtube = {};
+                            }, access_token_data_youtube.expires_in * 1000);
+                            Search.importPlaylist(pId, pageToken);
+                        } else {
+                            access_token_data_youtube = "";
+                            console.error("Nonce doesn't match");
+                        }
+                        youtube_window.close();
+                        window.callback = "";
+                    };
+                    youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+                } else {
+                    Helper.log(response.error);
+                    document.getElementById("import").disabled = false;
+                    $("#playlist_loader").addClass("hide");
+                    $("#import").removeClass("hide");
+                    Materialize.toast("It seems you've entered a invalid url.", 4000);
+                }
+
+            }  else {
               var ids="";
+              if(typeof(response) == "string") response = $.parseJSON(response);
               //Search.addVideos(response.items[0].contentDetails.videoId);
               //response.items.shift();
               $.each(response.items, function(i,data)

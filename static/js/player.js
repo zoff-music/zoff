@@ -20,7 +20,7 @@ var Player = {
         } catch(e){}
         Helper.log("video_id variable: " + video_id);
         Helper.log("---------------------------------");
-        if(obj.length === 0){
+        if(!obj.np){
 
             document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
             $("#player_overlay").height($("#player").height());
