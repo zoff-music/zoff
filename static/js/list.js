@@ -90,10 +90,16 @@ var List = {
     },
 
     added_song: function(added){
-        now_playing = full_playlist.pop();
+        var now_playing;
+
+        if(full_playlist.length !== 0){
+            now_playing = full_playlist.pop();
+        }
         full_playlist.push(added);
         List.sortList();
-        full_playlist.push(now_playing);
+        if(now_playing){
+            full_playlist.push(now_playing);
+        }
         $("#suggested-"+added.id).remove();
         if(List.empty){
             List.empty = false;
