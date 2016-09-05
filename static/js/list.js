@@ -306,6 +306,7 @@ var List = {
 
     generateSong: function(song_info, transition, lazy, list, user)
     {
+        if(list_html === undefined) list_html = $("#list-song-html").html();
     	var video_id    = song_info.id;
     	var video_title = song_info.title;
     	var video_votes = song_info.votes;
@@ -332,7 +333,6 @@ var List = {
             attr     = ".vote-container";
             del_attr = "del";
         }else if(!list){
-
             song.find(".vote-text").text(song_info.duration);
 
             attr     = ".add-suggested";
