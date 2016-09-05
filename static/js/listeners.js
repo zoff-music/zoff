@@ -35,6 +35,8 @@ var embed_height          = 300;
 var embed_width           = 600;
 var embed_autoplay        = "&autoplay";
 var connect_error         = false;
+var access_token_data_youtube = {};
+var youtube_authenticated = false;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -173,7 +175,6 @@ function init(){
 	}
 
 	if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
-        Helper.log("ISAJODIJOQIJW");
 		setup_youtube_listener();
 		get_list_listener();
 		setup_suggested_listener();
@@ -312,6 +313,15 @@ function disable_debug(){
 
 function embed_code(autoplay, width, height){
     return '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+}
+
+function randomString(length){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_";
+    for(var i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
 }
 
 function spotify_is_authenticated(bool){
@@ -460,10 +470,45 @@ $("#clickme").click(function(){
 	Player.player.playVideo();
 });
 
+$(document).on("click", "#listExport", function(e){
+    e.preventDefault();
+    Helper.log(full_playlist);
+    $("#playlist_loader_export").removeClass("hide");
+    $(".youtube_export_button").addClass("hide");
+    if(!youtube_authenticated){
+        var nonce = randomString(29);
+        window.callback = function(data) {
+            access_token_data_youtube = data;
+            if(access_token_data_youtube.state == nonce){
+                youtube_authenticated = true;
+                setTimeout(function(){
+                    youtube_authenticated = false;
+                    access_token_data_youtube = {};
+                }, access_token_data_youtube.expires_in * 1000);
+                List.exportToYoutube();
+            } else {
+                access_token_data_youtube = "";
+                console.error("Nonce doesn't match");
+            }
+            youtube_window.close();
+            window.callback = "";
+        };
+        youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+    } else {
+        List.exportToYoutube();
+    }
+});
+
+$(document).on("click", "#listExportSpotify", function(e){
+    e.preventDefault();
+    Helper.log(full_playlist);
+});
+
 $(document).on("submit", "#listImport", function(e){
     e.preventDefault();
-    if($("#import").val() !== ""){
-    	Search.importPlaylist(document.getElementById("import").value);
+    var url = $("#import").val().split("https://www.youtube.com/playlist?list=");
+    if($("#import").val() !== "" && url.length == 2){
+    	Search.importPlaylist(url[1]);
         document.getElementById("import").value = "";
         document.getElementById("import").disabled = true;
         $("#import").addClass("hide");
@@ -616,20 +661,27 @@ $(document).on("click", ".suggested-link", function(e){
 
 $(document).on("click", ".import-spotify-auth", function(e){
     e.preventDefault();
+    var nonce = randomString(29);
     window.callback = function(data) {
         access_token_data = data;
-        spotify_authenticated = true;
-        spotify_is_authenticated(true);
-        setTimeout(function(){
-            spotify_authenticated = false;
-            spotify_is_authenticated(false);
-            $(".spotify_authenticated").css("display", "none");
-            $(".spotify_unauthenticated").css("display", "block");
-        }, access_token_data.expires_in * 1000);
+        if(access_token_data.state == nonce){
+            spotify_authenticated = true;
+            spotify_is_authenticated(true);
+            setTimeout(function(){
+                spotify_authenticated = false;
+                access_token_data = {};
+                spotify_is_authenticated(false);
+                $(".spotify_authenticated").css("display", "none");
+                $(".spotify_unauthenticated").css("display", "block");
+            }, access_token_data.expires_in * 1000);
+        } else {
+            access_token_data = {};
+            console.error("States doesn't match");
+        }
         spotify_window.close();
         window.callback = "";
     };
-    spotify_window = window.open("/spotify_callback", "", "width=600, height=600");
+    spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
 $(document).on("click", ".import-youtube", function(e){

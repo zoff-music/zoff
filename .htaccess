@@ -18,12 +18,12 @@ RewriteCond %{REQUEST_URI} !/static
 RewriteRule ^(.*)$ php/bot.php [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^zoff.no
-RewriteCond %{REQUEST_URI} /spotify_callback
-RewriteRule ^(.*)$ php/spotify.html [L,NC,QSA]
+RewriteCond %{REQUEST_URI} /o_callback
+RewriteRule ^(.*)$ php/callback.html [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^localhost
-RewriteCond %{REQUEST_URI} /spotify_callback
-RewriteRule ^(.*)$ php/spotify.html [L,NC,QSA]
+RewriteCond %{REQUEST_URI} /o_callback
+RewriteRule ^(.*)$ php/callback.html [L,NC,QSA]
 
 
 #RewriteRule (?i)^remote/(.*) php/controller.php?id=$1 [L]

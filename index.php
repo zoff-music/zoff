@@ -100,7 +100,7 @@
                     </li>
                     <li>
                         <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
-                            <i class="mdi-action-settings"></i>
+                            <i class="mdi-image-dehaze"></i>
                             <span class="hover-text">Conf</span>
                         </a>
                     </li>

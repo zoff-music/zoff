@@ -179,6 +179,64 @@ var List = {
     	return true;
     },
 
+    exportToYoutube: function(){
+        var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
+        $.ajax({
+            type: "POST",
+            url: request_url,
+            headers: {
+                'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                    snippet: {
+                        title: chan.toLowerCase(),
+                        description: 'Playlist exported from zoff',
+                    }
+            }),
+            success: function(response){
+                var number_added = 0;
+                var playlist_id = response.id;
+                $.each(full_playlist, function(i, data){
+                    var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+                    $.ajax({
+                        type: "POST",
+                        url: request_url,
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify({
+                            'snippet': {
+                                'playlistId': playlist_id,
+                                'resourceId': {
+                                    'kind': 'youtube#video',
+                                    'videoId': data.id
+                                }
+                            }
+                        }),
+                        success: function(response){
+                            Helper.log("Added video: " + data.id + " to playlist id " + playlist_id);
+                            if(number_added == full_playlist.length - 1){
+                                Helper.log("All videoes added!");
+                                Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
+                                $(".exported-list").append("<h5>Exported URL:</h5>");
+                                $(".exported-list").append("<a target='_blank' class='btn orange exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                                $("#playlist_loader_export").addClass("hide");
+                                //$(".youtube_export_button").removeClass("hide");
+                                $(".exported-list-container").removeClass("hide");
+                            }
+                            number_added += 1;
+                        }
+                    });
+                });
+            },
+            error: function(response){
+                Helper.log(response);
+            }
+        });
+    },
+
     importOldList: function(chan){
         var ids="";
         var num=0;
