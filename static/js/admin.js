@@ -226,8 +226,9 @@ var Admin = {
     	removeplay = form.removeplay.checked;
     	skipping   = form.skip.checked;
     	shuffling  = form.shuffle.checked;
-    	configs    = [voting, addsongs, longsongs, frontpage, allvideos,
-                    removeplay, adminpass, skipping, shuffling];
+    	configs    = {
+            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling
+        };
 
     	socket.emit("conf", configs);
     },
