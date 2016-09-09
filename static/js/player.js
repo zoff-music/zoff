@@ -30,8 +30,13 @@ var Player = {
                 Player.player.stopVideo();
             }catch(e){}
             //List.importOldList(channel.toLowerCase());
-        }
-        else{
+        } else if(paused){
+
+            Player.getTitle(obj.np[0].title, viewers);
+            //Player.setBGimage(video_id);
+            Player.notifyUser(obj.np[0].id, obj.np[0].title);
+            Player.player.stopVideo();
+        }else if(!paused){
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
                 previous_video_id = obj.np[0].id;
@@ -70,7 +75,6 @@ var Player = {
                         if(paused)
                             Player.player.pauseVideo();
                     }
-
                     if(!paused){
                         if(!mobile_beginning)
                            Player.player.playVideo();
@@ -112,6 +116,7 @@ var Player = {
     			socket.emit("end", {id: video_id, channel: chan.toLowerCase()});
     			break;
     		case 1:
+
     			playing = true;
                 if(beginning && Helper.mobilecheck()){
                     Player.player.pauseVideo();

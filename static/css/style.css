@@ -960,7 +960,7 @@ ul #chat-log{
   margin-top:15px;
 }
 
-#playlist_loader, #playlist_loader_spotify, #playlist_loader_export {
+.playlist_loader_padding{
   padding: 10px 0px 0px 70px;
   background-color: white !important;
 }
