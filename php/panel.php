@@ -149,9 +149,8 @@
                             <form action="#" id="listImport">
                                 <i class="mdi-av-playlist-add import-icon"></i>
                                 <input title="Input YouTube-playlist url here!" placeholder="Enter YouTube-list URL" id="import" type="text" class="validate" autocomplete="off" />
-                                <li id="playlist_loader" class="valign-wrapper hide">
-                                    <div class="valign">
-                                        <div class="preloader-wrapper small active">
+                                    <div class="valign playlist_loader_padding">
+                                        <div id="playlist_loader" class="preloader-wrapper small active hide">
                                             <div class="spinner-layer spinner-blue">
                                                 <div class="circle-clipper left">
                                                     <div class="circle"></div>
@@ -201,7 +200,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </li>
                             </form>
                         </div>
                     </li>
@@ -215,96 +213,8 @@
                             <form action="#" id="listImportSpotify">
                                 <i class="mdi-av-playlist-add import-icon"></i>
                                 <input title="Input Spotify-playlist url here!" placeholder="Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
-                                <li id="playlist_loader_spotify" class="valign-wrapper hide">
-                                    <div class="valign">
-                                        <div class="preloader-wrapper small active">
-                                            <div class="spinner-layer spinner-blue">
-                                                <div class="circle-clipper left">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="gap-patch">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="circle-clipper right">
-                                                    <div class="circle"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="spinner-layer spinner-red">
-                                                <div class="circle-clipper left">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="gap-patch">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="circle-clipper right">
-                                                    <div class="circle"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="spinner-layer spinner-yellow">
-                                                <div class="circle-clipper left">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="gap-patch">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="circle-clipper right">
-                                                    <div class="circle"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="spinner-layer spinner-green">
-                                                <div class="circle-clipper left">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="gap-patch">
-                                                    <div class="circle"></div>
-                                                </div>
-                                                <div class="circle-clipper right">
-                                                    <div class="circle"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </form>
-                        </div>
-                    </li>
-                    <li class="not-imported white-bg hide">
-                        <div class="center-align">Not imported</div>
-                        <ul class="input-field field-settings not-imported-container">
-                            <li class="white-bg not-imported-element">
-                                <div class="extra-add-text truncate"></div>
-                                <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
-                                <a href="#" class="waves-effect green lighten btn right extra-button extra-button-search">
-                                <i class="mdi-action-search search-extra"></i></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-</li>
-
-
-<li class="no-padding hide-on-small-only">
-    <ul class="collapsible collapsible-accordion white-bg">
-        <li>
-            <a class="collapsible-header bold waves-effect export-a">Export Playlist
-                <i class="mdi-hardware-keyboard-arrow-up"></i>
-            </a>
-            <div class="collapsible-body">
-                <ul>
-                    <li class="white-bg">
-                        <div class="input-field field-settings youtube_export_button export-buttons">
-                            <a class="modal-trigger waves-effect red btn export-youtube" id="listExport" title="Export to YouTube">
-                              YouTube
-                            </a>
-                            <li id="playlist_loader_export" class="valign-wrapper hide">
-                                <div class="valign">
-                                    <div class="preloader-wrapper small active">
+                                <div class="valign playlist_loader_padding">
+                                    <div id="playlist_loader_spotify" class="preloader-wrapper small active hide">
                                         <div class="spinner-layer spinner-blue">
                                             <div class="circle-clipper left">
                                                 <div class="circle"></div>
@@ -354,7 +264,90 @@
                                         </div>
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="not-imported white-bg hide">
+                        <div class="center-align">Not imported</div>
+                        <ul class="input-field field-settings not-imported-container">
+                            <li class="white-bg not-imported-element">
+                                <div class="extra-add-text truncate"></div>
+                                <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
+                                <a href="#" class="waves-effect green lighten btn right extra-button extra-button-search">
+                                <i class="mdi-action-search search-extra"></i></a>
                             </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</li>
+
+<li class="no-padding hide-on-small-only">
+    <ul class="collapsible collapsible-accordion white-bg">
+        <li>
+            <a class="collapsible-header bold waves-effect export-a">Export Playlist
+                <i class="mdi-hardware-keyboard-arrow-up"></i>
+            </a>
+            <div class="collapsible-body">
+                <ul>
+                    <li class="white-bg">
+                        <div class="input-field field-settings youtube_export_button export-buttons">
+                            <a class="modal-trigger waves-effect red btn export-youtube" id="listExport" title="Export to YouTube">
+                              YouTube
+                            </a>
+                            <div class="valign playlist_loader_padding">
+                                <div id="playlist_loader_export" class="preloader-wrapper small active hide">
+                                    <div class="spinner-layer spinner-blue">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="spinner-layer spinner-red">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="spinner-layer spinner-yellow">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="spinner-layer spinner-green">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="gap-patch">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="input-field field-settings">
                         </div>
