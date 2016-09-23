@@ -264,7 +264,7 @@ var Player = {
     notifyUser: function(id, title) {
     	title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
       	if (Notification.permission === "granted" && document.hidden) {
-    	    var notification = new Notification("Now Playing", {body: title, icon: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
+    	    var notification = new Notification("Now Playing", {body: title, icon: "https://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
     	    notification.onclick = function(x) { window.focus(); this.cancel(); };
     			setTimeout(function(){
     	    	notification.close();
