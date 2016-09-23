@@ -927,7 +927,7 @@ function onepage_load(){
 		      		initfp();
 		      	}else {
 					fromChannel = true;
-					frontpage 			 = true;
+					frontpage 	= true;
 		            initfp();
 		        }
 
