@@ -41,7 +41,7 @@ var Nochan = {
       var output = "";
       var num = 0;
       var pinned;
-      if(lists[0][5] == 1){
+      if(lists[0].pinned == 1){
         pinned = lists.shift();
       }
       lists.sort(Nochan.sortFunction);
@@ -56,18 +56,18 @@ var Nochan = {
       for(var x in lists)
       {
 
-          var chan = lists[x][3];
+          var chan = lists[x].channel;
           if(num<12)
           {
-            var id = lists[x][1];
-            var viewers = lists[x][0];
+            var id = lists[x].id;
+            var viewers = lists[x].viewers;
             var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-            var song_count = lists[x][4];
+            var song_count = lists[x].count;
 
             //$("#channels").append(channel_list);
 
             var card = pre_card;
-            if(lists[x][5] == 1)
+            if(lists[x].pinned == 1)
             {
               card.find(".pin").attr("style", "display:block;");
               card.find(".card").attr("title", "Pinned!");
@@ -101,11 +101,11 @@ var Nochan = {
   },
 
   sortFunction: function(a, b) {
-    var o1 = a[0];
-    var o2 = b[0];
+    var o1 = a.viewers;
+    var o2 = b.viewers;
 
-    var p1 = a[4];
-    var p2 = b[4];
+    var p1 = a.count;
+    var p2 = b.count;
 
     if (o1 < o2) return 1;
     if (o1 > o2) return -1;
