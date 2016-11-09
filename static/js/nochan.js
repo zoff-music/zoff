@@ -128,7 +128,7 @@ var Nochan = {
   add_backdrop: function(list, i) {
     if(i >= list.length || i >= 8) i = 0;
 
-    var id = list[i][1];
+    var id = list[i].id;
 
     if(Nochan.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
@@ -137,7 +137,7 @@ var Nochan = {
           $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#searchFrontpage").attr("placeholder", list[i][3]);
+          $("#searchFrontpage").attr("placeholder", list[i].channel);
           //$(".room-namer").css("opacity", 1);
         }
       },500);
@@ -158,7 +158,7 @@ var Nochan = {
                   $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
                   $("#mega-background").css("background-size" , "200%");
                   $("#mega-background").css("opacity", 1);
-                  $("#searchFrontpage").attr("placeholder", list[i][3]);
+                  $("#searchFrontpage").attr("placeholder", list[i].channel);
                   //$(".room-namer").css("opacity", 1);
                 },500);
               //then append the result where ever you want like
@@ -171,7 +171,7 @@ var Nochan = {
           $("#mega-background").css("background", "url("+img.src+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#searchFrontpage").attr("placeholder", list[i][3]);
+          $("#searchFrontpage").attr("placeholder", list[i].data);
       };
 
     }
