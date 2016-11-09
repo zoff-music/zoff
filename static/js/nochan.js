@@ -171,7 +171,7 @@ var Nochan = {
           $("#mega-background").css("background", "url("+img.src+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#searchFrontpage").attr("placeholder", list[i].data);
+          $("#searchFrontpage").attr("placeholder", list[i].channel);
       };
 
     }
