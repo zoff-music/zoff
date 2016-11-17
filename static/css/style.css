@@ -279,7 +279,7 @@ body {
 }
 
 .main, #main-row, .video-container, #playlist{
-  height: calc(100vh - 65px);
+  height: calc(100vh - 64px);
 }
 
 footer{
@@ -1109,7 +1109,7 @@ ul #chat-log{
     /*padding:0px 15px;*/
     flex:1;
     position: relative;
-    height: calc(100vh - 65px) !important;
+    height: calc(100vh - 64px) !important;
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
