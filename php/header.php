@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2D2D2D" />
+<meta name="robots" content="index, nofollow" />
 <meta property="og:image" content="/static/images/favicon.png" />
 <meta property="og:title" content="Zöff"/>
 <meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
