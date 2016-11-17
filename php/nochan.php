@@ -105,7 +105,7 @@ if(isset($_GET['chan'])){
                     maxlength="18"
                 />
                 <datalist id="searches"></datalist>
-                <button class="listen-button" action="submit">Listen</button>
+                <button class="listen-button">Listen</button>
             </form>
             <div class="pitch outline">
                 <div>Live &amp; democratic playlists with YouTube Music</div>
@@ -130,7 +130,7 @@ if(isset($_GET['chan'])){
                             data-length="18"
                         />
                         <label for="search-mobile" class="noselect">Find or create radio channel</label>
-                        <datalist id="searches">
+                        <datalist id="searches_mobile">
                         </datalist>
                 </div>
             </form>
@@ -162,7 +162,7 @@ if(isset($_GET['chan'])){
                                     </p>
                                 </div>
                                 <div class="card-action noselect">
-                                    <a class="chan-link waves-effect waves-orange btn-flat">Listen</a>
+                                    <span class="chan-link waves-effect waves-orange btn-flat">Listen</span>
                                 </div>
                             </a>
                         </div>
