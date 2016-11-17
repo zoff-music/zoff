@@ -21,7 +21,7 @@ var SAMPLE_RATE 		  = 6000; // 6 seconds
 var lastSample 			  = Date.now();
 var began 				  = false;
 var i 					  = -1;
-var lazy_load    		  = true;
+var lazy_load    		  = false;
 var embed				  = false;
 var autoplay			  = true;
 var durationBegun 	      = false;
@@ -408,6 +408,14 @@ $(document).on("click", "#closePlayer", function(e){
   	$("#closePlayer").remove();
 });
 
+$(document).on("click", ".prev_page", function(){
+    List.dynamicContentPage(-1);
+});
+
+$(document).on("click", ".next_page", function(){
+    List.dynamicContentPage(1);
+});
+
 $(document).on('click', '#toast-container', function(){
     $(".toast").fadeOut(function(){
         $(".toast").remove();
@@ -643,6 +651,7 @@ $(document).on("click", ".chat-link", function(e){
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "none");
 	$("#text-chat-input").focus();
+    $("#pageButtons").css("display", "none");
 });
 
 $(document).on("click", ".playlist-link", function(e){
@@ -650,6 +659,7 @@ $(document).on("click", ".playlist-link", function(e){
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "block");
 	$("#suggestions").css("display", "none");
+    $("#pageButtons").css("display", "block");
 });
 
 $(document).on("click", ".suggested-link", function(e){
@@ -657,6 +667,7 @@ $(document).on("click", ".suggested-link", function(e){
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "block");
+    $("#pageButtons").css("display", "none");
 });
 
 $(document).on("click", ".import-spotify-auth", function(e){
@@ -804,7 +815,7 @@ $(document).on("mousemove", "#playlist", function(e)
 	if(((y <= 80 && y >= 48)) && $("#wrapper").scrollTop() > 0){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
-	}else if(y >= $("#playlist").height() - 18 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
+	}else if(y >= $("#playlist").height() - 45 && y <= $("#playlist").height() - 18 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
 		$("#bottom-button").removeClass("hide");
 		Helper.addClass("#top-button", "hide");
 	}else{
