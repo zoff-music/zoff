@@ -1620,7 +1620,7 @@ nav ul li:hover, nav ul li.active {
       margin-top: inherit;
     }
 
-    #play, #pause, #volume-button, #fullscreen {
+    #play, #pause, #volume-button, #fullscreen, .castButton, .castButton-active {
       font-size: 31px;
     }
 
