@@ -252,11 +252,11 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[55]).html());
+        $("header").html($($(e)[57]).html());
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
-          $("main").html($($(e)[59]).html());
+          $("main").html($($(e)[61]).html());
         } else {
-          var main = $($($($($(e)[59]).html())[0]).html());
+          var main = $($($($($(e)[61]).html())[0]).html());
           $("#main-row").append($(main[2]).wrap("<div>").parent().html());
           $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
           $("#main-row").append("<div id='playbar'></div>");

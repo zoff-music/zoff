@@ -931,11 +931,11 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[55]).html());
-		      	$($(e)[57]).insertAfter("header");
-		      	$($(e)[59]).insertAfter(".mega");
-		      	if(Helper.mobilecheck()) $("main").html($($(e)[63]).html());
-		      	else $("main").append($($($(e)[63]).html())[0]);
+		      	$("header").html($($(e)[57]).html());
+		      	$($(e)[59]).insertAfter("header");
+		      	$($(e)[61]).insertAfter(".mega");
+		      	if(Helper.mobilecheck()) $("main").html($($(e)[65]).html());
+		      	else $("main").append($($($(e)[65]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
