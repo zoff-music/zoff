@@ -33,7 +33,7 @@
   ga('send', 'pageview');
 
 </script>
-
+<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 <script type="text/javascript" src="/static/dist/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/static/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>

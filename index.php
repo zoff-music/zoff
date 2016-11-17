@@ -191,6 +191,10 @@
                   <div id="fullscreen">
                     <i class="mdi-navigation-fullscreen"></i>
                   </div>
+                  <button class="castButton mdi-hardware-cast tooltipped" data-position="top" data-delay="10" data-tooltip="Cast Zöff to TV" is="google-cast-button">
+                  </button>
+                  <button class="castButton-active hide mdi-hardware-cast-connected tooltipped" data-position="top" data-delay="10" data-tooltip="Stop casting" >
+                  </button>
                   <div id="volume-button">
                     <i id="v-mute" class="mdi-av-volume-off"></i>
                     <i id="v-low" class="mdi-av-volume-mute"></i>
