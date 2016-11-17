@@ -11,7 +11,7 @@
                         <input id="contact-form-message" name="message" type="text" autocomplete="off">
                         <label for="contact-form-message" class="noselect">Message</label>
                       </div>
-                        <button class="contact-button-submit" action="submit" id="submit-contact-form">Send</button>
+                        <button class="contact-button-submit" id="submit-contact-form">Send</button>
                         <div class="valign hide" id="send-loader">
                              <div class="preloader-wrapper small active">
                               <div class="spinner-layer spinner-blue">

@@ -40,6 +40,13 @@
   height:calc(100vh - 48px - 64px) !important;
 }
 
+.chan-link{
+  width: 100%;
+  padding: 0;
+  color: orange;
+  margin: 0;
+}
+
 .prev_page_hide, .prev_page{
   float:left;
 }

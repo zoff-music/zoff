@@ -95,6 +95,7 @@ var Nochan = {
       }
       document.getElementById("preloader").style.display = "none";
       document.getElementById("searches").innerHTML = output;
+      document.getElementById("searches_mobile").innerHTML = output;
       //Materialize.fadeInImage('#channels');
       $("#channels").fadeIn(800);
       $("#searchFrontpage").focus();
@@ -251,11 +252,11 @@ var Nochan = {
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[59]).html());
+        $("header").html($($(e)[55]).html());
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
-          $("main").html($($(e)[63]).html());
+          $("main").html($($(e)[59]).html());
         } else {
-          var main = $($($($($(e)[63]).html())[0]).html());
+          var main = $($($($($(e)[59]).html())[0]).html());
           $("#main-row").append($(main[2]).wrap("<div>").parent().html());
           $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
           $("#main-row").append("<div id='playbar'></div>");
@@ -273,6 +274,10 @@ var Nochan = {
           fromFront = true;
           init();
         }
+        console.log($("#wrw"))
+        $("#wrapper").on("scroll", function(){
+        	console.log("scroll");
+        });
         if($("#alreadyfp").length === 0) $("head").append("<div id='alreadyfp'></div>");
 
       }
