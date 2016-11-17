@@ -86,3 +86,13 @@ $(document).on( "click", ".vote-container", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "pos");
 });
+
+$(document).on("click", ".prev_page", function(e){
+    e.preventDefault();
+    List.dynamicContentPage(-1);
+});
+
+$(document).on("click", ".next_page", function(e){
+    e.preventDefault();
+    List.dynamicContentPage(1);
+});
