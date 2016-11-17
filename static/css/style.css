@@ -16,6 +16,15 @@
   border:none !important;
 }
 
+#pageButtons, #pageButtons a{
+  color:white !important;
+}
+
+.prev_page_hide, .next_page_hide{
+  visibility: visible !important;
+  color:gray;
+}
+
 .settings_embed:focus{
   border:none !important;
   box-shadow: none !important;
@@ -1206,7 +1215,7 @@ nav ul li:hover, nav ul li.active {
 #add-many i{ line-height: 36px !important;}
 #results{
     background-color: rgba(0,0,0,0.8);
-    margin-top: 0px;
+    margin-top: -27px;
     max-height: calc(100vh - 64px);
     overflow: overlay;
     overflow-x: hidden;
@@ -1245,7 +1254,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .tabs_height{
-  height:calc(100vh - 48px - 64px) !important;
+  height:calc(100vh - 48px - 64px - 22px) !important;
   overflow:auto;
 }
 
@@ -1348,7 +1357,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 #bottom-button{
-  bottom: 0px;
+  bottom: 22px;
 }
 
 

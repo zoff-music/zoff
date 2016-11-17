@@ -1,6 +1,7 @@
 var List = {
 
     empty: false,
+    page: 0,
 
     channel_function: function(msg)
     {
@@ -25,28 +26,36 @@ var List = {
     },
 
     insertAtBeginning: function(song_info, transition) {
-        var add = List.generateSong(song_info, transition, false, true, false);
+        var display = List.page == 0 ? "" : "none";
+        var add = List.generateSong(song_info, transition, false, true, false, display, false);
         $("#wrapper").append(add);
     },
 
     insertAtIndex: function(song_info, transition) {
         var i = List.getIndexOfSong(song_info.id);
+        var display = "none";
         if(!song_info.now_playing){
-
-            var add = List.generateSong(song_info, transition, false, true, false);
+            if(i >= List.page && i < List.page + 19) display = "block"
+            var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
                 $("#wrapper").prepend(add);
             } else {
                 $("#wrapper > div:nth-child(" + (i) + ")").after(add);
             }
-        }
-       var added = $("#wrapper").children()[i];
-
-        if(transition)
-        {
-            setTimeout(function(){
-                $(added).css("height", 66);
-            },5);
+            var added = $("#wrapper").children()[i];
+            $(added).css("display", display);
+            if(display == "block" && $("#wrapper").children().length >= List.page + 21){
+                $($("#wrapper").children()[List.page + 20]).css("display", "none");
+            } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
+                $($("#wrapper").children()[List.page - 1]).css("display", "block");
+            } else if($("#wrapper").children().length > List.page + 20){
+                $($("#wrapper").children()[List.page + 20]).css("display", "block");
+            }
+             if(transition){
+                 setTimeout(function(){
+                     $(added).css("height", 66);
+                 },5);
+             }
         }
     },
 
@@ -54,9 +63,10 @@ var List = {
     {
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
+        List.can_fit = (($("main").height()) / 66);
 
         List.sortList();
-		$("#wrapper").empty();
+	    $("#wrapper").empty();
 
         Helper.log("---------------------------");
         Helper.log("---------FULL PLAYLIST-----");
@@ -66,10 +76,20 @@ var List = {
         if(full_playlist.length > 1){
     		$.each(full_playlist, function(j, current_song){
     			if(!current_song.now_playing){ //check that the song isnt playing
-                    $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true));
+                    $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true, false, "", true));
     			}
     		});
-
+            if($("#wrapper").children().length > 20 && !$("#pageButtons").length){
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $(".prev_page").toggleClass("hide");
+                $(".next_page_hide").css("display","none");
+            } else if(!$("#pageButtons").length){
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $(".prev_page").toggleClass("hide");
+                $(".next_page").toggleClass("hide");
+                $(".next_page_hide").css("display","inline-block");
+                $(".prev_page_hide").css("display","inline-block");
+            }
 
             if(lazy_load){
                 if(Helper.mobilecheck()) $(".list-image").lazyload({});
@@ -83,10 +103,54 @@ var List = {
         }else{
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
+            if(!$("#pageButtons").length){
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $(".prev_page").toggleClass("hide");
+                $(".next_page").toggleClass("hide");
+                $(".next_page_hide").css("display","inline-block");
+                $(".prev_page_hide").css("display","inline-block");
+            }
         }
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
 		$("#wrapper").css("opacity", "1");
+    },
+
+    dynamicContentPage: function(way){
+        if(way == 1){
+            $("#wrapper").children().slice(List.page, List.page + 20).hide();
+            List.page = List.page + 20;
+            $("#wrapper").children().slice(List.page, List.page + 20).show();
+            if(List.page > 0 && $(".prev_page").hasClass("hide")){
+                $(".prev_page").toggleClass("hide");
+                $(".prev_page_hide").css("display", "none");
+            }
+
+            if(List.page + 20 >= $("#wrapper").children().length){
+                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page").css("display", "none");
+            }
+            //$("#wrapper").scrollTop(0);
+        } else {
+            $("#wrapper").children().slice(List.page - 20, List.page).show();
+            $("#wrapper").children().slice(List.page, List.page + 20).hide();
+            List.page = List.page - 20;
+            //$("#wrapper").scrollTop(0);
+            if(List.page == 0 && !$(".prev_page").hasClass("hide")){
+                $(".prev_page").toggleClass("hide");
+                $(".prev_page_hide").css("display", "inline-block");
+            } else if($(".prev_page").hasClass("hide")){
+                $(".prev_page_hide").css("display", "inline-block");
+            } else {
+                $(".prev_page_hide").css("display", "none");
+            }
+
+            if(List.page + 20 < $("#wrapper").children().length){
+                $(".next_page_hide").css("display", "none");
+                $(".next_page").css("display", "inline-block");
+            }
+        }
+        $("#pageNumber").html((List.page / 20) + 1);
     },
 
     added_song: function(added){
@@ -106,7 +170,14 @@ var List = {
         }
         $("#empty-channel-message").remove();
         List.insertAtIndex(added, true);
-
+        if($("#wrapper").children().length > List.page + 20){
+            $(".next_page_hide").css("display", "none");
+            $(".next_page").removeClass("hide");
+            $(".next_page").css("display", "inline-block");
+        } else {
+            $(".next_page_hide").css("display", "inline-block");
+            $(".next_page").css("display", "none");
+        }
     },
 
     deleted_song: function(deleted){
@@ -120,20 +191,43 @@ var List = {
             {
                 $("#"+deleted).remove();
                 full_playlist.splice(List.getIndexOfSong(deleted), 1);
+                if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
+                    $($("#wrapper").children()[List.page - 1]).css("display", "block");
+                } else if($("#wrapper").children().length > List.page + 19){
+                    $($("#wrapper").children()[List.page + 19]).css("display", "block");
+                }
+                if(List.page >= $("#wrapper").children().length){
+                    List.dynamicContentPage(-1);
+                } else if(List.page + 20 >= $("#wrapper").children().length){
+                    $(".next_page_hide").css("display", "inline-block");
+                    $(".next_page").css("display", "none");
+                }
             }, 305);
 
-            document.getElementById('wrapper').scrollTop += 1;
-            document.getElementById('wrapper').scrollTop += -1;
         }catch(err){
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-            if(!List.empty)
+            if(!List.empty){
                 $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+                if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
+                    $($("#wrapper").children()[List.page - 1]).css("display", "block");
+                } else if($("#wrapper").children().length > List.page + 20){
+                    $($("#wrapper").children()[List.page + 19]).css("display", "block");
+                }
+            }
         }
+
         if(full_playlist.length <= 2){
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         $("#suggested-"+deleted).remove();
+        if(List.page + 20 < $("#wrapper").children().length){
+            $(".next_page_hide").css("display", "none");
+            $(".next_page").css("display", "inline-block");
+        }
+        if(List.page >= $("#wrapper").children().length){
+            List.dynamicContentPage(-1);
+        }
         Suggestions.checkUserEmpty();
     },
 
@@ -170,6 +264,9 @@ var List = {
                 $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
             List.insertAtIndex(full_playlist[length-1], false);
+            if($("#wrapper").children().length >= List.page + 20){
+                $($("#wrapper").children()[List.page + 20]).css("display", "block");
+            }
             document.getElementById('wrapper').scrollTop += 1;
             document.getElementById('wrapper').scrollTop += -1;
         }catch(e){}
@@ -304,7 +401,7 @@ var List = {
     	}
     },
 
-    generateSong: function(song_info, transition, lazy, list, user)
+    generateSong: function(song_info, transition, lazy, list, user, display, initial)
     {
         if(list_html === undefined) list_html = $("#list-song-html").html();
     	var video_id    = song_info.id;
@@ -329,7 +426,9 @@ var List = {
             song.find(".list-votes").text(video_votes);
             song.find("#list-song").attr("id", video_id);
             song.find(".vote-container").attr("title", video_title);
-
+            if((($("#wrapper").children().length >= 20) && initial) || display == "none"){
+                song.find(".card").css("display", "none");
+            }
             attr     = ".vote-container";
             del_attr = "del";
         }else if(!list){
