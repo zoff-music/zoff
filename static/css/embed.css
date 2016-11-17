@@ -15,6 +15,10 @@
   height: calc(100vh - 32px);
 }
 
+#pageButtons{
+  text-align: center;
+}
+
 #pageButtons, #pageButtons a{
   color:white !important;
 }
