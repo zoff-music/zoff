@@ -40,6 +40,10 @@
   height:calc(100vh - 48px - 64px) !important;
 }
 
+.close-settings{
+  color:#2d2d2d
+}
+
 .chan-link{
   width: 100%;
   padding: 0;
