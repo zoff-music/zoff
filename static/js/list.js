@@ -80,11 +80,11 @@ var List = {
     			}
     		});
             if($("#wrapper").children().length > 20 && !$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page_hide").css("display","none");
             } else if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
@@ -104,7 +104,7 @@ var List = {
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
@@ -324,7 +324,7 @@ var List = {
                                 Helper.log("All videoes added!");
                                 Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
                                 $(".exported-list").append("<h5>Exported URL:</h5>");
-                                $(".exported-list").append("<a target='_blank' class='btn orange exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                                $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                                 $("#playlist_loader_export").addClass("hide");
                                 //$(".youtube_export_button").removeClass("hide");
                                 $(".exported-list-container").removeClass("hide");
