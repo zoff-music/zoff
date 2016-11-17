@@ -408,11 +408,13 @@ $(document).on("click", "#closePlayer", function(e){
   	$("#closePlayer").remove();
 });
 
-$(document).on("click", ".prev_page", function(){
+$(document).on("click", ".prev_page", function(e){
+    e.preventDefault();
     List.dynamicContentPage(-1);
 });
 
-$(document).on("click", ".next_page", function(){
+$(document).on("click", ".next_page", function(e){
+    e.preventDefault();
     List.dynamicContentPage(1);
 });
 

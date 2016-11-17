@@ -20,6 +20,10 @@
   color:white !important;
 }
 
+.prev_page, .next_page{
+  cursor: pointer;
+}
+
 .prev_page_hide, .next_page_hide{
   visibility: visible !important;
   color:gray;
