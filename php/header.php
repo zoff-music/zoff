@@ -38,7 +38,7 @@
 <script type="text/javascript" src="/static/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/static/dist/lib/materialize.min.js"></script>
 <script type="text/javascript" src="/static/dist/lib/socket.io-1.4.5.js"></script>
-<script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>
+<!--<script type="text/javascript" src="/static/dist/lib/jquery.lazyload.js"></script>-->
 <script type="text/javascript" src="/static/dist/lib/color-thief.js"></script>
 <script type="text/javascript" src="/static/dist/lib/sha256.js"></script>
 <script type="text/javascript" src="/static/dist/lib/aes.js"></script>

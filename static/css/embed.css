@@ -15,7 +15,18 @@
   height: calc(100vh - 32px);
 }
 
+#pageButtons, #pageButtons a{
+  color:white !important;
+}
 
+.prev_page, .next_page{
+  cursor: pointer;
+}
+
+.prev_page_hide, .next_page_hide{
+  visibility: visible !important;
+  color:gray;
+}
 
 #list-song-html {
   display:none;

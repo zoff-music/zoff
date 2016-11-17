@@ -91,7 +91,7 @@ var List = {
                 $(".prev_page_hide").css("display","inline-block");
             }
 
-            if(lazy_load){
+            /*if(lazy_load){
                 if(Helper.mobilecheck()) $(".list-image").lazyload({});
                 else{
                     $(".list-image").lazyload({container: $("#wrapper")}).removeClass("lazy");
@@ -99,7 +99,7 @@ var List = {
                     document.getElementById('wrapper').scrollTop += 1;
                     document.getElementById('wrapper').scrollTop += -1;
                 }
-            }
+            }*/
         }else{
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
