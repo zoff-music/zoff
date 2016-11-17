@@ -154,16 +154,16 @@ var Admin = {
             $(".playlist-tabs").removeClass("hide");
         }
 
-    	if($(".card-action").length !== 0 &&
+	    if($(".card-action").length !== 0 &&
             !Helper.contains($(".card-action").attr("class").split(" "), "hide")){
     		$(".card-action").addClass("hide");
         }
 
-        if($(".playlist-tabs-li a.active").attr("href") == "#suggestions")
+        if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
         {
             $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-            $("#wrapper").removeClass("tabs_height");
+            //$("#wrapper").removeClass("tabs_height");
         } else {
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }

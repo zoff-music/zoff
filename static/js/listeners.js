@@ -166,7 +166,8 @@ function init(){
         	Crypt.set_width($(this).width());
       	},
         handles: "e",
-        minWidth: 350
+        minWidth: 350,
+        maxWidth: $(window).width()-221
     });
 
 	if(socket === undefined || Helper.mobilecheck()){
@@ -821,7 +822,7 @@ $(document).on("mousemove", "#playlist", function(e)
 	if(((y <= 80 && y >= 48)) && $("#wrapper").scrollTop() > 0){
 		$("#top-button").removeClass("hide");
 		Helper.addClass("#bottom-button", "hide");
-	}else if(y >= $("#playlist").height() - 45 && y <= $("#playlist").height() - 18 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
+	}else if(y >= $("#playlist").height() - 59 && y <= $("#playlist").height() - 32 && $("#wrapper").scrollTop() < $("#wrapper")[0].scrollHeight - $("#wrapper").height() - 1){
 		$("#bottom-button").removeClass("hide");
 		Helper.addClass("#top-button", "hide");
 	}else{

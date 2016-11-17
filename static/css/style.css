@@ -20,6 +20,12 @@
   color:white !important;
 }
 
+#pageNumber{
+  cursor: default;
+  color: white;
+  padding:0;
+}
+
 .prev_page, .next_page{
   cursor: pointer;
 }
@@ -27,6 +33,19 @@
 .prev_page_hide, .next_page_hide{
   visibility: visible !important;
   color:gray;
+  cursor:default;
+}
+
+#chatPlaylist, #suggestions{
+  height:calc(100vh - 48px - 64px) !important;
+}
+
+.prev_page_hide, .prev_page{
+  float:left;
+}
+
+.next_page_hide, .next_page{
+  float:right;
 }
 
 .settings_embed:focus{
@@ -249,7 +268,7 @@ body {
 }
 
 .main, #main-row, .video-container, #playlist{
-  height: calc(100vh - 64px);
+  height: calc(100vh - 65px);
 }
 
 footer{
@@ -1079,7 +1098,7 @@ ul #chat-log{
     /*padding:0px 15px;*/
     flex:1;
     position: relative;
-    height: calc(100vh - 64px) !important;
+    height: calc(100vh - 65px) !important;
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
@@ -1258,7 +1277,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .tabs_height{
-  height:calc(100vh - 48px - 64px - 22px) !important;
+  height:calc(100vh - 48px - 64px - 36px) !important;
   overflow:auto;
 }
 
@@ -1361,7 +1380,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 #bottom-button{
-  bottom: 22px;
+  bottom: 35px;
 }
 
 
