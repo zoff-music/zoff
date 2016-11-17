@@ -223,13 +223,45 @@ function init(){
 
 	Helper.sample();
 
-  $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
+    $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
 	$("#embed-button").css("display", "inline-block");
 	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        initializeCastApi();
+      }
+    };
 }
+
+initializeCastApi = function() {
+    cast.framework.CastContext.getInstance().setOptions({
+        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID});
+    var context = cast.framework.CastContext.getInstance();
+    context.addEventListener(
+        cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
+        function(event) {
+            console.log(event);
+            switch (event.sessionState) {
+                case cast.framework.SessionState.SESSION_STARTED:
+                    $(".castButton").toggleClass("hide");
+                    $(".castButton-active").toggleClass("hide");
+                    break;
+                case cast.framework.SessionState.SESSION_RESUMED:
+                    $(".castButton").toggleClass("hide");
+                    $(".castButton-active").toggleClass("hide");
+                    break;
+                case cast.framework.SessionState.SESSION_ENDED:
+                    $(".castButton").toggleClass("hide");
+                    $(".castButton-active").toggleClass("hide");
+                    // Update locally as necessary
+                    break;
+            }
+    })
+    $(".castButton").css("display", "inline-block");
+};
 
 function setup_no_connection_listener(){
     socket.on('connect_failed', function(){
@@ -364,6 +396,13 @@ $(document).keyup(function(e) {
   	}
 });
 
+$(document).on("click", ".castButton-active", function(e){
+    e.preventDefault();
+    var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+    // End the session and pass 'true' to indicate
+    // that receiver application should be stopped.
+    castSession.endSession(true);
+})
 
 $(document).on('click', '#cookieok', function() {
     $(this).fadeOut(function(){
@@ -931,11 +970,11 @@ function onepage_load(){
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[57]).html());
-		      	$($(e)[59]).insertAfter("header");
-		      	$($(e)[61]).insertAfter(".mega");
-		      	if(Helper.mobilecheck()) $("main").html($($(e)[65]).html());
-		      	else $("main").append($($($(e)[65]).html())[0]);
+		      	$("header").html($($(e)[59]).html());
+		      	$($(e)[61]).insertAfter("header");
+		      	$($(e)[63]).insertAfter(".mega");
+		      	if(Helper.mobilecheck()) $("main").html($($(e)[67]).html());
+		      	else $("main").append($($($(e)[67]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");

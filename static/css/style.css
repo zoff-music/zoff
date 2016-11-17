@@ -1113,6 +1113,18 @@ ul #chat-log{
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
+.castButton, .castButton:active, .castButton:focus, .castButton:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus {
+    width: 0px;
+    height: 0px;
+    float: right;
+    margin: 0px 25px 0px -10px;
+    background: transparent;
+    border: none;
+    background: transparent;
+    border: none;
+    font-size:18px;
+}
+
 .chat-link{
   -webkit-transition:color 1s;
   -moz-transition:color 1s;
