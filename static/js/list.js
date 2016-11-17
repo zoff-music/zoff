@@ -80,11 +80,11 @@ var List = {
     			}
     		});
             if($("#wrapper").children().length > 20 && !$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page_hide").css("display","none");
             } else if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
@@ -104,7 +104,7 @@ var List = {
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a href="#!" class="prev_page">< prev</a> <span id="pageNumber">1</span> <a href="#!" class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="prev_page_hide">< prev</span><a class="prev_page">< prev</a> <span id="pageNumber">1</span> <a class="next_page">next ></a><span class="next_page_hide">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
