@@ -413,6 +413,10 @@ $(document).on("click", ".prev_page", function(e){
     List.dynamicContentPage(-1);
 });
 
+$(document).on("click", ".modal-close", function(e){
+    e.preventDefault();
+});
+
 $(document).on("click", ".next_page", function(e){
     e.preventDefault();
     List.dynamicContentPage(1);
