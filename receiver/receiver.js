@@ -8,6 +8,8 @@ cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
+  console.log(event);
+  console.log(player);
   switch(event.data.type){
     case "loadVideoBy":
       if(ytReady){
@@ -111,6 +113,7 @@ function onPlayerReady() {
   $("#player").toggleClass("hide");
   $("#zoff-logo").toggleClass("center");
   $("#zoff-logo").toggleClass("lower_left");
+  console.log(videoId);
   if(videoId){
     player.loadVideoById(videoId);
     player.playVideo();
