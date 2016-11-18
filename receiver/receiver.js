@@ -119,6 +119,7 @@ window.addEventListener('load', function() {
 
 function durationSetter(){
   duration = player.getDuration();
+  console.log(duration);
   dMinutes = Math.floor(duration / 60);
   dSeconds = duration - dMinutes * 60;
   currDurr = player.getCurrentTime() !== undefined ? Math.floor(player.getCurrentTime()) : seekTo;
@@ -127,6 +128,7 @@ function durationSetter(){
   minutes = Math.floor(currDurr / 60);
   seconds = currDurr - (minutes * 60);
   document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+  setTimeout(durationSetter, 1000);
 }
 
 function pad(n){

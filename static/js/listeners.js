@@ -169,7 +169,7 @@ function init(){
       	},
         handles: "e",
         minWidth: 350,
-        maxWidth: $(window).width()-221
+        maxWidth: $(window).width()-241
     });
 
 	if(socket === undefined || Helper.mobilecheck()){
