@@ -82,7 +82,6 @@ appConfig.maxInactivity = 6000;
  * it is ready to start receiving messages, typically after registering
  * to listen for the events it is interested on.
  */
-window.castReceiverManager.start(appConfig);
 
 window.castReceiverManager.onSenderDisconnected = function(event) {
   if(window.castReceiverManager.getSenders().length == 0 &&
@@ -124,6 +123,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
+  window.castReceiverManager.start(appConfig);
   ytReady = true;
   $("#player").toggleClass("hide");
   $("#zoff-logo").toggleClass("center");

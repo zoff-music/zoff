@@ -132,7 +132,7 @@ var Player = {
                 }
     			if(paused)
     			{
-    				if(!chromecastAvailable) socket.emit('pos', {channel: chan.toLowerCase()});
+    				socket.emit('pos', {channel: chan.toLowerCase()});
     				paused = false;
     			}
     			break;
@@ -157,7 +157,7 @@ var Player = {
     playVideo: function(){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
-            socket.emit('pos', {channel: chan.toLowerCase()});
+            //socket.emit('pos', {channel: chan.toLowerCase()});
         } else {
             Player.player.playVideo();
         }
