@@ -3,6 +3,8 @@ Zöff
 
 ##### The server-side is required for this website, and it's found at: <a href="https://github.com/zoff-music/zoff-server">here</a>
 
+### Zöff now supports integrated casting with chromecast!
+
 ##### Config
 
 To get the website to run as intended, please enabled mod_rewrite for apache2, and add ```AllowOverride All``` to the directory containing the webserver in Apache2 (it's usually /etc/apache2/sites-enabled/000-default.conf)
