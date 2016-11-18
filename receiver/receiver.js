@@ -12,7 +12,7 @@ customMessageBus.onMessage = function(event) {
   console.log(json_parsed);
   console.log(player);
   switch(json_parsed.type){
-    case "loadVideoBy":
+    case "loadVideo":
       if(ytReady){
         player.loadVideoById(json_parsed.videoId);
       } else {
