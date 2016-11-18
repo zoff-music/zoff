@@ -1,3 +1,8 @@
+var ytReady = false;
+var videoId = null;
+var seekTo = null;
+var nextVideo = null;
+
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
@@ -5,10 +10,27 @@ var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no
 customMessageBus.onMessage = function(event) {
   switch(event.data.type){
     case "loadVideoBy":
-      player.loadVideoById(event.data.videoId);
+      if(ytReady){
+        player.loadVideoById(event.data.videoId);
+      } else {
+        videoId = event.data.videoId;
+      }
+      break;
+    case "stopVideo":
+      player.stopVideo();
+      break;
+    case "pauseVideo":
+      player.pauseVideo();
+      break;
+    case "playVideo":
       player.playVideo();
       break;
-
+    case "seekTo":
+      player.seekTo(event.data.seekTo);
+      break;
+    case "nextVideo":
+      nextVideo = event.data.videoId;
+      break;
   }
 }
 /**
@@ -68,33 +90,6 @@ window.addEventListener('load', function() {
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 });
 
-ytMessages={
-  "getNextVideo": function(event) {
-  	nextVideo=event.data.videoId;
-  },
-  "loadVideo": function(event) {
-  	player.loadVideoById(event.data.videoId);
-  },
-  "stopCasting": function() {
-  	endcast();
-  },
-  "playVideo": function() {
-  	player.playVideo();
-  },
-  "pauseVideo": function() {
-  	player.pauseVideo();
-  },
-  "stopVideo": function() {
-  	player.stopVideo();
-  },
-  "seekTo": function(event) {
-    player.seekTo(event.data.seekTo)
-  },
-  "getStatus": function() {
-  	channel.send({'event':'statusCheck','message':player.getPlayerState()});
-  }
-};
-
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
 	    height: 562,
@@ -108,12 +103,24 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
+  ytReady = true;
+  $("#player").toggleClass("hide");
+  $("#zoff-logo").toggleClass("center");
+  $("#zoff-logo").toggleClass("lower_left");
+  if(videoId){
+    player.loadVideoById(videoId);
+    player.playVideo();
+    if(seekTo){
+      player.seekTo(seekTo);
+      seekTo = null;
+    }
+  }
   //channel.send({'event':'iframeApiReady','message':'ready'});
 }
 
 function onPlayerStateChange(event) {
 	//channel.send({'event':'stateChange','message':event.data});
 	if (event.data==YT.PlayerState.ENDED) {
-		endcast();
+		customMessageBus.broadcast({type: -1, videoId: videoId})
 	}
 }

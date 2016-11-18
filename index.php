@@ -181,6 +181,18 @@
                   <div id="player_overlay_text" class="valign center-align">
                     Waiting for Video
                   </div>
+                  <div id="player_overlay_controls" class="valign-wrapper">
+                    <div id="playpause-overlay" class="valign center-align">
+                      <i id="play-overlay" class="mdi-av-play-arrow hide"></i>
+                      <i id="pause-overlay" class="mdi-av-pause"></i>
+                    </div>
+                    <div id="volume-button-overlay">
+                      <i id="v-mute-overlay" class="mdi-av-volume-off"></i>
+                      <i id="v-low-overlay" class="mdi-av-volume-mute"></i>
+                      <i id="v-medium-overlay" class="mdi-av-volume-down"></i>
+                      <i id="v-full-overlay" class="mdi-av-volume-up"></i>
+                    </div>
+                  </div>
                 </div>
                 <div id="controls" class="noselect">
                   <div id="playpause">

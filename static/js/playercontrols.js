@@ -14,6 +14,8 @@ var Playercontrols = {
     {
     	document.getElementById("volume-button").addEventListener("click", Playercontrols.mute_video);
     	document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
+        document.getElementById("volume-button-overlay").addEventListener("click", Playercontrols.mute_video);
+    	document.getElementById("playpause-overlay").addEventListener("click", Playercontrols.play_pause);
     	document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
 
     },
@@ -54,7 +56,7 @@ var Playercontrols = {
 
     	if(Player.player.getPlayerState() == 1)
     	{
-    		Player.player.pauseVideo();
+    		Player.pauseVideo();
             if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "none";
                 $(".video-container").toggleClass("click-through");
@@ -62,7 +64,7 @@ var Playercontrols = {
             }
     	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0)
     	{
-    		Player.player.playVideo();
+    		Player.playVideo();
             if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 document.getElementById("player").style.display = "block";
                 $(".video-container").toggleClass("click-through");
@@ -73,10 +75,14 @@ var Playercontrols = {
 
     play_pause_show: function()
     {
-        if(document.getElementById("pause").className.split(" ").length == 1)
+        if(document.getElementById("pause").className.split(" ").length == 1){
             $("#pause").toggleClass("hide");
-        if(document.getElementById("play").className.split(" ").length == 2)
+            $("#pause-overlay").toggleClass("hide");
+        }
+        if(document.getElementById("play").className.split(" ").length == 2){
             $("#play").toggleClass("hide");
+            $("#play-overlay").toggleClass("hide");
+        }
     },
 
     settings: function()
@@ -119,43 +125,75 @@ var Playercontrols = {
     {
     	if(!mute){
     		if(vol >= 0 && vol <= 33){
-    			if(document.getElementById("v-full").className.split(" ").length == 1)
+    			if(document.getElementById("v-full").className.split(" ").length == 1){
     				$("#v-full").toggleClass("hide");
-    			if(document.getElementById("v-medium").className.split(" ").length == 1)
+                    $("#v-full-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-medium").className.split(" ").length == 1){
     				$("#v-medium").toggleClass("hide");
-    			if(document.getElementById("v-low").className.split(" ").length == 2)
+                    $("#v-medium-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-low").className.split(" ").length == 2){
     				$("#v-low").toggleClass("hide");
-    			if(document.getElementById("v-mute").className.split(" ").length == 1)
+                    $("#v-low-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-mute").className.split(" ").length == 1){
     				$("#v-mute").toggleClass("hide");
+                    $("#v-mute-overlay").toggleClass("hide");
+                }
     		}else if(vol >= 34 && vol <= 66){
-    			if(document.getElementById("v-full").className.split(" ").length == 1)
+    			if(document.getElementById("v-full").className.split(" ").length == 1){
     				$("#v-full").toggleClass("hide");
-    			if(document.getElementById("v-medium").className.split(" ").length == 2)
+                    $("#v-full-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-medium").className.split(" ").length == 2){
     				$("#v-medium").toggleClass("hide");
-    			if(document.getElementById("v-low").className.split(" ").length == 1)
+                    $("#v-medium-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-low").className.split(" ").length == 1){
     				$("#v-low").toggleClass("hide");
-    			if(document.getElementById("v-mute").className.split(" ").length == 1)
+                    $("#v-low-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-mute").className.split(" ").length == 1){
     				$("#v-mute").toggleClass("hide");
+                    $("#v-mute-overlay").toggleClass("hide");
+                }
     		}else if(vol >= 67 && vol <= 100){
-    			if(document.getElementById("v-full").className.split(" ").length == 2)
+    			if(document.getElementById("v-full").className.split(" ").length == 2){
     				$("#v-full").toggleClass("hide");
-    			if(document.getElementById("v-medium").className.split(" ").length == 1)
+                    $("#v-full-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-medium").className.split(" ").length == 1){
     				$("#v-medium").toggleClass("hide");
-    			if(document.getElementById("v-low").className.split(" ").length == 1)
+                    $("#v-medium-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-low").className.split(" ").length == 1){
     				$("#v-low").toggleClass("hide");
-    			if(document.getElementById("v-mute").className.split(" ").length == 1)
+                    $("#v-low-overlay").toggleClass("hide");
+                }
+    			if(document.getElementById("v-mute").className.split(" ").length == 1){
     				$("#v-mute").toggleClass("hide");
+                    $("#v-mute-overlay").toggleClass("hide");
+                }
     		}
     	}else
     	{
-    		if(document.getElementById("v-full").className.split(" ").length == 1)
+    		if(document.getElementById("v-full").className.split(" ").length == 1){
     			$("#v-full").toggleClass("hide");
-    		if(document.getElementById("v-medium").className.split(" ").length == 1)
+                $("#v-full-overlay").toggleClass("hide");
+            }
+    		if(document.getElementById("v-medium").className.split(" ").length == 1){
     			$("#v-medium").toggleClass("hide");
-    		if(document.getElementById("v-low").className.split(" ").length == 1)
+                $("#v-medium-overlay").toggleClass("hide");
+            }
+    		if(document.getElementById("v-low").className.split(" ").length == 1){
     			$("#v-low").toggleClass("hide");
-    		if(document.getElementById("v-mute").className.split(" ").length == 2)
+                $("#v-low-overlay").toggleClass("hide");
+            }
+    		if(document.getElementById("v-mute").className.split(" ").length == 2){
     			$("#v-mute").toggleClass("hide");
+                $("#v-mute-overlay").toggleClass("hide");
+            }
     	}
     },
 
@@ -165,26 +203,28 @@ var Playercontrols = {
     	button = document.getElementById("playpause");
     	if(state == 1)
     	{
-    		Player.player.pauseVideo();
+    		Player.pauseVideo();
     	}else if(state == 2)
     	{
-    		Player.player.playVideo();
+    		Player.playVideo();
     	}
     },
 
     volumeOptions: function()
     {
-    	if(Player.player.isMuted())
-    	{
-    		Player.player.unMute();
-    		vol = Player.player.getVolume();
-    		$("#volume").slider("value", Player.player.getVolume());
-    	}
-    	else
-    	{
-    		Player.player.mute();
-    		$("#volume").slider("value", 0);
-    	}
+        if(!chromecastAvailable){
+        	if(Player.player.isMuted())
+        	{
+        		Player.player.unMute();
+        		vol = Player.player.getVolume();
+        		$("#volume").slider("value", Player.player.getVolume());
+        	}
+        	else
+        	{
+        		Player.player.mute();
+        		$("#volume").slider("value", 0);
+        	}
+        }
     },
 
     hoverMute: function(foo)

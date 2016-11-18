@@ -5,17 +5,43 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="receiver.js"></script>
 		<style>
+			body{
+				background: black;
+			}
 			#player{
 				width: 100vw;
 				height: 100vh;
 				margin-left: -8px;
 				margin-top: -8px;
 			}
+			.center{
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				left: 0;
+				right: 0;
+				margin: auto;
+				text-align: center;
+			}
+
+			.lower_left{
+				position: absolute;
+		    bottom: 0px;
+		    width: 15%;
+		    left: 0;
+		    right: 0;
+		    text-align: left;
+			}
+
+			.hide{
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="wrapper">
-			<div id="player"></div>
+			<img id="zoff-logo" class="center" src="squareicon_small.png" alt="logo">
+			<div id="player" class="hide"></div>
 		</div>
 	</body>
 </html>

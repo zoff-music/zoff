@@ -48,9 +48,9 @@ var Hostcontroller = {
 
         window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
       }else if(arr.type == "pause")
-        Player.player.pauseVideo();
+        Player.pauseVideo();
       else if(arr.type == "play")
-        Player.player.playVideo();
+        Player.playVideo();
       else if(arr.type == "skip")
         List.skip();
     }
