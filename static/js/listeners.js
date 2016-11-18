@@ -249,7 +249,7 @@ initializeCastApi = function() {
             switch (event.sessionState) {
                 case cast.framework.SessionState.SESSION_STARTED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                    castSession.addMessageListner("urn:x-cast:zoff.no", chromecastListener)
+                    castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
                     chromecastAvailable = true;
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
 
