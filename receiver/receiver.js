@@ -3,6 +3,7 @@ var videoId = null;
 var seekTo = null;
 var nextVideo = null;
 var loading = false;
+var initial = true;
 
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 
@@ -10,15 +11,21 @@ window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
   var json_parsed = JSON.parse(event.data);
-  console.log(json_parsed);
-  console.log(player);
   switch(json_parsed.type){
     case "loadVideo":
       if(ytReady){
         loading = true;
+        videoId = json_parsed.videoId;
         player.loadVideoById(json_parsed.videoId);
         if(json_parsed.seekTo){
           player.seekTo(json_parsed.seekTo);
+        }
+        if(initial){
+          $("#player").toggleClass("hide");
+          $("#zoff-logo").toggleClass("center");
+          $("#zoff-logo").toggleClass("lower_left");
+          initial = false;
+          durationSetter();
         }
       } else {
         videoId = json_parsed.videoId;
@@ -48,9 +55,9 @@ customMessageBus.onMessage = function(event) {
     case "nextVideo":
       nextVideo = json_parsed.videoId;
       nextTitle = json_parsed.title;
-      $("#next_title").html("Next Song:<br>" + nextTitle);
+      $("#next_title_content").html("Next Song:<br>" + nextTitle);
       $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
-      if(ytReady) $("#next_song").css("display", "flex");
+      $("#next_song").css("display", "flex");
       break;
   }
 }
@@ -110,6 +117,22 @@ window.addEventListener('load', function() {
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 });
 
+function durationSetter(){
+  duration = player.getDuration();
+  dMinutes = Math.floor(duration / 60);
+  dSeconds = duration - dMinutes * 60;
+  currDurr = player.getCurrentTime() !== undefined ? Math.floor(player.getCurrentTime()) : seekTo;
+  if(currDurr > duration)
+      currDurr = duration;
+  minutes = Math.floor(currDurr / 60);
+  seconds = currDurr - (minutes * 60);
+  document.getElementById("duration").innerHTML = pad(minutes)+":"+pad(seconds)+" <span id='dash'>/</span> "+pad(dMinutes)+":"+pad(dSeconds);
+}
+
+function pad(n){
+  return n < 10 ? "0"+Math.floor(n) : Math.floor(n);
+}
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
 	    height: 562,
@@ -125,11 +148,6 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady() {
   window.castReceiverManager.start(appConfig);
   ytReady = true;
-  $("#player").toggleClass("hide");
-  $("#zoff-logo").toggleClass("center");
-  $("#zoff-logo").toggleClass("lower_left");
-  $("#next_song").css("display", "flex");
-  console.log(videoId);
   if(videoId){
     loading = true;
     player.loadVideoById(videoId);

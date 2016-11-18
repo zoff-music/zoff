@@ -57,6 +57,11 @@
 		    overflow: hidden;
 		    color: white;
 				display:flex;
+		    flex-direction: column;
+			}
+
+			#duration{
+				text-align: center;
 			}
 		</style>
 	</head>
@@ -64,7 +69,7 @@
 		<div id="wrapper">
 			<div id="next_song">
 		    <img id="next_pic" src="://" alt="kuk">
-		    <div id="next_title">Coolest song</div>
+		    <div id="next_title"><div id="duration">00:00/00:00</div><div id="next_title_content">Coolest song</div></div>
 		  </div>
 			<img id="zoff-logo" class="center" src="squareicon_small.png" alt="logo">
 			<div id="player" class="hide"></div>
