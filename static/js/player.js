@@ -157,6 +157,7 @@ var Player = {
     playVideo: function(){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+            socket.emit('pos', {channel: chan.toLowerCase()});
         } else {
             Player.player.playVideo();
         }
