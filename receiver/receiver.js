@@ -8,8 +8,8 @@ cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
-  console.log(event);
   var json_parsed = JSON.parse(event.data);
+  console.log(json_parsed);
   console.log(player);
   switch(json_parsed.type){
     case "loadVideoBy":
