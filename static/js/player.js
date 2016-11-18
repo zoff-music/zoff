@@ -123,7 +123,7 @@ var Player = {
                     beginning = false;
                     mobile_beginning = false;
                 }
-                if(!embed && window.location.pathname != "/" && chromecastAvailable) Helper.addClass("#player_overlay", "hide");
+                if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
                 if(window.location.pathname != "/"){
         			if(document.getElementById("play").className.split(" ").length == 1)
         				$("#play").toggleClass("hide");

@@ -36,6 +36,12 @@ customMessageBus.onMessage = function(event) {
     case "playVideo":
       player.playVideo();
       break;
+    case "mute":
+      player.mute();
+      break;
+    case "unMute":
+      player.unMute();
+      break;
     case "seekTo":
       player.seekTo(json_parsed.seekTo);
       break;

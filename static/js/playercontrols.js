@@ -104,10 +104,12 @@ var Playercontrols = {
     {
     	if(!Player.player.isMuted())
     	{
+            if(chromecastAvailable) castSession.sendMessage("urn:x-cast:zoff.no", {type: "mute"});
         Playercontrols.choose_button(0, true);
     		Player.player.mute();
     	}else
     	{
+            if(chromecastAvailable)castSession.sendMessage("urn:x-cast:zoff.no", {type: "unMute"});
     		Player.player.unMute();
         Playercontrols.choose_button(Player.player.getVolume(), false);
     	}
