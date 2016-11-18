@@ -299,8 +299,9 @@ function hide_native(way){
     }
 }
 
-function chromecastListener(evt,event){
-    var json_parsed = JSON.parse(event);
+function chromecastListener(evt, data){
+    console.log(data);
+    var json_parsed = JSON.parse(data);
     switch(json_parsed){
         case -1:
             socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});

@@ -42,7 +42,7 @@ customMessageBus.onMessage = function(event) {
       nextTitle = json_parsed.title;
       $("#next_title").html(nextTitle);
       $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
-      $("#next_song").css("display", "block");
+      $("#next_song").css("display", "flex");
       break;
   }
 }
