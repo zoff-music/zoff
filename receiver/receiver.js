@@ -2,6 +2,7 @@ var ytReady = false;
 var videoId = null;
 var seekTo = null;
 var nextVideo = null;
+var loading = false;
 
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 
@@ -14,6 +15,7 @@ customMessageBus.onMessage = function(event) {
   switch(json_parsed.type){
     case "loadVideo":
       if(ytReady){
+        loading = true;
         player.loadVideoById(json_parsed.videoId);
         if(json_parsed.seekTo){
           player.seekTo(json_parsed.seekTo);
@@ -26,16 +28,17 @@ customMessageBus.onMessage = function(event) {
       }
       break;
     case "stopVideo":
-      player.stopVideo();
+      if(!loading) player.stopVideo();
       break;
     case "pauseVideo":
-      player.pauseVideo();
+      if(!loading) player.pauseVideo();
       break;
     case "playVideo":
-      player.playVideo();
+      if(!loading) player.playVideo();
       break;
     case "seekTo":
-      player.seekTo(json_parsed.seekTo);
+      if(!loading) player.seekTo(json_parsed.seekTo);
+      else seekTo = json_parsed.seekTo;
       break;
     case "nextVideo":
       nextVideo = json_parsed.videoId;
@@ -122,6 +125,7 @@ function onPlayerReady() {
   $("#zoff-logo").toggleClass("lower_left");
   console.log(videoId);
   if(videoId){
+    loading = true;
     player.loadVideoById(videoId);
     player.playVideo();
     if(seekTo){
@@ -138,5 +142,11 @@ function onPlayerStateChange(event) {
 	if (event.data==YT.PlayerState.ENDED) {
 		customMessageBus.broadcast(JSON.stringify({type: -1, videoId: videoId}));
     //customMessageBus.send("urn:x-cast:zoff.no", {type: -1, videoId: videoId})
-	}
+	} else if(event.data == 1){
+    loading = false;
+    if(seekTo){
+      player.seekTo(seekTo);
+      seekTo = null;
+    }
+  }
 }
