@@ -281,21 +281,29 @@ initializeCastApi = function() {
 
 function hide_native(way){
     if(way == 1){
-        $("#controls").toggleClass("hide");
+        $("#playpause").toggleClass("hide");
+        $("#duration").toggleClass("hide");
+        $("#fullscreen").toggleClass("hide");
+        $("#volume-button").toggleClass("hide");
+        $("#volume").toggleClass("hide");
         Player.player.stopVideo();
         Player.stopInterval = true;
-        $("#player").toggleClass("hide");
+        //$("#player").toggleClass("hide");
         $("#player_overlay").toggleClass("hide");
         //$("#player_overlay").css("display", "block");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
         $("#player_overlay_controls").css("display", "inherit");
     } else if(way == 0){
-        $("#controls").toggleClass("hide");
+        $("#playpause").toggleClass("hide");
+        $("#duration").toggleClass("hide");
+        $("#fullscreen").toggleClass("hide");
+        $("#volume-button").toggleClass("hide");
+        $("#volume").toggleClass("hide");
         Player.player.playVideo();
         Player.stopInterval = false;
         Player.durationSetter();
-        $("#player").toggleClass("hide");
+        //$("#player").toggleClass("hide");
         $("#player_overlay").toggleClass("hide");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
