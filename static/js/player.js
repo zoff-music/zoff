@@ -180,7 +180,7 @@ var Player = {
 
     loadVideoById: function(id){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideoById", videoId: id});
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: id});
         } else {
             Player.player.loadVideoById(id);
         }
