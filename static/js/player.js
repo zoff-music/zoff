@@ -71,14 +71,14 @@ var Player = {
                     {
                         Player.loadVideoById(video_id);
                         Player.notifyUser(video_id, song_title);
-                        Player.seekTo(seekTo);
+                        if(!chromecastAvailable) Player.seekTo(seekTo);
                         if(paused)
                             Player.pauseVideo();
                     }
                     if(!paused){
                         if(!mobile_beginning)
-                           Player.playVideo();
-                        if(!durationBegun)
+                           if(!chromecastAvailable)Player.playVideo();
+                        if(!chromecastAvailable && !durationBegun)
                             Player.durationSetter();
                     }
                     if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable)
