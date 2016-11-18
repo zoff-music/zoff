@@ -1,7 +1,7 @@
 var receiver = new cast.receiver.Receiver("E6856E24", ["no.zoff.customcast"],"",5);
-var ytChannelHandler = new cast.receiver.ChannelHandler(cfg.msgNamespace);
+var ytChannelHandler = new cast.receiver.ChannelHandler("no.zoff.customcast");
 var nextVideo;
-ytChannelHandler.addChannelFactory(receiver.createChannelFactory(cfg.msgNamespace));
+ytChannelHandler.addChannelFactory(receiver.createChannelFactory("no.zoff.customcast"));
 ytChannelHandler.addEventListener(
   cast.receiver.Channel.EventType.MESSAGE,
 	onMessage.bind(this)
