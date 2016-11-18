@@ -231,11 +231,16 @@ function init(){
 	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
-    window['__onGCastApiAvailable'] = function(isAvailable) {
-      if (isAvailable) {
-        initializeCastApi();
-      }
-    };
+
+    if(chromecastAvailable){
+        hide_native(1);
+    } else {
+        window['__onGCastApiAvailable'] = function(isAvailable) {
+          if (isAvailable) {
+            initializeCastApi();
+          }
+        };
+    }
 }
 
 initializeCastApi = function() {
@@ -254,9 +259,6 @@ initializeCastApi = function() {
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
-
-                    $(".castButton").toggleClass("hide");
-                    $(".castButton-active").toggleClass("hide");
                     break;
                 case cast.framework.SessionState.SESSION_RESUMED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -265,13 +267,9 @@ initializeCastApi = function() {
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
-                    $(".castButton").toggleClass("hide");
-                    $(".castButton-active").toggleClass("hide");
                     break;
                 case cast.framework.SessionState.SESSION_ENDED:
                     chromecastAvailable = false;
-                    $(".castButton").toggleClass("hide");
-                    $(".castButton-active").toggleClass("hide");
                     hide_native(0);
                     // Update locally as necessary
                     break;
@@ -280,6 +278,8 @@ initializeCastApi = function() {
 };
 
 function hide_native(way){
+    $(".castButton").toggleClass("hide");
+    $(".castButton-active").toggleClass("hide");
     if(way == 1){
         $("#playpause").toggleClass("hide");
         $("#duration").toggleClass("hide");
@@ -289,7 +289,7 @@ function hide_native(way){
         Player.player.stopVideo();
         Player.stopInterval = true;
         //$("#player").toggleClass("hide");
-        $("#player_overlay").toggleClass("hide");
+        $("#player_overlay").removeClass("hide");
         //$("#player_overlay").css("display", "block");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
@@ -304,7 +304,7 @@ function hide_native(way){
         Player.stopInterval = false;
         Player.durationSetter();
         //$("#player").toggleClass("hide");
-        $("#player_overlay").toggleClass("hide");
+        $("#player_overlay").addClass("hide");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
         $("#player_overlay_controls").css("display", "none");
@@ -313,7 +313,6 @@ function hide_native(way){
 }
 
 function chromecastListener(evt, data){
-    console.log(data);
     var json_parsed = JSON.parse(data);
     switch(json_parsed.type){
         case -1:

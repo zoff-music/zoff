@@ -256,7 +256,7 @@ var Nochan = {
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
           $("main").html($($(e)[63]).html());
         } else {
-          var main = $($($($($(e)[65]).html())[0]).html());
+          var main = $($($($($(e)[63]).html())[0]).html());
           $("#main-row").append($(main[2]).wrap("<div>").parent().html());
           $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
           $("#main-row").append("<div id='playbar'></div>");
