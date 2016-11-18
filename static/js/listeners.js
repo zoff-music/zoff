@@ -252,7 +252,7 @@ initializeCastApi = function() {
                     castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
                     chromecastAvailable = true;
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
-
+                    console.log(full_playlist[0]);
                     hide_native(1);
 
                     $(".castButton").toggleClass("hide");
@@ -298,11 +298,11 @@ function hide_native(way){
     }
 }
 
-function chromecastListener(event){
-    console.log(event);
-    switch(event.data.type){
+function chromecastListener(evt,event){
+    var json_parsed = JSON.parse(event);
+    switch(json_parsed){
         case -1:
-            socket.emit("end", {id: event.data.videoId, channel: chan.toLowerCase()});
+            socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
             break;
     }
 }

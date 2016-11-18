@@ -107,7 +107,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
 	    height: 562,
 	    width: 1000,
-			playerVars: { 'autoplay': 0, 'controls': 0 },
+			playerVars: { 'autoplay': 0, 'controls': 0, rel:"0", wmode:"transparent", iv_load_policy: "3" },
       events: {
 				'onReady': onPlayerReady,
 				'onStateChange': onPlayerStateChange
@@ -136,7 +136,7 @@ function onPlayerStateChange(event) {
 	//channel.send({'event':'stateChange','message':event.data});
   console.log(event);
 	if (event.data==YT.PlayerState.ENDED) {
-		customMessageBus.broadcast({type: -1, videoId: videoId})
+		customMessageBus.broadcast("{type: -1, videoId: " + videoId + "}")
     customMessageBus.send("urn:x-cast:zoff.no", {type: -1, videoId: videoId})
 	}
 }
