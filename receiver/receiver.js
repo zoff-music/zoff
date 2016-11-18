@@ -40,7 +40,7 @@ customMessageBus.onMessage = function(event) {
     case "nextVideo":
       nextVideo = json_parsed.videoId;
       nextTitle = json_parsed.title;
-      $("#next_title").html(nextTitle);
+      $("#next_title").html("Next Song:<br>" + nextTitle);
       $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
       $("#next_song").css("display", "flex");
       break;
@@ -136,7 +136,7 @@ function onPlayerStateChange(event) {
 	//channel.send({'event':'stateChange','message':event.data});
   console.log(event);
 	if (event.data==YT.PlayerState.ENDED) {
-		customMessageBus.broadcast("{type: -1, videoId: '" + videoId + "'}")
+		customMessageBus.broadcast(JSON.stringify({type: -1, videoId: " + videoId + "}));
     //customMessageBus.send("urn:x-cast:zoff.no", {type: -1, videoId: videoId})
 	}
 }
