@@ -13,9 +13,6 @@ RewriteCond %{HTTP_HOST} ^remote.zoff.no
 RewriteCond %{REQUEST_URI} !/static
 RewriteRule ^(.*)$ php/controller.php [L,NC,QSA]
 
-RewriteCond %{HTTP_HOST} ^cast.zoff.no
-RewriteRule ^(.*)$ receiver/ [L,NC,QSA]
-
 RewriteCond %{HTTP_HOST} ^bot.zoff.no
 RewriteCond %{REQUEST_URI} !/static
 RewriteRule ^(.*)$ php/bot.php [L,NC,QSA]
