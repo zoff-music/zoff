@@ -36,10 +36,39 @@
 			.hide{
 				display: none;
 			}
+
+			#next_song{
+				display:none;
+				position: absolute;
+		    background: rgba(255,255,255,0.2);
+		    right: 10px;
+		    bottom: 10px;
+		    border: 1px solid white;
+		    width: 15rem;
+		    height: 7rem;
+			}
+
+			#next_pic{
+		    height: 7rem;
+		    width: 7rem;
+			}
+
+			#next_title{
+				position: absolute;
+		    top: 45%;
+		    right: 0px;
+		    width: 8rem;
+		    overflow: hidden;
+		    color: white;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="wrapper">
+			<div id="next_song">
+		    <img id="next_pic" src="://" alt="kuk">
+		    <div id="next_title">Coolest song</div>
+		  </div>
 			<img id="zoff-logo" class="center" src="squareicon_small.png" alt="logo">
 			<div id="player" class="hide"></div>
 		</div>

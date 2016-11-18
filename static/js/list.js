@@ -9,18 +9,33 @@ var List = {
         {
             case "list":
                 List.populate_list(msg.playlist);
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
                 break;
             case "added":
                 List.added_song(msg.value);
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
                 break;
             case "deleted":
                 List.deleted_song(msg.value);
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
                 break;
             case "vote":
                 List.voted_song(msg.value, msg.time);
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
                 break;
             case "song_change":
                 if(window.location.pathname != "/") List.song_change(msg.time);
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
                 break;
         }
     },
@@ -267,8 +282,7 @@ var List = {
             if($("#wrapper").children().length >= List.page + 20){
                 $($("#wrapper").children()[List.page + 20]).css("display", "block");
             }
-            document.getElementById('wrapper').scrollTop += 1;
-            document.getElementById('wrapper').scrollTop += -1;
+
         }catch(e){}
     },
 

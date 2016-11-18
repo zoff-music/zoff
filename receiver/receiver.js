@@ -30,6 +30,10 @@ customMessageBus.onMessage = function(event) {
       break;
     case "nextVideo":
       nextVideo = event.data.videoId;
+      nextTitle = event.data.title;
+      $("#next_title").html(nextTitle);
+      $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
+      $("#next_song").css("display", "block");
       break;
   }
 }
