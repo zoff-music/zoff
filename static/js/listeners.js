@@ -308,7 +308,7 @@ function chromecastListener(evt, data){
     console.log(data);
     var json_parsed = JSON.parse(data);
     switch(json_parsed){
-        case "-1":
+        case -1:
             socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
             break;
     }
