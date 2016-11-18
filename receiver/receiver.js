@@ -9,7 +9,6 @@ customMessageBus.onMessage = function(event) {
       break;
 
   }
-   ytMessages[event.data.type](event);
 }
 /**
  * Application config
