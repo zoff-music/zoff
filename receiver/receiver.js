@@ -3,7 +3,7 @@ cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
-   console.log(event);
+   ytMessages[event.message.type](event);
 }
 /**
  * Application config
@@ -54,7 +54,7 @@ ytChannelHandler.addEventListener(
 );
 
 receiver.start();
-
+*/
 window.addEventListener('load', function() {
   var tag = document.createElement('script');
   tag.src = "https://www.youtube.com/iframe_api";
@@ -107,15 +107,7 @@ function onPlayerReady() {
 
 function onPlayerStateChange(event) {
 	channel.send({'event':'stateChange','message':event.data});
-	/*if (event.data==YT.PlayerState.ENDED) {
+	if (event.data==YT.PlayerState.ENDED) {
 		endcast();
 	}
 }
-
-	function onMessage(event) {
-		ytMessages[event.message.type](event);
-    	}
-
-	function endcast() {
-		setTimeout(window.close, 2000);
-	}*/
