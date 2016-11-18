@@ -3,7 +3,12 @@ cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
+  switch(event.data.type){
+    case "loadVideoBy":
+      player.loadVideoById(event.data.videoId);
+      break;
 
+  }
    ytMessages[event.data.type](event);
 }
 /**
@@ -103,7 +108,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
-  channel.send({'event':'iframeApiReady','message':'ready'});
+  //channel.send({'event':'iframeApiReady','message':'ready'});
 }
 
 function onPlayerStateChange(event) {

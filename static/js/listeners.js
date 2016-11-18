@@ -252,7 +252,7 @@ initializeCastApi = function() {
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     window.castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     chromecastAvailable = true;
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id})
+                    //castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id})
                     //cast.framework.CastSession(castSession);
                     $(".castButton").toggleClass("hide");
                     $(".castButton-active").toggleClass("hide");
