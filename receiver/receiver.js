@@ -28,17 +28,16 @@ customMessageBus.onMessage = function(event) {
       }
       break;
     case "stopVideo":
-      if(!loading) player.stopVideo();
+      player.stopVideo();
       break;
     case "pauseVideo":
-      if(!loading) player.pauseVideo();
+      player.pauseVideo();
       break;
     case "playVideo":
-      if(!loading) player.playVideo();
+      player.playVideo();
       break;
     case "seekTo":
-      if(!loading) player.seekTo(json_parsed.seekTo);
-      else seekTo = json_parsed.seekTo;
+      player.seekTo(json_parsed.seekTo);
       break;
     case "nextVideo":
       nextVideo = json_parsed.videoId;

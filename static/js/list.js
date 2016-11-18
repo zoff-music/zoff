@@ -21,9 +21,6 @@ var List = {
                 break;
             case "deleted":
                 List.deleted_song(msg.value);
-                if(chromecastAvailable){
-                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-                }
                 break;
             case "vote":
                 List.voted_song(msg.value, msg.time);
@@ -217,6 +214,9 @@ var List = {
                     $(".next_page_hide").css("display", "inline-block");
                     $(".next_page").css("display", "none");
                 }
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
             }, 305);
 
         }catch(err){
@@ -227,6 +227,9 @@ var List = {
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
                 } else if($("#wrapper").children().length > List.page + 20){
                     $($("#wrapper").children()[List.page + 19]).css("display", "block");
+                }
+                if(chromecastAvailable){
+                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
             }
         }
