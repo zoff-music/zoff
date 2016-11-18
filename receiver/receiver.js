@@ -6,6 +6,7 @@ customMessageBus.onMessage = function(event) {
   switch(event.data.type){
     case "loadVideoBy":
       player.loadVideoById(event.data.videoId);
+      player.playVideo();
       break;
 
   }
@@ -111,7 +112,7 @@ function onPlayerReady() {
 }
 
 function onPlayerStateChange(event) {
-	channel.send({'event':'stateChange','message':event.data});
+	//channel.send({'event':'stateChange','message':event.data});
 	if (event.data==YT.PlayerState.ENDED) {
 		endcast();
 	}
