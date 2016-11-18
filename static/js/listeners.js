@@ -246,12 +246,10 @@ initializeCastApi = function() {
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
         function(event) {
-            console.log(event);
             switch (event.sessionState) {
                 case cast.framework.SessionState.SESSION_STARTED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     castSession.addMessageListner("urn:x-cast:zoff.no", chromecastListener)
-                    window.castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     chromecastAvailable = true;
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
 
@@ -274,8 +272,6 @@ initializeCastApi = function() {
             }
     });
 };
-
-window.hide_native = hide_native;
 
 function hide_native(way){
     if(way == 1){
