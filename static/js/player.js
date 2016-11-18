@@ -25,9 +25,9 @@ var Player = {
             document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
             $("#player_overlay").height($("#player").height());
 
-            if(!window.MSStream) $("#player_overlay").toggleClass("hide");
+            if(!window.MSStream && !chromecastAvailable) $("#player_overlay").toggleClass("hide");
             try{
-                Player.player.stopVideo();
+                Player.stopVideo();
             }catch(e){}
             //List.importOldList(channel.toLowerCase());
         } else if(paused){
@@ -35,7 +35,7 @@ var Player = {
             Player.getTitle(obj.np[0].title, viewers);
             //Player.setBGimage(video_id);
             Player.notifyUser(obj.np[0].id, obj.np[0].title);
-            Player.player.stopVideo();
+            Player.stopVideo();
         }else if(!paused){
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
@@ -69,20 +69,20 @@ var Player = {
                 try{
                     if(Player.player.getVideoUrl().split('v=')[1] != video_id)
                     {
-                        Player.player.loadVideoById(video_id);
+                        Player.loadVideoById(video_id);
                         Player.notifyUser(video_id, song_title);
-                        Player.player.seekTo(seekTo);
+                        Player.seekTo(seekTo);
                         if(paused)
-                            Player.player.pauseVideo();
+                            Player.pauseVideo();
                     }
                     if(!paused){
                         if(!mobile_beginning)
-                           Player.player.playVideo();
+                           Player.playVideo();
                         if(!durationBegun)
                             Player.durationSetter();
                     }
-                    if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0)
-                        Player.player.seekTo(seekTo);
+                    if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable)
+                        Player.seekTo(seekTo);
                     Player.after_load  = video_id;
 
                     if(!Player.loaded) setTimeout(function(){Player.loaded = true;},500);
@@ -113,17 +113,17 @@ var Player = {
     		case 0:
                 playing = false;
                 paused  = false;
-    			socket.emit("end", {id: video_id, channel: chan.toLowerCase()});
+    		    socket.emit("end", {id: video_id, channel: chan.toLowerCase()});
     			break;
     		case 1:
 
     			playing = true;
                 if(beginning && Helper.mobilecheck()){
-                    Player.player.pauseVideo();
+                    Player.pauseVideo();
                     beginning = false;
                     mobile_beginning = false;
                 }
-                if(!embed && window.location.pathname != "/") Helper.addClass("#player_overlay", "hide");
+                if(!embed && window.location.pathname != "/" && chromecastAvailable) Helper.addClass("#player_overlay", "hide");
                 if(window.location.pathname != "/"){
         			if(document.getElementById("play").className.split(" ").length == 1)
         				$("#play").toggleClass("hide");
@@ -150,6 +150,46 @@ var Player = {
     		case 3:
     			break;
     	}
+    },
+
+    playVideo: function(){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+        } else {
+            Player.player.playVideo();
+        }
+    },
+
+    pauseVideo: function(){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+        } else {
+            Player.player.pauseVideo();
+        }
+    },
+
+    seekTo: function(_seekTo){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "seekTo", seekTo: _seekTo});
+        } else {
+            Player.player.seekTo(_seekTo);
+        }
+    },
+
+    loadVideoById: function(id){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideoById", videoId: id});
+        } else {
+            Player.player.loadVideoById(id);
+        }
+    },
+
+    stopVideo: function(){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "stopVideo"});
+        } else {
+            Player.player.stopVideo();
+        }
     },
 
     getTitle: function(titt, v)
@@ -188,12 +228,12 @@ var Player = {
 
             /*}else{
                 setTimeout(function(){
-                Player.player.loadVideoById(video_id);
+                Player.loadVideoById(video_id);
                 Player.count ++;
                 }, Math.floor((Math.random() * 100) + 1));
             }*/
     	}else if(video_id !== undefined)
-    		Player.player.loadVideoById(video_id);
+    		Player.loadVideoById(video_id);
     },
 
     onPlayerReady: function(event) {
@@ -206,21 +246,21 @@ var Player = {
     			$("#player").css("opacity", "1");
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
-    			Player.player.loadVideoById(video_id);
+    			Player.loadVideoById(video_id);
                 if(autoplay && !Helper.mobilecheck())
-                    Player.player.playVideo();
+                    Player.playVideo();
                 if(!durationBegun)
                     Player.durationSetter();
                 if(embed){
                     setTimeout(function(){
-                        Player.player.seekTo(seekTo);
+                        Player.seekTo(seekTo);
                         if(!autoplay){
-                            Player.player.pauseVideo();
+                            Player.pauseVideo();
                             Playercontrols.play_pause_show();
                         }
                     }, 1000);
                 }else
-                Player.player.seekTo(seekTo);
+                Player.seekTo(seekTo);
     		}
     		Player.readyLooks();
     		Playercontrols.initYoutubeControls(Player.player);

@@ -250,10 +250,13 @@ initializeCastApi = function() {
             switch (event.sessionState) {
                 case cast.framework.SessionState.SESSION_STARTED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                    castSession.addMessageListner("urn:x-cast:zoff.no", chromecastListener)
                     window.castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     chromecastAvailable = true;
-                    //castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id})
-                    //cast.framework.CastSession(castSession);
+                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
+
+                    hide_native(1);
+
                     $(".castButton").toggleClass("hide");
                     $(".castButton-active").toggleClass("hide");
                     break;
@@ -265,11 +268,47 @@ initializeCastApi = function() {
                     chromecastAvailable = false;
                     $(".castButton").toggleClass("hide");
                     $(".castButton-active").toggleClass("hide");
+                    hide_native(0);
                     // Update locally as necessary
                     break;
             }
     });
 };
+
+window.hide_native = hide_native;
+
+function hide_native(way){
+    if(way == 1){
+        $("#controls").toggleClass("hide");
+        Player.player.stopVideo();
+        Player.stopInterval = true;
+        $("#player").toggleClass("hide");
+        $("#player_overlay").toggleClass("hide");
+        //$("#player_overlay").css("display", "block");
+        $("#player_overlay").css("height", "100%");
+        $("#player_overlay_text").toggleClass("hide");
+        $("#player_overlay_controls").css("display", "inherit");
+    } else if(way == 0){
+        $("#controls").toggleClass("hide");
+        Player.player.playVideo();
+        Player.stopInterval = false;
+        Player.durationSetter();
+        $("#player").toggleClass("hide");
+        $("#player_overlay").toggleClass("hide");
+        $("#player_overlay").css("height", "100%");
+        $("#player_overlay_text").toggleClass("hide");
+        $("#player_overlay_controls").css("display", "none");
+        socket.emit('pos', {channel: chan.toLowerCase()});
+    }
+}
+
+function chromecastListener(event){
+    switch(event.data.type){
+        case -1:
+            socket.emit("end", {id: event.data.videoId, channel: chan.toLowerCase()});
+            break;
+    }
+}
 
 function setup_no_connection_listener(){
     socket.on('connect_failed', function(){
@@ -404,6 +443,18 @@ $(document).keyup(function(e) {
   	}
 });
 
+$(document).on("click", "#playpause-overlay", function(){
+    if($("#play-overlay").hasClass("hide")){
+        Player.pauseVideo();
+        $("#play-overlay").toggleClass("hide");
+        $("#pause-overlay").toggleClass("hide");
+    } else if($("#pause-overlay").hasClass("hide")){
+        Player.playVideo();
+        $("#play-overlay").toggleClass("hide");
+        $("#pause-overlay").toggleClass("hide");
+    }
+});
+
 $(document).on("click", ".castButton-active", function(e){
     e.preventDefault();
     var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -529,7 +580,7 @@ $(document).on("change", 'input[class=conf]', function()
 });
 
 $("#clickme").click(function(){
-	Player.player.playVideo();
+	Player.playVideo();
 });
 
 $(document).on("click", "#listExport", function(e){

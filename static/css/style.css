@@ -16,6 +16,17 @@
   border:none !important;
 }
 
+#player_overlay_controls{
+  font-size:7rem;
+    width: 100%;
+    height: 100%;
+}
+
+#volume-button-overlay, #playpause-overlay{
+  display: inline-block;
+    margin: auto;
+}
+
 #pageButtons, #pageButtons a{
   color:white !important;
 }
