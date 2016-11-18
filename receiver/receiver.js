@@ -9,13 +9,14 @@ window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
   console.log(event);
+  var json_parsed = JSON.parse(event.data);
   console.log(player);
-  switch(event.data.type){
+  switch(json_parsed.type){
     case "loadVideoBy":
       if(ytReady){
-        player.loadVideoById(event.data.videoId);
+        player.loadVideoById(json_parsed.videoId);
       } else {
-        videoId = event.data.videoId;
+        videoId = json_parsed.videoId;
       }
       break;
     case "stopVideo":
@@ -28,11 +29,11 @@ customMessageBus.onMessage = function(event) {
       player.playVideo();
       break;
     case "seekTo":
-      player.seekTo(event.data.seekTo);
+      player.seekTo(json_parsed.seekTo);
       break;
     case "nextVideo":
-      nextVideo = event.data.videoId;
-      nextTitle = event.data.title;
+      nextVideo = json_parsed.videoId;
+      nextTitle = json_parsed.title;
       $("#next_title").html(nextTitle);
       $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
       $("#next_song").css("display", "block");
