@@ -139,9 +139,11 @@ var Player = {
     		case 2:
                 /*if(Helper.mobilecheck() || embed)
                 {*/
-    			    paused = true;
-                    if(window.location.pathname != "/") Playercontrols.play_pause_show();
-                    mobile_beginning = true;
+                    if(!chromecastAvailable){
+        			    paused = true;
+                        if(window.location.pathname != "/") Playercontrols.play_pause_show();
+                        mobile_beginning = true;
+                    }
                 /*}
                 else
                     Player.player.playVideo();*/
