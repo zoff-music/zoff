@@ -15,8 +15,14 @@ customMessageBus.onMessage = function(event) {
     case "loadVideo":
       if(ytReady){
         player.loadVideoById(json_parsed.videoId);
+        if(json_parsed.seekTo){
+          player.seekTo(json_parsed.seekTo);
+        }
       } else {
         videoId = json_parsed.videoId;
+        if(json_parsed.seekTo){
+          seekTo = json_parsed.seekTo;
+        }
       }
       break;
     case "stopVideo":
@@ -128,7 +134,9 @@ function onPlayerReady() {
 
 function onPlayerStateChange(event) {
 	//channel.send({'event':'stateChange','message':event.data});
+  console.log(event);
 	if (event.data==YT.PlayerState.ENDED) {
 		customMessageBus.broadcast({type: -1, videoId: videoId})
+    customMessageBus.send("urn:x-cast:zoff.no", {type: -1, videoId: videoId})
 	}
 }
