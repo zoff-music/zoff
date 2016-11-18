@@ -1,10 +1,10 @@
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
+
+window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
 customMessageBus.onMessage = function(event) {
    console.log(event);
 }
-
-window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 /**
  * Application config
  **/
