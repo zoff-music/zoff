@@ -45,7 +45,7 @@ customMessageBus.onMessage = function(event) {
       nextTitle = json_parsed.title;
       $("#next_title").html("Next Song:<br>" + nextTitle);
       $("#next_pic").attr("src", "//img.youtube.com/vi/"+nextVideo+"/mqdefault.jpg");
-      $("#next_song").css("display", "flex");
+      if(ytReady) $("#next_song").css("display", "flex");
       break;
   }
 }
@@ -123,6 +123,7 @@ function onPlayerReady() {
   $("#player").toggleClass("hide");
   $("#zoff-logo").toggleClass("center");
   $("#zoff-logo").toggleClass("lower_left");
+  $("#next_song").css("display", "flex");
   console.log(videoId);
   if(videoId){
     loading = true;
