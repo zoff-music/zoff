@@ -24,7 +24,8 @@
 
 #volume-button-overlay, #playpause-overlay{
   display: inline-block;
-    margin: auto;
+  margin: auto;
+  cursor: pointer;
 }
 
 #pageButtons, #pageButtons a{
