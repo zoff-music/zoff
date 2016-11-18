@@ -1,4 +1,9 @@
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
+var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:zoff.no');
+customMessageBus.onMessage = function(event) {
+   console.log(event);
+}
+
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 /**
  * Application config
@@ -37,10 +42,6 @@ window.castReceiverManager.onSenderDisconnected = function(event) {
   }
 }
 
-var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:super.awesome.example');
-customMessageBus.onMessage = function(event) {
-   console.log(event);
-}
 
 /*
 var receiver = new cast.receiver.Receiver("E6856E24", ["no.zoff.customcast"],"",5);
