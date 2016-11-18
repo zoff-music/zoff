@@ -194,6 +194,12 @@ var Player = {
         }
     },
 
+    sendNext: function(obj){
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", title: obj.title, videoId: obj.videoId});
+        }
+    },
+
     getTitle: function(titt, v)
     {
 
