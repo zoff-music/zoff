@@ -38,6 +38,7 @@ var connect_error         = false;
 var access_token_data_youtube = {};
 var youtube_authenticated = false;
 var chromecastAvailable = false;
+var castSession;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -241,22 +242,17 @@ initializeCastApi = function() {
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
-    //var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-    //console.log(castSession);
     var context = cast.framework.CastContext.getInstance();
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
         function(event) {
             console.log(event);
             switch (event.sessionState) {
-                case cast.framework.SessionState.SESSION_STARTING:
-                    var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                    console.log(castSession);
-                    break;
                 case cast.framework.SessionState.SESSION_STARTED:
-                    var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                    castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                    window.castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                    chromecastAvailable = true;
                     //cast.framework.CastSession(castSession);
-                    console.log(castSession);
                     $(".castButton").toggleClass("hide");
                     $(".castButton-active").toggleClass("hide");
                     break;
@@ -265,20 +261,13 @@ initializeCastApi = function() {
                     $(".castButton-active").toggleClass("hide");
                     break;
                 case cast.framework.SessionState.SESSION_ENDED:
+                    chromecastAvailable = false;
                     $(".castButton").toggleClass("hide");
                     $(".castButton-active").toggleClass("hide");
                     // Update locally as necessary
                     break;
             }
     });
-    console.log(context);
-    console.log("asd");
-    if(context.L == "NOT_CONNECTED"){
-        //$(".castButton").css("display", "inline-block");
-        var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-        console.log("hello");
-        console.log(castSession);
-    }
 };
 
 function setup_no_connection_listener(){
