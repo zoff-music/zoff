@@ -299,6 +299,7 @@ function hide_native(way){
 }
 
 function chromecastListener(event){
+    console.log(event);
     switch(event.data.type){
         case -1:
             socket.emit("end", {id: event.data.videoId, channel: chan.toLowerCase()});
