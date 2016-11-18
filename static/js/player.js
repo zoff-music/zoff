@@ -132,7 +132,7 @@ var Player = {
                 }
     			if(paused)
     			{
-    				socket.emit('pos', {channel: chan.toLowerCase()});
+    				if(!chromecastAvailable) socket.emit('pos', {channel: chan.toLowerCase()});
     				paused = false;
     			}
     			break;
