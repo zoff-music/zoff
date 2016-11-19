@@ -507,6 +507,10 @@ $(document).on("click", "#closePlayer", function(e){
   	e.preventDefault();
 	socket.emit("change_channel");
     try{
+        if(chromecastAvailable){
+            var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+            castSession.endSession(true);
+        }
         Player.player.destroy();
     } catch(error){}
     socket.removeEventListener("np");
