@@ -858,15 +858,11 @@ $(document).on("click", "#closeSettings", function(e)
 });
 
 $(window).resize(function(){
-    List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
-    List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
-    var i = 2;
-    while(List.element_height < 50 || i > 10){
-        List.can_fit = Math.round(($("#wrapper").height()) / 71)+i;
+    if(chan){
+        List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
-        i = i + 1;
+        $(".list-song").css("height", List.element_height + "px");
     }
-    $(".list-song").css("height", List.element_height + "px");
 })
 
 $(document).on( "click", ".result-object", function(e){

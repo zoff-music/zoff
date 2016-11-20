@@ -79,12 +79,6 @@ var List = {
         if(!Helper.mobilecheck()){
             List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
-            var i = 2;
-            while(List.element_height < 50 || i < 10){
-                List.can_fit = Math.round(($("#wrapper").height()) / 71)+i;
-                List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
-                i = i + 1;
-            }
         } else {
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() -66) / 71)+1;
             List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() -66) / List.can_fit)-6;
