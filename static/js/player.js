@@ -68,7 +68,6 @@ var Player = {
 
                 try{
                     if(Player.player.getVideoUrl().split('v=')[1] != video_id || chromecastAvailable){
-                        console.log("chromecast!");
                         Player.loadVideoById(video_id);
                         Player.notifyUser(video_id, song_title);
                         Player.seekTo(seekTo);

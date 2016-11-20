@@ -31,6 +31,12 @@ var Nochan = {
   {
     $("#channels").empty();
     frontpage = true;
+
+    Helper.log("-----------");
+    Helper.log("Frontpage fetch");
+    helper.log(msg);
+    Helper.log("------------");
+
     Nochan.populate_channels(msg.channels);
 
     Nochan.set_viewers(msg.viewers);
@@ -49,6 +55,10 @@ var Nochan = {
         lists.unshift(pinned);
       }
       pre_card = $(channel_list);
+
+      Helper.log("------------");
+      Helper.log("pre_card", pre_card);
+      Helper.log("-------------");
 
       if(!Helper.mobilecheck())
         Nochan.add_backdrop(lists, 0);
@@ -329,7 +339,10 @@ function initfp(){
       setup_playlist_listener();
     }
 
-    window.socket = socket;
+    Helper.log("----");
+    Helper.log("Sending frontpage_lists");
+    Helper.log("Socket", socket);
+    Helper.log("-----");
 
     socket.emit('frontpage_lists');
 

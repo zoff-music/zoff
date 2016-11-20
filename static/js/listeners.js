@@ -383,6 +383,7 @@ function setup_list_listener(){
 }
 
 function setup_playlist_listener(){
+    Helper.log("Setting up playlist_listener");
 	socket.on('playlists', Nochan.frontpage_function);
 }
 
