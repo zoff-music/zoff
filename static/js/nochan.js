@@ -34,7 +34,7 @@ var Nochan = {
 
     Helper.log("-----------");
     Helper.log("Frontpage fetch");
-    helper.log(msg);
+    Helper.log(msg);
     Helper.log("------------");
 
     Nochan.populate_channels(msg.channels);
