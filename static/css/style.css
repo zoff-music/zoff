@@ -1304,7 +1304,7 @@ nav ul li:hover, nav ul li.active {
 #del, #del_suggested, #del_user_suggested{
   position: absolute;
   text-align: right;
-  bottom: -72%;
+  bottom: -67%;
   left: 0%;
   height: 100%;
   line-height: normal;
