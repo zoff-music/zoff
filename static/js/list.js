@@ -64,7 +64,7 @@ var List = {
             } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                 $($("#wrapper").children()[List.page - 1]).css("display", "block");
             } else if($("#wrapper").children().length > List.page + List.can_fit){
-                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "block");
+                $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
             }
              if(transition){
                  setTimeout(function(){
@@ -291,9 +291,9 @@ var List = {
                 $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
             List.insertAtIndex(full_playlist[length-1], false);
-            if($("#wrapper").children().length >= List.page + List.can_fit){
-                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "block");
-            }
+            /*if($("#wrapper").children().length >= List.page + List.can_fit){
+                $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
+            }*/
 
         }catch(e){}
     },
