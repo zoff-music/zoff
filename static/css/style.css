@@ -1293,7 +1293,8 @@ nav ul li:hover, nav ul li.active {
  }
 
 .list-remove{
-    margin-top: -23px;
+  width: 27%;
+  margin-top: -31px;
   font-size: 12px;
   height: 20px;
   display: inline-table;
