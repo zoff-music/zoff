@@ -1293,7 +1293,7 @@ nav ul li:hover, nav ul li.active {
  }
 
 .list-remove{
-  width: 27%;
+  width: 70px;
   margin-top: -31px;
   font-size: 12px;
   height: 20px;
@@ -1306,11 +1306,12 @@ nav ul li:hover, nav ul li.active {
   position: absolute;
   text-align: right;
   bottom: -67%;
-  left: 0%;
+  right: 0%;
   height: 100%;
   line-height: normal;
   padding: 2px 12px;
   color: white;
+  width: initial;
 }
 
 .result {
