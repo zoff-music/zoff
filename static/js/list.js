@@ -62,7 +62,7 @@ var List = {
             if(display == "block" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
                 $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
             } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-                $($("#wrapper").children()[List.page - 1]).css("display", "block");
+                $($("#wrapper").children()[List.page]).css("display", "block");
             } else if($("#wrapper").children().length > List.page + List.can_fit){
                 $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
             }
