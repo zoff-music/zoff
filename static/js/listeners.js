@@ -857,6 +857,11 @@ $(document).on("click", "#closeSettings", function(e)
   	Admin.hide_settings();
 });
 
+$(window).resize(function(){
+    List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
+    $(".list-song").css("height", List.element_height + "px");
+})
+
 $(document).on( "click", ".result-object", function(e){
 	var $html  = $(e.target);
 	var substr = $html.prop('outerHTML').substring(0,4);
