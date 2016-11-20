@@ -1302,10 +1302,14 @@ nav ul li:hover, nav ul li.active {
 }
 
 #del, #del_suggested, #del_user_suggested{
-    height: 100%;
-    line-height: normal;
-    padding: 2px 12px;
-    color:white;
+  position: absolute;
+  text-align: right;
+  bottom: -72%;
+  left: 0%;
+  height: 100%;
+  line-height: normal;
+  padding: 2px 12px;
+  color: white;
 }
 
 .result {

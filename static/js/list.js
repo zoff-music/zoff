@@ -2,9 +2,12 @@ var List = {
 
     empty: false,
     page: 0,
+    can_fit: Math.round(($("#wrapper").height()) / 71),
+    element_height: (($("#wrapper").height()) / Math.round(($("#wrapper").height()) / 71)) - 25,
 
     channel_function: function(msg)
     {
+
         switch(msg.type)
         {
             case "list":
@@ -47,7 +50,7 @@ var List = {
         var i = List.getIndexOfSong(song_info.id);
         var display = "none";
         if(!song_info.now_playing){
-            if(i >= List.page && i < List.page + 19) display = "block"
+            if(i >= List.page && i < List.page + (List.can_fit-1)) display = "block"
             var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
                 $("#wrapper").prepend(add);
@@ -56,16 +59,16 @@ var List = {
             }
             var added = $("#wrapper").children()[i];
             $(added).css("display", display);
-            if(display == "block" && $("#wrapper").children().length >= List.page + 21){
-                $($("#wrapper").children()[List.page + 20]).css("display", "none");
+            if(display == "block" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
+                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
             } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                 $($("#wrapper").children()[List.page - 1]).css("display", "block");
-            } else if($("#wrapper").children().length > List.page + 20){
-                $($("#wrapper").children()[List.page + 20]).css("display", "block");
+            } else if($("#wrapper").children().length > List.page + List.can_fit){
+                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "block");
             }
              if(transition){
                  setTimeout(function(){
-                     $(added).css("height", 66);
+                     $(added).css("height", List.element_height);
                  },5);
              }
         }
@@ -73,9 +76,15 @@ var List = {
 
     populate_list: function(msg)
     {
+        if(!Helper.mobilecheck()){
+            List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
+            List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
+        } else {
+            List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() -66) / 71)+1;
+            List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() -66) / List.can_fit)-6;
+        }
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
-        List.can_fit = (($("main").height()) / 66);
 
         List.sortList();
 	    $("#wrapper").empty();
@@ -91,7 +100,7 @@ var List = {
                     $("#wrapper").append(List.generateSong(current_song, false, lazy_load, true, false, "", true));
     			}
     		});
-            if($("#wrapper").children().length > 20 && !$("#pageButtons").length){
+            if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
                 $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page_hide").css("display","none");
@@ -130,23 +139,23 @@ var List = {
 
     dynamicContentPage: function(way){
         if(way == 1){
-            $("#wrapper").children().slice(List.page, List.page + 20).hide();
-            List.page = List.page + 20;
-            $("#wrapper").children().slice(List.page, List.page + 20).show();
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+            List.page = List.page + List.can_fit;
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
             if(List.page > 0 && $(".prev_page").hasClass("hide")){
                 $(".prev_page").toggleClass("hide");
                 $(".prev_page_hide").css("display", "none");
             }
 
-            if(List.page + 20 >= $("#wrapper").children().length){
+            if(List.page + List.can_fit >= $("#wrapper").children().length){
                 $(".next_page_hide").css("display", "inline-block");
                 $(".next_page").css("display", "none");
             }
             //$("#wrapper").scrollTop(0);
         } else {
-            $("#wrapper").children().slice(List.page - 20, List.page).show();
-            $("#wrapper").children().slice(List.page, List.page + 20).hide();
-            List.page = List.page - 20;
+            $("#wrapper").children().slice(List.page - List.can_fit, List.page).show();
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+            List.page = List.page - List.can_fit;
             //$("#wrapper").scrollTop(0);
             if(List.page == 0 && !$(".prev_page").hasClass("hide")){
                 $(".prev_page").toggleClass("hide");
@@ -157,12 +166,12 @@ var List = {
                 $(".prev_page_hide").css("display", "none");
             }
 
-            if(List.page + 20 < $("#wrapper").children().length){
+            if(List.page + List.can_fit < $("#wrapper").children().length){
                 $(".next_page_hide").css("display", "none");
                 $(".next_page").css("display", "inline-block");
             }
         }
-        $("#pageNumber").html((List.page / 20) + 1);
+        $("#pageNumber").html((List.page / List.can_fit) + 1);
     },
 
     added_song: function(added){
@@ -182,7 +191,7 @@ var List = {
         }
         $("#empty-channel-message").remove();
         List.insertAtIndex(added, true);
-        if($("#wrapper").children().length > List.page + 20){
+        if($("#wrapper").children().length > List.page + List.can_fit){
             $(".next_page_hide").css("display", "none");
             $(".next_page").removeClass("hide");
             $(".next_page").css("display", "inline-block");
@@ -205,12 +214,12 @@ var List = {
                 full_playlist.splice(List.getIndexOfSong(deleted), 1);
                 if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
-                } else if($("#wrapper").children().length > List.page + 19){
-                    $($("#wrapper").children()[List.page + 19]).css("display", "block");
+                } else if($("#wrapper").children().length > List.page + (List.can_fit-1)){
+                    $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "block");
                 }
                 if(List.page >= $("#wrapper").children().length){
                     List.dynamicContentPage(-1);
-                } else if(List.page + 20 >= $("#wrapper").children().length){
+                } else if(List.page + List.can_fit >= $("#wrapper").children().length){
                     $(".next_page_hide").css("display", "inline-block");
                     $(".next_page").css("display", "none");
                 }
@@ -225,8 +234,8 @@ var List = {
                 $("#wrapper").children()[$("#wrapper").children().length-1].remove();
                 if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
-                } else if($("#wrapper").children().length > List.page + 20){
-                    $($("#wrapper").children()[List.page + 19]).css("display", "block");
+                } else if($("#wrapper").children().length > List.page + List.can_fit){
+                    $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "block");
                 }
                 if(chromecastAvailable){
                   Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
@@ -239,7 +248,7 @@ var List = {
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         $("#suggested-"+deleted).remove();
-        if(List.page + 20 < $("#wrapper").children().length){
+        if(List.page + List.can_fit < $("#wrapper").children().length){
             $(".next_page_hide").css("display", "none");
             $(".next_page").css("display", "inline-block");
         }
@@ -282,8 +291,8 @@ var List = {
                 $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
             List.insertAtIndex(full_playlist[length-1], false);
-            if($("#wrapper").children().length >= List.page + 20){
-                $($("#wrapper").children()[List.page + 20]).css("display", "block");
+            if($("#wrapper").children().length >= List.page + List.can_fit){
+                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "block");
             }
 
         }catch(e){}
@@ -430,8 +439,9 @@ var List = {
 
         var attr;
         var del_attr;
-
+        //song.find(".list-song");
         if(transition) song.find("#list-song").css("height", 0);
+        else song.find(".list-song").css("height", List.element_height);
         if(!w_p) song.find(".card-action").removeClass("hide");
         if(video_votes == 1)song.find(".vote-text").text("vote");
         if(lazy){
@@ -443,7 +453,7 @@ var List = {
             song.find(".list-votes").text(video_votes);
             song.find("#list-song").attr("id", video_id);
             song.find(".vote-container").attr("title", video_title);
-            if((($("#wrapper").children().length >= 20) && initial) || display == "none"){
+            if((($("#wrapper").children().length >= List.can_fit) && initial) || display == "none"){
                 song.find(".card").css("display", "none");
             }
             attr     = ".vote-container";
