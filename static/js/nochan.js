@@ -57,7 +57,7 @@ var Nochan = {
       pre_card = $(channel_list);
 
       Helper.log("------------");
-      Helper.log("pre_card", pre_card);
+      Helper.log(pre_card);
       Helper.log("-------------");
 
       if(!Helper.mobilecheck())
@@ -239,7 +239,10 @@ var Nochan = {
     window.scrollTo(0, 0);
     frontpage = false;
     clearTimeout(rotation_timeout);
-    if(Helper.mobilecheck()) socket.removeAllListeners();
+    if(Helper.mobilecheck()){
+      Helper.log("removing all listeners");
+      socket.removeAllListeners();
+    }
     $("body").css("background-color", "#2d2d2d");
     $.ajax({
       url: new_channel + "/php/index.php",
@@ -251,7 +254,10 @@ var Nochan = {
           socket.emit("change_channel", {channel: chan.toLowerCase()});
         }
         $("#frontpage_player").empty();
-        if(Helper.mobilecheck()) socket.disconnect();
+        if(Helper.mobilecheck()) {
+          Helper.log("disconnecting");
+          socket.disconnect();
+        }
 
         if(!popstate){
           window.history.pushState("to the channel!", "Title", "/" + new_channel);

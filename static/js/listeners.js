@@ -996,6 +996,7 @@ function onepage_load(){
 		    success: function(e){
 
 		    	if(Helper.mobilecheck()) {
+                    Helper.log("Removing all listeners");
 		    		socket.removeAllListeners();
 		    		socket.disconnect();
 		    	} else {
@@ -1054,7 +1055,7 @@ function onepage_load(){
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "static/images/favicon.png");
 
-
+                Helper.log(socket);
 		      	if($("#alreadyfp").length == 1){
 		      		initfp();
 		      	}else {
