@@ -101,13 +101,17 @@ var List = {
     			}
     		});
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
+                $(".first_page").toggleClass("hide");
                 $(".next_page_hide").css("display","none");
+                $(".last_page_hide").css("display","none");
             } else if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
+                $(".last_page").toggleClass("hide");
+                $(".first_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
                 $(".prev_page_hide").css("display","inline-block");
             }
@@ -125,9 +129,11 @@ var List = {
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
                 $(".prev_page").toggleClass("hide");
                 $(".next_page").toggleClass("hide");
+                $(".last_page").toggleClass("hide");
+                $(".first_page").toggleClass("hide");
                 $(".next_page_hide").css("display","inline-block");
                 $(".prev_page_hide").css("display","inline-block");
             }
@@ -145,13 +151,58 @@ var List = {
             if(List.page > 0 && $(".prev_page").hasClass("hide")){
                 $(".prev_page").toggleClass("hide");
                 $(".prev_page_hide").css("display", "none");
+                $(".first_page").toggleClass("hide");
+                $(".first_page_hide").css("display", "none");
             }
 
             if(List.page + List.can_fit >= $("#wrapper").children().length){
                 $(".next_page_hide").css("display", "inline-block");
                 $(".next_page").css("display", "none");
+                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page").css("display", "none");
             }
             //$("#wrapper").scrollTop(0);
+        } else if(way == 10){
+          $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+          List.page = (Math.floor(($("#wrapper").children().length - 1)/ List.can_fit) * List.can_fit);
+          $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+
+          if(List.page > 0 && $(".prev_page").hasClass("hide")){
+              $(".prev_page").toggleClass("hide");
+              $(".prev_page_hide").css("display", "none");
+              $(".first_page").toggleClass("hide");
+              $(".first_page_hide").css("display", "none");
+          }
+
+          if(List.page + List.can_fit >= $("#wrapper").children().length){
+              $(".next_page_hide").css("display", "inline-block");
+              $(".next_page").css("display", "none");
+              $(".last_page_hide").css("display", "inline-block");
+              $(".last_page").css("display", "none");
+          }
+        } else if(way==-10){
+          $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+          List.page = 0;
+          $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+          if(List.page == 0 && !$(".prev_page").hasClass("hide")){
+              $(".prev_page").toggleClass("hide");
+              $(".prev_page_hide").css("display", "inline-block");
+              $(".first_page").toggleClass("hide");
+              $(".first_page_hide").css("display", "inline-block");
+          } else if($(".prev_page").hasClass("hide")){
+              $(".prev_page_hide").css("display", "inline-block");
+              $(".first_page_hide").css("display", "inline-block");
+          } else {
+              $(".prev_page_hide").css("display", "none");
+              $(".first_page_hide").css("display", "none");
+          }
+
+          if(List.page + List.can_fit < $("#wrapper").children().length){
+              $(".next_page_hide").css("display", "none");
+              $(".next_page").css("display", "inline-block");
+              $(".last_page_hide").css("display", "none");
+              $(".last_page").css("display", "inline-block");
+          }
         } else {
             $("#wrapper").children().slice(List.page - List.can_fit, List.page).show();
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
@@ -169,6 +220,8 @@ var List = {
             if(List.page + List.can_fit < $("#wrapper").children().length){
                 $(".next_page_hide").css("display", "none");
                 $(".next_page").css("display", "inline-block");
+                $(".last_page_hide").css("display", "none");
+                $(".last_page").css("display", "inline-block");
             }
         }
         $("#pageNumber").html((List.page / List.can_fit) + 1);
