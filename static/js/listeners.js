@@ -219,7 +219,7 @@ function init(){
 	setup_chat_listener();
 	if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
 
-	if(!Helper.msieversion()) Notification.requestPermission();
+	if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
 
 	$(".search_input").focus();
 

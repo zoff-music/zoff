@@ -34,7 +34,7 @@ var Player = {
 
             Player.getTitle(obj.np[0].title, viewers);
             //Player.setBGimage(video_id);
-            Player.notifyUser(obj.np[0].id, obj.np[0].title);
+            if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
             Player.stopVideo();
         }else if(!paused){
             //Helper.log("gotten new song");
@@ -69,7 +69,7 @@ var Player = {
                 try{
                     if(Player.player.getVideoUrl().split('v=')[1] != video_id || chromecastAvailable){
                         Player.loadVideoById(video_id);
-                        Player.notifyUser(video_id, song_title);
+                        if(!Helper.mobilecheck()) Player.notifyUser(video_id, song_title);
                         Player.seekTo(seekTo);
                         if(paused)
                             Player.pauseVideo();
