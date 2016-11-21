@@ -332,7 +332,7 @@ var Player = {
     onYouTubeIframeAPIReady: function() {
       Player.player = new YT.Player('player', {
         videoId: video_id,
-        playerVars: { rel:"0", wmode:"transparent", controls: "0" , iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
+        playerVars: { rel:"0", wmode:"transparent", controls: "0" , fs: "0", iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
         events: {
           'onReady': Player.onPlayerReady,
           'onStateChange': Player.onPlayerStateChange,
