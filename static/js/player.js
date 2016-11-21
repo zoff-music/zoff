@@ -50,7 +50,7 @@ var Player = {
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
 
-            if(mobile_beginning && Helper.mobilecheck() && seekTo === 0)
+            if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable)
                 seekTo = 1;
 
             try{
@@ -75,7 +75,7 @@ var Player = {
                             Player.pauseVideo();
                     }
                     if(!paused){
-                        if(!mobile_beginning)
+                        if(!mobile_beginning || chromecastAvailable)
                            Player.playVideo();
                         if(!durationBegun)
                             Player.durationSetter();
@@ -117,7 +117,7 @@ var Player = {
     		case 1:
 
     			playing = true;
-                if(beginning && Helper.mobilecheck()){
+                if(beginning && Helper.mobilecheck() && !chromecastAvailable){
                     Player.pauseVideo();
                     beginning = false;
                     mobile_beginning = false;
@@ -255,7 +255,7 @@ var Player = {
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
     			Player.loadVideoById(video_id);
-                if(autoplay && !Helper.mobilecheck())
+                if(autoplay && (!Helper.mobilecheck() || chromecastAvailable))
                     Player.playVideo();
                 if(!durationBegun)
                     Player.durationSetter();
