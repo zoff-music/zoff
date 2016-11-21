@@ -38,11 +38,12 @@
   padding:0;
 }
 
-.prev_page, .next_page{
+.prev_page, .next_page, .last_page, .first_page{
   cursor: pointer;
 }
 
-.prev_page_hide, .next_page_hide{
+
+.prev_page_hide, .next_page_hide, .last_page_hide, .first_page_hide{
   visibility: visible !important;
   color:gray;
   cursor:default;
@@ -63,11 +64,13 @@
   margin: 0;
 }
 
-.prev_page_hide, .prev_page{
+.prev_page_hide, .prev_page, .first_page, .first_page_hide{
+  padding:0 10px;
   float:left;
 }
 
-.next_page_hide, .next_page{
+.next_page_hide, .next_page, .last_page, .last_page_hide{
+  padding:0 10px;
   float:right;
 }
 

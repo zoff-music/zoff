@@ -537,6 +537,16 @@ $(document).on("click", ".next_page", function(e){
     List.dynamicContentPage(1);
 });
 
+$(document).on("click", ".last_page", function(e){
+    e.preventDefault();
+    List.dynamicContentPage(10);
+});
+
+$(document).on("click", ".first_page", function(e){
+    e.preventDefault();
+    List.dynamicContentPage(-10);
+});
+
 $(document).on('click', '#toast-container', function(){
     $(".toast").fadeOut(function(){
         $(".toast").remove();
