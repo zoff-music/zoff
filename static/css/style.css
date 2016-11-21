@@ -1397,6 +1397,7 @@ nav ul li:hover, nav ul li.active {
 
 .ui-resizable-e{
   width:15px;
+  cursor: col-resize;
 }
 
 .rounded-bottom{
