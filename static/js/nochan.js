@@ -341,7 +341,7 @@ function initfp(){
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
     if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8880', connection_options);
-    if($("#alreadyfp").length === 0 || Helper.mobilecheck()){
+    if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists){
       setup_playlist_listener();
     }
 
