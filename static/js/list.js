@@ -211,10 +211,14 @@ var List = {
             if(List.page == 0 && !$(".prev_page").hasClass("hide")){
                 $(".prev_page").toggleClass("hide");
                 $(".prev_page_hide").css("display", "inline-block");
+                $(".first_page").toggleClass("hide");
+                $(".first_page_hide").css("display", "inline-block");
             } else if($(".prev_page").hasClass("hide")){
                 $(".prev_page_hide").css("display", "inline-block");
+                $(".first_page_hide").css("display", "inline-block");
             } else {
                 $(".prev_page_hide").css("display", "none");
+                $(".first_page_hide").css("display", "none");
             }
 
             if(List.page + List.can_fit < $("#wrapper").children().length){
