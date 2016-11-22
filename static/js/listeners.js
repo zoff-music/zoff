@@ -873,7 +873,11 @@ $(document).on("click", "#closeSettings", function(e)
 
 $(window).resize(function(){
     if(chan){
-        List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
+        var temp_fit = Math.round(($("#wrapper").height()) / 71)+1;
+        if(temp_fit > List.can_fit || temp_fit < List.can_fit){
+            List.dynamicContentPage(-10);
+        }
+        List.can_fit = temp_fit;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
         $(".list-song").css("height", List.element_height + "px");
     }
