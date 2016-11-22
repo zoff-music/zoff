@@ -256,6 +256,8 @@ initializeCastApi = function() {
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
                     chromecastAvailable = true;
+                    paused = false;
+                    mobile_beginning = false;
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
@@ -264,6 +266,8 @@ initializeCastApi = function() {
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                     castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
                     chromecastAvailable = true;
+                    paused = false;
+                    mobile_beginning = false;
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
