@@ -87,7 +87,11 @@ var Player = {
 
                     if(!Player.loaded) setTimeout(function(){Player.loaded = true;},500);
                 }catch(e){
-                    if(!durationBegun)
+                    if(chromecastAvailable){
+                        Player.loadVideoById(video_id);
+                        Player.seekTo(seekTo);
+                    }
+                    if(!durationBegun && !chromecastAvailable)
                         Player.durationSetter();
                 }
             }
