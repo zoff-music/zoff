@@ -182,7 +182,7 @@
                   <div id="player_overlay_text" class="valign center-align">
                     Waiting for Video
                   </div>
-                  <div id="player_overlay_controls" class="valign-wrapper">
+                  <div id="player_overlay_controls" class="hide valign-wrapper">
                     <div id="playpause-overlay" class="valign center-align">
                       <i id="play-overlay" class="mdi-av-play-arrow hide"></i>
                       <i id="pause-overlay" class="mdi-av-pause"></i>
