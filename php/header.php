@@ -8,16 +8,18 @@
 <title>Zöff</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
-<meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+<meta name="description" content="The Shared (free) YouTube radio."/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2D2D2D" />
 <meta name="robots" content="index, nofollow" />
-<meta property="og:image" content="/static/images/favicon.png" />
+<meta property="og:image" content="https://zoff.no/static/images/favicon.png" />
+<meta property="og:url" content="https://zoff.no" />
 <meta property="og:title" content="Zöff"/>
-<meta property="og:description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
+<meta property="og:description" content="The Shared (free) YouTube radio."/>
 <meta property="og:type" content="website"/>
+<meta property="fb:app_id" content="1581693815380949" />
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
 <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />
