@@ -13,7 +13,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2D2D2D" />
-<meta name="robots" content="index, nofollow" />
 <meta property="og:image" content="https://zoff.no/static/images/favicon.png" />
 <meta property="og:url" content="https://zoff.no" />
 <meta property="og:title" content="Zöff"/>

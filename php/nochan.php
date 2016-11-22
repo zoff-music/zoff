@@ -8,6 +8,7 @@ if(isset($_GET['chan'])){
 ?>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <meta name="robots" content="index, nofollow" />
   <?php include("header.php"); ?>
   <script type="text/javascript" src="/static/dist/main.min.js"></script>
 </head>

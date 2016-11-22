@@ -8,6 +8,7 @@
 ?>
 <html lang="en">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <meta name="robots" content="noindex, nofollow" />
 	<?php include("php/header.php"); ?>
   <script type="text/javascript" src="/static/dist/main.min.js"></script>
 </head>
