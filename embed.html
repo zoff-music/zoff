@@ -5,6 +5,46 @@
 		<meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
 		<meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
 		<meta charset="UTF-8"/>
+		<style>
+		#pageButtons, #pageButtons a{
+			color:white !important;
+		}
+
+		#pageNumber{
+			cursor: default;
+			color: white;
+			padding:0;
+		}
+
+		.prev_page, .next_page, .last_page, .first_page{
+			cursor: pointer;
+		}
+
+
+		.prev_page_hide, .next_page_hide, .last_page_hide, .first_page_hide{
+			visibility: visible !important;
+			color:gray;
+			cursor:default;
+		}
+
+		.prev_page_hide, .prev_page, .first_page, .first_page_hide{
+		  padding:0 10px;
+		  float:left;
+		}
+
+		.next_page_hide, .next_page, .last_page, .last_page_hide{
+		  padding:0 10px;
+		  float:right;
+		}
+
+		.last_page, .last_page_hide, .first_page, .first_page_hide{
+			display: none !important;
+		}
+
+		#wrapper{
+			height: 94%;
+		}
+		</style>
 	</head>
 	<body>
 		<script>

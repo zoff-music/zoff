@@ -35,6 +35,7 @@ var Player = {
             Player.getTitle(obj.np[0].title, viewers);
             //Player.setBGimage(video_id);
             if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
+            console.log("trying to stop");
             Player.stopVideo();
         }else if(!paused){
             //Helper.log("gotten new song");
@@ -261,9 +262,9 @@ var Player = {
                     Player.durationSetter();
                 if(embed){
                     setTimeout(function(){
-                        Player.seekTo(seekTo);
+                        Player.player.seekTo(seekTo);
                         if(!autoplay){
-                            Player.pauseVideo();
+                            Player.player.pauseVideo();
                             Playercontrols.play_pause_show();
                         }
                     }, 1000);
