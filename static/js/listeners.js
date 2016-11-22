@@ -244,6 +244,7 @@ function init(){
 }
 
 initializeCastApi = function() {
+	$(".castButton").css("display", "block");
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
@@ -258,7 +259,13 @@ initializeCastApi = function() {
                     chromecastAvailable = true;
                     paused = false;
                     mobile_beginning = false;
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
+                    var _seekTo;
+                    try{
+                        _seekTo = Player.player.getCurrentTime();
+                    } catch(e){
+                        _seekTo = seekTo;
+                    }
+                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
                     break;
@@ -268,7 +275,13 @@ initializeCastApi = function() {
                     chromecastAvailable = true;
                     paused = false;
                     mobile_beginning = false;
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: Player.player.getCurrentTime()})
+                    var _seekTo;
+                    try{
+                        _seekTo = Player.player.getCurrentTime();
+                    } catch(e){
+                        _seekTo = seekTo;
+                    }
+                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
                     castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
                     break;
@@ -290,7 +303,9 @@ function hide_native(way){
         $("#fullscreen").toggleClass("hide");
         $("#volume-button").toggleClass("hide");
         $("#volume").toggleClass("hide");
-        Player.player.stopVideo();
+        try{
+            Player.player.stopVideo();
+        } catch(e){}
         Player.stopInterval = true;
         //$("#player").toggleClass("hide");
         $("#player_overlay").removeClass("hide");

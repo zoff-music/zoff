@@ -1652,7 +1652,7 @@ nav ul li:hover, nav ul li.active {
       font-size: 31px;
     }
 
-    .castButton, .castButton-active{
+    .castButton, .castButton:active, .castButton:focus, .castButton:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
       font-size: 28px;
       margin: 0 33px 0 0px;
     }
@@ -1719,7 +1719,7 @@ nav ul li:hover, nav ul li.active {
       margin-top:-6px;
     }
 
-    .click-through{
+    #player{
       pointer-events:none;
     }
 

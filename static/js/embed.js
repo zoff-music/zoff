@@ -10,6 +10,7 @@ var vol					  = 100;
 var adminpass 			  = "";
 var mobile_beginning      = false;
 var durationBegun    	  = false;
+var chromecastAvailable = false;
 
 var seekTo;
 var socket;
@@ -36,7 +37,7 @@ $(document).ready(function(){
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
 
-	add = "https://zoff.no";
+	add = "http://localhost";
 	socket = io.connect(''+add+':8880', connection_options);
 
 	socket.on("get_list", function(){
