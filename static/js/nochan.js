@@ -373,5 +373,8 @@ function initfp(){
             window.location.href = 'http://etys.no';
     });
 
-    if(!Helper.mobilecheck() && Nochan.winter) Nochan.start_snowfall();
+    if(!Helper.mobilecheck() && Nochan.winter) {
+      $(".mega").prepend('<div id="snow"></div>');
+      //Nochan.start_snowfall();
+    }
 }
