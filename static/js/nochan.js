@@ -23,7 +23,7 @@ var Nochan = {
 
   blob_list: [],
 
-  winter: false,
+  winter: (new Date()).getMonth() >= 10 || (new Date()).getMonth() <= 1 ? true : false,
 
   times_rotated: 0,
 
