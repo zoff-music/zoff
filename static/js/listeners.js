@@ -294,6 +294,7 @@ function hide_native(way){
         Player.stopInterval = true;
         //$("#player").toggleClass("hide");
         $("#player_overlay").removeClass("hide");
+        $("#player_overlay_controls").removeClass("hide");
         //$("#player_overlay").css("display", "block");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
@@ -309,6 +310,7 @@ function hide_native(way){
         Player.durationSetter();
         //$("#player").toggleClass("hide");
         $("#player_overlay").addClass("hide");
+        $("#player_overlay_controls").addClass("hide");
         $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
         $("#player_overlay_controls").css("display", "none");
