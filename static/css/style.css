@@ -1796,7 +1796,8 @@ nav ul li:hover, nav ul li.active {
         height: 64px;
     }
     nav .zbrand {
-        display: inline-block;
+        /*display: inline-block;*/
+        top:-22px;
         left:100px;
     }
     .title-container{
