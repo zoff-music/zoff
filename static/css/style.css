@@ -1305,16 +1305,20 @@ nav ul li:hover, nav ul li.active {
   padding-left: 10px;
 }
 
+.list-song .card-action{
+  border-top:none !important;
+}
+
 #del, #del_suggested, #del_user_suggested{
   position: absolute;
   text-align: right;
   right: 0%;
-  /* height: 100%; */
   bottom: -31%;
   line-height: normal;
   padding: 2px 12px;
   color: white;
   width: initial;
+  border-top: 1px solid rgba(160,160,160,0.2);
 }
 
 .result {
