@@ -1184,6 +1184,10 @@ nav ul li:hover, nav ul li.active {
     float: left;
 }
 
+.add-suggested{
+  height:100%;
+}
+
 .list-image:after {
     font-family: "Material-Design-Icons";
     speak: none;
