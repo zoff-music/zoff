@@ -17,6 +17,7 @@
 
 #pageButtons{
   text-align: center;
+  padding-top:10px;
 }
 
 #pageButtons, #pageButtons a{
@@ -25,6 +26,10 @@
 
 .prev_page, .next_page{
   cursor: pointer;
+}
+
+#wrapper{
+  height:calc(100% - 56px);
 }
 
 .prev_page_hide, .next_page_hide{
@@ -137,7 +142,7 @@
 	background-color:grey;
 	height:100vh;
   width:50vw;
-  overflow-y:scroll;
+  overflow:hidden;
 }
 
 #zoffbutton{
