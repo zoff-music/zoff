@@ -19,6 +19,7 @@ var previous_video_id;
 var hash 	 = window.location.hash.substring(1).split("&");
 var chan 	 = hash[0];
 var autoplay = false;
+var color = "#808080";
 
 var connection_options = {
 	'sync disconnect on unload':true,
@@ -28,11 +29,13 @@ var connection_options = {
 
 $(document).ready(function(){
 
-	if(hash.length == 2 && hash[1] == "autoplay"){
+	if(hash.length == 3 && hash[2] == "autoplay"){
 		autoplay = true;
 	}else{
 		paused = true;
 	}
+
+	color = "#" + hash[1];
 
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
@@ -63,6 +66,8 @@ $(document).ready(function(){
 	Playercontrols.initSlider();
 
 	window.setVolume = setVolume;
+	$("#controls").css("background-color", color);
+	$("#playlist").css("background-color", color);
 });
 
 
