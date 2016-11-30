@@ -38,6 +38,7 @@ var connect_error         = false;
 var access_token_data_youtube = {};
 var youtube_authenticated = false;
 var chromecastAvailable = false;
+var color               = "808080";
 var castSession;
 
 if(localStorage.debug === undefined){
@@ -228,7 +229,7 @@ function init(){
     $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
 	$("#embed-button").css("display", "inline-block");
-	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
 
@@ -424,8 +425,8 @@ function disable_debug(){
 	localStorage.debug = false;
 }
 
-function embed_code(autoplay, width, height){
-    return '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+function embed_code(autoplay, width, height, color){
+    return '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
 }
 
 function randomString(length){
@@ -582,13 +583,19 @@ $(document).on('click', "#aprilfools", function(){
 $(document).on('keyup mouseup', '#width_embed', function(){
     var that = $(this);
     embed_width = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 });
 
 $(document).on('keyup mouseup', '#height_embed', function(){
     var that = $(this);
     embed_height = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+});
+
+$(document).on('input', '#color_embed', function(){
+    var that = $(this);
+    color = that.val().substring(1);
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 });
 
 $(document).on('click', ".chan-link", function(e){
@@ -709,7 +716,7 @@ $(window).focus(function(){
 $(document).on("change", "#autoplay", function() {
     if(this.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
-	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height));
+	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 });
 
 $(document).on("click", "#playbutton_remote", function(e) {
