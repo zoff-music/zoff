@@ -79,10 +79,14 @@ var List = {
 
     populate_list: function(msg)
     {
-        if(!Helper.mobilecheck()){
+        if(!Helper.mobilecheck() && !embed){
             List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
-        } else {
+        } else if(embed) {
+            List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
+            List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
+            console.log("anal")
+        }else {
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() -66) / 71)+1;
             List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() -66) / List.can_fit)-6;
         }
