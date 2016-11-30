@@ -46,11 +46,11 @@ var List = {
         $("#wrapper").append(add);
     },
 
-    insertAtIndex: function(song_info, transition) {
+    insertAtIndex: function(song_info, transition, change) {
         var i = List.getIndexOfSong(song_info.id);
         var display = "none";
         if(!song_info.now_playing){
-            if(i >= List.page && i < List.page + (List.can_fit-1)) display = "block"
+            if(i >= List.page && i < List.page + (List.can_fit)) display = "block"
             var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
                 $("#wrapper").prepend(add);
@@ -65,6 +65,9 @@ var List = {
                 $($("#wrapper").children()[List.page]).css("display", "block");
             } else if($("#wrapper").children().length > List.page + List.can_fit){
                 $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
+            }
+            if(change && List.page > 0){
+                $($("#wrapper").children()[List.page - 1]).css("display", "none");
             }
              if(transition){
                  setTimeout(function(){
@@ -347,7 +350,7 @@ var List = {
                 List.empty = true;
                 $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
-            List.insertAtIndex(full_playlist[length-1], false);
+            List.insertAtIndex(full_playlist[length-1], false, true);
             /*if($("#wrapper").children().length >= List.page + List.can_fit){
                 $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
             }*/
