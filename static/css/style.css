@@ -1180,7 +1180,7 @@ nav ul li:hover, nav ul li.active {
 
 .list-image, .list-suggested-image{
     width: 34%;
-    height: 66px;
+    height: 100%;
     float: left;
 }
 
@@ -1225,7 +1225,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .vote-container{
-  height:66px;
+  height:100%;
 }
 
 .vote-container:hover .list-image:after, .add-suggested:hover .list-suggested-image:after {
