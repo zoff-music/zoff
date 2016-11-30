@@ -1297,7 +1297,7 @@ nav ul li:hover, nav ul li.active {
 
 .list-remove{
   width: 70px;
-  margin-top: -31px;
+  margin-top: -6%;
   font-size: 12px;
   height: 20px;
   display: inline-table;
@@ -1308,9 +1308,9 @@ nav ul li:hover, nav ul li.active {
 #del, #del_suggested, #del_user_suggested{
   position: absolute;
   text-align: right;
-  bottom: -67%;
   right: 0%;
-  height: 100%;
+  /* height: 100%; */
+  bottom: -31%;
   line-height: normal;
   padding: 2px 12px;
   color: white;
