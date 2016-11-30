@@ -1309,10 +1309,6 @@ nav ul li:hover, nav ul li.active {
   border-top:none !important;
 }
 
-.click-through{
-  pointer-events: none;
-}
-
 #del, #del_suggested, #del_user_suggested{
   position: absolute;
   text-align: right;
@@ -1583,6 +1579,10 @@ nav ul li:hover, nav ul li.active {
       z-index: 1000;
       left: 0;
       right: 0;
+    }
+
+    .click-through{
+      pointer-events: none;
     }
 
 
