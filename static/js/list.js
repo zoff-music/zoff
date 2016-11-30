@@ -119,6 +119,8 @@ var List = {
                 $(".prev_page_hide").css("display","inline-block");
             }
 
+            List.dynamicContentPage(-10);
+
             /*if(lazy_load){
                 if(Helper.mobilecheck()) $(".list-image").lazyload({});
                 else{
