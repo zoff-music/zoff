@@ -210,7 +210,6 @@ var Helper = {
             $("#contact-form-from").attr("disabled", "true");
             $("#contact-form-message").attr("disabled", "true");
 
-            /*
             $.ajax({
                 type: "POST",
                 data: {from: from, message: message},
@@ -224,13 +223,13 @@ var Helper = {
                         $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff'>contact@zoff.no</a>")
                     }
                 }
-            });*/
-            from    = $("#contact-form-from").val();
+            });
+            /*from    = $("#contact-form-from").val();
             message = $("#contact-form-message").val();
             $("#contact-container").empty();
             newWindow = window.open("mailto:contact@zoff.no?Subject=Contact%20Zoff&Body=" + message, "_blank");
             $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff&Body=" + message + "'>contact@zoff.no</a>");
-            setTimeout(function(){newWindow.close();},500);
+            setTimeout(function(){newWindow.close();},500);*/
         }
     }
 
