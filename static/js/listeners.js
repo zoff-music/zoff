@@ -340,6 +340,9 @@ function chromecastListener(evt, data){
         case -1:
             socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
             break;
+		case 0:
+			socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase});
+			break;
     }
 }
 
