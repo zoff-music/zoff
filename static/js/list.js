@@ -376,6 +376,8 @@ var List = {
 
     exportToYoutube: function(){
         var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
+        $(".exported-list-container").removeClass("hide");
+        $("#playlist_loader_export").removeClass("hide");
         $.ajax({
             type: "POST",
             url: request_url,
@@ -415,11 +417,10 @@ var List = {
                             if(number_added == full_playlist.length - 1){
                                 Helper.log("All videoes added!");
                                 Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
-                                $(".exported-list").append("<h5>Exported URL:</h5>");
+                                $(".exported-list").append("<h5>Exported list</h5>");
                                 $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                                 $("#playlist_loader_export").addClass("hide");
                                 //$(".youtube_export_button").removeClass("hide");
-                                $(".exported-list-container").removeClass("hide");
                             }
                             number_added += 1;
                         }
