@@ -1819,7 +1819,7 @@ nav ul li:hover, nav ul li.active {
     nav .zbrand {
         /*display: inline-block;*/
         top:-22px;
-        left:100px;
+        /*left:100px;*/
     }
     .title-container{
         position: initial;
