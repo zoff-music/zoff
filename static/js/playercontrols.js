@@ -80,13 +80,9 @@ var Playercontrols = {
     {
         if(chromecastAvailable){
             if($("#play").hasClass("hide")){
-                castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
+                Player.pauseVideo();
             } else if($("#pause").hasClass("hide")){
-                castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
+                Player.playVideo();
             }
         } else {
 

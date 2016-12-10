@@ -38,6 +38,25 @@
   padding:0;
 }
 
+#playing_on{
+  display: none;
+  text-align: left;
+  position: absolute;
+  bottom: 0px;
+  padding-left: 10px;
+  align-items: center;
+  color: rgba(255,255,255, 0.8);
+}
+
+#playing_on #chromecast_icon{
+  font-size:70px;
+}
+
+#playing_on #chromecast_text{
+  font-size: 20px;
+  padding-left: 8px;
+}
+
 .prev_page, .next_page, .last_page, .first_page{
   cursor: pointer;
 }
