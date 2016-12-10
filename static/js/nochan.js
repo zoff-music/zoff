@@ -377,4 +377,12 @@ function initfp(){
       $(".mega").prepend('<div id="snow"></div>');
       //Nochan.start_snowfall();
     }
+
+    window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+      if (loaded) {
+        chromecastReady = true;
+      } else {
+        console.log(errorInfo);
+      }
+    }
 }
