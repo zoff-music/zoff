@@ -160,8 +160,9 @@ var Player = {
 
     playVideo: function(){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+            //castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
             //socket.emit('pos', {channel: chan.toLowerCase()});
+            Playercontrols.play_pause();
         } else {
             Player.player.playVideo();
         }
@@ -169,7 +170,8 @@ var Player = {
 
     pauseVideo: function(){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+            //castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+            Playercontrols.play_pause();
         } else {
             Player.player.pauseVideo();
         }
@@ -199,6 +201,14 @@ var Player = {
         }
     },
 
+    setVolume: function(vol){
+      if(chromecastAvailable){
+        castSession.setVolume(vol/100);
+      } else {
+        Player.player.setVolume(vol);
+      }
+    },
+
     sendNext: function(obj){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", title: obj.title, videoId: obj.videoId});
@@ -217,6 +227,14 @@ var Player = {
     		elem.innerHTML    = title;
     		getTitleViews.innerHTML = v + " " + outPutWord;
     		elem.title        = title;
+            if(chromecastAvailable){
+                $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+                $("#player_overlay").css("background-position", "center");
+                $("#player_overlay").css("background-size", "100%");
+                $("#player_overlay").css("background-color", "black");
+                $("#player_overlay").css("background-repeat", "no-repeat");
+                $("#player_overlay").css("height", "calc(100% - 32px)");
+            }
         }
         document.title    = title + " • Zöff / "+chan;
 

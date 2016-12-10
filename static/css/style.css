@@ -1149,11 +1149,11 @@ ul #chat-log{
     font-size:18px;
 }
 
-.castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
+/*.castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
   font-size: 5rem;
   margin-top: -70px;
   margin-right: 52%;
-}
+}*/
 
 .chat-link{
   -webkit-transition:color 1s;

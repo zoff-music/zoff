@@ -53,35 +53,51 @@ var Playercontrols = {
 
     play_pause: function()
     {
-
-    	if(Player.player.getPlayerState() == 1)
-    	{
-    		Player.pauseVideo();
-            if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-                document.getElementById("player").style.display = "none";
-                $(".video-container").toggleClass("click-through");
-                $(".page-footer").toggleClass("padding-bottom-extra");
-            }
-    	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0)
-    	{
-    		Player.playVideo();
-            if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-                document.getElementById("player").style.display = "block";
-                $(".video-container").toggleClass("click-through");
-                $(".page-footer").toggleClass("padding-bottom-extra");
-            }
-    	}
+        if(!chromecastAvailable){
+        	if(Player.player.getPlayerState() == 1)
+        	{
+        		Player.pauseVideo();
+                if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                    document.getElementById("player").style.display = "none";
+                    $(".video-container").toggleClass("click-through");
+                    $(".page-footer").toggleClass("padding-bottom-extra");
+                }
+        	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0)
+        	{
+        		Player.playVideo();
+                if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                    document.getElementById("player").style.display = "block";
+                    $(".video-container").toggleClass("click-through");
+                    $(".page-footer").toggleClass("padding-bottom-extra");
+                }
+        	}
+        } else {
+            Playercontrols.play_pause_show();
+        }
     },
 
     play_pause_show: function()
     {
-        if(document.getElementById("pause").className.split(" ").length == 1){
-            $("#pause").toggleClass("hide");
-            $("#pause-overlay").toggleClass("hide");
-        }
-        if(document.getElementById("play").className.split(" ").length == 2){
-            $("#play").toggleClass("hide");
-            $("#play-overlay").toggleClass("hide");
+        if(chromecastAvailable){
+            if($("#play").hasClass("hide")){
+                castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            } else if($("#pause").hasClass("hide")){
+                castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            }
+        } else {
+
+            if(document.getElementById("pause").className.split(" ").length == 1){
+                $("#pause").toggleClass("hide");
+                $("#pause-overlay").toggleClass("hide");
+            }
+            if(document.getElementById("play").className.split(" ").length == 2){
+                $("#play").toggleClass("hide");
+                $("#play-overlay").toggleClass("hide");
+            }
         }
     },
 
@@ -117,7 +133,7 @@ var Playercontrols = {
 
     setVolume: function(vol)
     {
-    	Player.player.setVolume(vol);
+    	Player.setVolume(vol);
         Playercontrols.choose_button(vol, false);
     	if(Player.player.isMuted())
     		Player.player.unMute();

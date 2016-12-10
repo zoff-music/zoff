@@ -39,6 +39,7 @@ var access_token_data_youtube = {};
 var youtube_authenticated = false;
 var chromecastAvailable = false;
 var color               = "808080";
+var chromecastReady = false;
 var castSession;
 
 if(localStorage.debug === undefined){
@@ -232,15 +233,17 @@ function init(){
 	$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
-
     if(chromecastAvailable){
         hide_native(1);
+    } else if(chromecastReady) {
+        initializeCastApi();
     } else {
-        window['__onGCastApiAvailable'] = function(isAvailable) {
-          if (isAvailable) {
+        window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+          if (loaded) {
             initializeCastApi();
+          } else {
           }
-        };
+        }
     }
 }
 
@@ -299,37 +302,33 @@ function hide_native(way){
     $(".castButton").toggleClass("hide");
     $(".castButton-active").toggleClass("hide");
     if(way == 1){
-        $("#playpause").toggleClass("hide");
         $("#duration").toggleClass("hide");
         $("#fullscreen").toggleClass("hide");
-        $("#volume-button").toggleClass("hide");
-        $("#volume").toggleClass("hide");
         try{
             Player.player.stopVideo();
         } catch(e){}
         Player.stopInterval = true;
-        //$("#player").toggleClass("hide");
         $("#player_overlay").removeClass("hide");
-        $("#player_overlay_controls").removeClass("hide");
-        //$("#player_overlay").css("display", "block");
-        $("#player_overlay").css("height", "100%");
+        $("#player_overlay").css("display", "block");
+        $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+        $("#player_overlay").css("background-position", "center");
+        $("#player_overlay").css("background-size", "100%");
+        $("#player_overlay").css("background-color", "black");
+        $("#player_overlay").css("background-repeat", "no-repeat");
+        $("#player_overlay").css("height", "calc(100% - 32px)");
+        Player.player.setVolume(100);
+        $("#volume").slider("value", 100);
         $("#player_overlay_text").toggleClass("hide");
-        $("#player_overlay_controls").css("display", "inherit");
     } else if(way == 0){
-        $("#playpause").toggleClass("hide");
         $("#duration").toggleClass("hide");
         $("#fullscreen").toggleClass("hide");
-        $("#volume-button").toggleClass("hide");
-        $("#volume").toggleClass("hide");
         Player.player.playVideo();
         Player.stopInterval = false;
         Player.durationSetter();
-        //$("#player").toggleClass("hide");
+        Player.player.setVolume(Crypt.get_volume());
+        $("#volume").slider("value", Crypt.get_volume());
         $("#player_overlay").addClass("hide");
-        $("#player_overlay_controls").addClass("hide");
-        $("#player_overlay").css("height", "100%");
         $("#player_overlay_text").toggleClass("hide");
-        $("#player_overlay_controls").css("display", "none");
         socket.emit('pos', {channel: chan.toLowerCase()});
     }
 }
