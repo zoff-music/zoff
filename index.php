@@ -181,6 +181,11 @@
                 <div id="player" class="ytplayer"></div>
                 <div id="main_components">
                 <div id="player_overlay" class="hide valign-wrapper">
+                  <div id="playing_on"><div id="chromecast_icon">
+                    <i class="mdi-hardware-cast-connected"></i>
+                  </div>
+                  <div id="chromecast_text"></div>
+                </div>
                   <div id="player_overlay_text" class="valign center-align">
                     Waiting for Video
                   </div>

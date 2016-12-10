@@ -27,7 +27,7 @@ var Player = {
 
             if(!window.MSStream && !chromecastAvailable) $("#player_overlay").toggleClass("hide");
             try{
-                Player.stopVideo();
+                if(!chromecastAvailable) Player.stopVideo();
             }catch(e){}
             //List.importOldList(channel.toLowerCase());
         } else if(paused){
@@ -36,7 +36,7 @@ var Player = {
             //Player.setBGimage(video_id);
             if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
             console.log("trying to stop");
-            Player.stopVideo();
+            if(!chromecastAvailable) Player.stopVideo();
         }else if(!paused){
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
@@ -72,7 +72,7 @@ var Player = {
                         Player.loadVideoById(video_id);
                         if(!Helper.mobilecheck()) Player.notifyUser(video_id, song_title);
                         Player.seekTo(seekTo);
-                        if(paused)
+                        if(paused && !chromecastAvailable)
                             Player.pauseVideo();
                     }
                     if(!paused){
@@ -160,9 +160,13 @@ var Player = {
 
     playVideo: function(){
         if(chromecastAvailable){
-            //castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
             //socket.emit('pos', {channel: chan.toLowerCase()});
-            Playercontrols.play_pause();
+            if($("#pause").hasClass("hide")){
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            }
+            //Playercontrols.play_pause();
         } else {
             Player.player.playVideo();
         }
@@ -170,8 +174,12 @@ var Player = {
 
     pauseVideo: function(){
         if(chromecastAvailable){
-            //castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
-            Playercontrols.play_pause();
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+            if($("#play").hasClass("hide")){
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            }
+            //Playercontrols.play_pause();
         } else {
             Player.player.pauseVideo();
         }

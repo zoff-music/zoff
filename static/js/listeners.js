@@ -316,6 +316,8 @@ function hide_native(way){
         $("#player_overlay").css("background-color", "black");
         $("#player_overlay").css("background-repeat", "no-repeat");
         $("#player_overlay").css("height", "calc(100% - 32px)");
+        $("#playing_on").css("display", "flex");
+        $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
         Player.player.setVolume(100);
         $("#volume").slider("value", 100);
         $("#player_overlay_text").toggleClass("hide");
@@ -329,6 +331,8 @@ function hide_native(way){
         $("#volume").slider("value", Crypt.get_volume());
         $("#player_overlay").addClass("hide");
         $("#player_overlay_text").toggleClass("hide");
+        $("#chromecast_text").html("");
+        $("#playing_on").css("display", "none");
         socket.emit('pos', {channel: chan.toLowerCase()});
     }
 }
