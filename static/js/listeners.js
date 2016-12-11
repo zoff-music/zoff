@@ -310,7 +310,15 @@ function hide_native(way){
         Player.stopInterval = true;
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
-
+        if(window.mobilecheck()){
+            if($("#pause").hasClass("hide")){
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            } else if($("#play").hasClass("hide")){
+                $("#play").toggleClass("hide");
+                $("#pause").toggleClass("hide");
+            }
+        }
         $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
         $("#player_overlay").css("background-position", "center");
         $("#player_overlay").css("background-size", "100%");
