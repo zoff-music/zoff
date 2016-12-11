@@ -310,7 +310,8 @@ function hide_native(way){
         Player.stopInterval = true;
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
-        $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+
+        $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
         $("#player_overlay").css("background-position", "center");
         $("#player_overlay").css("background-size", "100%");
         $("#player_overlay").css("background-color", "black");
