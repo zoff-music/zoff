@@ -1086,6 +1086,7 @@ function onepage_load(){
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D");
 
 		    	if(!Helper.mobilecheck()){
+                    $(".video-container").resizable("destroy");
 		    		$("main").append("<a id='closePlayer' title='Close Player'>X</a>");
 		    		$("#playbar").remove();
 		    		$("#playlist").remove();
