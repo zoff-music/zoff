@@ -7,7 +7,7 @@
 		$headers = "From: " . $from . "\r\n";
 
 		if(filter_var($from, FILTER_VALIDATE_EMAIL) && $message != ""){
-			$result  = mail("contact@zoff.no", "Contact from form", $message, $headers);
+			$result  = mail("contact@zoff.no", "ZOFF: Contact from form", $message, $headers);
 
 			if($result == FALSE){
 				echo "failure";
