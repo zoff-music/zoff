@@ -10,12 +10,7 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^remote.zoff.no
-#RewriteCond %{REQUEST_URI} !/public
 RewriteRule ^(.*)$ /public/php/controller.php [L,NC,QSA]
-
-RewriteCond %{HTTP_HOST} ^bot.zoff.no
-#RewriteCond %{REQUEST_URI} !/public
-RewriteRule ^(.*)$ /public/php/bot.php [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^zoff.no
 RewriteCond %{REQUEST_URI} /o_callback
