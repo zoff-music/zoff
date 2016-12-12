@@ -154,13 +154,13 @@ var Nochan = {
       },500);
     } else {
       var img = new Image();
-      img.src = "/static/images/thumbnails/"+id+".jpg";
+      img.src = "/public/images/thumbnails/"+id+".jpg";
 
       img.onerror = function(){ // Failed to load
           $.ajax({
             type: "POST",
             data: {id:id},
-            url: "/php/imageblob.php",
+            url: "/public/php/imageblob.php",
             success: function(data){
                 Nochan.blob_list.push(data);
                //data will contain the vote count echoed by the controller i.e.
@@ -245,7 +245,7 @@ var Nochan = {
     }
     $("body").css("background-color", "#2d2d2d");
     $.ajax({
-      url: new_channel + "/php/index.php",
+      url: new_channel + "/public/php/index.php",
 
       success: function(e){
 

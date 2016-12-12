@@ -10,24 +10,31 @@ RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^remote.zoff.no
-RewriteCond %{REQUEST_URI} !/static
-RewriteRule ^(.*)$ php/controller.php [L,NC,QSA]
+#RewriteCond %{REQUEST_URI} !/public
+RewriteRule ^(.*)$ /public/php/controller.php [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^bot.zoff.no
-RewriteCond %{REQUEST_URI} !/static
-RewriteRule ^(.*)$ php/bot.php [L,NC,QSA]
+#RewriteCond %{REQUEST_URI} !/public
+RewriteRule ^(.*)$ /public/php/bot.php [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^zoff.no
 RewriteCond %{REQUEST_URI} /o_callback
-RewriteRule ^(.*)$ php/callback.html [L,NC,QSA]
+RewriteRule ^(.*)$ public/html/callback.html [L,NC,QSA]
+
+RewriteCond %{HTTP_HOST} ^zoff.no
+RewriteCond %{REQUEST_URI} /_embed
+RewriteRule ^(.*)$ public/html/embed.html [L,NC,QSA]
 
 RewriteCond %{HTTP_HOST} ^localhost
 RewriteCond %{REQUEST_URI} /o_callback
-RewriteRule ^(.*)$ php/callback.html [L,NC,QSA]
+RewriteRule ^(.*)$ /public/html/callback.html [L,NC,QSA]
 
+RewriteCond %{HTTP_HOST} ^localhost
+RewriteCond %{REQUEST_URI} /_embed
+RewriteRule ^(.*)$ /public/html/embed.html [L,NC,QSA]
 
-#RewriteRule (?i)^remote/(.*) php/controller.php?id=$1 [L]
-#RewriteRule (?i)^remote php/controller.php [L]
+#RewriteRule (?i)^remote/(.*) /public/php/controller.php?id=$1 [L]
+#RewriteRule (?i)^remote /public/php/controller.php [L]
 
 RewriteCond %{REQUEST_URI} !(/$|\.)
 RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]

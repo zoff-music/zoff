@@ -1996,7 +1996,7 @@ nav ul li:hover, nav ul li.active {
   pointer-events: none;
 	background: none;
 	font-family: Androgyne;
-	background-image: url('static/images/s1.png'), url('static/images/s2.png'), url('static/images/s3.png');
+	background-image: url('public/images/s1.png'), url('public/images/s2.png'), url('public/images/s3.png');
 	height: 100%;
 	left: 0;
 	position: absolute;
