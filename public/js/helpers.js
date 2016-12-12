@@ -213,7 +213,7 @@ var Helper = {
             $.ajax({
                 type: "POST",
                 data: {from: from, message: message},
-                url: "/php/mail.php",
+                url: "/public/php/mail.php",
                 success: function(data){
                     if(data == "success"){
                         $("#contact-container").empty();

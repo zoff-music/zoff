@@ -9,7 +9,7 @@
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="//zoff.no" class="brand-logo hide-on-small-only">
-                    <img id="zicon" src="/static/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="/public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -88,6 +88,6 @@
     <?php include("footer.php"); ?>
 
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <!--<script type="text/javascript" src="/static/dist/remote.min.js"></script>-->
+    <!--<script type="text/javascript" src="/public/dist/remote.min.js"></script>-->
 	</body>
 </html>

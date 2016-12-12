@@ -142,7 +142,7 @@
                     <li class="white-bg">
                         <div class="input-field field-settings youtube_unclicked import-buttons">
                             <a class="modal-trigger waves-effect red btn import-youtube" title="Import from YouTube playlist">
-                              <img src="/static/images/youtube.png" class="youtube_logo" alt="Youtube Logo" />
+                              <img src="/public/images/youtube.png" class="youtube_logo" alt="Youtube Logo" />
                             </a>
                         </div>
                         <div class="input-field field-settings youtube_clicked">
@@ -206,7 +206,7 @@
                     <li class="white-bg">
                         <div class="input-field field-settings spotify_unauthenticated import-buttons">
                             <a class="modal-trigger waves-effect green lighten btn import-spotify-auth" title="Import Spotify playlist">
-                              <img src="/static/images/spotify.png" class="left spotify_logo" alt="Spotify Logo" />Spotify
+                              <img src="/public/images/spotify.png" class="left spotify_logo" alt="Spotify Logo" />Spotify
                             </a>
                         </div>
                         <div class="input-field field-settings spotify_authenticated">
@@ -295,7 +295,7 @@
                     <li class="white-bg">
                         <div class="input-field field-settings youtube_export_button export-buttons">
                             <a class="modal-trigger waves-effect red btn export-youtube" id="listExport" title="Export to YouTube">
-                              <img src="/static/images/youtube.png" class="youtube_logo" alt="Youtube Logo" />
+                              <img src="/public/images/youtube.png" class="youtube_logo" alt="Youtube Logo" />
                             </a>
                         </div>
                         <div class="input-field field-settings">

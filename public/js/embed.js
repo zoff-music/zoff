@@ -37,8 +37,8 @@ $(document).ready(function(){
 
 	color = "#" + hash[1];
 
-	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/embed.css" />');
-	$("head").append('<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" />');
+	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/embed.css" />');
+	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />');
 
 	add = "https://zoff.no";
 	socket = io.connect(''+add+':8880', connection_options);

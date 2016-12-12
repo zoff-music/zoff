@@ -98,16 +98,16 @@
                 <ul>
                     <li>
                         <a href="https://github.com/zoff-music/">
-                            <img title="Contribute on GitHub" src="/static/images/GitHub_Logo.png" alt="GitHub" />
+                            <img title="Contribute on GitHub" src="/public/images/GitHub_Logo.png" alt="GitHub" />
                         </a>
                         <p>
                             <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/static/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
+                                <img class="left" src="/public/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
                             </a>
                         </p>
                         <p>
                             <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/static/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
+                                <img class="left" src="/public/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
                             </a>
                         </p>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">

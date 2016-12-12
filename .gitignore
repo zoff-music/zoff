@@ -1,4 +1,4 @@
-static/images/thumbnails/
+public/images/thumbnails/
 node_modules/
 scripts/
 .DS_Store

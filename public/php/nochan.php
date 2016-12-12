@@ -10,14 +10,14 @@ if(isset($_GET['chan'])){
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <meta name="robots" content="index, nofollow" />
   <?php include("header.php"); ?>
-  <script type="text/javascript" src="/static/dist/main.min.js"></script>
+  <script type="text/javascript" src="/public/dist/main.min.js"></script>
 </head>
 <body class="noselect cursor-default">
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo noselect">
-                    <img id="zicon" src="static/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <span id="frontpage-viewer-counter" class="hide-on-small-only noselect" title="Divided among all channels. Hidden or not"></span>
                 <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zöff</a>-->
@@ -173,6 +173,6 @@ if(isset($_GET['chan'])){
         </div>
     </main>
 
-    <?php include("php/footer.php"); ?>
+    <?php include("public/php/footer.php"); ?>
 	</body>
 </html>

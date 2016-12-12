@@ -724,7 +724,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
 });
 
 $(window).focus(function(){
-    $("#favicon").attr("href", "static/images/favicon.png");
+    $("#favicon").attr("href", "public/images/favicon.png");
     unseen = false;
 });
 
@@ -760,7 +760,7 @@ $(document).on("click", "#chat-btn", function(){
     clearInterval(blink_interval);
     blink_interval_exists = false;
     unseen = false;
-    $("#favicon").attr("href", "static/images/favicon.png");
+    $("#favicon").attr("href", "public/images/favicon.png");
 });
 
 function searchTimeout(event) {
@@ -820,7 +820,7 @@ $(document).on("click", ".chat-link", function(e){
 	chat_unseen = false;
 	$(".chat-link").attr("style", "color: white !important;");
 	blinking = false;
-	$("#favicon").attr("href", "static/images/favicon.png");
+	$("#favicon").attr("href", "public/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "none");
@@ -1057,7 +1057,7 @@ function onepage_load(){
 		$("#embed-button").css("display", "none");
 
 		$.ajax({
-		    url: "php/nochan.php",
+		    url: "public/php/nochan.php",
 		    success: function(e){
 
 		    	if(Helper.mobilecheck()) {
@@ -1119,7 +1119,7 @@ function onepage_load(){
 		      	else $("main").append($($($(e)[71]).html())[0]);
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
-		      	$("#favicon").attr("href", "static/images/favicon.png");
+		      	$("#favicon").attr("href", "public/images/favicon.png");
 
                 Helper.log(socket);
 		      	if($("#alreadyfp").length == 1){

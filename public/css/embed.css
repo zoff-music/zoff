@@ -150,7 +150,7 @@
   position: absolute;
     top: -47px;
     left: 10px;
-    background-image: url('static/images/squareicon_small.png');
+    background-image: url('public/images/squareicon_small.png');
     width: 50px;
     height: 50px;
     background-position: center;

@@ -3,7 +3,7 @@
   "name": "Zöff",
   "icons": [
     {
-      "src": "static/images/144x144.png",
+      "src": "public/images/144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     }

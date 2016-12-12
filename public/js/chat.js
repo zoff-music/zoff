@@ -35,7 +35,7 @@ var Chat = {
 
     if(!blink_interval_exists && inp.msg.substring(0,1) == ":" && !chat_active)
     {
-      $("#favicon").attr("href", "static/images/highlogo.png");
+      $("#favicon").attr("href", "public/images/highlogo.png");
       blink_interval_exists = true;
       unseen = true;
       chat_unseen = true;
@@ -45,7 +45,7 @@ var Chat = {
 
     if(document.hidden)
     {
-      $("#favicon").attr("href", "static/images/highlogo.png");
+      $("#favicon").attr("href", "public/images/highlogo.png");
     }
     var color = Helper.intToARGB(Helper.hashCode(inp.from));
     if(color.length < 6) {
@@ -65,7 +65,7 @@ var Chat = {
   {
     if(!blink_interval_exists && data.msg.substring(0,1) == ":" && !chat_active)
     {
-      $("#favicon").attr("href", "static/images/highlogo.png");
+      $("#favicon").attr("href", "public/images/highlogo.png");
       unseen = true;
       chat_unseen = true;
       if(!blinking) Chat.chat_blink();
