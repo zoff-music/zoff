@@ -81,7 +81,7 @@ var Player = {
                         if(!durationBegun)
                             Player.durationSetter();
                     }
-                    if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable)
+                    if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo)
                         Player.seekTo(seekTo);
                     Player.after_load  = video_id;
 
