@@ -10,7 +10,7 @@
         <nav id="nav">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo brand-logo-navigate hide-on-med-and-down noselect">
-                    <img id="zicon" src="public/images/squareicon_small2.png" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="hide-on-large-only brand-logo-navigate">Zöff</a>
