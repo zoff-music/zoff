@@ -441,7 +441,7 @@ function disable_debug(){
 }
 
 function embed_code(autoplay, width, height, color){
-    return '<embed src="https://zoff.no/embed.html#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+    return '<embed src="https://zoff.no/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
 }
 
 function randomString(length){
