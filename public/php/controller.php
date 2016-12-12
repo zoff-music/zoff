@@ -9,7 +9,7 @@
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="//zoff.no" class="brand-logo hide-on-small-only">
-                    <img id="zicon" src="/public/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="/public/images/squareicon_small2.png" alt="zöff" title="Zöff" />
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
