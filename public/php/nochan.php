@@ -17,7 +17,7 @@ if(isset($_GET['chan'])){
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo noselect">
-                    <img id="zicon" src="public/images/squareicon_small2.png" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
                 <span id="frontpage-viewer-counter" class="hide-on-small-only noselect" title="Divided among all channels. Hidden or not"></span>
                 <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zöff</a>-->
