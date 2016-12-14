@@ -34,7 +34,8 @@
   ga('send', 'pageview');
 
 </script>
-<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script><script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+<script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/materialize.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/socket.io-1.4.5.js"></script>
