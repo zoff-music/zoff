@@ -1425,6 +1425,12 @@ nav ul li:hover, nav ul li.active {
   background-color:white !important;
 }
 
+.left-span, .right-span{
+  display: inline-block;
+  width:40px;
+  text-align: center;
+}
+
 #admin-lock
 {
   position:absolute;

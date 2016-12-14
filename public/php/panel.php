@@ -22,9 +22,9 @@
                             Add songs
                             </span>
                             <div class="switch"><label>
-                            Anyone
+                            <span class="left-span">Anyone</span>
                             <input name="addsongs" type="checkbox" class="conf" /><span class="lever"></span>
-                            Admin
+                            <span class="right-span">Admin</span>
                         </label></div></li>
 
                         <li>
@@ -32,45 +32,45 @@
                             Vote
                           </span>
                             <div class="switch"><label>
-                            Anyone
+                            <span class="left-span">Anyone</span>
                             <input name="vote" type="checkbox" class="conf" /><span class="lever"></span>
-                            Admin
+                            <span class="right-span">Admin</span>
                         </label></div></li>
 
                         <li><span class="switch-text">
                             Shuffle
                           </span>
                             <div class="switch"><label>
-                            Anyone
+                            <span class="left-span">Anyone</span>
                             <input name="shuffle" type="checkbox" class="conf" /><span class="lever"></span>
-                            Admin
+                            <span class="right-span">Admin</span>
                         </label></div></li>
 
                         <li><span class="switch-text">
                             Skip
                           </span>
                             <div class="switch"><label>
-                            Anyone
+                            <span class="left-span">Anyone</span>
                             <input name="skip" type="checkbox" class="conf" /><span class="lever"></span>
-                            Admin
+                            <span class="right-span">Admin</span>
                         </label></div></li>
 
                         <li><span class="switch-text">
                             Song length
                           </span>
                             <div class="switch"><label>
-                            Any
+                            <span class="left-span">Any</span>
                             <input name="longsongs" type="checkbox" class="conf" /><span class="lever"></span>
-                            Short
+                            <span class="right-span">Short</span>
                         </label></div></li>
 
                         <li><span class="switch-text">
                             Type
                           </span>
                             <div class="switch"><label>
-                            Any
+                            <span class="left-span">Any</span>
                             <input name="allvideos" type="checkbox" class="conf" /><span class="lever"></span>
-                            Song
+                            <span class="right-span">Song</span>
                         </label></div></li>
 
 
@@ -78,18 +78,18 @@
                             Frontpage
                           </span>
                             <div class="switch"><label>
-                            Hide
+                            <span class="left-span">Hide</span>
                             <input name="frontpage" type="checkbox" class="conf" /><span class="lever"></span>
-                            Display
+                            <span class="right-span">Display</span>
                         </label></div></li>
 
                         <li><span class="switch-text">
                             After play
                           </span>
                             <div class="switch"><label>
-                            Keep
+                            <span class="left-span">Keep</span>
                             <input name="removeplay" type="checkbox" class="conf" /><span class="lever"></span>
-                            Remove
+                            <span class="right-span">Remove</span>
                         </label></div></li>
                       </ul>
                 </form>
