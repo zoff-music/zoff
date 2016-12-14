@@ -310,7 +310,7 @@ function hide_native(way){
         Player.stopInterval = true;
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
-        if(window.mobilecheck()){
+        if(Helper.mobilecheck()){
             if($("#pause").hasClass("hide")){
                 $("#play").toggleClass("hide");
                 $("#pause").toggleClass("hide");
