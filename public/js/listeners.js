@@ -161,7 +161,7 @@ function init(){
     not_import_html       = $(".not-imported-container").html();
     $(".not-imported-container").empty();
 
-    $(".video-container").resizable({
+    /*$(".video-container").resizable({
     	start: function(event, ui) {
         	$('iframe').css('pointer-events','none');
         },
@@ -172,7 +172,7 @@ function init(){
         handles: "e",
         minWidth: 350,
         maxWidth: $(window).width()-241
-    });
+    });*/
 
 	if(socket === undefined || Helper.mobilecheck()){
 		no_socket = false;
@@ -320,6 +320,7 @@ function hide_native(way){
             }
         } else {
             $("#volume").slider("value", 100);
+            $("#player_overlay").width($("#player").width() + 1);
         }
         $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
         $("#player_overlay").css("background-position", "center");
@@ -923,6 +924,7 @@ $(window).resize(function(){
         List.can_fit = temp_fit;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
         $(".list-song").css("height", List.element_height + "px");
+        $("#player_overlay").width($("#player").width()+1);
     }
 })
 
