@@ -17,7 +17,7 @@ var Crypt = {
         	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
         }
         Hostcontroller.change_enabled(conf_arr.remote);
-        //if(conf_arr.width != 100) Player.set_width(conf_arr.width);
+        if(conf_arr.width != 100) Player.set_width(conf_arr.width);
         if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
 	},
 
