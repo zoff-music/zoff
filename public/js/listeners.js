@@ -161,7 +161,7 @@ function init(){
     not_import_html       = $(".not-imported-container").html();
     $(".not-imported-container").empty();
 
-    /*$(".video-container").resizable({
+    $(".video-container").resizable({
     	start: function(event, ui) {
         	$('iframe').css('pointer-events','none');
         },
@@ -172,7 +172,7 @@ function init(){
         handles: "e",
         minWidth: 350,
         maxWidth: $(window).width()-241
-    });*/
+    });
 
 	if(socket === undefined || Helper.mobilecheck()){
 		no_socket = false;
