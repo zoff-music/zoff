@@ -275,7 +275,7 @@ initializeCastApi = function() {
                     break;
                 case cast.framework.SessionState.SESSION_RESUMED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                    castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
+                    castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener);
                     chromecastAvailable = true;
                     paused = false;
                     mobile_beginning = false;
@@ -318,6 +318,8 @@ function hide_native(way){
                 $("#play").toggleClass("hide");
                 $("#pause").toggleClass("hide");
             }
+        } else {
+            $("#volume").slider("value", 100);
         }
         $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
         $("#player_overlay").css("background-position", "center");
@@ -328,7 +330,7 @@ function hide_native(way){
         $("#playing_on").css("display", "flex");
         $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
         Player.player.setVolume(100);
-        $("#volume").slider("value", 100);
+
         $("#player_overlay_text").toggleClass("hide");
     } else if(way == 0){
         $("#duration").toggleClass("hide");
@@ -336,8 +338,10 @@ function hide_native(way){
         Player.player.playVideo();
         Player.stopInterval = false;
         Player.durationSetter();
-        Player.player.setVolume(Crypt.get_volume());
-        $("#volume").slider("value", Crypt.get_volume());
+        if(!Helper.mobilecheck()){
+            Player.player.setVolume(Crypt.get_volume());
+            $("#volume").slider("value", Crypt.get_volume());
+        }
         $("#player_overlay").addClass("hide");
         $("#player_overlay_text").toggleClass("hide");
         $("#chromecast_text").html("");
