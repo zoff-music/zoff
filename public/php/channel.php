@@ -203,7 +203,7 @@
                   <div id="fullscreen">
                     <i class="mdi-navigation-fullscreen"></i>
                   </div>
-                  <button class="castButton mdi-hardware-cast tooltipped" data-position="top" data-delay="10" data-tooltip="Cast Zöff to TV" is="google-cast-button">
+                  <button class="castButton mdi-hardware-cast tooltipped" style="display:none;" data-position="top" data-delay="10" data-tooltip="Cast Zöff to TV" is="google-cast-button">
                   </button>
                   <button class="castButton-active hide mdi-hardware-cast-connected tooltipped" data-position="top" data-delay="10" data-tooltip="Stop casting" >
                   </button>
