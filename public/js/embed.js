@@ -41,7 +41,7 @@ $(document).ready(function(){
 	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />');
 
 	add = "https://zoff.no";
-	socket = io.connect(''+add+':8880', connection_options);
+	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on("get_list", function(){
 	    setTimeout(function(){socket.emit('list', chan.toLowerCase());},1000);

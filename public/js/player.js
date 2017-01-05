@@ -332,7 +332,7 @@ var Player = {
     		};
 
     		img.crossOrigin = 'Anonymous';
-    		img.src         = 'https://zoff.no:8080/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    		img.src         = 'https://zoff.no:8081/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     	}
     },
 
