@@ -15,7 +15,7 @@ $(document).ready(function (){
     };
     if(window.location.hostname == "remote.zoff.no") add = "https://zoff.no";
     else add = "localhost";
-    socket = io.connect(add + ':8880', connection_options);
+    socket = io.connect(add + ':8080', connection_options);
     id = window.location.pathname.split("/")[1];
     if(id)
     {

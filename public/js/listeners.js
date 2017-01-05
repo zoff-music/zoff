@@ -176,7 +176,7 @@ function init(){
 
 	if(socket === undefined || Helper.mobilecheck()){
 		no_socket = false;
-		socket = io.connect(''+add+':8880', connection_options);
+		socket = io.connect(''+add+':8080', connection_options);
 	}
 
 	if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
@@ -248,7 +248,7 @@ function init(){
 }
 
 initializeCastApi = function() {
-	$(".castButton").css("display", "block");
+	//$(".castButton").css("display", "block");
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
