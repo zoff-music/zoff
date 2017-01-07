@@ -472,7 +472,7 @@ var List = {
                         var retryAfter = err.getResponseHeader("Retry-After");
                         retryAfter = parseInt(retryAfter, 10);
                         setTimeout(function(){
-                            searchSpotify(curr_song);
+                            List.searchSpotify(curr_song);
                         }, retryAfter * 1000);
                     }
                 },
@@ -506,6 +506,7 @@ var List = {
                         if(decodeURIComponent(track).indexOf(data.artists[0].name.toLowerCase()) >= 0 && decodeURIComponent(track).indexOf(data.name.toLowerCase()) >= 0){
                             found = true;
                             List.uris.push(data.uri);
+                            Helper.log("Found", track);
                             //List.num_songs = List.num_songs + 1;
                             return false;
                         } else {
@@ -519,6 +520,7 @@ var List = {
                             }
                             found = true;
                             List.uris.push(data.uri);
+                            Helper.log("Found", track);
                             //List.num_songs = List.num_songs + 1;
                             return false;
                         }
@@ -526,6 +528,7 @@ var List = {
                     if(!found){
                         List.not_found.push(original_track);
                         List.num_songs = List.num_songs + 1;
+                        Helper.log("Didn't find", original_track);
                     }
                     if(List.num_songs + List.uris.length == full_playlist.length){
                         if(List.uris.length > 100){
