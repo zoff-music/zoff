@@ -157,7 +157,12 @@
   padding-left:5px;
 }
 
-.spotify_logo, .youtube_logo{
+.youtube_logo{
+  height: 75%;
+  margin-top: 5px;
+}
+
+.spotify_logo{
   height: 90%;
   margin-top: 2px;
 }
