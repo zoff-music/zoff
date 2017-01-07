@@ -31,6 +31,7 @@ var blinking 			  = false;
 var access_token_data     = {};
 var spotify_authenticated = false;
 var not_import_html       = "";
+var not_export_html       = "";
 var embed_height          = 300;
 var embed_width           = 600;
 var embed_autoplay        = "&autoplay";
@@ -159,7 +160,9 @@ function init(){
     result_html 	   	  = $("#temp-results-container");
 	empty_results_html 	  = $("#empty-results-container").html();
     not_import_html       = $(".not-imported-container").html();
+    not_export_html       = $(".not-exported-container").html();
     $(".not-imported-container").empty();
+    $(".not-exported-container").empty();
 
     $(".video-container").resizable({
     	start: function(event, ui) {
@@ -574,6 +577,10 @@ $(document).on("click", ".modal-close", function(e){
     e.preventDefault();
 });
 
+$(document).on("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
+    this.select();
+})
+
 $(document).on("click", ".next_page", function(e){
     e.preventDefault();
     List.dynamicContentPage(1);
@@ -686,9 +693,28 @@ $(document).on("click", "#listExport", function(e){
     }
 });
 
-$(document).on("click", "#listExportSpotify", function(e){
+$(document).on("click", ".export-spotify-auth", function(e){
     e.preventDefault();
-    Helper.log(full_playlist);
+    var nonce = randomString(29);
+    window.callback = function(data) {
+        access_token_data = data;
+        if(access_token_data.state == nonce){
+            spotify_authenticated = true;
+            spotify_is_authenticated(true);
+            setTimeout(function(){
+                spotify_authenticated = false;
+                access_token_data = {};
+                spotify_is_authenticated(false);
+            }, access_token_data.expires_in * 1000);
+            List.exportToSpotify();
+        } else {
+            access_token_data = {};
+            console.error("States doesn't match");
+        }
+        spotify_window.close();
+        window.callback = "";
+    };
+    spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
 $(document).on("submit", "#listImport", function(e){

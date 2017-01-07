@@ -8,7 +8,7 @@ window.addEventListener("load", function(){
   if(query.spotify){
     client_id = "b934ecdd173648f5bcd38738af529d58";
     response  = "token";
-    scope     = "playlist-read-private playlist-read-collaborative user-read-private";
+    scope     = "playlist-read-private playlist-read-collaborative user-read-private playlist-modify-public";
     state     = query.nonce;
     window.location.href = "https://accounts.spotify.com/authorize?client_id=" + client_id + "&scope=" + scope + "&show_dialog=false&response_type=" + response + "&redirect_uri=" + redirect + "&state=" + state;
 

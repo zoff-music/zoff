@@ -301,13 +301,13 @@
                         <div class="input-field field-settings">
                         </div>
                     </li>
-                    <!--<li class="white-bg">
+                    <li class="white-bg">
                         <div class="input-field field-settings spotify_unauthenticated export-buttons">
-                            <a class="modal-trigger waves-effect green lighten btn export-spotify-auth" id="listExportSpotify" title="Export to Spotify">
-                              Spotify
+                            <a class="modal-trigger waves-effect green lighten btn export-spotify-auth" title="Export Spotify playlist">
+                              <img src="/public/images/spotify.png" class="left spotify_logo" alt="Spotify Logo" />Spotify
                             </a>
                         </div>
-                    </li>-->
+                    </li>
                     <li class="exported-list-container white-bg hide">
                         <div class="valign playlist_loader_padding">
                             <div id="playlist_loader_export" class="preloader-wrapper small active hide">
@@ -360,11 +360,21 @@
                                 </div>
                             </div>
                         </div>
-                        <ul class="input-field field-settings white-bg">
-                            <li class="white-bg exported-list white-bg">
-
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="white-bg">
+                        <div class="exported-list input-field field-settings export-buttons">
+                        </div>
+                        <li class="not-exported white-bg hide">
+                            <div class="center-align">Not exported songs</div>
+                            <ul class="input-field field-settings not-exported-container">
+                                <li class="white-bg not-exported-element">
+                                    <div id="extra-export-container-text">
+                                        <input class="extra-add-text truncate" readonly />
+                                    </div>
+                                    <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
+                                </li>
+                            </ul>
+                        </li>
                     </li>
                 </ul>
             </div>

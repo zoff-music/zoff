@@ -8,17 +8,17 @@ var Crypt = {
 
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-        }catch(err){
-        	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
-        }
-        try{
-        	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
-        }catch(err){
-        	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
-        }
-        Hostcontroller.change_enabled(conf_arr.remote);
-        if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-        if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
+    }catch(err){
+    	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
+    }
+    try{
+    	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+    }catch(err){
+    	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+    }
+    Hostcontroller.change_enabled(conf_arr.remote);
+    if(conf_arr.width != 100) Player.set_width(conf_arr.width);
+    if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
 	},
 
 	decrypt: function(cookie, name){
