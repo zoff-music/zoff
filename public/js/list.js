@@ -436,6 +436,7 @@ var List = {
             track = track.replace("w/", "");
             track = track.replace("w/", "");
             track = track.replace("official video", "");
+            track = track.replace("studio version", "");
             track = track.replace("official music video", "");
             track = track.replace("music video", "");
             track = track.replace("musicvideo", "");
