@@ -471,6 +471,7 @@ var List = {
                     if(err.status == 429){
                         var retryAfter = err.getResponseHeader("Retry-After");
                         retryAfter = parseInt(retryAfter, 10);
+                        Helper.log("Retry-After", retryAfter);
                         setTimeout(function(){
                             List.searchSpotify(curr_song);
                         }, retryAfter * 1000);
