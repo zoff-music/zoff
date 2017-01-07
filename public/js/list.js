@@ -500,6 +500,9 @@ var List = {
                         data.name = data.name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
                         data.artists[0].name = data.artists[0].name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
                         if(data.name.substring(data.name.length-1) == " ") data.name = data.name.substring(0,data.name.length-1);
+                        if(data.name.substring(data.name.length-1) == "." && track.substring(track.length-1) != "."){
+                            data.name = data.name.substring(0,data.name.length-1);
+                        }
                         if(decodeURIComponent(track).indexOf(data.artists[0].name.toLowerCase()) >= 0 && decodeURIComponent(track).indexOf(data.name.toLowerCase()) >= 0){
                             found = true;
                             List.uris.push(data.uri);
