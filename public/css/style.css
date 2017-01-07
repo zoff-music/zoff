@@ -114,10 +114,17 @@
   display:none;
 }
 
-.not-imported{
+.not-imported, .not-exported{
   border-top: 1px solid lightgrey;
   margin-top: 15px;
   color:black;
+}
+
+.not-exported-element{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .not-imported-element{
@@ -129,6 +136,10 @@
   display: inline-block;
   height: 30px;
   line-height: 30px;
+}
+
+.not-exported-container .not-imported-element .extra-add-text{
+  width: 215px;
 }
 
 .extra-button{

@@ -85,7 +85,6 @@ var List = {
         } else if(embed) {
             List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
-            console.log("anal")
         }else {
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() -66) / 71)+1;
             List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() -66) / List.can_fit)-6;
@@ -374,6 +373,187 @@ var List = {
     	return true;
     },
 
+    exportToSpotify: function(){
+        $.ajax({
+            type: "GET",
+            url: "https://api.spotify.com/v1/me",
+            headers: {
+                'Authorization': 'Bearer ' + access_token_data.access_token
+            },
+            success: function(response){
+                var uris = [];
+                var user_id = response.id;
+                var num_songs = 0;
+                var not_found = [];
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.spotify.com/v1/users/" + user_id + "/playlists",
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token_data.access_token,
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({
+                            name: chan.toLowerCase() + " - Zöff",
+                            public: true
+                    }),
+                    success: function(response){
+                        var playlist_id = response.id;
+                        $.each(full_playlist, function(i, curr_song){
+                            var original_track = curr_song.title;
+                            var track = (curr_song.title.toLowerCase().replace("-", " "));
+                            track = track.replace("official hd video", "");
+                            track = track.replace("unofficial video", "");
+                            track = track.replace("studio footage", "");
+                            track = track.replace("great song", "");
+                            track = track.replace("-", " ");
+                            track = track.replace("-", " ");
+                            track = track.replace(" hq ", " ");
+                            track = track.replace("lyric video", "");
+                            track = track.replace("lyrics video", "");
+                            track = track.replace("album version", "");
+                            track = track.replace("drive original movie soundtrack", "");
+                            track = track.replace("original movie soundtrack", "");
+                            track = track.replace("live sessions", "");
+                            track = track.replace("audio only", "");
+                            track = track.replace("audio", "");
+                            track = track.replace("(new)", "");
+                            track = track.replace(" by ", " ");
+                            track = track.replace(" vs ", " ");
+                            track = track.replace("(full)", " ");
+                            track = track.replace("with lyrics", "");
+                            track = track.replace("lyrics", "");
+                            track = track.replace("w/", "");
+                            track = track.replace("w/", "");
+                            track = track.replace("official video", "");
+                            track = track.replace("official music video", "");
+                            track = track.replace("music video", "");
+                            track = track.replace("musicvideo", "");
+                            track = track.replace("original video", "");
+                            track = track.replace("full version", "");
+                            track = track.replace("full song", "");
+                            track = track.replace("(official)", "");
+                            track = track.replace("official", "");
+                            track = track.replace("(original)", "");
+                            track = track.replace("(", " ");
+                            track = track.replace(")", " ");
+                            track = track.replace("feat.", " ");
+                            track = track.replace("feat", " ");
+                            track = track.replace("ft.", " ");
+                            track = track.replace("[", " ");
+                            track = track.replace("]", " ");
+                            track = track.replace(" free ", "");
+                            track = track.replace(" hd ", "");
+                            track = track.replace("original mix", " ");
+                            track = track.replace("radio edit", " ");
+                            track = track.replace("pop version", " ");
+                            track = track.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+                            track = encodeURIComponent(track);
+
+                            $.ajax({
+                                type: "GET",
+                                url: "https://api.spotify.com/v1/search?q=" + track + "&type=track",
+                                headers: {
+                                    'Authorization': 'Bearer ' + access_token_data.access_token
+                                },
+                                async: true,
+                                error: function(err){
+                                    console.log(err);
+                                },
+                                success: function(response){
+                                    var found = false;
+                                    $.each(response.tracks.items, function(i, data){
+                                        data.name = data.name.toLowerCase();
+                                        data.name = data.name.replace("(", " ");
+                                        data.name = data.name.replace(")", " ");
+                                        data.name = data.name.replace("[", " ");
+                                        data.name = data.name.replace("]", " ");
+                                        data.name = data.name.replace("-", " ");
+                                        data.name = data.name.replace("original mix", " ");
+                                        data.name = data.name.replace("album version", " ");
+                                        data.name = data.name.replace("abum version", " ");
+                                        data.name = data.name.replace("feat.", " ");
+                                        data.artists[0].name = data.artists[0].name.replace("feat.", " ");
+                                        data.artists[0].name = data.artists[0].name.replace("feat", " ");
+                                        data.name = data.name.replace("feat", " ");
+                                        data.name = data.name.replace("ft.", " ");
+                                        data.name = data.name.replace("radio edit", " ");
+                                        data.name = data.name.replace("pop version", " ");
+                                        data.name = data.name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+                                        data.artists[0].name = data.artists[0].name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+                                        if(data.name.substring(data.name.length-1) == " ") data.name = data.name.substring(0,data.name.length-1);
+                                        if(decodeURIComponent(track).indexOf(data.artists[0].name.toLowerCase()) >= 0 && decodeURIComponent(track).indexOf(data.name.toLowerCase()) >= 0){
+                                            found = true;
+                                            uris.push(data.uri);
+                                            num_songs = num_songs + 1;
+                                            return false;
+                                        } else {
+                                            var splitted = data.name.split(" ");
+                                            for(var i = 0; i < splitted.length; i++){
+                                                if((splitted[i] == "and" && track.indexOf("&") >= 0) || (splitted[i] == "&" && track.indexOf("and") >= 0)){
+                                                    continue;
+                                                } else if(track.indexOf(splitted[i]) < 0){
+                                                    return true;
+                                                }
+                                            }
+                                            found = true;
+                                            uris.push(data.uri);
+                                            num_songs = num_songs + 1;
+                                            return false;
+                                        }
+                                    });
+                                    if(!found){
+                                        not_found.push(original_track);
+                                        num_songs = num_songs + 1;
+                                    }
+                                    if(num_songs == full_playlist.length){
+                                        if(uris.length > 100){
+                                            while(uris.length > 100){
+                                                List.addToSpotifyPlaylist(uris.slice(0, 100), playlist_id, user_id);
+                                                if(uris.length > 200){
+                                                    uris = uris.slice(100, 200);
+                                                } else {
+                                                    uris = uris.slice(100, uris.length);
+                                                }
+                                            }
+                                            List.addToSpotifyPlaylist(uris, playlist_id, user_id);
+                                        } else {
+                                            List.addToSpotifyPlaylist(uris, playlist_id, user_id);
+                                        }
+                                        $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+                                        $.each(not_found, function(i, data){
+                                            var not_added_song = $("<div>" + not_export_html + "</div>");
+                                            not_added_song.find(".extra-add-text").attr("value", data);
+                                            not_added_song.find(".extra-add-text").attr("title", data);
+                                            $(".not-exported-container").append(not_added_song.html());
+                                        })
+                                        $(".not-exported").removeClass("hide");
+                                    }
+                                }
+                            })
+                        });
+                    }
+                });
+            }
+        })
+    },
+
+    addToSpotifyPlaylist: function(uris, playlist_id, user_id){
+        $.ajax({
+            type: "POST",
+            url: "https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks",
+            headers: {
+                'Authorization': 'Bearer ' + access_token_data.access_token,
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                    uris: uris
+            }),
+            success: function(response){
+                Helper.log("Added songs");
+            }
+        })
+    },
+
     exportToYoutube: function(){
         var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
         $(".exported-list-container").removeClass("hide");
@@ -412,18 +592,28 @@ var List = {
                                 }
                             }
                         }),
-                        success: function(response){
-                            Helper.log("Added video: " + data.id + " to playlist id " + playlist_id);
+                        error: function(code){
                             if(number_added == full_playlist.length - 1){
                                 Helper.log("All videoes added!");
                                 Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
                                 $(".exported-list").append("<h5>Exported list</h5>");
                                 $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                                 $("#playlist_loader_export").addClass("hide");
+                            }
+                            number_added += 1;
+                        },
+                        success: function(response){
+                            Helper.log("Added video: " + data.id + " to playlist id " + playlist_id);
+                            if(number_added == full_playlist.length - 1){
+                                Helper.log("All videoes added!");
+                                Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
+                                $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                                $("#playlist_loader_export").addClass("hide");
                                 //$(".youtube_export_button").removeClass("hide");
                             }
                             number_added += 1;
                         }
+
                     });
                 });
             },
