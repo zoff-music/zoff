@@ -1139,16 +1139,18 @@ function onepage_load(){
 		    		document.title = "Zöff";
 		    	}
 
+				var response = $("<div>" + e + "</div>");
+
 				$(".drag-target").remove();
 				$("#sidenav-overlay").remove();
 		    	$("main").attr("class", "center-align container");
 		    	$("body").attr("id", "");
 		    	$("body").attr("style", "");
-		      	$("header").html($($(e)[63]).html());
-		      	$($(e)[65]).insertAfter("header");
-		      	$($(e)[67]).insertAfter(".mega");
-		      	if(Helper.mobilecheck()) $("main").html($($(e)[71]).html());
-		      	else $("main").append($($($(e)[71]).html())[0]);
+                $("header").html($(response.find("header")).html());
+                $($(response.find(".section.mega"))).insertAfter("header");
+                $($(response.find(".section.mobile-search"))).insertAfter(".mega");
+                if(Helper.mobilecheck()) $("main").html($(response.find("main")).html());
+                else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
 		      	$("#favicon").attr("href", "public/images/favicon.png");
