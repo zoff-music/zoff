@@ -264,17 +264,19 @@ var Nochan = {
           window.chan = new_channel;
         }
 
+        var response = $("<div>" + e + "</div>");
+
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
         $("body").attr("id", "channelpage");
-        $("header").html($($(e)[63]).html());
+        //$("header").html($($(e)[63]).html());
+        $("header").html($(response.find("header")).html());
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
-          $("main").html($($(e)[67]).html());
+          $("main").html($(response.find("main")).html());
         } else {
-          var main = $($($($($(e)[67]).html())[0]).html());
-          $("#main-row").append($(main[2]).wrap("<div>").parent().html());
-          $("#video-container").append($($($(main[0]).html())[4]).wrap("<div>").parent().html());
+          $("#main-row").append($(response.find("#playlist").wrap("<div>").parent().html()));
+          $("#video-container").append($(response.find("#main_components").wrap("<div>").parent().html()));
           $("#main-row").append("<div id='playbar'></div>");
           $("#player").removeClass("player_bottom");
           $("#main-row").removeClass("frontpage_modified_heights");
