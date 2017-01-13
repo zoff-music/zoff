@@ -1319,7 +1319,11 @@ nav ul li:hover, nav ul li.active {
     border-radius: 3px;
     margin: 15px 20px;
 }
-.result{height:100px;margin-left:40px;}
+.result{
+  height:100px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
 #add-many{
     float:right;
     color:white;
@@ -1372,7 +1376,7 @@ nav ul li:hover, nav ul li.active {
 .result {
   border-bottom: solid 1px rgba(229, 229, 229, 0.5);
   cursor: pointer;
-  width:93%;
+  /*width:93%;*/
 }
 .result_info{
     opacity:0.8;
