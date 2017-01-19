@@ -40,6 +40,8 @@ var access_token_data_youtube = {};
 var youtube_authenticated = false;
 var chromecastAvailable = false;
 var color               = "808080";
+var find_start          = false;
+var find_started        = false;
 var chromecastReady = false;
 var castSession;
 
@@ -1054,6 +1056,33 @@ $(document).on("click", "#top-button", function(){
 $(document).on("click", "#bottom-button", function(){
 	List.scrollBottom();
 });
+
+/*
+$(document).keydown(function(event) {
+    //console.log(find_start);
+    //console.log(event.keyCode);
+    if(event.keyCode == 91 || event.keyCode == 17){
+        find_start = true;
+    } else if(find_start && event.keyCode == 70){
+        find_start = false;
+        find_started = !find_started;
+        //event.preventDefault();
+        if(find_started){
+            console.log("time to search");
+        } else {
+            console.log("abort search");
+        }
+    } else {
+        find_start = false;
+    }
+});
+
+$(document).keyup(function(event){
+    if((event.keyCode == 91 || event.keyCode == 17) && !find_started){
+        find_start = false;
+    }
+});
+*/
 
 function share_link_modifier_channel(){
 	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
