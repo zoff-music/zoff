@@ -154,6 +154,30 @@ var List = {
 		$("#wrapper").css("opacity", "1");
     },
 
+    dynamicContentPageJumpTo: function(page){
+        page = page * 11;
+      if(page > List.page || page < List.page){
+        $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+        List.page = page;
+        $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+        if(List.page > 0 && $(".prev_page").hasClass("hide")){
+            $(".prev_page").toggleClass("hide");
+            $(".prev_page_hide").css("display", "none");
+            $(".first_page").toggleClass("hide");
+            $(".first_page_hide").css("display", "none");
+        }
+
+        if(List.page + List.can_fit >= $("#wrapper").children().length){
+            $(".next_page_hide").css("display", "inline-block");
+            $(".next_page").css("display", "none");
+            $(".last_page_hide").css("display", "inline-block");
+            $(".last_page").css("display", "none");
+        }
+
+        $("#pageNumber").html((List.page / List.can_fit) + 1);
+      }
+    },
+
     dynamicContentPage: function(way){
         if(way == 1){
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();

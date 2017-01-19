@@ -43,6 +43,8 @@ var color               = "808080";
 var find_start          = false;
 var find_started        = false;
 var chromecastReady = false;
+var found_array = [];
+var found_array_index = 0;
 var castSession;
 
 if(localStorage.debug === undefined){
@@ -1057,23 +1059,33 @@ $(document).on("click", "#bottom-button", function(){
 	List.scrollBottom();
 });
 
-/*
+
 $(document).keydown(function(event) {
     //console.log(find_start);
     //console.log(event.keyCode);
-    if(event.keyCode == 91 || event.keyCode == 17){
-        find_start = true;
-    } else if(find_start && event.keyCode == 70){
-        find_start = false;
-        find_started = !find_started;
-        //event.preventDefault();
-        if(find_started){
-            console.log("time to search");
+    if(window.location.pathname != "/"){
+        if(event.keyCode == 91 || event.keyCode == 17){
+            find_start = true;
+        } else if(find_start && event.keyCode == 70){
+            find_start = false;
+            find_started = !find_started;
+            event.preventDefault();
+            if(find_started){
+                console.log("time to search");
+                $("#find_div").toggleClass("hide");
+                $("#find_input").focus();
+            } else {
+                console.log("abort search");
+                $("#find_div").toggleClass("hide");
+                $("#find_input").val("");
+                $("#find_input").blur();
+                $(".highlight").removeClass("highlight");
+                found_array = [];
+                found_array_index = 0;
+            }
         } else {
-            console.log("abort search");
+            find_start = false;
         }
-    } else {
-        find_start = false;
     }
 });
 
@@ -1082,7 +1094,36 @@ $(document).keyup(function(event){
         find_start = false;
     }
 });
-*/
+
+$(document).on("submit", "#find_form", function(e){
+    e.preventDefault();
+    if(found_array.length == 0){
+        var that = this;
+        found_array_index = 0;
+        /*var result = $.grep(full_playlist, function(v,i) {
+            return v.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0;
+        });*/
+        found_array = $.map(full_playlist, function(obj, index) {
+            if(obj.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0) {
+                return index;
+            }
+        });
+    } else {
+        found_array_index = found_array_index + 1;
+        if(found_array.length - 1 < found_array_index){
+            found_array_index = 0;
+        }
+    }
+    if(found_array.length > 0 && found_array[found_array_index] != full_playlist.length - 1){
+        $(".highlight").removeClass("highlight");
+        var jump_to_page = Math.floor(found_array[found_array_index] / List.can_fit);
+        $($("#wrapper").children()[found_array[found_array_index]]).addClass("highlight");
+        List.dynamicContentPageJumpTo(jump_to_page);
+    } else {
+        Helper.log("none found");
+    }
+});
+
 
 function share_link_modifier_channel(){
 	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
