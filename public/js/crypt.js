@@ -4,7 +4,11 @@ var Crypt = {
 
 	init: function(){
 
-		document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
+		if (location.protocol != "https:"){
+			document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';expires=' + new Date(0).toUTCString();
+		} else {
+			document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
+		}
 
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
@@ -63,7 +67,11 @@ var Crypt = {
 
         var CookieDate = new Date();
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-        document.cookie = cookie+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
+				if (location.protocol != "https:"){
+					document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
+				} else {
+					document.cookie = cookie+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
+				}
 	},
 
 	encrypt_string: function(string){
@@ -106,8 +114,12 @@ var Crypt = {
         var CookieDate = new Date();
         CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-        document.cookie = name+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
-        //document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+				if (location.protocol != "https:"){
+					document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
+				} else {
+        	document.cookie = name+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
+				}
+				//document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
         return Crypt.getCookie(name);
 	},
