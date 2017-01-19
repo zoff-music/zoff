@@ -1061,8 +1061,6 @@ $(document).on("click", "#bottom-button", function(){
 
 
 $(document).keydown(function(event) {
-    //console.log(find_start);
-    //console.log(event.keyCode);
     if(window.location.pathname != "/"){
         if(event.keyCode == 91 || event.keyCode == 17){
             find_start = true;
@@ -1071,11 +1069,9 @@ $(document).keydown(function(event) {
             find_started = !find_started;
             event.preventDefault();
             if(find_started){
-                console.log("time to search");
                 $("#find_div").toggleClass("hide");
                 $("#find_input").focus();
             } else {
-                console.log("abort search");
                 $("#find_div").toggleClass("hide");
                 $("#find_input").val("");
                 $("#find_input").blur();

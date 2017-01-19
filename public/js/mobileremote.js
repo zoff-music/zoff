@@ -44,14 +44,9 @@ var Mobile_remote = {
           value: 100,
           range: "min",
           animate: true,
-          /*slide: function(event, ui) {
-            console.log(ui.value);
-            //localStorage.setItem("volume", ui.value);
-          },*/
           stop:function(event, ui) {
             socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
             Helper.log("volume");
-            //console.log(ui.value);
           }
       });
 	}

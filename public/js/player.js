@@ -35,8 +35,13 @@ var Player = {
             Player.getTitle(obj.np[0].title, viewers);
             //Player.setBGimage(video_id);
             if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
-            console.log("trying to stop");
             if(!chromecastAvailable) Player.stopVideo();
+            video_id   = obj.np[0].id;
+            conf       = obj.conf[0];
+            time       = obj.time;
+            seekTo     = time - conf.startTime;
+            song_title = obj.np[0].title;
+            duration   = obj.np[0].duration;
         }else if(!paused){
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
@@ -194,6 +199,7 @@ var Player = {
     },
 
     loadVideoById: function(id){
+        console.log(id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: id});
         } else {

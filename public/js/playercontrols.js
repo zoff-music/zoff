@@ -62,8 +62,7 @@ var Playercontrols = {
                     $(".video-container").toggleClass("click-through");
                     $(".page-footer").toggleClass("padding-bottom-extra");
                 }
-        	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0)
-        	{
+        	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0 || (Player.player.getPlayerState() === 5 && Helper.mobilecheck())){
         		Player.playVideo();
                 if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                     document.getElementById("player").style.display = "block";
