@@ -231,6 +231,11 @@
                 <li class="tab col s3"><a class="playlist-tab-links suggested-link" href="#suggestions">Suggested</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link" href="#chat">Chat</a></li>
               </ul>
+              <div id="find_div" class="hide">
+                <form id="find_form">
+                  <input type="text" name="find_value" placeholder="Find.." id="find_input" autocomplete="off" />
+                </form>
+              </div>
                 <div id="wrapper" class="tabs_height">
                     <div id="list-song-html">
                         <div id="list-song" class="card left-align list-song">

@@ -660,6 +660,20 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 }
 
+#find_div{
+  position: absolute;
+  background: #282828;
+  z-index: 1;
+  width: 100%;
+  padding: 0 15px;
+  top: 0;
+  color: white;
+}
+
+.highlight{
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
 .room-namer::-webkit-input-placeholder{
   /*color:rgb(155, 155, 155) !important;*/
   -webkit-transition:opacity 0.5s;
