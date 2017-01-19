@@ -155,7 +155,7 @@ var List = {
     },
 
     dynamicContentPageJumpTo: function(page){
-        page = page * 11;
+        page = page * List.can_fit;
       if(page > List.page || page < List.page){
         $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
         List.page = page;
@@ -174,7 +174,7 @@ var List = {
             $(".last_page").css("display", "none");
         }
 
-        $("#pageNumber").html(Math.floor((List.page / List.can_fit) + 1));
+        $("#pageNumber").html((List.page / List.can_fit) + 1);
       }
     },
 
