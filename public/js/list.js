@@ -174,7 +174,7 @@ var List = {
             $(".last_page").css("display", "none");
         }
 
-        $("#pageNumber").html((List.page / List.can_fit) + 1);
+        $("#pageNumber").html(Math.floor((List.page / List.can_fit) + 1));
       }
     },
 
