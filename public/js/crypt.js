@@ -4,7 +4,7 @@ var Crypt = {
 
 	init: function(){
 
-		document.cookie = chan.toLowerCase() + '=; path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
+		document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
 
 		try{
         	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
