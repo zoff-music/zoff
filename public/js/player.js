@@ -205,7 +205,6 @@ var Player = {
     },
 
     loadVideoById: function(id){
-        console.log(id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: id});
         } else {
