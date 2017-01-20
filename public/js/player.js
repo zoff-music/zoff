@@ -31,7 +31,6 @@ var Player = {
             }catch(e){}
             //List.importOldList(channel.toLowerCase());
         } else if(paused){
-
             Player.getTitle(obj.np[0].title, viewers);
             //Player.setBGimage(video_id);
             if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
@@ -77,8 +76,9 @@ var Player = {
                         Player.loadVideoById(video_id);
                         if(!Helper.mobilecheck()) Player.notifyUser(video_id, song_title);
                         Player.seekTo(seekTo);
-                        if(paused && !chromecastAvailable)
+                        if(paused && !chromecastAvailable){
                             Player.pauseVideo();
+                        }
                     }
                     if(!paused){
                         if(!mobile_beginning || chromecastAvailable)
@@ -131,6 +131,12 @@ var Player = {
                     Player.pauseVideo();
                     beginning = false;
                     mobile_beginning = false;
+                    setTimeout(function(){
+                        if(Helper.mobilecheck()){
+                            $("#playpause").css("visibility", "visible");
+                            $("#playpause").css("pointer-events", "all");
+                         }
+                    }, 100);
                 }
                 if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
                 if(window.location.pathname != "/"){
@@ -288,6 +294,10 @@ var Player = {
           	player_ready = true;
     		if(!window.MSStream)
     		{
+              if(Helper.mobilecheck()){
+                  $("#playpause").css("visibility", "hidden");
+                  $("#playpause").css("pointer-events", "none");
+              }
     			$("#player").css("opacity", "1");
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");
