@@ -241,13 +241,15 @@ function init(){
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
     if(chromecastAvailable){
-        hide_native(1);
+        //hide_native(1);
     } else if(chromecastReady) {
         initializeCastApi();
     } else {
         window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
           if (loaded) {
-            initializeCastApi();
+              setTimeout(function(){
+                initializeCastApi();
+            }, 1000);
           } else {
           }
         }
@@ -255,7 +257,7 @@ function init(){
 }
 
 initializeCastApi = function() {
-	//$(".castButton").css("display", "block");
+	$(".castButton").css("display", "block");
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
