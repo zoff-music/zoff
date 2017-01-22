@@ -213,13 +213,15 @@ function init(){
 	if(no_socket) socket.emit('list', chan.toLowerCase());
 
 
-	if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+	//if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+    /*if(!Helper.mobilecheck() && !window.MSStream){
+        console.log("asd");
 		document.getElementById("search").blur();
 		$("#channel-load").css("display", "none");
- 	} else {
+ 	} else {*/
  		window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
  		if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
- 	}
+ 	//}
 
  	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
 
@@ -948,7 +950,7 @@ $(document).on("click", "#closeSettings", function(e)
 });
 
 $(window).resize(function(){
-    if(chan){
+    if(chan && !Helper.mobilecheck()){
         var temp_fit = Math.round(($("#wrapper").height()) / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
