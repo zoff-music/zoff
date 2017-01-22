@@ -293,7 +293,7 @@ var Player = {
           	player_ready = true;
     		if(!window.MSStream)
     		{
-              if(Helper.mobilecheck()){
+              if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent)){
                   $("#playpause").css("visibility", "hidden");
                   $("#playpause").css("pointer-events", "none");
               }

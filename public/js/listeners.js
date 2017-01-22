@@ -264,6 +264,7 @@ initializeCastApi = function() {
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
     var context = cast.framework.CastContext.getInstance();
+    $(".castButton").css("display", "block");
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
         function(event) {
