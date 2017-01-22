@@ -4,7 +4,8 @@ var Playercontrols = {
 
     initYoutubeControls: function()
     {
-        if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+        //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+        if(Helper.mobilecheck() && !window.MSStream){
             $("#controls").appendTo("#playbar");
         }
         Playercontrols.initControls();
@@ -57,14 +58,16 @@ var Playercontrols = {
         	if(Player.player.getPlayerState() == 1)
         	{
         		Player.pauseVideo();
-                if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                if(Helper.mobilecheck() && !window.MSStream){
+                //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                     document.getElementById("player").style.display = "none";
                     $(".video-container").toggleClass("click-through");
                     $(".page-footer").toggleClass("padding-bottom-extra");
                 }
         	} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0 || (Player.player.getPlayerState() === 5 && Helper.mobilecheck())){
         		Player.playVideo();
-                if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                if(Helper.mobilecheck() && !window.MSStream){
                     document.getElementById("player").style.display = "block";
                     $(".video-container").toggleClass("click-through");
                     $(".page-footer").toggleClass("padding-bottom-extra");
