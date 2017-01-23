@@ -41,6 +41,7 @@ var Player = {
             seekTo     = time - conf.startTime;
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
+            Player.setBGimage(video_id);
         }else if(!paused){
             //Helper.log("gotten new song");
             if(previous_video_id === undefined)
