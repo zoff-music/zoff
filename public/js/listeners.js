@@ -715,6 +715,7 @@ $(document).on("click", ".export-spotify-auth", function(e){
                 access_token_data = {};
                 spotify_is_authenticated(false);
             }, access_token_data.expires_in * 1000);
+            $(".spotify_export_button").css("display", "none");
             List.exportToSpotify();
         } else {
             access_token_data = {};
