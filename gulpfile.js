@@ -15,7 +15,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('embed', function () {
-    gulp.src(['public/js/player.js', 'public/js/helpers.js', 'public/js/playercontrols.js', 'public/js/list.js', 'public/js/embed.js', '!public/js/nochan*', '!public/js/remotecontroller.js'])
+    gulp.src(['public/js/player.js', 'public/js/helpers.js', 'public/js/playercontrols.js', 'public/js/list.js', 'public/js/embed.js', '!public/js/frontpage*', '!public/js/remotecontroller.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,
