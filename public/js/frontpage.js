@@ -19,7 +19,7 @@ function getCookie(cname) {
 }
 */
 
-var Nochan = {
+var Frontpage = {
 
   blob_list: [],
 
@@ -37,9 +37,9 @@ var Nochan = {
     Helper.log(msg);
     Helper.log("------------");
 
-    Nochan.populate_channels(msg.channels);
+    Frontpage.populate_channels(msg.channels);
 
-    Nochan.set_viewers(msg.viewers);
+    Frontpage.set_viewers(msg.viewers);
   },
 
   populate_channels: function(lists)
@@ -50,7 +50,7 @@ var Nochan = {
       if(lists[0].pinned == 1){
         pinned = lists.shift();
       }
-      lists.sort(Nochan.sortFunction);
+      lists.sort(Frontpage.sortFunction);
       if(pinned !== undefined){
         lists.unshift(pinned);
       }
@@ -61,7 +61,7 @@ var Nochan = {
       Helper.log("-------------");
 
       if(!Helper.mobilecheck())
-        Nochan.add_backdrop(lists, 0);
+        Frontpage.add_backdrop(lists, 0);
 
       for(var x in lists)
       {
@@ -141,11 +141,11 @@ var Nochan = {
 
     var id = list[i].id;
 
-    if(Nochan.blob_list[i] !== undefined){
+    if(Frontpage.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
       setTimeout(function(){
         if(frontpage){
-          $("#mega-background").css("background", "url(data:image/png;base64,"+Nochan.blob_list[i]+")");
+          $("#mega-background").css("background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
           $("#searchFrontpage").attr("placeholder", list[i].channel);
@@ -162,7 +162,7 @@ var Nochan = {
             data: {id:id},
             url: "/public/php/imageblob.php",
             success: function(data){
-                Nochan.blob_list.push(data);
+                Frontpage.blob_list.push(data);
                //data will contain the vote count echoed by the controller i.e.
                 //$(".room-namer").css("opacity", 0);
                 setTimeout(function(){
@@ -187,13 +187,13 @@ var Nochan = {
 
     }
     rotation_timeout = setTimeout(function(){
-      if(Nochan.times_rotated == 50 && frontpage){
-        Nochan.times_rotated = 0;
+      if(Frontpage.times_rotated == 50 && frontpage){
+        Frontpage.times_rotated = 0;
         i = 0;
         socket.emit("frontpage_lists");
       }else if(frontpage){
-        Nochan.times_rotated += 1;
-        Nochan.add_backdrop(list, i+1);
+        Frontpage.times_rotated += 1;
+        Frontpage.add_backdrop(list, i+1);
       }
     },6000);
 
@@ -210,8 +210,8 @@ var Nochan = {
       snow.style.left = x+"px";
       snow.style.top = "0px";
       parent.appendChild(snow);
-      Nochan.fall_snow(snow);
-      Nochan.start_snowfall();
+      Frontpage.fall_snow(snow);
+      Frontpage.start_snowfall();
     }, 800);
   },
 
@@ -219,7 +219,7 @@ var Nochan = {
     corn.style.top = (parseInt(corn.style.top.replace("px", ""))+2)+"px";
     if(parseInt(corn.style.top.replace("px", "")) < document.getElementById("mega-background").offsetHeight-2.5){
       setTimeout(function(){
-        Nochan.fall_snow(corn);
+        Frontpage.fall_snow(corn);
       },50);
     }else{
       corn.remove();
@@ -315,7 +315,7 @@ function share_link_modifier_frontpage(){
 function initfp(){
 
     var date = new Date();
-    Nochan.blob_list = [];
+    Frontpage.blob_list = [];
     if(date.getMonth() == 3 && date.getDate() == 1){
       $(".mega").css("-webkit-transform", "rotate(180deg)");
       $(".mega").css("-moz-transform", "rotate(180deg)");
@@ -327,7 +327,7 @@ function initfp(){
       var url_split = window.location.href.split("/");
 
       if(url_split[3] !== "" && url_split[3].substring(0,1) != "#"){
-        Nochan.to_channel(url_split[3], true);
+        Frontpage.to_channel(url_split[3], true);
       }
     };
 
@@ -375,9 +375,9 @@ function initfp(){
             window.location.href = 'http://etys.no';
     });
 
-    if(!Helper.mobilecheck() && Nochan.winter) {
+    if(!Helper.mobilecheck() && Frontpage.winter) {
       $(".mega").prepend('<div id="snow"></div>');
-      //Nochan.start_snowfall();
+      //Frontpage.start_snowfall();
     }
 
     window['__onGCastApiAvailable'] = function(loaded, errorInfo) {

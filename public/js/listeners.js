@@ -438,7 +438,7 @@ function setup_list_listener(){
 
 function setup_playlist_listener(){
     Helper.log("Setting up playlist_listener");
-	socket.on('playlists', Nochan.frontpage_function);
+	socket.on('playlists', Frontpage.frontpage_function);
 }
 
 function setup_host_initialization(){
@@ -636,25 +636,25 @@ $(document).on('input', '#color_embed', function(){
 
 $(document).on('click', ".chan-link", function(e){
   e.preventDefault();
-  Nochan.to_channel($(this).attr("href"), false);
+  Frontpage.to_channel($(this).attr("href"), false);
 });
 
 $(document).on("click", ".listen-button", function(e){
   if($(".room-namer").val() === ""){
     e.preventDefault();
-    Nochan.to_channel($(".room-namer").attr("placeholder"));
+    Frontpage.to_channel($(".room-namer").attr("placeholder"));
   }
 });
 
 $(document).on("submit", ".channel-finder", function(e){
   e.preventDefault();
-  Nochan.to_channel($(".room-namer").val());
+  Frontpage.to_channel($(".room-namer").val());
   return false;
 });
 
 $(document).on("submit", ".channel-finder-mobile", function(e){
   e.preventDefault();
-  Nochan.to_channel($("#search-mobile").val());
+  Frontpage.to_channel($("#search-mobile").val());
   return false;
 });
 
@@ -1033,7 +1033,7 @@ $(document).on("click", ".brand-logo-navigate", function(e){
 });
 
 $(document).on("click", "#player_bottom_overlay", function(){
-	Nochan.to_channel(chan.toLowerCase(), false);
+	Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
 $(document).on("mousemove", "#playlist", function(e)
@@ -1160,7 +1160,7 @@ function onepage_load(){
 		$("#embed-button").css("display", "none");
 
 		$.ajax({
-		    url: "public/php/nochan.php",
+		    url: "public/php/frontpage.php",
 		    success: function(e){
 
 		    	if(Helper.mobilecheck()) {
