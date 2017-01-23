@@ -302,7 +302,7 @@
                         </div>
                     </li>
                     <li class="white-bg">
-                        <div class="input-field field-settings spotify_unauthenticated export-buttons">
+                        <div class="input-field field-settings spotify_export_button export-buttons">
                             <a class="modal-trigger waves-effect green lighten btn export-spotify-auth" title="Export Spotify playlist">
                               <img src="/public/images/spotify.png" class="left spotify_logo" alt="Spotify Logo" />Spotify
                             </a>

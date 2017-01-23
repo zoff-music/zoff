@@ -492,9 +492,25 @@ var List = {
                     'Authorization': 'Bearer ' + access_token_data.access_token
                 },
                 async: true,
+                statusCode: {
+                    429: function(jqXHR) {
+                        console.log(jqXHR.getAllResponseHeaders());
+                        var retryAfter = jqXHR.getResponseHeader("Retry-After");
+                        console.log(retryAfter);
+                        if (!retryAfter) retryAfter = 5;
+                        retryAfter = parseInt(retryAfter, 10);
+                        Helper.log("Retry-After", retryAfter);
+                        setTimeout(function(){
+                            List.searchSpotify(curr_song);
+                        }, retryAfter * 1000);
+                    }
+                },
                 error: function(err){
                     if(err.status == 429){
+                        console.log(err.getAllResponseHeaders());
                         var retryAfter = err.getResponseHeader("Retry-After");
+                        console.log(retryAfter);
+                        if (!retryAfter) retryAfter = 5;
                         retryAfter = parseInt(retryAfter, 10);
                         Helper.log("Retry-After", retryAfter);
                         setTimeout(function(){
@@ -522,6 +538,7 @@ var List = {
                         data.name = data.name.replace("feat", " ");
                         data.name = data.name.replace("ft.", " ");
                         data.name = data.name.replace("radio edit", " ");
+                        data.name = data.name.replace("video", " ");
                         data.name = data.name.replace("pop version", " ");
                         data.name = data.name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
                         data.artists[0].name = data.artists[0].name.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
@@ -560,11 +577,7 @@ var List = {
                         if(List.uris.length > 100){
                             while(List.uris.length > 100){
                                 List.addToSpotifyPlaylist(List.uris.slice(0, 100), playlist_id, user_id);
-                                if(List.uris.length > 200){
-                                    List.uris = List.uris.slice(100, 200);
-                                } else {
-                                    List.uris = List.uris.slice(100, List.uris.length);
-                                }
+                                List.uris = List.uris.slice(100, List.uris.length);
                             }
                             List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
                             $("#playlist_loader_export").addClass("hide");
@@ -580,6 +593,7 @@ var List = {
                             $(".not-exported-container").append(not_added_song.html());
                         })
                         $(".not-exported").removeClass("hide");
+                        $(".spotify_export_button").css("display", "block");
                     }
                 }
             });
@@ -596,6 +610,11 @@ var List = {
             data: JSON.stringify({
                     uris: uris
             }),
+            error: function(response){
+                setTimeout(function(){
+                    List.addToSpotifyPlaylist(uris, playlist_id, user_id);
+                }, 3000);
+            },
             success: function(response){
                 Helper.log("Added songs");
             }
