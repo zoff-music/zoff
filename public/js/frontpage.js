@@ -263,7 +263,7 @@ var Frontpage = {
           window.history.pushState("to the channel!", "Title", "/" + new_channel);
           window.chan = new_channel;
         }
-
+        console.log(chromecastReady);
         var response = $("<div>" + e + "</div>");
 
         $(".mega").remove();
@@ -384,7 +384,6 @@ function initfp(){
       if (loaded) {
         chromecastReady = true;
       } else {
-        console.log(errorInfo);
       }
     }
 }
