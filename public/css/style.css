@@ -1869,6 +1869,15 @@ nav ul li:hover, nav ul li.active {
     }
 }
 
+@media only screen and (max-width: 768px){
+
+  #results{
+      background-color: #000;
+      margin-top:56px;
+  }
+
+}
+
 @media only screen and (min-width: 769px){
 
 
@@ -1889,7 +1898,7 @@ nav ul li:hover, nav ul li.active {
         left: 25%;
     }
     .title-container li {
-      width: 71%;
+      /*width: 71%;*/
     }
 
     #wrapper {

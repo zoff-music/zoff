@@ -10,7 +10,7 @@ var Search = {
     		$(".search_input").focus();
     	}
     	$("#song-title").toggleClass("hide");
-    	$("#results").toggleClass("hide");
+    	//$("#results").toggleClass("hide");
     	$("#results").empty();
     	$("#search-btn i").toggleClass("mdi-navigation-close");
     	$("#search-btn i").toggleClass("mdi-action-search");
