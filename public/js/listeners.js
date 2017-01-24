@@ -243,23 +243,24 @@ function init(){
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
     if(chromecastAvailable){
-        //hide_native(1);
+        hide_native(1);
     } else if(chromecastReady) {
         initializeCastApi();
     } else {
         window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
           if (loaded) {
               setTimeout(function(){
+                  chromecastReady = true;
                 initializeCastApi();
             }, 1000);
           } else {
+              chromecastReady = true;
           }
         }
     }
 }
 
 initializeCastApi = function() {
-	$(".castButton").css("display", "block");
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
@@ -312,6 +313,10 @@ initializeCastApi = function() {
                     break;
             }
     });
+    Helper.log(cast.framework.CastContext.getInstance().getCastState());
+    if(cast.framework.CastContext.getInstance().getCastState() == "NO_DEVICES_AVAILABLE"){
+        $(".castButton").css("display", "none");
+    }
 };
 
 function hide_native(way){
