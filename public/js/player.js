@@ -358,6 +358,16 @@ var Player = {
 
     set_width: function(val){
         $(".video-container").width(val);
+        if(!Helper.mobilecheck()){
+            if($(window).width() > 769){
+                var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
+                    title_width = test_against_width;
+                $(".title-container").width(title_width);
+            } else {
+                $(".title-container").width("100%");
+            }
+
+        }
     },
 
     notifyUser: function(id, title) {

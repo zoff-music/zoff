@@ -175,6 +175,13 @@ function init(){
     	stop: function(event, ui) {
         	$('iframe').css('pointer-events','auto');
         	Crypt.set_width($(this).width());
+            if($(window).width() > 769){
+                var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
+                    title_width = test_against_width;
+                $(".title-container").width(title_width);
+            } else {
+                $(".title-container").width("100%");
+            }
       	},
         handles: "e",
         minWidth: 350,
@@ -207,7 +214,6 @@ function init(){
 	    $("#code-text").text(id);
 	    $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
 	    $("#code-link").attr("href", codeURL);
-
 	}
 
 	if(no_socket) socket.emit('list', chan.toLowerCase());
@@ -514,7 +520,9 @@ $(document).keyup(function(e) {
       		$("#search-btn i").toggleClass("mdi-navigation-close");
       		$("#search-btn i").toggleClass("mdi-action-search");
     	}
-    	$("#results").toggleClass("hide");
+        if(!Helper.contains($("#search-container").attr("class").split(" "), "hide")){
+            $("#results").toggleClass("hide");
+        }
   	}
 });
 
@@ -820,7 +828,7 @@ function searchTimeout(event) {
 	code = event.keyCode || event.which;
 
 	if (code != 40 && code != 38 && code != 13 && code != 39 && code != 37 &&
-		code != 17 && code != 16 && code != 225 && code != 18) {
+		code != 17 && code != 16 && code != 225 && code != 18 && code != 27) {
 		clearTimeout(timeout_search);
 		if(search_input.length < 3){$("#results").html("");}
 		if(code == 13){
@@ -837,11 +845,11 @@ function searchTimeout(event) {
 
 if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
 	$(document).on('keydown', '.search_input', function(event) {
-		searchTimeout(event);
+	      searchTimeout(event);
 	});
 } else {
 	$(document).on('keyup', ".search_input", function(event) {
-		searchTimeout(event);
+	      searchTimeout(event);
 	});
 }
 
@@ -971,6 +979,13 @@ $(window).resize(function(){
         List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
+        if($(window).width() > 769){
+            var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
+                title_width = test_against_width;
+            $(".title-container").width(title_width);
+        } else {
+            $(".title-container").width("100%");
+        }
     }
 })
 
