@@ -567,6 +567,7 @@ $(document).on("click", "#closePlayer", function(e){
             castSession.endSession(true);
         }
         Player.player.destroy();
+        $("#player_bottom_overlay").toggleClass("hide");
     } catch(error){}
     socket.removeEventListener("np");
   	socket.removeEventListener("id");
