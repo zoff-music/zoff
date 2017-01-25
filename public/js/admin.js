@@ -154,7 +154,7 @@ var Admin = {
         }
 
 	    if($(".card-action").length !== 0 &&
-            !Helper.contains($(".card-action").attr("class").split(" "), "hide")){
+            !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
     		$(".card-action").addClass("hide");
         }
 

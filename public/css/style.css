@@ -983,6 +983,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   #wrapper {
     padding-right:0vh !important;
     width:100% !important;
+    overflow:hidden;
   }
 }
 
@@ -1914,6 +1915,7 @@ nav ul li:hover, nav ul li.active {
       overflow: auto;
       /*padding-right: 5vh;*/
       opacity: 1;
+      overflow:hidden;
     }
 
     #playlist{

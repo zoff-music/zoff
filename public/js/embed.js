@@ -11,6 +11,7 @@ var adminpass 			  = "";
 var mobile_beginning      = false;
 var durationBegun    	  = false;
 var chromecastAvailable = false;
+var offline = false;
 
 var seekTo;
 var socket;

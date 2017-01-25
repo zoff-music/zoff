@@ -301,11 +301,33 @@ var List = {
         try{
             to_delete.style.height = 0;
 
+            if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
+                $($("#wrapper").children()[List.page]).css("height", 0);
+                $($("#wrapper").children()[List.page]).css("display", "block");
+                $($("#wrapper").children()[List.page]).css("height", List.element_height);
+            } else if($("#wrapper").children().length > List.page + (List.can_fit)){
+                $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", 0);
+                $($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "block");
+                $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", List.element_height);
+            }
+
+            if(List.page >= $("#wrapper").children().length - 1){
+                List.dynamicContentPage(-1);
+                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page").css("display", "none");
+                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page").css("display", "none");
+            } else if(List.page + List.can_fit + 1 >= $("#wrapper").children().length - 1){
+                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page").css("display", "none");
+                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page").css("display", "none");
+            }
             setTimeout(function()
             {
                 $("#"+deleted).remove();
                 full_playlist.splice(List.getIndexOfSong(deleted), 1);
-                if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
+                /*if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
                 } else if($("#wrapper").children().length > List.page + (List.can_fit-1)){
                     $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "block");
@@ -315,7 +337,7 @@ var List = {
                 } else if(List.page + List.can_fit >= $("#wrapper").children().length){
                     $(".next_page_hide").css("display", "inline-block");
                     $(".next_page").css("display", "none");
-                }
+                }*/
                 if(chromecastAvailable){
                   Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
@@ -341,9 +363,9 @@ var List = {
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         $("#suggested-"+deleted).remove();
-        if(List.page + List.can_fit < $("#wrapper").children().length){
-            $(".next_page_hide").css("display", "none");
-            $(".next_page").css("display", "inline-block");
+        if(List.page + List.can_fit < $("#wrapper").children().length + 1){
+            //$(".next_page_hide").css("display", "none");
+            //$(".next_page").css("display", "inline-block");
         }
         if(List.page >= $("#wrapper").children().length){
             List.dynamicContentPage(-1);
@@ -392,12 +414,16 @@ var List = {
     },
 
     vote: function(id, vote){
-      if(!offline){
-    	   socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
-      } else {
-          List.voted_song(id, (new Date()).getTime()/1000);
-      }
-    	return true;
+        if(!offline || (vote == "del" && (hasadmin && (!w_p && adminpass != "")))){
+            socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
+        } else {
+            if(vote == "pos"){
+                List.voted_song(id, (new Date()).getTime()/1000);
+            } else {
+                List.deleted_song(id);
+            }
+        }
+        return true;
     },
 
     skip: function(){

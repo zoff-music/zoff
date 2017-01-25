@@ -504,11 +504,13 @@ function change_offline(enabled){
 	        list_html.find(".card-content").css("height", "100%");
 	        list_html.find(".list-title").css("align-self", "center");
 	        list_html.find(".vote-span").addClass("hide");
+					list_html.find(".list-remove").removeClass("hide");
 					list_html = list_html.html();
 				}
         $(".card-content").css("display", "flex");
         $(".card-content").css("height", "100%");
         $(".list-title").css("align-self", "center");
+				$(".list-remove").removeClass("hide");
         $(".vote-span").addClass("hide");
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
@@ -520,6 +522,9 @@ function change_offline(enabled){
 	        list_html.find(".card-content").css("height", "initial");
 	        list_html.find(".list-title").css("align-self", "center");
 	        list_html.find(".vote-span").removeClass("hide");
+					if((!hasadmin || !w_p)){
+						list_html.find(".list-remove").addClass("hide");
+					}
 					list_html = list_html.html();
 				}
         $(".card-content").css("display", "block");
@@ -527,6 +532,9 @@ function change_offline(enabled){
         $(".list-title").css("align-self", "center");
         $(".vote-span").removeClass("hide");
         $("#viewers").removeClass("hide");
+				if((!hasadmin || !w_p)){
+					$(".list-remove").addClass("hide");
+				}
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
 				if(window.location.pathname != "/"){
