@@ -95,7 +95,11 @@ var List = {
         }
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
-
+        if(offline){
+            for(var x = 0; x < full_playlist.length; x++){
+                full_playlist[x].votes = 0;
+            }
+        }
         List.sortList();
 	    $("#wrapper").empty();
 
