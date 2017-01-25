@@ -388,10 +388,20 @@ var Search = {
 
     submit: function(id,title,duration, playlist, num, full_num){
       if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
-          List.channel_function({type: "added", value: {added: (new Date).getTime(), guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
-      }
-      socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
-       //[id, decodeURIComponent(title), adminpass, duration, playlist]);
+          var found_array = [];
+          found_array = $.map(full_playlist, function(obj, index) {
+              if(obj.id == id) {
+                  return index;
+              }
+          });
+          if(found_array.length == 0){
+              List.channel_function({type: "added", value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
+          } else {
+              List.vote(id, "pos");
+          }
+      } else {
+          socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
+      }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 
     durationToSeconds: function(duration) {
