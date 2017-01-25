@@ -134,7 +134,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Private Mode
-                <i class="mdi-device-signal-wifi-statusbar-connected-no-internet-"></i>
+                <i class="mdi-action-visibility-off"></i>
             </a>
             <div class="collapsible-body">
                 <ul>
