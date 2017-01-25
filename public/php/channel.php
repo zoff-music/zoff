@@ -134,7 +134,7 @@
                 <p>If you click the button next to the search icon, you'll skip on a song. The one next to that one, is shuffleling of the list. Next one there again is to open the chat.</p>
                 <p>Clicking a song in the playlist, gives it a vote. If you're logged in, you'll have a delete button at your disposal.</p>
                 <p>Also, whenever you're logged in, you'll have two tabs in the top of the playlist thats called "Playlist" and "Suggested". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
-                <p>If you want to listen to the channel without any "hickups", or being affected by other peoples votes, there is an offline mode. By opening up the settings, and checking the offline checkbox, you will be free of synced listening!</p>
+                <p>If you want to listen to the channel without any "hickups", or being affected by other peoples votes, there is an private mode. By opening up the settings, and checking the private checkbox, you will be free of synced listening!</p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>

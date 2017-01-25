@@ -133,7 +133,7 @@
 <li class="no-padding offline-panel hide-on-small-only">
     <ul class="collapsible collapsible-accordion">
         <li>
-            <a class="collapsible-header bold waves-effect">Offline Mode
+            <a class="collapsible-header bold waves-effect">Private Mode
                 <i class="mdi-device-signal-wifi-statusbar-connected-no-internet-"></i>
             </a>
             <div class="collapsible-body">
@@ -149,7 +149,7 @@
                             </label>
                         </div>
                         <div id="offline-info">
-                          By enabling local/offline, you won't receive updates in position of the currently playing song, and you'll be able to vote as many times as you please.
+                          By enabling private mode, you won't receive updates in position of the currently playing song, and you'll be able to vote as many times as you please.
                       </div>
                     </li>
                 </ul>
