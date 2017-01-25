@@ -97,7 +97,6 @@ var Remotecontroller = {
           },*/
           stop:function(event, ui) {
             socket.emit("id", {id: id, type: "volume", value: ui.value});
-            console.log("volume");
             //console.log(ui.value);
           }
       });
