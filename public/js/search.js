@@ -387,7 +387,7 @@ var Search = {
     },
 
     submit: function(id,title,duration, playlist, num, full_num){
-      if(offline && document.getElementsByName("addsongs")[0].checked){
+      if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
           List.channel_function({type: "added", value: {added: (new Date).getTime(), guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
       }
       socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
