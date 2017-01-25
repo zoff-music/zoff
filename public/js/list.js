@@ -28,10 +28,12 @@ var List = {
                 List.deleted_song(msg.value);
                 break;
             case "vote":
-                List.voted_song(msg.value, msg.time);
-                if(chromecastAvailable){
-                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-                }
+                if(!offline){
+                    List.voted_song(msg.value, msg.time);
+                    if(chromecastAvailable){
+                      Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                  }
                 break;
             case "song_change":
                 if(window.location.pathname != "/") List.song_change(msg.time);
