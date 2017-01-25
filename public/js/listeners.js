@@ -515,6 +515,13 @@ function change_offline(enabled){
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
+				if(full_playlist != undefined){
+					for(var x = 0; x < full_playlist.length; x++){
+						full_playlist[x].votes = 0;
+					}
+					List.sortList();
+					List.populate_list(full_playlist);
+				}
     } else {
 				if(list_html){
 					list_html = $("<div>" + list_html + "</div>");
