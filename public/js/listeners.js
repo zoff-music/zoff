@@ -529,7 +529,10 @@ function change_offline(enabled){
         $("#viewers").removeClass("hide");
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
-				socket.emit("pos");
+				if(window.location.pathname != "/"){
+					socket.emit("pos");
+					socket.emit('list', chan.toLowerCase());
+				}
     }
 }
 
@@ -574,7 +577,8 @@ $(document).keyup(function(e) {
   	}
 });
 
-$(document).on("click", "#offline-mode", function(){
+$(document).on("click", "#offline-mode", function(e){
+		e.preventDefault();
     if(!Crypt.get_offline()){
         change_offline(true);
     } else{
