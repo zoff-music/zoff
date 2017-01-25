@@ -268,6 +268,7 @@ var List = {
     },
 
     added_song: function(added){
+        console.log(added);
         var now_playing;
 
         if(full_playlist.length !== 0){
