@@ -12,7 +12,7 @@ var mobile_beginning      = false;
 var durationBegun    	  = false;
 var chromecastAvailable = false;
 var offline = false;
-
+var from_frontpage = false;
 var seekTo;
 var socket;
 var video_id;
