@@ -1248,23 +1248,28 @@ nav ul li:hover, nav ul li.active {
 }
 
 .list-image:after {
-    font-family: "Material-Design-Icons";
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    content: "\e686";/*"\e800";*/
-    color:white;
-    font-size: calc(100vh / 15);
-    position:absolute;
-    width:100%; height:100%;
-    top:0; left:0;
-    background:rgba(0,0,0,0.8);
-    opacity:0;
-    transition: all .1s ease;
+  font-family: "Material-Design-Icons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  content: "\e686";
+  color: white;
+  font-size: -webkit-xxx-large;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  opacity: 0;
+  transition: all .1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .list-suggested-image:after {
