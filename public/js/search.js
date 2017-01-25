@@ -387,8 +387,11 @@ var Search = {
     },
 
     submit: function(id,title,duration, playlist, num, full_num){
-    	socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
-        //[id, decodeURIComponent(title), adminpass, duration, playlist]);
+      if(offline && document.getElementsByName("addsongs")[0].checked){
+          List.channel_function({type: "added", value: {added: (new Date).getTime(), guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
+      }
+      socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
+       //[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 
     durationToSeconds: function(duration) {
