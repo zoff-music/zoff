@@ -500,37 +500,37 @@ function change_offline(enabled){
     if(enabled){
 				if(list_html){
 					list_html = $("<div>" + list_html + "</div>");
-					list_html.find(".card-content").css("display", "flex");
-	        list_html.find(".card-content").css("height", "100%");
-	        list_html.find(".list-title").css("align-self", "center");
-	        list_html.find(".vote-span").addClass("hide");
+					//list_html.find(".card-content").css("display", "flex");
+	        //list_html.find(".card-content").css("height", "100%");
+	        //list_html.find(".list-title").css("align-self", "center");
+	        //list_html.find(".vote-span").addClass("hide");
 					list_html.find(".list-remove").removeClass("hide");
 					list_html = list_html.html();
 				}
-        $(".card-content").css("display", "flex");
-        $(".card-content").css("height", "100%");
-        $(".list-title").css("align-self", "center");
+        //$(".card-content").css("display", "flex");
+        //$(".card-content").css("height", "100%");
+        //$(".list-title").css("align-self", "center");
 				$(".list-remove").removeClass("hide");
-        $(".vote-span").addClass("hide");
+        //$(".vote-span").addClass("hide");
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
     } else {
 				if(list_html){
 					list_html = $("<div>" + list_html + "</div>");
-					list_html.find(".card-content").css("display", "block");
-	        list_html.find(".card-content").css("height", "initial");
-	        list_html.find(".list-title").css("align-self", "center");
-	        list_html.find(".vote-span").removeClass("hide");
+					//list_html.find(".card-content").css("display", "block");
+	        //list_html.find(".card-content").css("height", "initial");
+	        //list_html.find(".list-title").css("align-self", "center");
+	        //list_html.find(".vote-span").removeClass("hide");
 					if((!hasadmin || !w_p)){
 						list_html.find(".list-remove").addClass("hide");
 					}
 					list_html = list_html.html();
 				}
-        $(".card-content").css("display", "block");
-        $(".card-content").css("height", "initial");
-        $(".list-title").css("align-self", "center");
-        $(".vote-span").removeClass("hide");
+        //$(".card-content").css("display", "block");
+        //$(".card-content").css("height", "initial");
+        //$(".list-title").css("align-self", "center");
+        //$(".vote-span").removeClass("hide");
         $("#viewers").removeClass("hide");
 				if((!hasadmin || !w_p)){
 					$(".list-remove").addClass("hide");
