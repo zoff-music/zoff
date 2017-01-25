@@ -4,10 +4,12 @@ var Crypt = {
 
 	init: function(){
 
-		if (location.protocol != "https:"){
-			document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';expires=' + new Date(0).toUTCString();
-		} else {
-			document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
+		if(window.location.pathname != "/"){
+			if (location.protocol != "https:"){
+				document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';expires=' + new Date(0).toUTCString();
+			} else {
+				document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
+			}
 		}
 
 		try{
@@ -15,14 +17,18 @@ var Crypt = {
     }catch(err){
     	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
     }
-    try{
-    	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
-    }catch(err){
-    	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
-    }
-    Hostcontroller.change_enabled(conf_arr.remote);
-    if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-    if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
+
+		if(window.location.pathname != "/"){
+			try{
+	    	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+	    }catch(err){
+	    	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+	    }
+
+	    Hostcontroller.change_enabled(conf_arr.remote);
+	    if(conf_arr.width != 100) Player.set_width(conf_arr.width);
+	    if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
+		}
 	},
 
 	decrypt: function(cookie, name){
@@ -91,13 +97,23 @@ var Crypt = {
 		//return conf_arr.volume;
 	},
 
+	get_offline: function(){
+		var temp_offline = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").offline;
+		if(temp_offline != undefined){
+			return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").offline;
+		} else {
+			Crypt.set_offline(false);
+			return false;
+		}
+	},
+
 	set_volume: function(val){
 		conf_arr.volume = val;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
 	create_cookie: function(name){
-		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true, name: ""};
+		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true, name: "", offline: false};
 		else cookie_object = {passwords: {}};
 
         var string_it = JSON.stringify(cookie_object);
@@ -136,6 +152,11 @@ var Crypt = {
 
 	set_name:function(name){
 		conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');
+		Crypt.encrypt(conf_arr, "_opt");
+	},
+
+	set_offline: function(enabled){
+		conf_arr.offline = enabled;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 

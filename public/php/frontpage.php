@@ -22,6 +22,7 @@ if(isset($_GET['chan'])){
                 <span id="frontpage-viewer-counter" class="hide-on-small-only noselect" title="Divided among all channels. Hidden or not"></span>
                 <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zöff</a>-->
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a class="waves-effect waves-cyan" id="offline-mode" title="Offline mode" href="#">Offline</a></li>
                     <li><a class="waves-effect waves-green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                     <li><a class="modal-trigger waves-effect waves-red" title="Need help with the site?" onclick="$('#help').openModal()">Help</a></li>
                     <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
