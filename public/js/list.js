@@ -10,7 +10,6 @@ var List = {
 
     channel_function: function(msg)
     {
-
         switch(msg.type)
         {
             case "list":
@@ -391,12 +390,20 @@ var List = {
     },
 
     vote: function(id, vote){
-    	socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
+      if(!offline){
+    	   socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
+      } else {
+          List.channel_function({type:"vote", value: id, time: (new Date()).getTime()})
+      }
     	return true;
     },
 
     skip: function(){
-    	socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase()});
+        if(!offline){
+            socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase()});
+        } else {
+            Player.playNext();
+        }
     	return true;
     },
 

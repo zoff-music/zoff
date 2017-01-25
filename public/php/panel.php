@@ -130,6 +130,33 @@
     </ul>
 </li>
 
+<li class="no-padding offline-panel hide-on-small-only">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Offline Mode
+                <i class="mdi-device-signal-wifi-statusbar-connected-no-internet-"></i>
+            </a>
+            <div class="collapsible-body">
+                <ul>
+                    <li>
+                        <span class="switch-text">
+                            Enable Local
+                        </span>
+                        <div class="switch"><label>
+                            Disabled
+                            <input name="offline_switch" type="checkbox" class="offline_switch_class" /><span class="lever"></span>
+                            Enabled
+                            </label>
+                        </div>
+                        <div id="offline-info">
+                          By enabling local/offline, you won't receive updates in position of the currently playing song, and you'll be able to vote as many times as you please.
+                      </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</li>
 
 <li class="no-padding hide-on-small-only">
     <ul class="collapsible collapsible-accordion">

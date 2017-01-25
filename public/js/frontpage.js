@@ -97,7 +97,6 @@ var Frontpage = {
             $("#channels").append(card.html());
 
             //$("#channels").append(card);
-            //console.log(chan);
           }
           output+="<option value='"+chan+"'> ";
           num++;
@@ -263,7 +262,7 @@ var Frontpage = {
           window.history.pushState("to the channel!", "Title", "/" + new_channel);
           window.chan = new_channel;
         }
-        console.log(chromecastReady);
+
         var response = $("<div>" + e + "</div>");
 
         $(".mega").remove();
@@ -286,6 +285,7 @@ var Frontpage = {
         }
         $("#search").attr("placeholder", "Find song on YouTube...");
         $(".page-footer").addClass("padding-bottom-novideo");
+        from_frontpage = true;
         if($("#alreadychannel").length == 1){
           init();
         }else{
@@ -351,6 +351,11 @@ function initfp(){
     Helper.log("Sending frontpage_lists");
     Helper.log("Socket", socket);
     Helper.log("-----");
+
+    Crypt.init();
+    if(Crypt.get_offline()){
+      change_offline(true);
+    }
 
     socket.emit('frontpage_lists');
 
