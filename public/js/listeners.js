@@ -28,6 +28,7 @@ var durationBegun 	      = false;
 var chat_active 		  = false;
 var chat_unseen 		  = false;
 var blinking 			  = false;
+var from_frontpage        = false;
 var access_token_data     = {};
 var spotify_authenticated = false;
 var not_import_html       = "";
@@ -42,6 +43,7 @@ var chromecastAvailable = false;
 var color               = "808080";
 var find_start          = false;
 var find_started        = false;
+var offline             = false;
 var chromecastReady = false;
 var found_array = [];
 var found_array_index = 0;
@@ -193,6 +195,12 @@ function init(){
 		socket = io.connect(''+add+':8080', connection_options);
 	}
 
+    Crypt.init();
+    if(Crypt.get_offline()){
+        $(".offline_switch_class")[0].checked = true;
+        change_offline(true);
+    }
+
 	if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
 		setup_youtube_listener();
 		get_list_listener();
@@ -221,7 +229,6 @@ function init(){
 
 	//if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
     /*if(!Helper.mobilecheck() && !window.MSStream){
-        console.log("asd");
 		document.getElementById("search").blur();
 		$("#channel-load").css("display", "none");
  	} else {*/
@@ -234,6 +241,7 @@ function init(){
  	setup_admin_listener();
 	setup_list_listener();
 	setup_chat_listener();
+
 	if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
 
 	if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
@@ -485,6 +493,46 @@ function randomString(length){
     return text;
 }
 
+function change_offline(enabled){
+    Crypt.set_offline(enabled);
+    offline = enabled;
+		socket.emit("offline", enabled);
+    if(enabled){
+				if(list_html){
+					list_html = $("<div>" + list_html + "</div>");
+					list_html.find(".card-content").css("display", "flex");
+	        list_html.find(".card-content").css("height", "100%");
+	        list_html.find(".list-title").css("align-self", "center");
+	        list_html.find(".vote-span").addClass("hide");
+					list_html = list_html.html();
+				}
+        $(".card-content").css("display", "flex");
+        $(".card-content").css("height", "100%");
+        $(".list-title").css("align-self", "center");
+        $(".vote-span").addClass("hide");
+        $("#viewers").addClass("hide");
+        $("#offline-mode").removeClass("waves-cyan");
+        $("#offline-mode").addClass("cyan");
+    } else {
+				if(list_html){
+					list_html = $("<div>" + list_html + "</div>");
+					list_html.find(".card-content").css("display", "block");
+	        list_html.find(".card-content").css("height", "initial");
+	        list_html.find(".list-title").css("align-self", "center");
+	        list_html.find(".vote-span").removeClass("hide");
+					list_html = list_html.html();
+				}
+        $(".card-content").css("display", "block");
+        $(".card-content").css("height", "initial");
+        $(".list-title").css("align-self", "center");
+        $(".vote-span").removeClass("hide");
+        $("#viewers").removeClass("hide");
+        $("#offline-mode").addClass("waves-cyan");
+        $("#offline-mode").removeClass("cyan");
+				socket.emit("pos");
+    }
+}
+
 function spotify_is_authenticated(bool){
     if(bool){
         Helper.log("------------------------");
@@ -524,6 +572,15 @@ $(document).keyup(function(e) {
             $("#results").toggleClass("hide");
         }
   	}
+});
+
+$(document).on("click", "#offline-mode", function(){
+    if(!Crypt.get_offline()){
+        change_offline(true);
+    } else{
+        change_offline(false);
+    }
+
 });
 
 $(document).on("click", "#playpause-overlay", function(){
@@ -577,7 +634,7 @@ $(document).on("click", ".extra-button-delete", function(e){
 
 $(document).on("click", "#closePlayer", function(e){
   	e.preventDefault();
-	socket.emit("change_channel");
+		socket.emit("change_channel");
     try{
         if(chromecastAvailable){
             var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -680,6 +737,13 @@ $(document).on("change", 'input[class=remote_switch_class]', function()
 {
  	Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
   	Crypt.set_remote(enabled);
+});
+
+$(document).on("change", 'input[class=offline_switch_class]', function()
+{
+ 	//Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
+    offline = document.getElementsByName("offline_switch")[0].checked;
+    change_offline(offline);
 });
 
 $(document).on("change", 'input[class=conf]', function()
@@ -859,7 +923,7 @@ $(document).on("click", ".chat-tab", function(){
 
 
 $(document).on("click", "#skip", function(e){
-	e.preventDefault();
+		e.preventDefault();
   	List.skip();
 });
 
@@ -1166,7 +1230,8 @@ function onepage_load(){
 	var url_split = window.location.href.split("/");
 
 	if(url_split[3].substr(0,1) != "#!" && url_split[3] !== "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
-		socket.emit("change_channel");
+
+			socket.emit("change_channel");
 	    Admin.beginning = true;
 
 	    chan = url_split[3].replace("#", "");
