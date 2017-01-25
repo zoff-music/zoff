@@ -268,7 +268,6 @@ var List = {
     },
 
     added_song: function(added){
-        console.log(added);
         var now_playing;
 
         if(full_playlist.length !== 0){
@@ -396,7 +395,7 @@ var List = {
       if(!offline){
     	   socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
       } else {
-          List.channel_function({type:"vote", value: id, time: (new Date()).getTime()})
+          List.voted_song(id, (new Date()).getTime()/1000);
       }
     	return true;
     },
