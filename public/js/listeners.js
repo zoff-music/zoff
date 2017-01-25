@@ -255,9 +255,11 @@ function init(){
 		$("#embed-button").css("display", "inline-block");
 		$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
 		$("#search").attr("placeholder", "Find song on YouTube...");
-		if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
+
+		if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
 			$(".castButton").css("display", "none");
 		}
+
     if(chromecastAvailable){
         hide_native(1);
     } else if(chromecastReady) {
