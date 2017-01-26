@@ -13,29 +13,11 @@
                 </a>
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                  <li><a class="waves-effect waves-green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
-                  <li><a class="modal-trigger waves-effect waves-red" title="Need help with the site?" onclick="$('#help').openModal()">Help</a></li>
+                  <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
-                  <li><a class="modal-trigger waves-effect waves-yellow" onclick="$('#legal').openModal()">Legal</a></li>
-                  <li><a class="waves-effect waves-purple" href="https://github.com/zoff-music/">GitHub</a></li>
                 </ul>
             </div>
         </nav>
-        <div id="legal" class="modal">
-            <div class="modal-content">
-                <h4>Legal</h4>
-                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
-                <br><br>
-                Creative Commons License<br>
-                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
-                <br>
-                Do not redistribute without permission from the developers.
-                <br>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-            </div>
-        </div>
         <div id="about" class="modal">
             <div class="modal-content">
                 <h4>About</h4>
@@ -44,6 +26,14 @@
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
                 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
                 </p>
+                <h4>Legal</h4>
+                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+                <br><br>
+                Creative Commons License<br>
+                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                <br>
+                Do not redistribute without permission from the developers.
+                <br>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
