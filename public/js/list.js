@@ -14,11 +14,13 @@ var List = {
         {
             case "list":
                 //if(full_playlist == undefined || !offline){
+                console.log(msg.shuffled);
+                if(!offline || (offline && !msg.shuffled)){
                     List.populate_list(msg.playlist);
                     if(chromecastAvailable){
                       Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                     }
-                //}
+                }
                 break;
             case "added":
                 List.added_song(msg.value);
