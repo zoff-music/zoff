@@ -238,7 +238,16 @@ var Admin = {
 
     shuffle: function()
     {
-    	socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
+        if(!offline){
+            socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
+        } else {
+            for(var x = 0; x < full_playlist.length; x++){
+                var num = Math.floor(Math.random()*1000000);
+                full_playlist[x].added = num;
+            }
+            List.sortList();
+            List.populate_list(full_playlist);
+        }
     },
 
     get_admin:function()
