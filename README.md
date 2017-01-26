@@ -27,8 +27,6 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![Channel desktop](http://i.imgur.com/M0PEYcd.png)
 
-![Channel desktop 2](http://i.imgur.com/M0PEYcd.png)
-
 ### Screenshots of the mobile version:
 
 <div style="text-align:center;">
