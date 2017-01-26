@@ -98,10 +98,18 @@ var Frontpage = {
 
             //$("#channels").append(card);
           }
-          output+="<option value='"+chan+"'> ";
           num++;
           //if(num>19)break;
       }
+      lists.sort(Frontpage.sortFunction_active);
+      //num = 0;
+      for(var x in lists){
+        if(lists[x].count > 5 && Math.floor((new Date).getTime()/1000) - lists[x].accessed < 604800){
+          var chan = lists[x].channel;
+          output+="<option value='"+chan+"'> ";
+        }
+      }
+
       document.getElementById("preloader").style.display = "none";
       document.getElementById("searches").innerHTML = output;
       document.getElementById("searches_mobile").innerHTML = output;
@@ -113,6 +121,20 @@ var Frontpage = {
   sortFunction: function(a, b) {
     var o1 = a.viewers;
     var o2 = b.viewers;
+
+    var p1 = a.count;
+    var p2 = b.count;
+
+    if (o1 < o2) return 1;
+    if (o1 > o2) return -1;
+    if (p1 < p2) return 1;
+    if (p1 > p2) return -1;
+    return 0;
+  },
+
+  sortFunction_active: function(a, b){
+    var o1 = a.accessed;
+    var o2 = b.accessed;
 
     var p1 = a.count;
     var p2 = b.count;
