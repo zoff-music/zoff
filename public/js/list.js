@@ -116,16 +116,22 @@ var List = {
     		});
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
                 $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
-                $(".prev_page").toggleClass("hide");
-                $(".first_page").toggleClass("hide");
+                $(".prev_page").css("display", "none");
+                $(".first_page").css("display", "none");
                 $(".next_page_hide").css("display","none");
                 $(".last_page_hide").css("display","none");
+                /*if($(".next_page").hasClass("hide")){
+                    $(".next_page").removeClass("hide");
+                }
+                if($(".last_page").hasClass("hide")){
+                    $(".last_page").removeClass("hide");
+                }*/
             } else if(!$("#pageButtons").length){
                 $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
-                $(".prev_page").toggleClass("hide");
-                $(".next_page").toggleClass("hide");
-                $(".last_page").toggleClass("hide");
-                $(".first_page").toggleClass("hide");
+                $(".prev_page").css("display", "none");
+                $(".next_page").css("display", "none");
+                $(".last_page").css("display", "none");
+                $(".first_page").css("display", "none");
                 $(".next_page_hide").css("display","inline-block");
                 $(".prev_page_hide").css("display","inline-block");
             }
@@ -146,13 +152,14 @@ var List = {
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
                 $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
-                $(".prev_page").toggleClass("hide");
-                $(".next_page").toggleClass("hide");
-                $(".last_page").toggleClass("hide");
-                $(".first_page").toggleClass("hide");
-                $(".next_page_hide").css("display","inline-block");
-                $(".prev_page_hide").css("display","inline-block");
             }
+            $(".prev_page").css("display", "none");
+            $(".next_page").css("display", "none");
+            $(".last_page").css("display", "none");
+            $(".last_page_hide").css("display", "inline-block");
+            $(".first_page").css("display", "none");
+            $(".next_page_hide").css("display","inline-block");
+            $(".prev_page_hide").css("display","inline-block");
         }
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
@@ -165,10 +172,10 @@ var List = {
         $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
         List.page = page;
         $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
-        if(List.page > 0 && $(".prev_page").hasClass("hide")){
-            $(".prev_page").toggleClass("hide");
+        if(List.page > 0 && $(".prev_page").css("display") == "none"){
+            $(".prev_page").css("display", "inline-block");
             $(".prev_page_hide").css("display", "none");
-            $(".first_page").toggleClass("hide");
+            $(".first_page").css("display", "inline-block");
             $(".first_page_hide").css("display", "none");
         }
 
@@ -188,10 +195,10 @@ var List = {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = List.page + List.can_fit;
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
-            if(List.page > 0 && $(".prev_page").hasClass("hide")){
-                $(".prev_page").toggleClass("hide");
+            if(List.page > 0 && $(".prev_page").css("display") == "none"){
+                $(".prev_page").css("display", "inline-block");
                 $(".prev_page_hide").css("display", "none");
-                $(".first_page").toggleClass("hide");
+                $(".first_page").css("display", "inline-block");
                 $(".first_page_hide").css("display", "none");
             }
 
@@ -207,10 +214,10 @@ var List = {
           List.page = (Math.floor(($("#wrapper").children().length - 1)/ List.can_fit) * List.can_fit);
           $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
 
-          if(List.page > 0 && $(".prev_page").hasClass("hide")){
-              $(".prev_page").toggleClass("hide");
+          if(List.page > 0 && $(".prev_page").css("display") == "none"){
+              $(".prev_page").css("display", "inline-block");
               $(".prev_page_hide").css("display", "none");
-              $(".first_page").toggleClass("hide");
+              $(".first_page").css("display", "inline-block");
               $(".first_page_hide").css("display", "none");
           }
 
@@ -224,19 +231,18 @@ var List = {
           $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
           List.page = 0;
           $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
-          if(List.page == 0 && !$(".prev_page").hasClass("hide")){
-              $(".prev_page").toggleClass("hide");
+          if(List.page == 0 && $(".prev_page").css("display") != "none"){
+              $(".prev_page").css("display", "none");
               $(".prev_page_hide").css("display", "inline-block");
-              $(".first_page").toggleClass("hide");
+              $(".first_page").css("display", "none");
               $(".first_page_hide").css("display", "inline-block");
-          } else if($(".prev_page").hasClass("hide")){
+          } else if($(".prev_page").css("display") == "none"){
               $(".prev_page_hide").css("display", "inline-block");
               $(".first_page_hide").css("display", "inline-block");
           } else {
               $(".prev_page_hide").css("display", "none");
               $(".first_page_hide").css("display", "none");
           }
-
           if(List.page + List.can_fit < $("#wrapper").children().length){
               $(".next_page_hide").css("display", "none");
               $(".next_page").css("display", "inline-block");
@@ -248,12 +254,12 @@ var List = {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = List.page - List.can_fit;
             //$("#wrapper").scrollTop(0);
-            if(List.page == 0 && !$(".prev_page").hasClass("hide")){
-                $(".prev_page").toggleClass("hide");
+            if(List.page == 0 && $(".prev_page").css("display") != "none"){
+                $(".prev_page").css("display", "none");
                 $(".prev_page_hide").css("display", "inline-block");
-                $(".first_page").toggleClass("hide");
+                $(".first_page").css("display", "none");
                 $(".first_page_hide").css("display", "inline-block");
-            } else if($(".prev_page").hasClass("hide")){
+            } else if($(".prev_page").css("display") == "none"){
                 $(".prev_page_hide").css("display", "inline-block");
                 $(".first_page_hide").css("display", "inline-block");
             } else {
