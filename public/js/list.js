@@ -18,8 +18,8 @@ var List = {
                     if(chromecastAvailable){
                       Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                     }
-                    break;
                 }
+                break;
             case "added":
                 List.added_song(msg.value);
                 if(chromecastAvailable){
