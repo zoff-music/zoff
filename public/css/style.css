@@ -696,11 +696,13 @@ hide mdi-action-visibility mdi-action-visibility-off
   text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;   width: auto;
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  display: flex;
+  justify-content: center;
 }
 
 .mega form{
   display: flex;
+  justify-content: center;
   /*-webkit-background-clip: border-box;   -webkit-background-origin: padding-box;   -webkit-background-size: auto;   -webkit-box-shadow: rgb(68, 68, 68) 0px 0px 8px 0px;   background-attachment: scroll;   background-clip: border-box;   background-color: rgb(255, 255, 255);   background-image: none;   background-origin: padding-box;   background-size: auto;   border-bottom-left-radius: 3px;   border-bottom-right-radius: 3px;   border-top-left-radius: 3px;   border-top-right-radius: 3px;   box-shadow: rgb(68, 68, 68) 0px 0px 8px 0px;   box-sizing: border-box;   color: rgb(255, 255, 255);   cursor: text;   display: flex;   font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;   font-size: 17px;   font-weight: normal;   height: 50px;   line-height: 24.2857151031494px;   margin-top: 0px;   padding-bottom: 5px;   padding-left: 20px;   padding-right: 5px;   padding-top: 5px;   text-align: center;   width: 507.8125px;
   margin-left: auto;
   margin-right: auto;
@@ -721,8 +723,14 @@ hide mdi-action-visibility mdi-action-visibility-off
   /*font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;   */
   font-size: 17px;
   /*font-weight: 200; */
-  height: 24px;   line-height: 26px;   margin-bottom: 8px;   margin-left: 0px;   margin-right: 8.5px;   margin-top: 8px;
-  min-width: 56px;   text-align: center;
+  height: 24px;
+  line-height: 26px;
+  margin-bottom: 8px;
+  margin-left: 29px;
+  margin-right: 8.5px;
+  margin-top: 8px;
+  min-width: 56px;
+  text-align: center;
   width: 40px;
   margin-right: -85px;
 }
