@@ -158,7 +158,49 @@
     </ul>
 </li>
 
-<li class="no-padding hide-on-small-only">
+<li class="no-padding show-only-mobile">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect import-a">Remote Controller
+                <i class="mdi-action-settings-remote"></i>
+            </a>
+            <div class="collapsible-body">
+                <ul id="remote-mobile-container">
+                    <li class="white-bg">
+                        <p id="remote_header">Control another client</p>
+                        <form action="#" class="row" id="remoteform">
+                            <div class="input-field col s12">
+                                <input
+                                    class="input-field"
+                                    type="text"
+                                    id="remote_channel"
+                                    name="chan"
+                                    autocomplete="off"
+                                    spellcheck="false"
+                                    maxlength="10"
+                                    data-length="10"
+                                    placeholder="ID to remotecontroll"
+                                />
+                            </div>
+                        </form>
+                        <button id="playbutton_remote" class="remote-button waves-effect btn green" disabled>
+                            <i id="remote_play" class="mdi-av-play-arrow"></i>
+                        </button>
+                        <button id="pausebutton_remote" class="remote-button waves-effect btn gray" disabled>
+                        <i id="remote_pause" class="mdi-av-pause"></i></button>
+                        <button id="skipbutton_remote" class="remote-button waves-effect btn blue" disabled>
+                            <i id="remote_skip" class="mdi-av-skip-next"></i>
+                        </button>
+                        <i class="mdi-av-volume-up slider-vol"></i>
+                        <div class="" id="volume-control-remote" title="Volume"></div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</li>
+
+<li class="no-padding">
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Import Playlist
@@ -311,7 +353,7 @@
     </ul>
 </li>
 
-<li class="no-padding hide-on-small-only">
+<li class="no-padding">
     <ul class="collapsible collapsible-accordion white-bg">
         <li>
             <a class="collapsible-header bold waves-effect export-a">Export Playlist
@@ -409,47 +451,6 @@
     </ul>
 </li>
 
-<li class="no-padding show-only-mobile">
-    <ul class="collapsible collapsible-accordion">
-        <li>
-            <a class="collapsible-header bold waves-effect import-a">Remote Controller
-                <i class="mdi-action-settings-remote"></i>
-            </a>
-            <div class="collapsible-body">
-                <ul id="remote-mobile-container">
-                    <li class="white-bg">
-                        <p id="remote_header">Control another client</p>
-                        <form action="#" class="row" id="remoteform">
-                            <div class="input-field col s12">
-                                <input
-                                    class="input-field"
-                                    type="text"
-                                    id="remote_channel"
-                                    name="chan"
-                                    autocomplete="off"
-                                    spellcheck="false"
-                                    maxlength="10"
-                                    data-length="10"
-                                    placeholder="ID to remotecontroll"
-                                />
-                            </div>
-                        </form>
-                        <button id="playbutton_remote" class="remote-button waves-effect btn green" disabled>
-                            <i id="remote_play" class="mdi-av-play-arrow"></i>
-                        </button>
-                        <button id="pausebutton_remote" class="remote-button waves-effect btn gray" disabled>
-                        <i id="remote_pause" class="mdi-av-pause"></i></button>
-                        <button id="skipbutton_remote" class="remote-button waves-effect btn blue" disabled>
-                            <i id="remote_skip" class="mdi-av-skip-next"></i>
-                        </button>
-                        <i class="mdi-av-volume-up slider-vol"></i>
-                        <div class="" id="volume-control-remote" title="Volume"></div>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-</li>
 <!--
 <li class="no-padding">
     <h5 id="desc-title">List description</h5>
