@@ -14,7 +14,7 @@ var Player = {
         }catch(e){
             state = null;
         }
-        if((!offline && (state || from_frontpage)) || (offline && (!state || from_frontpage))|| (!offline && (!state || from_frontpage))){
+        if((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)){
             from_frontpage = false;
             Player.loaded      = false;
             Helper.log("--------youtube_listener--------");
