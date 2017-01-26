@@ -13,11 +13,13 @@ var List = {
         switch(msg.type)
         {
             case "list":
-                List.populate_list(msg.playlist);
-                if(chromecastAvailable){
-                  Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                if(full_playlist == undefined || !offline){
+                    List.populate_list(msg.playlist);
+                    if(chromecastAvailable){
+                      Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                    break;
                 }
-                break;
             case "added":
                 List.added_song(msg.value);
                 if(chromecastAvailable){
@@ -279,28 +281,29 @@ var List = {
 
     added_song: function(added){
         var now_playing;
-
-        if(full_playlist.length !== 0){
-            now_playing = full_playlist.pop();
-        }
-        full_playlist.push(added);
-        List.sortList();
-        if(now_playing){
-            full_playlist.push(now_playing);
-        }
-        $("#suggested-"+added.id).remove();
-        if(List.empty){
-            List.empty = false;
-        }
-        $("#empty-channel-message").remove();
-        List.insertAtIndex(added, true);
-        if($("#wrapper").children().length > List.page + List.can_fit){
-            $(".next_page_hide").css("display", "none");
-            $(".next_page").removeClass("hide");
-            $(".next_page").css("display", "inline-block");
-        } else {
-            $(".next_page_hide").css("display", "inline-block");
-            $(".next_page").css("display", "none");
+        if(added != undefined){
+            if(full_playlist.length !== 0){
+                now_playing = full_playlist.pop();
+            }
+            full_playlist.push(added);
+            List.sortList();
+            if(now_playing){
+                full_playlist.push(now_playing);
+            }
+            $("#suggested-"+added.id).remove();
+            if(List.empty){
+                List.empty = false;
+            }
+            $("#empty-channel-message").remove();
+            List.insertAtIndex(added, true);
+            if($("#wrapper").children().length > List.page + List.can_fit){
+                $(".next_page_hide").css("display", "none");
+                $(".next_page").removeClass("hide");
+                $(".next_page").css("display", "inline-block");
+            } else {
+                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page").css("display", "none");
+            }
         }
     },
 
