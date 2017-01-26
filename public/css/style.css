@@ -16,6 +16,10 @@
   border:none !important;
 }
 
+.header-buttons{
+  display: block;
+}
+
 #player_overlay_controls{
   font-size:7rem;
     width: 100%;
@@ -455,6 +459,7 @@ nav .brand-logo{
   position: fixed;
   z-index: 10;
   width: calc(100vw - 8px);
+  overflow: hidden;
 }
 
 .import-a, .suggested{
