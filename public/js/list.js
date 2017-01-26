@@ -14,7 +14,6 @@ var List = {
         {
             case "list":
                 //if(full_playlist == undefined || !offline){
-                console.log(msg.shuffled);
                 if(!offline || (offline && !msg.shuffled)){
                     List.populate_list(msg.playlist);
                     if(chromecastAvailable){
