@@ -238,7 +238,9 @@ var Player = {
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.no", {type: "stopVideo"});
         } else {
-            Player.player.stopVideo();
+            try{
+                Player.player.stopVideo();
+            } catch(e){}
         }
     },
 

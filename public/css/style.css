@@ -1666,6 +1666,10 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #wrapper{
+      min-height: 75px;
+    }
+
     .click-through{
       pointer-events: none;
     }
@@ -1918,7 +1922,6 @@ nav ul li:hover, nav ul li.active {
       height: 100%;
       width: 100%;
       overflow: auto;
-      /*padding-right: 5vh;*/
       opacity: 1;
       overflow:hidden;
     }
