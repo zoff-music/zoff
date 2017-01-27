@@ -379,6 +379,7 @@ function hide_native(way){
         $("#fullscreen").toggleClass("hide");
         Player.player.playVideo();
         Player.stopInterval = false;
+				duration = Player.player.getDuration();
         Player.durationSetter();
         if(!Helper.mobilecheck()){
             Player.player.setVolume(Crypt.get_volume());
@@ -388,7 +389,11 @@ function hide_native(way){
         $("#player_overlay_text").toggleClass("hide");
         $("#chromecast_text").html("");
         $("#playing_on").css("display", "none");
-        socket.emit('pos', {channel: chan.toLowerCase()});
+				if(!offline){
+        	socket.emit('pos', {channel: chan.toLowerCase()});
+				} else {
+					Player.loadVideoById(video_id);
+				}
     }
 }
 
