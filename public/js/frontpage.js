@@ -359,11 +359,6 @@ function initfp(){
 
     share_link_modifier_frontpage();
 
-    var connection_options = {
-      'secure': true,
-      'force new connection': true
-    };
-
     if(window.location.hostname == "zoff.no") add = "https://zoff.no";
     else add = window.location.hostname;
     if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8080', connection_options);
