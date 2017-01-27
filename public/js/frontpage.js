@@ -282,6 +282,8 @@ var Frontpage = {
 
         if(!popstate){
           window.history.pushState("to the channel!", "Title", "/" + new_channel);
+          if(prev_chan_list == "") prev_chan_list = new_channel;
+          if(prev_chan_player == "") prev_chan_player = new_channel;
           window.chan = new_channel;
         }
 
@@ -376,7 +378,7 @@ function initfp(){
 
     Crypt.init();
     if(Crypt.get_offline()){
-      change_offline(true);
+      change_offline(true, offline);
     }
 
     socket.emit('frontpage_lists');

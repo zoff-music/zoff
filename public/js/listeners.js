@@ -44,6 +44,8 @@ var color               = "808080";
 var find_start          = false;
 var find_started        = false;
 var offline             = false;
+var prev_chan_list 			= "";
+var prev_chan_player 		= "";
 var chromecastReady = false;
 var found_array = [];
 var found_array_index = 0;
@@ -198,7 +200,7 @@ function init(){
 	    Crypt.init();
 	    if(Crypt.get_offline()){
 	        $(".offline_switch_class")[0].checked = true;
-	        change_offline(true);
+	        change_offline(true, offline);
 	    }
 
 		if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
@@ -497,61 +499,61 @@ function randomString(length){
     return text;
 }
 
-function change_offline(enabled){
+function change_offline(enabled, already_offline){
     Crypt.set_offline(enabled);
     offline = enabled;
 		socket.emit("offline", enabled);
     if(enabled){
-				if(list_html){
-					list_html = $("<div>" + list_html + "</div>");
-					//list_html.find(".card-content").css("display", "flex");
+		if(list_html){
+			list_html = $("<div>" + list_html + "</div>");
+			//list_html.find(".card-content").css("display", "flex");
 	        //list_html.find(".card-content").css("height", "100%");
 	        //list_html.find(".list-title").css("align-self", "center");
 	        //list_html.find(".vote-span").addClass("hide");
-					list_html.find(".list-remove").removeClass("hide");
-					list_html = list_html.html();
-				}
+			list_html.find(".list-remove").removeClass("hide");
+			list_html = list_html.html();
+		}
         //$(".card-content").css("display", "flex");
         //$(".card-content").css("height", "100%");
         //$(".list-title").css("align-self", "center");
-				$(".list-remove").removeClass("hide");
+		$(".list-remove").removeClass("hide");
         //$(".vote-span").addClass("hide");
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
-				if(full_playlist != undefined){
-					for(var x = 0; x < full_playlist.length; x++){
-						full_playlist[x].votes = 0;
-					}
-					List.sortList();
-					List.populate_list(full_playlist);
-				}
+		if(full_playlist != undefined && !already_offline){
+			for(var x = 0; x < full_playlist.length; x++){
+				full_playlist[x].votes = 0;
+			}
+			List.sortList();
+			List.populate_list(full_playlist);
+		}
     } else {
-				if(list_html){
-					list_html = $("<div>" + list_html + "</div>");
-					//list_html.find(".card-content").css("display", "block");
+		if(list_html){
+			list_html = $("<div>" + list_html + "</div>");
+			//list_html.find(".card-content").css("display", "block");
 	        //list_html.find(".card-content").css("height", "initial");
 	        //list_html.find(".list-title").css("align-self", "center");
 	        //list_html.find(".vote-span").removeClass("hide");
-					if((!hasadmin || !w_p)){
-						list_html.find(".list-remove").addClass("hide");
-					}
-					list_html = list_html.html();
-				}
+			if((!hasadmin || !w_p)){
+				list_html.find(".list-remove").addClass("hide");
+			}
+			list_html = list_html.html();
+		}
         //$(".card-content").css("display", "block");
         //$(".card-content").css("height", "initial");
         //$(".list-title").css("align-self", "center");
         //$(".vote-span").removeClass("hide");
         $("#viewers").removeClass("hide");
-				if((!hasadmin || !w_p)){
-					$(".list-remove").addClass("hide");
-				}
+    	if((!hasadmin || !w_p)){
+    		$(".list-remove").addClass("hide");
+    	}
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
-				if(window.location.pathname != "/"){
-					socket.emit("pos");
-					socket.emit('list', chan.toLowerCase());
-				}
+		if(window.location.pathname != "/"){
+			socket.emit("pos");
+			socket.emit('list', chan.toLowerCase());
+		}
     }
 }
 
@@ -597,11 +599,11 @@ $(document).keyup(function(e) {
 });
 
 $(document).on("click", "#offline-mode", function(e){
-		e.preventDefault();
+	e.preventDefault();
     if(!Crypt.get_offline()){
-        change_offline(true);
+        change_offline(true, offline);
     } else{
-        change_offline(false);
+        change_offline(false, offline);
     }
 
 });
@@ -766,7 +768,7 @@ $(document).on("change", 'input[class=offline_switch_class]', function()
 {
  	//Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
     offline = document.getElementsByName("offline_switch")[0].checked;
-    change_offline(offline);
+    change_offline(offline, !offline);
 });
 
 $(document).on("change", 'input[class=conf]', function()

@@ -14,7 +14,8 @@ var Player = {
         }catch(e){
             state = null;
         }
-        if((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)){
+        if(((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)) && !(offline && prev_chan_player == chan)){
+            prev_chan_player = chan;
             from_frontpage = false;
             Player.loaded      = false;
             Helper.log("--------youtube_listener--------");
@@ -114,6 +115,7 @@ var Player = {
         } else {
             if(!durationBegun)
                 Player.durationSetter();
+            duration = Player.player.getDuration();
         }
     },
 

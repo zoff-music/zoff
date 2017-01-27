@@ -14,8 +14,14 @@ var List = {
         {
             case "list":
                 //if(full_playlist == undefined || !offline){
-                if(!offline || (offline && !msg.shuffled)){
+                if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
+                    prev_chan_list = chan;
                     List.populate_list(msg.playlist);
+                    if(chromecastAvailable){
+                      Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                } else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
+                    List.populate_list(full_playlist, true);
                     if(chromecastAvailable){
                       Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                     }
@@ -84,7 +90,7 @@ var List = {
         }
     },
 
-    populate_list: function(msg)
+    populate_list: function(msg, no_reset)
     {
         if(!Helper.mobilecheck() && !embed){
             List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
@@ -98,7 +104,7 @@ var List = {
         }
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
-        if(offline){
+        if(offline && !no_reset){
             for(var x = 0; x < full_playlist.length; x++){
                 full_playlist[x].votes = 0;
             }
