@@ -396,10 +396,18 @@ function chromecastListener(evt, data){
     var json_parsed = JSON.parse(data);
     switch(json_parsed.type){
         case -1:
-            socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
+			if(offline){
+				Player.playNext();
+			} else {
+        	       socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
+			}
             break;
 		case 0:
-			socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase});
+			if(offline){
+				Player.playNext();
+			} else {
+				socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase});
+			}
 			break;
     }
 }
