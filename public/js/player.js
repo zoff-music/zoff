@@ -262,7 +262,13 @@ var Player = {
         duration   = next_song.duration;
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
-        Player.loadVideoById(video_id);
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id});
+            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+            chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
+        } else {
+            Player.loadVideoById(video_id);
+        }
         List.channel_function({type:"song_change", time: time});
     },
 
