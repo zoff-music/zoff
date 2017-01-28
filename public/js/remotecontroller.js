@@ -13,6 +13,10 @@ $(document).ready(function (){
       'sync disconnect on unload':true,
       'secure': true
     };
+
+    $("#about").modal();
+    $("#contact").modal();
+    
     if(window.location.hostname == "remote.zoff.no") add = "https://zoff.no";
     else add = "localhost";
     socket = io.connect(add + ':8080', connection_options);

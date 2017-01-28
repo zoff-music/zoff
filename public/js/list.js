@@ -124,7 +124,7 @@ var List = {
     			}
     		});
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pagenumber">1</span> <a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span><a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span></div>').insertAfter("#wrapper");
                 $(".prev_page").css("display", "none");
                 $(".first_page").css("display", "none");
                 $(".next_page_hide").css("display","none");
@@ -136,13 +136,13 @@ var List = {
                     $(".last_page").removeClass("hide");
                 }*/
             } else if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pagenumber">1</span> <a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span><a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span></div>').insertAfter("#wrapper");
                 $(".prev_page").css("display", "none");
                 $(".next_page").css("display", "none");
                 $(".last_page").css("display", "none");
                 $(".first_page").css("display", "none");
-                $(".next_page_hide").css("display","inline-block");
-                $(".prev_page_hide").css("display","inline-block");
+                $(".next_page_hide").css("display","flex");
+                $(".prev_page_hide").css("display","flex");
             }
 
             List.dynamicContentPage(-10);
@@ -160,15 +160,15 @@ var List = {
             List.empty = true;
             $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat">|<</span><a class="first_page waves-effect waves-light btn-flat">|<</a><span class="prev_page_hide btn-flat">< prev</span><a class="prev_page waves-effect waves-light btn-flat">< prev</a> <span id="pageNumber" class="btn-flat">1</span> <a class="last_page waves-effect waves-light btn-flat">>|</a><span class="last_page_hide btn-flat">>|</span><a class="next_page waves-effect waves-light btn-flat">next ></a><span class="next_page_hide btn-flat">next ></span></div>').insertAfter("#wrapper");
+                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pagenumber">1</span> <a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span><a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span></div>').insertAfter("#wrapper");
             }
             $(".prev_page").css("display", "none");
             $(".next_page").css("display", "none");
             $(".last_page").css("display", "none");
-            $(".last_page_hide").css("display", "inline-block");
+            $(".last_page_hide").css("display", "flex");
             $(".first_page").css("display", "none");
-            $(".next_page_hide").css("display","inline-block");
-            $(".prev_page_hide").css("display","inline-block");
+            $(".next_page_hide").css("display","flex");
+            $(".prev_page_hide").css("display","flex");
         }
 		$("#settings").css("visibility", "visible");
 		$("#settings").css("opacity", "1");
@@ -182,16 +182,16 @@ var List = {
         List.page = page;
         $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
         if(List.page > 0 && $(".prev_page").css("display") == "none"){
-            $(".prev_page").css("display", "inline-block");
+            $(".prev_page").css("display", "flex");
             $(".prev_page_hide").css("display", "none");
-            $(".first_page").css("display", "inline-block");
+            $(".first_page").css("display", "flex");
             $(".first_page_hide").css("display", "none");
         }
 
         if(List.page + List.can_fit >= $("#wrapper").children().length){
-            $(".next_page_hide").css("display", "inline-block");
+            $(".next_page_hide").css("display", "flex");
             $(".next_page").css("display", "none");
-            $(".last_page_hide").css("display", "inline-block");
+            $(".last_page_hide").css("display", "flex");
             $(".last_page").css("display", "none");
         }
 
@@ -205,16 +205,16 @@ var List = {
             List.page = List.page + List.can_fit;
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
-                $(".prev_page").css("display", "inline-block");
+                $(".prev_page").css("display", "flex");
                 $(".prev_page_hide").css("display", "none");
-                $(".first_page").css("display", "inline-block");
+                $(".first_page").css("display", "flex");
                 $(".first_page_hide").css("display", "none");
             }
 
             if(List.page + List.can_fit >= $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page_hide").css("display", "flex");
                 $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page_hide").css("display", "flex");
                 $(".last_page").css("display", "none");
             }
             //$("#wrapper").scrollTop(0);
@@ -224,16 +224,16 @@ var List = {
           $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
 
           if(List.page > 0 && $(".prev_page").css("display") == "none"){
-              $(".prev_page").css("display", "inline-block");
+              $(".prev_page").css("display", "flex");
               $(".prev_page_hide").css("display", "none");
-              $(".first_page").css("display", "inline-block");
+              $(".first_page").css("display", "flex");
               $(".first_page_hide").css("display", "none");
           }
 
           if(List.page + List.can_fit >= $("#wrapper").children().length){
-              $(".next_page_hide").css("display", "inline-block");
+              $(".next_page_hide").css("display", "flex");
               $(".next_page").css("display", "none");
-              $(".last_page_hide").css("display", "inline-block");
+              $(".last_page_hide").css("display", "flex");
               $(".last_page").css("display", "none");
           }
         } else if(way==-10){
@@ -242,21 +242,21 @@ var List = {
           $("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
           if(List.page == 0 && $(".prev_page").css("display") != "none"){
               $(".prev_page").css("display", "none");
-              $(".prev_page_hide").css("display", "inline-block");
+              $(".prev_page_hide").css("display", "flex");
               $(".first_page").css("display", "none");
-              $(".first_page_hide").css("display", "inline-block");
+              $(".first_page_hide").css("display", "flex");
           } else if($(".prev_page").css("display") == "none"){
-              $(".prev_page_hide").css("display", "inline-block");
-              $(".first_page_hide").css("display", "inline-block");
+              $(".prev_page_hide").css("display", "flex");
+              $(".first_page_hide").css("display", "flex");
           } else {
               $(".prev_page_hide").css("display", "none");
               $(".first_page_hide").css("display", "none");
           }
           if(List.page + List.can_fit < $("#wrapper").children().length){
               $(".next_page_hide").css("display", "none");
-              $(".next_page").css("display", "inline-block");
+              $(".next_page").css("display", "flex");
               $(".last_page_hide").css("display", "none");
-              $(".last_page").css("display", "inline-block");
+              $(".last_page").css("display", "flex");
           }
         } else {
             $("#wrapper").children().slice(List.page - List.can_fit, List.page).show();
@@ -265,12 +265,12 @@ var List = {
             //$("#wrapper").scrollTop(0);
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
                 $(".prev_page").css("display", "none");
-                $(".prev_page_hide").css("display", "inline-block");
+                $(".prev_page_hide").css("display", "flex");
                 $(".first_page").css("display", "none");
-                $(".first_page_hide").css("display", "inline-block");
+                $(".first_page_hide").css("display", "flex");
             } else if($(".prev_page").css("display") == "none"){
-                $(".prev_page_hide").css("display", "inline-block");
-                $(".first_page_hide").css("display", "inline-block");
+                $(".prev_page_hide").css("display", "flex");
+                $(".first_page_hide").css("display", "flex");
             } else {
                 $(".prev_page_hide").css("display", "none");
                 $(".first_page_hide").css("display", "none");
@@ -278,9 +278,9 @@ var List = {
 
             if(List.page + List.can_fit < $("#wrapper").children().length){
                 $(".next_page_hide").css("display", "none");
-                $(".next_page").css("display", "inline-block");
+                $(".next_page").css("display", "flex");
                 $(".last_page_hide").css("display", "none");
-                $(".last_page").css("display", "inline-block");
+                $(".last_page").css("display", "flex");
             }
         }
         $("#pageNumber").html((List.page / List.can_fit) + 1);
@@ -306,9 +306,9 @@ var List = {
             if($("#wrapper").children().length > List.page + List.can_fit){
                 $(".next_page_hide").css("display", "none");
                 $(".next_page").removeClass("hide");
-                $(".next_page").css("display", "inline-block");
+                $(".next_page").css("display", "flex");
             } else {
-                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page_hide").css("display", "flex");
                 $(".next_page").css("display", "none");
             }
         }
@@ -333,14 +333,14 @@ var List = {
 
             if(List.page >= $("#wrapper").children().length - 1){
                 List.dynamicContentPage(-1);
-                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page_hide").css("display", "flex");
                 $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page_hide").css("display", "flex");
                 $(".last_page").css("display", "none");
             } else if(List.page + List.can_fit + 1 >= $("#wrapper").children().length - 1){
-                $(".next_page_hide").css("display", "inline-block");
+                $(".next_page_hide").css("display", "flex");
                 $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-block");
+                $(".last_page_hide").css("display", "flex");
                 $(".last_page").css("display", "none");
             }
             setTimeout(function()
@@ -355,7 +355,7 @@ var List = {
                 if(List.page >= $("#wrapper").children().length){
                     List.dynamicContentPage(-1);
                 } else if(List.page + List.can_fit >= $("#wrapper").children().length){
-                    $(".next_page_hide").css("display", "inline-block");
+                    $(".next_page_hide").css("display", "flex");
                     $(".next_page").css("display", "none");
                 }*/
                 if(chromecastAvailable){
@@ -385,7 +385,7 @@ var List = {
         $("#suggested-"+deleted).remove();
         if(List.page + List.can_fit < $("#wrapper").children().length + 1){
             //$(".next_page_hide").css("display", "none");
-            //$(".next_page").css("display", "inline-block");
+            //$(".next_page").css("display", "flex");
         }
         if(List.page >= $("#wrapper").children().length){
             List.dynamicContentPage(-1);

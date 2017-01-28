@@ -21,6 +21,7 @@
 <meta property="fb:app_id" content="1581693815380949" />
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/style.css" title="Default" />
 <link rel="icon" id="favicon" type="image/png" href="/public/images/favicon.png"/>
