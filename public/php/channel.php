@@ -75,25 +75,25 @@
                       </li>
                     <li>
                         <a class="nav-btn" href="#find" id="search-btn">
-                            <i class="mdi-action-search"></i>
+                            <i class="material-icons">search</i>
                             <span class="hover-text">Find</span>
                         </a>
                     </li>
                     <li>
                         <a class="nav-btn" href="#skip" id="skip">
-                            <i class="mdi-av-skip-next"></i>
+                            <i class="material-icons">skip_next</i>
                             <span class="hover-text">Skip</span>
                         </a>
                     </li>
                     <li>
                         <a class="nav-btn hide-on-small-only" href="#stir" id="shuffle">
-                            <i class="mdi-av-shuffle"></i>
+                            <i class="material-icons">shuffle</i>
                             <span class="hover-text">Stir</span>
                         </a>
                     </li>
                     <li>
                         <a class="nav-btn" href="#settings" data-activates="settings-bar" id="settings">
-                            <i class="mdi-image-dehaze"></i>
+                            <i class="material-icons">menu</i>
                             <span class="hover-text">Conf</span>
                         </a>
                     </li>
@@ -111,7 +111,7 @@
                                   <span class="result_info"></span>
 
                               <div class="waves-effect waves-orange btn-flat" id="add-many" title="Add several videos">
-                                  <i class="mdi-av-playlist-add"></i>
+                                  <i class="material-icons">playlist_add</i>
                               </div>
                           </div>
                       </div>
@@ -125,7 +125,7 @@
             </div>
         </nav>
       </div>
-      <div id="help" class="modal">
+      <div id="help" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>So you need help?</h4>
                 <p>When listening on a channel, there are some different buttons you can click.</p>
@@ -175,7 +175,7 @@
                 <div id="main_components">
                 <div id="player_overlay" class="hide valign-wrapper">
                   <div id="playing_on"><div id="chromecast_icon">
-                    <i class="mdi-hardware-cast-connected"></i>
+                    <i class="material-icons">cast</i>
                   </div>
                   <div id="chromecast_text"></div>
                 </div>
@@ -184,35 +184,39 @@
                   </div>
                   <div id="player_overlay_controls" class="hide valign-wrapper">
                     <div id="playpause-overlay" class="valign center-align">
-                      <i id="play-overlay" class="mdi-av-play-arrow hide"></i>
-                      <i id="pause-overlay" class="mdi-av-pause"></i>
+                      <i id="play-overlay" class="material-icons hide">play_arrow</i>
+                      <i id="pause-overlay" class="material-icons">pause</i>
                     </div>
                     <div id="volume-button-overlay">
-                      <i id="v-mute-overlay" class="mdi-av-volume-off"></i>
-                      <i id="v-low-overlay" class="mdi-av-volume-mute"></i>
-                      <i id="v-medium-overlay" class="mdi-av-volume-down"></i>
-                      <i id="v-full-overlay" class="mdi-av-volume-up"></i>
+                      <i id="v-mute-overlay" class="material-icons">volume_off</i>
+                      <i id="v-low-overlay" class="material-icons">volume_mute</i>
+                      <i id="v-medium-overlay" class="material-icons">volume_down</i>
+                      <i id="v-full-overlay" class="material-icons">volume_up</i>
                     </div>
                   </div>
                 </div>
                 <div id="controls" class="noselect">
                   <div id="playpause">
-                    <i id="play" class="mdi-av-play-arrow hide"></i>
-                    <i id="pause" class="mdi-av-pause"></i>
+                    <i id="play" class="material-icons hide">play_arrow</i>
+                    <i id="pause" class="material-icons">pause</i>
                   </div>
                   <div id="duration"></div>
                   <div id="fullscreen">
-                    <i class="mdi-navigation-fullscreen"></i>
+                    <i class="material-icons">fullscreen</i>
                   </div>
-                  <button class="castButton mdi-hardware-cast tooltipped" style="" data-position="top" data-delay="5" data-tooltip="Cast Zöff to TV" is="google-cast-button">
+                  <button class="castButton-unactive tooltipped" style="display:none;" data-position="top" data-delay="5" data-tooltip="Cast Zöff to TV">
+                    <i class="material-icons">cast</i>
                   </button>
-                  <button class="castButton-active hide mdi-hardware-cast-connected tooltipped" data-position="top" data-delay="5" data-tooltip="Stop casting" >
+                  <button class="castButton" is="google-cast-button">
+                  </button>
+                  <button class="castButton-active hide tooltipped" data-position="top" data-delay="5" data-tooltip="Stop casting" >
+                    <i class="material-icons">cast_connected</i>
                   </button>
                   <div id="volume-button">
-                    <i id="v-mute" class="mdi-av-volume-off"></i>
-                    <i id="v-low" class="mdi-av-volume-mute"></i>
-                    <i id="v-medium" class="mdi-av-volume-down"></i>
-                    <i id="v-full" class="mdi-av-volume-up"></i>
+                    <i id="v-mute" class="material-icons">volume_off</i>
+                    <i id="v-low" class="material-icons">volume_mute</i>
+                    <i id="v-medium" class="material-icons">volume_down</i>
+                    <i id="v-full" class="material-icons">volume_up</i>
                   </div>
                   <div id="volume"></div>
                   <div id="viewers" data-position="top" data-delay="5" class="tooltipped" data-tooltip="Viewers"></div>
@@ -223,11 +227,11 @@
             <div id="playlist" class="col s12 m3">
               <div id="top-button" title="Scroll to the top" class="rounded-bottom hide top-button-with-tabs hide-on-small-only">Top</div>
               <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
-              <ul class="tabs playlist-tabs" style="width:96%">
+              <ul class="tabs playlist-tabs tabs-fixed-width" style="width:96%">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat</a></li>
               </ul>
-              <ul class="tabs playlist-tabs-loggedIn hide" style="width: 96%;">
+              <ul class="tabs playlist-tabs-loggedIn hide tabs-fixed-width" style="width: 96%;">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat</a></li>
@@ -274,7 +278,7 @@
                                 <!--<ul id="chat inherit-height">-->
                                   <div class="row inherit-height">
                                     <div class="col s12">
-                                      <ul class="tabs chatTabs">
+                                      <ul class="tabs chatTabs tabs-fixed-width">
                                         <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
                                         <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
                                       </ul>

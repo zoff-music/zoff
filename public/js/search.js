@@ -12,8 +12,12 @@ var Search = {
     	$("#song-title").toggleClass("hide");
     	//$("#results").toggleClass("hide");
     	$("#results").empty();
-    	$("#search-btn i").toggleClass("mdi-navigation-close");
-    	$("#search-btn i").toggleClass("mdi-action-search");
+        if($("#search-btn i").html() == "close"){
+            $("#search-btn i").html("search");
+        } else {
+	       $("#search-btn i").html("close");
+        }
+    	//$("#search-btn i").html("search");
     	$("#search").focus();
 
     },
