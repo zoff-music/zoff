@@ -24,11 +24,11 @@ if(isset($_GET['chan'])){
                 <ul class="right hide-on-med-and-down">
                     <li><a class="header-buttons waves-effect waves-cyan" id="offline-mode" title="Offline mode" href="#">Private</a></li>
                     <li><a class="header-buttons waves-effect waves-green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
-                    <li><a class="header-buttons modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                    <li><a class="header-buttons modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>
         </nav>
-        <div id="about" class="modal">
+        <div id="about" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
@@ -49,7 +49,7 @@ if(isset($_GET['chan'])){
                 <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
-        <div id="donation" class="modal">
+        <div id="donation" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>Thanks!</h4>
                 <p>Thanks for your donation, we love you &lt;3
@@ -63,7 +63,7 @@ if(isset($_GET['chan'])){
                 <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
-        <div id="help" class="modal">
+        <div id="help" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>So you need help?</h4>
                 <p>At the center of the site, you'll see a input field. This is meant to navigate to new or existing channels. If you input something here that doesn't exist, a new channel will be create at the blink of an eye! Remember to put a password on the list you've created, so no one else takes it from you! (It's on a first come, first serve basis). When you're ready to proceed, just click the listen button!</p>
@@ -143,7 +143,7 @@ if(isset($_GET['chan'])){
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
                                 <div class="card-content">
-                                    <i class="mdi-action-star-rate pin"></i>
+                                    <i class="material-icons pin">star_rate</i>
                                     <p class="left-align">
                                         <span class="chan-name flow-text truncate"></span>
                                         <br>

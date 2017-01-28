@@ -77,18 +77,18 @@
                 </p>
                 <ul id="footer-buttons">
                   <li>
-                      <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').openModal()">
-                        <i class="mdi-action-info left footer-button-icon"></i>HELP
+                      <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').modal('open')">
+                        <i class="material-icons left footer-button-icon">help_outline</i>HELP
                       </a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').openModal()">
-                        <i class="mdi-image-navigate-before left footer-button-icon left-embed"></i><i class="mdi-image-navigate-next left footer-button-icon right-embed"></i>EMBED
+                    <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" onclick="$('#embed').modal('open')">
+                        <i class="material-icons left footer-button-icon">code</i>EMBED
                     </a>
                   </li>
                   <li>
-                    <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').openModal()">
-                    <i class="mdi-communication-email left footer-button-icon"></i>CONTACT
+                    <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" onclick="$('#contact').modal('open')">
+                    <i class="material-icons left footer-button-icon">email</i>CONTACT
                     </a>
                   </li>
                 </ul>
@@ -114,7 +114,7 @@
                           <input type="hidden" name="cmd" value="_s-xclick">
                           <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
                           <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
-                          <i class="mdi-action-payment left footer-button-icon"></i>Donate
+                          <i class="material-icons left footer-button-icon">payment</i>Donate
                           </a>
                         </form>
                         <p class="hide-on-small-only">

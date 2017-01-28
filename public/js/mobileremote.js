@@ -18,7 +18,8 @@ var Mobile_remote = {
 		$("#remote_channel").val("");
 		$("#remote_channel").attr("placeholder", "Change channel");
 		$("#remote_header").html("Controlling " + id);
-		$("#volume-control-remote").css("display", "block");
+		$("#volume-control-remote").css("display", "inline-block");
+		$(".slider-vol").attr("style", "display: inline-block !important");
 	},
 
 	set_channel: function(channel_name) {

@@ -162,6 +162,9 @@ function init(){
     $('.collapsible').collapsible({
       accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
+	$("#help").modal();
+    $("#contact").modal();
+	$("#embed").modal();
 
     spotify_is_authenticated(spotify_authenticated);
 
@@ -259,7 +262,7 @@ function init(){
 		$("#search").attr("placeholder", "Find song on YouTube...");
 
 		if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
-			$(".castButton").css("display", "none");
+			$(".castButton-unactive").css("display", "none");
 		}
 
     if(chromecastAvailable){
@@ -285,7 +288,7 @@ initializeCastApi = function() {
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
     var context = cast.framework.CastContext.getInstance();
-    $(".castButton").css("display", "block");
+    //$(".castButton-unactive").css("display", "block");
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
         function(event) {
@@ -333,14 +336,18 @@ initializeCastApi = function() {
                     break;
             }
     });
-    Helper.log(cast.framework.CastContext.getInstance().getCastState());
-    if(cast.framework.CastContext.getInstance().getCastState() == "NO_DEVICES_AVAILABLE"){
-        $(".castButton").css("display", "none");
-    }
+    var cast_state = cast.framework.CastContext.getInstance();
+    cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
+        if(event.castState == "NOT_CONNECTED"){
+            $(".castButton-unactive").css("display", "block");
+        } else if(event.castState == "NO_DEVICES_AVAILABLE"){
+            $(".castButton-unactive").css("display", "none");
+        }
+    });
 };
 
 function hide_native(way){
-    $(".castButton").toggleClass("hide");
+    $(".castButton-unactive").toggleClass("hide");
     $(".castButton-active").toggleClass("hide");
     if(way == 1){
         $("#duration").toggleClass("hide");
@@ -600,12 +607,12 @@ $(document).keyup(function(e) {
     	if(Helper.contains($("#song-title").attr("class").split(" "), "hide"))
       		$("#song-title").toggleClass("hide");
 
-    	if($("#search-btn i").attr('class') == "mdi-navigation-close")
+    	if($("#search-btn i").html() == "close")
     	{
-      		$("#search-btn i").toggleClass("mdi-navigation-close");
-      		$("#search-btn i").toggleClass("mdi-action-search");
+      		//$("#search-btn i").html("mdi-navigation-close");
+      		$("#search-btn i").html("search");
     	}
-        if(!Helper.contains($("#search-container").attr("class").split(" "), "hide")){
+        if(!Helper.contains($(".search-container").attr("class").split(" "), "hide")){
             $("#results").toggleClass("hide");
         }
   	}
@@ -633,13 +640,17 @@ $(document).on("click", "#playpause-overlay", function(){
     }
 });
 
+$(document).on("click", ".castButton-unactive", function(e){
+    $(".castButton").trigger("click");
+});
+
 $(document).on("click", ".castButton-active", function(e){
     e.preventDefault();
     var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
     // End the session and pass 'true' to indicate
     // that receiver application should be stopped.
     castSession.endSession(true);
-})
+});
 
 $(document).on('click', '#cookieok', function() {
     $(this).fadeOut(function(){

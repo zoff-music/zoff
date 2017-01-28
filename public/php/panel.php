@@ -1,19 +1,19 @@
 <li class="no-padding">
     <ul class="collapsible collapsible-accordion">
         <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
-            <i class="mdi-navigation-close auto-margin"></i>
+            <i class="material-icons auto-margin">close</i>
         </div>
         <li>
             <a class="col s9 collapsible-header bold waves-effect admin-settings">
                 Channel Settings
-                <i class="mdi-image-tune"></i>
+                <i class="material-icons">tune</i>
             </a>
             <div class="collapsible-body">
                 <form action="#" id="adminForm" onsubmit="return false;">
                     <ul>
                         <li class="white-bg">
                                 <div class="input-field field-settings">
-                                  <i id="admin-lock" class="mdi-action-lock" title="Click to log out"></i>
+                                  <i id="admin-lock" class="material-icons">lock</i>
                                     <input placeholder="Enter channel password" id="password" type="password" class="validate" />
                                 </div>
                         </li>
@@ -102,7 +102,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Remote Control
-                <i class="mdi-action-settings-remote"></i>
+                <i class="material-icons">settings_remote</i>
             </a>
             <div class="collapsible-body">
                 <ul>
@@ -115,14 +115,15 @@
                             <input name="remote_switch" type="checkbox" class="remote_switch_class" checked /><span class="lever"></span>
                             Enabled
                             </label>
-                            </div>
-                        <a id="code-link" target="_blank">
+                        </div>
+                        <div><a id="code-link" target="_blank">
                             <img id="code-qr" alt="QR code for control" title="Link to control this Zöff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.no" />
-                            <h4 id="code-text">ABBADUR</h4>
-                        </a>
-                        <a>
+
+                                <h4 id="code-text">ABBADUR</h4>
+                        </a></div>
+                        <p>
                           You can control this Zöff instance from another device by going to <b>https://remote.zoff.no/</b>
-                        </a>
+                      </p>
                     </li>
                 </ul>
             </div>
@@ -134,13 +135,13 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Private Mode
-                <i class="mdi-action-visibility-off"></i>
+                <i class="material-icons">visibility_off</i>
             </a>
             <div class="collapsible-body">
                 <ul>
                     <li>
                         <span class="switch-text">
-                            Enable Local
+                            Private Mode
                         </span>
                         <div class="switch"><label>
                             Disabled
@@ -162,7 +163,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Remote Controller
-                <i class="mdi-action-settings-remote"></i>
+                <i class="material-icons">settings_remote</i>
             </a>
             <div class="collapsible-body">
                 <ul id="remote-mobile-container">
@@ -183,16 +184,18 @@
                                 />
                             </div>
                         </form>
-                        <button id="playbutton_remote" class="remote-button waves-effect btn green" disabled>
-                            <i id="remote_play" class="mdi-av-play-arrow"></i>
-                        </button>
-                        <button id="pausebutton_remote" class="remote-button waves-effect btn gray" disabled>
-                        <i id="remote_pause" class="mdi-av-pause"></i></button>
-                        <button id="skipbutton_remote" class="remote-button waves-effect btn blue" disabled>
-                            <i id="remote_skip" class="mdi-av-skip-next"></i>
-                        </button>
-                        <i class="mdi-av-volume-up slider-vol"></i>
+                        <div id="remote-sidebar-buttons-container">
+                            <button id="playbutton_remote" class="remote-button waves-effect btn green" disabled>
+                                <i id="remote_play" class="material-icons">play_arrow</i>
+                            </button>
+                            <button id="pausebutton_remote" class="remote-button waves-effect btn gray" disabled>
+                            <i id="remote_pause" class="material-icons">pause</i></button>
+                            <button id="skipbutton_remote" class="remote-button waves-effect btn blue" disabled>
+                                <i id="remote_skip" class="material-icons">skip_next</i>
+                            </button>
+                        </div>
                         <div class="" id="volume-control-remote" title="Volume"></div>
+                        <i class="material-icons slider-vol">volume_up</i>
                     </li>
                 </ul>
             </div>
@@ -204,7 +207,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect import-a">Import Playlist
-                <i class="mdi-hardware-keyboard-arrow-down"></i>
+                <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="collapsible-body">
                 <ul>
@@ -216,7 +219,7 @@
                         </div>
                         <div class="input-field field-settings youtube_clicked">
                             <form action="#" id="listImport">
-                                <i class="mdi-av-playlist-add import-icon"></i>
+                                <i class="material-icons import-icon">playlist_add</i>
                                 <input title="Input YouTube-playlist url here!" placeholder="Enter YouTube-list URL" id="import" type="text" class="validate" autocomplete="off" />
                                     <div class="valign playlist_loader_padding">
                                         <div id="playlist_loader" class="preloader-wrapper small active hide">
@@ -280,10 +283,10 @@
                         </div>
                         <div class="input-field field-settings spotify_authenticated">
                             <form action="#" id="listImportSpotify">
-                                <i class="mdi-av-playlist-add import-icon"></i>
+                                <i class="material-icons import-icon">playlist_add</i>
                                 <input title="Input Spotify-playlist url here!" placeholder="Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
-                                <div class="valign playlist_loader_padding">
-                                    <div id="playlist_loader_spotify" class="preloader-wrapper small active hide">
+                                <div id="playlist_loader_spotify" class="valign playlist_loader_padding hide">
+                                    <div class="preloader-wrapper small active">
                                         <div class="spinner-layer spinner-blue">
                                             <div class="circle-clipper left">
                                                 <div class="circle"></div>
@@ -343,7 +346,7 @@
                                 <div class="extra-add-text truncate"></div>
                                 <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
                                 <a href="#" class="waves-effect green lighten btn right extra-button extra-button-search">
-                                <i class="mdi-action-search search-extra"></i></a>
+                                <i class="material-icons search-extra">search</i></a>
                             </li>
                         </ul>
                     </li>
@@ -357,7 +360,7 @@
     <ul class="collapsible collapsible-accordion white-bg">
         <li>
             <a class="collapsible-header bold waves-effect export-a">Export Playlist
-                <i class="mdi-hardware-keyboard-arrow-up"></i>
+                <i class="material-icons">keyboard_arrow_up</i>
             </a>
             <div class="collapsible-body">
                 <ul>
@@ -366,8 +369,6 @@
                             <a class="modal-trigger waves-effect red btn export-youtube" id="listExport" title="Export to YouTube">
                               <img src="/public/images/youtube.png" class="youtube_logo" alt="Youtube Logo" />
                             </a>
-                        </div>
-                        <div class="input-field field-settings">
                         </div>
                     </li>
                     <li class="white-bg">
