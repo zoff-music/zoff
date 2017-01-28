@@ -204,9 +204,9 @@
                   <div id="fullscreen">
                     <i class="mdi-navigation-fullscreen"></i>
                   </div>
-                  <button class="castButton mdi-hardware-cast tooltipped" style="" data-position="top" data-delay="10" data-tooltip="Cast Zöff to TV" is="google-cast-button">
+                  <button class="castButton mdi-hardware-cast tooltipped" style="" data-position="top" data-delay="5" data-tooltip="Cast Zöff to TV" is="google-cast-button">
                   </button>
-                  <button class="castButton-active hide mdi-hardware-cast-connected tooltipped" data-position="top" data-delay="10" data-tooltip="Stop casting" >
+                  <button class="castButton-active hide mdi-hardware-cast-connected tooltipped" data-position="top" data-delay="5" data-tooltip="Stop casting" >
                   </button>
                   <div id="volume-button">
                     <i id="v-mute" class="mdi-av-volume-off"></i>
@@ -215,7 +215,7 @@
                     <i id="v-full" class="mdi-av-volume-up"></i>
                   </div>
                   <div id="volume"></div>
-                  <div id="viewers"></div>
+                  <div id="viewers" data-position="top" data-delay="5" class="tooltipped" data-tooltip="Viewers"></div>
                   <div id="bar"></div>
                 </div>
                 </div>

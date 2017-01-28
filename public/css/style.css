@@ -208,6 +208,12 @@
   position: absolute;
   top: 0px;
   left: 125px;
+  height: 100%;
+  display: flex;
+}
+
+.frontpage-viewers{
+  margin-right: 5px;
 }
 
 #toast-container{
@@ -1677,6 +1683,22 @@ nav ul li:hover, nav ul li.active {
       z-index: 1000;
       left: 0;
       right: 0;
+    }
+
+    #frontpage-viewer-counter{
+      right: 0px;
+      width: 62px;
+      left: inherit;
+      text-align: right;
+    }
+
+    .brand-logo{
+      left: 0 !important;
+      -webkit-transform: translateX(0%) !important;
+      -moz-transform: translateX(0%) !important;
+      -ms-transform: translateX(0%) !important;
+      -o-transform: translateX(0%) !important;
+      transform: translateX(0%) !important;
     }
 
     #wrapper{
