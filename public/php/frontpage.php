@@ -19,7 +19,7 @@ if(isset($_GET['chan'])){
                 <a href="#" class="brand-logo noselect">
                     <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
-                <span id="frontpage-viewer-counter" class="hide-on-small-only noselect" title="Divided among all channels. Hidden or not"></span>
+                <div id="frontpage-viewer-counter" data-position="bottom" data-delay="5" data-tooltip="Total viewers" class="noselect tooltipped" title="Divided among all channels. Hidden or not"></div>
                 <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zöff</a>-->
                 <ul class="right hide-on-med-and-down">
                     <li><a class="header-buttons waves-effect waves-cyan" id="offline-mode" title="Offline mode" href="#">Private</a></li>

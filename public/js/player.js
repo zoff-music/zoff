@@ -281,14 +281,14 @@ var Player = {
     getTitle: function(titt, v)
     {
 
-    	var outPutWord    = v > 1 ? "viewers" : "viewer";
+    	var outPutWord    = "<i class='mdi-action-visibility'></i>"//v > 1 ? "viewers" : "viewer";
     	var title         = decodeURIComponent(titt);
         if(window.location.pathname != "/"){
         	var elem          = document.getElementById('song-title');
             var getTitleViews = document.getElementById('viewers');
 
     		elem.innerHTML    = title;
-    		getTitleViews.innerHTML = v + " " + outPutWord;
+    		getTitleViews.innerHTML = outPutWord + " " + v;
     		elem.title        = title;
             if(chromecastAvailable){
                 $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
