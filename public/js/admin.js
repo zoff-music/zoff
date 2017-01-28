@@ -83,7 +83,15 @@ var Admin = {
         }
 
         $(".card-action").removeClass("hide");
-        $("#admin-lock").removeClass("mdi-action-lock");
+        $("#admin-lock").addClass("clickable");
+        $("#admin-lock").html("lock_open");
+        if(!Helper.mobilecheck()){
+            $('#admin-lock').tooltip({
+                delay: 5,
+                position: "left",
+                tooltip: "Logout"
+            });
+        }
         $("#password").val("");
         $("#password").attr("placeholder", "Change channel password");
         //if(!Helper.mobilecheck()){
@@ -95,8 +103,17 @@ var Admin = {
             //$("#wrapper").toggleClass("tabs_height");
         //}
 
-        if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock-open"))
-          $("#admin-lock").addClass("mdi-action-lock-open clickable");
+        if($("#admin-lock").html() != "lock_open"){
+          $("#admin-lock").addClass("clickable");
+          $("#admin-lock").html("lock_open");
+          if(!Helper.mobilecheck()){
+              $('#admin-lock').tooltip({
+                  delay: 5,
+                  position: "left",
+                  tooltip: "Logout"
+              });
+          }
+        }
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
 
@@ -144,8 +161,12 @@ var Admin = {
     		$("input[name="+names[i]+"]").attr("disabled", true);
     	}
 
-    	if(!Helper.contains($("#admin-lock").attr("class").split(" "), "mdi-action-lock")){
-    		$("#admin-lock").addClass("mdi-action-lock");
+    	if($("#admin-lock").html() != "lock"){
+    		$("#admin-lock").removeClass("clickable");
+            $("#admin-lock").html("lock");
+            if(!Helper.mobilecheck()){
+                $('#admin-lock').tooltip('remove');
+            }
         }
 
         if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")){
@@ -166,7 +187,7 @@ var Admin = {
         } else {
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
-        $("#admin-lock").removeClass("mdi-action-lock-open clickable");
+        $("#admin-lock").removeClass("clickable");
         $("#password").attr("placeholder", "Enter channel password");
         //$("#top-button").removeClass("top-button-with-tabs");
     },
@@ -200,7 +221,7 @@ var Admin = {
         }
 
         if((hasadmin)){
-            if($(".mdi-action-lock").length === 0) Admin.display_logged_out();
+            if($("#admin-lock").html() != "lock") Admin.display_logged_out();
         }else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined){
             if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
                 $(".playlist-tabs-loggedIn").removeClass("hide");

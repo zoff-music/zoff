@@ -40,6 +40,7 @@
   cursor: default;
   color: white;
   padding:0;
+  line-height: 36px;
 }
 
 #playing_on{
@@ -52,7 +53,7 @@
   color: rgba(255,255,255, 0.8);
 }
 
-#playing_on #chromecast_icon{
+#playing_on #chromecast_icon i{
   font-size:70px;
 }
 
@@ -95,6 +96,7 @@
 .next_page_hide, .next_page, .last_page, .last_page_hide{
   padding:0 10px;
   float:right;
+  display: flex;
 }
 
 .settings_embed:focus{
@@ -148,17 +150,20 @@
 
 .extra-button{
   margin: 0 4px !important;
-  padding: 0px !important;
-  display: inline-block;
-  width: 37px;
-  height: 40px !important;
-  line-height: 40px !important;
-  color: white !important;
+    padding: 0px !important;
+    width: 37px;
+    height: 40px !important;
+    line-height: 40px !important;
+    color: white !important;
+    display: flex !important;
+    justify-content: center;
 }
 
 .search-extra{
   height: 40px !important;
   line-height: 40px !important;
+  margin: 0 !important;
+  color: white !important;
 }
 
 .import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist{
@@ -166,6 +171,7 @@
   height:40px !important;
   line-height: 40px !important;
   margin: 0 4rem 0 0 !important;
+  width: 76%;
 }
 
 .import-spotify-auth{
@@ -187,10 +193,6 @@
 }
 
 .spotify_authenticated{
-  display: none;
-}
-
-.youtube_clicked{
   display: none;
 }
 
@@ -403,6 +405,10 @@ nav, .tabs .tab a,
     background-color: #2D2D2D;
 }
 
+.tabs .tab a{
+  padding: 0px;
+}
+
 .secondary-content,
 .dropdown-content li > a, .dropdown-content li > span,
 .input-field .prefix.active,
@@ -420,6 +426,23 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 .field-settings{
 	margin-left: 25px !important;
 	color: rgb(68,68,68);
+  display: flex;
+  align-items: center;
+  height: 64px !important;
+}
+
+.not-imported-container{
+  display: block;
+  height: 100% !important;
+}
+
+.not-exported-container{
+  display: block !important;
+  margin-left: 0px !important;
+}
+
+.youtube_clicked{
+  display: none;
 }
 
 .import-icon{
@@ -427,16 +450,18 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 }
 
 #import, #import_spotify{
-  width:65%;
-  padding-left:35px;
-  color:rgb(68,68,68);
+  width: 65%;
+  padding-left: 35px;
+  color: rgb(68,68,68);
   border-bottom: 1px solid lightgrey;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
+  height: 64px;
 }
 
 #password{
-  width:84%;
-	margin-left:10px;
+  width: 84%;
+  margin-left: 10px;
+  margin-bottom: 0;
 }
 
 span.badge.new,
@@ -628,7 +653,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 @font-face {
     font-family:"futura-pt";
-    src:url('../font/futura.woff2') format('woff2'),url('../font/futura.woff') format('woff');
+    src:url('../fonts/futura.woff2') format('woff2'),url('../fonts/futura.woff') format('woff');
     font-style:normal;font-weight:300;
 }
 
@@ -877,6 +902,21 @@ hide mdi-action-visibility mdi-action-visibility-off
 /*#channels li{opacity: 0;}*/
 
 /*------------------- Channel page ---------------------------------------------------------------------------- */
+
+
+.collapsible-header{
+  font-weight: 400 !important;
+  height: 64px !important;
+  line-height: 64px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.collapsible-body{
+  padding: 0rem;
+}
 
 .suggest_thumb {
   width:25%;
@@ -1194,10 +1234,6 @@ ul #chat-log{
     width: 100%;
 }
 
-#viewers{
-    width: initial;
-    padding-right: 3%;
-}
 #playlist{
     /*padding:0px 15px;*/
     flex:1;
@@ -1206,16 +1242,27 @@ ul #chat-log{
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
-.castButton, .castButton:active, .castButton:focus, .castButton:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus {
-    width: 0px;
-    height: 0px;
+.castButton{
+  display:none !important;
+}
+
+.castButton-unactive, .castButton-unactive:active, .castButton-unactive:focus, .castButton-unactive:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus {
+    width: 33px;
+    height: 33px;
     float: right;
-    margin: 0px 25px 0px -10px;
+    /*margin: 0px 25px 0px -10px;*/
     background: transparent;
     border: none;
     background: transparent;
+    color: white;
     border: none;
     font-size:18px;
+    padding-right: 1%;
+}
+
+.castButton-unactive i, .castButton-active i{
+  font-size: 20px;
+  margin-top: 3px;
 }
 
 /*.castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
@@ -1247,13 +1294,17 @@ ul #chat-log{
     transition: background-color .2s;
     min-width: 64px;
     float:right;
+    text-align: center;
 }
 .nav-btn:hover{background-color:rgba(0,0,0,0.6);}
 .hover-text{display:none;}
-.nav-btn:hover > .hover-text {display:inline;}
+.nav-btn:hover > .hover-text {
+  display: flex;
+  justify-content: center;
+  }
 
 nav ul li:hover, nav ul li.active {
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.1);
 }
 
 .list-image, .list-suggested-image{
@@ -1267,7 +1318,8 @@ nav ul li:hover, nav ul li.active {
 }
 
 .list-image:after {
-  font-family: "Material-Design-Icons";
+  font-family: "Material Icons";
+  content:"thumb_up";
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -1275,7 +1327,6 @@ nav ul li:hover, nav ul li.active {
   text-transform: none;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  content: "\e686";
   color: white;
   font-size: -webkit-xxx-large;
   position: absolute;
@@ -1292,7 +1343,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .list-suggested-image:after {
-  font-family: "Material-Design-Icons";
+  font-family: "Material Icons";
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -1300,7 +1351,7 @@ nav ul li:hover, nav ul li.active {
   text-transform: none;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  content: "\e625";/*"\e800";*/
+  content: "check";
   color:white;
   font-size: calc(100vh / 15);
   position:absolute;
@@ -1372,11 +1423,13 @@ nav ul li:hover, nav ul li.active {
 }
 #add-many i{ line-height: 36px !important;}
 #results{
-    background-color: rgba(0,0,0,0.8);
-    margin-top: -27px;
-    max-height: calc(100vh - 64px);
-    overflow: overlay;
-    overflow-x: hidden;
+  background-color: rgba(0,0,0,0.8);
+  position: absolute;
+  width: 100%;
+  top: 64px;
+  max-height: calc(100vh - 64px);
+  overflow: overlay;
+  overflow-x: hidden;
 }
 .result:hover, .hoverResults {
   background-color: rgba(0,0,0,0.4);
@@ -1388,9 +1441,9 @@ nav ul li:hover, nav ul li.active {
 
 .list-remove{
   width: 70px;
-  margin-top: -6%;
+  margin-top: -19px;
   font-size: 12px;
-  height: 20px;
+  height: 0px;
   display: inline-table;
   float: right;
   padding-left: 10px;
@@ -1398,16 +1451,19 @@ nav ul li:hover, nav ul li.active {
 
 .list-song .card-action{
   border-top:none !important;
+  background: transparent;
 }
 
 #del, #del_suggested, #del_user_suggested{
   position: absolute;
   text-align: right;
-  right: 0%;
-  bottom: -31%;
+  right: -35%;
+  top: 45%;
+  height: 19px;
   line-height: normal;
   padding: 2px 12px;
   color: white;
+  background: transparent;
   width: initial;
   border-top: 1px solid rgba(160,160,160,0.2);
 }
@@ -1559,6 +1615,10 @@ nav ul li:hover, nav ul li.active {
   margin-left:10px;
 }
 
+#volume-button{
+  margin-top:2px;
+}
+
 #playpause:hover, #volume-button:hover, #fullscreen:hover
 {
     color:rgba(255,255,255,0.5);
@@ -1569,6 +1629,7 @@ nav ul li:hover, nav ul li.active {
   float:right;
   color:white;
   margin-right:15px;
+  margin-top: 2px;
 }
 
 #duration, #viewers
@@ -1579,14 +1640,22 @@ nav ul li:hover, nav ul li.active {
   margin-left:15px;
 }
 
-#viewers{
-  float: right;
+#viewers {
+    float: right;
+    height: 32px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    padding-right:1%;
 }
 
 #play, #pause, #volume-button, #fullscreen
 {
-  font-size:20px;
+  font-size: 30px;
   cursor:pointer;
+  height: 33px;
+  line-height: 31px;
 }
 
 #volume {
@@ -1685,6 +1754,14 @@ nav ul li:hover, nav ul li.active {
       right: 0;
     }
 
+    #remote-sidebar-buttons-container{
+      text-align: center;
+    }
+
+    .slider-vol{
+      display:none !important;
+    }
+
     #frontpage-viewer-counter{
       right: 0px;
       width: 62px;
@@ -1780,13 +1857,14 @@ nav ul li:hover, nav ul li.active {
       margin-top: inherit;
     }
 
-    #play, #pause, #volume-button, #fullscreen {
+    #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i{
       font-size: 31px;
+      font-size: 31px !important;
+      margin-top: 8px;
     }
 
-    .castButton, .castButton:active, .castButton:focus, .castButton:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
-      font-size: 28px;
-      margin: 0 33px 0 0px;
+    .castButton-unactive, .castButton-active{
+      margin-right: 10px;
     }
 
     #viewers, #volume{
@@ -1868,7 +1946,7 @@ nav ul li:hover, nav ul li.active {
       text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.42);
     }
 
-    .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 5px;}
+    .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 0px;}
 
     nav .zbrand{
         -webkit-transform:initial;
@@ -1974,6 +2052,11 @@ nav ul li:hover, nav ul li.active {
 	line-height:21px;
 }
 
+.remote-button i{
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
 #remote-controls {
 	font-size:50px !important;
 }
@@ -1987,8 +2070,16 @@ nav ul li:hover, nav ul li.active {
   text-transform: uppercase;
 }
 #code-link{
-  height: auto;
+  height: auto !important;
   text-align: center;
+  display: block !important;
+}
+
+.remote-panel p {
+  padding: 0 42px;
+  color: #000;
+  text-align: center;
+  line-height: initial;
 }
 
 
@@ -2035,16 +2126,22 @@ nav ul li:hover, nav ul li.active {
 }
 
 #volume-control-remote{
-  float:none;
-  width:75%;
+  float: none;
+  width: 70%;
   margin:auto;
-  margin-top:40px;
+  margin-left: 10px;
+  margin-right: 0;
+  margin-top: 30px;
+  height: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 #volume-control-remote .ui-slider-range-min{
   margin-left:0px;
-  margin-top:-4px;
+  margin-top: 0px;
   height:10px;
+  background: black;
 }
 
 #volume-control-remote .ui-slider-handle{
@@ -2052,11 +2149,15 @@ nav ul li:hover, nav ul li.active {
   margin-top:-3px;
   background: #2d2d2d;
   border:none;
+  display: none;
 }
 
 .slider-vol{
-  float: left;
+  float: right;
+  color: black;
   font-size: 22px;
+  margin-right: 20px;
+  margin-top: 6px;
 }
 
 .about-remote{

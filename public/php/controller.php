@@ -14,11 +14,11 @@
                 <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
                 <ul class="right hide-on-med-and-down">
                   <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
-                  <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').openModal()">About</a></li>
+                  <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>
         </nav>
-        <div id="about" class="modal">
+        <div id="about" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
@@ -76,17 +76,17 @@
 
             <div class="rc" id="remote-controls">
                 <a id="playbutton" class="remote-button chan-link waves-effect btn green">
-                    <i id="remote_play" class="mdi-av-play-arrow"></i>
+                    <i id="remote_play" class="material-icons">play_arrow</i>
                 </a>
                 <a id="pausebutton" class="remote-button chan-link waves-effect btn gray">
-                    <i id="remote_pause" class="mdi-av-pause"></i>
+                    <i id="remote_pause" class="material-icons">pause</i>
                 </a>
                 <a id="skipbutton" class="remote-button chan-link waves-effect btn blue">
-                    <i id="remote_skip" class="mdi-av-skip-next"></i>
+                    <i id="remote_skip" class="material-icons">skip_next</i>
                 </a>
             </div>
 
-            <i class="mdi-av-volume-up slider-vol rc"></i>
+            <i class="material-icons slider-vol rc">volume_up</i>
             <div class="rc" id="volume-control" title="Volume"></div>
 
         </div>
@@ -94,7 +94,7 @@
         <div class="section about-remote">
             <b>Here you can control another Zöff player from any device.</b>
             <br>
-            To find the ID of your player, click the Conf <i class="mdi-action-settings"></i> icon on the top right of the player page, then "Remote Control".
+            To find the ID of your player, click the Conf <i class="material-icons">menu</i> icon on the top right of the player page, then "Remote Control".
             <br>You can either scan the QR code or type the ID manually.
         </div>
     </main>

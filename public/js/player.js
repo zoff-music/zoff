@@ -281,7 +281,7 @@ var Player = {
     getTitle: function(titt, v)
     {
 
-    	var outPutWord    = "<i class='mdi-action-visibility'></i>"//v > 1 ? "viewers" : "viewer";
+    	var outPutWord    = "<i class='material-icons'>visibility</i>"//v > 1 ? "viewers" : "viewer";
     	var title         = decodeURIComponent(titt);
         if(window.location.pathname != "/"){
         	var elem          = document.getElementById('song-title');

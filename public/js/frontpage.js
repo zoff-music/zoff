@@ -250,7 +250,7 @@ var Frontpage = {
   set_viewers: function(viewers){
     //if(viewers > 0){
       //var to_add = viewers > 1 ? "listeners" : "listener";
-      $("#frontpage-viewer-counter").html("<i class='mdi-action-visibility frontpage-viewers'></i>" + viewers);
+      $("#frontpage-viewer-counter").html("<i class='material-icons frontpage-viewers'>visibility</i>" + viewers);
     //}
   },
 
@@ -365,6 +365,10 @@ function initfp(){
     if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists){
       setup_playlist_listener();
     }
+
+    $("#about").modal();
+    $("#help").modal();
+    $("#contact").modal();
 
     Helper.log("----");
     Helper.log("Sending frontpage_lists");
