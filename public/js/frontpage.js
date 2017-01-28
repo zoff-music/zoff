@@ -248,10 +248,10 @@ var Frontpage = {
   },
 
   set_viewers: function(viewers){
-    if(viewers > 0){
+    //if(viewers > 0){
       //var to_add = viewers > 1 ? "listeners" : "listener";
       $("#frontpage-viewer-counter").html("<i class='mdi-action-visibility frontpage-viewers'></i>" + viewers);
-    }
+    //}
   },
 
   to_channel: function(new_channel, popstate){
