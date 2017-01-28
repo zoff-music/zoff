@@ -277,6 +277,8 @@ function init(){
 			$(".castButton-unactive").css("display", "none");
 		}
 
+    console.log(chromecastReady);
+
     if(chromecastAvailable){
         hide_native(1);
     } else if(chromecastReady) {
@@ -349,6 +351,11 @@ initializeCastApi = function() {
                     break;
             }
     });
+
+    if(cast.framework.CastContext.getInstance().getCastState() == "NOT_CONNECTED"){
+        $(".castButton-unactive").css("display", "block");
+    }
+    
     var cast_state = cast.framework.CastContext.getInstance();
     cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
         if(event.castState == "NOT_CONNECTED"){
