@@ -54,14 +54,15 @@ var Frontpage = {
       if(pinned !== undefined){
         lists.unshift(pinned);
       }
+
+      if(!Helper.mobilecheck())
+        Frontpage.add_backdrop(lists, 0);
+
       pre_card = $(channel_list);
 
       Helper.log("------------");
       Helper.log(pre_card);
       Helper.log("-------------");
-
-      if(!Helper.mobilecheck())
-        Frontpage.add_backdrop(lists, 0);
 
       for(var x in lists)
       {
@@ -101,11 +102,13 @@ var Frontpage = {
           num++;
           //if(num>19)break;
       }
-      lists.sort(Frontpage.sortFunction_active);
+      var options_list = lists.slice();
+
+      options_list = options_list.sort(Frontpage.sortFunction_active);
       //num = 0;
-      for(var x in lists){
-        if(lists[x].count > 5 && Math.floor((new Date).getTime()/1000) - lists[x].accessed < 604800){
-          var chan = lists[x].channel;
+      for(var x in options_list){
+        if(options_list[x].count > 5 && Math.floor((new Date).getTime()/1000) - options_list[x].accessed < 604800){
+          var chan = options_list[x].channel;
           output+="<option value='"+chan+"'> ";
         }
       }
@@ -158,7 +161,7 @@ var Frontpage = {
   },
 
   add_backdrop: function(list, i) {
-    if(i >= list.length || i >= 8) i = 0;
+    if(i >= list.length || i >= 20) i = 0;
 
     var id = list[i].id;
 
