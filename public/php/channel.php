@@ -204,12 +204,12 @@
                   <div id="fullscreen">
                     <i class="material-icons">fullscreen</i>
                   </div>
-                  <button class="castButton-unactive tooltipped" style="display:none;" data-position="top" data-delay="5" data-tooltip="Cast Zöff to TV">
+                  <button class="castButton-unactive tooltipped" style="display:none;">
                     <i class="material-icons">cast</i>
                   </button>
                   <button class="castButton" is="google-cast-button">
                   </button>
-                  <button class="castButton-active hide tooltipped" data-position="top" data-delay="5" data-tooltip="Stop casting" >
+                  <button class="castButton-active hide tooltipped">
                     <i class="material-icons">cast_connected</i>
                   </button>
                   <div id="volume-button">

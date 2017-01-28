@@ -255,6 +255,18 @@ function init(){
 
 		Helper.sample();
 
+        $('.castButton-unactive').tooltip({
+            delay: 5,
+            position: "top",
+            tooltip: "Cast Zöff to TV"
+        });
+
+        $('.castButton-active').tooltip({
+            delay: 5,
+            position: "top",
+            tooltip: "Stop casting"
+        });
+
     $( "#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 		$("#search").focus();
 		$("#embed-button").css("display", "inline-block");
@@ -288,6 +300,7 @@ initializeCastApi = function() {
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED});
     var context = cast.framework.CastContext.getInstance();
+		chromecastReady = true
     //$(".castButton-unactive").css("display", "block");
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
@@ -396,11 +409,11 @@ function hide_native(way){
         $("#player_overlay_text").toggleClass("hide");
         $("#chromecast_text").html("");
         $("#playing_on").css("display", "none");
-				if(!offline){
-        	socket.emit('pos', {channel: chan.toLowerCase()});
-				} else {
-					Player.loadVideoById(video_id);
-				}
+		if(!offline){
+	       socket.emit('pos', {channel: chan.toLowerCase()});
+		} else {
+			Player.loadVideoById(video_id);
+		}
     }
 }
 
