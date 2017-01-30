@@ -44,6 +44,7 @@ var color               = "808080";
 var find_start          = false;
 var find_started        = false;
 var offline             = false;
+var cast_ready_connect  = false;
 var prev_chan_list 			= "";
 var prev_chan_player 		= "";
 var chromecastReady = false;
@@ -352,16 +353,18 @@ initializeCastApi = function() {
             }
     });
 
-    if(cast.framework.CastContext.getInstance().getCastState() == "NOT_CONNECTED"){
+    if(cast_ready_connect){
         $(".castButton-unactive").css("display", "block");
     }
-    
+
     var cast_state = cast.framework.CastContext.getInstance();
     cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
         if(event.castState == "NOT_CONNECTED"){
             $(".castButton-unactive").css("display", "block");
+            cast_ready_connect = true;
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
             $(".castButton-unactive").css("display", "none");
+            cast_ready_connect = false;
         }
     });
 };
