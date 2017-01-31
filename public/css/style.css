@@ -1320,6 +1320,8 @@ nav ul li:hover, nav ul li.active {
 }
 
 .list-image:after {
+  -webkit-transition: all .3s;
+  transition: all .3s;
   font-family: "Material Icons";
   content:"thumb_up";
   speak: none;
@@ -1338,7 +1340,7 @@ nav ul li:hover, nav ul li.active {
   left: 0;
   background: rgba(0,0,0,0.8);
   opacity: 0;
-  transition: all .1s ease;
+  /*transition: all .1s ease;*/
   display: flex;
   align-items: center;
   justify-content: center;
