@@ -138,7 +138,7 @@ if(isset($_GET['chan'])){
             </div>
             <div id="channel-list-container">
             <ul class="row" id="channels">
-                    <li id="chan-card" class="col s12 m4 l3">
+                    <li id="chan-card" class="col s6 m4 l3">
                         <div class="card">
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
