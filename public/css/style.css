@@ -1401,6 +1401,7 @@ nav ul li:hover, nav ul li.active {
 .card-image{cursor:pointer}
 .card{
   margin:5px 0 5px 0 !important;
+  overflow:hidden;
 }
 .card:hover{
   box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
