@@ -195,7 +195,7 @@
                             </button>
                         </div>
                         <div class="" id="volume-control-remote" title="Volume"></div>
-                        <i class="material-icons slider-vol">volume_up</i>
+                        <i class="material-icons slider-vol-mobile">volume_up</i>
                     </li>
                 </ul>
             </div>

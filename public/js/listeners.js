@@ -183,13 +183,7 @@ function init(){
     	stop: function(event, ui) {
         	$('iframe').css('pointer-events','auto');
         	Crypt.set_width($(this).width());
-            if($(window).width() > 769){
-                var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
-                    title_width = test_against_width;
-                $(".title-container").width(title_width);
-            } else {
-                $(".title-container").width("100%");
-            }
+            set_title_width();
       	},
         handles: "e",
         minWidth: 350,
@@ -244,6 +238,7 @@ function init(){
 
 	 	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
 
+
 	 	setup_admin_listener();
 		setup_list_listener();
 		setup_chat_listener();
@@ -278,8 +273,6 @@ function init(){
 			$(".castButton-unactive").css("display", "none");
 		}
 
-    console.log(chromecastReady);
-
     if(chromecastAvailable){
         hide_native(1);
     } else if(chromecastReady) {
@@ -296,6 +289,8 @@ function init(){
           }
         }
     }
+
+    if(!Helper.mobilecheck()) set_title_width();
 }
 
 initializeCastApi = function() {
@@ -531,6 +526,20 @@ function disable_debug(){
 
 function embed_code(autoplay, width, height, color){
     return '<embed src="https://zoff.no/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+}
+
+function set_title_width(start){
+    if($(window).width() > 760){
+        var add_width = $(".brand-logo").outerWidth()
+        if(start){
+            add_width = $(window).width()*0.15;
+        }
+        var test_against_width = $(window).width() - $(".control-list").width() - add_width - 66;
+            title_width = test_against_width;
+        $(".title-container").width(title_width);
+    } else {
+        $(".title-container").width("100%");
+    }
 }
 
 function randomString(length){
@@ -1115,13 +1124,7 @@ $(window).resize(function(){
         List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
-        if($(window).width() > 769){
-            var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
-                title_width = test_against_width;
-            $(".title-container").width(title_width);
-        } else {
-            $(".title-container").width("100%");
-        }
+        set_title_width();
     }
 })
 
