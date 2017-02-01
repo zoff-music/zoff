@@ -39,7 +39,7 @@
 <script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/materialize.min.js"></script>
-<script type="text/javascript" src="/public/dist/lib/socket.io-1.4.5.js"></script>
+<script type="text/javascript" src="/public/dist/lib/socket.io.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/color-thief.js"></script>
 <script type="text/javascript" src="/public/dist/lib/sha256.js"></script>
 <script type="text/javascript" src="/public/dist/lib/aes.js"></script>
