@@ -390,7 +390,7 @@ function initfp(){
     if(window.location.hash == "#donation")
     {
       window.location.hash = "#";
-      $('#donation').openModal();
+      $('#donation').modal('open');
     }
     //window.channel_list = channel_list;
 
