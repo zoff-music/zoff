@@ -32,6 +32,13 @@
   cursor: pointer;
 }
 
+#pageButtons{
+  display: flex;
+  align-items: center;
+  flex-shrink: initial;
+  justify-content: space-between;
+}
+
 #pageButtons, #pageButtons a{
   color:white !important;
 }
@@ -1655,6 +1662,10 @@ nav ul li:hover, nav ul li.active {
     padding-right:1%;
 }
 
+#viewers .material-icons{
+  padding-right: 5px;
+}
+
 #play, #pause, #volume-button, #fullscreen
 {
   font-size: 30px;
@@ -1689,16 +1700,27 @@ nav ul li:hover, nav ul li.active {
 }
 
 #volume .ui-slider-handle {
-    height:15px;
-    width:5px;
-    background:#fff 50% 50% repeat-x;
-    position: absolute;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    /*display: none;*/
-    margin-left:-2.5px;
-    margin-top:0px;
+  height: 15px;
+  width: 15px;
+  background: #fff 50% 50% repeat-x;
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  margin-left: -7.5px;
+  margin-top: 0px;
+  border-radius: 1000px;
+  border: 1px solid black;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+#volume .ui-state-active {
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.01), 0 0 0 7px rgba(255,255,255,0.3);
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 21px;
+  background: #dadada;
 }
 
 .ui-slider-handle
