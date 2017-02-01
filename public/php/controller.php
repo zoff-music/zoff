@@ -7,10 +7,14 @@
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
-                <a href="//zoff.no" class="brand-logo hide-on-small-only">
-                    <img id="zicon" src="/public/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                <a href="/" class="brand-logo brand-logo-navigate hide-on-med-and-down noselect">
+                    <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
                 </a>
-                <a href="//zoff.no" class="brand-logo hide-on-med-and-up">Zöff</a>
+                <div class="brand-logo truncate zbrand">
+                    <a href="/" class="hide-on-large-only brand-logo-navigate">
+                        <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                    </a>
+                </div>
                 <ul class="right hide-on-med-and-down">
                   <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
@@ -85,8 +89,10 @@
                 </a>
             </div>
 
-            <i class="material-icons slider-vol rc">volume_up</i>
-            <div class="rc" id="volume-control" title="Volume"></div>
+            <div class="volume-elements">
+                <div class="rc" id="volume-control" title="Volume"></div>
+                <i class="material-icons slider-vol rc">volume_up</i>
+            </div>
 
         </div>
 
