@@ -9,13 +9,13 @@
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo brand-logo-navigate hide-on-med-and-down noselect">
-                    <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
-                </a>
+
                 <div class="brand-logo truncate zbrand">
-                    <a href="/" class="hide-on-large-only brand-logo-navigate">Zöff</a>
-                    <span class="hide-on-large-only">/</span>
-                    <span id="chan" class="chan clickable" title="Show big URL"><?php echo(ucfirst($list));?></span>
+                    <a href="/" class="brand-logo brand-logo-navigate noselect">
+                        <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                    </a>
+
+                    <span id="chan" class="chan clickable truncate" title="Show big URL"><?php echo(ucfirst($list));?></span>
                 </div>
 
                 <ul class="title-container">
