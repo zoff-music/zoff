@@ -75,7 +75,7 @@
                     <br />
                     Enjoy!
                 </p>
-                <ul id="footer-buttons">
+                <ul class="footer-buttons">
                   <li>
                       <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" onclick="$('#help').modal('open')">
                         <i class="material-icons left footer-button-icon">help_outline</i>HELP
@@ -95,21 +95,23 @@
                 <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
             </div>
             <div class="col l4 offset-l2 s12 valign-wrapper">
-                <ul>
+                <ul class="footer-buttons">
                     <li>
                         <a href="https://github.com/zoff-music/">
                             <img title="Contribute on GitHub" src="/public/images/GitHub_Logo.png" alt="GitHub" />
                         </a>
-                        <p>
+                    </li>
+                    <li>
                             <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
                                 <img class="left" src="/public/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
                             </a>
-                        </p>
-                        <p>
+                    </li>
+                    <li>
                             <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
                                 <img class="left" src="/public/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
                             </a>
-                        </p>
+                    </li>
+                    <li>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
                           <input type="hidden" name="cmd" value="_s-xclick">
                           <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
