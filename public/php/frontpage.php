@@ -28,16 +28,16 @@ if(isset($_GET['chan'])){
                 </ul>
             </div>
         </nav>
-        <div id="about" class="modal modal-fixed-footer">
+        <div id="about" class="modal">
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-                Zöff is mainly a web-based service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend. More about the project itself can be found on <a href="https://github.com/zoff-music/Zoff">GitHub</a><br><br>
+                Zöff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
-                The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a><br><br>
+
                 </p>
                 <h4>Legal</h4>
-                <p>Copyright © 2015 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+                <p>Copyright © 2017 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
                 <br><br>
                 Creative Commons License<br>
                 Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
@@ -49,7 +49,7 @@ if(isset($_GET['chan'])){
                 <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
-        <div id="donation" class="modal modal-fixed-footer">
+        <div id="donation" class="modal">
             <div class="modal-content">
                 <h4>Thanks!</h4>
                 <p>Thanks for your donation, we love you &lt;3
@@ -63,9 +63,9 @@ if(isset($_GET['chan'])){
                 <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
             </div>
         </div>
-        <div id="help" class="modal modal-fixed-footer">
+        <div id="help" class="modal">
             <div class="modal-content">
-                <h4>So you need help?</h4>
+                <h4>Help</h4>
                 <p>At the center of the site, you'll see a input field. This is meant to navigate to new or existing channels. If you input something here that doesn't exist, a new channel will be create at the blink of an eye! Remember to put a password on the list you've created, so no one else takes it from you! (It's on a first come, first serve basis). When you're ready to proceed, just click the listen button!</p>
                 <p>Underneath the input fields, there are several tiles. These are channels that already exists, and they can be clicked! To listen to one of these channels, it is just to click the tile.</p>
                 <p>If you want to listen to the channel without any "hickups", or being affected by other peoples votes, there is an private mode. By clicking the private button in the header, you will be free of synced listening!</p>
