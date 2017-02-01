@@ -1,6 +1,6 @@
 <div id="contact" class="modal">
             <div class="modal-content">
-                <h4>Want to contact us?</h4>
+                <h4>Contact</h4>
                 <div id="contact-container">
                     <form id="contact-form" method="post" onsubmit="return false;">
                       <div class="input-field">

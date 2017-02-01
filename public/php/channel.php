@@ -127,7 +127,7 @@
       </div>
       <div id="help" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>So you need help?</h4>
+                <h4>Help</h4>
                 <p>When listening on a channel, there are some different buttons you can click.</p>
                 <p>If you click the cogwheel, you'll open the settings panel. Here you can change channel settings, decide if you want the computer you're on can be remote-controlled, and import playlists from YouTube.</p>
                 <p>The search-icon, opens up a search inputfield. If you start typing here, the site will automagically search for your input!</p>
@@ -142,7 +142,7 @@
         </div>
         <div id="embed" class="modal">
             <div class="modal-content">
-              <h4>Embed code</h4>
+              <h4>Embed</h4>
               <p>Copy the code in the textarea, and paste on your website.</p>
               <p>
                 <input type="checkbox" id="autoplay" checked="checked" />
