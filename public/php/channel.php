@@ -129,11 +129,11 @@
             <div class="modal-content">
                 <h4>Help</h4>
                 <p>When listening on a channel, there are some different buttons you can click.</p>
-                <p>If you click the cogwheel, you'll open the settings panel. Here you can change channel settings, decide if you want the computer you're on can be remote-controlled, and import playlists from YouTube.</p>
+                <p>If you click the <i class="material-icons">menu</i>, you'll open the settings panel. Here you can change channel settings, decide if you want the computer you're on can be remote-controlled, enable or disable private mode, and import playlists from YouTube.</p>
                 <p>The search-icon, opens up a search inputfield. If you start typing here, the site will automagically search for your input!</p>
-                <p>If you click the button next to the search icon, you'll skip on a song. The one next to that one, is shuffleling of the list. Next one there again is to open the chat.</p>
+                <p>If you click the button next to the search icon, you'll skip on a song. The one next to that one, is shuffling of the list.</p>
                 <p>Clicking a song in the playlist, gives it a vote. If you're logged in, you'll have a delete button at your disposal.</p>
-                <p>Also, whenever you're logged in, you'll have two tabs in the top of the playlist thats called "Playlist" and "Suggested". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
+                <p>Also, whenever you're logged in, you'll have three tabs in the top of the playlist thats called "Playlist", "Suggested" and "Chat". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
                 <p>If you want to listen to the channel without any "hickups", or being affected by other peoples votes, there is an private mode. By opening up the settings, and checking the private checkbox, you will be free of synced listening!</p>
             </div>
             <div class="modal-footer">
