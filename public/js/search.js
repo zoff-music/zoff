@@ -132,7 +132,7 @@ var Search = {
 
     backgroundSearch: function(title, artist, length, totalNumber, current){
         var keyword= encodeURIComponent(title + " " + artist);
-        var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10";
+        var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10&videoCategoryId=10";
         yt_url+="&q="+keyword;
         var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
         artist = artist.split(" ");
