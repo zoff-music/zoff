@@ -119,8 +119,11 @@ var Admin = {
 
     conf: function(msg)
     {
+        if(msg[0].adminpass == ""){
+            Crypt.remove_pass(chan.toLowerCase());
+        }
         Admin.set_conf(msg[0]);
-        if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) !== ""){
+        if(msg[0].adminpass !== "" && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) !== "")){
             socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             Admin.beginning = false;
         }
@@ -134,7 +137,7 @@ var Admin = {
         }
         else
         {
-            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
+          socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
         }
     },
 
