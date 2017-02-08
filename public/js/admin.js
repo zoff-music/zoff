@@ -260,7 +260,7 @@ var Admin = {
         }
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != ""){
-            $("#thumbnail_image").html("<img src='" + conf_array.thumbnail + "' width='100' height='100' alt='thumbnail' />");
+            $("#thumbnail_image").html("<img id='thumbnail_image_channel' src='" + conf_array.thumbnail + "' alt='thumbnail' />");
         }
 
         if(conf_array.description != undefined && conf_array.description != ""){
