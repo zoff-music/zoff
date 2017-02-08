@@ -123,6 +123,7 @@
                         <div id="thumbnail_image">
                         </div>
                         <div id="description_area">
+                            This channel doesn't have a description yet..
                         </div>
                     </li>
                 </ul>
