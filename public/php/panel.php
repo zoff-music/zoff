@@ -97,7 +97,38 @@
         </li>
     </ul>
 </li>
-
+<li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Channel Info
+                <i class="material-icons">info</i>
+            </a>
+            <div class="collapsible-body">
+                <ul>
+                    <li>
+                        <form id="thumbnail_form" style="display:none;">
+                            <div class="input-field col s12">
+                                <input type="text" placeholder="Thumbnail" name="chan_thumbnail" id="chan_thumbnail" autocomplete="off" />
+                            </div>
+                        </form>
+                    </li>
+                    <li>
+                        <form id="description_form" style="display:none;">
+                            <div class="input-field col s12">
+                                <input type="text" placeholder="Description" name="chan_description" id="chan_description" autocomplete="off" />
+                            </div>
+                        </form>
+                    </li>
+                    <li>
+                        <div id="thumbnail_image">
+                        </div>
+                        <div id="description_area">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+    </ul>
+</li>
 <li class="no-padding remote-panel hide-on-small-only">
     <ul class="collapsible collapsible-accordion">
         <li>

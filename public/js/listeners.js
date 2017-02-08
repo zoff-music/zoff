@@ -660,6 +660,18 @@ $(document).on("click", "#offline-mode", function(e){
 
 });
 
+$(document).on("submit", "#thumbnail_form", function(e){
+	e.preventDefault();
+	socket.emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+    $("#chan_thumbnail").val("");
+});
+
+$(document).on("submit", "#description_form", function(e){
+    e.preventDefault();
+    socket.emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+    $("#chan_description").val("");
+});
+
 $(document).on("click", "#playpause-overlay", function(){
     if($("#play-overlay").hasClass("hide")){
         Player.pauseVideo();
@@ -1037,7 +1049,7 @@ $(document).on("click", ".playlist-link", function(e){
 	$("#chatPlaylist").css("display", "none");
 	$("#wrapper").css("display", "block");
 	$("#suggestions").css("display", "none");
-    $("#pageButtons").css("display", "block");
+    $("#pageButtons").css("display", "flex");
 });
 
 $(document).on("click", ".suggested-link", function(e){

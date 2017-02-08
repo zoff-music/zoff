@@ -73,6 +73,9 @@ var Frontpage = {
             var id = lists[x].id;
             var viewers = lists[x].viewers;
             var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+            if(lists[x].thumbnail){
+              img = "background-image:url('" + lists[x].thumbnail + "');";
+            }
             var song_count = lists[x].count;
 
             //$("#channels").append(channel_list);
