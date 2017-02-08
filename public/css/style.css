@@ -989,6 +989,11 @@ hide mdi-action-visibility mdi-action-visibility-off
   width: 80%;
 }
 
+#thumbnail_image_channel{
+  max-width: 200px;
+  max-height: 400px;
+}
+
 #thumbnail_image{
   text-align: center;
 }
