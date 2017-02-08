@@ -5,6 +5,18 @@ var Admin = {
     toast: function(msg)
     {
         switch(msg) {
+            case "suggested_thumbnail":
+                msg = "The thumbnail has been suggested!";
+                break;
+            case "suggested_description":
+                msg = "The description has been suggested!";
+                break;
+            case "thumbnail_denied":
+                msg = "The thumbnail will be denied";
+                break;
+            case "description_denied":
+                msg = "The description will be denied";
+                break;
             case "addedsong":
                 msg=Helper.rnd(["I added your song", "Your song has been added", "Yay, more songs!", "Thats a cool song!", "I added that song for you", "I see you like adding songs..."]);
                 break;
@@ -21,6 +33,9 @@ var Admin = {
                 msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
                 Crypt.remove_pass(chan.toLowerCase());
                 Admin.display_logged_out();
+                $("#thumbnail_form").css("display", "none");
+                $("#description_form").css("display", "none");
+                $('#chan_thumbnail').tooltip("remove");
                 w_p = true;
                 break;
             case "shuffled":
@@ -42,6 +57,9 @@ var Admin = {
                 msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
                 Crypt.remove_pass(chan.toLowerCase());
                 Admin.display_logged_out();
+                $("#thumbnail_form").css("display", "none");
+                $("#description_form").css("display", "none");
+                $('#chan_thumbnail').tooltip("remove");
                 w_p = true;
                 break;
             case "noskip":
@@ -55,6 +73,13 @@ var Admin = {
                 break;
             case "correctpass":
                 msg="Correct password. You now have access to the sacred realm of The Admin.";
+                $("#thumbnail_form").css("display", "inline-block");
+                $("#description_form").css("display", "inline-block");
+                $('#chan_thumbnail').tooltip({
+                    delay: 5,
+                    position: "left",
+                    tooltip: "imgur link"
+                });
                 break;
             case "changedpass":
                 msg="Your password has been changed!";
@@ -159,7 +184,8 @@ var Admin = {
                 "removeplay", "skip", "shuffle"];
 
         document.getElementById("password").value = "";
-
+        $("#thumbnail_form").css("display", "none");
+        $("#description_form").css("display", "none");
     	for (i = 0; i < names.length; i++) {
     		$("input[name="+names[i]+"]").attr("disabled", true);
     	}
@@ -231,6 +257,14 @@ var Admin = {
                 $(".playlist-tabs").addClass("hide");
             }
             $("#password").attr("placeholder", "Create channel password");
+        }
+
+        if(conf_array.thumbnail != undefined && conf_array.thumbnail != ""){
+            $("#thumbnail_image").html("<img src='" + conf_array.thumbnail + "' width='100' height='100' alt='thumbnail' />");
+        }
+
+        if(conf_array.description != undefined && conf_array.description != ""){
+            $("#description_area").html(conf_array.description);
         }
 
         /*if(conf_array.desc !== undefined)

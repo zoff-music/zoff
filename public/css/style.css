@@ -109,12 +109,10 @@
 
 .prev_page_hide, .prev_page, .first_page, .first_page_hide{
   padding:0 10px;
-  float:left;
 }
 
 .next_page_hide, .next_page, .last_page, .last_page_hide{
   padding:0 10px;
-  float:right;
   display: flex;
 }
 
@@ -984,6 +982,26 @@ hide mdi-action-visibility mdi-action-visibility-off
 .suggest-songs {
   padding-top:20px;
   border-bottom:1px solid black;
+}
+
+#chan_thumbnail, #chan_description{
+  color: black;
+  width: 80%;
+}
+
+#thumbnail_image{
+  text-align: center;
+}
+
+#thumbnail_image, #description_area{
+  width: 80%;
+  margin: auto;
+  color: black;
+  justify-content: center;
+}
+
+#chan_thumbnail:disabled{
+  border-bottom: none;
 }
 
 .suggest_title, .duration-song{
