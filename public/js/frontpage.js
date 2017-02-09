@@ -81,7 +81,7 @@ var Frontpage = {
 
             //$("#channels").append(channel_list);
 
-            var card = pre_card;
+            var card = pre_card.clone();
             if(lists[x].pinned == 1)
             {
               card.find(".pin").attr("style", "display:block;");
@@ -100,8 +100,9 @@ var Frontpage = {
             card.find(".chan-link").attr("href", chan);
 
             if(description != ""){
-              card.find(".card-title").html(chan);
-              card.find(".description_text").html(description);
+              card.find(".card-title").text(chan);
+              card.find(".description_text").text(description);
+              description = "";
             } else {
               card.find(".card-reveal").remove();
               card.find(".card").removeClass("sticky-action")
