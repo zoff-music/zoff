@@ -597,6 +597,10 @@ display: inline-flex;
     background: white;
 }
 
+.spinner-white, .spinner-white-only {
+    border-color: white;
+}
+
 .description_text:first-letter{
   text-transform: uppercase;
 }
