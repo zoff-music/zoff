@@ -123,9 +123,7 @@ if(isset($_GET['chan'])){
                             maxlength="18"
                             data-length="18"
                         />
-                        <label for="search-mobile" class="noselect">Find or create radio channel</label>
-                        <datalist id="searches_mobile">
-                        </datalist>
+                        <label for="searchFrontpage" class="noselect">Find or create radio channel</label>
                 </div>
             </form>
         </div>
