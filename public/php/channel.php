@@ -28,9 +28,9 @@
                 </ul>
 
                 <ul class="right control-list noselect">
-                  <li id="search_loader" class="valign-wrapper hide">
+                  <li id="search_loader" class="valign-wrapper">
                       <div class="valign">
-                        <div class="preloader-wrapper small active">
+                        <div class="preloader-wrapper small search_loader_spinner">
                          <div class="spinner-layer spinner-white-only">
                            <div class="circle-clipper left">
                              <div class="circle"></div>
