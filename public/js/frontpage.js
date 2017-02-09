@@ -44,7 +44,6 @@ var Frontpage = {
 
   populate_channels: function(lists)
   {
-      var output = "";
       var num = 0;
       var pinned;
       if(lists[0].pinned == 1){
@@ -72,10 +71,12 @@ var Frontpage = {
           {
             var id = lists[x].id;
             var viewers = lists[x].viewers;
+            var description = lists[x].description;
             var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
             if(lists[x].thumbnail){
               img = "background-image:url('" + lists[x].thumbnail + "');";
             }
+
             var song_count = lists[x].count;
 
             //$("#channels").append(channel_list);
@@ -98,6 +99,14 @@ var Frontpage = {
             card.find(".chan-bg").attr("style", img);
             card.find(".chan-link").attr("href", chan);
 
+            if(description != ""){
+              card.find(".card-title").html(chan);
+              card.find(".description_text").html(description);
+            } else {
+              card.find(".card-reveal").remove();
+              card.find(".card").removeClass("sticky-action")
+            }
+
             $("#channels").append(card.html());
 
             //$("#channels").append(card);
@@ -108,17 +117,25 @@ var Frontpage = {
       var options_list = lists.slice();
 
       options_list = options_list.sort(Frontpage.sortFunction_active);
+      var data = {};
       //num = 0;
       for(var x in options_list){
-        if(options_list[x].count > 5 && Math.floor((new Date).getTime()/1000) - options_list[x].accessed < 604800){
-          var chan = options_list[x].channel;
-          output+="<option value='"+chan+"'> ";
-        }
+        //if(options_list[x].count > 5 && Math.floor((new Date).getTime()/1000) - options_list[x].accessed < 604800){
+          /*var chan = options_list[x].channel;
+          output+="<option value='"+chan+"'> ";*/
+          data[options_list[x].channel] = null;
+        //}
       }
 
+      var to_autocomplete = "input.desktop-search";
+      if(Helper.mobilecheck()) to_autocomplete = "input.mobile-search";
+
+      $(to_autocomplete).autocomplete({
+        data: data,
+        limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
+      });
+
       document.getElementById("preloader").style.display = "none";
-      document.getElementById("searches").innerHTML = output;
-      document.getElementById("searches_mobile").innerHTML = output;
       //Materialize.fadeInImage('#channels');
       $("#channels").fadeIn(800);
       $("#searchFrontpage").focus();

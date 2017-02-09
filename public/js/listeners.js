@@ -634,9 +634,9 @@ window.disable_debug = disable_debug;
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){
     	$("#results").html("");
-    	if(!Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
+    	if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
       		$("#search-wrapper").toggleClass("hide");
-    	if(Helper.contains($("#song-title").attr("class").split(" "), "hide"))
+    	if($("#song-title").length != 0 && Helper.contains($("#song-title").attr("class").split(" "), "hide"))
       		$("#song-title").toggleClass("hide");
 
     	if($("#search-btn i").html() == "close")
@@ -644,10 +644,26 @@ $(document).keyup(function(e) {
       		//$("#search-btn i").html("mdi-navigation-close");
       		$("#search-btn i").html("search");
     	}
-        if(!Helper.contains($(".search-container").attr("class").split(" "), "hide")){
+        if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
             $("#results").toggleClass("hide");
         }
   	}
+});
+
+$(document).on("mouseenter", ".card.sticky-action", function(e){
+    var that = this;
+    $(that).find(".card-reveal").attr("style", "display: block;");
+    setTimeout(function(){
+        $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(-100%);");
+    }, 50);
+});
+
+$(document).on("mouseleave", ".card.sticky-action", function(e){
+    var that = this;
+    $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");
+    setTimeout(function(){
+        $(that).find(".card-reveal").attr("style", "display: none;");
+    }, 100);
 });
 
 $(document).on("click", "#offline-mode", function(e){
