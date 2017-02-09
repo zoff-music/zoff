@@ -101,7 +101,7 @@
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Channel Info
-                <i class="material-icons">info</i>
+                <i class="material-icons">info_outline</i>
             </a>
             <div class="collapsible-body">
                 <ul>
