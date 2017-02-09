@@ -115,7 +115,7 @@
                     <li>
                         <form id="description_form" style="display:none;">
                             <div class="input-field col s12">
-                                <input type="text" placeholder="Description" name="chan_description" id="chan_description" autocomplete="off" />
+                                <input type="text" placeholder="Description" name="chan_description" id="chan_description" autocomplete="off" maxlength="100" data-length="100" />
                             </div>
                         </form>
                     </li>

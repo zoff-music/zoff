@@ -597,6 +597,11 @@ display: inline-flex;
     background: white;
 }
 
+#description_form div .character-counter{
+      margin-top: -30px;
+      color:black;
+}
+
 .spinner-white, .spinner-white-only {
     border-color: white;
 }
