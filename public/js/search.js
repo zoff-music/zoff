@@ -38,8 +38,8 @@ var Search = {
 
         var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
-        if(Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
-          $("#search_loader").removeClass("hide");
+        if(!Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+          $(".search_loader_spinner").addClass("active");
 
         if(Helper.contains($("#results").attr("class").split(" "), "hide"))
           $("#results").removeClass("hide");
@@ -53,8 +53,8 @@ var Search = {
             {
 
               $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-              if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
-                $("#search_loader").addClass("hide");
+              if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+                $(".search_loader_spinner").removeClass("active");
 
             }else if(response.items){
             //get list of IDs and make new request for video info
@@ -109,8 +109,8 @@ var Search = {
 
                   //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
-                  if(!Helper.contains($("#search_loader").attr("class").split(" "), "hide"))
-                    $("#search_loader").addClass("hide");
+                  if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+                    $(".search_loader_spinner").removeClass("active");
 
                   $(".add-many").click(function(e) {
                       e.preventDefault();
