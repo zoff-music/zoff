@@ -81,24 +81,25 @@ if(isset($_GET['chan'])){
         <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
             <form class="channel-finder">
-                <p class="prething">zoff.no/</p>
-                <input
-                    class="input-field room-namer"
-                    type="text"
-                    id="searchFrontpage"
-                    name="chan"
-                    placeholder="chill"
-                    title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                    autocomplete="off"
-                    autofocus=""
-                    list="searches"
-                    required
-                    pattern="[a-zA-Z0-9]+"
-                    spellcheck="false"
-                    maxlength="18"
-                />
-                <datalist id="searches"></datalist>
-                <button class="listen-button">Listen</button>
+                    <div class="input-field">
+                      <p class="prefix">zoff.no/</p>
+                      <input
+                          class="room-namer autocomplete desktop-search"
+                          type="text"
+                          id="autocomplete-input"
+                          name="chan"
+                          placeholder="chill"
+                          title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                          autocomplete="off"
+                          autofocus="on"
+                          list="searches"
+                          required
+                          pattern="[a-zA-Z0-9]+"
+                          spellcheck="false"
+                          maxlength="18"
+                      />
+                    <button class="listen-button col s2">Listen</button>
+                  </div>
             </form>
             <div class="pitch outline">
                 <div>Live &amp; democratic playlists with YouTube Music</div>
@@ -110,9 +111,9 @@ if(isset($_GET['chan'])){
             <form class="channel-finder-mobile row" id="base">
                     <div class="input-field col s12">
                         <input
-                            class="input-field"
+                            class="autocomplete mobile-search"
                             type="text"
-                            id="search-mobile"
+                            id="searchFrontpage"
                             name="chan"
                             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                             autocomplete="off"
@@ -139,7 +140,7 @@ if(isset($_GET['chan'])){
             <div id="channel-list-container">
             <ul class="row" id="channels">
                     <li id="chan-card" class="col s6 m4 l3">
-                        <div class="card">
+                        <div class="card sticky-action">
                             <a class="chan-link">
                                 <div class="chan-bg card-image cardbg"></div>
                                 <div class="card-content">
@@ -156,6 +157,10 @@ if(isset($_GET['chan'])){
                                 </div>
                                 <div class="card-action noselect">
                                     <span class="chan-link waves-effect waves-orange btn-flat">Listen</span>
+                                </div>
+                                <div class="card-reveal">
+                                  <span class="card-title grey-text text-darken-4"></span>
+                                  <p class="description_text"></p>
                                 </div>
                             </a>
                         </div>

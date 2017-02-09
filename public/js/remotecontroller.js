@@ -16,7 +16,7 @@ $(document).ready(function (){
 
     $("#about").modal();
     $("#contact").modal();
-    
+
     if(window.location.hostname == "remote.zoff.no") add = "https://zoff.no";
     else add = "localhost";
     socket = io.connect(add + ':8080', connection_options);
@@ -101,7 +101,6 @@ var Remotecontroller = {
           },*/
           stop:function(event, ui) {
             socket.emit("id", {id: id, type: "volume", value: ui.value});
-            //console.log(ui.value);
           }
       });
     }else
