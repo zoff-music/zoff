@@ -237,7 +237,9 @@ function init(){
 	 	//}
 
 	 	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
-
+        else {
+            $('input#chan_description').characterCounter();
+        }
 
 	 	setup_admin_listener();
 		setup_list_listener();

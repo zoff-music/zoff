@@ -432,6 +432,10 @@ function initfp(){
       //Frontpage.start_snowfall();
     }
 
+    if(Helper.mobilecheck()){
+      $('input#searchFrontpage').characterCounter();
+    }
+
     window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
       if (loaded) {
         chromecastReady = true;
