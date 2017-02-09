@@ -99,7 +99,7 @@ var Frontpage = {
             card.find(".chan-bg").attr("style", img);
             card.find(".chan-link").attr("href", chan);
 
-            if(description != ""){
+            if(description != "" && !Helper.mobilecheck()){
               card.find(".card-title").text(chan);
               card.find(".description_text").text(description);
               description = "";
