@@ -556,6 +556,7 @@ function change_offline(enabled, already_offline){
     Crypt.set_offline(enabled);
     offline = enabled;
 		socket.emit("offline", enabled);
+    $("#offline-mode").tooltip('remove');
     if(enabled){
 		if(list_html){
 			list_html = $("<div>" + list_html + "</div>");
@@ -574,6 +575,11 @@ function change_offline(enabled, already_offline){
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
+        $("#offline-mode").tooltip({
+          delay: 5,
+          position: "bottom",
+          tooltip: "Disable private mode"
+        });
 		if(full_playlist != undefined && !already_offline){
 			for(var x = 0; x < full_playlist.length; x++){
 				full_playlist[x].votes = 0;
@@ -603,6 +609,11 @@ function change_offline(enabled, already_offline){
     	}
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
+        $("#offline-mode").tooltip({
+          delay: 5,
+          position: "bottom",
+          tooltip: "Enable private mode"
+        });
 		if(window.location.pathname != "/"){
 			socket.emit("pos");
 			socket.emit('list', chan.toLowerCase());
