@@ -1029,7 +1029,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .card .card-reveal {
     padding: 10px;
-    transition: transform .3s;
+    transition: transform .1s;
     display:none;
     transform: translateY(0%);
 }
