@@ -56,6 +56,7 @@ if(localStorage.debug === undefined){
 	localStorage.debug = debug;
 }
 
+var image_timeout;
 var result_html;
 var empty_results_html;
 var mobile_beginning;
@@ -653,7 +654,8 @@ $(document).keyup(function(e) {
 $(document).on("mouseenter", ".card.sticky-action", function(e){
     var that = this;
     $(that).find(".card-reveal").attr("style", "display: block;");
-    setTimeout(function(){
+		clearTimeout(image_timeout);
+    image_timeout = setTimeout(function(){
         $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(-100%);");
     }, 50);
 });
@@ -666,9 +668,10 @@ $(document).on("click", "#chat_submit", function(e){
 $(document).on("mouseleave", ".card.sticky-action", function(e){
     var that = this;
     $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");
-    setTimeout(function(){
+		clearTimeout(image_timeout);
+    image_timeout = setTimeout(function(){
         $(that).find(".card-reveal").attr("style", "display: none;");
-    }, 300);
+    }, 100);
 });
 
 $(document).on("click", "#offline-mode", function(e){
