@@ -668,7 +668,7 @@ $(document).on("mouseleave", ".card.sticky-action", function(e){
     $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");
     setTimeout(function(){
         $(that).find(".card-reveal").attr("style", "display: none;");
-    }, 100);
+    }, 300);
 });
 
 $(document).on("click", "#offline-mode", function(e){
