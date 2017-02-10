@@ -658,6 +658,11 @@ $(document).on("mouseenter", ".card.sticky-action", function(e){
     }, 50);
 });
 
+$(document).on("click", "#chat_submit", function(e){
+	e.preventDefault();
+	$("#chatForm").submit();
+})
+
 $(document).on("mouseleave", ".card.sticky-action", function(e){
     var that = this;
     $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");

@@ -1082,6 +1082,10 @@ hide mdi-action-visibility mdi-action-visibility-off
   overflow: hidden;
 }
 
+.btn.white{
+  color:black;
+}
+
 .playlist-tabs .indicator, .tabs .indicator{
   /*width:50%;*/
   bottom: 0px;
@@ -1188,8 +1192,18 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 #text-chat-input{
-  width:95%;
+  /*width:95%;*/
   color:white;
+  border:none;
+}
+
+#text-chat-input:focus{
+  box-shadow: none;
+}
+
+#chat_submit{
+  margin-top: 4px;
+  margin-left: 4%;
 }
 
 .indicator {
@@ -1236,6 +1250,9 @@ ul #chat-log{
 
 #chat-input{
     /*background-color: rgba(0,0,0,0.1);*/
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    height: 46px;
 }
 
 #search_loader {
