@@ -152,7 +152,7 @@ function init(){
 
 	$('ul.playlist-tabs').tabs();
 	$('ul.playlist-tabs-loggedIn').tabs();
-	$('.chatTabs').tabs();
+	$('ul.chatTabs').tabs();
 	$("#settings").sideNav({
       menuWidth: 300, // Default is 240
       edge: side, // Choose the horizontal origin
