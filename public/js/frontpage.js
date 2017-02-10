@@ -415,7 +415,6 @@ function initfp(){
     }
     //window.channel_list = channel_list;
 
-
     if(!localStorage.ok_cookie)
       Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
 
@@ -425,6 +424,12 @@ function initfp(){
         document.getElementById("zicon").style.paddingLeft = pad+"%";
         if(pad >= 100)
             window.location.href = 'http://etys.no';
+    });
+
+    $("#offline-mode").tooltip({
+      delay: 5,
+      position: "bottom",
+      tooltip: "Enable private mode"
     });
 
     if(!Helper.mobilecheck() && Frontpage.winter) {
