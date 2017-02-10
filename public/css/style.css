@@ -1078,12 +1078,17 @@ hide mdi-action-visibility mdi-action-visibility-off
   background-color:white !important;
 }
 
-.playlist-tabs .indicator, .tabs .indicator{
-  width:50%;
+.tabs{
+  overflow: hidden;
 }
 
-.playlist-tabs-loggedIn .indicator{
-  width:33.333%;
+.playlist-tabs .indicator, .tabs .indicator{
+  /*width:50%;*/
+  bottom: 0px;
+}
+
+.chatTabs .indicator{
+  width:50%;
 }
 
 .playlist-tab-links{
