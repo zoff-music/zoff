@@ -3,7 +3,6 @@ var w_p 				  = true;
 var hasadmin			  = 0;
 var showToggle 			  = true;
 var list_html 			  = $("#list-song-html").html();
-var blink_interval_exists = false;
 var unseen 			   	  = false;
 var api_key 		   	  = "AIzaSyDvMlC0Kvk76-WO9UrtBaaEYyUw4z-TGqE";
 var searching 		   	  = false;
@@ -64,7 +63,6 @@ var timeout_search;
 var id;
 var full_playlist;
 var conf;
-var blink_interval;
 var tag;
 var firstScriptTag;
 var title;
@@ -988,11 +986,16 @@ $(document).on("submit", "#remoteform", function(e) {
 	Mobile_remote.get_input($("#remote_channel").val());
 });
 
-$(document).on("click", "#chat-btn", function(){
+$(document).on("click", ".chat-link", function(){
 	$("#text-chat-input").focus();
     $("#chat-btn i").css("opacity", 1);
-    clearInterval(blink_interval);
-    blink_interval_exists = false;
+    //clearInterval(blink_interval);
+    //blink_interval_exists = false;
+    Chat.channel_received = 0;
+    Chat.all_received = 0;
+    if(!$("span.badge.new.white").hasClass("hide")){
+        $("span.badge.new.white").addClass("hide");
+    }
     unseen = false;
     $("#favicon").attr("href", "public/images/favicon.png");
 });

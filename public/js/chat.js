@@ -1,5 +1,8 @@
 var Chat = {
 
+  channel_received: 0,
+  all_received: 0,
+
   namechange: function(newName)
   {
     socket.emit("namechange", newName);
@@ -33,13 +36,18 @@ var Chat = {
   {
     //$("#chat-btn").css("color", "grey");
 
-    if(!blink_interval_exists && inp.msg.substring(0,1) == ":" && !chat_active)
+    if(inp.msg.substring(0,1) == ":" && !chat_active)
     {
+      Chat.all_received += 1;
       $("#favicon").attr("href", "public/images/highlogo.png");
-      blink_interval_exists = true;
       unseen = true;
       chat_unseen = true;
-      if(!blinking) Chat.chat_blink();
+      if($("span.badge.new.white").hasClass("hide")){
+        $("span.badge.new.white").removeClass("hide");
+      }
+      var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
+      $("span.badge.new.white").html(to_display);
+      //if(!blinking) Chat.chat_blink();
       //blink_interval = setTimeout(Chat.chat_blink, 2000);
     }
 
@@ -63,13 +71,18 @@ var Chat = {
 
   channelchat: function(data)
   {
-    if(!blink_interval_exists && data.msg.substring(0,1) == ":" && !chat_active)
+    if(data.msg.substring(0,1) == ":" && !chat_active)
     {
       $("#favicon").attr("href", "public/images/highlogo.png");
       unseen = true;
       chat_unseen = true;
-      if(!blinking) Chat.chat_blink();
+      Chat.channel_received += 1;
       //blink_interval = setTimeout(Chat.chat_blink, 1000);
+      if($("span.badge.new.white").hasClass("hide")){
+        $("span.badge.new.white").removeClass("hide");
+      }
+      var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
+      $("span.badge.new.white").html(to_display);
     }
 
     var color = Helper.intToARGB(Helper.hashCode(data.from));

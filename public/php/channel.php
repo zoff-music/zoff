@@ -199,12 +199,12 @@
               <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
               <ul class="tabs playlist-tabs tabs-fixed-width" style="width:96%">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
-                <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
               </ul>
               <ul class="tabs playlist-tabs-loggedIn hide tabs-fixed-width" style="width: 96%;">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested</a></li>
-                <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat</a></li>
+                <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
               </ul>
               <div id="find_div" class="hide">
                 <form id="find_form">
