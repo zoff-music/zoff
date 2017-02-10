@@ -260,9 +260,10 @@
                             </li>
                         </ul>
                     </li>
-                    <li id="chat-input">
+                    <li id="chat-input" class="row">
                       <form action="#" id="chatForm">
-                        <input id="text-chat-input" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
+                        <input id="text-chat-input" class="col s9" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
+                        <a href="#" id="chat_submit" class="btn col s2 white"><i class="material-icons">send</i></a>
                       </form>
                     </li>
                 </ul>
