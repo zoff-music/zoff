@@ -426,12 +426,6 @@ function initfp(){
             window.location.href = 'http://etys.no';
     });
 
-    $("#offline-mode").tooltip({
-      delay: 5,
-      position: "bottom",
-      tooltip: "Enable private mode"
-    });
-
     if(!Helper.mobilecheck() && Frontpage.winter) {
       $(".mega").prepend('<div id="snow"></div>');
       //Frontpage.start_snowfall();
