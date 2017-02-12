@@ -558,19 +558,19 @@ function change_offline(enabled, already_offline){
 		socket.emit("offline", enabled);
     $("#offline-mode").tooltip('remove');
     if(enabled){
-		if(list_html){
-			list_html = $("<div>" + list_html + "</div>");
-			//list_html.find(".card-content").css("display", "flex");
-	        //list_html.find(".card-content").css("height", "100%");
-	        //list_html.find(".list-title").css("align-self", "center");
-	        //list_html.find(".vote-span").addClass("hide");
-			list_html.find(".list-remove").removeClass("hide");
-			list_html = list_html.html();
-		}
+			if(list_html){
+				list_html = $("<div>" + list_html + "</div>");
+				//list_html.find(".card-content").css("display", "flex");
+        //list_html.find(".card-content").css("height", "100%");
+        //list_html.find(".list-title").css("align-self", "center");
+        //list_html.find(".vote-span").addClass("hide");
+				list_html.find(".list-remove").removeClass("hide");
+				list_html = list_html.html();
+			}
         //$(".card-content").css("display", "flex");
         //$(".card-content").css("height", "100%");
         //$(".list-title").css("align-self", "center");
-		$(".list-remove").removeClass("hide");
+				$(".list-remove").removeClass("hide");
         //$(".vote-span").addClass("hide");
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
@@ -591,12 +591,12 @@ function change_offline(enabled, already_offline){
 		if(list_html){
 			list_html = $("<div>" + list_html + "</div>");
 			//list_html.find(".card-content").css("display", "block");
-	        //list_html.find(".card-content").css("height", "initial");
-	        //list_html.find(".list-title").css("align-self", "center");
-	        //list_html.find(".vote-span").removeClass("hide");
-			if((!hasadmin || !w_p)){
-				list_html.find(".list-remove").addClass("hide");
-			}
+            //list_html.find(".card-content").css("height", "initial");
+            //list_html.find(".list-title").css("align-self", "center");
+            //list_html.find(".vote-span").removeClass("hide");
+    		if(hasadmin && w_p){
+    			list_html.find(".list-remove").addClass("hide");
+    		}
 			list_html = list_html.html();
 		}
         //$(".card-content").css("display", "block");
@@ -604,7 +604,7 @@ function change_offline(enabled, already_offline){
         //$(".list-title").css("align-self", "center");
         //$(".vote-span").removeClass("hide");
         $("#viewers").removeClass("hide");
-    	if((!hasadmin || !w_p)){
+    	if(hasadmin && w_p){
     		$(".list-remove").addClass("hide");
     	}
         $("#offline-mode").addClass("waves-cyan");
@@ -1133,7 +1133,7 @@ $(document).on("click", ".import-youtube", function(e){
 
 $(document).on("submit", "#chatForm", function(e){
 	e.preventDefault();
-  Chat.chat(document.getElementById("chatForm").input);
+    Chat.chat(document.getElementById("chatForm").input);
 });
 
 $(document).on("click", "#shuffle", function(e)

@@ -1256,9 +1256,16 @@ ul #chat-log{
 }
 
 #search_loader {
-  height:64px;
-  padding: 0 15px;
-  margin-top:15px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  /* padding: 15px 15px; */
+  /* margin-top: 15px; */
+  align-items: center;
+}
+
+#search_loader_inner{
+  display: flex;
 }
 
 .playlist_loader_padding{
@@ -1323,8 +1330,6 @@ ul #chat-log{
   position: fixed;
   top: 0;
   right: 0;
-  height: 64px;
-  overflow: hidden;
 }
 
 .title-container{
