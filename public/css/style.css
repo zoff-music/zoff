@@ -54,6 +54,7 @@
   align-items: center;
   flex-shrink: initial;
   justify-content: space-between;
+  height: 32px;
 }
 
 #pageButtons, #pageButtons a{
@@ -1619,7 +1620,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .tabs_height{
-  height:calc(100vh - 48px - 64px - 36px) !important;
+  height:calc(100vh - 48px - 64px - 32px) !important;
   overflow:auto;
 }
 

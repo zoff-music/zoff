@@ -195,9 +195,9 @@
                 </div>
             </div>
             <div id="playlist" class="col s12 m3">
-              <div id="top-button" title="Scroll to the top" class="rounded-bottom hide top-button-with-tabs hide-on-small-only">Top</div>
+              <!--<div id="top-button" title="Scroll to the top" class="rounded-bottom hide top-button-with-tabs hide-on-small-only">Top</div>
               <div id="bottom-button" title="Scroll to the bottom" class="rounded-top hide hide-on-small-only">Bottom</div>
-              <ul class="tabs playlist-tabs tabs-fixed-width" style="width:96%">
+            --><ul class="tabs playlist-tabs tabs-fixed-width" style="width:96%">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
               </ul>

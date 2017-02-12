@@ -94,7 +94,7 @@ var List = {
     {
         if(!Helper.mobilecheck() && !embed){
             List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
-            List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
+            List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
         } else if(embed) {
             List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
