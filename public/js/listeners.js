@@ -1172,8 +1172,16 @@ $(window).resize(function(){
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
+        if(List.can_fit < temp_fit){
+            console.log("1");
+            $($("#wrapper").children()[List.page + temp_fit - 1]).css("display", "block");
+        } else if(List.can_fit > temp_fit){
+            console.log("2");
+            $($("#wrapper").children()[List.page + temp_fit]).css("display", "none");
+        }
         List.can_fit = temp_fit;
-        List.element_height = (($("#wrapper").height()) / List.can_fit)-6;
+        List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
+        console.log(List.page);
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
         set_title_width();
@@ -1253,7 +1261,7 @@ $(document).on("click", "#player_bottom_overlay", function(){
 	Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
-$(document).on("mousemove", "#playlist", function(e)
+/*$(document).on("mousemove", "#playlist", function(e)
 {
     var y = e.pageY - this.offsetTop;
 	if(((y <= 80 && y >= 48)) && $("#wrapper").scrollTop() > 0){
@@ -1279,7 +1287,7 @@ $(document).on("click", "#top-button", function(){
 
 $(document).on("click", "#bottom-button", function(){
 	List.scrollBottom();
-});
+});*/
 
 
 $(document).keydown(function(event) {
