@@ -12,6 +12,11 @@
   margin-top:100px;
 }
 
+#descriptions_cont, #thumbnails_cont{
+  display: flex;
+  flex-direction: column;
+}
+
 .width25{
   width: 25% !important;
 }
