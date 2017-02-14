@@ -68,7 +68,7 @@ var Player = {
                     seekTo = 1;
 
                 try{
-                    if(full_playlist[0].id == video_id){
+                    if(full_playlist[0].id == video_id && !mobile_beginning){
                         List.song_change(full_playlist[0].added);
                     }
                     Suggestions.fetchYoutubeSuggests(video_id);

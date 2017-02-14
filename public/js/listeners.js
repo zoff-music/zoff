@@ -851,13 +851,30 @@ $(document).on("click", ".listen-button", function(e){
 
 $(document).on("submit", ".channel-finder", function(e){
   e.preventDefault();
+  //console.log($(".room-namer").val());
   Frontpage.to_channel($(".room-namer").val());
   return false;
 });
 
+$(document).off("keyup", "keyup.autocomplete", function(e){
+    if(e.keyCode == 13){
+        e.preventDefault();
+        console.log(e.keyCode);
+    	console.log($(this).val());
+    }
+});
+
+$(document).off("keydown", "keydown.autocomplete", function(e){
+    if(e.keyCode == 13){
+        e.preventDefault();
+        console.log(e.keyCode);
+    	console.log($(this).val());
+    }
+});
+
 $(document).on("submit", ".channel-finder-mobile", function(e){
   e.preventDefault();
-  Frontpage.to_channel($("#search-mobile").val());
+  Frontpage.to_channel($("#searchFrontpage").val());
   return false;
 });
 
@@ -1173,15 +1190,12 @@ $(window).resize(function(){
             List.dynamicContentPage(-10);
         }
         if(List.can_fit < temp_fit){
-            console.log("1");
             $($("#wrapper").children()[List.page + temp_fit - 1]).css("display", "block");
         } else if(List.can_fit > temp_fit){
-            console.log("2");
             $($("#wrapper").children()[List.page + temp_fit]).css("display", "none");
         }
         List.can_fit = temp_fit;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
-        console.log(List.page);
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
         set_title_width();

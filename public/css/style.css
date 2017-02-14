@@ -2130,6 +2130,7 @@ nav ul li:hover, nav ul li.active {
       text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.42);
       width: calc(100vw - 170px);
       max-width: 100%;
+      font-size:2rem;
     }
 
     .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 0px;}
@@ -2143,8 +2144,8 @@ nav ul li:hover, nav ul li.active {
     }
 
     #search_loader{
-      margin-left: -75px;
-      margin-top: 5px;
+      margin-left: -50px;
+      margin-top: 0px;
     }
 
     .title-container{
