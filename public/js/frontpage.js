@@ -136,6 +136,8 @@ var Frontpage = {
         limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
       });
 
+      $(".autocomplete").off('keydown.autocomplete');
+
       document.getElementById("preloader").style.display = "none";
       //Materialize.fadeInImage('#channels');
       $("#channels").fadeIn(800);
