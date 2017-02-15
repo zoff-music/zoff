@@ -532,6 +532,10 @@ nav .brand-logo{
     height:100%;
 }
 
+nav .brand-logo-navigate{
+  padding-left: 0px;
+}
+
 #fp-nav {
   background-color:rgba(45,45,45,1);
   position: fixed;
