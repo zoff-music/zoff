@@ -27,6 +27,11 @@
   padding: 0 5px;
 }
 
+.badge.admin-panel{
+  margin: 0px;
+  margin-top: 13px;
+}
+
 .width25{
   width: 25% !important;
 }
