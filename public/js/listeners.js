@@ -1232,13 +1232,14 @@ function searchTimeout(event) {
 }
 
 if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
-	$(document).on('keydown', '.search_input', function(event) {
+	$(document).on('touchend', '.search_input', function(event) {
 	      searchTimeout(event);
 	});
-} else {
+
 	$(document).on('keyup', ".search_input", function(event) {
 	      searchTimeout(event);
 	});
+
 }
 
 $(document).on("click", ".chat-tab", function(){
