@@ -189,7 +189,7 @@
                     <i id="v-full" class="material-icons">volume_up</i>
                   </div>
                   <div id="volume"></div>
-                  <div id="viewers" data-position="top" data-delay="5" class="tooltipped" data-tooltip="Viewers"></div>
+                  <div id="viewers" data-position="top"></div>
                   <div id="bar"></div>
                 </div>
                 </div>

@@ -404,6 +404,12 @@ function initfp(){
     Crypt.init();
     if(Crypt.get_offline()){
       change_offline(true, offline);
+    } else {
+      $("#offline-mode").tooltip({
+        delay: 5,
+        position: "bottom",
+        tooltip: "Enable private mode"
+      });
     }
 
     socket.emit('frontpage_lists');
