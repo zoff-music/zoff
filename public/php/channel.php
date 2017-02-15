@@ -217,9 +217,9 @@
                             <div class="clickable vote-container" title="Vote!">
                                 <a class="clickable center-align votebg">
                                     <span class="lazy card-image cardbg list-image" style="background-image:url('/public/images/loading.png');">
-                                      <span class="card-duration">
-                                        01:00
-                                      </span>
+                                    </span>
+                                    <span class="card-duration">
+                                      01:00
                                     </span>
                                 </a>
                                 <span class="card-content">
