@@ -154,6 +154,13 @@ var Helper = {
       return Math.floor(Math.random() * (max - min)) + min;
     },
 
+    secondsToOther: function(seconds){
+        var time = seconds;
+        var minutes = Math.floor(time/60);
+        time = time - (minutes * 60);
+        return [minutes, time];
+    },
+
     rgbToHsl: function(arr, light){
     	r = arr[0];
         g = arr[1];

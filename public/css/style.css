@@ -17,6 +17,16 @@
   flex-direction: column;
 }
 
+.card-duration{
+  border-top-left-radius: 4px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background: rgba(0,0,0,.7);
+  color: white;
+  padding: 0 5px;
+}
+
 .width25{
   width: 25% !important;
 }
