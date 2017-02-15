@@ -394,7 +394,11 @@ function init(){
 		}
 
 		if(no_socket) socket.emit('list', chan.toLowerCase());
-
+        $("#viewers").tooltip({
+          delay: 5,
+          position: "top",
+          tooltip: "Viewers"
+        });
 
 		//if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 	    /*if(!Helper.mobilecheck() && !window.MSStream){
