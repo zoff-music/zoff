@@ -153,6 +153,7 @@ var Player = {
                         if(Helper.mobilecheck()){
                             $("#playpause").css("visibility", "visible");
                             $("#playpause").css("pointer-events", "all");
+                            $("#channel-load").css("display", "none");
                          }
                     }, 100);
                 }
@@ -331,16 +332,17 @@ var Player = {
     },
 
     onPlayerReady: function(event) {
-        $("#channel-load").css("display", "none");
         try{
             beginning = true;
           	player_ready = true;
     		if(!window.MSStream)
     		{
-              if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent)){
-                  $("#playpause").css("visibility", "hidden");
-                  $("#playpause").css("pointer-events", "none");
-              }
+                if(Helper.mobilecheck()){
+                    $("#playpause").css("visibility", "hidden");
+                    $("#playpause").css("pointer-events", "none");
+                } else {
+                    $("#channel-load").css("display", "none");
+                }
     			$("#player").css("opacity", "1");
     			$("#controls").css("opacity", "1");
     			$(".playlist").css("opacity", "1");

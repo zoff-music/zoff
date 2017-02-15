@@ -1231,15 +1231,15 @@ function searchTimeout(event) {
 	}
 }
 
-if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
+/*if(/iPad|iPhone|iPod/.test(navigator.userAgent)){
 	$(document).on('touchend', '.search_input', function(event) {
 	      searchTimeout(event);
 	});
-} else {
+} else {*/
 	$(document).on('keyup', ".search_input", function(event) {
 	      searchTimeout(event);
 	});
-}
+//}
 
 $(document).on("click", ".chat-tab", function(){
     $("#text-chat-input").focus();
