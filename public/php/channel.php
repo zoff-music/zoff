@@ -216,7 +216,11 @@
                         <div id="list-song" class="card left-align list-song">
                             <div class="clickable vote-container" title="Vote!">
                                 <a class="clickable center-align votebg">
-                                    <span class="lazy card-image cardbg list-image" style="background-image:url('/public/images/loading.png');"></span>
+                                    <span class="lazy card-image cardbg list-image" style="background-image:url('/public/images/loading.png');">
+                                      <span class="card-duration">
+                                        01:00
+                                      </span>
+                                    </span>
                                 </a>
                                 <span class="card-content">
                                     <span class="flow-text truncate list-title"></span>
