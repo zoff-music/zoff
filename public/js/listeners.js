@@ -465,7 +465,9 @@ function init(){
         }
     }
 
-    if(!Helper.mobilecheck()) set_title_width();
+    if(!Helper.mobilecheck() && navigator.userAgent.match(/iPad/i) == null){
+        set_title_width();
+    }
 }
 
 initializeCastApi = function() {
