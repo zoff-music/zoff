@@ -18,7 +18,7 @@ var Suggestions = {
 		var minutes 	= Math.floor(secs / 60);
 		var seconds 	= secs - minutes * 60;
 
-		duration 		= minutes+"m " + seconds + "s";
+		duration 		= Helper.pad(minutes) + ":" + Helper.pad(seconds);
 
 		var song 		= List.generateSong({id: video_id, title: video_title, length: secs, duration: duration}, false, false, false, true);
 		$("#user-suggest-html").append(song);

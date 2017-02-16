@@ -847,8 +847,9 @@ var List = {
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
         }else if(!list){
-            song.find(".card-duration").remove();
-            song.find(".vote-text").text(_song_info.duration);
+            //song.find(".card-duration").remove();
+            song.find(".vote-text").text("");
+            song.find(".card-duration").text(_song_info.duration);
 
             attr     = ".add-suggested";
             if(user)
