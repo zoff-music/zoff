@@ -696,7 +696,7 @@ var List = {
             },
             data: JSON.stringify({
                     snippet: {
-                        title: chan.toLowerCase(),
+                        title: Helper.upperFirst(chan.toLowerCase()),
                         description: 'Playlist exported from zoff',
                     }
             }),
