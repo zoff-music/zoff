@@ -12,6 +12,10 @@
   margin-top:100px;
 }
 
+.current_number{
+  color: black;
+}
+
 #descriptions_cont, #thumbnails_cont{
   display: flex;
   flex-direction: column;
