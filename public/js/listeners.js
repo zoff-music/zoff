@@ -1079,14 +1079,14 @@ $("#clickme").click(function(){
 $(document).on("click", "#listExport", function(e){
     e.preventDefault();
     Helper.log(full_playlist);
-    $("#playlist_loader_export").removeClass("hide");
-    $(".youtube_export_button").addClass("hide");
     if(!youtube_authenticated){
         var nonce = randomString(29);
         window.callback = function(data) {
             access_token_data_youtube = data;
             if(access_token_data_youtube.state == nonce){
                 youtube_authenticated = true;
+				$("#playlist_loader_export").removeClass("hide");
+			    $(".youtube_export_button").addClass("hide");
                 setTimeout(function(){
                     youtube_authenticated = false;
                     access_token_data_youtube = {};

@@ -703,52 +703,61 @@ var List = {
             success: function(response){
                 var number_added = 0;
                 var playlist_id = response.id;
-                $.each(full_playlist, function(i, data){
-                    var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
-                    $.ajax({
-                        type: "POST",
-                        url: request_url,
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
-                            'Content-Type': 'application/json'
-                        },
-                        data: JSON.stringify({
-                            'snippet': {
-                                'playlistId': playlist_id,
-                                'resourceId': {
-                                    'kind': 'youtube#video',
-                                    'videoId': data.id
-                                }
-                            }
-                        }),
-                        error: function(code){
-                            if(number_added == full_playlist.length - 1){
-                                Helper.log("All videoes added!");
-                                Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
-                                $(".exported-list").append("<h5>Exported list</h5>");
-                                $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                                $("#playlist_loader_export").addClass("hide");
-                            }
-                            number_added += 1;
-                        },
-                        success: function(response){
-                            Helper.log("Added video: " + data.id + " to playlist id " + playlist_id);
-                            if(number_added == full_playlist.length - 1){
-                                Helper.log("All videoes added!");
-                                Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
-                                $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                                $("#playlist_loader_export").addClass("hide");
-                                //$(".youtube_export_button").removeClass("hide");
-                            }
-                            number_added += 1;
-                        }
-
-                    });
-                });
+                var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+                List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
+                /*$.each(full_playlist, function(i, data){
+                    //console.log(data.id);
+                    //var id = data.id;
+                    setTimeout(function(){
+                        console.log(id);
+                        List.addToYoutubePlaylist(playlist_id, id, number_added, request_url)
+                        number_added = number_added + 1;
+                    }, 500);
+                });*/
             },
             error: function(response){
                 Helper.log(response);
             }
+        });
+    },
+
+    addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url){
+        var _data = JSON.stringify({
+            'snippet': {
+                'playlistId': playlist_id,
+                'resourceId': {
+                    'kind': 'youtube#video',
+                    'videoId': full_playlist[num].id
+                }
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: request_url,
+            headers: {
+                'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
+                'Content-Type': 'application/json'
+            },
+            data: _data,
+            success: function(response){
+                //console.log(response);
+                Helper.log("Added video: " + full_playlist[num].id + " to playlist id " + playlist_id);
+                if(num == full_playlist.length - 1){
+                    Helper.log("All videoes added!");
+                    Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
+                    $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    $("#playlist_loader_export").addClass("hide");
+                    $(".current_number").addClass("hide");
+                    //$(".youtube_export_button").removeClass("hide");
+                } else {
+                    //setTimeout(function(){
+                    $(".current_number").removeClass("hide");
+                    $(".current_number").text((num + 1) + " of " + (full_playlist.length));
+                    List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url)
+                    //}, 50);
+                }
+            }
+
         });
     },
 
@@ -849,7 +858,7 @@ var List = {
         }else if(!list){
             //song.find(".card-duration").remove();
             song.find(".vote-text").text("");
-            song.find(".card-duration").text(_song_info.duration);
+            song.find(".card-duration").text(Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]));
 
             attr     = ".add-suggested";
             if(user)
