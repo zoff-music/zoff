@@ -20,7 +20,7 @@ var Suggestions = {
 
 		duration 		= Helper.pad(minutes) + ":" + Helper.pad(seconds);*/
 
-		var song 		= List.generateSong({id: video_id, title: video_title, length: secs, duration: duration}, false, false, false, true);
+		var song 		= List.generateSong({id: video_id, title: video_title, duration: duration}, false, false, false, true);
 		$("#user-suggest-html").append(song);
 	},
 
