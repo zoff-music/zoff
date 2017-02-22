@@ -276,7 +276,6 @@ $().ready(function(){
                     activeIndex < (numItems - 1)) {
                   activeIndex++;
                 }
-                console.log(activeIndex);
 
                 $active.removeClass('active');
                 if (activeIndex >= 0) {
@@ -364,7 +363,6 @@ function init(){
 		if(socket === undefined || Helper.mobilecheck()){
 			no_socket = false;
 			socket = io.connect(''+add+':8080', connection_options);
-            window.socket = socket;
 		}
 
 	    Crypt.init();
@@ -1030,7 +1028,6 @@ $(document).on("click", ".listen-button", function(e){
 
 $(document).on("submit", ".channel-finder", function(e){
   e.preventDefault();
-  //console.log($(".room-namer").val());
   Frontpage.to_channel($(".room-namer").val());
   return false;
 });
