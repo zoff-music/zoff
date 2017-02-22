@@ -106,8 +106,10 @@ $().ready(function(){
             $(".connect_error").fadeOut(function(){
                 $(".connect_error").remove();
                 Materialize.toast("Connected!", 2000, "green lighten");
-            });
-
+				if((Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
+					socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+				}
+			});
         }
     });
 
@@ -362,6 +364,7 @@ function init(){
 		if(socket === undefined || Helper.mobilecheck()){
 			no_socket = false;
 			socket = io.connect(''+add+':8080', connection_options);
+            window.socket = socket;
 		}
 
 	    Crypt.init();

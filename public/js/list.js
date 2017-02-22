@@ -34,7 +34,7 @@ var List = {
                 }
                 break;
             case "deleted":
-                List.deleted_song(msg.value);
+                List.deleted_song(msg.value, msg.removed);
                 break;
             case "vote":
                 if(!offline){
@@ -45,7 +45,7 @@ var List = {
                   }
                 break;
             case "song_change":
-                if(window.location.pathname != "/") List.song_change(msg.time);
+                if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
                 if(chromecastAvailable){
                   Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
@@ -107,6 +107,7 @@ var List = {
         }
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
+        console.log(full_playlist.length);
         if(offline && !no_reset){
             for(var x = 0; x < full_playlist.length; x++){
                 full_playlist[x].votes = 0;
@@ -123,7 +124,8 @@ var List = {
         if(full_playlist.length > 1){
     		$.each(full_playlist, function(j, _current_song){
     			if(!_current_song.now_playing){ //check that the song isnt playing
-                    $("#wrapper").append(List.generateSong(_current_song, false, lazy_load, true, false, "", true));
+                    var generated = List.generateSong(_current_song, false, lazy_load, true, false, "", true)
+                    $("#wrapper").append(generated);
     			}
     		});
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
@@ -161,7 +163,7 @@ var List = {
             }*/
         }else{
             List.empty = true;
-            $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
+            $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
             if(!$("#pageButtons").length){
                 $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pageNumber">1</span> <a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span><a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span></div>').insertAfter("#wrapper");
             }
@@ -320,12 +322,11 @@ var List = {
         }
     },
 
-    deleted_song: function(deleted){
-
-        var index              = List.getIndexOfSong(deleted);
-        var to_delete          = $("#wrapper").children()[index];
+    deleted_song: function(deleted, removed){
         try{
-            to_delete.style.height = 0;
+            var index              = List.getIndexOfSong(deleted);
+            var to_delete          = $("#wrapper").children()[index];
+            if(!removed) to_delete.style.height = 0;
 
             if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
                 $($("#wrapper").children()[List.page]).css("height", 0);
@@ -351,7 +352,7 @@ var List = {
             }
             setTimeout(function()
             {
-                $("#"+deleted).remove();
+                if(!removed) $("#"+deleted).remove();
                 full_playlist.splice(List.getIndexOfSong(deleted), 1);
                 /*if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
@@ -386,7 +387,7 @@ var List = {
 
         if(full_playlist.length <= 2){
             List.empty = true;
-            $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
+            $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         $("#suggested-"+deleted).remove();
         if(List.page + List.can_fit < $("#wrapper").children().length + 1){
@@ -411,27 +412,33 @@ var List = {
         List.insertAtIndex(song_voted_on, false);
     },
 
-    song_change: function(time){
-        var length = full_playlist.length-1;
-
-        full_playlist[0].now_playing        = true;
-        full_playlist[0].votes              = 0;
-        full_playlist[0].guids              = [];
-        full_playlist[0].added              = time;
-        full_playlist[length].now_playing   = false;
-        Helper.log("---------------------------");
-        Helper.log("---SONG ON FIRST INDEX-----");
-        Helper.log(full_playlist[0]);
-        Helper.log("---------------------------");
+    song_change: function(time, remove){
         try{
-            full_playlist.push(full_playlist.shift());
-            if(!List.empty)
-                $("#wrapper").children()[0].remove();
+            var length = full_playlist.length-1;
+            $("#wrapper").children()[0].remove();
             if($("#wrapper").children().length === 0) {
                 List.empty = true;
-                $("#wrapper").append("<span id='empty-channel-message'>The playlist is empty.</span>");
+                $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
             }
-            List.insertAtIndex(full_playlist[length-1], false, true);
+
+            full_playlist[0].now_playing        = true;
+            full_playlist[0].votes              = 0;
+            full_playlist[0].guids              = [];
+            full_playlist[0].added              = time;
+            if(!remove){
+                full_playlist[length].now_playing   = false;
+            } else {
+                delete full_playlist[length];
+            }
+            Helper.log("---------------------------");
+            Helper.log("---SONG ON FIRST INDEX-----");
+            Helper.log(full_playlist[0]);
+            Helper.log("---------------------------");
+            full_playlist.push(full_playlist.shift());
+            //if(!List.empty)
+            if(!remove){
+                List.insertAtIndex(full_playlist[length-1], false, true);
+            }
             /*if($("#wrapper").children().length >= List.page + List.can_fit){
                 $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
             }*/
@@ -890,12 +897,14 @@ var List = {
 
     getIndexOfSong: function(id)
     {
-    	indexes = $.map(full_playlist, function(obj, index) {
-    	    if(obj.id == id) {
-    	        return index;
-    	    }
-    	});
-    	return indexes[0];
+        try{
+        	indexes = $.map(full_playlist, function(obj, index) {
+        	    if(obj.id == id) {
+        	        return index;
+        	    }
+        	});
+        	return indexes[0];
+        }catch(e){}
     },
 
     scrollTop: function(){
