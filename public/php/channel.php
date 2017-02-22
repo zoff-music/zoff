@@ -12,7 +12,7 @@
 
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="brand-logo brand-logo-navigate noselect">
-                        <img id="zicon" src="public/images/squareicon_small.png" alt="zöff" title="Zöff" />
+                        <img id="zicon" src="public/images/z.svg" alt="zöff" title="Zöff" />
                     </a>
 
                     <span id="chan" class="chan clickable truncate" title="Show big URL"><?php echo(ucfirst($list));?></span>
@@ -232,7 +232,7 @@
                             </div>
                             <div class="card-action center-align list-remove hide">
                                 <a title="Remove song" id="del" class="waves-effect btn-flat clickable hide-on-small-only">Delete</a>
-                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable hide-on-med-and-up"><i class="material-icons">close</i></a>                                
+                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable hide-on-med-and-up"><i class="material-icons">close</i></a>
                             </div>
                         </div>
                     </div>
