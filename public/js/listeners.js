@@ -1140,6 +1140,7 @@ $(document).on("submit", "#listImport", function(e){
         $("#import").addClass("hide");
         $("#playlist_loader").removeClass("hide");
     } else {
+        before_toast();
         Materialize.toast("It seems you've entered a invalid url.", 4000);
     }
     document.getElementById("import").value = "";
@@ -1161,6 +1162,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
 
             Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
         } else {
+            before_toast();
             Materialize.toast("It seems you've entered a invalid url.", 4000);
         }
     }
@@ -1403,7 +1405,7 @@ $(document).on( "click", ".vote-container", function(e){
 	List.vote(id, "pos");
 });
 
-$(document).on( "click", "#del", function(e){
+$(document).on( "click", ".delete_button", function(e){
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "del");
 });
@@ -1418,13 +1420,13 @@ $(document).on( "click", ".add-suggested", function(e){
 	$("#suggested-" + id).remove();
 });
 
-$(document).on( "click", "#del_suggested", function(e){
+$(document).on( "click", ".del_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 
 	$("#suggested-" + id).remove();
 });
 
-$(document).on( "click", "#del_user_suggested", function(e){
+$(document).on( "click", ".del_user_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 	$("#suggested-" + id).remove();
 	List.vote(id, "del");
@@ -1548,6 +1550,10 @@ function share_link_modifier_channel(){
     $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zöff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
     $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
     $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+}
+
+function before_toast(){
+    $("#toast-container").remove();
 }
 
 function onepage_load(){

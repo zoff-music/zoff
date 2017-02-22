@@ -652,11 +652,11 @@ display: inline-flex;
   width: 100%;
 }
 
-.card-action #del {
-  color:white;
+.card-action .delete_button {
+  color:white !important;
 }
-.card-action #del:hover{
-  color:grey;
+.card-action .delete_button:hover{
+  color:grey !important;
 }
 
 .share, .shareface{
@@ -1626,15 +1626,15 @@ nav ul li:hover, nav ul li.active {
   background: transparent;
 }
 
-#del, #del_suggested, #del_user_suggested{
+.delete_button, .del_suggested, .del_user_suggested{
   position: absolute;
   text-align: right;
   right: -35%;
   /* top: 45%; */
   height: 19px;
   line-height: normal;
-  padding: 2px 12px;
-  color: white;
+  padding: 2px 12px !important;
+  color: white !important;
   background: transparent;
   width: initial;
   border-top: 1px solid rgba(160,160,160,0.2);
@@ -1971,16 +1971,18 @@ nav ul li:hover, nav ul li.active {
       width: 57%;
     }
 
-    #del, #del_suggested, #del_user_suggested{
+    .delete_button, .del_suggested, .del_user_suggested{
       bottom: -9px;
       /* line-height: inherit; */
       height:auto;
       display: flex;
       align-items: center;
       border-top: none;
+      padding: 0px !important;
+      margin: 0px !important;
     }
 
-    #del .material-icons, #del_suggested .material-icons, #del_user_suggested .material-icons{
+    .delete_button .material-icons, .del_suggested .material-icons, .del_user_suggested .material-icons{
       font-size: 2.5rem;
     }
 
@@ -2178,6 +2180,7 @@ nav ul li:hover, nav ul li.active {
       width: calc(100vw - 170px);
       max-width: 100%;
       font-size:2rem;
+      padding-right:0px;
     }
 
     .control-list li a{ min-width: 0px; width: 37px; padding: 0 0 0 0px;}
@@ -2555,4 +2558,9 @@ nav ul li:hover, nav ul li.active {
 @-ms-keyframes snow {
   0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
   100% {background-position: 500px 500px, 400px 400px, 300px 300px;}
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -moz-tap-highlight-color: rgba(0, 0, 0, 0);
 }

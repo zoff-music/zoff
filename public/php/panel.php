@@ -1,8 +1,8 @@
 <li class="no-padding">
+    <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
+        <i class="material-icons auto-margin">close</i>
+    </div>
     <ul class="collapsible collapsible-accordion">
-        <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
-            <i class="material-icons auto-margin">close</i>
-        </div>
         <li>
             <a class="col s9 collapsible-header bold waves-effect admin-settings">
                 Channel Settings

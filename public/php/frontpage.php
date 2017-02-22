@@ -91,8 +91,7 @@ if(isset($_GET['chan'])){
                           placeholder="chill"
                           title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                           autocomplete="off"
-                          autofocus="on"
-                          list="searches"
+                          autofocus
                           required
                           pattern="[a-zA-Z0-9]+"
                           spellcheck="false"
@@ -117,7 +116,6 @@ if(isset($_GET['chan'])){
                             name="chan"
                             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
                             autocomplete="off"
-                            list="searches"
                             required pattern="[a-zA-Z0-9]+"
                             spellcheck="false"
                             maxlength="18"

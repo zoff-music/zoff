@@ -91,6 +91,7 @@ var Admin = {
                 msg="Seems the song you want is already playing. No fooling the system!";
                 break;
         }
+        before_toast();
         Materialize.toast(msg, 4000);
     },
 
@@ -167,6 +168,7 @@ var Admin = {
     },
 
     log_out: function(){
+        before_toast();
     	if(Crypt.get_pass(chan.toLowerCase())){
             Crypt.remove_pass(chan.toLowerCase());
     		Admin.display_logged_out();

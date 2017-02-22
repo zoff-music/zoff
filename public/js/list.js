@@ -265,8 +265,7 @@ var List = {
         } else {
             $("#wrapper").children().slice(List.page - List.can_fit, List.page).show();
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
-            List.page = List.page - List.can_fit;
-            //$("#wrapper").scrollTop(0);
+            List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
                 $(".prev_page").css("display", "none");
                 $(".prev_page_hide").css("display", "inline-flex");
@@ -286,6 +285,7 @@ var List = {
                 $(".last_page_hide").css("display", "none");
                 $(".last_page").css("display", "inline-flex");
             }
+
         }
         $("#pageNumber").html((List.page / List.can_fit) + 1);
     },
@@ -847,7 +847,7 @@ var List = {
                 song.find(".card").css("display", "none");
             }
             attr     = ".vote-container";
-            del_attr = "del";
+            del_attr = "delete_button";
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
@@ -864,7 +864,7 @@ var List = {
 
             song.find(".vote-container").attr("class", "clickable add-suggested");
             song.find(".add-suggested").attr("title", video_title);
-            song.find("#del").attr("id", del_attr);
+            song.find(".delete_button").addClass(del_attr);
             song.find(attr).attr("data-video-title", video_title);
             song.find(attr).attr("data-video-length", _song_info.length);
             song.find("#list-song").attr("id", "suggested-" + video_id);
@@ -878,7 +878,7 @@ var List = {
         song.find(attr).attr("data-video-id", video_id);
     	song.find(".list-image").attr(image_attr,video_thumb);
         song.find(".list-suggested-image").attr(image_attr,video_thumb);
-        song.find("#"+del_attr).attr("data-video-id", video_id);
+        song.find("."+del_attr).attr("data-video-id", video_id);
     	//song.find("#del").attr("onclick", "vote('"+video_id+"', 'del')");
 
     	return song.html();

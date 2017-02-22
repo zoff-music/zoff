@@ -423,8 +423,10 @@ function initfp(){
     }
     //window.channel_list = channel_list;
 
-    if(!localStorage.ok_cookie)
+    if(!localStorage.ok_cookie){
+      before_toast();
       Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
+    }
 
     var pad = 0;
     document.getElementById("zicon").addEventListener("click", function(){
