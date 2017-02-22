@@ -231,7 +231,8 @@
                                 </span>
                             </div>
                             <div class="card-action center-align list-remove hide">
-                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable">Delete</a>
+                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable hide-on-small-only">Delete</a>
+                                <a title="Remove song" id="del" class="waves-effect btn-flat clickable show-on-small-only"><i class="material-icons">close</i></a>                                
                             </div>
                         </div>
                     </div>
