@@ -44,7 +44,7 @@ var Player = {
                 if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
                 if(!chromecastAvailable) Player.stopVideo();
                 video_id   = obj.np[0].id;
-                conf       = obj.conf;
+                conf       = obj.conf[0];
                 time       = obj.time;
                 seekTo     = time - conf.startTime;
                 song_title = obj.np[0].title;
@@ -58,9 +58,8 @@ var Player = {
                     previous_video_id = video_id;
 
                 video_id   = obj.np[0].id;
-                conf       = obj.conf;
+                conf       = obj.conf[0];
                 time       = obj.time;
-                conf.startTime = new Date(conf.startTime).getTime() / 1000;
                 seekTo     = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
