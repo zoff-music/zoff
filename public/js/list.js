@@ -107,7 +107,6 @@ var List = {
         }
         if(list_html === undefined) list_html = $("#list-song-html").html();
         full_playlist = msg;
-        console.log(full_playlist.length);
         if(offline && !no_reset){
             for(var x = 0; x < full_playlist.length; x++){
                 full_playlist[x].votes = 0;
@@ -712,15 +711,6 @@ var List = {
                 var playlist_id = response.id;
                 var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
                 List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
-                /*$.each(full_playlist, function(i, data){
-                    //console.log(data.id);
-                    //var id = data.id;
-                    setTimeout(function(){
-                        console.log(id);
-                        List.addToYoutubePlaylist(playlist_id, id, number_added, request_url)
-                        number_added = number_added + 1;
-                    }, 500);
-                });*/
             },
             error: function(response){
                 Helper.log(response);
@@ -747,7 +737,6 @@ var List = {
             },
             data: _data,
             success: function(response){
-                //console.log(response);
                 Helper.log("Added video: " + full_playlist[num].id + " to playlist id " + playlist_id);
                 if(num == full_playlist.length - 1){
                     Helper.log("All videoes added!");
