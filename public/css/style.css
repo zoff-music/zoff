@@ -1555,11 +1555,18 @@ nav ul li:hover, nav ul li.active {
 .list-song .card-content{padding:0;}
 .list-title{
     display:block;
-    color:white;font-size:1em;
+    color:white;
+    font-size:1em;
     text-align:left;
     padding: 0 10px 0 10px;
     line-height: 2.6rem;
+    /* width: 57%; */
 }
+
+.add-suggested .card-content .list-title{
+    line-height: 3.5rem;
+}
+
 .card-image{cursor:pointer}
 .card{
   margin:5px 0 5px 0 !important;
@@ -1623,7 +1630,7 @@ nav ul li:hover, nav ul li.active {
   position: absolute;
   text-align: right;
   right: -35%;
-  top: 45%;
+  /* top: 45%; */
   height: 19px;
   line-height: normal;
   padding: 2px 12px;
@@ -1958,6 +1965,23 @@ nav ul li:hover, nav ul li.active {
       z-index: 1000;
       left: 0;
       right: 0;
+    }
+
+    .list-title {
+      width: 57%;
+    }
+
+    #del, #del_suggested, #del_user_suggested{
+      bottom: -9px;
+      /* line-height: inherit; */
+      height:auto;
+      display: flex;
+      align-items: center;
+      border-top: none;
+    }
+
+    #del .material-icons, #del_suggested .material-icons, #del_user_suggested .material-icons{
+      font-size: 2.5rem;
     }
 
     #remote-sidebar-buttons-container{
