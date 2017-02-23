@@ -134,7 +134,6 @@
             &copy; <?php echo date("Y"); ?>
             <a href="http://nixo.no">Nixo</a> &amp;
             <a href="http://kasperrt.no">KasperRT</a>
-            &nbsp;&nbsp;All Rights Reserved.
         </div>
     </div>
 </footer>
