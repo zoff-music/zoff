@@ -1415,7 +1415,6 @@ $(document).on( "click", ".add-suggested", function(e){
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
 
-
 	Search.submit(id, title, length);
 	$("#suggested-" + id).remove();
 });
