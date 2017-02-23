@@ -97,19 +97,14 @@
             <div class="col l4 offset-l2 s12 valign-wrapper">
                 <ul class="footer-buttons">
                     <li>
-                        <a href="https://github.com/zoff-music/">
-                            <img title="Contribute on GitHub" src="/public/images/GitHub_Logo.png" alt="GitHub" />
+                        <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
+                            <img class="left" src="/public/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
                         </a>
                     </li>
                     <li>
-                            <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/public/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
-                            </a>
-                    </li>
-                    <li>
-                            <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
-                                <img class="left" src="/public/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
-                            </a>
+                        <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=http://<?php echo $_SERVER['HTTP_HOST'].'/'.$list; ?>&amp;text=Check%20out%20this%20playlist%20<?php echo ucfirst($list); ?>%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                            <img class="left" src="/public/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
+                        </a>
                     </li>
                     <li>
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
@@ -133,7 +128,9 @@
         <div class="container">
             &copy; <?php echo date("Y"); ?>
             <a href="http://nixo.no">Nixo</a> &amp;
-            <a href="http://kasperrt.no">KasperRT</a>
+            <a href="http://kasperrt.no">KasperRT</a>,
+            All rights reserved
+            <a class="grey-text text-lighten-4 right" href="https://github.com/zoff-music/">Contribute on GitHub</a>
         </div>
     </div>
 </footer>
