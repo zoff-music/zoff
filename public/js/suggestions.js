@@ -20,7 +20,7 @@ var Suggestions = {
 
 		duration 		= Helper.pad(minutes) + ":" + Helper.pad(seconds);*/
 
-		var song 		= List.generateSong({id: video_id, title: video_title, duration: duration}, false, false, false, true);
+		var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
 		$("#user-suggest-html").append(song);
 	},
 
@@ -50,13 +50,13 @@ var Suggestions = {
           			$.each(response.items, function(i,song)
                   	{
                     	var duration 	 = song.contentDetails.duration;
+											var length 	   = Search.durationToSeconds(duration);
                     	duration 		   = Helper.secondsToOther(Search.durationToSeconds(duration));
                     	var video_id 	 = song.id;
                     	var video_title  = song.snippet.title;
 
                     	//duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
-
-                    	$("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, duration: duration}, false, false, false));
+                    	$("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
                     });
           		}
           	});
