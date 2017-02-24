@@ -141,6 +141,7 @@
                   width: calc(100% - 261px);
                   display: inline;
                   -->
+                <div id="fireplace_player" class="ytplayer"></div>
                 <div id="player" class="ytplayer"></div>
                 <div id="main_components">
                 <div id="player_overlay" class="hide valign-wrapper">

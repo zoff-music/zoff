@@ -1445,6 +1445,14 @@ ul #chat-log{
   position: relative;
 }
 
+#fireplace_player{
+  z-index: 1;
+  width: calc(100% - .75rem);
+  height: calc(100% - 32px);
+  position: absolute;
+  display:none;
+}
+
 .chan{
     padding-right:10px;
     max-width:22vw;
