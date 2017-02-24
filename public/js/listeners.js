@@ -1600,6 +1600,9 @@ function onepage_load(){
 	    socket.emit("list", chan.toLowerCase());
 	}else if(url_split[3] === ""){
         clearTimeout(width_timeout);
+        ffireplace_initiated = false;
+        Player.fireplace.destroy();
+        $("#fireplace_player").css("display", "none");
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
