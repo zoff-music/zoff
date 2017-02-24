@@ -92,7 +92,7 @@
                     </a>
                   </li>
                 </ul>
-                <p id="latest-commit" class="grey-text text-lighten-4 truncate"></p>
+                <p id="latest-commit" class="grey-text text-lighten-4"></p>
             </div>
             <div class="col l4 offset-l2 s12 valign-wrapper">
                 <ul class="footer-buttons">
