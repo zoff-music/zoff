@@ -858,8 +858,8 @@ $(document).keyup(function(e) {
         }
         if(fireplace_initiated) {
             fireplace_initiated = false;
-            $("#fireplace_player").css("display", "none");
             Player.fireplace.destroy();
+            $("#fireplace_player").css("display", "none");
         } else {
             fireplace_initiated = true;
             $("#fireplace_player").css("display", "block");
