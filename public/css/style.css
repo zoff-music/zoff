@@ -1451,6 +1451,7 @@ ul #chat-log{
   height: calc(100% - 32px);
   position: absolute;
   display:none;
+  pointer-events: none;
 }
 
 .chan{
