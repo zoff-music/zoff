@@ -5,6 +5,7 @@ var Player = {
     after_load: "",
     player: "",
     stopInterval: false,
+    fireplace: "",
 
     youtube_listener: function(obj)
     {
@@ -442,6 +443,33 @@ var Player = {
         }
       });
       //Youtube.durationSetter();
+    },
+
+    createFireplacePlayer: function() {
+      Player.fireplace = new YT.Player('fireplace_player', {
+        videoId: "L_LUpnjgPso",
+        playerVars: { rel:"0", wmode:"transparent", controls: "0" , fs: "0", iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
+        events: {
+          'onReady': Player.onFireplaceReady,
+          'onStateChange': Player.onFireplaceChange
+        }
+      });
+    },
+
+    onFireplaceReady: function() {
+        Player.fireplace.playVideo();
+    },
+
+    onFireplaceChange: function(newState) {
+        switch(newState.data) {
+            case 0:
+                Player.fireplace.seekTo(0);
+                Player.fireplace.playVideo();
+                break;
+            case 2:
+                Player.fireplace.playVideo();
+                break;
+        }
     },
 
     durationSetter: function()

@@ -18,6 +18,7 @@ var paused 				  = false;
 var playing 			  = false;
 var SAMPLE_RATE 		  = 6000; // 6 seconds
 var lastSample 			  = Date.now();
+var fireplace_initiated   = false;
 var began 				  = false;
 var i 					  = -1;
 var lazy_load    		  = false;
@@ -50,6 +51,7 @@ var chromecastReady = false;
 var found_array = [];
 var found_array_index = 0;
 var castSession;
+var width_timeout;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -467,7 +469,8 @@ function init(){
     }
 
     if(!Helper.mobilecheck() && navigator.userAgent.match(/iPad/i) == null){
-        set_title_width();
+        setTimeout(function(){set_title_width();}, 100);
+
     }
 }
 
@@ -836,7 +839,17 @@ $(document).keyup(function(e) {
         if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
             $("#results").toggleClass("hide");
         }
-  	}
+  	} else if(event.keyCode == 13 && $("#search").val() == "fireplace" && !$(".search-container").hasClass("hide") && window.location.pathname != "/") {
+        if(fireplace_initiated) {
+            fireplace_initiated = false;
+            $("#fireplace_player").css("display", "none");
+            Player.fireplace.destroy();
+        } else {
+            fireplace_initiated = true;
+            $("#fireplace_player").css("display", "block");
+            Player.createFireplacePlayer();
+        }
+    }
 });
 
 $(document).on("mouseenter", ".card.sticky-action", function(e){
@@ -1570,6 +1583,7 @@ function onepage_load(){
 	    w_p = true;
 	    socket.emit("list", chan.toLowerCase());
 	}else if(url_split[3] === ""){
+        clearTimeout(width_timeout);
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 
