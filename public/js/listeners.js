@@ -840,6 +840,22 @@ $(document).keyup(function(e) {
             $("#results").toggleClass("hide");
         }
   	} else if(event.keyCode == 13 && $("#search").val() == "fireplace" && !$(".search-container").hasClass("hide") && window.location.pathname != "/") {
+        clearTimeout(timeout_search);
+        $("#results").html("");
+        $("#search").val("");
+    	if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
+      		$("#search-wrapper").toggleClass("hide");
+    	if($("#song-title").length != 0 && Helper.contains($("#song-title").attr("class").split(" "), "hide"))
+      		$("#song-title").toggleClass("hide");
+
+    	if($("#search-btn i").html() == "close")
+    	{
+      		//$("#search-btn i").html("mdi-navigation-close");
+      		$("#search-btn i").html("search");
+    	}
+        if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
+            $("#results").toggleClass("hide");
+        }
         if(fireplace_initiated) {
             fireplace_initiated = false;
             $("#fireplace_player").css("display", "none");
