@@ -1,9 +1,9 @@
-Zöff
+Zoff
 ====
 
 ##### The server-side is required for this website, and it's found at: <a href="https://github.com/zoff-music/zoff-server">here</a>
 
-### Zöff now supports integrated casting with chromecast!
+### Zoff now supports integrated casting with chromecast!
 
 ##### Config
 
@@ -11,9 +11,9 @@ To get the website to run as intended, please enabled mod_rewrite for apache2, a
 
 ### About
 
-Zöff is a shared (free) YouTube based radio service, built upon the YouTube API.
+Zoff is a shared (free) YouTube based radio service, built upon the YouTube API.
 
-Zöff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
+Zoff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and PHP on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
 
 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.
 
@@ -81,6 +81,6 @@ Copyright © 2017
 Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
 
 Creative Commons License
-Zöff is licensed under a
+Zoff is licensed under a
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>.
 Do not redistribute without permission from the developers.
