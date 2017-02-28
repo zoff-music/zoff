@@ -807,8 +807,8 @@ var List = {
     	    	showToggle=false;
     	    	$("#toptitle").empty();
     	        $("#chan").addClass("bigChan");
-    	        //$("#chan").html("zoff.no/"+encodeURI(chan));
-    	        $("#chan").html("zoff.no/"+chan.toLowerCase());
+    	        //$("#chan").html("zoff.me/"+encodeURI(chan));
+    	        $("#chan").html("zoff.me/"+chan.toLowerCase());
     	    }else{
     	    	showToggle=true;
     	    	$("#toptitle").html("Zoff");
