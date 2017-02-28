@@ -5,11 +5,11 @@ RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%1/$1 [L]
 
-RewriteCond %{HTTP_HOST} ^(.*zoff.no.*)$
+RewriteCond %{HTTP_HOST} ^(.*zoff.me.*)$
 RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [L]
 
-RewriteCond %{HTTP_HOST} ^remote.zoff.no
+RewriteCond %{HTTP_HOST} ^remote.zoff.me
 RewriteCond %{REQUEST_URI} !/public/css
 RewriteCond %{REQUEST_URI} !/public/js
 RewriteCond %{REQUEST_URI} !/public/dist
@@ -17,15 +17,15 @@ RewriteCond %{REQUEST_URI} !/public/images
 RewriteCond %{REQUEST_URI} !/public/font
 RewriteRule ^(.*)$ public/php/controller.php [L,NC,QSA]
 
-RewriteCond %{HTTP_HOST} ^bot.zoff.no
+RewriteCond %{HTTP_HOST} ^bot.zoff.me
 
 RewriteRule ^(.*)$ /public/php/bot.php [L,NC,QSA]
 
-RewriteCond %{HTTP_HOST} ^zoff.no
+RewriteCond %{HTTP_HOST} ^zoff.me
 RewriteCond %{REQUEST_URI} /o_callback
 RewriteRule ^(.*)$ public/html/callback.html [L,NC,QSA]
 
-RewriteCond %{HTTP_HOST} ^zoff.no
+RewriteCond %{HTTP_HOST} ^zoff.me
 RewriteCond %{REQUEST_URI} /_embed
 RewriteRule ^(.*)$ public/html/embed.html [L,NC,QSA]
 
