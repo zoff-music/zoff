@@ -20,10 +20,10 @@ if(isset($_GET['chan'])){
                     <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
                 </a>
                 <div id="frontpage-viewer-counter" data-position="bottom" data-delay="5" data-tooltip="Total viewers" class="noselect tooltipped" title="Divided among all channels. Hidden or not"></div>
-                <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zoff</a>-->
+                <!--<a href="//zoff.me" class="brand-logo brand-mobile hide-on-med-and-up">Zoff</a>-->
                 <ul class="right hide-on-med-and-down">
                     <li><a class="header-buttons waves-effect waves-cyan" id="offline-mode" title="Private mode" href="#">Private</a></li>
-                    <li><a class="header-buttons waves-effect waves-green" title="Remote control a Zoff player" href="https://remote.zoff.no">Remote</a></li>
+                    <li><a class="header-buttons waves-effect waves-green" title="Remote control a Zoff player" href="https://remote.zoff.me">Remote</a></li>
                     <li><a class="header-buttons modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>
@@ -82,7 +82,7 @@ if(isset($_GET['chan'])){
         <h5>Create a radio channel, collaborate and listen</h5>
             <form class="channel-finder">
                     <div class="input-field">
-                      <p class="prefix">zoff.no/</p>
+                      <p class="prefix">zoff.me/</p>
                       <input
                           class="room-namer autocomplete desktop-search"
                           type="text"

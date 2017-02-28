@@ -354,12 +354,12 @@ String.prototype.capitalizeFirstLetter = function() {
 };
 
 function share_link_modifier_frontpage(){
-  $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/");
-  $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/', 'Share Zoff','width=600,height=300'); return false;");
-  $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
-  $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.no/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
-  $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
-  $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/&choe=UTF-8&chld=L%7C1");
+  $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
+  $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
+  $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
+  $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+  $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
+  $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
 }
 
 function initfp(){
@@ -385,7 +385,7 @@ function initfp(){
 
     share_link_modifier_frontpage();
 
-    if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+    if(window.location.hostname == "zoff.me") add = "https://zoff.me";
     else add = window.location.hostname;
     if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8080', connection_options);
     if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists){
