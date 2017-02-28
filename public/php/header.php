@@ -13,8 +13,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#2D2D2D" />
-<meta property="og:image" content="https://zoff.no/public/images/favicon.png" />
-<meta property="og:url" content="https://zoff.no" />
+<meta property="og:image" content="https://zoff.me/public/images/favicon.png" />
+<meta property="og:url" content="https://zoff.me" />
 <meta property="og:title" content="Zoff"/>
 <meta property="og:description" content="The Shared (free) YouTube radio."/>
 <meta property="og:type" content="website"/>
