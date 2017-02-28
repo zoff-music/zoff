@@ -60,7 +60,10 @@
 }
 
 .list-image:after {
-    font-family: "Material-Design-Icons";
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    font-family: "Material Icons";
+    content: "thumb_up";
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -68,15 +71,19 @@
     text-transform: none;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    content: "\e686";/*"\e800";*/
-    color:white;
-    font-size:65px;
-    position:absolute;
-    width:100%; height:100%;
-    top:0; left:0;
-    background:rgba(0,0,0,0.8);
-    opacity:0;
-    transition: all .1s ease;
+    color: white;
+    font-size: -webkit-xxx-large;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    opacity: 0;
+    /* transition: all .1s ease; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .list-suggested-image:after {
