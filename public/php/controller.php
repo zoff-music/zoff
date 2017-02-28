@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <ul class="right hide-on-med-and-down">
-                  <li><a class="waves-effect green" title="Remote control a Zoff player" href="https://remote.zoff.no">Remote</a></li>
+                  <li><a class="waves-effect green" title="Remote control a Zoff player" href="https://remote.zoff.me">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>

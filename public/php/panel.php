@@ -149,12 +149,12 @@
                             </label>
                         </div>
                         <div><a id="code-link" target="_blank">
-                            <img id="code-qr" alt="QR code for control" title="Link to control this Zoff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.no" />
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zoff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
 
                                 <h4 id="code-text">ABBADUR</h4>
                         </a></div>
                         <p>
-                          You can control this Zoff instance from another device by going to <b>https://remote.zoff.no/</b>
+                          You can control this Zoff instance from another device by going to <b>https://remote.zoff.me/</b>
                       </p>
                     </li>
                 </ul>
