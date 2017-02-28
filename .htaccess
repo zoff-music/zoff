@@ -5,6 +5,9 @@ RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://%1/$1 [L]
 
+RewriteCond %{HTTP_HOST} ^(.*\.)?zoff\.no$
+RewriteRule ^/(.*)$ http://%zoff.me/$1 [L,NC,QSA]
+
 RewriteCond %{HTTP_HOST} ^(.*zoff.me.*)$
 RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [L]
