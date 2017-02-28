@@ -319,7 +319,7 @@ function init(){
 
 	share_link_modifier_channel();
 
-	if(window.location.hostname == "zoff.no") add = "https://zoff.no";
+	if(window.location.hostname == "zoff.me") add = "https://zoff.me";
 	else add = window.location.hostname;
 
 	if(Player !== undefined) Player.stopInterval= false;
@@ -487,7 +487,7 @@ initializeCastApi = function() {
             switch (event.sessionState) {
                 case cast.framework.SessionState.SESSION_STARTED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                    castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener)
+                    castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
                     chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
                     chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                     chromecastAvailable = true;
@@ -499,13 +499,13 @@ initializeCastApi = function() {
                     } catch(e){
                         _seekTo = seekTo;
                     }
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
                     break;
                 case cast.framework.SessionState.SESSION_RESUMED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                    castSession.addMessageListener("urn:x-cast:zoff.no", chromecastListener);
+                    castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
                     chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
                     chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                     chromecastAvailable = true;
@@ -517,8 +517,8 @@ initializeCastApi = function() {
                     } catch(e){
                         _seekTo = seekTo;
                     }
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
-                    castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                     hide_native(1);
                     break;
                 case cast.framework.SessionState.SESSION_ENDED:
@@ -706,7 +706,7 @@ function disable_debug(){
 }
 
 function embed_code(autoplay, width, height, color){
-    return '<embed src="https://zoff.no/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+    return '<embed src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
 }
 
 function set_title_width(start){
@@ -1572,12 +1572,12 @@ $(document).on("submit", "#find_form", function(e){
 
 
 function share_link_modifier_channel(){
-	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase());
-    $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.no/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
-    $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic");
-    $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.no/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
-    $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
-    $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.no/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase());
+    $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
+    $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic");
+    $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+    $("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+    $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
 }
 
 function before_toast(){

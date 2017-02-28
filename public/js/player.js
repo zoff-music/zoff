@@ -191,7 +191,7 @@ var Player = {
 
     playVideo: function(){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "playVideo"});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "playVideo"});
             //socket.emit('pos', {channel: chan.toLowerCase()});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
@@ -207,7 +207,7 @@ var Player = {
 
     pauseVideo: function(){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "pauseVideo"});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "pauseVideo"});
             if($("#play").hasClass("hide")){
                 $("#play").toggleClass("hide");
                 $("#pause").toggleClass("hide");
@@ -220,7 +220,7 @@ var Player = {
 
     seekTo: function(_seekTo){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "seekTo", seekTo: _seekTo});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "seekTo", seekTo: _seekTo});
         } else if(!offline){
             Player.player.seekTo(_seekTo);
         } else {
@@ -230,7 +230,7 @@ var Player = {
 
     loadVideoById: function(id){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: id});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
@@ -240,7 +240,7 @@ var Player = {
 
     stopVideo: function(){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "stopVideo"});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "stopVideo"});
         } else {
             try{
                 Player.player.stopVideo();
@@ -265,7 +265,7 @@ var Player = {
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "loadVideo", videoId: video_id});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
@@ -276,7 +276,7 @@ var Player = {
 
     sendNext: function(obj){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.no", {type: "nextVideo", title: obj.title, videoId: obj.videoId});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", title: obj.title, videoId: obj.videoId});
         }
     },
 
@@ -394,7 +394,7 @@ var Player = {
     		};
 
     		img.crossOrigin = 'Anonymous';
-    		img.src         = 'https://zoff.no:8081/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    		img.src         = 'https://zoff.me:8081/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     	}
     },
 

@@ -41,7 +41,7 @@ $(document).ready(function(){
 	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />');
 
-	add = "https://zoff.no";
+	add = "https://zoff.me";
 	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on("get_list", function(){
@@ -86,7 +86,7 @@ function setVolume(val) {
 }
 
 $(document).on( "click", "#zoffbutton", function(e){
-	window.open("https://zoff.no/" + chan.toLowerCase() + "/", '_blank');
+	window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });
 
 $(document).on( "click", ".vote-container", function(e){
