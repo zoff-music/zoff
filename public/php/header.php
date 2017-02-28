@@ -1,11 +1,11 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-|    Zöff                                                         |
+|    Zoff                                                         |
 |    Project is on github: https://github.com/zoff-music/Zoff     |
 |    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<title>Zöff</title>
+<title>Zoff</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
 <meta name="description" content="The Shared (free) YouTube radio."/>
@@ -15,7 +15,7 @@
 <meta name="theme-color" content="#2D2D2D" />
 <meta property="og:image" content="https://zoff.no/public/images/favicon.png" />
 <meta property="og:url" content="https://zoff.no" />
-<meta property="og:title" content="Zöff"/>
+<meta property="og:title" content="Zoff"/>
 <meta property="og:description" content="The Shared (free) YouTube radio."/>
 <meta property="og:type" content="website"/>
 <meta property="fb:app_id" content="1581693815380949" />

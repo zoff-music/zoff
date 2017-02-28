@@ -301,7 +301,7 @@ var Player = {
                 $("#player_overlay").css("height", "calc(100% - 32px)");
             }
         }
-        document.title    = title + " • Zöff / "+chan;
+        document.title    = title + " • Zoff / "+chan;
 
     },
 

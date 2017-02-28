@@ -486,7 +486,7 @@ var List = {
                         'Content-Type': 'application/json'
                     },
                     data: JSON.stringify({
-                            name: chan.toLowerCase() + " - Zöff",
+                            name: chan.toLowerCase() + " - Zoff",
                             public: true
                     }),
                     success: function(response){
@@ -811,7 +811,7 @@ var List = {
     	        $("#chan").html("zoff.no/"+chan.toLowerCase());
     	    }else{
     	    	showToggle=true;
-    	    	$("#toptitle").html("Zöff");
+    	    	$("#toptitle").html("Zoff");
     	    	$("#chan").removeClass("bigChan");
     	    	$("#chan").html(chan);
     	   }

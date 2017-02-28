@@ -12,7 +12,7 @@
 
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="brand-logo brand-logo-navigate noselect">
-                        <img id="zicon" src="public/images/z.svg" alt="zöff" title="Zöff" />
+                        <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
                     </a>
 
                     <span id="chan" class="chan clickable truncate" title="Show big URL"><?php echo(ucfirst($list));?></span>

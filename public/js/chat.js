@@ -36,7 +36,7 @@ var Chat = {
           }
           color = Helper.hexToRgb(color.substring(0,6));
           var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-          $("#chatall").append("<li title='Zöff''><span style='color:"+color_temp+";'>System</span>: </li>");
+          $("#chatall").append("<li title='Zoff''><span style='color:"+color_temp+";'>System</span>: </li>");
           var in_text = document.createTextNode(Chat.chat_help[x]);
           $("#chatall li:last")[0].appendChild(in_text);
           document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
