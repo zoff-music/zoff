@@ -17,13 +17,13 @@ if(isset($_GET['chan'])){
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo noselect">
-                    <img id="zicon" src="public/images/z.svg" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
                 </a>
                 <div id="frontpage-viewer-counter" data-position="bottom" data-delay="5" data-tooltip="Total viewers" class="noselect tooltipped" title="Divided among all channels. Hidden or not"></div>
-                <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zöff</a>-->
+                <!--<a href="//zoff.no" class="brand-logo brand-mobile hide-on-med-and-up">Zoff</a>-->
                 <ul class="right hide-on-med-and-down">
                     <li><a class="header-buttons waves-effect waves-cyan" id="offline-mode" title="Private mode" href="#">Private</a></li>
-                    <li><a class="header-buttons waves-effect waves-green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
+                    <li><a class="header-buttons waves-effect waves-green" title="Remote control a Zoff player" href="https://remote.zoff.no">Remote</a></li>
                     <li><a class="header-buttons modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>
@@ -31,8 +31,8 @@ if(isset($_GET['chan'])){
         <div id="about" class="modal">
             <div class="modal-content">
                 <h4>About</h4>
-                <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-                Zöff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
+                <p>Zoff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
+                Zoff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
                 The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
 
                 </p>
@@ -40,7 +40,7 @@ if(isset($_GET['chan'])){
                 <p>Copyright © 2017 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
                 <br><br>
                 Creative Commons License<br>
-                Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                Zoff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
                 <br>
                 Do not redistribute without permission from the developers.
                 <br>

@@ -66,7 +66,7 @@
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="white-text">Zöff</h5>
+                <h5 class="white-text">Zoff</h5>
                 <p class="grey-text text-lighten-4">The shared YouTube radio</p>
                 <p class="grey-text text-lighten-4">
                     Being built around the YouTube search and video API

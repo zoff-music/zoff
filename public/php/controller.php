@@ -8,15 +8,15 @@
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="/" class="brand-logo brand-logo-navigate hide-on-med-and-down noselect">
-                    <img id="zicon" src="public/images/z.svg" alt="zöff" title="Zöff" />
+                    <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
                 </a>
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="hide-on-large-only brand-logo-navigate">
-                        <img id="zicon" src="public/images/z.svg" alt="zöff" title="Zöff" />
+                        <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
                     </a>
                 </div>
                 <ul class="right hide-on-med-and-down">
-                  <li><a class="waves-effect green" title="Remote control a Zöff player" href="https://remote.zoff.no">Remote</a></li>
+                  <li><a class="waves-effect green" title="Remote control a Zoff player" href="https://remote.zoff.no">Remote</a></li>
                   <li><a class="modal-trigger waves-effect waves-orange" onclick="$('#about').modal('open')">About</a></li>
                 </ul>
             </div>
@@ -24,8 +24,8 @@
         <div id="about" class="modal">
             <div class="modal-content">
               <h4>About</h4>
-              <p>Zöff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-              Zöff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
+              <p>Zoff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
+              Zoff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
               The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
 
               </p>
@@ -33,7 +33,7 @@
               <p>Copyright © 2017 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
               <br><br>
               Creative Commons License<br>
-              Zöff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+              Zoff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
               <br>
               Do not redistribute without permission from the developers.
               <br>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="section about-remote">
-            <b>Here you can control another Zöff player from any device.</b>
+            <b>Here you can control another Zoff player from any device.</b>
             <br>
             To find the ID of your player, click the Conf <i class="material-icons">menu</i> icon on the top right of the player page, then "Remote Control".
             <br>You can either scan the QR code or type the ID manually.

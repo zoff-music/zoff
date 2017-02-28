@@ -7,7 +7,7 @@ mobilecheck = function() {
 };
 
 $(document).ready(function (){
-    document.title = "Zöff Remote";
+    document.title = "Zoff Remote";
     setTimeout(function(){$("#search").focus();},500);
     var connection_options = {
       'sync disconnect on unload':true,
