@@ -383,7 +383,7 @@ function initfp(){
 
     channel_list = $("#channel-list-container").html();
 
-    share_link_modifier_frontpage();
+    if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
 
     if(window.location.hostname == "zoff.me") add = "https://zoff.me";
     else add = window.location.hostname;

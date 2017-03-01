@@ -58,8 +58,6 @@ if(localStorage.debug === undefined){
 	localStorage.debug = debug;
 }
 
-console.log(window.location);
-
 var image_timeout;
 var result_html;
 var empty_results_html;
@@ -319,7 +317,7 @@ function init(){
 		onepage_load();
 	};
 
-	share_link_modifier_channel();
+    if(window.location.hostname != "fb.zoff.me") share_link_modifier_channel();
 
 	if(window.location.hostname == "zoff.me") add = "https://zoff.me";
 	else add = window.location.hostname;

@@ -280,6 +280,12 @@
         </div>
     </main>
 
-    <?php include("public/php/footer.php"); ?>
+    <?php
+      $subdomain =  array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+      if($subdomain == "fb"){}
+      else {
+        include("public/php/footer.php");
+      }
+    ?>
     </body>
 </html>
