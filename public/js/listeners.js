@@ -58,6 +58,8 @@ if(localStorage.debug === undefined){
 	localStorage.debug = debug;
 }
 
+console.log(window.location);
+
 var image_timeout;
 var result_html;
 var empty_results_html;
