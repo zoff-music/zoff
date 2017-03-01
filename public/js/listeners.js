@@ -127,7 +127,7 @@ $().ready(function(){
         $("#latest-commit").html("Latest Commit: <br>" +
             git_info[0].created_at.substring(0,10) +
             ": " + git_info[0].actor.display_login +
-            "<br><a href='"+git_info[0].payload.commits[0].url+"'>" +
+            "<br><a href='https://github.com/"+git_info[0].repo.name+"/commit/" + git_info[0].payload.commits[0].sha + "'>" +
             git_info[0].payload.commits[0].sha.substring(0,10) + "</a>: " +
             git_info[0].payload.commits[0].message+"<br");
     } catch(error){
