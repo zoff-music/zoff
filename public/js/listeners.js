@@ -318,7 +318,7 @@ function init(){
 	};
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_channel();
-	if(window.location.hostname == "zoff.me") add = "https://socket.zoff.me";
+	if(window.location.hostname == "zoff.me") add = "https://zoff.me";
 	else add = window.location.hostname;
 
 	if(Player !== undefined) Player.stopInterval= false;
@@ -705,7 +705,7 @@ function disable_debug(){
 }
 
 function embed_code(autoplay, width, height, color){
-    return '<embed src="https://socket.zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+    return '<embed src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
 }
 
 function set_title_width(start){
