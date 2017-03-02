@@ -318,7 +318,6 @@ function init(){
 	};
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_channel();
-
 	if(window.location.hostname == "zoff.me") add = "https://zoff.me";
 	else add = window.location.hostname;
 
@@ -738,19 +737,19 @@ function change_offline(enabled, already_offline){
 		socket.emit("offline", enabled);
     $("#offline-mode").tooltip('remove');
     if(enabled){
-			if(list_html){
-				list_html = $("<div>" + list_html + "</div>");
-				//list_html.find(".card-content").css("display", "flex");
-        //list_html.find(".card-content").css("height", "100%");
-        //list_html.find(".list-title").css("align-self", "center");
-        //list_html.find(".vote-span").addClass("hide");
+		if(list_html){
+	          list_html = $("<div>" + list_html + "</div>");
+	           //list_html.find(".card-content").css("display", "flex");
+               //list_html.find(".card-content").css("height", "100%");
+               //list_html.find(".list-title").css("align-self", "center");
+               //list_html.find(".vote-span").addClass("hide");
 				list_html.find(".list-remove").removeClass("hide");
 				list_html = list_html.html();
-			}
+		}
         //$(".card-content").css("display", "flex");
         //$(".card-content").css("height", "100%");
         //$(".list-title").css("align-self", "center");
-				$(".list-remove").removeClass("hide");
+			$(".list-remove").removeClass("hide");
         //$(".vote-span").addClass("hide");
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
@@ -760,6 +759,31 @@ function change_offline(enabled, already_offline){
           position: "bottom",
           tooltip: "Disable private mode"
         });
+
+        if(window.location.pathname != "/"){
+            $("#controls").on("mouseenter", function(e){
+                if($("#seekToDuration").hasClass("hide")){
+                    $("#seekToDuration").removeClass("hide");
+                }
+            });
+
+            $("#controls").on("mouseleave", function(e){
+                if(!$("#seekToDuration").hasClass("hide")){
+                    $("#seekToDuration").addClass("hide");
+                }
+            });
+
+            $("#controls").on("mousemove", seekToMove);
+            $("#controls").on("click", seekToClick);
+            $("body").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
+            $("#seekToDuration").css("top", $("#controls").position().top + 10);
+            if(!$("#controls").hasClass("ewresize")) $("#controls").addClass("ewresize");
+        } else {
+            $("#controls").off("mouseenter");
+            $("#controls").off("mouseleave");
+            $("#controls").off("mousemove");
+            $("#controls").off("click");
+        }
 		if(full_playlist != undefined && !already_offline){
 			for(var x = 0; x < full_playlist.length; x++){
 				full_playlist[x].votes = 0;
@@ -794,9 +818,15 @@ function change_offline(enabled, already_offline){
           position: "bottom",
           tooltip: "Enable private mode"
         });
+        $("#controls").off("mouseleave");
+        $("#controls").off("mouseenter");
+        $("#controls").off("mousemove", seekToMove);
+        $("#controls").off("click", seekToClick);
+        $("#seekToDuration").remove();
 		if(window.location.pathname != "/"){
 			socket.emit("pos");
 			socket.emit('list', chan.toLowerCase());
+            if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
 		}
     }
 }
@@ -822,6 +852,47 @@ function spotify_is_authenticated(bool){
 
 window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
+
+function seekToMove(e){
+    var pos_x = e.clientX - $("#seekToDuration").width() / 2;
+    if(pos_x < 0) pos_x = 0;
+    else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
+        pos_x = $("#controls").width() - $("#seekToDuration").width();
+    }
+    $("#seekToDuration").css("left", pos_x);
+    try{
+        var total = Player.player.getDuration() / $("#controls").width();
+        total = total * e.clientX;
+        var _time = Helper.secondsToOther(total);
+        var _minutes = Helper.pad(_time[0]);
+        var _seconds = Helper.pad(Math.ceil(_time[1]));
+        $("#seekToDuration").text(_minutes + ":" + _seconds);
+    } catch(e){}
+}
+
+function seekToClick(e){
+    var acceptable = ["bar", "controls", "duration"];
+    if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
+        var total = Player.player.getDuration() / $("#controls").width();
+        total = total * e.clientX;
+        Player.player.seekTo(total);
+
+        dMinutes = Math.floor(duration / 60);
+        dSeconds = duration - dMinutes * 60;
+        currDurr = total;
+        if(currDurr > duration)
+        currDurr = duration;
+        minutes = Math.floor(currDurr / 60);
+        seconds = currDurr - (minutes * 60);
+        document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+        per = (100 / duration) * currDurr;
+        if(per >= 100)
+        per = 100;
+        else if(duration === 0)
+        per = 0;
+        $("#bar").width(per+"%");
+    }
+}
 
 $(document).keyup(function(e) {
   	if(event.keyCode == 27){

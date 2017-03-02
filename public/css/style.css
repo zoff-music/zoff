@@ -1930,12 +1930,31 @@ nav ul li:hover, nav ul li.active {
     background-color:rgba(0, 0, 0, 0.3);
 }
 
-
 #offline-info{
   color: black;
   line-height: 20px;
   margin: 0 24px;
   padding-bottom: 15px;
+}
+
+#seekToDuration{
+  position: absolute;
+  background: #2d2d2d;
+  color:white;
+
+  padding: 10px 8px;
+  z-index: 2000;
+  background-color: #2d2d2d;
+  border-radius: 2px;
+  color: #fff;
+  min-height: 36px;
+  text-align: center;
+  max-width: calc(100% - 4px);
+  pointer-events: none;
+}
+
+.ewresize{
+  cursor: ew-resize;
 }
 
 /***************************************************************************
