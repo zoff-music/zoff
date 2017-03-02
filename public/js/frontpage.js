@@ -385,7 +385,7 @@ function initfp(){
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
 
-    if(window.location.hostname == "zoff.me") add = "https://socket.zoff.me";
+    if(window.location.hostname == "zoff.me") add = "https://zoff.me";
     else add = window.location.hostname;
     if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8080', connection_options);
     if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists){
