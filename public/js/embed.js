@@ -41,7 +41,7 @@ $(document).ready(function(){
 	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/embed.css" />');
 	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />');
 
-	add = "https://zoff.me";
+	add = "https://socket.zoff.me";
 	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on("get_list", function(){
