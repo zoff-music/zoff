@@ -307,7 +307,7 @@ $().ready(function(){
 
 
 function init(){
-
+    number_suggested = 0;
 	var no_socket = true;
 
 	chan = $("#chan").html();
