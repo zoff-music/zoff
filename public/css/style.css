@@ -1601,6 +1601,7 @@ nav ul li:hover, nav ul li.active {
 .result img{
     float:left;
     height: 70px;
+    width:124.44px;
     border-radius: 3px;
     margin: 15px 20px;
 }
@@ -2263,6 +2264,7 @@ nav ul li:hover, nav ul li.active {
     .result img {
         margin: 25px 10px;
         height: 50px;
+        width: 88.88px;
     }
     .result .add-many{
         margin-top: 15px;
