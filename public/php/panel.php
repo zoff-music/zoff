@@ -182,7 +182,7 @@
                             </label>
                         </div>
                         <div id="offline-info">
-                          By enabling private mode, you won't receive updates in position of the currently playing song, and you'll be able to vote as many times as you please.
+                          By enabling private mode, you won't receive updates in position of the currently playing song, you'll be able to vote as many times as you please, and you can skip to a specific location in the song.
                       </div>
                     </li>
                 </ul>
