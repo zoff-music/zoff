@@ -3,7 +3,7 @@ var Suggestions = {
 	catchUserSuggests: function(params, single){
 		number_suggested = number_suggested + params.length;
 		var to_display = number_suggested > 9 ? "9+" : number_suggested;
-		if($(".suggested-link span.badge.new.white").hasClass("hide")){
+		if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0){
 				$(".suggested-link span.badge.new.white").removeClass("hide");
 		}
 		$(".suggested-link span.badge.new.white").text(to_display);
