@@ -529,7 +529,7 @@ span.badge.new.white{
 }
 
 .suggested-link {
-  display: flex;
+  display: flex !important;
   justify-content: space-around;
 }
 
