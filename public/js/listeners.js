@@ -854,14 +854,15 @@ window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
 
 function seekToMove(e){
-    var pos_x = e.clientX - $("#seekToDuration").width() / 2;
+    var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
     if(pos_x < 0) pos_x = 0;
     else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
         pos_x = $("#controls").width() - $("#seekToDuration").width();
     }
     $("#seekToDuration").css("left", pos_x);
     try{
-        var total = Player.player.getDuration() / $("#controls").width();
+        //var total = Player.player.getDuration() / $("#controls").width();
+        var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
         total = total * e.clientX;
         var _time = Helper.secondsToOther(total);
         var _minutes = Helper.pad(_time[0]);
@@ -875,22 +876,28 @@ function seekToClick(e){
     if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
         var total = Player.player.getDuration() / $("#controls").width();
         total = total * e.clientX;
-        Player.player.seekTo(total);
 
-        dMinutes = Math.floor(duration / 60);
-        dSeconds = duration - dMinutes * 60;
-        currDurr = total;
-        if(currDurr > duration)
-        currDurr = duration;
-        minutes = Math.floor(currDurr / 60);
-        seconds = currDurr - (minutes * 60);
-        document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
-        per = (100 / duration) * currDurr;
-        if(per >= 100)
-        per = 100;
-        else if(duration === 0)
-        per = 0;
-        $("#bar").width(per+"%");
+
+        if(!chromecastAvailable){
+            Player.player.seekTo(total);
+
+            dMinutes = Math.floor(duration / 60);
+            dSeconds = duration - dMinutes * 60;
+            currDurr = total;
+            if(currDurr > duration)
+            currDurr = duration;
+            minutes = Math.floor(currDurr / 60);
+            seconds = currDurr - (minutes * 60);
+            document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+            per = (100 / duration) * currDurr;
+            if(per >= 100)
+            per = 100;
+            else if(duration === 0)
+            per = 0;
+            $("#bar").width(per+"%");
+        } else {
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "seekTo", seekTo: total});
+        }
     }
 }
 
@@ -1477,6 +1484,7 @@ $(window).resize(function(){
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
         set_title_width();
+        $("#seekToDuration").css("top", $("#controls").position().top + 10);
     }
 })
 
