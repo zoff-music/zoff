@@ -301,6 +301,19 @@ var List = {
             if(now_playing){
                 full_playlist.push(now_playing);
             }
+
+            if($("#suggested-"+added.id).length > 0) {
+              number_suggested = number_suggested - 1;
+              if(number_suggested < 0) number_suggested = 0;
+
+              var to_display = number_suggested > 9 ? "9+" : number_suggested;
+              if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+                  $(".suggested-link span.badge.new.white").addClass("hide");
+              }
+
+              $(".suggested-link span.badge.new.white").text(to_display);
+            }
+
             $("#suggested-"+added.id).remove();
             if(List.empty){
                 List.empty = false;
@@ -855,18 +868,20 @@ var List = {
             //song.find(".card-duration").remove();
             song.find(".vote-text").text("");
             song.find(".card-duration").text(Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]));
-
+            var added_by = "user";
             attr     = ".add-suggested";
-            if(user)
+            if(user){
                 del_attr = "del_user_suggested";
-            else
+            } else{
                 del_attr = "del_suggested";
-
+                added_by = "system";
+            }
             song.find(".vote-container").attr("class", "clickable add-suggested");
             song.find(".add-suggested").attr("title", video_title);
             song.find(".delete_button").addClass(del_attr);
             song.find(attr).attr("data-video-title", video_title);
             song.find(attr).attr("data-video-length", _song_info.length);
+            song.find(attr).attr("data-added-by", added_by);
             song.find("#list-song").attr("id", "suggested-" + video_id);
             song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
 

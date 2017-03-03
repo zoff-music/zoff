@@ -45,6 +45,7 @@ var find_start          = false;
 var find_started        = false;
 var offline             = false;
 var cast_ready_connect  = false;
+var number_suggested = 0;
 var prev_chan_list 			= "";
 var prev_chan_player 		= "";
 var chromecastReady = false;
@@ -1314,8 +1315,8 @@ $(document).on("click", ".chat-link", function(){
     //blink_interval_exists = false;
     Chat.channel_received = 0;
     Chat.all_received = 0;
-    if(!$("span.badge.new.white").hasClass("hide")){
-        $("span.badge.new.white").addClass("hide");
+    if(!$(".chat-link span.badge.new.white").hasClass("hide")){
+        $(".chat-link span.badge.new.white").addClass("hide");
     }
     unseen = false;
     $("#favicon").attr("href", "public/images/favicon.png");
@@ -1522,8 +1523,19 @@ $(document).on( "click", ".add-suggested", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
-
+    var added_by = $(this).attr("data-added-by");
 	Search.submit(id, title, length);
+    if(added_by == "user") {
+        number_suggested = number_suggested - 1;
+        if(number_suggested < 0) number_suggested = 0;
+
+        var to_display = number_suggested > 9 ? "9+" : number_suggested;
+        if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+            $(".suggested-link span.badge.new.white").addClass("hide");
+        }
+
+        $(".suggested-link span.badge.new.white").text(to_display);
+    }
 	$("#suggested-" + id).remove();
 });
 
@@ -1536,6 +1548,17 @@ $(document).on( "click", ".del_suggested", function(e){
 $(document).on( "click", ".del_user_suggested", function(e){
 	var id = $(this).attr("data-video-id");
 	$("#suggested-" + id).remove();
+
+    number_suggested = number_suggested - 1;
+    if(number_suggested < 0) number_suggested = 0;
+
+    var to_display = number_suggested > 9 ? "9+" : number_suggested;
+    if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+        $(".suggested-link span.badge.new.white").addClass("hide");
+    }
+
+    $(".suggested-link span.badge.new.white").text(to_display);
+
 	List.vote(id, "del");
 });
 
