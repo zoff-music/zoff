@@ -528,6 +528,11 @@ span.badge.new.white{
   margin-left: 0px;
 }
 
+.suggested-link {
+  display: flex;
+  justify-content: space-around;
+}
+
 .suggested-link span.badge:after{
   content: "";
 }
