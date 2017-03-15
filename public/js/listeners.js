@@ -451,6 +451,9 @@ function init(){
 			$(".castButton-unactive").css("display", "none");
 		}
 
+    Helper.log("chromecastAvailable" + chromecastAvailable);
+    Helper.log("chromecastAvailable" + chromecastReady);
+
     if(chromecastAvailable){
         hide_native(1);
     } else if(chromecastReady) {
@@ -484,6 +487,8 @@ initializeCastApi = function() {
     context.addEventListener(
         cast.framework.CastContextEventType.SESSION_STATE_CHANGED,
         function(event) {
+            Helper.log("session state");
+            Helper.log(event.sessionState);
             switch (event.sessionState) {
                 case cast.framework.SessionState.SESSION_STARTED:
                     castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -535,6 +540,8 @@ initializeCastApi = function() {
 
     var cast_state = cast.framework.CastContext.getInstance();
     cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
+        Helper.log("cast state");
+        Helper.log(event.castState);
         if(event.castState == "NOT_CONNECTED"){
             $(".castButton-unactive").css("display", "block");
             cast_ready_connect = true;
