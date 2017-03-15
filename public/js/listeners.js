@@ -875,10 +875,10 @@ function seekToMove(e){
 function seekToClick(e){
     var acceptable = ["bar", "controls", "duration"];
     if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
-        var total = Player.player.getDuration() / $("#controls").width();
+        var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
         total = total * e.clientX;
 
-
+        Helper.log(total);
         if(!chromecastAvailable){
             Player.player.seekTo(total);
 
@@ -1689,7 +1689,6 @@ function before_toast(){
 function onepage_load(){
 
 	var url_split = window.location.href.split("/");
-
 	if(url_split[3].substr(0,1) != "#!" && url_split[3] !== "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
 
 			socket.emit("change_channel");
