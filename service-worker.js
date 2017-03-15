@@ -1,4 +1,4 @@
-var version = 'v3.3';
+var version = 'v3.4';
 var CACHE_FILES = [
     '/public/html/offline.html',
     '/manifest.json',
