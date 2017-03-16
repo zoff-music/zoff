@@ -3,18 +3,20 @@ RewriteEngine on
 RewriteBase /
 
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteCond %{HTTP_HOST} ^zoff.me
 RewriteCond %{HTTPS} !=on
 RewriteRule ^(.*)$ https://zoff.me/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteCond %{HTTP_HOST} ^zoff.me
 RewriteRule ^(.*)$ https://zoff.me/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^(.*zoff.me.*)$
 RewriteCond %{HTTPS} !=on
 RewriteRule ^/?(.*) https://zoff.me/$1 [L]
 
-RewriteCond %{HTTP_HOST} ^zoff.no
-RewriteRule ^/?(.*) https://zoff.me/$1 [L]
+#RewriteCond %{HTTP_HOST} ^zoff.no
+#RewriteRule ^/?(.*) https://zoff.me/$1 [L]
 
 RewriteCond %{HTTP_HOST} ^remote.zoff.no
 RewriteRule ^/?(.*) https://remote.zoff.me/$1 [L]
