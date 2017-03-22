@@ -187,7 +187,6 @@ var Frontpage = {
     if(i >= list.length || i >= 20) i = 0;
 
     var id = list[i].id;
-
     if(Frontpage.blob_list[i] !== undefined){
       //$(".room-namer").css("opacity", 0);
       setTimeout(function(){
@@ -195,7 +194,7 @@ var Frontpage = {
           $("#mega-background").css("background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#searchFrontpage").attr("placeholder", list[i].channel);
+          $(".desktop-search").attr("placeholder", list[i].channel);
           //$(".room-namer").css("opacity", 1);
         }
       },500);
@@ -216,7 +215,7 @@ var Frontpage = {
                   $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
                   $("#mega-background").css("background-size" , "200%");
                   $("#mega-background").css("opacity", 1);
-                  $("#searchFrontpage").attr("placeholder", list[i].channel);
+                  $(".desktop-search").attr("placeholder", list[i].channel);
                   //$(".room-namer").css("opacity", 1);
                 },500);
               //then append the result where ever you want like
@@ -229,7 +228,7 @@ var Frontpage = {
           $("#mega-background").css("background", "url("+img.src+")");
           $("#mega-background").css("background-size" , "200%");
           $("#mega-background").css("opacity", 1);
-          $("#searchFrontpage").attr("placeholder", list[i].channel);
+          $(".desktop-search").attr("placeholder", list[i].channel);
       };
 
     }
