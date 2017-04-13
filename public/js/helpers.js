@@ -184,7 +184,7 @@ var Helper = {
             h /= 6;
         }
 
-        if(l>0.5 && light)l=0.5; //make sure it isnt too light
+        if(l>0.5 && light)l=0.4; //make sure it isnt too light
         else if(l<0.65 && !light)l=0.65;
 
         return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
