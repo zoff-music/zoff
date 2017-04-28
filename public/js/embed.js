@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 	color = "#" + hash[1];
 
-	add = "https://zoff.me";
+	add = "http://zoff.me";
 	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on("get_list", function(){
