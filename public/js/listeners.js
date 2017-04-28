@@ -617,7 +617,10 @@ function change_offline(enabled, already_offline){
             });
 
 						$("#controls").on("mousedown", function(e) {
-							dragging = true;
+							var acceptable = ["bar", "controls", "duration"];
+					    if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
+								dragging = true;
+							}
 						});
 						$("#controls").on("mouseup", function(e) {
 							dragging = false;
@@ -721,7 +724,8 @@ function seekToMove(e){
         var _seconds = Helper.pad(Math.ceil(_time[1]));
         $("#seekToDuration").text(_minutes + ":" + _seconds);
 
-				if(dragging) {
+				var acceptable = ["bar", "controls", "duration"];
+		    if(acceptable.indexOf($(e.target).attr("id")) >= 0 && dragging) {
 					$("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
 				}
     } catch(e){}

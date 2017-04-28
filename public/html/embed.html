@@ -5,47 +5,13 @@
 		<meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
 		<meta name="description" content="The Shared (free) YouTube radio. Being built around the YouTube search and video API it enables the creation of collaborative and shared live playlists, with billions of videos and songs to choose from, all for free and without registration. Enjoy!"/>
 		<meta charset="UTF-8"/>
+		<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<style>
-		#pageButtons, #pageButtons a{
-			color:white !important;
-		}
-
-		#pageNumber{
-			cursor: default;
-			color: white;
-			padding:0;
-		}
-
-		.prev_page, .next_page, .last_page, .first_page{
-			cursor: pointer;
-		}
-
-
-		.prev_page_hide, .next_page_hide, .last_page_hide, .first_page_hide{
-			visibility: visible !important;
-			color:gray;
-			cursor:default;
-		}
-
-		.prev_page_hide, .prev_page, .first_page, .first_page_hide{
-		  padding:0 10px;
-		  float:left;
-		}
-
-		.next_page_hide, .next_page, .last_page, .last_page_hide{
-		  padding:0 10px;
-		  float:right;
-		}
-
-		.last_page, .last_page_hide, .first_page, .first_page_hide{
-			display: none !important;
-		}
-
-		#wrapper{
-			height: 94%;
-		}
-		</style>
+		<script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script>
+		<script type="text/javascript" src="/public/dist/lib/socket.io.min.js"></script>
+		<link type="text/css" rel="stylesheet" href="/public/css/embed.css" />
+		<script src="public/dist/embed.min.js"></script>
 	</head>
 	<body>
 		<script>
@@ -60,6 +26,6 @@
 
 			window.addEventListener("message", receiveMessage, false);
 		</script>
-		<div id="song-title"></div><div id="container" style="display:inline-flex;"><div id="player-container"><div id="player"></div><div id="controls" class="noselect"><div id="zoffbutton" title="Visit the channel!"></div><div id="playpause"><i id="play" class="mdi-av-play-arrow hide"></i><i id="pause" class="mdi-av-pause"></i></div><div id="duration">00:00 / 00:00</div><div id="volume-button"><i id="v-mute" class="mdi-av-volume-off"></i><i id="v-low" class="mdi-av-volume-mute"></i><i id="v-medium" class="mdi-av-volume-down"></i><i id="v-full" class="mdi-av-volume-up"></i></div><div id="volume"></div><div id="viewers"></div><div id="bar"></div></div></div><div id="playlist"><div id="wrapper"><div id="preloader" class="progress channel_preloader"><div class="indeterminate"></div></div><div id="list-song-html"><div id="list-song" class="card left-align list-song"><span class="clickable vote-container" title="Vote!"><a class="clickable center-align votebg"><div class="lazy card-image cardbg list-image" style=""></div></a><span class="card-content"><span class="flow-text truncate list-title"></span><span class="vote-span"><span class="list-votes"></span><span class="highlighted vote-text">&nbsp;votes</span></span></span></span></div></div></div></div></div><script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script><script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script><script type="text/javascript" src="/public/dist/lib/socket.io.min.js"></script><script src="public/dist/embed.min.js"></script>
+		<div id="song-title"></div><div id="container" style="display:inline-flex;"><div id="player-container"><div id="player"></div><div id="controls" class="noselect"><div id="zoffbutton" title="Visit the channel!"></div><div id="playpause"><i id="play" class="material-icons hide">play_arrow</i><i id="pause" class="material-icons">pause</i></div><div id="duration">00:00 / 00:00</div><div id="volume-button"><i id="v-mute" class="mdi-av-volume-off"></i><i id="v-low" class="mdi-av-volume-mute"></i><i id="v-medium" class="mdi-av-volume-down"></i><i id="v-full" class="mdi-av-volume-up"></i></div><div id="volume"></div><div id="viewers"></div><div id="bar"></div></div></div><div id="playlist"><div id="wrapper"><div id="preloader" class="progress channel_preloader"><div class="indeterminate"></div></div><div id="list-song-html"><div id="list-song" class="card left-align list-song"><span class="clickable vote-container" title="Vote!"><a class="clickable center-align votebg"><div class="lazy card-image cardbg list-image" style=""></div></a><span class="card-content"><span class="flow-text truncate list-title"></span><span class="vote-span"><span class="list-votes"></span><span class="highlighted vote-text">&nbsp;votes</span></span></span></span></div></div></div></div></div>
 	</body>
 </html>
