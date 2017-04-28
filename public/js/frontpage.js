@@ -134,6 +134,9 @@ var Frontpage = {
       $(to_autocomplete).autocomplete({
         data: data,
         limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
+        onAutocomplete: function(val) {
+          Frontpage.to_channel(val, false);
+        },
       });
 
       //$(".autocomplete").off('keydown.autocomplete');
