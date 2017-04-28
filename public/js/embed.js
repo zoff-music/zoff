@@ -21,6 +21,7 @@ var hash 	 = window.location.hash.substring(1).split("&");
 var chan 	 = hash[0];
 var autoplay = false;
 var color = "#808080";
+var dragging = false;
 
 var connection_options = {
 	'sync disconnect on unload':true,
