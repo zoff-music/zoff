@@ -85,17 +85,19 @@ var connection_options = {
 var fromFront = false;
 var fromChannel = false;
 
-if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
-        .then(function (registration) {
-            Helper.log(registration);
-        })
-        .catch(function (e) {
-            console.error(e);
-        });
-} else {
-    Helper.log('Service Worker is not supported in this browser.');
-}
+try{
+	if (navigator.serviceWorker && window.location.host != "zoff.dev") {
+	    navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+	        .then(function (registration) {
+	            Helper.log(registration);
+	        })
+	        .catch(function (e) {
+	            console.error(e);
+	        });
+	} else {
+	    Helper.log('Service Worker is not supported in this browser.');
+	}
+} catch(e) {}
 
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
