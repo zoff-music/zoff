@@ -493,7 +493,8 @@ var Player = {
                     per = 100;
                 else if(duration === 0)
                     per = 0;
-                $("#bar").width(per+"%");
+
+                if(!dragging) $("#bar").width(per+"%");
             }catch(e){
 
             }

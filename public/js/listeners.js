@@ -14,6 +14,7 @@ var adminpass 		   	  = "";
 var filesadded		   	  = "";
 var player_ready 	   	  = false;
 var viewers 			  = 1;
+var dragging = false;
 var paused 				  = false;
 var playing 			  = false;
 var SAMPLE_RATE 		  = 6000; // 6 seconds
@@ -609,11 +610,18 @@ function change_offline(enabled, already_offline){
             });
 
             $("#controls").on("mouseleave", function(e){
+								dragging = false;
                 if(!$("#seekToDuration").hasClass("hide")){
                     $("#seekToDuration").addClass("hide");
                 }
             });
 
+						$("#controls").on("mousedown", function(e) {
+							dragging = true;
+						});
+						$("#controls").on("mouseup", function(e) {
+							dragging = false;
+						});
             $("#controls").on("mousemove", seekToMove);
             $("#controls").on("click", seekToClick);
             $("body").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
@@ -661,6 +669,8 @@ function change_offline(enabled, already_offline){
         });
         $("#controls").off("mouseleave");
         $("#controls").off("mouseenter");
+				$("#controls").off("mousedown");
+				$("#controls").off("mouseup");
         $("#controls").off("mousemove", seekToMove);
         $("#controls").off("click", seekToClick);
         $("#seekToDuration").remove();
@@ -695,6 +705,7 @@ window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
 
 function seekToMove(e){
+
     var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
     if(pos_x < 0) pos_x = 0;
     else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
@@ -709,6 +720,10 @@ function seekToMove(e){
         var _minutes = Helper.pad(_time[0]);
         var _seconds = Helper.pad(Math.ceil(_time[1]));
         $("#seekToDuration").text(_minutes + ":" + _seconds);
+
+				if(dragging) {
+					$("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
+				}
     } catch(e){}
 }
 
