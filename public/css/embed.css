@@ -315,6 +315,10 @@ html {
   cursor: default;
   color: white;
   padding:0;
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  justify-content: center;
 }
 
 .prev_page, .next_page, .last_page, .first_page{
@@ -343,5 +347,5 @@ html {
 }
 
 #wrapper{
-  height: 94%;
+  /*height: 94%;*/
 }
