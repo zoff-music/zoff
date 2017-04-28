@@ -38,9 +38,6 @@ $(document).ready(function(){
 
 	color = "#" + hash[1];
 
-	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/embed.css" />');
-	$("head").append('<link type="text/css" rel="stylesheet" href="/public/css/materialize.min.css" />');
-
 	add = "https://zoff.me";
 	socket = io.connect(''+add+':8080', connection_options);
 

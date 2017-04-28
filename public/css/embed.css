@@ -191,6 +191,7 @@
 #playpause, #volume-button
 {
   margin-left:10px;
+  font-size: 23px;
 }
 
 #playpause:hover, #volume-button:hover, #fullscreen:hover
@@ -216,6 +217,8 @@
 
 #viewers{
   float: right;
+  display: flex;
+  align-items: center;
 }
 
 #play, #pause, #volume-button, #fullscreen
@@ -231,12 +234,12 @@
     left: 10px;
     margin: 13px auto;
     height:5px;
-    width: 60px;
+    width: 75px;
     /*background-color:rgba(0, 0, 0, 0.5);*/
     background:rgba(0, 0, 0, 0.5) 50% 50% repeat-x;
     border: none;
     outline: none;
-    /*border-radius: 2px;*/
+    border-radius: 2px;
 }
 
 #volume .ui-slider-range-min {
@@ -246,25 +249,33 @@
     background-color:rgba(255, 255, 255, 0.8);
     border: none;
     outline: none;
-    /*border-radius: 2px;*/
+    border-radius: 2px;
 }
 
 #volume .ui-slider-handle {
-    height:15px;
-    width:5px;
-    background:#fff 50% 50% repeat-x;
-    position: absolute;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    display: none;
-    margin-left:-2.5px;
-    margin-top:0px;
+  height: 14px;
+  width: 14px;
+  background: #fff 50% 50% repeat-x;
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  margin-left: -7.5px;
+  border-radius: 1000px;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
+#volume .ui-state-active {
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.01), 0 0 0 7px rgba(255,255,255,0.3);
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 21px;
+  background: #dadada;
+}
 .ui-slider-handle
 {
-    margin-top:-5px;
+    margin-top:-4px;
 }
 
 .play
@@ -290,4 +301,47 @@
 {
     height:100%;
     background-color:rgba(0,0,0,0.5);
+}
+
+html {
+  overflow: hidden;
+}
+
+#pageButtons, #pageButtons a{
+  color:white !important;
+}
+
+#pageNumber{
+  cursor: default;
+  color: white;
+  padding:0;
+}
+
+.prev_page, .next_page, .last_page, .first_page{
+  cursor: pointer;
+}
+
+
+.prev_page_hide, .next_page_hide, .last_page_hide, .first_page_hide{
+  visibility: visible !important;
+  color:gray;
+  cursor:default;
+}
+
+.prev_page_hide, .prev_page, .first_page, .first_page_hide{
+  padding:0 10px;
+  float:left;
+}
+
+.next_page_hide, .next_page, .last_page, .last_page_hide{
+  padding:0 10px;
+  float:right;
+}
+
+.last_page, .last_page_hide, .first_page, .first_page_hide{
+  display: none !important;
+}
+
+#wrapper{
+  height: 94%;
 }
