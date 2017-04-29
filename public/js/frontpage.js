@@ -27,29 +27,57 @@ var Frontpage = {
 
   times_rotated: 0,
 
+  all_channels: [],
+
   frontpage_function: function(msg)
   {
-    $("#channels").empty();
     frontpage = true;
 
     Helper.log("-----------");
     Helper.log("Frontpage fetch");
     Helper.log(msg);
     Helper.log("------------");
-
-    Frontpage.populate_channels(msg.channels);
+    Frontpage.all_channels = msg.channels;
+    Frontpage.populate_channels(msg.channels, true);
 
     Frontpage.set_viewers(msg.viewers);
   },
 
-  populate_channels: function(lists)
+  populate_channels: function(lists, popular)
   {
+      $("#channels").empty();
+
       var num = 0;
       var pinned;
       if(lists[0].pinned == 1){
         pinned = lists.shift();
       }
-      lists.sort(Frontpage.sortFunction);
+      //lists.sort(Frontpage.sortFunction);
+      if(popular) {
+        lists = lists.sort(Helper.predicate({
+               name: 'viewers',
+               reverse: true
+           }, {
+               name: 'accessed',
+               reverse: true
+           }, {
+               name: 'count',
+               reverse: true
+            }
+          )
+        );
+      } else {
+        lists = lists.sort(Helper.predicate({
+               name: 'viewers',
+               reverse: true
+           }, {
+               name: 'count',
+               reverse: true
+            }
+          )
+        );
+      }
+
       if(pinned !== undefined){
         lists.unshift(pinned);
       }
@@ -67,7 +95,7 @@ var Frontpage = {
       {
 
           var chan = lists[x].channel;
-          if(num<12)
+          if(num<12 || !popular)
           {
             var id = lists[x].id;
             var viewers = lists[x].viewers;
@@ -145,6 +173,7 @@ var Frontpage = {
       //Materialize.fadeInImage('#channels');
       $("#channels").fadeIn(800);
       $("#searchFrontpage").focus();
+      num = 0;
   },
 
   sortFunction: function(a, b) {
@@ -388,7 +417,7 @@ function initfp(){
       }
     };
 
-    channel_list = $("#channel-list-container").html();
+    channel_list = $("#channel-list-container").clone().html();
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
 
@@ -402,6 +431,7 @@ function initfp(){
     $("#about").modal();
     $("#help").modal();
     $("#contact").modal();
+    $('select').material_select();
 
     Helper.log("----");
     Helper.log("Sending frontpage_lists");

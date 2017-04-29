@@ -130,10 +130,22 @@ if(isset($_GET['chan'])){
         </div>
     <main class="center-align container">
         <div id="main_section_frontpage" class="section">
+          <div class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <select id="view_channels_select">
+                  <option value="" disabled>Choose your option</option>
+                  <option value="1" selected>Most Popular</option>
+                  <option value="2">All Channels</option>
+                </select>
+              </div>
+            </div>
+          </div>
             <div id="preloader" class="progress">
                 <div class="indeterminate"></div>
             </div>
             <div id="channel-list-container">
+
             <ul class="row" id="channels">
                     <li id="chan-card" class="col s6 m4 l3">
                         <div class="card sticky-action">
