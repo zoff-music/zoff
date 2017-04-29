@@ -627,8 +627,8 @@ function change_offline(enabled, already_offline){
 						});
             $("#controls").on("mousemove", seekToMove);
             $("#controls").on("click", seekToClick);
-            $("body").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
-            $("#seekToDuration").css("top", $("#controls").position().top + 10);
+            $("#main_components").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
+            $("#seekToDuration").css("top", $("#controls").position().top - 55);
             if(!$("#controls").hasClass("ewresize")) $("#controls").addClass("ewresize");
         } else {
             $("#controls").off("mouseenter");
@@ -1344,7 +1344,7 @@ $(window).resize(function(){
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
         set_title_width();
-        $("#seekToDuration").css("top", $("#controls").position().top + 10);
+				if($("#controls").length > 0) $("#seekToDuration").css("top", $("#controls").position().top - 55);
     }
 })
 
