@@ -712,32 +712,34 @@ window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
 
 function seekToMove(e){
+		if(!Helper.mobilecheck()) {
+	    var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
+	    if(pos_x < 0) pos_x = 0;
+	    else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
+	        pos_x = $("#controls").width() - $("#seekToDuration").width();
+	    }
+	    $("#seekToDuration").css("left", pos_x);
+	    try{
+	        //var total = Player.player.getDuration() / $("#controls").width();
+	        var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
+	        total = total * e.clientX;
+	        var _time = Helper.secondsToOther(total);
+	        var _minutes = Helper.pad(_time[0]);
+	        var _seconds = Helper.pad(Math.ceil(_time[1]));
+	        $("#seekToDuration").text(_minutes + ":" + _seconds);
 
-    var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
-    if(pos_x < 0) pos_x = 0;
-    else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
-        pos_x = $("#controls").width() - $("#seekToDuration").width();
-    }
-    $("#seekToDuration").css("left", pos_x);
-    try{
-        //var total = Player.player.getDuration() / $("#controls").width();
-        var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
-        total = total * e.clientX;
-        var _time = Helper.secondsToOther(total);
-        var _minutes = Helper.pad(_time[0]);
-        var _seconds = Helper.pad(Math.ceil(_time[1]));
-        $("#seekToDuration").text(_minutes + ":" + _seconds);
-
-				var acceptable = ["bar", "controls", "duration"];
-		    if(acceptable.indexOf($(e.target).attr("id")) >= 0 && dragging) {
-					$("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
-				}
-    } catch(e){}
+					var acceptable = ["bar", "controls", "duration"];
+			    if(acceptable.indexOf($(e.target).attr("id")) >= 0 && dragging) {
+						$("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
+					}
+	    } catch(e){}
+		}
 }
 
 function seekToClick(e){
     var acceptable = ["bar", "controls", "duration"];
-    if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
+
+    if(acceptable.indexOf($(e.target).attr("id")) >= 0 && !Helper.mobilecheck()) {
         var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
         total = total * e.clientX;
 
