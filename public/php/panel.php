@@ -163,7 +163,7 @@
     </ul>
 </li>
 
-<li class="no-padding offline-panel hide-on-small-only">
+<li class="no-padding offline-panel">
     <ul class="collapsible collapsible-accordion">
         <li>
             <a class="collapsible-header bold waves-effect">Private Mode
