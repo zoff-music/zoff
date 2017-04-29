@@ -128,8 +128,12 @@
 .chan-link{
   width: 100%;
   padding: 0;
-  color: orange;
+  color: orange !important;
   margin: 0;
+}
+
+li.disabled span {
+  color: orange !important;
 }
 
 .prev_page_hide, .prev_page, .first_page, .first_page_hide{

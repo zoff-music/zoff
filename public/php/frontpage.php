@@ -134,7 +134,7 @@ if(isset($_GET['chan'])){
             <div class="row">
               <div class="input-field col s12">
                 <select id="view_channels_select">
-                  <option value="" disabled>Choose your option</option>
+                  <option value="" disabled>Channels to show</option>
                   <option value="1" selected>Most Popular</option>
                   <option value="2">All Channels</option>
                 </select>
