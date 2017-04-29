@@ -323,6 +323,7 @@ var Frontpage = {
     }
     $("body").css("background-color", "#2d2d2d");
     $("#offline-mode").tooltip("remove");
+    currently_showing_channels = 1;
     $.ajax({
       url: new_channel + "/public/php/index.php",
 
