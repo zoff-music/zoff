@@ -1024,6 +1024,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   -moz-transition: opacity 0.5s;
   -o-transition: opacity 0.5s;
   transition: opacity 0.5s;
+  overflow: visible;
 }
 
 .no-opacity{
