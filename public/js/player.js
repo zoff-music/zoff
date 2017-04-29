@@ -234,7 +234,7 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
-            Player.player.loadVideoById(id);
+            Player.player.loadVideoById(id, 0);
         }
     },
 
