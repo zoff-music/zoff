@@ -1345,7 +1345,7 @@ ul #chat-log{
 #player_overlay{
   background-color:black;
   position: absolute;
-  top:0px;
+  top: calc(-100vh + 64px + 26px);
   width:100%;
   color:white;
 }
@@ -1994,7 +1994,8 @@ nav ul li:hover, nav ul li.active {
 #main_components {
   position: absolute;
   top: calc(100% - 26px);
-  width: calc(100% - .75em);
+  width: calc(100% - 1.5em);
+  z-index: 99;
 }
 
 /***************************************************************************
