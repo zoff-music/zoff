@@ -420,7 +420,7 @@ function hide_native(way){
         $("#player_overlay").css("background-size", "100%");
         $("#player_overlay").css("background-color", "black");
         $("#player_overlay").css("background-repeat", "no-repeat");
-        $("#player_overlay").css("height", "calc(100% - 32px)");
+        //$("#player_overlay").css("height", "calc(100% - 32px)");
         $("#playing_on").css("display", "flex");
         $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
         Player.player.setVolume(100);
