@@ -298,7 +298,7 @@ var Player = {
                 $("#player_overlay").css("background-size", "100%");
                 $("#player_overlay").css("background-color", "black");
                 $("#player_overlay").css("background-repeat", "no-repeat");
-                $("#player_overlay").css("height", "calc(100% - 32px)");
+                //$("#player_overlay").css("height", "calc(100% - 32px)");
             }
         }
         document.title    = title + " • Zoff / "+chan;

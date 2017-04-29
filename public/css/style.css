@@ -1348,6 +1348,7 @@ ul #chat-log{
   top: calc(-100vh + 64px + 26px);
   width:100%;
   color:white;
+  height: calc(100vh - 64px - 32px);
 }
 
 #player_overlay_text{
