@@ -725,7 +725,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     transition: padding 1s ease;
 }
 
-.mdi-navigation-closeÂ {
+.mdi-navigation-closeÃ‚Â {
   text-align:right !important;
 }
 
@@ -1661,6 +1661,7 @@ nav ul li:hover, nav ul li.active {
 .list-song .card-action{
   border-top:none !important;
   background: transparent;
+  font-size: 1em;
 }
 
 .delete_button, .del_suggested, .del_user_suggested{
@@ -1669,6 +1670,7 @@ nav ul li:hover, nav ul li.active {
   right: -35%;
   /* top: 45%; */
   height: 19px;
+  font-size: .85rem;
   line-height: normal;
   padding: 2px 12px !important;
   color: white !important;
