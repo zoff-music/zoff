@@ -325,8 +325,10 @@
 }
 
 #player_bottom_overlay{
-  z-index: 100;
+  z-index: 999999999999;
   cursor: pointer;
+  top: 0px;
+  left: 0px;
 }
 
 .frontpage_modified_heights{
@@ -336,9 +338,11 @@
 
 .player_bottom{
   position: fixed !important;
-  left: calc(100vw - 270px) !important;
-  top: calc(100vh - 210px) !important;
+  transform: translate(calc(100vw - 260px), calc(100vh - 210px)) !important;
+  /* left: calc(100vw - 270px) !important; */
+  /* top: calc(100vh - 210px) !important; */
   /* bottom: 10px; */
+  /* top: 0px; */
   width: 250px !important;
   height: 200px !important;
   /* right: 10px; */
@@ -1413,6 +1417,7 @@ ul #chat-log{
 #playlist{
     /*padding:0px 15px;*/
     flex:1;
+    z-index: 9;
     position: relative;
     height: calc(100vh - 64px) !important;
     /*background-color:rgba(0,0,0,0.2);*/
@@ -1458,7 +1463,12 @@ ul #chat-log{
   height:95%;
   height: calc(100% - 32px);
   position: relative;
-  -webkit-transition: all 1s ease-out;
+  transform: translate(0%, 0%);
+  z-index: 99;
+  -webkit-transition: transform .5s ease-out;
+  transition: transform .5s ease-out;
+  -moz-transition: transform .5s ease-out;
+  -o-transition: transform .5s ease-out;
 }
 
 #fireplace_player{
@@ -1972,6 +1982,12 @@ nav ul li:hover, nav ul li.active {
 
 .ewresize{
   cursor: ew-resize;
+}
+
+#main_components {
+  position: absolute;
+  /* top: 96.3%; */
+  width: calc(100% - .75em);
 }
 
 /***************************************************************************
