@@ -3,7 +3,7 @@ Zoff
 
 ##### The server-side is required for this website, and it's found at: <a href="https://github.com/zoff-music/zoff-server">here</a>
 
-### Zoff now supports integrated casting with chromecast!
+## Zoff supports integrated casting with chromecast
 
 ##### Config
 
@@ -21,7 +21,7 @@ The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the
 
 The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
 
-###Screenshots of desktop version:
+### Screenshots of desktop version:
 
 ![Frontpage desktop](http://i.imgur.com/5lK6TZe.png)
 
@@ -77,10 +77,10 @@ socket.on("viewers", VALUE)															Recieves number of viewers on the curr
 
 ### Legal
 
-Copyright © 2017
-Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
-
 Creative Commons License
 Zoff is licensed under a
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>.
 Do not redistribute without permission from the developers.
+
+Copyright © 2017
+Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
