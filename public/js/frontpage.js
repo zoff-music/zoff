@@ -97,7 +97,7 @@ var Frontpage = {
             card.find(".chan-views").text(viewers);
             card.find(".chan-songs").text(song_count);
             card.find(".chan-bg").attr("style", img);
-            card.find(".chan-link").attr("href", chan);
+            card.find(".chan-link").attr("href", chan + "/");
 
             if(description != "" && !Helper.mobilecheck()){
               card.find(".card-title").text(chan);
