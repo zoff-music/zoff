@@ -32,7 +32,7 @@ var Player = {
             if(!obj.np){
 
                 document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
-                $("#player_overlay").height($("#player").height());
+                //$("#player_overlay").height($("#player").height());
 
                 if(!window.MSStream && !chromecastAvailable) $("#player_overlay").toggleClass("hide");
                 try{
