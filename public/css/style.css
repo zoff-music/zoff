@@ -321,7 +321,7 @@ li.disabled span {
   position: fixed;
   bottom: 175px;
   right: 20px;
-  z-index: 101;
+  z-index: 999999999999999;
   font-size: 18px;
   color: white;
   text-shadow: 0px 0px 2px black;
