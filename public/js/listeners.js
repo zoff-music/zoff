@@ -1573,8 +1573,15 @@ function onepage_load(){
 		Admin.beginning 	 = true;
 		began 				 = false;
 		durationBegun  		 = false;
-		$("#embed-button").css("display", "none");
 
+		$("#embed-button").css("display", "none");
+		$('.castButton-active').tooltip("remove");
+		$("#viewers").tooltip("remove");
+		$('.castButton-unactive').tooltip("remove");
+		$("#offline-mode").tooltip("remove");
+		$('#chan_thumbnail').tooltip("remove");
+		$('#admin-lock').tooltip("remove");
+		$("#seekToDuration").remove();
 		$.ajax({
 		    url: "public/php/frontpage.php",
 		    success: function(e){

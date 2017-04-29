@@ -293,6 +293,7 @@ var Frontpage = {
       socket.removeAllListeners();
     }
     $("body").css("background-color", "#2d2d2d");
+    $("#offline-mode").tooltip("remove");
     $.ajax({
       url: new_channel + "/public/php/index.php",
 
@@ -417,7 +418,6 @@ function initfp(){
         tooltip: "Enable private mode"
       });
     }
-
     socket.emit('frontpage_lists');
 
     $("#channel-load").css("display", "none");
