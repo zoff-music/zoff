@@ -1473,7 +1473,7 @@ ul #chat-log{
 }
 
 #fireplace_player{
-  z-index: 1;
+  z-index: 999;
   width: calc(100% - .75rem);
   height: calc(100% - 32px);
   position: absolute;
