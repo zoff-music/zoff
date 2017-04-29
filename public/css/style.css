@@ -1465,10 +1465,10 @@ ul #chat-log{
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
-  -webkit-transition: transform .5s ease-out;
-  transition: transform .5s ease-out;
-  -moz-transition: transform .5s ease-out;
-  -o-transition: transform .5s ease-out;
+  -webkit-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
+  transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
+  -moz-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
+  -o-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
 }
 
 #fireplace_player{
@@ -1986,7 +1986,7 @@ nav ul li:hover, nav ul li.active {
 
 #main_components {
   position: absolute;
-  /* top: 96.3%; */
+  top: calc(100% - 26px);
   width: calc(100% - .75em);
 }
 
