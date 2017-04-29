@@ -323,7 +323,6 @@ var Frontpage = {
     }
     $("body").css("background-color", "#2d2d2d");
     $("#offline-mode").tooltip("remove");
-    $('select').material_select('destroy');
     $.ajax({
       url: new_channel + "/public/php/index.php",
 
@@ -348,6 +347,7 @@ var Frontpage = {
 
         var response = $("<div>" + e + "</div>");
 
+        $('select').material_select('destroy');
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
