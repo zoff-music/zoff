@@ -633,8 +633,9 @@ function change_offline(enabled, already_offline){
             $("#controls").on("mousemove", seekToMove);
             $("#controls").on("click", seekToClick);
             $("#main_components").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
-            $("#seekToDuration").css("top", $("#controls").position().top - 55);
-            if(!$("#controls").hasClass("ewresize")) $("#controls").addClass("ewresize");
+						if(!Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
+						else if(Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 20);
+						if(!$("#controls").hasClass("ewresize")) $("#controls").addClass("ewresize");
         } else {
             $("#controls").off("mouseenter");
             $("#controls").off("mouseleave");
@@ -675,6 +676,7 @@ function change_offline(enabled, already_offline){
           position: "bottom",
           tooltip: "Enable private mode"
         });
+
         $("#controls").off("mouseleave");
         $("#controls").off("mouseenter");
 				$("#controls").off("mousedown");
@@ -713,7 +715,8 @@ window.enable_debug = enable_debug;
 window.disable_debug = disable_debug;
 
 function seekToMove(e){
-		if(!Helper.mobilecheck()) {
+		//if(!Helper.mobilecheck()) {
+		console.log("hello");
 	    var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
 	    if(pos_x < 0) pos_x = 0;
 	    else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
@@ -734,13 +737,13 @@ function seekToMove(e){
 						$("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
 					}
 	    } catch(e){}
-		}
+		//}
 }
 
 function seekToClick(e){
     var acceptable = ["bar", "controls", "duration"];
 
-    if(acceptable.indexOf($(e.target).attr("id")) >= 0 && !Helper.mobilecheck()) {
+    if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
         var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
         total = total * e.clientX;
 
@@ -1360,7 +1363,8 @@ $(window).resize(function(){
         $(".list-song").css("height", List.element_height + "px");
         $("#player_overlay").width($("#player").width()+1);
         set_title_width();
-				if($("#controls").length > 0) $("#seekToDuration").css("top", $("#controls").position().top - 55);
+				if($("#controls").length > 0 && !Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
+				else if($("#controls").length > 0) $("#seekToDuration").css("top", $("#controls").position().top - 20);
     }
 })
 

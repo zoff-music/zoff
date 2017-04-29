@@ -1467,7 +1467,7 @@ ul #chat-log{
 
 #player{
   height:95%;
-  height: calc(100% - 32px);
+  height: calc(100%);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
