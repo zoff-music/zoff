@@ -2035,6 +2035,10 @@ nav ul li:hover, nav ul li.active {
       width: 57%;
     }
 
+    #main_section_frontpage {
+      margin-top: -20px;
+    }
+
     .delete_button, .del_suggested, .del_user_suggested{
       bottom: -9px;
       /* line-height: inherit; */

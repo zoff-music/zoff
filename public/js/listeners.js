@@ -16,6 +16,7 @@ var player_ready 	   	  = false;
 var viewers 			  = 1;
 var dragging = false;
 var paused 				  = false;
+var currently_showing_channels = 1;
 var playing 			  = false;
 var SAMPLE_RATE 		  = 6000; // 6 seconds
 var lastSample 			  = Date.now();
@@ -967,6 +968,15 @@ $(document).on('click', '#toast-container', function(){
 $(document).on('click', "#aprilfools", function(){
   $(".mega").css("-webkit-transform", "rotate(0deg)");
   $(".mega").css("-moz-transform", "rotate(0deg)");
+});
+
+$(document).on('change', '#view_channels_select', function(e) {
+	var that = this;
+	if(currently_showing_channels != parseInt(that.value)) {
+
+		Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.value) == 1 ? true : false));
+	}
+	currently_showing_channels = parseInt(that.value);
 });
 
 $(document).on('keyup mouseup', '#width_embed', function(){
