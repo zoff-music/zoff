@@ -37,9 +37,9 @@
 </script>
 <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 <script type="text/javascript" src="/public/dist/lib/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/materialize.min.js"></script>
+<script type="text/javascript" src="/public/dist/lib/jquery-ui-1.10.3.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/socket.io.min.js"></script>
 <script type="text/javascript" src="/public/dist/lib/color-thief.js"></script>
 <script type="text/javascript" src="/public/dist/lib/sha256.js"></script>

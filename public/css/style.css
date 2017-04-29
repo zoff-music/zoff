@@ -725,7 +725,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     transition: padding 1s ease;
 }
 
-.mdi-navigation-closeÃƒâ€šÃ‚Â {
+.mdi-navigation-close{
   text-align:right !important;
 }
 
@@ -1462,7 +1462,7 @@ ul #chat-log{
 
 #player{
   height:95%;
-  height: calc(100%);
+  height: calc(100% - 32px);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
