@@ -1,23 +1,9 @@
-<?php
-
-if(isset($_GET['chan'])){
-    $chan = htmlspecialchars($_GET['chan']);
-    header('Location: '.$chan);
-}
-
-?>
-<html lang="en">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-  <meta name="robots" content="index, nofollow" />
-  <?php include("header.php"); ?>
-  <script type="text/javascript" src="/public/dist/main.min.js"></script>
-</head>
-<body class="noselect cursor-default">
+<div id="main-container">
     <header>
         <nav id="fp-nav">
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo noselect">
-                    <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
+                    <img id="zicon" src="/assets/images/z.svg" alt="zoff" title="Zoff" />
                 </a>
                 <div id="frontpage-viewer-counter" data-position="bottom" data-delay="5" data-tooltip="Total viewers" class="noselect tooltipped" title="Divided among all channels. Hidden or not"></div>
                 <!--<a href="//zoff.me" class="brand-logo brand-mobile hide-on-med-and-up">Zoff</a>-->
@@ -177,13 +163,4 @@ if(isset($_GET['chan'])){
             </div>
         </div>
     </main>
-
-    <?php
-      $subdomain =  array_shift((explode(".",$_SERVER['HTTP_HOST'])));
-      if($subdomain == "fb"){}
-      else {
-        include("public/php/footer.php");
-      }
-    ?>
-	</body>
-</html>
+</div>

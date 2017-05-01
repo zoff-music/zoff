@@ -150,6 +150,7 @@ function init(){
 	var no_socket = true;
 
 	chan = $("#chan").html();
+	console.log(chan);
 	mobile_beginning = Helper.mobilecheck();
 	var side = Helper.mobilecheck() ? "left" : "right";
 
@@ -1602,8 +1603,9 @@ function onepage_load(){
 		$('#chan_thumbnail').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
 		$("#seekToDuration").remove();
+
 		$.ajax({
-		    url: "public/php/frontpage.php",
+		    url: "/",
 		    success: function(e){
 
 		    	if(Helper.mobilecheck()) {
@@ -1658,8 +1660,8 @@ function onepage_load(){
 				$(".drag-target").remove();
 				$("#sidenav-overlay").remove();
 		    	$("main").attr("class", "center-align container");
-		    	$("body").attr("id", "");
-		    	$("body").attr("style", "");
+		    	$("#main-container").removeClass("channelpage");
+		    	$("#main-container").attr("style", "");
                 $("header").html($(response.find("header")).html());
                 $($(response.find(".section.mega"))).insertAfter("header");
                 $($(response.find(".section.mobile-search"))).insertAfter(".mega");
