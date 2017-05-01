@@ -381,11 +381,12 @@ var List = {
                   Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
             }, 305);
+            if(removed) $("#"+deleted).remove();
 
-        }catch(err){
+        } catch(err) {
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
             if(!List.empty){
-                $("#wrapper").children()[$("#wrapper").children().length-1].remove();
+                $("#"+deleted).remove();
                 if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
                     $($("#wrapper").children()[List.page - 1]).css("display", "block");
                 } else if($("#wrapper").children().length > List.page + List.can_fit){
