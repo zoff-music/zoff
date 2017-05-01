@@ -1,21 +1,15 @@
-<html lang="en">
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
-  <meta name="robots" content="noindex, nofollow" />
-	<?php include("public/php/header.php"); ?>
-  <script type="text/javascript" src="/public/dist/main.min.js"></script>
-</head>
-<body id="channelpage" class="noselect cursor-default">
-    <header>
+<div id="main-container" class="channelpage noselect cursor-default">
+<header>
       <div class="navbar-fixed">
         <nav id="nav">
             <div class="nav-wrapper">
 
                 <div class="brand-logo truncate zbrand">
                     <a href="/" class="brand-logo brand-logo-navigate noselect">
-                        <img id="zicon" src="public/images/z.svg" alt="zoff" title="Zoff" />
+                        <img id="zicon" src="/assets/images/z.svg" alt="zoff" title="Zoff" />
                     </a>
 
-                    <span id="chan" class="chan clickable truncate" title="Show big URL"><?php echo(ucfirst($list));?></span>
+                    <span id="chan" class="chan clickable truncate" title="Show big URL">{{list_name}}</span>
                 </div>
 
                 <ul class="title-container">
@@ -69,13 +63,13 @@
                     </li>
                 </ul>
                 <ul class="side-nav" id="settings-bar">
-                    <?php include("public/php/panel.php");?>
+                  {{> panel}}
                 </ul>
                 <div id="results" class="search_results hide">
                     <div id="temp-results-container">
                       <div id="temp-results" class="result-object">
                           <div id="result" class="result">
-                              <img class="thumb" src="/public/images/loading.png" alt="Thumb"/>
+                              <img class="thumb" src="/assets/images/loading.png" alt="Thumb"/>
 
                                   <div class="search-title truncate"></div>
                                   <span class="result_info"></span>
@@ -217,7 +211,7 @@
                         <div id="list-song" class="card left-align list-song">
                             <div class="clickable vote-container" title="Vote!">
                                 <a class="clickable center-align votebg">
-                                    <span class="lazy card-image cardbg list-image" style="background-image:url('/public/images/loading.png');">
+                                    <span class="lazy card-image cardbg list-image" style="background-image:url('/assets/images/loading.png');">
                                     </span>
                                     <span class="card-duration">
                                       01:00
@@ -255,7 +249,7 @@
                                   <div class="row inherit-height">
                                     <div class="col s12">
                                       <ul class="tabs chatTabs tabs-fixed-width">
-                                        <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat"><?php echo $list; ?></a></li>
+                                        <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat">{{list_name}}</a></li>
                                         <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
                                       </ul>
                                     </div>
@@ -279,13 +273,4 @@
         <div id="playbar">
         </div>
     </main>
-
-    <?php
-      $subdomain =  array_shift((explode(".",$_SERVER['HTTP_HOST'])));
-      if($subdomain == "fb"){}
-      else {
-        include("public/php/footer.php");
-      }
-    ?>
-    </body>
-</html>
+</div>

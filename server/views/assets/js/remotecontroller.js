@@ -27,6 +27,7 @@ $(document).ready(function (){
       Remotecontroller.control();
     }
 
+    try{
     git_info = $.ajax({ type: "GET",
     		     url: "https://api.github.com/users/zoff-music/received_events",
     		     async: false
@@ -39,6 +40,7 @@ $(document).ready(function (){
             "<br><a href='https://github.com/"+git_info[0].repo.name+"/commit/" + git_info[0].payload.commits[0].sha + "' target='_blank'>" +
             git_info[0].payload.commits[0].sha.substring(0,10) + "</a>: " +
             git_info[0].payload.commits[0].message+"<br");
+          } catch(e) {}
 });
 
 $("#playbutton").on("click", function()
@@ -56,8 +58,10 @@ $("#skipbutton").on("click", function()
   socket.emit("id", {id: id, type: "skip", value: "mock"});
 });
 
-$("#remoteform").on("submit", function()
+$(document).on("submit", "#remoteform", function(e)
 {
+  console.log("testing");
+  e.preventDefault();
   /*
   if(start)
     window.location.href = '/remote/'+document.getElementById("remoteform").chan.value;

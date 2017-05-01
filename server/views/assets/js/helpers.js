@@ -222,7 +222,7 @@ var Helper = {
             $.ajax({
                 type: "POST",
                 data: {from: from, message: message},
-                url: "/public/php/mail.php",
+                url: "/api/mail",
                 success: function(data){
                     if(data == "success"){
                         $("#contact-container").empty();

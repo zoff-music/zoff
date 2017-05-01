@@ -232,19 +232,19 @@ var Frontpage = {
       },500);
     } else {
       var img = new Image();
-      img.src = "/public/images/thumbnails/"+id+".jpg";
+      img.src = "/assets/images/thumbnails/"+id+".jpg";
 
       img.onerror = function(){ // Failed to load
           $.ajax({
             type: "POST",
             data: {id:id},
-            url: "/public/php/imageblob.php",
+            url: "/api/imageblob",
             success: function(data){
-                Frontpage.blob_list.push(data);
+                //Frontpage.blob_list.push(data);
                //data will contain the vote count echoed by the controller i.e.
                 //$(".room-namer").css("opacity", 0);
                 setTimeout(function(){
-                  $("#mega-background").css("background", "url(data:image/png;base64,"+data+")");
+                  $("#mega-background").css("background", "url(/assets/images/thumbnails/"+data+")");
                   $("#mega-background").css("background-size" , "200%");
                   $("#mega-background").css("opacity", 1);
                   $(".desktop-search").attr("placeholder", list[i].channel);
@@ -321,12 +321,13 @@ var Frontpage = {
       Helper.log("removing all listeners");
       socket.removeAllListeners();
     }
-    $("body").css("background-color", "#2d2d2d");
+    $("#main-container").css("background-color", "#2d2d2d");
     $("#offline-mode").tooltip("remove");
     currently_showing_channels = 1;
     $.ajax({
-      url: new_channel + "/public/php/index.php",
-
+      url: "/" + new_channel,
+      method: "get",
+      data: {channel: new_channel},
       success: function(e){
 
         if(Player.player !== ""){
@@ -352,7 +353,7 @@ var Frontpage = {
         $(".mega").remove();
         $(".mobile-search").remove();
         $("main").attr("class", "container center-align main");
-        $("body").attr("id", "channelpage");
+        $("#main-container").addClass("channelpage");
         //$("header").html($($(e)[63]).html());
         $("header").html($(response.find("header")).html());
         if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
