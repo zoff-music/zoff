@@ -1467,7 +1467,7 @@ ul #chat-log{
 
 #player{
   height:95%;
-  height: calc(100%);
+  height: calc(100% - 32px);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
@@ -1812,9 +1812,10 @@ nav ul li:hover, nav ul li.active {
 
 #controls
 {
+    z-index: 99999999999;
     opacity:0;
     height:32px;
-    /*background-color:rgba(255, 255, 255, 0.1);*/
+    /* background-color:rgba(255, 255, 255, 0.1); */
     width:100%;
     color:white;
     margin-top:-6px;
