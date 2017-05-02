@@ -339,7 +339,6 @@ io.on('connection', function(socket){
 
     socket.on('list', function(list)
     {
-        console.log(list);
         if(typeof(list) === 'string' && list !== undefined && list !== null && list !== "")
         {
             in_list = true;
