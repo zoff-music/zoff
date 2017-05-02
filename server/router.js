@@ -8,10 +8,9 @@ router.use(function(req, res, next) {
 });
 
 router.route('/:channel_name').get(function(req, res, next){
-    var protocol = req.protocol;
     var subdomain = req.headers['x-forwarded-host'].split(".");
 
-    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost')) && protocol != "https") {
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost'))) {
         res.redirect("https://zoff.me");
         return;
     }
@@ -108,10 +107,9 @@ router.route('/api/mail').post(function(req, res) {
 });
 
 router.route('/').get(function(req, res, next){
-    var protocol = req.protocol;
     var subdomain = req.headers['x-forwarded-host'].split(".");
 
-    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost')) && protocol != "https") {
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost'))) {
         res.redirect("https://zoff.me");
         return;
     }
