@@ -400,6 +400,14 @@ body {
     overflow-y:scroll !important;
 }
 
+#main-container {
+  -webkit-transition: background-color 1s;
+  -moz-transition: background-color 1s;
+  -ms-transition: background-color 1s;
+  -o-transition: background-color 1s;
+  transition: background-color 1s;
+}
+
 .main, #main-row, .video-container, #playlist{
   height: calc(100vh - 64px);
 }
