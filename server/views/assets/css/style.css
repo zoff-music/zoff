@@ -2037,6 +2037,10 @@ nav ul li:hover, nav ul li.active {
       width:95vw !important;
     }
 
+    #main-container {
+      padding-bottom: 20px;
+    }
+
     #playbar{
       display:block;
       position: fixed;
@@ -2159,6 +2163,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #player{
+      height: calc(100%);
       display:none;
     }
 
