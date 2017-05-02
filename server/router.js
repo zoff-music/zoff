@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
 router.route('/:channel_name').get(function(req, res, next){
     var subdomain = req.headers['x-forwarded-host'].split(".");
 
-    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost'))) {
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && (subdomain[1] == 'localhost' || subdomain[1] == 'remote')))) {
         res.redirect("https://zoff.me");
         return;
     }
