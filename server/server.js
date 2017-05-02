@@ -20,8 +20,10 @@ try{
       ca: ca
     };
 
+    var http = require('http');
+    server = http.Server(app);
     var https = require('https');
-    server = https.Server(credentials, app);
+    server_2 = https.Server(credentials, app);
 
     var cors_proxy = require('cors-anywhere');
 
@@ -31,6 +33,10 @@ try{
         httpsOptions: credentials
     }).listen(8081, function() {
         console.log('Running CORS Anywhere on :' + 8081);
+    });
+
+    server_2.listen(8080, function () {
+        console.log('Server listening at port %d', port);
     });
 }
 catch(err){
@@ -45,6 +51,7 @@ catch(err){
     });
     var http = require('http');
     server = http.Server(app);
+    server_2 = server;
     add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
 }
 
@@ -56,7 +63,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser());
 
-var io = require('socket.io')(server, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
+var io = require('socket.io')(server_2, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
@@ -68,7 +75,7 @@ var emojiStrip = require('emoji-strip');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
 
-var port       = 8080;
+var port       = 3000;
 var lists      = {};
 var offline_users = [];
 var unique_ids = [];
