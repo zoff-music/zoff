@@ -11,6 +11,7 @@ var adminpass 			  = "";
 var mobile_beginning      = false;
 var durationBegun    	  = false;
 var chromecastAvailable = false;
+var private_channel = false;
 var offline = false;
 var from_frontpage = false;
 var seekTo;

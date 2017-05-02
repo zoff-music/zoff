@@ -8,12 +8,21 @@ router.use(function(req, res, next) {
 });
 
 router.route('/:channel_name').get(function(req, res, next){
-    if(req.headers.host.split(".")[0] == "remote") {
+    var protocol = req.protocol;
+    var subdomain = req.headers['x-forwarded-host'].split(".");
+
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost')) && protocol != "https") {
+        res.redirect("https://zoff.me");
+        return;
+    }
+    if(subdomain[0] == "remote") {
         var data = {
             year: 2017,
             javascript_file: "remote.min.js"
         }
         res.render('layouts/remote', data);
+    } else if(subdomain.length >= 2 && subdomain[0] == "www") {
+        res.redirect("https://zoff.me");
     } else {
         if(req.params.channel_name == "_embed") {
             res.sendFile(path.join(__dirname, '/views/assets/html/embed.html'));
@@ -21,7 +30,7 @@ router.route('/:channel_name').get(function(req, res, next){
             res.sendFile(path.join(__dirname, '/views/assets/html/callback.html'));
         } else {
             var data = {
-                list_name: req.params.channel_name,
+                list_name: capitalizeFirstLetter(req.params.channel_name),
                 year: 2017,
                 javascript_file: "main.min.js"
             }
@@ -41,9 +50,45 @@ router.route('/api/imageblob').post(function(req, res) {
     });
 });
 
+/*
+ *
+ * TODO:
+ *
+ * Add custom userplaylists, only visible for those with that specific cookie
+ *
+ *
 router.route('/:user_name/:channel_name').get(function(req, res, next){
+    var protocol = req.protocol;
+    var subdomain = req.headers['x-forwarded-host'].split(".");
 
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost')) && protocol != "https") {
+        res.redirect("https://zoff.me");
+        return;
+    }
+    if(subdomain[0] == "remote") {
+        var data = {
+            year: 2017,
+            javascript_file: "remote.min.js"
+        }
+        res.render('layouts/remote', data);
+    } else if(subdomain.length >= 2 && subdomain[0] == "www") {
+        res.redirect("https://zoff.me");
+    } else {
+        if(req.params.channel_name == "_embed") {
+            res.sendFile(path.join(__dirname, '/views/assets/html/embed.html'));
+        } else if(req.params.channel_name == "o_callback") {
+            res.sendFile(path.join(__dirname, '/views/assets/html/callback.html'));
+        } else {
+            var data = {
+                list_name: capitalizeFirstLetter(req.params.channel_name),
+                year: 2017,
+                javascript_file: "main.min.js"
+            }
+            res.render('layouts/channel', data);
+        }
+    }
 });
+*/
 
 router.route('/api/mail').post(function(req, res) {
     var from = req.body.from;
@@ -63,12 +108,21 @@ router.route('/api/mail').post(function(req, res) {
 });
 
 router.route('/').get(function(req, res, next){
-    if(req.headers.host.split(".")[0] == "remote") {
+    var protocol = req.protocol;
+    var subdomain = req.headers['x-forwarded-host'].split(".");
+
+    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && subdomain[1] == 'localhost')) && protocol != "https") {
+        res.redirect("https://zoff.me");
+        return;
+    }
+    if(subdomain[0] == "remote") {
         var data = {
             year: 2017,
             javascript_file: "remote.min.js"
         }
         res.render('layouts/remote', data);
+    } else if(subdomain.length >= 2 && subdomain[0] == "www") {
+        res.redirect("https://zoff.me");
     } else {
         var data = {
             year: 2017,
@@ -77,5 +131,9 @@ router.route('/').get(function(req, res, next){
         res.render('layouts/frontpage', data);
     }
 });
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 module.exports = router;

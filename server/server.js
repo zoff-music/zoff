@@ -3,20 +3,16 @@ var add = "";
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
+var uniqid = require('uniqid');
+
 app.engine('handlebars',exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 try{
     var fs = require('fs');
-    //var privateKey  = fs.readFileSync('/home/kasper/newssl_2016/nopass.key', 'utf8');
-    //var certificate = fs.readFileSync('/home/kasper/newssl_2016/zoff.no/ApacheServer/2_zoff.no.crt', 'utf8');
-    //var ca          = fs.readFileSync('/home/kasper/newssl_2016/zoff.no/ApacheServer/1_root_bundle.crt');
     var privateKey  = fs.readFileSync('/etc/letsencrypt/live/zoff.me/privkey.pem').toString();
     var certificate = fs.readFileSync('/etc/letsencrypt/live/zoff.me/cert.pem').toString();
     var ca          = fs.readFileSync('/etc/letsencrypt/live/zoff.me/chain.pem').toString();
-
-    //var ca_bundle   = fs.readFileSync('/home/kasper/startssl/ca-bundle.pem')
-    //var credentials = {key: privateKey, cert: certificate, ca: ca,};
     var credentials = {
       key: privateKey,
       cert: certificate,
@@ -24,7 +20,7 @@ try{
     };
 
     var https = require('https');
-    server = https.createServer(credentials, app);
+    server = https.Server(credentials, app);
 
     var mongo_db_cred = require('./mongo_config.js');
     var cors_proxy = require('cors-anywhere');
@@ -53,28 +49,23 @@ catch(err){
     add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
 }
 
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.use(cookieParser());
 
-var io = require('socket.io')(server, {'pingTimeout': 25000});
+var io = require('socket.io')(server, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
-//db
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
-
-//crypto
 var crypto = require('crypto');
 var node_cryptojs = require('node-cryptojs-aes');
 var router = require('./router.js');
-
-// node-cryptojs-aes main object;
 var CryptoJS = node_cryptojs.CryptoJS;
-
 var emojiStrip = require('emoji-strip');
-
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
 
@@ -94,6 +85,14 @@ server.listen(port, function () {
 });
 
 
+app.use(function (req, res, next) {
+  var cookie = req.cookies._uI;
+  if (cookie === undefined) {
+    var user_name = rndName(uniqid.time(), 15);
+    res.cookie('_uI',user_name, { maxAge: 365 * 10000 * 3600000 });
+  }
+  next();
+});
 app.use('/', router);
 app.use('/assets', express.static('views/assets'));
 
@@ -135,6 +134,12 @@ io.on('connection', function(socket){
     }
     else
         name = names[guid];
+
+    socket.on("get_userlists", function(id) {
+      db.collection("frontpage_lists_" + id).find(function(err, docs) {
+        socket.emit("userlists", [docs]);
+      });
+    });
 
     socket.on("get_spread", function(){
         socket.emit("spread_listeners", {offline: offline_users.length, total: tot_view, online_users: lists});
@@ -287,7 +292,17 @@ io.on('connection', function(socket){
                 if(docs[x].pinned == 1) pinned = 1;
                 try{viewers = lists[docs[x]._id].length;}
                 catch(error){viewers = 0;}
-                var to_push = {viewers: viewers, id: docs[x].id, title: docs[x].title, channel: docs[x]._id, count: docs[x].count, pinned: pinned, accessed: docs[x].accessed != undefined ? docs[x].accessed : 0, thumbnail: docs[x].thumbnail != undefined ? docs[x].thumbnail : "", description: docs[x].description != undefined ? docs[x].description : ""};
+                var to_push = {
+                  viewers: viewers,
+                  id: docs[x].id,
+                  title: docs[x].title,
+                  channel: docs[x]._id,
+                  count: docs[x].count,
+                  pinned: pinned,
+                  accessed: docs[x].accessed != undefined ? docs[x].accessed : 0,
+                  thumbnail: docs[x].thumbnail != undefined ? docs[x].thumbnail : "",
+                  description: docs[x].description != undefined ? docs[x].description : ""
+                };
                 if(pinned == 1 && docs[x].count > 0) playlists_to_send.unshift(to_push);
                 else if(docs[x].count > 0) playlists_to_send.push(to_push);
             }
@@ -758,6 +773,11 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function()
+    {
+        left_channel(coll, guid, name, short_id, in_list, socket, false);
+    });
+
+    socket.on('disconnected', function()
     {
         left_channel(coll, guid, name, short_id, in_list, socket, false);
     });

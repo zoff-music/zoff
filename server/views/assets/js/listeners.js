@@ -8,6 +8,7 @@ var api_key 		   	  = "AIzaSyDvMlC0Kvk76-WO9UrtBaaEYyUw4z-TGqE";
 var searching 		   	  = false;
 var time_regex 		   	  = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
 var conf 			   	  = [];
+var private_channel = false;
 var music 			   	  = 0;
 var frontpage 		   	  = 1;
 var adminpass 		   	  = "";
@@ -148,9 +149,11 @@ $().ready(function(){
 function init(){
     number_suggested = 0;
 	var no_socket = true;
-
+	var pathname = window.location.pathname.split("/");
+	if(pathname.length == 3) {
+		private_channel = true;
+	}
 	chan = $("#chan").html();
-	console.log(chan);
 	mobile_beginning = Helper.mobilecheck();
 	var side = Helper.mobilecheck() ? "left" : "right";
 
@@ -236,7 +239,11 @@ function init(){
 		    $("#code-link").attr("href", codeURL);
 		}
 
-		if(no_socket) socket.emit('list', chan.toLowerCase());
+		if(no_socket){
+			var add = "";
+			if(private_channel) add = Crypt.getCookie("_uI") + "_";
+	    socket.emit("list", add + chan.toLowerCase());
+		}
         $("#viewers").tooltip({
           delay: 5,
           position: "top",
@@ -494,7 +501,9 @@ function setup_youtube_listener(){
 
 function get_list_listener(){
 	socket.on("get_list", function(){
-    	socket.emit('list', chan.toLowerCase());
+		var add = "";
+		if(private_channel) add = Crypt.getCookie("_uI") + "_";
+		socket.emit("list", add + chan.toLowerCase());
 	});
 }
 
@@ -687,8 +696,10 @@ function change_offline(enabled, already_offline){
         $("#seekToDuration").remove();
 		if(window.location.pathname != "/"){
 			socket.emit("pos");
-			socket.emit('list', chan.toLowerCase());
-            if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
+			var add = "";
+			if(private_channel) add = Crypt.getCookie("_uI") + "_";
+	    socket.emit("list", add + chan.toLowerCase());
+      if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
 		}
     }
 }
@@ -1576,9 +1587,10 @@ function onepage_load(){
 
 	    chan = url_split[3].replace("#", "");
 	    $("#chan").html(Helper.upperFirst(chan));
-
+			var add = "";
 	    w_p = true;
-	    socket.emit("list", chan.toLowerCase());
+			if(private_channel) add = Crypt.getCookie("_uI") + "_";
+	    socket.emit("list", add + chan.toLowerCase());
 	}else if(url_split[3] === ""){
         clearTimeout(width_timeout);
 		if(fireplace_initiated){
