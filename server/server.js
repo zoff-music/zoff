@@ -68,7 +68,7 @@ var emojiStrip = require('emoji-strip');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
 
-var port       = 1337;
+var port       = 8080;
 var lists      = {};
 var offline_users = [];
 var unique_ids = [];
