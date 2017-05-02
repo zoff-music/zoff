@@ -43,17 +43,17 @@ $(document).ready(function (){
           } catch(e) {}
 });
 
-$("#playbutton").on("click", function()
+$(document).on("click", "#playbutton", function()
 {
   socket.emit("id", {id: id, type: "play", value: "mock"});
 });
 
-$("#pausebutton").on("click", function()
+$(document).on("click", "#pausebutton", function()
 {
   socket.emit("id", {id: id, type: "pause", value: "mock"});
 });
 
-$("#skipbutton").on("click", function()
+$(document).on("click", "#skipbutton", function()
 {
   socket.emit("id", {id: id, type: "skip", value: "mock"});
 });
