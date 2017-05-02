@@ -1,13 +1,7 @@
 Zoff
 ====
 
-##### The server-side is required for this website, and it's found at: <a href="https://github.com/zoff-music/zoff-server">here</a>
-
 ## Zoff supports integrated casting with chromecast
-
-##### Config
-
-To get the website to run as intended, please enabled mod_rewrite for apache2, and add ```AllowOverride All``` to the directory containing the webserver in Apache2 (it's usually /etc/apache2/sites-enabled/000-default.conf)
 
 ### About
 
@@ -23,20 +17,20 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ### Screenshots of desktop version:
 
-![Frontpage desktop](http://i.imgur.com/5lK6TZe.png)
+![Frontpage desktop](http://i.imgur.com/Qst1R0g.jpg)
 
-![Channel desktop](http://i.imgur.com/M0PEYcd.png)
+![Channel desktop](http://i.imgur.com/jbw8ZSr.jpg)
 
 ### Screenshots of the mobile version:
 
 <div style="text-align:center;">
-<img src="http://lh5.googleusercontent.com/-_rATUkLCLH8/VUKTzZ19TqI/AAAAAAAABLc/ab9ZiJtLy4g/w330-h586-no/Screenshot_2015-04-30-22-30-43.png" alt="frontpage" height="600px">
+<img src="http://i.imgur.com/aWlEmIx.png" alt="frontpage" height="600px">
 <br>
-<img src="http://i.imgur.com/yXM7zZi.png" alt="channel1" height="600px">
+<img src="http://i.imgur.com/VgmoWGA.png" alt="channel1" height="600px">
 <br>
-<img src="http://i.imgur.com/N6ZPMZE.png" alt="channel2" height="600px">
+<img src="http://i.imgur.com/UrlyfGg.png" alt="channel2" height="600px">
 <br>
-<img src="http://i.imgur.com/0YBbZ5v.png" alt="channel3" height="600px">
+<img src="http://i.imgur.com/GuBz8zK.png" alt="channel3" height="600px">
 </div>
 
 

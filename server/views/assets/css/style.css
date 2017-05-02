@@ -609,8 +609,8 @@ display: inline-flex;
 }
 
 .navbar-fixed {
-		z-index:1000;
-    height: 128px;
+		z-index: 999999;
+		height: 128px;
 }
 
 .fullwidth{
@@ -1652,6 +1652,7 @@ nav ul li:hover, nav ul li.active {
   max-height: calc(100vh - 64px);
   overflow: overlay;
   overflow-x: hidden;
+  /* z-index: 99999999; */
 }
 .result:hover, .hoverResults {
   background-color: rgba(0,0,0,0.4);
