@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
 var uniqid = require('uniqid');
+var mongo_db_cred = {config: 'mydb'};
 
 app.engine('handlebars',exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -22,7 +23,6 @@ try{
     var https = require('https');
     server = https.Server(credentials, app);
 
-    var mongo_db_cred = require('./mongo_config.js');
     var cors_proxy = require('cors-anywhere');
 
     cors_proxy.createServer({
@@ -37,7 +37,6 @@ catch(err){
     console.log("Starting without https (probably on localhost)");
     if(err.errno != 34)console.log(err);
     var cors_proxy = require('cors-anywhere');
-    var mongo_db_cred = {config: 'mydb'};
     cors_proxy.createServer({
         requireHeader: ['origin', 'x-requested-with'],
         removeHeaders: ['cookie', 'cookie2'],
