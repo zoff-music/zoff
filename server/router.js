@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const path = require('path');
-var sendmail = require('sendmail')();
+var nodemailer = require('nodemailer');
+var mailconfig = require('./mailconfig.js');
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -90,20 +91,33 @@ router.route('/:user_name/:channel_name').get(function(req, res, next){
 */
 
 router.route('/api/mail').post(function(req, res) {
-    var from = req.body.from;
-    var message = req.body.message;
-    sendmail({
-        from: from,
-        to: 'contact@zoff.no',
-        subject: 'ZOFF: Contact form webpage',
-        html: message,
-      }, function(err, reply) {
-          if(err) {
-              res.sendStatus(500);
-          } else {
-              res.sendStatus(200);
+   let transporter = nodemailer.createTransport(mailconfig);
+
+   transporter.verify(function(error, success) {
+      if (error) {
+           res.sendStatus(500);
+           return;
+      } else {
+         var from = req.body.from;
+         var message = req.body.message;
+         var msg = {
+             from: 'no-reply@zoff.no',
+             to: 'contact@zoff.no',
+             subject: 'ZOFF: Contact form webpage',
+             text: message,
+             html: message,
+             replyTo: from
           }
-    });
+          transporter.sendMail(msg, (error, info) => {
+              if (error) {
+                  res.send("failed");
+                  return;
+              }
+              res.send("success");
+              transporter.close();
+          });
+      }
+   });
 });
 
 router.route('/').get(function(req, res, next){

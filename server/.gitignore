@@ -2,3 +2,4 @@ node_modules/
 scripts/
 .DS_Store
 mongo_config.js
+mailconfig.js
