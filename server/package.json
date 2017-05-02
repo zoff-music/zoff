@@ -12,12 +12,11 @@
     "express-handlebars": "^3.0.0",
     "express-subdomain": "^1.0.5",
     "jimp": "^0.2.27",
-    "lwip": "0.0.9",
     "mongodb": "^2.0.27",
     "mongojs": "^2.4.0",
     "node-cryptojs-aes": "^0.4.0",
+    "nodemailer": "^4.0.1",
     "request": "^2.72.0",
-    "sendmail": "^1.1.1",
     "socket.io": "^1.7.3",
     "uniqid": "^4.1.1"
   },
