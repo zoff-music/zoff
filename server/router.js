@@ -8,9 +8,9 @@ router.use(function(req, res, next) {
 });
 
 router.route('/:channel_name').get(function(req, res, next){
+    var url = req.headers['x-forwarded-host'];
     var subdomain = req.headers['x-forwarded-host'].split(".");
-
-    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && (subdomain[1] == 'localhost' || subdomain[1] == 'remote')))) {
+    if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
         res.redirect("https://zoff.me");
         return;
     }
@@ -107,9 +107,9 @@ router.route('/api/mail').post(function(req, res) {
 });
 
 router.route('/').get(function(req, res, next){
+    var url = req.headers['x-forwarded-host'];
     var subdomain = req.headers['x-forwarded-host'].split(".");
-
-    if((subdomain[0] != 'localhost' && !(subdomain.length >= 2 && (subdomain[1] == 'localhost' || subdomain[1] == 'remote')))) {
+    if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
         res.redirect("https://zoff.me");
         return;
     }
@@ -119,7 +119,7 @@ router.route('/').get(function(req, res, next){
             javascript_file: "remote.min.js"
         }
         res.render('layouts/remote', data);
-    } else if(subdomain.length >= 2 && subdomain[0] == "www") {
+    } else if(subdomain[0] == "www") {
         res.redirect("https://zoff.me");
     } else {
         var data = {
