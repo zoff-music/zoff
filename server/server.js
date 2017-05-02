@@ -20,10 +20,8 @@ try{
       ca: ca
     };
 
-    var http = require('http');
-    server = http.Server(app);
     var https = require('https');
-    server_2 = https.Server(credentials, app);
+    server = https.Server(credentials, app);
 
     var cors_proxy = require('cors-anywhere');
 
@@ -51,7 +49,6 @@ catch(err){
     });
     var http = require('http');
     server = http.Server(app);
-    server_2 = server;
     add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
 }
 
@@ -63,7 +60,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser());
 
-var io = require('socket.io')(server_2, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
+var io = require('socket.io')(server, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
