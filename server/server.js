@@ -32,10 +32,6 @@ try{
     }).listen(8081, function() {
         console.log('Running CORS Anywhere on :' + 8081);
     });
-
-    server_2.listen(8080, function () {
-        console.log('Server listening at port %d', port);
-    });
 }
 catch(err){
     console.log("Starting without https (probably on localhost)");
