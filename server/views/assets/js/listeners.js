@@ -149,10 +149,7 @@ $().ready(function(){
 function init(){
     number_suggested = 0;
 	var no_socket = true;
-	var pathname = window.location.pathname.split("/");
-	if(pathname.length == 3) {
-		private_channel = true;
-	}
+
 	chan = $("#chan").html();
 	mobile_beginning = Helper.mobilecheck();
 	var side = Helper.mobilecheck() ? "left" : "right";
