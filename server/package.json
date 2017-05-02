@@ -1,0 +1,38 @@
+{
+  "name": "zoff",
+  "version": "2.0.2",
+  "description": "Zoff, the shared YouTube based radio services",
+  "dependencies": {
+    "bad-words": "^1.5.1",
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "cors-anywhere": "^0.2.3",
+    "emoji-strip": "^0.0.3",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
+    "express-subdomain": "^1.0.5",
+    "jimp": "^0.2.27",
+    "lwip": "0.0.9",
+    "mongodb": "^2.0.27",
+    "mongojs": "^2.4.0",
+    "node-cryptojs-aes": "^0.4.0",
+    "request": "^2.72.0",
+    "sendmail": "^1.1.1",
+    "socket.io": "^1.7.3",
+    "uniqid": "^4.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zoff-music/zoff-server.git"
+  },
+  "author": {
+    "name": "Kasper Rynning Tønnesen",
+    "email": "kasper@kasperrt.no"
+  },
+  "devDependencies": {
+    "gulp-util": "~3.0.6",
+    "gulp": "~3.9.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-uglifyjs": "~0.6.2"
+  }
+}
