@@ -388,7 +388,7 @@ var Player = {
                 var color      = colorThief.getColor(img);
 
                 if(window.location.pathname != "/"){
-        		    document.getElementsByTagName("body")[0].style.backgroundColor = Helper.rgbToHsl(color,true);
+        		    document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
                     $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
                 }
     		};
