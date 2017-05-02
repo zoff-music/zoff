@@ -269,6 +269,7 @@ var Frontpage = {
         Frontpage.times_rotated = 0;
         i = 0;
         socket.emit("frontpage_lists");
+  			socket.emit('get_userlists', Crypt.getCookie('_uI'));
       }else if(frontpage){
         Frontpage.times_rotated += 1;
         Frontpage.add_backdrop(list, i+1);
@@ -452,6 +453,7 @@ function initfp(){
       });
     }
     socket.emit('frontpage_lists');
+    socket.emit('get_userlists', Crypt.getCookie('_uI'));
 
     $("#channel-load").css("display", "none");
     //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)

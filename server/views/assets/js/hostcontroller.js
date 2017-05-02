@@ -40,7 +40,9 @@ var Hostcontroller = {
         $("#chan").html(Helper.upperFirst(chan));
 
         w_p = true;
-        socket.emit("list", chan.toLowerCase());
+        var add = "";
+        if(private_channel) add = Crypt.getCookie("_uI") + "_";
+  	    socket.emit("list", add + chan.toLowerCase());
 
         /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
           socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});

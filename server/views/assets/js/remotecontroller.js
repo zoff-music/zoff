@@ -19,7 +19,7 @@ $(document).ready(function (){
 
     if(window.location.hostname == "remote.zoff.me") add = "https://zoff.me";
     else add = "localhost";
-    socket = io.connect(add + ':8080', connection_options);
+    socket = io.connect(add+':8080', connection_options);
     id = window.location.pathname.split("/")[1];
     if(id)
     {
