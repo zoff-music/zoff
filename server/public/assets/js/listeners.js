@@ -938,7 +938,7 @@ $(document).on("click", "#closePlayer", function(e){
 	socket.removeEventListener(id);
   	$("#alreadychannel").remove();
   	Player.player = "";
-  	document.title = "Zoff";
+  	document.title = "Zoff - the shared YouTube based radio";
   	$("#closePlayer").remove();
 });
 
