@@ -95,6 +95,11 @@ server.listen(port, function () {
 });
 
 
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nAllow: /$\nDisallow: /");
+});
+
 app.use(function (req, res, next) {
   var cookie = req.cookies._uI;
   if (cookie === undefined) {
