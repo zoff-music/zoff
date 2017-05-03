@@ -104,9 +104,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-
+app.use('/service-worker.js', function(req, res) {
+  res.sendFile(publicPath + '/service-worker.js');
+});
 app.use('/', router);
 app.use('/assets', express.static(publicPath + '/assets'));
+
 
 
 /*process.on('uncaughtException', function(e){

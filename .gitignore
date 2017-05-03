@@ -1,4 +1,4 @@
-server/views/assets/images/thumbnails/
+server/public/assets/images/thumbnails/
 server/node_modules/
 node_modules/
 scripts/
