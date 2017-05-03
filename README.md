@@ -1,11 +1,11 @@
 Zoff
 ====
 
+Zoff is a shared (free) YouTube based radio service, built upon the YouTube API.
+
 ## Zoff supports integrated casting with chromecast
 
 ### About
-
-Zoff is a shared (free) YouTube based radio service, built upon the YouTube API.
 
 Zoff is mainly a webbased service. The website uses <a href="https://nodejs.org/">NodeJS</a> with <a href="http://socket.io/">Socket.IO</a>, <a href="https://www.mongodb.org/">MongoDB</a> and express on the backend, with JavaScript, jQuery and <a href="http://materializecss.com/">Materialize</a> on the frontend.
 
