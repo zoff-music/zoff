@@ -1,13 +1,24 @@
 var server;
 var add = "";
+const path = require('path');
+const publicPath = path.join(__dirname, 'public');
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
+var hbs = exphbs.create({
+  defaultLayout: publicPath + '/layouts/main',
+  layoutsDir: publicPath + '/layouts',
+  partialsDir: publicPath + '/partials'
+});
 var uniqid = require('uniqid');
 var mongo_db_cred = {config: 'mydb'};
 
-app.engine('handlebars',exphbs({defaultLayout: 'main'}));
+
+app.engine('handlebars', hbs.engine);
+//hbs.loadPartials(publicPath + "/layouts/");
 app.set('view engine', 'handlebars');
+
+app.set('views', publicPath);
 
 try{
     var fs = require('fs');
@@ -76,8 +87,8 @@ var names      = {names: []};
 var locks      = {};
 var skipped    = {};
 var tot_view   = 0;
-const path = require('path');
-const publicPath = path.join(__dirname, '../views');
+
+
 
 server.listen(port, function () {
     console.log('Server listening at port %d', port);
@@ -92,8 +103,10 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
+
 app.use('/', router);
-app.use('/assets', express.static('views/assets'));
+app.use('/assets', express.static(publicPath + '/assets'));
 
 
 /*process.on('uncaughtException', function(e){
