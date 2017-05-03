@@ -9,33 +9,37 @@ router.use(function(req, res, next) {
 });
 
 router.route('/:channel_name').get(function(req, res, next){
-    var url = req.headers['x-forwarded-host'];
-    var subdomain = req.headers['x-forwarded-host'].split(".");
-    if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
-        res.redirect("https://zoff.me");
-        return;
-    }
-    if(subdomain[0] == "remote") {
-        var data = {
-            year: 2017,
-            javascript_file: "remote.min.js"
-        }
-        res.render('layouts/remote', data);
-    } else if(subdomain.length >= 2 && subdomain[0] == "www") {
-        res.redirect("https://zoff.me");
-    } else {
-        if(req.params.channel_name == "_embed") {
-            res.sendFile(path.join(__dirname, '/views/assets/html/embed.html'));
-        } else if(req.params.channel_name == "o_callback") {
-            res.sendFile(path.join(__dirname, '/views/assets/html/callback.html'));
-        } else {
-            var data = {
-                list_name: capitalizeFirstLetter(req.params.channel_name),
-                year: 2017,
-                javascript_file: "main.min.js"
-            }
-            res.render('layouts/channel', data);
-        }
+    try{
+      var url = req.headers['x-forwarded-host'];
+      var subdomain = req.headers['x-forwarded-host'].split(".");
+      if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
+          res.redirect("https://zoff.me");
+          return;
+      }
+      if(subdomain[0] == "remote") {
+          var data = {
+              year: 2017,
+              javascript_file: "remote.min.js"
+          }
+          res.render('layouts/remote', data);
+      } else if(subdomain.length >= 2 && subdomain[0] == "www") {
+          res.redirect("https://zoff.me");
+      } else {
+          if(req.params.channel_name == "_embed") {
+              res.sendFile(path.join(__dirname, '/views/assets/html/embed.html'));
+          } else if(req.params.channel_name == "o_callback") {
+              res.sendFile(path.join(__dirname, '/views/assets/html/callback.html'));
+          } else {
+              var data = {
+                  list_name: capitalizeFirstLetter(req.params.channel_name),
+                  year: 2017,
+                  javascript_file: "main.min.js"
+              }
+              res.render('layouts/channel', data);
+          }
+      }
+    } catch(e) {
+      res.redirect("https://zoff.me");
     }
 });
 
@@ -121,26 +125,30 @@ router.route('/api/mail').post(function(req, res) {
 });
 
 router.route('/').get(function(req, res, next){
-    var url = req.headers['x-forwarded-host'];
-    var subdomain = req.headers['x-forwarded-host'].split(".");
-    if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
-        res.redirect("https://zoff.me");
-        return;
-    }
-    if(subdomain[0] == "remote") {
-        var data = {
-            year: 2017,
-            javascript_file: "remote.min.js"
+    try{
+        var url = req.headers['x-forwarded-host'];
+        var subdomain = req.headers['x-forwarded-host'].split(".");
+        if(url != "zoff.me" && url != "remote.zoff.me" && url != "remote.localhost" && url != "localhost") {
+            res.redirect("https://zoff.me");
+            return;
         }
-        res.render('layouts/remote', data);
-    } else if(subdomain[0] == "www") {
-        res.redirect("https://zoff.me");
-    } else {
-        var data = {
-            year: 2017,
-            javascript_file: "main.min.js"
+        if(subdomain[0] == "remote") {
+            var data = {
+                year: 2017,
+                javascript_file: "remote.min.js"
+            }
+            res.render('layouts/remote', data);
+        } else if(subdomain[0] == "www") {
+            res.redirect("https://zoff.me");
+        } else {
+            var data = {
+                year: 2017,
+                javascript_file: "main.min.js"
+            }
+            res.render('layouts/frontpage', data);
         }
-        res.render('layouts/frontpage', data);
+    } catch(e) {
+        res.redirect("https://zoff.me");
     }
 });
 
