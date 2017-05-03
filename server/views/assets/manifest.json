@@ -3,7 +3,7 @@
   "name": "Zoff",
   "icons": [
     {
-      "src": "public/images/144x144.png",
+      "src": "/assets/images/144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     }
