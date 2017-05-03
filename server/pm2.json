@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name"        : "zoff",
+    "script"      : "./server.js",
+    "watch"       : true,
+    "ignore_watch": ["node_modules", "views/assets/images/thumbnails"],
+  }]
+}
