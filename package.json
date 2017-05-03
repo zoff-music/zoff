@@ -1,0 +1,25 @@
+{
+  "name": "zoff",
+  "version": "1.0.0",
+  "description": "Zoff ====",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoff-music/zoff.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zoff-music/zoff/issues"
+  },
+  "homepage": "https://github.com/zoff-music/zoff#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglifyjs": "^0.6.2",
+    "gulp-util": "^3.0.8"
+  }
+}
