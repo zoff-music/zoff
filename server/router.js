@@ -48,7 +48,7 @@ router.route('/api/imageblob').post(function(req, res) {
     Jimp.read('https://img.youtube.com/vi/' + req.body.id + '/mqdefault.jpg', function (err, image) {
         if (err) throw err;
         image.blur(50)
-             .write(path.join(__dirname, '/views/assets/images/thumbnails/' + req.body.id + '.jpg'), function(e, r) {
+             .write(path.join(__dirname, '/public/assets/images/thumbnails/' + req.body.id + '.jpg'), function(e, r) {
                  res.send(req.body.id + ".jpg");
              });
     });
