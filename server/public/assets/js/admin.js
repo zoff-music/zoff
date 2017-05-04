@@ -121,7 +121,6 @@ var Admin = {
         $("#password").val("");
         $("#password").attr("placeholder", "Change channel password");
         $(".user-password-li").removeClass("hide");
-        console.log($(".password_protected").prop("checked"));
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
         }
@@ -311,9 +310,10 @@ var Admin = {
     	skipping   = form.skip.checked;
     	shuffling  = form.shuffle.checked;
     	configs    = {
-            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: userpass, userpass_changed: userpass_changed
+            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: CryptoJS.SHA256(userpass).toString(), userpass_changed: userpass_changed
         };
 
+        Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
     	socket.emit("conf", configs);
     },
 

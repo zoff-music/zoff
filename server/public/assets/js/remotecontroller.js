@@ -60,7 +60,6 @@ $(document).on("click", "#skipbutton", function()
 
 $(document).on("submit", "#remoteform", function(e)
 {
-  console.log("testing");
   e.preventDefault();
   /*
   if(start)

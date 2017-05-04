@@ -351,12 +351,17 @@ io.on('connection', function(socket){
             io.to(arr.id).emit(arr.id, {type: arr.type, value: arr.value});
     });
 
-    socket.on('list', function(list)
+    socket.on('list', function(msg)
     {
-        if(typeof(list) === 'string' && list !== undefined && list !== null && list !== "")
+        if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel"))
         {
+            var list = msg.channel;
+            var pass = decrypt_string(socketid, msg.pass);
             db.collection(list).find({views: {$exists: true}}, function(err, docs) {
-              if(docs.length == 0 || docs[0].userpass == "" || docs[0].userpass == undefined) {
+              if(docs.length == 0 || docs[0].userpass == "" || docs[0].userpass == undefined || docs[0].userpass == pass) {
+                    if(docs[0].userpass != "" && docs[0].userpass == pass) {
+                        socket.emit("auth_accepted", {value: true});
+                    }
                     in_list = true;
                     coll = emojiStrip(list).toLowerCase();
                     //coll = decodeURIComponent(coll);
@@ -710,7 +715,6 @@ io.on('connection', function(socket){
             var skipping = params.skipping;
             var shuffling = params.shuffling;
             var userpass = params.userpass;
-            console.log(params.userpass_changed, frontpage, userpass);
             if(!params.userpass_changed && frontpage) {
               userpass = "";
             } else if(params.userpass_changed && userpass != "") {

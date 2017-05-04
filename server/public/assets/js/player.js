@@ -229,7 +229,6 @@ var Player = {
     },
 
     loadVideoById: function(id){
-        console.log(id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
