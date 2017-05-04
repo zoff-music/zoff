@@ -10,6 +10,7 @@ var List = {
 
     channel_function: function(msg)
     {
+        user_auth_started = false;
         switch(msg.type)
         {
             case "list":
