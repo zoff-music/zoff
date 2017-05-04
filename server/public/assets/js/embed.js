@@ -43,7 +43,7 @@ $(document).ready(function(){
 	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on("get_list", function(){
-	    setTimeout(function(){socket.emit('list', chan.toLowerCase());},1000);
+	    setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: Crypt.get_userpass(chan.toLowerCase())});},1000);
 	});
 
 	socket.on("viewers", function(view)

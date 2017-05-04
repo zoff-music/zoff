@@ -427,8 +427,8 @@ function initfp(){
 
     if(window.location.hostname == "zoff.me") add = "https://zoff.me";
     else add = window.location.hostname;
-    if(socket === undefined || Helper.mobilecheck()) socket = io.connect(''+add+':8080', connection_options);
-    if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists){
+    if(socket === undefined || Helper.mobilecheck() || user_auth_avoid) socket = io.connect(''+add+':8080', connection_options);
+    if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists || user_auth_avoid){
       setup_playlist_listener();
     }
 
