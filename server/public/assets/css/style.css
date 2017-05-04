@@ -428,6 +428,18 @@ footer{
 
 /* global colors */
 
+.modal-overlay {
+  z-index: 999999 !important;
+}
+
+.modal {
+  z-index: 9999999999 !important;
+}
+
+#user_password {
+  width: 50% !important;
+}
+
 .modal-header-fixed{
   position:fixed;
   width:100px;

@@ -177,6 +177,9 @@ function init(){
 	$("#help").modal();
     $("#contact").modal();
 	$("#embed").modal();
+    $("#user_password").modal({
+        dismissible: false
+    });
 
     spotify_is_authenticated(spotify_authenticated);
 
@@ -951,9 +954,27 @@ $(document).on("click", ".modal-close", function(e){
     e.preventDefault();
 });
 
+$(document).on("change", ".password_protected", function(e) {
+	e.preventDefault();
+    if(this.checked) {
+        //alert("kwek");
+        $("#user_password").modal('open');
+    }
+});
+
+$(document).on("click", ".submit-user-password", function(e) {
+    e.preventDefault();
+    $("#user_password").modal('close');
+    console.log($("#user-pass-input").val());
+})
+
+$(document).on("click", ".close-user-password", function() {
+    $(".password_protected").prop("checked", false);
+});
+
 $(document).on("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
     this.select();
-})
+});
 
 $(document).on("click", ".next_page", function(e){
     e.preventDefault();
