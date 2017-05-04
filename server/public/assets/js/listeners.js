@@ -15,7 +15,11 @@ var adminpass 		   	  = "";
 var filesadded		   	  = "";
 var player_ready 	   	  = false;
 var viewers 			  = 1;
+var temp_user_pass = "";
 var dragging = false;
+var user_auth_started = false;
+var user_auth_avoid = false;
+var user_change_password = false;
 var paused 				  = false;
 var currently_showing_channels = 1;
 var playing 			  = false;
@@ -23,6 +27,7 @@ var SAMPLE_RATE 		  = 6000; // 6 seconds
 var lastSample 			  = Date.now();
 var fireplace_initiated   = false;
 var began 				  = false;
+var userpass              = "";
 var i 					  = -1;
 var lazy_load    		  = false;
 var embed				  = false;
@@ -177,6 +182,9 @@ function init(){
 	$("#help").modal();
     $("#contact").modal();
 	$("#embed").modal();
+    $("#user_password").modal({
+        dismissible: false
+    });
 
     spotify_is_authenticated(spotify_authenticated);
 
@@ -206,7 +214,9 @@ function init(){
 			socket = io.connect(''+add+':8080', connection_options);
 		}
 
-	    Crypt.init();
+        Crypt.init();
+        setup_auth_listener();
+
 	    if(Crypt.get_offline()){
 	        $(".offline_switch_class")[0].checked = true;
 	        change_offline(true, offline);
@@ -238,7 +248,7 @@ function init(){
 		if(no_socket){
 			var add = "";
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", add + chan.toLowerCase());
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 		}
         $("#viewers").tooltip({
           delay: 5,
@@ -473,6 +483,23 @@ function chromecastListener(evt, data){
     }
 }
 
+function setup_auth_listener() {
+    socket.on('auth_required', function() {
+        user_auth_started = true;
+        $("#player_overlay").removeClass("hide");
+        $("#player_overlay").css("display", "block");
+        $("#user_password").modal("open");
+        Crypt.remove_userpass(chan.toLowerCase());
+    });
+
+    socket.on('auth_accepted', function(msg) {
+        if(msg.hasOwnProperty("value") && msg.value) {
+            userpass = temp_user_pass;
+            Crypt.set_userpass(chan.toLowerCase(), userpass);
+        }
+    });
+}
+
 function setup_no_connection_listener(){
     socket.on('connect_failed', function(){
         Helper.log('Connection Failed');
@@ -499,7 +526,7 @@ function get_list_listener(){
 	socket.on("get_list", function(){
 		var add = "";
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
-		socket.emit("list", add + chan.toLowerCase());
+		socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	});
 }
 
@@ -694,7 +721,7 @@ function change_offline(enabled, already_offline){
 			socket.emit("pos");
 			var add = "";
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", add + chan.toLowerCase());
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
       if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
 		}
     }
@@ -724,7 +751,6 @@ window.disable_debug = disable_debug;
 
 function seekToMove(e){
 		//if(!Helper.mobilecheck()) {
-		console.log("hello");
 	    var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
 	    if(pos_x < 0) pos_x = 0;
 	    else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
@@ -951,9 +977,84 @@ $(document).on("click", ".modal-close", function(e){
     e.preventDefault();
 });
 
+$(document).on("change", ".password_protected", function(e) {
+	e.preventDefault();
+    if(this.checked) {
+        //alert("kwek");
+        $("#user_password").modal('open');
+        $("#user-pass-input").focus();
+    } else {
+        userpass = "";
+        if(!$(".change_user_pass").hasClass("hide")) $(".change_user_pass").addClass("hide");
+        Admin.save(false);
+    }
+});
+
+$(document).on("submit", "#user-password-channel-form", function(e) {
+    e.preventDefault();
+    if(user_auth_started) {
+        //user_auth_started = false;
+        //$("#user_password").modal('close');
+        temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
+        $("#user-pass-input").val("");
+        socket.emit("list", {channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+    } else {
+        $("#user_password").modal('close');
+        userpass = $("#user-pass-input").val();
+        user_change_password = false;
+        $("#user-pass-input").val("");
+        Admin.save(true);
+    }
+});
+
+$(document).on("click", ".change_user_pass_btn", function(e) {
+    e.preventDefault();
+    user_change_password = true;
+    $("#user_password").modal('open');
+    $("#user-pass-input").focus();
+});
+
+$(document).on("click", ".submit-user-password", function(e) {
+    e.preventDefault();
+    if(user_auth_started) {
+        //user_auth_started = false;
+        //$("#user_password").modal('close');
+        temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
+        $("#user-pass-input").val("");
+        socket.emit("list", {channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+    } else {
+        $("#user_password").modal('close');
+        userpass = $("#user-pass-input").val();
+        user_change_password = false;
+        $("#user-pass-input").val("");
+        Admin.save(true);
+    }
+});
+
+$(document).on("click", ".close-user-password", function() {
+    if(user_auth_started) {
+        Player.stopInterval = true;
+        user_auth_avoid = true;
+        $('.castButton-active').tooltip("remove");
+		$("#viewers").tooltip("remove");
+		$('.castButton-unactive').tooltip("remove");
+		$("#offline-mode").tooltip("remove");
+		$('#chan_thumbnail').tooltip("remove");
+		$('#admin-lock').tooltip("remove");
+        window.history.pushState("to the frontpage!", "Title", "/");
+    	onepage_load();
+    } else {
+        $("#user-pass-input").val("");
+        if(!user_change_password) {
+            $(".password_protected").prop("checked", false);
+        }
+        user_change_password = false;
+    }
+});
+
 $(document).on("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
     this.select();
-})
+});
 
 $(document).on("click", ".next_page", function(e){
     e.preventDefault();
@@ -1029,16 +1130,14 @@ $(document).on("submit", ".channel-finder", function(e){
 $(document).off("keyup", "keyup.autocomplete", function(e){
     if(e.keyCode == 13){
         e.preventDefault();
-        console.log(e.keyCode);
-    	console.log($(this).val());
+
     }
 });
 
 $(document).off("keydown", "keydown.autocomplete", function(e){
     if(e.keyCode == 13){
         e.preventDefault();
-        console.log(e.keyCode);
-    	console.log($(this).val());
+        
     }
 });*/
 
@@ -1063,7 +1162,7 @@ $(document).on("change", 'input[class=offline_switch_class]', function()
 
 $(document).on("change", 'input[class=conf]', function()
 {
-    Admin.save();
+    Admin.save(false);
 });
 
 $("#clickme").click(function(){
@@ -1586,8 +1685,9 @@ function onepage_load(){
 			var add = "";
 	    w_p = true;
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", add + chan.toLowerCase());
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}else if(url_split[3] === ""){
+        user_change_password = false;
         clearTimeout(width_timeout);
 		if(fireplace_initiated){
         fireplace_initiated = false;
@@ -1616,7 +1716,7 @@ function onepage_load(){
 		    url: "/",
 		    success: function(e){
 
-		    	if(Helper.mobilecheck()) {
+		    	if(Helper.mobilecheck() || user_auth_avoid) {
                     Helper.log("Removing all listeners");
 		    		socket.removeAllListeners();
 		    		socket.disconnect();
@@ -1634,14 +1734,14 @@ function onepage_load(){
     			document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
     			document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
 
-			    if(Helper.mobilecheck()) {
+			    if(Helper.mobilecheck() || user_auth_avoid) {
 			    	video_id   = "";
 			    	song_title = "";
 		    	}
 
 		    	$("meta[name=theme-color]").attr("content", "#2D2D2D");
 
-		    	if(!Helper.mobilecheck()){
+		    	if(!Helper.mobilecheck() && !user_auth_avoid){
                     $(".video-container").resizable("destroy");
 		    		$("main").append("<a id='closePlayer' title='Close Player'>X</a>");
 		    		$("#playbar").remove();
@@ -1673,7 +1773,7 @@ function onepage_load(){
                 $("header").html($(response.find("header")).html());
                 $($(response.find(".section.mega"))).insertAfter("header");
                 $($(response.find(".section.mobile-search"))).insertAfter(".mega");
-                if(Helper.mobilecheck()) $("main").html($(response.find("main")).html());
+                if(Helper.mobilecheck() || user_auth_avoid) $("main").html($(response.find("main")).html());
                 else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
 		      	$(".page-footer").removeClass("padding-bottom-extra");
 		      	$(".page-footer").removeClass("padding-bottom-novideo");
@@ -1688,11 +1788,13 @@ function onepage_load(){
 		            initfp();
 		        }
 
-		      	if($("#alreadychannel").length === 0){
+		      	if($("#alreadychannel").length === 0 && !user_auth_avoid){
 		      		$("head").append("<div id='alreadychannel'></div");
-		      	}
+		      	} else if(user_auth_avoid) {
+                    $("#alreadychannel").remove();
+                }
 		      	$("#channel-load").css("display", "none");
-
+                user_auth_avoid = false;
 		    }
 		});
 	}

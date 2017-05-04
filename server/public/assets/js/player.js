@@ -307,29 +307,32 @@ var Player = {
 
     errorHandler: function(newState)
     {
-    	if(newState.data == 5 || newState.data == 100 ||
-            newState.data == 101 || newState.data == 150)
-        {
-            /*if(Player.count == 2){
-                Player.count = 0;*/
-            /*Helper.log("Before: " + Player.before_load);
-            Helper.log("Now: " + video_id);
-            Helper.log("After: " + Player.after_load);
-            Helper.log(Player.before_load == Player.player.getVideoUrl);*/
-            curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
+        if(!user_auth_started) {
+        	if(newState.data == 5 || newState.data == 100 ||
+                newState.data == 101 || newState.data == 150)
+            {
+                /*if(Player.count == 2){
+                    Player.count = 0;*/
+                /*Helper.log("Before: " + Player.before_load);
+                Helper.log("Now: " + video_id);
+                Helper.log("After: " + Player.after_load);
+                Helper.log(Player.before_load == Player.player.getVideoUrl);*/
+                curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
 
-                socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase});
-                //Helper.log(video_id, Player.player.getVideoUrl(), Player.player.getPlayerState());
+                    socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase});
+                    //Helper.log(video_id, Player.player.getVideoUrl(), Player.player.getPlayerState());
 
-            /*}else{
-                setTimeout(function(){
-                Player.loadVideoById(video_id);
-                Player.count ++;
-                }, Math.floor((Math.random() * 100) + 1));
-            }*/
-    	}else if(video_id !== undefined)
-    		Player.loadVideoById(video_id);
+                /*}else{
+                    setTimeout(function(){
+                    Player.loadVideoById(video_id);
+                    Player.count ++;
+                    }, Math.floor((Math.random() * 100) + 1));
+                }*/
+        	}else if(video_id !== undefined) {
+        		Player.loadVideoById(video_id);
+            }
+        }
     },
 
     onPlayerReady: function(event) {
@@ -477,8 +480,9 @@ var Player = {
         /*try{
             //duration = Player.player.getDuration();
         }catch(e){};*/
-        if(duration !== undefined){
-            try{
+        try{
+            if(!user_auth_avoid && duration !== undefined){
+
                 if(!Player.stopInterval) durationBegun = true;
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
@@ -495,9 +499,10 @@ var Player = {
                     per = 0;
 
                 if(!dragging) $("#bar").width(per+"%");
-            }catch(e){
 
             }
+        }catch(e){
+
         }
         if(!Player.stopInterval) setTimeout(Player.durationSetter, 1000);
     },

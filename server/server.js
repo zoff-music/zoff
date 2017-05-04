@@ -351,34 +351,45 @@ io.on('connection', function(socket){
             io.to(arr.id).emit(arr.id, {type: arr.type, value: arr.value});
     });
 
-    socket.on('list', function(list)
+    socket.on('list', function(msg)
     {
-        if(typeof(list) === 'string' && list !== undefined && list !== null && list !== "")
+        if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel"))
         {
-            in_list = true;
-            coll = emojiStrip(list).toLowerCase();
-            //coll = decodeURIComponent(coll);
-            coll = coll.replace("_", "");
-            coll = encodeURIComponent(coll).replace(/\W/g, '');
-            coll = filter.clean(coll);
-            socket.join(coll);
-            socket.join(short_id);
-            socket.emit("id", short_id);
-            check_inlist(coll, guid, socket, name, offline);
-            io.to(coll).emit("viewers", lists[coll] == undefined ? 0 : lists[coll].length);
-            db.getCollectionNames(function(err, docs){
-                if(contains(docs, coll))
-                {
-                    send_list(coll, socket, true, false, true);
-                }else{
-                    db.createCollection(coll, function(err, docs){
-                        db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
+            var list = msg.channel;
+            var pass = decrypt_string(socketid, msg.pass);
+            db.collection(list).find({views: {$exists: true}}, function(err, docs) {
+              if(docs.length == 0 || docs[0].userpass == "" || docs[0].userpass == undefined || docs[0].userpass == pass) {
+                    if(docs[0].userpass != "" && docs[0].userpass == pass) {
+                        socket.emit("auth_accepted", {value: true});
+                    }
+                    in_list = true;
+                    coll = emojiStrip(list).toLowerCase();
+                    //coll = decodeURIComponent(coll);
+                    coll = coll.replace("_", "");
+                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = filter.clean(coll);
+                    socket.join(coll);
+                    socket.join(short_id);
+                    socket.emit("id", short_id);
+                    check_inlist(coll, guid, socket, name, offline);
+                    io.to(coll).emit("viewers", lists[coll] == undefined ? 0 : lists[coll].length);
+                    db.getCollectionNames(function(err, docs){
+                        if(contains(docs, coll))
+                        {
                             send_list(coll, socket, true, false, true);
-                            db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": get_time()});
-                        });
+                        }else{
+                            db.createCollection(coll, function(err, docs){
+                                db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
+                                    send_list(coll, socket, true, false, true);
+                                    db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": get_time()});
+                                });
+                            });
+                        }
                     });
-                }
-            });
+              } else {
+                  socket.emit("auth_required");
+              }
+            })
         }
     });
 
@@ -703,6 +714,12 @@ io.on('connection', function(socket){
             var adminpass = params.adminpass;
             var skipping = params.skipping;
             var shuffling = params.shuffling;
+            var userpass = params.userpass;
+            if(!params.userpass_changed && frontpage) {
+              userpass = "";
+            } else if(params.userpass_changed && userpass != "") {
+              frontpage = false;
+            }
             var description = "";
             var hash;
             if(params.description) description = params.description;
@@ -725,10 +742,13 @@ io.on('connection', function(socket){
                         shuffle:shuffling,
                         longsongs:longsongs,
                         adminpass:hash,
-                        desc: description
+                        desc: description,
+                        userpass: userpass,
                     }}, function(err, docs){
                         db.collection(coll).find({views:{$exists:true}}, function(err, docs){
                             if(docs[0].adminpass !== "") docs[0].adminpass = true;
+                            if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
+                            else docs[0].userpass = false;
                             io.to(coll).emit("conf", docs);
                             socket.emit("toast", "savedsettings");
 
@@ -1160,6 +1180,8 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
         if(configs)
         {
             if(conf[0].adminpass !== "") conf[0].adminpass = true;
+            if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
+            else conf[0].userpass = false;
             io.to(coll).emit("conf", conf);
         }
     });
@@ -1182,6 +1204,8 @@ function send_play(coll, socket)
                 }else if(conf !== null && conf !== undefined && conf.length !== 0)
                 {
                     if(conf[0].adminpass !== "") conf[0].adminpass = true;
+                    if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
+                    else conf[0].userpass = false;
                     toSend = {np: np, conf: conf, time: get_time()};
                     if(socket === undefined)
                         io.to(coll).emit("np", toSend);

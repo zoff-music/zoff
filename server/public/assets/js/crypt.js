@@ -1,6 +1,7 @@
 var Crypt = {
 
 	conf_pass: undefined,
+	user_pass: undefined,
 
 	init: function(){
 
@@ -13,7 +14,7 @@ var Crypt = {
 		}
 
 		try{
-        	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
+    	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
     }catch(err){
     	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
     }
@@ -150,6 +151,16 @@ var Crypt = {
 		Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
 	},
 
+	set_userpass: function(chan, pass) {
+		Crypt.conf_pass.passwords["userpass"] = pass;
+		Crypt.encrypt(Crypt.conf_pass, chan);
+	},
+
+	remove_userpass:function(chan){
+		delete Crypt.conf_pass.passwords["userpass"];
+		Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
+	},
+
 	set_name:function(name){
 		conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');
 		Crypt.encrypt(conf_arr, "_opt");
@@ -168,6 +179,11 @@ var Crypt = {
 	get_pass: function(chan){
 		if(Crypt.conf_pass !== undefined) return Crypt.conf_pass.passwords[chan];
 		return undefined;
+	},
+
+	get_userpass: function(chan) {
+		if(Crypt.conf_pass !== undefined) return Crypt.conf_pass.passwords["userpass"];
+		return "";
 	},
 
 	set_remote: function(val){

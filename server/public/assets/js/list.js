@@ -10,6 +10,10 @@ var List = {
 
     channel_function: function(msg)
     {
+        if(user_auth_started) {
+            user_auth_started = false;
+            $("#user_password").modal("close");
+        }
         switch(msg.type)
         {
             case "list":
