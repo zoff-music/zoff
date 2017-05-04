@@ -100,7 +100,7 @@ var Admin = {
         w_p       = false;
         adminpass = msg;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle"];
+        "removeplay", "skip", "shuffle", "userpass"];
 
         Crypt.set_pass(chan.toLowerCase(), Crypt.decrypt_pass(msg));
 
@@ -120,6 +120,11 @@ var Admin = {
         }
         $("#password").val("");
         $("#password").attr("placeholder", "Change channel password");
+        $(".user-password-li").removeClass("hide");
+        console.log($(".password_protected").prop("checked"));
+        if($(".password_protected").prop("checked")) {
+            $(".change_user_pass").removeClass("hide");
+        }
         //if(!Helper.mobilecheck()){
         if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
             $(".playlist-tabs-loggedIn").removeClass("hide");
@@ -200,6 +205,18 @@ var Admin = {
             }
         }
 
+        if(!$(".user-password-li").hasClass("hide")) {
+            $(".user-password-li").addClass("hide")
+        }
+
+        if($(".password_protected").prop("checked")) {
+            $(".change_user_pass").removeClass("hide");
+        }
+
+        if(!$(".change_user_pass").hasClass("hide")) {
+            $(".change_user_pass").addClass("hide");
+        }
+
         if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")){
             $(".playlist-tabs-loggedIn").addClass("hide");
             $(".playlist-tabs").removeClass("hide");
@@ -224,8 +241,8 @@ var Admin = {
     },
 
     //function used in html onlick
-    save: function(){
-    	Admin.submitAdmin(document.getElementById("adminForm").elements);
+    save: function(userpass){
+    	Admin.submitAdmin(document.getElementById("adminForm").elements, userpass);
     },
 
     set_conf: function(conf_array)
@@ -233,7 +250,7 @@ var Admin = {
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-                    "removeplay", "skip", "shuffle"];
+                    "removeplay", "skip", "shuffle", "userpass"];
 
 
         if(conf_array.adminpass === "" || !w_p){
@@ -259,6 +276,14 @@ var Admin = {
                 $(".playlist-tabs").addClass("hide");
             }
             $("#password").attr("placeholder", "Create channel password");
+        } else {
+            if($(".password_protected").prop("checked")) {
+                $(".change_user_pass").removeClass("hide");
+            }
+        }
+
+        if(!$(".password_protected").prop("checked") && !$(".change_user_pass").hasClass("hide")) {
+            $(".change_user_pass").addClass("hide");
         }
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != ""){
@@ -275,7 +300,7 @@ var Admin = {
         }*/
     },
 
-    submitAdmin: function(form)
+    submitAdmin: function(form, userpass_changed)
     {
     	voting     = form.vote.checked;
     	addsongs   = form.addsongs.checked;
@@ -286,7 +311,7 @@ var Admin = {
     	skipping   = form.skip.checked;
     	shuffling  = form.shuffle.checked;
     	configs    = {
-            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling
+            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: userpass, userpass_changed: userpass_changed
         };
 
     	socket.emit("conf", configs);

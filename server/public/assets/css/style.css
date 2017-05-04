@@ -436,6 +436,10 @@ footer{
   z-index: 9999999999 !important;
 }
 
+.material-tooltip {
+  z-index: 999999 !important;
+}
+
 #user_password {
   width: 50% !important;
 }
