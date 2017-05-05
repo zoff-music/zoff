@@ -353,7 +353,7 @@ io.on('connection', function(socket){
 
     socket.on('list', function(msg)
     {
-        if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel"))
+        if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
         {
             var list = msg.channel;
             var pass = decrypt_string(socketid, msg.pass);
