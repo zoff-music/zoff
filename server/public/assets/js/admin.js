@@ -311,7 +311,7 @@ var Admin = {
     	shuffling  = form.shuffle.checked;
         var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
     	configs    = {
-            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
+            channel: chan.toLowerCase(), voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
         };
 
       Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
@@ -325,7 +325,7 @@ var Admin = {
     shuffle: function()
     {
         if(!offline){
-            socket.emit('shuffle', adminpass !== undefined ? adminpass : "");
+            socket.emit('shuffle', {adminpass: adminpass !== undefined ? adminpass : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
                 var num = Math.floor(Math.random()*1000000);

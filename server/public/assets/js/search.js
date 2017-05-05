@@ -406,7 +406,7 @@ var Search = {
               List.vote(id, "pos");
           }
       } else {
-          socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
+          socket.emit("add", {id: id, title: decodeURIComponent(title), adminpass: adminpass, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
       }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 

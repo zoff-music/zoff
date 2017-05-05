@@ -172,10 +172,14 @@ io.on('connection', function(socket){
             var channel = msg.channel.toLowerCase();
             var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
             db.collection(channel).find({views:{$exists:true}}, function(err, docs){
-                if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
-                    db.collection("suggested_thumbnails").update({channel: channel}, {$set:{thumbnail: msg.thumbnail}}, {upsert:true}, function(err, docs){
-                        socket.emit("toast", "suggested_thumbnail");
-                    });
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+                    if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
+                        db.collection("suggested_thumbnails").update({channel: channel}, {$set:{thumbnail: msg.thumbnail}}, {upsert:true}, function(err, docs){
+                            socket.emit("toast", "suggested_thumbnail");
+                        });
+                    }
+                } else {
+                    socket.emit("auth_required");
                 }
             });
         } else {
@@ -188,10 +192,14 @@ io.on('connection', function(socket){
             var channel = msg.channel.toLowerCase();
             var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
             db.collection(channel).find({views:{$exists:true}}, function(err, docs){
-                if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
-                    db.collection("suggested_descriptions").update({channel: channel}, {$set:{description: msg.description}}, {upsert:true}, function(err, docs){
-                        socket.emit("toast", "suggested_description");
-                    });
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+                    if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
+                        db.collection("suggested_descriptions").update({channel: channel}, {$set:{description: msg.description}}, {upsert:true}, function(err, docs){
+                            socket.emit("toast", "suggested_description");
+                        });
+                    }
+                } else {
+                    socket.emit("auth_required");
                 }
             });
         } else {
@@ -272,21 +280,34 @@ io.on('connection', function(socket){
         }
     });
 
-    socket.on('chat', function (data) {
-        if(typeof(data) !== 'string') return;
-        check_inlist(coll, guid, socket, names[guid], offline);
-        if(data !== "" && data !== undefined && data !== null &&
-        data.length < 151 && data.replace(/\s/g, '').length){
-            if(names[guid] === undefined){
-                name = get_name(guid);
-            } else name = names[guid];
-            io.to(coll).emit('chat', {from: names[guid], msg: ": " + data});
+    socket.on('chat', function (msg) {
+        if(typeof(data) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel')) {
+            socket.emit('update_required');
+            return;
         }
+        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+
+                check_inlist(coll, guid, socket, names[guid], offline);
+                if(data !== "" && data !== undefined && data !== null &&
+                data.length < 151 && data.replace(/\s/g, '').length){
+                    if(names[guid] === undefined){
+                        name = get_name(guid);
+                    } else name = names[guid];
+                    io.to(coll).emit('chat', {from: names[guid], msg: ": " + data});
+                }
+            } else {
+                socket.emit('auth_required');
+            }
+        });
     });
 
     socket.on("all,chat", function(data)
     {
-        if(typeof(data) !== 'string') return;
+        if(typeof(data) !== 'string') {
+            socket.emit('update_required');
+            return;
+        }
         check_inlist(coll, guid, socket, names[guid], offline);
         if(data !== "" && data !== undefined && data !== null &&
         data.length < 151 && data.replace(/\s/g, '').length){
@@ -332,7 +353,10 @@ io.on('connection', function(socket){
 
     socket.on('now_playing', function(list, fn)
     {
-        if(typeof(list) !== 'string' || typeof(fn) !== 'function') return;
+        if(typeof(list) !== 'string' || typeof(fn) !== 'function') {
+            socket.emit('update_required');
+            return;
+        }
         db.collection(list).find({now_playing:true}, function(err, docs){
             if(docs.length === 0){
                 fn("No song currently playing");
@@ -356,18 +380,22 @@ io.on('connection', function(socket){
         if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
         {
             var list = msg.channel;
+            coll = emojiStrip(list).toLowerCase();
+            //coll = decodeURIComponent(coll);
+            coll = coll.replace("_", "");
+            coll = encodeURIComponent(coll).replace(/\W/g, '');
+            coll = filter.clean(coll);
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
             var pass = decrypt_string(socketid, msg.pass);
-            db.collection(list).find({views: {$exists: true}}, function(err, docs) {
+            db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
               if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
                     if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
                         socket.emit("auth_accepted", {value: true});
                     }
                     in_list = true;
-                    coll = emojiStrip(list).toLowerCase();
-                    //coll = decodeURIComponent(coll);
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
-                    coll = filter.clean(coll);
                     socket.join(coll);
                     socket.join(short_id);
                     socket.emit("id", short_id);
@@ -390,12 +418,17 @@ io.on('connection', function(socket){
                   socket.emit("auth_required");
               }
             })
+        } else {
+            socket.emit('update_required');
         }
     });
 
     socket.on('end', function(obj)
     {
-        if(typeof(obj) !== 'object') return;
+        if(typeof(obj) !== 'object') {
+            socket.emit('update_required');
+            return;
+        }
         id = obj.id;
         if(id !== undefined && id !== null && id !== "")
         {
@@ -407,26 +440,41 @@ io.on('connection', function(socket){
                 coll = encodeURIComponent(coll).replace(/\W/g, '');
                 coll = filter.clean(coll);
             }
-            check_inlist(coll, guid, socket, name, offline);
-            db.collection(coll).find({now_playing:true}, function(err, np){
-                if(err !== null) console.log(err);
-                if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
-                    db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-                        var startTime = docs[0].startTime;
-                        if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=get_time()+5)
-                        {
-                            db.collection(coll).remove({now_playing:true}, function(err, docs){
-                                change_song_post(coll);
+
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
+
+            db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, obj.pass)))) {
+
+                    check_inlist(coll, guid, socket, name, offline);
+                    db.collection(coll).find({now_playing:true}, function(err, np){
+                        if(err !== null) console.log(err);
+                        if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
+                            db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                                var startTime = docs[0].startTime;
+                                if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=get_time()+5)
+                                {
+                                    db.collection(coll).remove({now_playing:true}, function(err, docs){
+                                        change_song_post(coll);
+                                    });
+                                }else{
+                                    if(startTime+parseInt(np[0].duration)<=get_time()+5)
+                                    {
+                                        change_song(coll, false, id);
+                                    }
+                                }
                             });
-                        }else{
-                            if(startTime+parseInt(np[0].duration)<=get_time()+5)
-                            {
-                                change_song(coll, false, id);
-                            }
                         }
                     });
+                } else {
+                    socket.emit("auth_required");
                 }
             });
+        } else {
+            socket.emit('update_required');
         }
     });
 
@@ -435,7 +483,7 @@ io.on('connection', function(socket){
         if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
         {
             //if(arr.length == 5) coll = arr[4];
-            if(arr.list !== undefined) {
+            if(coll !== undefined) {
                 coll = arr.list;
                 coll = emojiStrip(coll).toLowerCase();
                 //coll = decodeURIComponent(coll);
@@ -444,124 +492,138 @@ io.on('connection', function(socket){
                 coll = filter.clean(coll);
             }
 
-            check_inlist(coll, guid, socket, name, offline);
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
 
-            var id = arr.id;
-            var title = arr.title;
-            var hash = hash_pass(decrypt_string(socketid, arr.adminpass));
-            var duration = parseInt(arr.duration);
-            var full_list = arr.playlist;
-            var last = arr.num == arr.total - 1;
-            var num = arr.num;
-            var total = arr.total;
-            db.collection(coll).find({views:{$exists:true}}, function(err, docs)
-            {
-                conf = docs;
+            db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, arr.pass)))) {
 
-                if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
-                    docs[0].addsongs === false))
-                {
-                    db.collection(coll).find({id:id, type:{$ne:"suggested"}}, function(err, docs){
-                        if(docs !== null && docs.length === 0)
+                    check_inlist(coll, guid, socket, name, offline);
+
+                    var id = arr.id;
+                    var title = arr.title;
+                    var hash = hash_pass(decrypt_string(socketid, arr.adminpass));
+                    var duration = parseInt(arr.duration);
+                    var full_list = arr.playlist;
+                    var last = arr.num == arr.total - 1;
+                    var num = arr.num;
+                    var total = arr.total;
+                    db.collection(coll).find({views:{$exists:true}}, function(err, docs)
+                    {
+                        conf = docs;
+
+                        if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
+                            docs[0].addsongs === false))
                         {
-                            var guids = full_list === true ? [] : [guid];
-                            var votes;
-                            var added;
-                            if(full_list) {
-                                var time = get_time()-total;
-                                time = time.toString();
-                                var total_len = total.toString().length;
-                                var now_len = num.toString().length;
-                                var to_add = num.toString();
-                                while(now_len < total_len) {
-                                    to_add = "0" + to_add;
-                                    now_len = to_add.length;
-                                }
-                                time = time.substring(0, time.length - total_len);
-                                time = time + to_add;
-                                time = parseInt(time);
-                                added = time;
-                                votes = 0;
-                            } else {
-                                added = get_time();
-                                votes = 1;
-                            }
-
-                            db.collection(coll).find({now_playing:true}, function(err, docs){
-                                if((docs !== null && docs.length === 0)){
-                                    np = true;
-                                    if(full_list && num === 0){
-                                        np = true;
-                                        //var time = get_time() - total - 1;
+                            db.collection(coll).find({id:id, type:{$ne:"suggested"}}, function(err, docs){
+                                if(docs !== null && docs.length === 0)
+                                {
+                                    var guids = full_list === true ? [] : [guid];
+                                    var votes;
+                                    var added;
+                                    if(full_list) {
+                                        var time = get_time()-total;
                                         time = time.toString();
-                                        total += 1;
                                         var total_len = total.toString().length;
-                                        var now_len = total.toString().length;
-                                        var to_add = total.toString();
+                                        var now_len = num.toString().length;
+                                        var to_add = num.toString();
                                         while(now_len < total_len) {
                                             to_add = "0" + to_add;
                                             now_len = to_add.length;
                                         }
                                         time = time.substring(0, time.length - total_len);
-                                        time = parseInt(time).toString() + to_add;
+                                        time = time + to_add;
                                         time = parseInt(time);
                                         added = time;
                                         votes = 0;
-                                    } else if(full_list) {
-                                        np = false;
+                                    } else {
+                                        added = get_time();
+                                        votes = 1;
                                     }
-                                } else
-                                    np = false;
-                                db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, {upsert: true}, function(err, docs){
-                                        if(np)
-                                        {
-                                            send_list(coll, undefined, false, true, false);
-                                            db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: get_time()}});
-                                            send_play(coll, undefined);
-                                            //io.to(coll).emit("channel", "song_change", get_time()]);
-                                            update_frontpage(coll, id, title);
-                                            //io.to(coll).emit("channel", ["added", {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
-                                        } else {
-                                            io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
+
+                                    db.collection(coll).find({now_playing:true}, function(err, docs){
+                                        if((docs !== null && docs.length === 0)){
+                                            np = true;
+                                            if(full_list && num === 0){
+                                                np = true;
+                                                //var time = get_time() - total - 1;
+                                                time = time.toString();
+                                                total += 1;
+                                                var total_len = total.toString().length;
+                                                var now_len = total.toString().length;
+                                                var to_add = total.toString();
+                                                while(now_len < total_len) {
+                                                    to_add = "0" + to_add;
+                                                    now_len = to_add.length;
+                                                }
+                                                time = time.substring(0, time.length - total_len);
+                                                time = parseInt(time).toString() + to_add;
+                                                time = parseInt(time);
+                                                added = time;
+                                                votes = 0;
+                                            } else if(full_list) {
+                                                np = false;
+                                            }
+                                        } else
+                                            np = false;
+                                        db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, {upsert: true}, function(err, docs){
+                                                if(np)
+                                                {
+                                                    send_list(coll, undefined, false, true, false);
+                                                    db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: get_time()}});
+                                                    send_play(coll, undefined);
+                                                    //io.to(coll).emit("channel", "song_change", get_time()]);
+                                                    update_frontpage(coll, id, title);
+                                                    //io.to(coll).emit("channel", ["added", {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}]);
+                                                } else {
+                                                    io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
+                                                }
+                                                db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
+                                        });
+                                        if(!full_list)
+                                            socket.emit("toast", "addedsong");
+                                        else if(full_list && last) {
+                                            socket.emit("toast", "addedplaylist");
                                         }
-                                        db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
-                                });
-                                if(!full_list)
-                                    socket.emit("toast", "addedsong");
-                                else if(full_list && last) {
+                                    });
+                                }else if(!full_list){
+                                    vote(coll, id, guid, socket, full_list, last);
+                                    if(full_list && last) {
+                                        socket.emit("toast", "addedplaylist");
+                                    }
+                                } else if(full_list && last) {
                                     socket.emit("toast", "addedplaylist");
                                 }
                             });
-                        }else if(!full_list){
-                            vote(coll, id, guid, socket, full_list, last);
-                            if(full_list && last) {
-                                socket.emit("toast", "addedplaylist");
-                            }
-                        } else if(full_list && last) {
-                            socket.emit("toast", "addedplaylist");
-                        }
-                    });
-                }else if(!full_list)
-                {
-                    db.collection(coll).find({id: id}, function(err, docs){
-                        if(docs.length === 0){
-                            db.collection(coll).update({id: id},
-                                {$set:{
-                                    "added":get_time(), "guids": [guid], "id":id, "now_playing": false, "title":title, "votes":1, "duration":duration, type:"suggested"}},
-                                    {upsert:true}, function(err, docs){
-                                socket.emit("toast", "suggested");
-                                io.to(coll).emit("suggested", {id: id, title: title, duration: duration});
+                        }else if(!full_list)
+                        {
+                            db.collection(coll).find({id: id}, function(err, docs){
+                                if(docs.length === 0){
+                                    db.collection(coll).update({id: id},
+                                        {$set:{
+                                            "added":get_time(), "guids": [guid], "id":id, "now_playing": false, "title":title, "votes":1, "duration":duration, type:"suggested"}},
+                                            {upsert:true}, function(err, docs){
+                                        socket.emit("toast", "suggested");
+                                        io.to(coll).emit("suggested", {id: id, title: title, duration: duration});
+                                    });
+                                }else if(docs[0].now_playing === true){
+                                    socket.emit("toast", "alreadyplay");
+                                }else{
+                                    if(conf[0].vote === false) vote(coll, id, guid, socket, full_list, last);
+                                    else socket.emit("toast", "listhaspass");
+                                }
                             });
-                        }else if(docs[0].now_playing === true){
-                            socket.emit("toast", "alreadyplay");
-                        }else{
-                            if(conf[0].vote === false) vote(coll, id, guid, socket, full_list, last);
-                            else socket.emit("toast", "listhaspass");
+                            //socket.emit("toast", "listhaspass");
                         }
                     });
-                    //socket.emit("toast", "listhaspass");
+                } else {
+                    socket.emit("auth_required");
                 }
             });
+        } else {
+            socket.emit('update_required');
         }
     });
 
@@ -569,24 +631,48 @@ io.on('connection', function(socket){
     {
         if(typeof(msg) === 'object' && msg !== undefined && msg !== null)
         {
-            check_inlist(coll, guid, socket, name, offline);
 
-            if(msg.type == "del")
-                del(msg, socket, socketid);
-            else
-            {
-                var id = msg.id;
-                var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
-                db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-                    if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
-                    docs[0].vote === false))
-                    {
-                        vote(coll, id, guid, socket, false, false);
-                    }else{
-                        socket.emit("toast", "listhaspass");
-                    }
-                });
+            if(coll !== undefined) {
+                coll = msg.channel;
+                coll = emojiStrip(coll).toLowerCase();
+                //coll = decodeURIComponent(coll);
+                coll = coll.replace("_", "");
+                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = filter.clean(coll);
             }
+
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
+
+            db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+
+                    check_inlist(coll, guid, socket, name, offline);
+
+                    if(msg.type == "del")
+                        del(msg, socket, socketid);
+                    else
+                    {
+                        var id = msg.id;
+                        var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
+                        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                            if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
+                            docs[0].vote === false))
+                            {
+                                vote(coll, id, guid, socket, false, false);
+                            }else{
+                                socket.emit("toast", "listhaspass");
+                            }
+                        });
+                    }
+                } else {
+                    socket.emit("auth_required");
+                }
+            });
+        } else {
+            socket.emit('update_required');
         }
     });
 
@@ -602,6 +688,11 @@ io.on('connection', function(socket){
             coll = coll.replace("_", "");
             coll = encodeURIComponent(coll).replace(/\W/g, '');
             coll = filter.clean(coll);
+
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
 
             uncrypted = pw;
             pw = decrypt_string(socketid, pw);
@@ -630,6 +721,8 @@ io.on('connection', function(socket){
                         socket.emit("toast", "wrongpass");
                 }
             });
+        } else {
+            socket.emit('update_required');
         }
     });
 
@@ -638,7 +731,7 @@ io.on('connection', function(socket){
         //if(1==2)
         if(list !== undefined && list !== null && list !== "")
         {
-            if(coll === undefined) {
+            if(coll !== undefined) {
                 coll = list.channel;
                 coll = emojiStrip(coll).toLowerCase();
                 //coll = decodeURIComponent(coll);
@@ -646,63 +739,103 @@ io.on('connection', function(socket){
                 coll = encodeURIComponent(coll).replace(/\W/g, '');
                 coll = filter.clean(coll);
             }
-            check_inlist(coll, guid, socket, name, offline);
 
-            adminpass = "";
-            video_id  = list.id;
-            err       = list.error;
-            var error = false;
-            var video_id;
-            if(err != "5" && err != "100" && err != "101" && err != "150")
-            {
-                adminpass = list.pass;
-            }else if(err == "5" || err == "100" || err == "101" || err == "150"){
-                error = true;
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
             }
 
-            if(adminpass !== undefined && adminpass !== null && adminpass !== "")
-                hash = hash_pass(decrypt_string(socketid, adminpass));
-            else
-                hash = "";
+            db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, list.pass)))) {
 
-            db.collection(coll).find({views: {$exists:true}}, function(err, docs){
-                if(docs !== null && docs.length !== 0)
-                {
-                    if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
+                    check_inlist(coll, guid, socket, name, offline);
+
+                    adminpass = "";
+                    video_id  = list.id;
+                    err       = list.error;
+                    var error = false;
+                    var video_id;
+                    if(err != "5" && err != "100" && err != "101" && err != "150")
                     {
-                        if((lists[coll].length/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && lists[coll].length != 2) ||
-                        (lists[coll].length == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
-                        (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                        adminpass = list.pass;
+                    }else if(err == "5" || err == "100" || err == "101" || err == "150"){
+                        error = true;
+                    }
+
+                    if(adminpass !== undefined && adminpass !== null && adminpass !== "")
+                        hash = hash_pass(decrypt_string(socketid, adminpass));
+                    else
+                        hash = "";
+
+                    db.collection(coll).find({views: {$exists:true}}, function(err, docs){
+                        if(docs !== null && docs.length !== 0)
                         {
-                            //if(!locks[coll] || locks[coll] == undefined){
-                                locks[coll] = true;
-                                change_song(coll, error, video_id);
-                                socket.emit("toast", "skip");
-                                io.to(coll).emit('chat', {from: name, msg: " skipped"});
-                            //}
-                        }else if(!contains(docs[0].skips, guid)){
-                            db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
-                                if(lists[coll].length == 2)
-                                    to_skip = 1;
-                                else
-                                    to_skip = (Math.ceil(lists[coll].length/2) - docs[0].skips.length-1);
-                                socket.emit("toast", to_skip + " more are needed to skip!");
-                                socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
-                            });
-                        }else{
-                            socket.emit("toast", "alreadyskip");
+                            if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
+                            {
+                                if((lists[coll].length/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && lists[coll].length != 2) ||
+                                (lists[coll].length == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
+                                (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                                {
+                                    //if(!locks[coll] || locks[coll] == undefined){
+                                        locks[coll] = true;
+                                        change_song(coll, error, video_id);
+                                        socket.emit("toast", "skip");
+                                        io.to(coll).emit('chat', {from: name, msg: " skipped"});
+                                    //}
+                                }else if(!contains(docs[0].skips, guid)){
+                                    db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
+                                        if(lists[coll].length == 2)
+                                            to_skip = 1;
+                                        else
+                                            to_skip = (Math.ceil(lists[coll].length/2) - docs[0].skips.length-1);
+                                        socket.emit("toast", to_skip + " more are needed to skip!");
+                                        socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                    });
+                                }else{
+                                    socket.emit("toast", "alreadyskip");
+                                }
+                            }else
+                                socket.emit("toast", "noskip");
                         }
-                    }else
-                        socket.emit("toast", "noskip");
+                    });
+                } else {
+                    socket.emit("auth_required");
                 }
             });
+        } else {
+            socket.emit('update_required');
         }
     });
 
     socket.on('conf', function(params)
     {
-        if(params !== undefined && params !== null && params !== "")
+        if(params !== undefined && params !== null && params !== "" &&
+        params.hasOwnProperty('voting') &&
+        params.hasOwnProperty('addsongs') &&
+        params.hasOwnProperty('longsongs') &&
+        params.hasOwnProperty('frontpage') &&
+        params.hasOwnProperty('allvideos') &&
+        params.hasOwnProperty('removeplay') &&
+        params.hasOwnProperty('adminpass') &&
+        params.hasOwnProperty('skipping') &&
+        params.hasOwnProperty('shuffling') &&
+        params.hasOwnProperty('channel'))
         {
+
+            if(coll !== undefined) {
+                coll = params.channel;
+                coll = emojiStrip(coll).toLowerCase();
+                //coll = decodeURIComponent(coll);
+                coll = coll.replace("_", "");
+                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = filter.clean(coll);
+            }
+
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
+
             check_inlist(coll, guid, socket,name, offline);
 
             var voting = params.voting;
@@ -762,32 +895,53 @@ io.on('connection', function(socket){
                     socket.emit("toast", "wrongpass");
                 }
             });
+        } else {
+            socket.emit('update_required');
         }
     });
 
-    socket.on('shuffle', function(pass)
+    socket.on('shuffle', function(msg)
     {
-        if(pass !== undefined && pass !== null)
+        if(msg.hasOwnProperty('adminpass') && msg.adminpass !== undefined && msg.adminpass !== null)
         {
+
+            if(coll !== undefined) {
+                coll = msg.channel;
+                coll = emojiStrip(coll).toLowerCase();
+                //coll = decodeURIComponent(coll);
+                coll = coll.replace("_", "");
+                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = filter.clean(coll);
+            }
+
+            if(coll == "" || coll == undefined || coll == null) {
+                socket.emit("update_required");
+                return;
+            }
+
             check_inlist(coll, guid, socket, name, offline);
             var hash;
             if(pass === "") hash = pass;
             else hash = hash_pass(decrypt_string(socketid, pass));
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-                if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
-                {
-                    db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
-                        if(!docs){
-                            send_list(coll, undefined, false, true, false, true);
-                            socket.emit("toast", "shuffled");
-                            return;
-                        }else{
-                            num = Math.floor(Math.random()*1000000);
-                            db.collection(coll).update({id:docs.id}, {$set:{added:num}});
-                        }
-                    });
-                }else
-                    socket.emit("toast", "wrongpass");
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+                    if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
+                    {
+                        db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
+                            if(!docs){
+                                send_list(coll, undefined, false, true, false, true);
+                                socket.emit("toast", "shuffled");
+                                return;
+                            }else{
+                                num = Math.floor(Math.random()*1000000);
+                                db.collection(coll).update({id:docs.id}, {$set:{added:num}});
+                            }
+                        });
+                    }else
+                        socket.emit("toast", "wrongpass");
+                } else {
+                    socket.emit("auth_required");
+                }
             });
 
             var complete = function(tot, curr){
@@ -796,6 +950,7 @@ io.on('connection', function(socket){
                     send_list(coll, undefined, false, true, false);
                 }
             };
+
         }else
             socket.emit("toast", "wrongpass");
     });
@@ -840,7 +995,8 @@ io.on('connection', function(socket){
 
     socket.on('pos', function(obj)
     {
-        if(coll === undefined) {
+
+        if(coll !== undefined) {
             coll = obj.channel;
             coll = emojiStrip(coll).toLowerCase();
             //coll = decodeURIComponent(coll);
@@ -848,8 +1004,20 @@ io.on('connection', function(socket){
             coll = encodeURIComponent(coll).replace(/\W/g, '');
             coll = filter.clean(coll);
         }
-        check_inlist(coll, guid, socket, name, offline);
-        send_play(coll, socket);
+
+        if(coll == "" || coll == undefined || coll == null) {
+            socket.emit("update_required");
+            return;
+        }
+
+        db.collection(list).find({views: {$exists: true}}, function(err, docs) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+                check_inlist(coll, guid, socket, name, offline);
+                send_play(coll, socket);
+            } else {
+                socket.emit("auth_required");
+            }
+        });
     });
 
 });

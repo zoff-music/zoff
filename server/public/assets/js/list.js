@@ -465,7 +465,7 @@ var List = {
 
     vote: function(id, vote){
         if(!offline || (vote == "del" && (hasadmin && (!w_p && adminpass != "")))){
-            socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass});
+            socket.emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             if(vote == "pos"){
                 List.voted_song(id, (new Date()).getTime()/1000);
@@ -478,7 +478,7 @@ var List = {
 
     skip: function(){
         if(!offline){
-            socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase()});
+            socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             Player.playNext();
         }
