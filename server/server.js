@@ -358,8 +358,8 @@ io.on('connection', function(socket){
             var list = msg.channel;
             var pass = decrypt_string(socketid, msg.pass);
             db.collection(list).find({views: {$exists: true}}, function(err, docs) {
-              if(docs.length == 0 || docs[0].userpass == "" || docs[0].userpass == undefined || docs[0].userpass == pass) {
-                    if(docs[0].userpass != "" && docs[0].userpass == pass) {
+              if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
+                    if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
                         socket.emit("auth_accepted", {value: true});
                     }
                     in_list = true;
