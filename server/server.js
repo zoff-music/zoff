@@ -1011,7 +1011,7 @@ io.on('connection', function(socket){
         }
 
         db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, obj.pass)))) {
                 check_inlist(coll, guid, socket, name, offline);
                 send_play(coll, socket);
             } else {
