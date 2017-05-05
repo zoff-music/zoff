@@ -24,6 +24,7 @@ var autoplay = false;
 var color = "#808080";
 var dragging = false;
 var user_auth_started = false;
+var user_auth_avoid = false;
 
 var connection_options = {
 	'sync disconnect on unload':true,
