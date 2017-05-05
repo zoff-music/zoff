@@ -309,8 +309,9 @@ var Admin = {
     	removeplay = form.removeplay.checked;
     	skipping   = form.skip.checked;
     	shuffling  = form.shuffle.checked;
+        var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
     	configs    = {
-            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: CryptoJS.SHA256(userpass).toString(), userpass_changed: userpass_changed
+            voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
         };
 
         Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
