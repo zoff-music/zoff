@@ -213,6 +213,9 @@ function init(){
 		if(socket === undefined || Helper.mobilecheck()){
 			no_socket = false;
 			socket = io.connect(''+add+':8080', connection_options);
+			socket.on('update_required', function() {
+				window.location.reload(true);
+			});
 		}
 
         Crypt.init();
@@ -249,7 +252,7 @@ function init(){
 		if(no_socket){
 			var add = "";
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 		}
         $("#viewers").tooltip({
           delay: 5,
@@ -428,7 +431,7 @@ function hide_native(way){
             }
         } else {
             $("#volume").slider("value", 100);
-            $("#player_overlay").width($("#player").width() + 1);
+            //$("#player_overlay").width($("#player").width() + 1);
         }
         $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
         $("#player_overlay").css("background-position", "center");
@@ -457,7 +460,7 @@ function hide_native(way){
         $("#chromecast_text").html("");
         $("#playing_on").css("display", "none");
 		if(!offline){
-	       socket.emit('pos', {channel: chan.toLowerCase()});
+	       socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 		} else {
 			Player.loadVideoById(video_id);
 		}
@@ -471,14 +474,14 @@ function chromecastListener(evt, data){
 			if(offline){
 				Player.playNext();
 			} else {
-        	       socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
+        	       socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 			}
             break;
 		case 0:
 			if(offline){
 				Player.playNext();
 			} else {
-				socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase});
+				socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 			}
 			break;
     }
@@ -529,7 +532,7 @@ function get_list_listener(){
 	socket.on("get_list", function(){
 		var add = "";
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
-		socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	});
 }
 
@@ -721,10 +724,10 @@ function change_offline(enabled, already_offline){
         $("#controls").off("click", seekToClick);
         $("#seekToDuration").remove();
 		if(window.location.pathname != "/"){
-			socket.emit("pos");
+			socket.emit("pos", {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 			var add = "";
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
       if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
 		}
     }
@@ -888,13 +891,13 @@ $(document).on("click", "#offline-mode", function(e){
 
 $(document).on("submit", "#thumbnail_form", function(e){
 	e.preventDefault();
-	socket.emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+	socket.emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#chan_thumbnail").val("");
 });
 
 $(document).on("submit", "#description_form", function(e){
     e.preventDefault();
-    socket.emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+    socket.emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#chan_description").val("");
 });
 
@@ -1471,7 +1474,7 @@ $(window).resize(function(){
         List.can_fit = temp_fit;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
         $(".list-song").css("height", List.element_height + "px");
-        $("#player_overlay").width($("#player").width()+1);
+        //$("#player_overlay").width($("#player").width()+1);
         set_title_width();
 				if($("#controls").length > 0 && !Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
 				else if($("#controls").length > 0) $("#seekToDuration").css("top", $("#controls").position().top - 20);
@@ -1688,7 +1691,7 @@ function onepage_load(){
 			var add = "";
 	    w_p = true;
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}else if(url_split[3] === ""){
         user_change_password = false;
         clearTimeout(width_timeout);

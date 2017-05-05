@@ -23,6 +23,7 @@ var chan 	 = hash[0];
 var autoplay = false;
 var color = "#808080";
 var dragging = false;
+var user_auth_started = false;
 
 var connection_options = {
 	'sync disconnect on unload':true,
@@ -38,12 +39,19 @@ $(document).ready(function(){
 		paused = true;
 	}
 
+	$("#locked_channel").modal({
+		dismissible: false
+	});
 	color = "#" + hash[1];
-	add = "https://zoff.me";
+	add = "http://localhost";
 	socket = io.connect(''+add+':8080', connection_options);
 
+	socket.on('auth_required', function() {
+		$("#locked_channel").modal('open');
+	});
+
 	socket.on("get_list", function(){
-	    setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: Crypt.get_userpass(chan.toLowerCase())});},1000);
+	    setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
 	});
 
 	socket.on("viewers", function(view)

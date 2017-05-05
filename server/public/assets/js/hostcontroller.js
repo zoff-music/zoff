@@ -42,7 +42,7 @@ var Hostcontroller = {
         w_p = true;
         var add = "";
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
-  	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+  	    socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 
         /*if(Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) != ""){
           socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
