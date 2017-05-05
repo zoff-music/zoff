@@ -82,8 +82,10 @@ var Frontpage = {
         lists.unshift(pinned);
       }
 
-      if(!Helper.mobilecheck())
+      if(!Helper.mobilecheck()) {
+        clearTimeout(rotation_timeout);
         Frontpage.add_backdrop(lists, 0);
+      }
 
       pre_card = $(channel_list);
 
