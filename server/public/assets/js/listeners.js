@@ -172,7 +172,7 @@ function init(){
 	$('ul.playlist-tabs-loggedIn').tabs();
 	$('ul.chatTabs').tabs();
 	$("#settings").sideNav({
-      menuWidth: 300, // Default is 240
+      menuWidth: 310, // Default is 240
       edge: side, // Choose the horizontal origin
       closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
@@ -1137,7 +1137,7 @@ $(document).off("keyup", "keyup.autocomplete", function(e){
 $(document).off("keydown", "keydown.autocomplete", function(e){
     if(e.keyCode == 13){
         e.preventDefault();
-        
+
     }
 });*/
 

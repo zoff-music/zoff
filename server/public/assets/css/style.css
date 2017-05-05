@@ -440,6 +440,10 @@ footer{
   z-index: 999999 !important;
 }
 
+#toast-container {
+  z-index: 999999 !important;
+}
+
 #user_password {
   width: 50% !important;
 }
