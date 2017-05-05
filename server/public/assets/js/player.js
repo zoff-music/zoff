@@ -320,7 +320,7 @@ var Player = {
                 curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 
 
-                    socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                    socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase, userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
                     //Helper.log(video_id, Player.player.getVideoUrl(), Player.player.getPlayerState());
 
                 /*}else{

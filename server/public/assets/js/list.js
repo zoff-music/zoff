@@ -478,7 +478,7 @@ var List = {
 
     skip: function(){
         if(!offline){
-            socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit('skip', {pass: adminpass, id:video_id, channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             Player.playNext();
         }

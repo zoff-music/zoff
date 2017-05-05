@@ -746,7 +746,7 @@ io.on('connection', function(socket){
             }
 
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, list.pass)))) {
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == decrypt_string(socketid, list.userpass)))) {
 
                     check_inlist(coll, guid, socket, name, offline);
 
@@ -921,8 +921,8 @@ io.on('connection', function(socket){
 
             check_inlist(coll, guid, socket, name, offline);
             var hash;
-            if(pass === "") hash = pass;
-            else hash = hash_pass(decrypt_string(socketid, pass));
+            if(msg.adminpass === "") hash = msg.adminpass;
+            else hash = hash_pass(decrypt_string(socketid, msg.adminpass));
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
                     if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
