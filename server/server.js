@@ -715,7 +715,7 @@ io.on('connection', function(socket){
             var skipping = params.skipping;
             var shuffling = params.shuffling;
             var userpass = params.userpass;
-            if(!params.userpass_changed && frontpage) {
+            if(!params.userpass_changed) {
               userpass = "";
             } else if(params.userpass_changed && userpass != "") {
               frontpage = false;
