@@ -119,7 +119,7 @@ var Admin = {
             });
         }
         $("#password").val("");
-        $("#password").attr("placeholder", "Change channel password");
+        $("#password").attr("placeholder", "Change admin password");
         $(".user-password-li").removeClass("hide");
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
@@ -235,7 +235,7 @@ var Admin = {
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
         $("#admin-lock").removeClass("clickable");
-        $("#password").attr("placeholder", "Enter channel password");
+        $("#password").attr("placeholder", "Enter admin password");
         //$("#top-button").removeClass("top-button-with-tabs");
     },
 
@@ -274,7 +274,7 @@ var Admin = {
                 $(".playlist-tabs-loggedIn").removeClass("hide");
                 $(".playlist-tabs").addClass("hide");
             }
-            $("#password").attr("placeholder", "Create channel password");
+            $("#password").attr("placeholder", "Create admin password");
         } else {
             if($(".password_protected").prop("checked")) {
                 $(".change_user_pass").removeClass("hide");
