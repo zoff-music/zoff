@@ -2119,6 +2119,12 @@ nav ul li:hover, nav ul li.active {
       transform: translateX(0%) !important;
     }
 
+    #player_overlay {
+      height: calc(30vh);
+      bottom: -26px !important;
+      top: initial;
+    }
+
     #wrapper{
       min-height: 75px;
     }

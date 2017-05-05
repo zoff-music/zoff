@@ -314,7 +314,7 @@ var Admin = {
             voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
         };
 
-        Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
+      Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
     	socket.emit("conf", configs);
     },
 

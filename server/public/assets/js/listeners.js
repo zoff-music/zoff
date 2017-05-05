@@ -494,8 +494,10 @@ function setup_auth_listener() {
 
     socket.on('auth_accepted', function(msg) {
         if(msg.hasOwnProperty("value") && msg.value) {
-            userpass = temp_user_pass;
-            Crypt.set_userpass(chan.toLowerCase(), userpass);
+						if(temp_user_pass != "") {
+	            userpass = temp_user_pass;
+	            Crypt.set_userpass(chan.toLowerCase(), userpass);
+						}
         }
     });
 }
