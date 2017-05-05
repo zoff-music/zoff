@@ -43,7 +43,7 @@ $(document).ready(function(){
 		dismissible: false
 	});
 	color = "#" + hash[1];
-	add = "http://localhost";
+	add = "https://zoff.me";
 	socket = io.connect(''+add+':8080', connection_options);
 
 	socket.on('auth_required', function() {
