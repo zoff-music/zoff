@@ -108,6 +108,7 @@ try{
 	navigator.serviceWorker.getRegistration('/').then(function(registration) {
 	  registration.unregister();
 	});*/
+
 } catch(e) {}
 
 $().ready(function(){
@@ -807,7 +808,7 @@ function seekToClick(e){
     }
 }
 
-$(document).keyup(function(e) {
+$(document).keyup(function(event) {
   	if(event.keyCode == 27){
     	$("#results").html("");
     	if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
@@ -837,18 +838,18 @@ $(document).keyup(function(e) {
       		//$("#search-btn i").html("mdi-navigation-close");
       		$("#search-btn i").html("search");
     	}
-        if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
-            $("#results").toggleClass("hide");
-        }
-        if(fireplace_initiated) {
-            fireplace_initiated = false;
-            Player.fireplace.destroy();
-            $("#fireplace_player").css("display", "none");
-        } else {
-            fireplace_initiated = true;
-            $("#fireplace_player").css("display", "block");
-            Player.createFireplacePlayer();
-        }
+      if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
+          $("#results").toggleClass("hide");
+      }
+      if(fireplace_initiated) {
+          fireplace_initiated = false;
+          Player.fireplace.destroy();
+          $("#fireplace_player").css("display", "none");
+      } else {
+          fireplace_initiated = true;
+          $("#fireplace_player").css("display", "block");
+          Player.createFireplacePlayer();
+      }
     }
 });
 
