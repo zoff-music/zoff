@@ -779,7 +779,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .mega{
   padding: 6% 0px;
-  height: 100%;
+  /* height: 100%; */
   position: relative;
   z-index: 1;
   background-color:#191919;
@@ -1536,6 +1536,10 @@ ul #chat-log{
 
 nav ul li:hover, nav ul li.active {
   background-color: rgba(0,0,0,0.1);
+}
+
+.change_user_pass:hover {
+  background-color: initial;
 }
 
 .list-image, .list-suggested-image{
