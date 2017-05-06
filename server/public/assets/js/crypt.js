@@ -14,21 +14,21 @@ var Crypt = {
 		}
 
 		try{
-    	conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-    }catch(err){
-    	conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
-    }
+			conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
+		}catch(err){
+			conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
+		}
 
 		if(window.location.pathname != "/"){
 			try{
-	    	Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
-	    }catch(err){
-	    	Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
-	    }
+				Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+			}catch(err){
+				Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+			}
 
-	    Hostcontroller.change_enabled(conf_arr.remote);
-	    if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-	    if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
+			Hostcontroller.change_enabled(conf_arr.remote);
+			if(conf_arr.width != 100) Player.set_width(conf_arr.width);
+			if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
 		}
 	},
 
@@ -38,57 +38,57 @@ var Crypt = {
 		}
 
 		var decrypted = CryptoJS.AES.decrypt(
-	        cookie,"0103060703080703080701",
-	        {
-	            mode: CryptoJS.mode.CBC,
-	            padding: CryptoJS.pad.Pkcs7
+			cookie,"0103060703080703080701",
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
 			}
 		);
 
-    	return $.parseJSON(decrypted.toString(CryptoJS.enc.Utf8));
+		return $.parseJSON(decrypted.toString(CryptoJS.enc.Utf8));
 	},
 
 	decrypt_pass: function(pass){
 		var decrypted = CryptoJS.AES.decrypt(
-        pass,socket.id,
-        {
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7
-        }
-    	);
+			pass,socket.id,
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
+		);
 
-    	return decrypted.toString(CryptoJS.enc.Utf8);
+		return decrypted.toString(CryptoJS.enc.Utf8);
 	},
 
 	encrypt: function(json_formated, cookie){
 		var to_encrypt = JSON.stringify(json_formated);
 
-        var encrypted = CryptoJS.AES.encrypt(
-		  to_encrypt,
-		  "0103060703080703080701",
-		  {
-		    mode: CryptoJS.mode.CBC,
-		    padding: CryptoJS.pad.Pkcs7
-		  }
+		var encrypted = CryptoJS.AES.encrypt(
+			to_encrypt,
+			"0103060703080703080701",
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
 		);
 
-        var CookieDate = new Date();
-        CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
-				if (location.protocol != "https:"){
-					document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
-				} else {
-					document.cookie = cookie+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
-				}
+		var CookieDate = new Date();
+		CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
+		if (location.protocol != "https:"){
+			document.cookie = cookie+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
+		} else {
+			document.cookie = cookie+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
+		}
 	},
 
 	encrypt_string: function(string){
 		var encrypted = CryptoJS.AES.encrypt(
-		  string,
-		  socket.id,
-		  {
-		    mode: CryptoJS.mode.CBC,
-		    padding: CryptoJS.pad.Pkcs7
-		  }
+			string,
+			socket.id,
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
 		);
 		return encrypted.toString();
 	},
@@ -117,28 +117,28 @@ var Crypt = {
 		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true, name: "", offline: false};
 		else cookie_object = {passwords: {}};
 
-        var string_it = JSON.stringify(cookie_object);
+		var string_it = JSON.stringify(cookie_object);
 
-        var encrypted = CryptoJS.AES.encrypt(
-		  string_it,
-		  "0103060703080703080701",
-		  {
-		    mode: CryptoJS.mode.CBC,
-		    padding: CryptoJS.pad.Pkcs7
-		  }
+		var encrypted = CryptoJS.AES.encrypt(
+			string_it,
+			"0103060703080703080701",
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
 		);
 
-        var CookieDate = new Date();
-        CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
+		var CookieDate = new Date();
+		CookieDate.setFullYear(CookieDate.getFullYear( ) +1);
 
-				if (location.protocol != "https:"){
-					document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
-				} else {
-        	document.cookie = name+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
-				}
-				//document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
-        //document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
-        return Crypt.getCookie(name);
+		if (location.protocol != "https:"){
+			document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;";
+		} else {
+			document.cookie = name+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
+		}
+		//document.cookie = name+"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+		//document.cookie = na"="+encrypted.toString()+";expires="+CookieDate.toGMTString()+";path=/;"
+		return Crypt.getCookie(name);
 	},
 
 	set_pass: function(chan, pass){
@@ -196,13 +196,13 @@ var Crypt = {
 	},
 
 	crypt_pass: function(pass){
-        var encrypted = CryptoJS.AES.encrypt(
-		  pass,
-		  socket.id,
-		  {
-		    mode: CryptoJS.mode.CBC,
-		    padding: CryptoJS.pad.Pkcs7
-		  }
+		var encrypted = CryptoJS.AES.encrypt(
+			pass,
+			socket.id,
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
 		);
 		return encrypted.toString();
 	},
@@ -217,8 +217,8 @@ var Crypt = {
 	},
 
 	getCookie: function(name) {
-	  	var value = "; " + document.cookie;
-	  	var parts = value.split("; " + name + "=");
-	  	if (parts.length == 2) return parts.pop().split(";").shift();
+		var value = "; " + document.cookie;
+		var parts = value.split("; " + name + "=");
+		if (parts.length == 2) return parts.pop().split(";").shift();
 	}
 };

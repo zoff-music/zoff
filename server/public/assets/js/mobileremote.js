@@ -40,16 +40,16 @@ var Mobile_remote = {
 
 	initiate_volume: function() {
 		$("#volume-control-remote").slider({
-          min: 0,
-          max: 100,
-          value: 100,
-          range: "min",
-          animate: true,
-          stop:function(event, ui) {
-            socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
-            Helper.log("volume");
-          }
-      });
+			min: 0,
+			max: 100,
+			value: 100,
+			range: "min",
+			animate: true,
+			stop:function(event, ui) {
+				socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
+				Helper.log("volume");
+			}
+		});
 	}
 
 };
