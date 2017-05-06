@@ -281,13 +281,13 @@ io.on('connection', function(socket){
     });
 
     socket.on('chat', function (msg) {
-        if(typeof(data) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel')) {
+        if(typeof(data) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel') && !msg.hasOwnProperty('pass')) {
             socket.emit('update_required');
             return;
         }
         db.collection(coll).find({views:{$exists:true}}, function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
-
+                var data = msg.data;
                 check_inlist(coll, guid, socket, names[guid], offline);
                 if(data !== "" && data !== undefined && data !== null &&
                 data.length < 151 && data.replace(/\s/g, '').length){

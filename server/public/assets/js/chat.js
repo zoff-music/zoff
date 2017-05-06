@@ -68,7 +68,7 @@ var Chat = {
     else if($(".chat-tab-li a.active").attr("href") == "#all_chat")
       socket.emit("all,chat", data.value);
     else
-      socket.emit("chat", {channel: chan.toLowerCase(), data: data.value});
+      socket.emit("chat", {channel: chan.toLowerCase(), data: data.value, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     data.value = "";
     return;
   },
