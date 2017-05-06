@@ -38,7 +38,7 @@ var Frontpage = {
 		if(lists[0].pinned == 1){
 			pinned = lists.shift();
 		}
-		//lists.sort(Frontpage.sortFunction);
+
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
 				name: 'viewers',
@@ -392,7 +392,7 @@ function initfp(){
 		//Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
 	}
 
-	
+
 	window.onpopstate = function(e){
 		var url_split = window.location.href.split("/");
 

@@ -22,8 +22,7 @@ var Hostcontroller = {
 		}
 	},
 
-	host_on_action: function(arr)
-	{
+	host_on_action: function(arr) {
 		if(enabled){
 			if(arr.type == "volume") {
 				$("#volume").slider("value", arr.value);
@@ -50,10 +49,11 @@ var Hostcontroller = {
 			} else if(arr.type == "skip") {
 				List.skip();
 			}
-		},
-
-		change_enabled:function(val){
-			enabled = val;
-			document.getElementsByName("remote_switch")[0].checked = enabled;
 		}
-	};
+	},
+
+	change_enabled:function(val){
+		enabled = val;
+		document.getElementsByName("remote_switch")[0].checked = enabled;
+	}
+};

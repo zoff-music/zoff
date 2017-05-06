@@ -34,16 +34,24 @@ var Player = {
 				document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
 				//$("#player_overlay").height($("#player").height());
 
-				if(!window.MSStream && !chromecastAvailable) $("#player_overlay").toggleClass("hide");
+				if(!window.MSStream && !chromecastAvailable) {
+					$("#player_overlay").toggleClass("hide");
+				}
 				try{
-					if(!chromecastAvailable) Player.stopVideo();
+					if(!chromecastAvailable) {
+						Player.stopVideo();
+					}
 				}catch(e){}
 				//List.importOldList(channel.toLowerCase());
 			} else if(paused){
 				Player.getTitle(obj.np[0].title, viewers);
 				//Player.setBGimage(video_id);
-				if(!Helper.mobilecheck()) Player.notifyUser(obj.np[0].id, obj.np[0].title);
-				if(!chromecastAvailable) Player.stopVideo();
+				if(!Helper.mobilecheck()) {
+					Player.notifyUser(obj.np[0].id, obj.np[0].title);
+				}
+				if(!chromecastAvailable) {
+					Player.stopVideo();
+				}
 				video_id   = obj.np[0].id;
 				conf       = obj.conf[0];
 				time       = obj.time;
@@ -53,10 +61,11 @@ var Player = {
 				Player.setBGimage(video_id);
 			}else if(!paused){
 				//Helper.log("gotten new song");
-				if(previous_video_id === undefined)
-				previous_video_id = obj.np[0].id;
-				else if(previous_video_id != video_id)
-				previous_video_id = video_id;
+				if(previous_video_id === undefined) {
+					previous_video_id = obj.np[0].id;
+				} else if(previous_video_id != video_id) {
+					previous_video_id = video_id;
+				}
 
 				video_id   = obj.np[0].id;
 				conf       = obj.conf[0];
@@ -65,8 +74,9 @@ var Player = {
 				song_title = obj.np[0].title;
 				duration   = obj.np[0].duration;
 
-				if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable)
-				seekTo = 1;
+				if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable) {
+					seekTo = 1;
+				}
 
 				try{
 					if(full_playlist[0].id == video_id && !mobile_beginning){
@@ -84,34 +94,42 @@ var Player = {
 					try{
 						if(Player.player.getVideoUrl().split('v=')[1] != video_id || chromecastAvailable){
 							Player.loadVideoById(video_id);
-							if(!Helper.mobilecheck()) Player.notifyUser(video_id, song_title);
+							if(!Helper.mobilecheck()) {
+								Player.notifyUser(video_id, song_title);
+							}
 							Player.seekTo(seekTo);
 							if(paused && !chromecastAvailable){
 								Player.pauseVideo();
 							}
 						}
 						if(!paused){
-							if(!mobile_beginning || chromecastAvailable)
-							Player.playVideo();
-							if(!durationBegun)
-							Player.durationSetter();
+							if(!mobile_beginning || chromecastAvailable) {
+								Player.playVideo();
+							}
+							if(!durationBegun) {
+								Player.durationSetter();
+							}
 						}
-						if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo)
-						Player.seekTo(seekTo);
+						if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo) {
+							Player.seekTo(seekTo);
+						}
 						Player.after_load  = video_id;
 
-						if(!Player.loaded) setTimeout(function(){Player.loaded = true;},500);
+						if(!Player.loaded) {
+							setTimeout(function(){Player.loaded = true;},500);
+						}
 					}catch(e){
 						if(chromecastAvailable){
 							Player.loadVideoById(video_id);
 							Player.seekTo(seekTo);
 						}
-						if(!durationBegun && !chromecastAvailable)
-						Player.durationSetter();
+						if(!durationBegun && !chromecastAvailable) {
+							Player.durationSetter();
+						}
 					}
+				} else {
+					Player.getTitle(song_title, viewers);
 				}
-				else
-				Player.getTitle(song_title, viewers);
 			}
 		} else {
 			if(!durationBegun)
@@ -133,51 +151,51 @@ var Player = {
 		switch(newState.data)
 		{
 			case -1:
-			break;
+				break;
 			case 0:
-			playing = false;
-			paused  = false;
-			if(!offline) {
-				socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
-			} else {
-				Player.playNext();
-			}
-			break;
+				playing = false;
+				paused  = false;
+				if(!offline) {
+					socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+				} else {
+					Player.playNext();
+				}
+				break;
 			case 1:
-			playing = true;
-			if(beginning && Helper.mobilecheck() && !chromecastAvailable){
-				Player.pauseVideo();
-				beginning = false;
-				mobile_beginning = false;
-				setTimeout(function(){
-					if(Helper.mobilecheck()){
-						$("#playpause").css("visibility", "visible");
-						$("#playpause").css("pointer-events", "all");
-						$("#channel-load").css("display", "none");
-					}
-				}, 100);
-			}
-			if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
-			if(window.location.pathname != "/"){
-				if(document.getElementById("play").className.split(" ").length == 1)
-				$("#play").toggleClass("hide");
-				if(document.getElementById("pause").className.split(" ").length == 2)
-				$("#pause").toggleClass("hide");
-			}
-			if(paused && !offline) {
-				socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
-				paused = false;
-			}
-			break;
+				playing = true;
+				if(beginning && Helper.mobilecheck() && !chromecastAvailable){
+					Player.pauseVideo();
+					beginning = false;
+					mobile_beginning = false;
+					setTimeout(function(){
+						if(Helper.mobilecheck()){
+							$("#playpause").css("visibility", "visible");
+							$("#playpause").css("pointer-events", "all");
+							$("#channel-load").css("display", "none");
+						}
+					}, 100);
+				}
+				if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
+				if(window.location.pathname != "/"){
+					if(document.getElementById("play").className.split(" ").length == 1)
+					$("#play").toggleClass("hide");
+					if(document.getElementById("pause").className.split(" ").length == 2)
+					$("#pause").toggleClass("hide");
+				}
+				if(paused && !offline) {
+					socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+					paused = false;
+				}
+				break;
 			case 2:
-			if(!chromecastAvailable){
-				paused = true;
-				if(window.location.pathname != "/") Playercontrols.play_pause_show();
-				mobile_beginning = true;
-			}
-			break;
+				if(!chromecastAvailable){
+					paused = true;
+					if(window.location.pathname != "/") Playercontrols.play_pause_show();
+					mobile_beginning = true;
+				}
+				break;
 			case 3:
-			break;
+				break;
 		}
 	},
 
@@ -293,7 +311,7 @@ var Player = {
 				//$("#player_overlay").css("height", "calc(100% - 32px)");
 			}
 		}
-		document.title    = title + " • Zoff / "+chan;
+		document.title = title + " • Zoff / "+chan;
 
 	},
 
@@ -303,7 +321,7 @@ var Player = {
 				curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
 				socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass, channel: chan.toLowerCase, userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 
-			}else if(video_id !== undefined) {
+			} else if(video_id !== undefined) {
 				Player.loadVideoById(video_id);
 			}
 		}
@@ -324,10 +342,12 @@ var Player = {
 				$("#controls").css("opacity", "1");
 				$(".playlist").css("opacity", "1");
 				Player.loadVideoById(video_id);
-				if(autoplay && (!Helper.mobilecheck() || chromecastAvailable))
-				Player.playVideo();
-				if(!durationBegun)
-				Player.durationSetter();
+				if(autoplay && (!Helper.mobilecheck() || chromecastAvailable)) {
+					Player.playVideo();
+				}
+				if(!durationBegun) {
+					Player.durationSetter();
+				}
 				if(embed){
 					setTimeout(function(){
 						Player.player.seekTo(seekTo);
@@ -347,13 +367,11 @@ var Player = {
 		}catch(e){}
 	},
 
-	readyLooks: function()
-	{
+	readyLooks: function() {
 		Player.setBGimage(video_id);
 	},
 
 	setBGimage: function(id){
-
 		if(id !== undefined && !embed)
 		{
 			var img    = new Image();
@@ -376,8 +394,8 @@ var Player = {
 
 	set_width: function(val){
 		$(".video-container").width(val);
-		if(!Helper.mobilecheck()){
-			if($(window).width() > 769){
+		if(!Helper.mobilecheck()) {
+			if($(window).width() > 769) {
 				var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
 				title_width = test_against_width;
 				$(".title-container").width(title_width);
@@ -418,7 +436,6 @@ var Player = {
 				'onError': Player.errorHandler
 			}
 		});
-		//Youtube.durationSetter();
 	},
 
 	createFireplacePlayer: function() {
@@ -448,33 +465,37 @@ var Player = {
 		}
 	},
 
-	durationSetter: function()
-	{
+	durationSetter: function() {
 		try{
 			if(!user_auth_avoid && duration !== undefined){
 
-				if(!Player.stopInterval) durationBegun = true;
+				if(!Player.stopInterval) {
+					durationBegun = true;
+				}
 				dMinutes = Math.floor(duration / 60);
 				dSeconds = duration - dMinutes * 60;
 				currDurr = Player.player.getCurrentTime() !== undefined ? Math.floor(Player.player.getCurrentTime()) : seekTo;
-				if(currDurr > duration)
-				currDurr = duration;
+				if(currDurr > duration) {
+					currDurr = duration;
+				}
 				minutes = Math.floor(currDurr / 60);
 				seconds = currDurr - (minutes * 60);
 				document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
 				per = (100 / duration) * currDurr;
-				if(per >= 100)
-				per = 100;
-				else if(duration === 0)
-				per = 0;
+				if(per >= 100) {
+					per = 100;
+				} else if(duration === 0) {
+					per = 0;
+				}
 
-				if(!dragging) $("#bar").width(per+"%");
-
+				if(!dragging) {
+					$("#bar").width(per+"%");
+				}
 			}
-		}catch(e){
-
+		}catch(e){}
+		if(!Player.stopInterval) {
+			setTimeout(Player.durationSetter, 1000);
 		}
-		if(!Player.stopInterval) setTimeout(Player.durationSetter, 1000);
 	},
 
 	loadPlayer: function() {
