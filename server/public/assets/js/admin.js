@@ -283,6 +283,7 @@ var Admin = {
 
         if(!$(".password_protected").prop("checked") && !$(".change_user_pass").hasClass("hide")) {
             $(".change_user_pass").addClass("hide");
+            Crypt.remove_userpass(chan.toLowerCase());
         }
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != ""){
