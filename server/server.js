@@ -67,7 +67,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser());
 
-var io = require('socket.io')(server, {'pingTimeout': 25000, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
+var io = require('socket.io')(server, {'pingTimeout': 25000}); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
