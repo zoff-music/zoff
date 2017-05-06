@@ -11,7 +11,7 @@ var Search = {
 		}
 		$("#song-title").toggleClass("hide");
 		$("#results").empty();
-		if($("#search-btn i").html() == "close"){
+		if($("#search-btn i").html() == "close") {
 			$("#search-btn i").html("search");
 		} else {
 			$("#search-btn i").html("close");
@@ -22,8 +22,8 @@ var Search = {
 
 	search: function(search_input){
 		if(result_html === undefined || empty_results_html === undefined) {
-			result_html         = $("#temp-results-container");
-			empty_results_html    = $("#empty-results-container").html();
+			result_html = $("#temp-results-container");
+			empty_results_html = $("#empty-results-container").html();
 		}
 		$(".search_results").html('');
 		if(search_input !== ""){
