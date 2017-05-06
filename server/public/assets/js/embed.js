@@ -1,15 +1,15 @@
 
-var song_title 			  = "";
-var paused 				  = false;
-var player_ready 	   	  = false;
-var list_html 			  = $("#list-song-html").html();
-var w_p					  = true;
-var lazy_load			  = false;
-var embed				  = true;
-var vol					  = 100;
-var adminpass 			  = "";
-var mobile_beginning      = false;
-var durationBegun    	  = false;
+var song_title = "";
+var paused = false;
+var player_ready = false;
+var list_html = $("#list-song-html").html();
+var w_p		= true;
+var lazy_load	= false;
+var embed = true;
+var vol	= 100;
+var adminpass = "";
+var mobile_beginning = false;
+var durationBegun = false;
 var chromecastAvailable = false;
 var private_channel = false;
 var offline = false;
@@ -18,8 +18,8 @@ var seekTo;
 var socket;
 var video_id;
 var previous_video_id;
-var hash 	 = window.location.hash.substring(1).split("&");
-var chan 	 = hash[0];
+var hash = window.location.hash.substring(1).split("&");
+var chan = hash[0];
 var autoplay = false;
 var color = "#808080";
 var dragging = false;
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	});
 
 	socket.on("get_list", function(){
-	    setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
+		setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
 	});
 
 	socket.on("viewers", function(view)
@@ -60,7 +60,7 @@ $(document).ready(function(){
 		viewers = view;
 
 		if(song_title !== undefined)
-			Player.getTitle(song_title, viewers);
+		Player.getTitle(song_title, viewers);
 	});
 
 
@@ -102,11 +102,11 @@ $(document).on( "click", ".vote-container", function(e){
 });
 
 $(document).on("click", ".prev_page", function(e){
-    e.preventDefault();
-    List.dynamicContentPage(-1);
+	e.preventDefault();
+	List.dynamicContentPage(-1);
 });
 
 $(document).on("click", ".next_page", function(e){
-    e.preventDefault();
-    List.dynamicContentPage(1);
+	e.preventDefault();
+	List.dynamicContentPage(1);
 });

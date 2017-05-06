@@ -105,7 +105,7 @@ var Admin = {
         Crypt.set_pass(chan.toLowerCase(), Crypt.decrypt_pass(msg));
 
         for (var i = 0; i < names.length; i++) {
-                $("input[name="+names[i]+"]").attr("disabled", false);
+            $("input[name="+names[i]+"]").attr("disabled", false);
         }
 
         $(".card-action").removeClass("hide");
@@ -124,25 +124,21 @@ var Admin = {
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
         }
-        //if(!Helper.mobilecheck()){
         if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
             $(".playlist-tabs-loggedIn").removeClass("hide");
             $(".playlist-tabs").addClass("hide");
         }
-            //$("#top-button").toggleClass("top-button-with-tabs");
-            //$("#wrapper").toggleClass("tabs_height");
-        //}
 
         if($("#admin-lock").html() != "lock_open"){
-          $("#admin-lock").addClass("clickable");
-          $("#admin-lock").html("lock_open");
-          if(!Helper.mobilecheck()){
-              $('#admin-lock').tooltip({
-                  delay: 5,
-                  position: "left",
-                  tooltip: "Logout"
-              });
-          }
+            $("#admin-lock").addClass("clickable");
+            $("#admin-lock").html("lock_open");
+            if(!Helper.mobilecheck()){
+                $('#admin-lock').tooltip({
+                    delay: 5,
+                    position: "left",
+                    tooltip: "Logout"
+                });
+            }
         }
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
@@ -163,41 +159,41 @@ var Admin = {
     {
         if(!w_p)
         {
-    	   socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
         }
         else
         {
-          socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
+            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
         }
     },
 
     log_out: function(){
         before_toast();
-    	if(Crypt.get_pass(chan.toLowerCase())){
+        if(Crypt.get_pass(chan.toLowerCase())){
             Crypt.remove_pass(chan.toLowerCase());
-    		Admin.display_logged_out();
-    		Materialize.toast("Logged out", 4000);
-    	}else{
-    		Materialize.toast("Not logged in", 4000);
-    	}
+            Admin.display_logged_out();
+            Materialize.toast("Logged out", 4000);
+        }else{
+            Materialize.toast("Not logged in", 4000);
+        }
     },
 
     display_logged_out: function()
     {
-    	w_p       = true;
+        w_p       = true;
         adminpass = "";
-    	names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-                "removeplay", "skip", "shuffle"];
+        names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
+        "removeplay", "skip", "shuffle"];
 
         document.getElementById("password").value = "";
         $("#thumbnail_form").css("display", "none");
         $("#description_form").css("display", "none");
-    	for (i = 0; i < names.length; i++) {
-    		$("input[name="+names[i]+"]").attr("disabled", true);
-    	}
+        for (i = 0; i < names.length; i++) {
+            $("input[name="+names[i]+"]").attr("disabled", true);
+        }
 
-    	if($("#admin-lock").html() != "lock"){
-    		$("#admin-lock").removeClass("clickable");
+        if($("#admin-lock").html() != "lock"){
+            $("#admin-lock").removeClass("clickable");
             $("#admin-lock").html("lock");
             if(!Helper.mobilecheck()){
                 $('#admin-lock').tooltip('remove');
@@ -221,27 +217,24 @@ var Admin = {
             $(".playlist-tabs").removeClass("hide");
         }
 
-	    if($(".card-action").length !== 0 &&
-            !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
-    		$(".card-action").addClass("hide");
+        if($(".card-action").length !== 0 &&
+        !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
+            $(".card-action").addClass("hide");
         }
 
         if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
         {
             $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-            //$("#wrapper").removeClass("tabs_height");
         } else {
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
         $("#admin-lock").removeClass("clickable");
         $("#password").attr("placeholder", "Enter admin password");
-        //$("#top-button").removeClass("top-button-with-tabs");
     },
 
-    //function used in html onlick
     save: function(userpass){
-    	Admin.submitAdmin(document.getElementById("adminForm").elements, userpass);
+        Admin.submitAdmin(document.getElementById("adminForm").elements, userpass);
     },
 
     set_conf: function(conf_array)
@@ -249,7 +242,7 @@ var Admin = {
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-                    "removeplay", "skip", "shuffle", "userpass"];
+        "removeplay", "skip", "shuffle", "userpass"];
 
 
         if(conf_array.adminpass === "" || !w_p){
@@ -294,33 +287,29 @@ var Admin = {
             $("#description_area").html(conf_array.description);
         }
 
-        /*if(conf_array.desc !== undefined)
-        {
-            document.getElementById("description").innerHTML = conf_array.desc;
-        }*/
     },
 
     submitAdmin: function(form, userpass_changed)
     {
-    	voting     = form.vote.checked;
-    	addsongs   = form.addsongs.checked;
-    	longsongs  = form.longsongs.checked;
-    	frontpage  = form.frontpage.checked;
-    	allvideos  = form.allvideos.checked;
-    	removeplay = form.removeplay.checked;
-    	skipping   = form.skip.checked;
-    	shuffling  = form.shuffle.checked;
+        voting     = form.vote.checked;
+        addsongs   = form.addsongs.checked;
+        longsongs  = form.longsongs.checked;
+        frontpage  = form.frontpage.checked;
+        allvideos  = form.allvideos.checked;
+        removeplay = form.removeplay.checked;
+        skipping   = form.skip.checked;
+        shuffling  = form.shuffle.checked;
         var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
-    	configs    = {
+        configs    = {
             channel: chan.toLowerCase(), voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
         };
 
-      Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
-    	socket.emit("conf", configs);
+        Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
+        socket.emit("conf", configs);
     },
 
     hide_settings: function(){
-    	$('#settings').sideNav('hide');
+        $('#settings').sideNav('hide');
     },
 
     shuffle: function()
