@@ -379,12 +379,18 @@ io.on('connection', function(socket){
 	{
 		if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
 		{
-			var list = msg.channel;
-			coll = emojiStrip(list).toLowerCase();
-			//coll = decodeURIComponent(coll);
-			coll = coll.replace("_", "");
-			coll = encodeURIComponent(coll).replace(/\W/g, '');
-			coll = filter.clean(coll);
+
+			try {
+				var list = msg.channel;
+				if(list.length == 0) return;
+				coll = emojiStrip(list).toLowerCase();
+				//coll = decodeURIComponent(coll);
+				coll = coll.replace("_", "");
+				coll = encodeURIComponent(coll).replace(/\W/g, '');
+				coll = filter.clean(coll);
+			} catch(e) {
+				return;
+			}
 			if(coll == "" || coll == undefined || coll == null) {
 				socket.emit("update_required");
 				return;
@@ -433,12 +439,17 @@ io.on('connection', function(socket){
 		if(id !== undefined && id !== null && id !== "")
 		{
 			if(coll === undefined) {
-				coll = obj.channel;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = obj.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -484,12 +495,17 @@ io.on('connection', function(socket){
 		{
 			//if(arr.length == 5) coll = arr[4];
 			if(coll !== undefined) {
-				coll = arr.list;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = arr.list;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -640,12 +656,17 @@ io.on('connection', function(socket){
 		{
 
 			if(coll !== undefined) {
-				coll = msg.channel;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = msg.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -689,12 +710,17 @@ io.on('connection', function(socket){
 		{
 			pw = inp.password;
 			opw = inp.password;
-			coll = inp.channel;
-			coll = emojiStrip(coll).toLowerCase();
-			//coll = decodeURIComponent(coll);
-			coll = coll.replace("_", "");
-			coll = encodeURIComponent(coll).replace(/\W/g, '');
-			coll = filter.clean(coll);
+			try {
+				coll = inp.channel;
+				if(coll.length == 0) return;
+				coll = emojiStrip(coll).toLowerCase();
+				//coll = decodeURIComponent(coll);
+				coll = coll.replace("_", "");
+				coll = encodeURIComponent(coll).replace(/\W/g, '');
+				coll = filter.clean(coll);
+			} catch(e) {
+				return;
+			}
 
 			if(coll == "" || coll == undefined || coll == null) {
 				socket.emit("update_required");
@@ -739,12 +765,17 @@ io.on('connection', function(socket){
 		if(list !== undefined && list !== null && list !== "")
 		{
 			if(coll !== undefined) {
-				coll = list.channel;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = list.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -830,12 +861,17 @@ io.on('connection', function(socket){
 		{
 
 			if(coll !== undefined) {
-				coll = params.channel;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = params.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -915,12 +951,17 @@ io.on('connection', function(socket){
 		{
 
 			if(coll !== undefined) {
-				coll = msg.channel;
-				coll = emojiStrip(coll).toLowerCase();
-				//coll = decodeURIComponent(coll);
-				coll = coll.replace("_", "");
-				coll = encodeURIComponent(coll).replace(/\W/g, '');
-				coll = filter.clean(coll);
+				try {
+					coll = msg.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
@@ -967,12 +1008,17 @@ io.on('connection', function(socket){
 	socket.on('change_channel', function(obj)
 	{
 		if(coll === undefined && obj !== undefined && obj.channel !== undefined){
-			coll = obj.channel;
-			coll = emojiStrip(coll).toLowerCase();
-			//coll = decodeURIComponent(coll);
-			coll = coll.replace("_", "");
-			coll = encodeURIComponent(coll).replace(/\W/g, '');
-			coll = filter.clean(coll);
+			try {
+				coll = obj.channel;
+				if(coll.length == 0) return;
+				coll = emojiStrip(coll).toLowerCase();
+				//coll = decodeURIComponent(coll);
+				coll = coll.replace("_", "");
+				coll = encodeURIComponent(coll).replace(/\W/g, '');
+				coll = filter.clean(coll);
+			} catch(e) {
+				return;
+			}
 		}
 		left_channel(coll, guid, name, short_id, in_list, socket, true);
 	});
@@ -1006,12 +1052,17 @@ io.on('connection', function(socket){
 	{
 
 		if(coll !== undefined) {
-			coll = obj.channel;
-			coll = emojiStrip(coll).toLowerCase();
-			//coll = decodeURIComponent(coll);
-			coll = coll.replace("_", "");
-			coll = encodeURIComponent(coll).replace(/\W/g, '');
-			coll = filter.clean(coll);
+			try {
+				coll = obj.channel;
+				if(coll.length == 0) return;
+				coll = emojiStrip(coll).toLowerCase();
+				//coll = decodeURIComponent(coll);
+				coll = coll.replace("_", "");
+				coll = encodeURIComponent(coll).replace(/\W/g, '');
+				coll = filter.clean(coll);
+			} catch(e) {
+				return;
+			}
 		}
 
 		if(coll == "" || coll == undefined || coll == null) {
