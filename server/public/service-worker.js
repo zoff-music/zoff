@@ -1,4 +1,4 @@
-var version = 'v3.7';
+var version = 'v3.9';
 var CACHE_FILES = [
     '/assets/html/offline.html',
     '/assets/manifest.json',
@@ -38,7 +38,7 @@ self.addEventListener('fetch', event => {
         (event.request.headers.get('accept').includes('text/html') ||
          event.request.headers.get('accept').includes('text/css') ||
             (event.request.headers.get('accept').includes('*/*') &&
-                (event.request.url.includes('localhost') || event.request.url.includes('zoff')))))) {
+                (event.request.url.includes('localhost') || event.request.url.includes('zoff.no') || event.request.url.includes('zoff.me')))))) {
     event.respondWith(
       fetch(event.request.url, {redirect: 'manual'}).catch(error => {
         if(event.request.url.includes('manifest.json')){
