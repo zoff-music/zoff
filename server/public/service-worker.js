@@ -38,10 +38,9 @@ self.addEventListener('fetch', event => {
         (event.request.headers.get('accept').includes('text/html') ||
          event.request.headers.get('accept').includes('text/css') ||
             (event.request.headers.get('accept').includes('*/*') &&
-                (event.request.url.includes('localhost') || event.request.url.includes('zoff.no') || event.request.url.includes('zoff.me')))))) {
+                (event.request.url.includes('localhost') || event.request.url.includes('zoff')))))) {
     event.respondWith(
       fetch(event.request.url, {redirect: 'manual'}).catch(error => {
-        console.log(error);
         if(event.request.url.includes('manifest.json')){
           return caches.open(version + "::zoff").then(function(cache) {
               return cache.match("/assets/manifest.json");
