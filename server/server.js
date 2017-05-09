@@ -51,8 +51,8 @@ catch(err){
 	cors_proxy.createServer({
 		requireHeader: ['origin', 'x-requested-with'],
 		removeHeaders: ['cookie', 'cookie2'],
-	}).listen(8081, function() {
-		console.log('Running CORS Anywhere on :' + 8081);
+	}).listen(8083, function() {
+		console.log('Running CORS Anywhere on :' + 8083);
 	});
 	var http = require('http');
 	server = http.Server(app);
@@ -806,6 +806,7 @@ io.on('connection', function(socket){
 					hash = "";
 
 					db.collection(coll).find({views: {$exists:true}}, function(err, docs){
+
 						if(docs !== null && docs.length !== 0)
 						{
 							if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
@@ -1318,7 +1319,8 @@ function change_song(coll, error, id) {
 							},{multi:true}, function(err, docs){
 								var next_song;
 								if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-								if(docs.n >= 1) change_song_post(coll, next_song);
+								//if(docs.n >= 1)
+								change_song_post(coll, next_song);
 							});
 						}
 					}
@@ -1346,12 +1348,16 @@ function change_song_post(coll, next_song)
 			title: 1
 		}
 	}, {
-		$limit:1
+		$limit:2
 	}], function(err, docs){
 		if(docs !== null && docs.length > 0){
 			var id = docs[0].id;
 			if(next_song && next_song != id) {
-				return;
+				if((docs.length == 2 && next_song == docs[1].id)) {
+					id = docs[1].id;
+				} else {
+					return;
+				}
 			}
 			db.collection(coll).update({id:id},{
 				$set:{
