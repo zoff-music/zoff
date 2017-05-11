@@ -207,10 +207,17 @@ io.on('connection', function(socket){
 		}
 	});
 
-	socket.on("offline", function(status){
+	socket.on("offline", function(msg){
+		if(!msg.hasOwnProperty('status') && !msg.hasOwnProperty('channel')) {
+			socket.emit("update_required");
+			return;
+		}
+		var status = msg.status;
+		var channel = msg.channel;
 		if(status){
 			in_list = false;
 			offline = true;
+			if(channel != "") coll = channel;
 			if(coll !== undefined && lists[coll] !== undefined && contains(lists[coll], guid))
 			{
 				var index = lists[coll].indexOf(guid);
