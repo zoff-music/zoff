@@ -15,7 +15,8 @@ var Player = {
 		}catch(e){
 			state = null;
 		}
-		if(((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)) && !(offline && prev_chan_player == chan)){
+		console.log(video_id);
+		if((((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)) && !(offline && prev_chan_player == chan)) || (offline && video_id == undefined)){
 			prev_chan_player = chan;
 			from_frontpage = false;
 			Player.loaded      = false;
