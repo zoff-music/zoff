@@ -105,7 +105,7 @@ try{/*
 	} else {
 		Helper.log('Service Worker is not supported in this browser.');
 	}*/
-	
+
 	navigator.serviceWorker.getRegistration('/').then(function(registration) {
 		registration.unregister();
 	});
@@ -124,6 +124,9 @@ $().ready(function(){
 			$(".connect_error").fadeOut(function(){
 				$(".connect_error").remove();
 				Materialize.toast("Connected!", 2000, "green lighten");
+				if(offline) {
+					socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
+				}
 				if((Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
 					socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
 				}
@@ -612,7 +615,7 @@ function randomString(length){
 function change_offline(enabled, already_offline){
 	Crypt.set_offline(enabled);
 	offline = enabled;
-	socket.emit("offline", enabled);
+	socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
 	$("#offline-mode").tooltip('remove');
 	if(enabled){
 		if(list_html){
