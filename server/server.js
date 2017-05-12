@@ -676,7 +676,7 @@ io.on('connection', function(socket){
 				}
 			}
 
-			if(coll == "" || coll == undefined || coll == null) {
+			if(coll == "" || coll == undefined || coll == null || !msg.hasOwnProperty("adminpass") || !msg.hasOwnProperty("pass") || !msg.hasOwnProperty("id")) {
 				socket.emit("update_required");
 				return;
 			}
