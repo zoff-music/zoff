@@ -442,12 +442,11 @@ function initfp(){
 
 	$("#channel-load").css("display", "none");
 	//Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
-	if(window.location.hash == "#donation")
-	{
+	if(window.location.hash == "#donation") {
 		window.location.hash = "#";
+		$('#donation').modal();
 		$('#donation').modal('open');
 	}
-	//window.channel_list = channel_list;
 
 	if(!localStorage.ok_cookie){
 		before_toast();
