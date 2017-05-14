@@ -355,14 +355,19 @@ var List = {
 			}
 			setTimeout(function()
 			{
-				if(!removed) $("#"+deleted).remove();
-				full_playlist.splice(List.getIndexOfSong(deleted), 1);
+				if(!removed){
+					$("#"+deleted).remove();
+					full_playlist.splice(List.getIndexOfSong(deleted), 1);
+				}
 
 				if(chromecastAvailable){
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 				}
 			}, 305);
-			if(removed) $("#"+deleted).remove();
+			if(removed) {
+				$("#"+deleted).remove();
+                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+		 	}
 
 		} catch(err) {
 			full_playlist.splice(List.getIndexOfSong(deleted), 1);
