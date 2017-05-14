@@ -107,8 +107,8 @@ try{/*
 	}*/
 
 	navigator.serviceWorker.getRegistration('/').then(function(registration) {
-		registration.unregister();
-	});
+			registration.unregister();
+		});
 
 } catch(e) {}
 
@@ -328,6 +328,31 @@ function init(){
 			}
 		}
 	}
+
+	$.contextMenu({
+			selector: '.list-song',
+			reposition: true,
+			items: {
+					copy: {
+							name: "Copy link",
+							callback: function(key, opt){
+									var this_id = $(this[0]).attr("id");
+									var this_url = "https://www.youtube.com/watch?v=" + this_id;
+									$(".copy_video_id").css("display", "block");
+									$(".copy_video_id").text(this_url);
+									var copyTextarea = document.querySelector('.copy_video_id');
+								  copyTextarea.select();
+									var successful = document.execCommand('copy');
+							    if(successful) {
+										Materialize.toast("Copied!", 2000, "green lighten");
+									} else {
+										Materialize.toast("Error copying..", 2000, "red lighten");
+									}
+									$(".copy_video_id").css("display", "none");
+							}
+					}
+			}
+	});
 
 	if(!Helper.mobilecheck() && navigator.userAgent.match(/iPad/i) == null){
 		setTimeout(function(){set_title_width();}, 100);
@@ -1601,6 +1626,7 @@ function onepage_load(){
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
 		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}else if(url_split[3] === ""){
+		$.contextMenu( 'destroy', ".list-song" );
 		user_change_password = false;
 		clearTimeout(width_timeout);
 		if(fireplace_initiated){
@@ -1691,6 +1717,7 @@ function onepage_load(){
 				$(".page-footer").removeClass("padding-bottom-novideo");
 				$("#favicon").attr("href", "public/images/favicon.png");
 
+				$(".context-menu-list").remove();
 				Helper.log(socket);
 				if($("#alreadyfp").length == 1){
 					initfp();
