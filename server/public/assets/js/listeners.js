@@ -476,7 +476,7 @@ function chromecastListener(evt, data){
 		if(offline){
 			Player.playNext();
 		} else {
-			socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase, userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+			socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass, channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 		}
 		break;
 	}
