@@ -1749,6 +1749,21 @@ nav ul li:hover, nav ul li.active {
     margin-right: 0 !important;
 }
 
+.context-menu-list {
+  z-index: 99999999 !important;
+  background: #2d2d2d;
+  border: 1px solid #2d2d2d;
+}
+
+.context-menu-item {
+  color:white;
+  background: #2d2d2d;
+}
+
+.context-menu-item.context-menu-hover {
+  background: #484848;
+}
+
 .close-settings{
     float: right;
     width: 73px;

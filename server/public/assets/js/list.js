@@ -66,6 +66,7 @@ var List = {
 	insertAtIndex: function(song_info, transition, change) {
 		var i = List.getIndexOfSong(song_info.id);
 		var display = "none";
+        console.log(song_info.id);
 		if(!song_info.now_playing){
 			if(i >= List.page && i < List.page + (List.can_fit)) display = "block"
 			var add = List.generateSong(song_info, transition, false, true, false, display, false);
