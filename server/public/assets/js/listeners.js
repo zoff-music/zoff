@@ -332,6 +332,7 @@ function init(){
 	$.contextMenu({
 			selector: '.list-song',
 			reposition: true,
+			autoHide: true,
 			items: {
 					copy: {
 							name: "Copy link",
