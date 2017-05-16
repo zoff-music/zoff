@@ -72,7 +72,7 @@ var Admin = {
                 msg="Skipping is disabled the first 10 seconds.";
                 break;
             case "correctpass":
-                adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.crypt_pass(Crypt.tmp_pass) : Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()));
+                adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
                 msg="Correct password. You now have access to the sacred realm of The Admin.";
                 $("#thumbnail_form").css("display", "inline-block");
                 $("#description_form").css("display", "inline-block");
@@ -310,7 +310,7 @@ var Admin = {
             frontpage: frontpage,
             allvideos: allvideos,
             removeplay: removeplay,
-            adminpass: adminpass,
+            adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass),
             skipping: skipping,
             shuffling: shuffling,
             userpass: Crypt.crypt_pass(pass_send),
@@ -328,7 +328,7 @@ var Admin = {
     shuffle: function()
     {
         if(!offline){
-            socket.emit('shuffle', {adminpass: adminpass !== undefined ? adminpass : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
                 var num = Math.floor(Math.random()*1000000);

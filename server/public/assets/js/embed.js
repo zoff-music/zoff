@@ -32,6 +32,12 @@ var connection_options = {
 	'force new connection': true
 };
 
+var Crypt = {
+	crypt_pass: function(pass) {
+		return pass;
+	}
+};
+
 $(document).ready(function(){
 
 	if(hash.length == 3 && hash[2] == "autoplay"){
