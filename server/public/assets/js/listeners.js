@@ -989,7 +989,7 @@ $(document).on("change", ".password_protected", function(e) {
 	} else {
 		userpass = "";
 		if(!$(".change_user_pass").hasClass("hide")) $(".change_user_pass").addClass("hide");
-		Admin.save(false);
+		Admin.save(true);
 	}
 });
 

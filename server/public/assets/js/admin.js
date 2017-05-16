@@ -72,6 +72,7 @@ var Admin = {
                 msg="Skipping is disabled the first 10 seconds.";
                 break;
             case "correctpass":
+                adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.crypt_pass(Crypt.tmp_pass) : Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()));
                 msg="Correct password. You now have access to the sacred realm of The Admin.";
                 $("#thumbnail_form").css("display", "inline-block");
                 $("#description_form").css("display", "inline-block");
@@ -95,10 +96,11 @@ var Admin = {
         Materialize.toast(msg, 4000);
     },
 
-    pw: function(msg)
-    {
+    pw: function(msg) {
         w_p       = false;
-        adminpass = Crypt.tmp_pass;
+        if(adminpass == undefined || adminpass == "") {
+            adminpass = Crypt.get_pass(chan.toLowerCase());
+        }
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
 
@@ -301,7 +303,18 @@ var Admin = {
         shuffling  = form.shuffle.checked;
         var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
         configs    = {
-            channel: chan.toLowerCase(), voting: voting, addsongs: addsongs, longsongs: longsongs, frontpage: frontpage, allvideos: allvideos, removeplay: removeplay, adminpass: adminpass, skipping: skipping, shuffling: shuffling, userpass: pass_send, userpass_changed: userpass_changed
+            channel: chan.toLowerCase(),
+            voting: voting,
+            addsongs: addsongs,
+            longsongs: longsongs,
+            frontpage: frontpage,
+            allvideos: allvideos,
+            removeplay: removeplay,
+            adminpass: adminpass,
+            skipping: skipping,
+            shuffling: shuffling,
+            userpass: Crypt.crypt_pass(pass_send),
+            userpass_changed: userpass_changed
         };
 
         Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
