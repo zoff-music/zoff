@@ -2,6 +2,7 @@ var Crypt = {
 
 	conf_pass: undefined,
 	user_pass: undefined,
+	tmp_pass: "",
 
 	init: function(){
 
@@ -36,9 +37,11 @@ var Crypt = {
 		if(Crypt.getCookie(name) === undefined) {
 			cookie = Crypt.create_cookie(name);
 		}
-
+		var key = btoa("0103060703080703080701") + btoa("0103060703080703080701");
+		key = key.substring(0,32);
+		key = btoa(key);
 		var decrypted = CryptoJS.AES.decrypt(
-			cookie,"0103060703080703080701",
+			cookie,key,
 			{
 				mode: CryptoJS.mode.CBC,
 				padding: CryptoJS.pad.Pkcs7
@@ -49,8 +52,11 @@ var Crypt = {
 	},
 
 	decrypt_pass: function(pass){
+		var key = btoa(socket.id) + btoa(socket.id);
+		key = key.substring(0,32);
+		key = btoa(key);
 		var decrypted = CryptoJS.AES.decrypt(
-			pass,socket.id,
+			pass,key,
 			{
 				mode: CryptoJS.mode.CBC,
 				padding: CryptoJS.pad.Pkcs7
@@ -62,10 +68,12 @@ var Crypt = {
 
 	encrypt: function(json_formated, cookie){
 		var to_encrypt = JSON.stringify(json_formated);
-
+		var key = btoa("0103060703080703080701") + btoa("0103060703080703080701");
+		key = key.substring(0,32);
+		key = btoa(key);
 		var encrypted = CryptoJS.AES.encrypt(
 			to_encrypt,
-			"0103060703080703080701",
+			key,
 			{
 				mode: CryptoJS.mode.CBC,
 				padding: CryptoJS.pad.Pkcs7
@@ -79,18 +87,6 @@ var Crypt = {
 		} else {
 			document.cookie = cookie+"="+encrypted.toString()+";secure;expires="+CookieDate.toGMTString()+";path=/;";
 		}
-	},
-
-	encrypt_string: function(string){
-		var encrypted = CryptoJS.AES.encrypt(
-			string,
-			socket.id,
-			{
-				mode: CryptoJS.mode.CBC,
-				padding: CryptoJS.pad.Pkcs7
-			}
-		);
-		return encrypted.toString();
 	},
 
 	get_volume: function(){
@@ -118,10 +114,12 @@ var Crypt = {
 		else cookie_object = {passwords: {}};
 
 		var string_it = JSON.stringify(cookie_object);
-
+		var key = btoa("0103060703080703080701") + btoa("0103060703080703080701");
+		key = key.substring(0,32);
+		key = btoa(key);
 		var encrypted = CryptoJS.AES.encrypt(
 			string_it,
-			"0103060703080703080701",
+			key,
 			{
 				mode: CryptoJS.mode.CBC,
 				padding: CryptoJS.pad.Pkcs7
@@ -196,15 +194,32 @@ var Crypt = {
 	},
 
 	crypt_pass: function(pass){
+		Crypt.tmp_pass = pass;
+		var key = btoa(socket.id) + btoa(socket.id);
+		key = key.substring(0,32);
+		key = btoa(key);
+		var iv = btoa(Crypt.makeiv());
 		var encrypted = CryptoJS.AES.encrypt(
 			pass,
-			socket.id,
+			CryptoJS.enc.Base64.parse(key),
 			{
 				mode: CryptoJS.mode.CBC,
-				padding: CryptoJS.pad.Pkcs7
+				padding: CryptoJS.pad.Pkcs7,
+				iv: CryptoJS.enc.Base64.parse(iv),
 			}
 		);
-		return encrypted.toString();
+		window.encrypted = encrypted;
+		return encrypted.toString() + "$" + iv;
+	},
+
+	makeiv: function(){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 16; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
 	},
 
 	get_width: function(){
