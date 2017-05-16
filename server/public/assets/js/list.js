@@ -366,7 +366,7 @@ var List = {
 			}, 305);
 			if(removed) {
 				$("#"+deleted).remove();
-                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+        full_playlist.splice(List.getIndexOfSong(deleted), 1);
 		 	}
 
 		} catch(err) {

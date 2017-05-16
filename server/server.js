@@ -755,7 +755,7 @@ io.on('connection', function(socket){
 							socket.emit("toast", "changedpass");
 							else
 							socket.emit("toast", "correctpass");
-							socket.emit("pw", uncrypted);
+							socket.emit("pw", true);
 						});
 					}else
 					socket.emit("toast", "wrongpass");
@@ -1091,15 +1091,41 @@ io.on('connection', function(socket){
 });
 
 function decrypt_string(socket_id, pw){
-	var decrypted = CryptoJS.AES.decrypt(
-		pw,socket_id,
-		{
-			mode: CryptoJS.mode.CBC,
-			padding: CryptoJS.pad.Pkcs7
-		}
-	);
+	try {
+		/*
+		var key = (new Buffer(socket_id).toString('base64')) + (new Buffer(socket_id).toString('base64'));
+		key = key.substring(0,32);
+		var decrypted = CryptoJS.AES.decrypt(
+			pw, key,
+			{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}
+		);
 
-	return decrypted.toString(CryptoJS.enc.Utf8);
+		return decrypted.toString(CryptoJS.enc.Utf8);*/
+		var input = pw.split("$");
+		pw = input[0];
+		var testKey = ((new Buffer(socket_id).toString('base64')) + (new Buffer(socket_id).toString('base64'))).substring(0,32);
+		var keyNew = (new Buffer(testKey)).toString('base64');
+		var encrypted = CryptoJS.enc.Base64.parse(pw);
+		var key = CryptoJS.enc.Base64.parse(keyNew);
+		var iv = CryptoJS.enc.Base64.parse(input[1]);
+		var decrypted = CryptoJS.enc.Utf8.stringify(
+			CryptoJS.AES.decrypt({
+				ciphertext: encrypted
+			},
+    	key,
+     // edit: changed to Pkcs5
+    	{
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7,
+				iv: iv,
+			}));
+			return decrypted;
+	} catch(e) {
+		return "";
+	}
 }
 
 function left_channel(coll, guid, name, short_id, in_list, socket, change)
