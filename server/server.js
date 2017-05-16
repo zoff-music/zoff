@@ -898,9 +898,9 @@ io.on('connection', function(socket){
 			var adminpass = params.adminpass;
 			var skipping = params.skipping;
 			var shuffling = params.shuffling;
-			var userpass = params.userpass;
+			var userpass = decrypt_string(socketid, params.userpass);
 
-			if((!params.userpass_changed && frontpage) || (!params.userpass_changed && userpass == "")) {
+			if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
 				userpass = "";
 			} else if(params.userpass_changed && userpass != "") {
 				frontpage = false;
@@ -915,10 +915,9 @@ io.on('connection', function(socket){
 				hash = adminpass;
 			}
 			db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-				if(docs !== null && docs.length !== 0 && docs[0].adminpass === "" || docs[0].adminpass == hash)
-				{
-					db.collection(coll).update({views:{$exists:true}}, {
-						$set:{addsongs:addsongs,
+				if(docs !== null && docs.length !== 0 && (docs[0].adminpass === "" || docs[0].adminpass == hash)) {
+					var obj = {
+						addsongs:addsongs,
 							allvideos:allvideos,
 							frontpage:frontpage,
 							skip:skipping,
@@ -928,8 +927,14 @@ io.on('connection', function(socket){
 							longsongs:longsongs,
 							adminpass:hash,
 							desc: description,
-							userpass: userpass,
-						}
+					};
+					if(params.userpass_changed) {
+						obj["userpass"] = userpass;
+					} else if (frontpage) {
+						obj["userpass"] = "";
+					}
+					db.collection(coll).update({views:{$exists:true}}, {
+						$set:obj
 					}, function(err, docs){
 						db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 							if(docs[0].adminpass !== "") docs[0].adminpass = true;
@@ -944,7 +949,7 @@ io.on('connection', function(socket){
 							{upsert:true}, function(err, docs){});
 						});
 					});
-				} else{
+				} else {
 					socket.emit("toast", "wrongpass");
 				}
 			});
