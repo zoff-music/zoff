@@ -51,8 +51,8 @@ catch(err){
 	cors_proxy.createServer({
 		requireHeader: ['origin', 'x-requested-with'],
 		removeHeaders: ['cookie', 'cookie2'],
-	}).listen(8083, function() {
-		console.log('Running CORS Anywhere on :' + 8083);
+	}).listen(8081, function() {
+		console.log('Running CORS Anywhere on :' + 8081);
 	});
 	var http = require('http');
 	server = http.Server(app);
@@ -867,7 +867,6 @@ io.on('connection', function(socket){
 		params.hasOwnProperty('shuffling') &&
 		params.hasOwnProperty('channel'))
 		{
-
 			if(coll !== undefined) {
 				try {
 					coll = params.channel;

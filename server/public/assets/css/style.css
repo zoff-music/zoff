@@ -2009,6 +2009,18 @@ nav ul li:hover, nav ul li.active {
     display:none !important;
 }
 
+.google-play-image-list a {
+  padding-left: 0px !important;
+}
+
+.google-play-image-list {
+  margin-left: -1em;
+}
+
+.google-play-image-list a img {
+  width: 19.25em;
+}
+
 #bar
 {
     height:100%;
