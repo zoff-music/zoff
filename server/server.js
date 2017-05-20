@@ -135,7 +135,7 @@ io.on('connection', function(socket){
 		console.log("closing socket");
 	});
 
-	socket.on('ping', function() {
+	socket.on('pinging', function() {
 		socket.emit("ok");
 	});
 
