@@ -353,21 +353,22 @@ var List = {
 				$(".last_page_hide").css("display", "inline-flex");
 				$(".last_page").css("display", "none");
 			}
-			setTimeout(function()
+			/*setTimeout(function()
 			{
 				if(!removed){
 					$("#"+deleted).remove();
 					full_playlist.splice(List.getIndexOfSong(deleted), 1);
-				}
+				}*/
 
+
+			//}, 305);
+			//if(removed) {
+				$("#"+deleted).remove();
+        full_playlist.splice(List.getIndexOfSong(deleted), 1);
 				if(chromecastAvailable){
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 				}
-			}, 305);
-			if(removed) {
-				$("#"+deleted).remove();
-        full_playlist.splice(List.getIndexOfSong(deleted), 1);
-		 	}
+		 	//}
 
 		} catch(err) {
 			full_playlist.splice(List.getIndexOfSong(deleted), 1);
