@@ -434,7 +434,7 @@ function initfp(){
 		$("#offline-mode").tooltip({
 			delay: 5,
 			position: "bottom",
-			tooltip: "Enable private mode"
+			tooltip: "Enable local mode"
 		});
 	}
 	socket.emit('frontpage_lists');
