@@ -656,7 +656,7 @@ function change_offline(enabled, already_offline){
 		$("#offline-mode").tooltip({
 			delay: 5,
 			position: "bottom",
-			tooltip: "Disable private mode"
+			tooltip: "Disable local mode"
 		});
 
 		if(window.location.pathname != "/"){
@@ -718,7 +718,7 @@ function change_offline(enabled, already_offline){
 		$("#offline-mode").tooltip({
 			delay: 5,
 			position: "bottom",
-			tooltip: "Enable private mode"
+			tooltip: "Enable local mode"
 		});
 
 		$("#controls").off("mouseleave");
