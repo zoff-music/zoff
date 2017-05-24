@@ -503,13 +503,14 @@ var List = {
 		if(track.startsWith("the")) {
 			track = track.replace("the", "");
 		}
+		track = track.replace(" hd", "");
 		track = track.replace("official hd video", "");
 		track = track.replace("unofficial video", "");
 		track = track.replace("studio footage", "");
 		track = track.replace("great song", "");
 		track = track.replace("-", " ");
 		track = track.replace("-", " ");
-		track = track.replace(" hq ", " ");
+		track = track.replace(" hq", " ");
 		track = track.replace("lyric video", "");
 		track = track.replace("lyrics video", "");
 		track = track.replace("album version", "");
@@ -541,6 +542,7 @@ var List = {
 		track = track.replace("(original)", "");
 		track = track.replace("(", " ");
 		track = track.replace(")", " ");
+		track = track.replace("|", "");
 		track = track.replace("feat.", " ");
 		track = track.replace("feat", " ");
 		track = track.replace("ft.", " ");
