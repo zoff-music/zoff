@@ -500,6 +500,9 @@ var List = {
 	searchSpotify: function(curr_song, playlist_id, user_id){
 		var original_track = curr_song.title;
 		var track = (curr_song.title.toLowerCase().replace("-", " "));
+		if(track.startsWith("the")) {
+			track = track.replace("the", "");
+		}
 		track = track.replace("official hd video", "");
 		track = track.replace("unofficial video", "");
 		track = track.replace("studio footage", "");
@@ -567,7 +570,7 @@ var List = {
 					retryAfter = parseInt(retryAfter, 10);
 					Helper.log("Retry-After", retryAfter);
 					setTimeout(function(){
-						List.searchSpotify(curr_song);
+						List.searchSpotify(curr_song, playlist_id, user_id);
 					}, retryAfter * 1000);
 				}
 			},
@@ -580,7 +583,7 @@ var List = {
 					retryAfter = parseInt(retryAfter, 10);
 					Helper.log("Retry-After", retryAfter);
 					setTimeout(function(){
-						List.searchSpotify(curr_song);
+						List.searchSpotify(curr_song, playlist_id, user_id);
 					}, retryAfter * 1000);
 				}
 			},
@@ -650,7 +653,9 @@ var List = {
 						List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
 						$("#playlist_loader_export").addClass("hide");
 					}
-					$(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+					if($(".exported-spotify-list").length == 0) {
+						$(".exported-list").append("<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+					}
 					$.each(List.not_found, function(i, data){
 						var not_added_song = $("<div>" + not_export_html + "</div>");
 						not_added_song.find(".extra-add-text").attr("value", data);
@@ -676,8 +681,11 @@ var List = {
 				uris: uris
 			}),
 			error: function(response){
+				var temp_playlist_id = playlist_id;
+				var temp_uris = uris;
+				var temp_user_id = user_id;
 				setTimeout(function(){
-					List.addToSpotifyPlaylist(uris, playlist_id, user_id);
+					List.addToSpotifyPlaylist(temp_uris, temp_playlist_id, temp_user_id);
 				}, 3000);
 			},
 			success: function(response){
