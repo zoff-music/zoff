@@ -2240,6 +2240,10 @@ nav ul li:hover, nav ul li.active {
       pointer-events: all;
     }
 
+    #chatPlaylist {
+      padding-left: 10px;
+    }
+
     #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i{
       font-size: 31px;
       font-size: 31px !important;
