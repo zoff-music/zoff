@@ -2237,6 +2237,7 @@ nav ul li:hover, nav ul li.active {
       margin-top: inherit;
       bottom: 0px;
       position: fixed;
+      pointer-events: all;
     }
 
     #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i{
