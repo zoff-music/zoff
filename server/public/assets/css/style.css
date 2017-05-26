@@ -2235,6 +2235,8 @@ nav ul li:hover, nav ul li.active {
       background-color: rgb(70, 70, 70);
       height: 50px;
       margin-top: inherit;
+      bottom: 0px;
+      position: fixed;
     }
 
     #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i{
