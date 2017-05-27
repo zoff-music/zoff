@@ -20,7 +20,7 @@ var Search = {
 
 	},
 
-	search: function(search_input){
+	search: function(search_input, retried){
 		if(result_html === undefined || empty_results_html === undefined) {
 			result_html = $("#temp-results-container");
 			empty_results_html = $("#empty-results-container").html();
@@ -94,23 +94,33 @@ var Search = {
 										songs.find("#temp-results").attr("data-video-title", enc_title);
 										songs.find("#temp-results").attr("data-video-length", secs);
 										//$($(songs).find("div")[0]).attr("id", id)
-										output += songs.html();
-
+										//output += undefined;
+										if(songs.html() != undefined) {
+											output += songs.html();
+										}
 									}
 								});
+								if(output.length > 0) {
 
-								$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+									$("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
 
-								//setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
+									//setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
-								if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
-								$(".search_loader_spinner").removeClass("active");
+									if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+									$(".search_loader_spinner").removeClass("active");
 
-								$(".add-many").click(function(e) {
-									e.preventDefault();
-									e.stopPropagation();
-									return false;
-								});
+									$(".add-many").click(function(e) {
+										e.preventDefault();
+										e.stopPropagation();
+										return false;
+									});
+								} else if(!retried){
+									Search.search(search_input, true);
+								} else {
+									$("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+									if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+									$(".search_loader_spinner").removeClass("active");
+								}
 							}
 						});
 					}
