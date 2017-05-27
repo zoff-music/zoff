@@ -2267,6 +2267,10 @@ nav ul li:hover, nav ul li.active {
       margin-top: 8px;
     }
 
+    .footer-copyright {
+      margin-bottom: 40px;
+    }
+
     #duration{
       font-size: 20px;
       font-weight: 400;
