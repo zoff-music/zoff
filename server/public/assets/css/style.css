@@ -2259,8 +2259,12 @@ nav ul li:hover, nav ul li.active {
       margin-right: 10px;
     }
 
-    #viewers, #volume{
+    #volume{
       display: none;
+    }
+
+    #viewers {
+      margin-top: 8px;
     }
 
     #duration{
