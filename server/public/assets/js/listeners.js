@@ -1562,6 +1562,16 @@ $(document).keydown(function(event) {
 				found_array = [];
 				found_array_index = 0;
 			}
+		} else if(event.keyCode == 32 && $(".search-container").hasClass("hide") && window.location.pathname != "/") {
+			if(Player.player.getPlayerState() == 1) {
+				event.preventDefault();
+				Player.player.pauseVideo();
+				return false;
+			} else if(Player.player.getPlayerState() == 2) {
+				event.preventDefault();
+				Player.player.playVideo();
+				return false;
+			}
 		} else {
 			find_start = false;
 		}
