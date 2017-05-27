@@ -103,8 +103,8 @@ var List = {
 			List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
 			List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
 		}else {
-			List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() -66) / 71)+1;
-			List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() -66) / List.can_fit)-6;
+			List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / 71)+1;
+			List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / List.can_fit)-5;
 		}
 		if(List.element_height < 55.2){
 			List.element_height = 55.2;
