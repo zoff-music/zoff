@@ -2265,6 +2265,8 @@ nav ul li:hover, nav ul li.active {
 
     #viewers {
       margin-top: 8px;
+      font-size: 20px;
+      font-weight: 400;
     }
 
     .footer-copyright {
