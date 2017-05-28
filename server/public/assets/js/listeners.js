@@ -1562,7 +1562,12 @@ $(document).keydown(function(event) {
 				found_array = [];
 				found_array_index = 0;
 			}
-		} else if(event.keyCode == 32 && $(".search-container").hasClass("hide") && window.location.pathname != "/") {
+		} else if(event.keyCode == 32 && $(".search-container").hasClass("hide") && window.location.pathname != "/" &&
+		!$("#text-chat-input").is(":focus") &&
+		!$("#password").is(":focus") &&
+		!$("#user-pass-input").is(":focus") &&
+		!$("#chan_thumbnail").is(":focus") &&
+		!$("#chan_description").is(":focus")) {
 			if(Player.player.getPlayerState() == 1) {
 				event.preventDefault();
 				Player.player.pauseVideo();
