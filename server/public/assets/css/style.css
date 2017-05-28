@@ -1768,7 +1768,9 @@ nav ul li:hover, nav ul li.active {
     float: right;
     width: 73px;
     text-align: center;
-    display: inline;
+    display: flex;
+    align-items: center;
+    height: 64px;
 }
 
 .setting-text {
