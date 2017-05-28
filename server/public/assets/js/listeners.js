@@ -1569,7 +1569,8 @@ $(document).keydown(function(event) {
 		!$("#chan_thumbnail").is(":focus") &&
 		!$("#chan_description").is(":focus") &&
 		!$("#contact-form-from").is(":focus") &&
-		!$("#contact-form-message").is(":focus")) {
+		!$("#contact-form-message").is(":focus") &&
+		!$("#remote_channel").is(":focus")) {
 			if(Player.player.getPlayerState() == 1) {
 				event.preventDefault();
 				Player.player.pauseVideo();
