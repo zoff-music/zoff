@@ -1669,6 +1669,20 @@ nav ul li:hover, nav ul li.active {
     color:orange;
 }
 #add-many i{ line-height: 36px !important;}
+
+.open-externally {
+  float:right;
+  color:white;
+}
+
+.open-externally:hover {
+  color:orange;
+}
+
+.open-externally i {
+  line-height: 36px !important;
+}
+
 #results{
   background-color: rgba(0,0,0,0.8);
   position: absolute;
