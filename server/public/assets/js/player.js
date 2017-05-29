@@ -93,7 +93,7 @@ var Player = {
 
 					try{
 						if(Player.player.getVideoUrl().split('v=')[1] != video_id || chromecastAvailable){
-							Player.loadVideoById(video_id);
+							Player.loadVideoById(video_id, duration);
 							if(!Helper.mobilecheck()) {
 								Player.notifyUser(video_id, song_title);
 							}
@@ -120,7 +120,7 @@ var Player = {
 						}
 					}catch(e){
 						if(chromecastAvailable){
-							Player.loadVideoById(video_id);
+							Player.loadVideoById(video_id, duration);
 							Player.seekTo(seekTo);
 						}
 						if(!durationBegun && !chromecastAvailable) {
@@ -238,13 +238,13 @@ var Player = {
 		}
 	},
 
-	loadVideoById: function(id){
+	loadVideoById: function(id, this_duration){
 		if(chromecastAvailable){
 			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id});
 			chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
 			chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 		} else {
-			Player.player.loadVideoById(id, 0);
+			Player.player.loadVideoById({'videoId': id, 'startSeconds': 0, 'endSeconds': this_duration});
 		}
 	},
 
@@ -279,7 +279,7 @@ var Player = {
 			chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
 			chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
 		} else {
-			Player.loadVideoById(video_id);
+			Player.loadVideoById(video_id, duration);
 		}
 		List.channel_function({type:"song_change", time: time});
 	},
@@ -322,7 +322,7 @@ var Player = {
 				socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 
 			} else if(video_id !== undefined) {
-				Player.loadVideoById(video_id);
+				Player.loadVideoById(video_id, duration);
 			}
 		}
 	},
@@ -341,7 +341,7 @@ var Player = {
 				$("#player").css("opacity", "1");
 				$("#controls").css("opacity", "1");
 				$(".playlist").css("opacity", "1");
-				Player.loadVideoById(video_id);
+				Player.loadVideoById(video_id, duration);
 				if(autoplay && (!Helper.mobilecheck() || chromecastAvailable)) {
 					Player.playVideo();
 				}

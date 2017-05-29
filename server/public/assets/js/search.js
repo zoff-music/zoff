@@ -93,6 +93,7 @@ var Search = {
 										songs.find("#temp-results").attr("data-video-id", id);
 										songs.find("#temp-results").attr("data-video-title", enc_title);
 										songs.find("#temp-results").attr("data-video-length", secs);
+										songs.find(".open-externally").attr("href", "https://www.youtube.com/watch?v=" + id);
 										//$($(songs).find("div")[0]).attr("id", id)
 										//output += undefined;
 										if(songs.html() != undefined) {

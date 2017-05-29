@@ -757,8 +757,10 @@ function spotify_is_authenticated(bool){
 	}
 }
 
-window.enable_debug = enable_debug;
-window.disable_debug = disable_debug;
+window.zoff = {
+	enable_debug: enable_debug,
+	disable_debug: disable_debug
+}
 
 function seekToMove(e){
 	var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
@@ -1450,12 +1452,12 @@ $(window).resize(function(){
 
 $(document).on( "click", ".result-object", function(e){
 	var $html  = $(e.target);
+
 	var substr = $html.prop('outerHTML').substring(0,4);
-	if(substr != "<i c"){
+	if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1){
 		var id 		= $(this).attr("data-video-id");
 		var title 	= $(this).attr("data-video-title");
 		var length 	= $(this).attr("data-video-length");
-
 		Search.submitAndClose(id, title, length);
 	}
 });
