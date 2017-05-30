@@ -1642,7 +1642,7 @@ nav ul li:hover, nav ul li.active {
 
 .card-image{cursor:pointer}
 .card{
-  margin:5px 0 5px 0 !important;
+  margin:2.5px 0 2.5px 0 !important;
   overflow:hidden;
   transition: box-shadow 0s;
 }
@@ -1673,6 +1673,10 @@ nav ul li:hover, nav ul li.active {
 .open-externally {
   float:right;
   color:white;
+}
+
+.list-song {
+  width: 100%;
 }
 
 .open-externally:hover {
