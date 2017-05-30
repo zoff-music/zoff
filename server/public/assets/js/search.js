@@ -20,7 +20,7 @@ var Search = {
 
 	},
 
-	search: function(search_input, retried){
+	search: function(search_input, retried, related){
 		if(result_html === undefined || empty_results_html === undefined) {
 			result_html = $("#temp-results-container");
 			empty_results_html = $("#empty-results-container").html();
@@ -34,6 +34,10 @@ var Search = {
 			if(music)yt_url+="&videoCategoryId=10";
 
 			var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
+			if(related) {
+				var yt_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId="+keyword+"&type=video&key="+api_key;
+				var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
+			}
 
 			if(!Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
 			$(".search_loader_spinner").addClass("active");

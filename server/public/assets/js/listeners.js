@@ -330,7 +330,7 @@ function init(){
 	}
 
 	$.contextMenu({
-			selector: '.list-song',
+			selector: '.playlist-element',
 			reposition: true,
 			autoHide: true,
 			items: {
@@ -351,6 +351,27 @@ function init(){
 									}
 									$(".copy_video_id").css("display", "none");
 							}
+					},
+					similar: {
+						name: "Find Similar",
+						callback: function(key, opt) {
+								var this_id = $(this[0]).attr("id");
+								Search.search(this_id, false, true);
+								if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
+									Search.showSearch();
+								}
+						}
+					},
+					"sep1": "---------",
+					delete: {
+						name: "Delete",
+						callback: function(key, opt) {
+								var this_id = $(this[0]).attr("id");
+								List.vote(this_id, "del");
+						},
+						disabled: function(key, opt) {
+                return w_p;
+            }
 					}
 			}
 	});
@@ -646,10 +667,10 @@ function change_offline(enabled, already_offline){
 	if(enabled){
 		if(list_html){
 			list_html = $("<div>" + list_html + "</div>");
-			list_html.find(".list-remove").removeClass("hide");
+			//list_html.find(".list-remove").removeClass("hide");
 			list_html = list_html.html();
 		}
-		$(".list-remove").removeClass("hide");
+		//$(".list-remove").removeClass("hide");
 		$("#viewers").addClass("hide");
 		$("#offline-mode").removeClass("waves-cyan");
 		$("#offline-mode").addClass("cyan");
@@ -704,15 +725,15 @@ function change_offline(enabled, already_offline){
 	} else {
 		if(list_html){
 			list_html = $("<div>" + list_html + "</div>");
-			if(hasadmin && w_p){
-				list_html.find(".list-remove").addClass("hide");
-			}
+			/*if(hasadmin && w_p){
+				//list_html.find(".list-remove").addClass("hide");
+			}*/
 			list_html = list_html.html();
 		}
 		$("#viewers").removeClass("hide");
-		if(hasadmin && w_p){
-			$(".list-remove").addClass("hide");
-		}
+		/*if(hasadmin && w_p){
+			//$(".list-remove").addClass("hide");
+		}*/
 		$("#offline-mode").addClass("waves-cyan");
 		$("#offline-mode").removeClass("cyan");
 		$("#offline-mode").tooltip({
@@ -870,7 +891,15 @@ $(document).on("mouseenter", ".card.sticky-action", function(e){
 $(document).on("click", "#chat_submit", function(e){
 	e.preventDefault();
 	$("#chatForm").submit();
-})
+});
+
+$(document).on("click", ".list-remove", function(e) {
+	e.preventDefault();
+	var parent_test = $(this).parent();
+	if(parent_test.attr("id").indexOf("suggest") == -1) {
+		$('#' + $(this).parent().attr("id")).contextMenu();
+	}
+});
 
 $(document).on("mouseleave", ".card.sticky-action", function(e){
 	var that = this;
@@ -1649,7 +1678,7 @@ function onepage_load(){
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
 		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}else if(url_split[3] === ""){
-		$.contextMenu( 'destroy', ".list-song" );
+		$.contextMenu( 'destroy', ".playlist-element" );
 		user_change_password = false;
 		clearTimeout(width_timeout);
 		if(fireplace_initiated){
