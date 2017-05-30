@@ -1600,7 +1600,8 @@ nav ul li:hover, nav ul li.active {
 }
 
 .vote-container{
-  height:100%;
+  height: 100%;
+  width: 90%;
 }
 
 .vote-container:hover .list-image:after, .add-suggested:hover .list-suggested-image:after {
@@ -1715,6 +1716,20 @@ nav ul li:hover, nav ul li.active {
   padding-left: 10px;
 }
 
+.playlist-element .list-remove {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: -32px;
+  margin-left: 0px;
+  width: 10%;
+}
+
+.playlist-element .list-remove a {
+  color: white !important;
+  margin-right: 0px !important;
+}
+
 .list-song .card-action{
   border-top:none !important;
   background: transparent;
@@ -1780,6 +1795,10 @@ nav ul li:hover, nav ul li.active {
 
 .context-menu-item.context-menu-hover {
   background: #484848;
+}
+
+.context-menu-item.context-menu-disabled {
+  background-color: #353535 !important;
 }
 
 .close-settings{

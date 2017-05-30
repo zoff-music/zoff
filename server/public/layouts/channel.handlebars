@@ -225,7 +225,7 @@
               </div>
                 <div id="wrapper" class="tabs_height">
                     <div id="list-song-html">
-                        <div id="list-song" class="card left-align list-song  waves-effect waves-light">
+                        <div id="list-song" class="card left-align list-song  waves-effect waves-light playlist-element">
                             <div class="clickable vote-container" title="Vote!">
                                 <a class="clickable center-align votebg">
                                     <span class="lazy card-image cardbg list-image" style="background-image:url('/assets/images/loading.png');">
@@ -242,10 +242,13 @@
                                     </span>
                                 </span>
                             </div>
-                            <div class="card-action center-align list-remove hide">
-                                <a title="Remove song" class="waves-effect btn-flat clickable hide-on-small-only delete_button">Delete</a>
-                                <a title="Remove song" class="waves-effect btn-flat clickable hide-on-med-and-up delete_button"><i class="material-icons">close</i></a>
-                            </div>
+                            <div class="card-action center-align list-remove">
+                                  <a href="#" class="waves-effect btn-flat clickable more_button">
+                                        <i class="material-icons">more_vert</i>
+                                  </a>
+                                <a title="Remove song" class="waves-effect btn-flat clickable hide-on-small-only delete_button hide suggested_remove">Delete</a>
+                                <a title="Remove song" class="waves-effect btn-flat clickable hide-on-med-and-up delete_button hide suggested_remove"><i class="material-icons">close</i></a>
+                          </div>
                         </div>
                     </div>
                 </div>

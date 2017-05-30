@@ -219,10 +219,10 @@ var Admin = {
             $(".playlist-tabs").removeClass("hide");
         }
 
-        if($(".card-action").length !== 0 &&
+        /*if($(".card-action").length !== 0 &&
         !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
             $(".card-action").addClass("hide");
-        }
+        }*/
 
         if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
         {

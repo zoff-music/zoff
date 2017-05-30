@@ -860,6 +860,9 @@ var List = {
 			song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
 		}else if(!list){
 			//song.find(".card-duration").remove();
+			song.find(".list-song").removeClass("playlist-element");
+			song.find(".more_button").addClass("hide");
+			song.find(".suggested_remove").removeClass("hide");
 			song.find(".vote-text").text("");
 			song.find(".card-duration").text(Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]));
 			var added_by = "user";
