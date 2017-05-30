@@ -67,7 +67,7 @@ var List = {
 		var i = List.getIndexOfSong(song_info.id);
 		var display = "none";
 		if(!song_info.now_playing){
-			if(i >= List.page && i < List.page + (List.can_fit)) display = "block"
+			if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-block"
 			var add = List.generateSong(song_info, transition, false, true, false, display, false);
 			if(i === 0) {
 				$("#wrapper").prepend(add);
@@ -76,12 +76,12 @@ var List = {
 			}
 			var added = $("#wrapper").children()[i];
 			$(added).css("display", display);
-			if(display == "block" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
+			if(display == "inline-block" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
 				$($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
 			} else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-				$($("#wrapper").children()[List.page]).css("display", "block");
+				$($("#wrapper").children()[List.page]).css("display", "inline-block");
 			} else if($("#wrapper").children().length > List.page + List.can_fit){
-				$($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "block");
+				$($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "inline-block");
 			}
 			if(change && List.page > 0){
 				$($("#wrapper").children()[List.page - 1]).css("display", "none");
@@ -333,11 +333,11 @@ var List = {
 
 			if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
 				$($("#wrapper").children()[List.page]).css("height", 0);
-				$($("#wrapper").children()[List.page]).css("display", "block");
+				$($("#wrapper").children()[List.page]).css("display", "inline-block");
 				$($("#wrapper").children()[List.page]).css("height", List.element_height);
 			} else if($("#wrapper").children().length > List.page + (List.can_fit)){
 				$($("#wrapper").children()[List.page + (List.can_fit)]).css("height", 0);
-				$($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "block");
+				$($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "inline-block");
 				$($("#wrapper").children()[List.page + (List.can_fit)]).css("height", List.element_height);
 			}
 
@@ -375,9 +375,9 @@ var List = {
 			if(!List.empty){
 				$("#"+deleted).remove();
 				if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-					$($("#wrapper").children()[List.page - 1]).css("display", "block");
+					$($("#wrapper").children()[List.page - 1]).css("display", "inline-block");
 				} else if($("#wrapper").children().length > List.page + List.can_fit){
-					$($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "block");
+					$($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "inline-block");
 				}
 				if(chromecastAvailable){
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
