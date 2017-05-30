@@ -1466,7 +1466,7 @@ $(document).on( "click", "#add-many", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");
 	var length 	= $(this).attr("data-video-length");
-
+	$(this).parent().parent().remove();
 	Search.submit(id, title, length);
 });
 
