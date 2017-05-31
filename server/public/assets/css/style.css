@@ -2142,6 +2142,10 @@ nav ul li:hover, nav ul li.active {
       padding-bottom: 20px;
     }
 
+    #fireplace_player {
+      display: none !important;
+    }
+
     #playbar{
       display:block;
       position: fixed;
