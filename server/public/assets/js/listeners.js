@@ -108,7 +108,9 @@ try{/*
 	}*/
 
 	navigator.serviceWorker.getRegistration('/').then(function(registration) {
-			registration.unregister();
+			if(registration) {
+				registration.unregister();
+			}
 		});
 
 } catch(e) {}
