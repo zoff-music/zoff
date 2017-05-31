@@ -1617,7 +1617,7 @@ $(document).keydown(function(event) {
 				event.preventDefault();
 				Player.player.pauseVideo();
 				return false;
-			} else if(Player.player.getPlayerState() == 2) {
+			} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
 				event.preventDefault();
 				Player.player.playVideo();
 				return false;
