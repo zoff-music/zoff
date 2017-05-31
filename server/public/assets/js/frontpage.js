@@ -1,7 +1,6 @@
 //script for frontpage
 
 var channel_list;
-var git_info;
 var frontpage = true;
 var socket;
 var rotation_timeout;
