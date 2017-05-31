@@ -1472,7 +1472,7 @@ ul #chat-log{
     color: white;
     border: none;
     font-size:18px;
-    padding-right: 1%;
+    /*padding-right: 1%;*/
 }
 
 .castButton-unactive i, .castButton-active i{
@@ -1723,6 +1723,15 @@ nav ul li:hover, nav ul li.active {
   margin-top: -32px;
   margin-left: 0px;
   width: 10%;
+}
+
+.tap-target {
+  color:white;
+  background-color: #2d2d2d;
+}
+
+.tap-target-wave::before, .tap-target-wave::after {
+  background-color:grey;
 }
 
 .playlist-element .list-remove a {
