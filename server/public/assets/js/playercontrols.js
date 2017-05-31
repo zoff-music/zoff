@@ -54,6 +54,7 @@ var Playercontrols = {
 	play_pause: function()
 	{
 		if(!chromecastAvailable){
+			console.log(Player.player.getPlayerState());
 			if(Player.player.getPlayerState() == 1)
 			{
 				Player.pauseVideo();
@@ -63,7 +64,7 @@ var Playercontrols = {
 					$(".video-container").toggleClass("click-through");
 					$(".page-footer").toggleClass("padding-bottom-extra");
 				}
-			} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0 || (Player.player.getPlayerState() === 5 && Helper.mobilecheck())){
+			} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0 || (Player.player.getPlayerState() === 5)){
 				Player.playVideo();
 				//if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 				if(Helper.mobilecheck() && !window.MSStream){
