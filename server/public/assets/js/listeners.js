@@ -115,6 +115,10 @@ try{/*
 
 } catch(e) {}
 
+$.ajaxPrefilter(function( options, original_Options, jqXHR ) {
+    options.async = true;
+});
+
 $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
 	else if(!fromChannel && window.location.pathname == "/"){
