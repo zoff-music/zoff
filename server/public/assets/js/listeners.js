@@ -461,6 +461,15 @@ initializeCastApi = function() {
 		if(event.castState == "NOT_CONNECTED"){
 			$(".castButton-unactive").css("display", "block");
 			cast_ready_connect = true;
+			
+			if(!localStorage.getItem("_chSeen")) {
+				$(".castButton-unactive").css("display", "block");
+				$('.tap-target').tapTarget('open');
+				localStorage.setItem("_chSeen", false);
+				tap_target_timeout = setTimeout(function() {
+					$('.tap-target').tapTarget('close');
+				}, 4000);
+			}
 		} else if(event.castState == "NO_DEVICES_AVAILABLE"){
 			$(".castButton-unactive").css("display", "none");
 			cast_ready_connect = false;
