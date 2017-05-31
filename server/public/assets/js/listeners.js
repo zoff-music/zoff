@@ -61,6 +61,7 @@ var found_array 				= [];
 var found_array_index 			= 0;
 var castSession;
 var width_timeout;
+var tap_target_timeout;
 
 if(localStorage.debug === undefined){
 	var debug = false;
@@ -437,6 +438,14 @@ initializeCastApi = function() {
 
 	if(cast_ready_connect){
 		$(".castButton-unactive").css("display", "block");
+		if(!localStorage.getItem("_chSeen")) {
+			$(".castButton-unactive").css("display", "block");
+			$('.tap-target').tapTarget('open');
+			localStorage.setItem("_chSeen", false);
+			tap_target_timeout = setTimeout(function() {
+				$('.tap-target').tapTarget('close');
+			}, 4000);
+		}
 	}
 
 	var cast_state = cast.framework.CastContext.getInstance();
@@ -1703,7 +1712,8 @@ function onepage_load(){
 		$('#chan_thumbnail').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
 		$("#seekToDuration").remove();
-
+		$('.tap-target').tapTarget('close');
+		clearTimeout(tap_target_timeout);
 		$.ajax({
 			url: "/",
 			success: function(e){

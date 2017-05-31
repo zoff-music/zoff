@@ -186,7 +186,7 @@
                   <div id="fullscreen" class="hide-on-small-only">
                     <i class="material-icons">fullscreen</i>
                   </div>
-                  <button class="castButton-unactive tooltipped" style="display:none;">
+                  <button class="castButton-unactive tooltipped" id="google-cast-button" style="display:none;">
                     <i class="material-icons">cast</i>
                   </button>
                   <button class="castButton" is="google-cast-button">
@@ -294,3 +294,10 @@
         </div>
     </main>
 </div>
+
+<div class="tap-target" data-activates="google-cast-button">
+    <div class="tap-target-content">
+      <h5>Chromecast</h5>
+      <p>This site supports chromecasting!</p>
+    </div>
+  </div>
