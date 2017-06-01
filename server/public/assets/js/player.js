@@ -32,10 +32,13 @@ var Player = {
 			if(!obj.np){
 
 				document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
+				document.title = "Zoff - the shared YouTube based radio";
 				//$("#player_overlay").height($("#player").height());
 
 				if(!window.MSStream && !chromecastAvailable) {
-					$("#player_overlay").toggleClass("hide");
+					if($("#player_overlay").hasClass("hide")) {
+						$("#player_overlay").removeClass("hide");
+					}
 				}
 				try{
 					if(!chromecastAvailable) {
