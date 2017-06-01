@@ -38,6 +38,9 @@ var Admin = {
                 $('#chan_thumbnail').tooltip("remove");
                 w_p = true;
                 break;
+            case "deleted_songs":
+                msg="All songs in the channel has been deleted!";
+                break;
             case "shuffled":
                 msg=Helper.rnd(["♫ You stir me right round, baby. ♫","♫ Stir, stir, stir my boat ♫","I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"]);
                 break;
@@ -123,6 +126,7 @@ var Admin = {
         $("#password").val("");
         $("#password").attr("placeholder", "Change admin password");
         $(".user-password-li").removeClass("hide");
+        $(".delete-all").removeClass("hide");
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
         }
@@ -204,6 +208,10 @@ var Admin = {
 
         if(!$(".user-password-li").hasClass("hide")) {
             $(".user-password-li").addClass("hide")
+        }
+
+        if(!$(".delete-all").hasClass("hide")) {
+          $(".delete-all").addClass("hide");
         }
 
         if($(".password_protected").prop("checked")) {

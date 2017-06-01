@@ -657,6 +657,44 @@ io.on('connection', function(socket){
 		}
 	});
 
+	socket.on('delete_all', function(msg) {
+		if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
+			var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
+			var hash_userpass = decrypt_string(socketid, msg.pass);
+
+			if(coll !== undefined) {
+				try {
+					coll = msg.channel;
+					if(coll.length == 0) return;
+					coll = emojiStrip(coll).toLowerCase();
+					//coll = decodeURIComponent(coll);
+					coll = coll.replace("_", "");
+					coll = encodeURIComponent(coll).replace(/\W/g, '');
+					coll = filter.clean(coll);
+				} catch(e) {
+					return;
+				}
+			}
+
+			db.collection(coll).find({views: {$exists: true}}, function(err, conf) {
+				if(conf.length == 1 && conf) {
+					conf = conf[0];
+					if(conf.adminpass == hash && conf.adminpass != "" && ((conf.userpass != "" || (conf.userpass == hash_userpass)))) {
+						db.collection(coll).remove({views: {$exists: false}}, {multi: true}, function(err, succ) {
+							send_list(coll, false, true, true, true);
+							socket.emit("toast", "deleted_songs");
+						});
+					} else {
+						socket.emit("toast", "listhaspass");
+					}
+				}
+			});
+		} else {
+			socket.emit("update_required");
+			return;
+		}
+	})
+
 	socket.on('vote', function(msg)
 	{
 		if(typeof(msg) === 'object' && msg !== undefined && msg !== null)
@@ -1533,8 +1571,12 @@ function send_play(coll, socket)
 						socket.emit("np", toSend);
 					}
 				}
-			}catch(e){
-				socket.emit("np", {});
+			} catch(e){
+				if(socket) {
+					socket.emit("np", {});
+				} else {
+					io.to(coll).emit("np", {});
+				}
 			}
 		});
 	});

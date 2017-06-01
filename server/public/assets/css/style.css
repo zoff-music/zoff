@@ -1538,7 +1538,7 @@ nav ul li:hover, nav ul li.active {
   background-color: rgba(0,0,0,0.1);
 }
 
-.change_user_pass:hover {
+.change_user_pass:hover, .delete-all:hover {
   background-color: initial;
 }
 
