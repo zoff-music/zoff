@@ -155,6 +155,23 @@ io.on('connection', function(socket){
 	else
 	name = names[guid];
 
+	socket.emit("guid", guid);
+
+	socket.on("chromecast", function(msg) {
+		try {
+			if(typeof(msg) == "object" && msg.hasOwnProperty("guid") && msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel")) {
+				if(lists[msg.channel].indexOf(msg.guid) > -1) {
+					guid = msg.guid;
+					socketid = msg.socket_id;
+					coll = msg.channel;
+					in_list = true;
+				}
+			}
+		} catch(e) {
+			return;
+		}
+	});
+
 	socket.on("get_userlists", function(id) {
 		db.collection("frontpage_lists_" + id).find(function(err, docs) {
 			socket.emit("userlists", [docs]);
@@ -605,6 +622,7 @@ io.on('connection', function(socket){
 												io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
 											}
 											db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
+											getNextSong(coll);
 										});
 										if(!full_list) {
 											socket.emit("toast", "addedsong");
@@ -1031,6 +1049,7 @@ io.on('connection', function(socket){
 							if(!docs){
 								send_list(coll, undefined, false, true, false, true);
 								socket.emit("toast", "shuffled");
+
 								return;
 							}else{
 								num = Math.floor(Math.random()*1000000);
@@ -1048,6 +1067,7 @@ io.on('connection', function(socket){
 				if(tot == curr)
 				{
 					send_list(coll, undefined, false, true, false);
+					getNextSong(coll);
 				}
 			};
 
@@ -1310,12 +1330,40 @@ function vote(coll, id, guid, socket, full_list, last) {
 				if((full_list && last) || (!full_list))
 				socket.emit("toast", "voted");
 				io.to(coll).emit("channel", {type: "vote", value: id, time: get_time()});
+
+				getNextSong(coll);
 			});
 		}else
 		{
 			socket.emit("toast", "alreadyvoted");
 		}
 	});
+}
+
+function getNextSong(coll) {
+	db.collection(coll).aggregate([{
+		$match:{
+			views:{
+				$exists: false
+			},
+			type:{
+				$ne: "suggested"
+			}
+		}
+		}, {
+			$sort:{
+				now_playing: 1,
+				votes:-1,
+				added:1,
+				title: 1
+			}
+		}, {
+			$limit:1
+		}], function(err, doc) {
+			if(doc.length == 1) {
+				io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title});
+			}
+		});
 }
 
 
@@ -1565,9 +1613,10 @@ function send_play(coll, socket)
 					if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
 					else conf[0].userpass = false;
 					toSend = {np: np, conf: conf, time: get_time()};
-					if(socket === undefined)
-					io.to(coll).emit("np", toSend);
-					else{
+					if(socket === undefined) {
+						io.to(coll).emit("np", toSend);
+						getNextSong(coll)
+					} else {
 						socket.emit("np", toSend);
 					}
 				}
