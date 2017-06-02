@@ -59,6 +59,7 @@ var prev_chan_player 			= "";
 var chromecastReady 			= false;
 var found_array 				= [];
 var found_array_index 			= 0;
+var guid = "";
 var castSession;
 var width_timeout;
 var tap_target_timeout;
@@ -123,6 +124,12 @@ $().ready(function(){
 	if(!fromFront && window.location.pathname != "/") init();
 	else if(!fromChannel && window.location.pathname == "/"){
 		initfp();
+	}
+
+	if(Helper.mobilecheck()) {
+		socket.on("guid", function(msg) {
+			guid = msg;
+		});
 	}
 
 	socket.on("connect", function(){
@@ -399,44 +406,49 @@ initializeCastApi = function() {
 		Helper.log(event.sessionState);
 		switch (event.sessionState) {
 			case cast.framework.SessionState.SESSION_STARTED:
-			castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-			castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
-			chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-			chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-			chromecastAvailable = true;
-			paused = false;
-			mobile_beginning = false;
-			var _seekTo;
-			try{
-				_seekTo = Player.player.getCurrentTime();
-			} catch(e){
-				_seekTo = seekTo;
-			}
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
-			hide_native(1);
-			break;
+				castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+				castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
+				chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+				chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+				chromecastAvailable = true;
+				paused = false;
+				mobile_beginning = false;
+				var _seekTo;
+				try{
+					_seekTo = Player.player.getCurrentTime();
+				} catch(e){
+					_seekTo = seekTo;
+				}
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+
+				if(Helper.mobilecheck()) {
+					castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))})
+				}
+
+				hide_native(1);
+				break;
 			case cast.framework.SessionState.SESSION_RESUMED:
-			castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-			castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
-			chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-			chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-			chromecastAvailable = true;
-			paused = false;
-			mobile_beginning = false;
-			var _seekTo;
-			try{
-				_seekTo = Player.player.getCurrentTime();
-			} catch(e){
-				_seekTo = seekTo;
-			}
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
-			hide_native(1);
-			break;
+				castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+				castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
+				chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+				chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+				chromecastAvailable = true;
+				paused = false;
+				mobile_beginning = false;
+				var _seekTo;
+				try{
+					_seekTo = Player.player.getCurrentTime();
+				} catch(e){
+					_seekTo = seekTo;
+				}
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+				hide_native(1);
+				break;
 			case cast.framework.SessionState.SESSION_ENDED:
-			chromecastAvailable = false;
-			hide_native(0);
+				chromecastAvailable = false;
+				hide_native(0);
 			break;
 		}
 	});
