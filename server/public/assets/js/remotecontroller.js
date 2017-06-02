@@ -35,15 +35,22 @@ $(document).ready(function (){
 			type: "GET",
 			url: "https://api.github.com/users/zoff-music/received_events",
 			success: function(git_info){
-				$("#latest-commit").html("Latest Commit: <br>" +
-				git_info[0].created_at.substring(0,10) +
-				": " + git_info[0].actor.display_login +
-				"<br><a href='https://github.com/"+git_info[0].repo.name+"/commit/" + git_info[0].payload.commits[0].sha + "' target='_blank'>" +
-				git_info[0].payload.commits[0].sha.substring(0,10) + "</a>: " +
-				git_info[0].payload.commits[0].message+"<br");
+				for(var i = 0; i < git_info.length; i++) {
+					if(git_info[i].type == "PushEvent") {
+						$("#latest-commit").html("Latest Commit: <br>" +
+						git_info[0].created_at.substring(0,10) +
+						": " + git_info[0].actor.display_login +
+						"<br><a href='https://github.com/"+git_info[0].repo.name+"/commit/" + git_info[0].payload.commits[0].sha + "' target='_blank'>" +
+						git_info[0].payload.commits[0].sha.substring(0,10) + "</a>: " +
+						git_info[0].payload.commits[0].message+"<br");
+						return;
+					}
+				}
 			}
 		});
-	} catch(e) {}
+	} catch(error){
+		Helper.log("Error with fetching GitHub commit info");
+	}
 });
 
 $(document).on("click", "#playbutton", function()
