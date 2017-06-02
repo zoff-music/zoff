@@ -157,7 +157,7 @@ io.on('connection', function(socket){
 
 	socket.emit("guid", guid);
 
-	socket.on("chromecast", function(msg) {
+	socket.on('chromecast', function(msg) {
 		try {
 			if(typeof(msg) == "object" && msg.hasOwnProperty("guid") && msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel")) {
 				if(lists[msg.channel].indexOf(msg.guid) > -1) {
@@ -165,6 +165,7 @@ io.on('connection', function(socket){
 					socketid = msg.socket_id;
 					coll = msg.channel;
 					in_list = true;
+					socket.join(coll);
 				}
 			}
 		} catch(e) {
