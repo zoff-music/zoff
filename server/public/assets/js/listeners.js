@@ -16,6 +16,7 @@ var filesadded		   	  		= "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
 var temp_user_pass 				= "";
+var chromecast_specs_sent = false;
 var dragging 					= false;
 var user_auth_started 			= false;
 var user_auth_avoid 			= false;
@@ -427,7 +428,8 @@ initializeCastApi = function() {
 				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
 				castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 
-				if(Helper.mobilecheck()) {
+				if(Helper.mobilecheck() && !chromecast_specs_sent) {
+					chromecast_specs_sent = true;
 					castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))})
 				}
 
