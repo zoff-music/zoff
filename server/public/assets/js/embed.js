@@ -40,10 +40,16 @@ var Crypt = {
 
 $(document).ready(function(){
 
-	if(hash.length == 3 && hash[2] == "autoplay"){
+	if(hash.length >= 3 && hash[2] == "autoplay"){
 		autoplay = true;
 	}else{
 		paused = true;
+	}
+
+	if(hash.indexOf("videoonly") > -1) {
+		$("#playlist").addClass("hide");
+		$("#controls").addClass("hide");
+		$("#player").addClass("video_only");
 	}
 
 	$("#locked_channel").modal({
