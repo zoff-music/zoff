@@ -18,6 +18,11 @@
 		<script>
 			function receiveMessage(event)
 			{
+				if(event.data == "parent") {
+					//console.log(event);
+					window.parentWindow = event.source;
+					window.parentOrigin = event.origin;
+				}
 			  if(event.data == "lower") {
 			  	window.setVolume(10);
 			  }else if(event.data == "reset") {
