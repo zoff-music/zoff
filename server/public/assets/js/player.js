@@ -77,6 +77,12 @@ var Player = {
 				song_title = obj.np[0].title;
 				duration   = obj.np[0].duration;
 
+				if(embed) {
+					if(window.parentWindow && window.parentOrigin) {
+						window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
+					}
+				}
+
 				if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable) {
 					seekTo = 1;
 				}
@@ -411,7 +417,7 @@ var Player = {
 
 	notifyUser: function(id, title) {
 		title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-		if (Notification.permission === "granted" && document.hidden) {
+		if (Notification.permission === "granted" && document.hidden && !embed) {
 			var notification = new Notification("Now Playing", {body: title, icon: "https://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
 			notification.onclick = function(x) { window.focus(); this.cancel(); };
 			setTimeout(function(){
