@@ -848,6 +848,8 @@ var List = {
 		}
 		if(list){
 			song.find(".list-votes").text(video_votes);
+			song.find("#list-song").attr("data-video-id", video_id);
+			song.find("#list-song").attr("data-video-type", "song");
 			song.find("#list-song").attr("id", video_id);
 			song.find(".vote-container").attr("title", video_title);
 			if((($("#wrapper").children().length >= List.can_fit) && initial) || display == "none"){
@@ -860,8 +862,8 @@ var List = {
 			song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
 		}else if(!list){
 			//song.find(".card-duration").remove();
-			song.find(".list-song").removeClass("playlist-element");
-			song.find(".more_button").addClass("hide");
+			//song.find(".list-song").removeClass("playlist-element");
+			//song.find(".more_button").addClass("hide");
 			song.find(".suggested_remove").removeClass("hide");
 			song.find(".vote-text").text("");
 			song.find(".card-duration").text(Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]));
@@ -879,6 +881,8 @@ var List = {
 			song.find(attr).attr("data-video-title", video_title);
 			song.find(attr).attr("data-video-length", _song_info.length);
 			song.find(attr).attr("data-added-by", added_by);
+			song.find("#list-song").attr("data-video-type", "suggested");
+			song.find("#list-song").attr("data-video-id", video_id);
 			song.find("#list-song").attr("id", "suggested-" + video_id);
 			song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
 
