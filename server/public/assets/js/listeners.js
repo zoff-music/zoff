@@ -12,6 +12,7 @@ var private_channel 			= false;
 var music 			   	  		= 0;
 var frontpage 		   	  		= 1;
 var adminpass 		   	  		= "";
+var showDiscovery						= false;
 var filesadded		   	  		= "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
@@ -474,18 +475,6 @@ initializeCastApi = function() {
 		}
 	});
 
-	if(cast_ready_connect){
-		$(".castButton-unactive").css("display", "block");
-		if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") == "false") {
-			$(".castButton-unactive").css("display", "block");
-			$('.tap-target').tapTarget('open');
-			localStorage.setItem("_chSeen", true);
-			tap_target_timeout = setTimeout(function() {
-				$('.tap-target').tapTarget('close');
-			}, 4000);
-		}
-	}
-
 	var cast_state = cast.framework.CastContext.getInstance();
 	cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
 		Helper.log("cast state");
@@ -493,13 +482,14 @@ initializeCastApi = function() {
 		if(event.castState == "NOT_CONNECTED"){
 			$(".castButton-unactive").css("display", "block");
 			cast_ready_connect = true;
-			if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") == "false") {
+			if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") {
 				$(".castButton-unactive").css("display", "block");
+				showDiscovery = true;
 				$('.tap-target').tapTarget('open');
-				localStorage.setItem("_chSeen", true);
 				tap_target_timeout = setTimeout(function() {
 					$('.tap-target').tapTarget('close');
 				}, 4000);
+				localStorage.setItem("_chSeen", "seen");
 			}
 		} else if(event.castState == "NO_DEVICES_AVAILABLE"){
 			$(".castButton-unactive").css("display", "none");
@@ -1768,7 +1758,6 @@ function onepage_load(){
 		$.ajax({
 			url: "/",
 			success: function(e){
-
 				if(Helper.mobilecheck() || user_auth_avoid) {
 					Helper.log("Removing all listeners");
 					socket.removeAllListeners();
