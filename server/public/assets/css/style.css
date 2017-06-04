@@ -1412,6 +1412,7 @@ ul #chat-log{
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 999;
 }
 
 .title-container{
@@ -1550,6 +1551,7 @@ nav ul li:hover, nav ul li.active {
 
 .add-suggested{
   height:100%;
+  width: 90%;
 }
 
 .list-image:after {

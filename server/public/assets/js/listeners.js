@@ -356,7 +356,7 @@ function init(){
 					copy: {
 							name: "Copy link",
 							callback: function(key, opt){
-									var this_id = $(this[0]).attr("id");
+									var this_id = $(this[0]).attr("data-video-id");
 									var this_url = "https://www.youtube.com/watch?v=" + this_id;
 									$(".copy_video_id").css("display", "block");
 									$(".copy_video_id").text(this_url);
@@ -374,7 +374,7 @@ function init(){
 					similar: {
 						name: "Find Similar",
 						callback: function(key, opt) {
-								var this_id = $(this[0]).attr("id");
+								var this_id = $(this[0]).attr("data-video-id");
 								Search.search(this_id, false, true);
 								if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
 									Search.showSearch();
@@ -385,7 +385,21 @@ function init(){
 					delete: {
 						name: "Delete",
 						callback: function(key, opt) {
-								var this_id = $(this[0]).attr("id");
+								var this_id = $(this[0]).attr("data-video-id");
+								var this_type = $(this[0]).attr("data-video-type");
+
+								if(this_type == "suggested") {
+									number_suggested = number_suggested - 1;
+									if(number_suggested < 0) number_suggested = 0;
+
+									var to_display = number_suggested > 9 ? "9+" : number_suggested;
+									if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+										$(".suggested-link span.badge.new.white").addClass("hide");
+									}
+
+									$(".suggested-link span.badge.new.white").text(to_display);
+								}
+
 								List.vote(this_id, "del");
 						},
 						disabled: function(key, opt) {
@@ -937,10 +951,7 @@ $(document).on("click", "#chat_submit", function(e){
 
 $(document).on("click", ".list-remove", function(e) {
 	e.preventDefault();
-	var parent_test = $(this).parent();
-	if(parent_test.attr("id").indexOf("suggest") == -1) {
 		$('#' + $(this).parent().attr("id")).contextMenu();
-	}
 });
 
 $(document).on("mouseleave", ".card.sticky-action", function(e){
