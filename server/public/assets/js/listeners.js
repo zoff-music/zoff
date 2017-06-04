@@ -476,10 +476,10 @@ initializeCastApi = function() {
 
 	if(cast_ready_connect){
 		$(".castButton-unactive").css("display", "block");
-		if(!localStorage.getItem("_chSeen")) {
+		if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") == "false") {
 			$(".castButton-unactive").css("display", "block");
 			$('.tap-target').tapTarget('open');
-			localStorage.setItem("_chSeen", false);
+			localStorage.setItem("_chSeen", true);
 			tap_target_timeout = setTimeout(function() {
 				$('.tap-target').tapTarget('close');
 			}, 4000);
@@ -490,7 +490,6 @@ initializeCastApi = function() {
 	cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
 		Helper.log("cast state");
 		Helper.log(event.castState);
-		console.log(event.castState);
 		if(event.castState == "NOT_CONNECTED"){
 			$(".castButton-unactive").css("display", "block");
 			cast_ready_connect = true;
