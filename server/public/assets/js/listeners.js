@@ -646,6 +646,9 @@ function setup_suggested_listener(){
 function setup_viewers_listener(){
 	socket.on("viewers", function(view){
 		viewers = view;
+		var outPutWord    = "<i class='material-icons'>visibility</i>"//v > 1 ? "viewers" : "viewer";
+
+		$("#viewers").html(outPutWord + " " + view);
 
 		if(song_title !== undefined)
 		Player.getTitle(song_title, viewers);
