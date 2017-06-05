@@ -2311,6 +2311,8 @@ nav ul li:hover, nav ul li.active {
 
     .castButton-unactive, .castButton-active{
       margin-right: 10px;
+      padding-right: 10px;
+      padding-left: 0px;
     }
 
     #volume{
