@@ -698,7 +698,7 @@ io.on('connection', function(socket){
 			db.collection(coll).find({views: {$exists: true}}, function(err, conf) {
 				if(conf.length == 1 && conf) {
 					conf = conf[0];
-					if(conf.adminpass == hash && conf.adminpass != "" && ((conf.userpass != "" || (conf.userpass == hash_userpass)))) {
+					if(conf.adminpass == hash && conf.adminpass != "" && (conf.userpass == "" || (conf.userpass != "" && conf.userpass == hash_userpass))) {
 						db.collection(coll).remove({views: {$exists: false}}, {multi: true}, function(err, succ) {
 							send_list(coll, false, true, true, true);
 							socket.emit("toast", "deleted_songs");
