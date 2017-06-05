@@ -681,7 +681,7 @@ function disable_debug(){
 }
 
 function embed_code(autoplay, width, height, color){
-	return '<embed src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px">';
+	return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + '" width="' + width + 'px" height="' + height + 'px"></iframe>';
 }
 
 function set_title_width(start){
