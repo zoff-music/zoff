@@ -701,6 +701,7 @@ io.on('connection', function(socket){
 					if(conf.adminpass == hash && conf.adminpass != "" && (conf.userpass == "" || (conf.userpass != "" && conf.userpass == hash_userpass))) {
 						db.collection(coll).remove({views: {$exists: false}}, {multi: true}, function(err, succ) {
 							send_list(coll, false, true, true, true);
+							db.collection("frontpage_lists").update({_id: coll}, {$set: {count: 0}, $set:{accessed: get_time()}}, {upsert: true});
 							socket.emit("toast", "deleted_songs");
 						});
 					} else {
