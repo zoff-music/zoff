@@ -175,7 +175,7 @@ var List = {
 		if(page > List.page || page < List.page){
 			$("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
 			List.page = page;
-			$("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+			$("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
 			if(List.page > 0 && $(".prev_page").css("display") == "none"){
 				$(".prev_page").css("display", "inline-flex");
 				$(".prev_page_hide").css("display", "none");
@@ -198,7 +198,7 @@ var List = {
 		if(way == 1){
 			$("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
 			List.page = List.page + List.can_fit;
-			$("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+			$("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
 			if(List.page > 0 && $(".prev_page").css("display") == "none"){
 				$(".prev_page").css("display", "inline-flex");
 				$(".prev_page_hide").css("display", "none");
@@ -216,7 +216,7 @@ var List = {
 		} else if(way == 10){
 			$("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
 			List.page = (Math.floor(($("#wrapper").children().length - 1)/ List.can_fit) * List.can_fit);
-			$("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+			$("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
 
 			if(List.page > 0 && $(".prev_page").css("display") == "none"){
 				$(".prev_page").css("display", "inline-flex");
@@ -234,7 +234,7 @@ var List = {
 		} else if(way==-10){
 			$("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
 			List.page = 0;
-			$("#wrapper").children().slice(List.page, List.page + List.can_fit).show();
+			$("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
 			if(List.page == 0 && $(".prev_page").css("display") != "none"){
 				$(".prev_page").css("display", "none");
 				$(".prev_page_hide").css("display", "inline-flex");
@@ -254,7 +254,7 @@ var List = {
 				$(".last_page").css("display", "inline-flex");
 			}
 		} else {
-			$("#wrapper").children().slice(List.page - List.can_fit, List.page).show();
+			$("#wrapper").children().slice(List.page - List.can_fit, List.page).css("display", "inline-block");
 			$("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
 			List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
 			if(List.page == 0 && $(".prev_page").css("display") != "none"){

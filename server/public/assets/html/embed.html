@@ -14,7 +14,7 @@
 		<link type="text/css" rel="stylesheet" href="/assets/css/embed.css" />
 		<script src="/assets/dist/embed.min.js"></script>
 	</head>
-	<body>
+	<body class="noselect">
 		<script>
 			function receiveMessage(event)
 			{
@@ -40,6 +40,55 @@
 					<div class="modal-footer">
 					</div>
 			</div>
-		<div id="song-title"></div><div id="container" style="display:inline-flex;"><div id="player-container"><div id="player"></div><div id="controls" class="noselect"><div id="zoffbutton" title="Visit the channel!"></div><div id="playpause"><i id="play" class="material-icons hide">play_arrow</i><i id="pause" class="material-icons">pause</i></div><div id="duration">00:00 / 00:00</div><div id="volume-button"><i id="v-mute" class="mdi-av-volume-off"></i><i id="v-low" class="mdi-av-volume-mute"></i><i id="v-medium" class="mdi-av-volume-down"></i><i id="v-full" class="mdi-av-volume-up"></i></div><div id="volume"></div><div id="viewers"></div><div id="bar"></div></div></div><div id="playlist"><div id="wrapper"><div id="preloader" class="progress channel_preloader"><div class="indeterminate"></div></div><div id="list-song-html"><div id="list-song" class="card left-align list-song"><span class="clickable vote-container" title="Vote!"><a class="clickable center-align votebg"><div class="lazy card-image cardbg list-image" style=""></div></a><span class="card-content"><span class="flow-text truncate list-title"></span><span class="vote-span"><span class="list-votes"></span><span class="highlighted vote-text">&nbsp;votes</span></span></span></span></div></div></div></div></div>
+		<div id="song-title"></div>
+		<div id="container" style="display:inline-flex;">
+			<div id="player-container">
+				<div id="player"></div>
+				<div id="controls" class="noselect">
+					<div id="zoffbutton" title="Visit the channel!"></div>
+					<div id="playpause">
+						<i id="play" class="material-icons hide">play_arrow</i>
+						<i id="pause" class="material-icons">pause</i>
+					</div>
+					<div id="duration">00:00 / 00:00</div>
+					<div id="volume-button">
+						<i id="v-mute" class="mdi-av-volume-off"></i>
+						<i id="v-low" class="mdi-av-volume-mute"></i>
+						<i id="v-medium" class="mdi-av-volume-down"></i>
+						<i id="v-full" class="mdi-av-volume-up"></i>
+					</div>
+					<div id="volume"></div>
+					<div id="viewers"></div>
+					<div id="bar"></div>
+				</div>
+			</div>
+			<div id="playlist">
+				<div id="wrapper">
+					<div id="preloader" class="progress channel_preloader">
+						<div class="indeterminate"></div>
+					</div>
+					<div id="list-song-html">
+							<div id="list-song" class="card left-align list-song  waves-effect waves-light playlist-element">
+									<div class="clickable vote-container" title="Vote!">
+											<a class="clickable center-align votebg">
+													<span class="lazy card-image cardbg list-image" style="background-image:url('/assets/images/loading.png');">
+													</span>
+													<span class="card-duration">
+														01:00
+													</span>
+											</a>
+											<span class="card-content">
+													<span class="flow-text truncate list-title"></span>
+													<span class="vote-span">
+															<span class="list-votes"></span>
+															<span class="highlighted vote-text">&nbsp;votes</span>
+													</span>
+											</span>
+									</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

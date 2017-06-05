@@ -3,11 +3,21 @@
     width: 100px;
     background-position: center;
     background-size: 180%;
+    height: 100% !important;
 }
 
 .card{
 	cursor:pointer;
   background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .video_only {
@@ -127,11 +137,12 @@
     background-color: rgba(255, 255, 255, 0.04);
     color:white;
     font:12px Arial,sans-serif;
-		-webkit-transition:height .3s;
+    -webkit-transition:height .3s;
     -moz-transition:height .3s;
     -o-transition:height .3s;
     transition:height .3s;
-		height:66px;
+    height:66px;
+    width: 100%;
 }
 .list-song .card-content{padding:0;}
 .list-title{
@@ -144,7 +155,7 @@
 }
 .card-image{cursor:pointer}
 .card{
-  margin:5px 0 5px 0 !important;
+  margin: 2.5px 0 2.5px 0 !important;
 }
 .card:hover{
   box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
@@ -345,6 +356,20 @@ html {
 .next_page_hide, .next_page, .last_page, .last_page_hide{
   padding:0 10px;
   float:right;
+}
+
+.vote-container {
+  height: 100%;
+}
+
+.card-duration {
+  border-top-right-radius: 4px;
+position: absolute;
+bottom: 0px;
+left: 0px;
+background: rgba(0,0,0,.7);
+color: white;
+padding: 0 5px;
 }
 
 .last_page, .last_page_hide, .first_page, .first_page_hide{
