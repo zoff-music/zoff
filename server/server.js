@@ -495,6 +495,7 @@ io.on('connection', function(socket){
 								{
 									db.collection(coll).remove({now_playing:true}, function(err, docs){
 										change_song_post(coll);
+										db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
 									});
 								}else{
 									if(startTime+parseInt(np[0].duration)<=get_time()+5)
@@ -1282,7 +1283,7 @@ function del(params, socket, socketid) {
 						db.collection(coll).remove({id:params.id}, function(err, docs){
 							socket.emit("toast", "deletesong");
 							io.to(coll).emit("channel", {type:"deleted", value: params.id});
-							if(dont_increment) db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true});
+							if(dont_increment) db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
 						});
 					}
 				});
@@ -1429,8 +1430,7 @@ function change_song(coll, error, id) {
 							if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
 							change_song_post(coll, next_song);
 							io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
-							db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true
-							}, function(err, docs){});
+							db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
 						});
 					} else {
 						if(skipped[coll] != get_time()){
