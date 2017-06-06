@@ -307,17 +307,17 @@ function init(){
 
 	Helper.sample();
 
-	$('.castButton-unactive').tooltip({
+	$('.castButton').tooltip({
 		delay: 5,
 		position: "top",
 		tooltip: "Cast Zoff to TV"
 	});
 
-	$('.castButton-active').tooltip({
+	/*$('.castButton-active').tooltip({
 		delay: 5,
 		position: "top",
 		tooltip: "Stop casting"
-	});
+	});*/
 
 	$("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
 	$("#search").focus();
@@ -326,7 +326,7 @@ function init(){
 	$("#search").attr("placeholder", "Find song on YouTube...");
 
 	if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
-		$(".castButton-unactive").css("display", "none");
+		$(".castButton").css("display", "none");
 	}
 
 	Helper.log("chromecastAvailable" + chromecastAvailable);
@@ -421,7 +421,7 @@ initializeCastApi = function() {
 		autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
 	});
 	var context = cast.framework.CastContext.getInstance();
-	chromecastReady = true
+	chromecastReady = true;
 	context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
 		Helper.log("session state");
 		Helper.log(event.sessionState);
@@ -447,7 +447,6 @@ initializeCastApi = function() {
 					chromecast_specs_sent = true;
 					castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))})
 				}
-
 				hide_native(1);
 				break;
 			case cast.framework.SessionState.SESSION_RESUMED:
@@ -481,33 +480,42 @@ initializeCastApi = function() {
 		Helper.log("cast state");
 		Helper.log(event.castState);
 		if(event.castState == "NOT_CONNECTED"){
-			$(".castButton-unactive").css("display", "block");
+			$(".castButton").css("display", "block");
 			cast_ready_connect = true;
 			if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") {
-				$(".castButton-unactive").css("display", "block");
+				$(".castButton").css("display", "block");
 				showDiscovery = true;
 				$('.tap-target').tapTarget('open');
 				tap_target_timeout = setTimeout(function() {
 					$('.tap-target').tapTarget('close');
 				}, 4000);
 				localStorage.setItem("_chSeen", "seen");
+				$('.castButton').removeClass('castButton-white-active');
 			}
 		} else if(event.castState == "NO_DEVICES_AVAILABLE"){
-			$(".castButton-unactive").css("display", "none");
 			cast_ready_connect = false;
 		}
 	});
 
 	if(context.getCastState() == "NOT_CONNECTED") {
-		$(".castButton-unactive").css("display", "block");
+		$(".castButton").css("display", "block");
+		$('.castButton').removeClass('castButton-white-active');
 		cast_ready_connect = true;
 	}
 };
 
 function hide_native(way){
-	$(".castButton-unactive").toggleClass("hide");
-	$(".castButton-active").toggleClass("hide");
+
 	if(way == 1){
+		$('.castButton').tooltip('remove');
+		if(!$('.castButton').hasClass('castButton-white-active')) {
+			$('.castButton').addClass('castButton-white-active');
+		}
+		$('.castButton').tooltip({
+			delay: 5,
+			position: "top",
+			tooltip: "Stop casting"
+		});
 		$("#duration").toggleClass("hide");
 		$("#fullscreen").toggleClass("hide");
 		try{
@@ -538,6 +546,14 @@ function hide_native(way){
 
 		$("#player_overlay_text").toggleClass("hide");
 	} else if(way == 0){
+		$('.castButton').tooltip('remove');
+		$('.castButton').removeClass('castButton-white-active');
+		$('.castButton').tooltip({
+			delay: 5,
+			position: "top",
+			tooltip: "Cast Zoff to TV"
+		});
+
 		$("#duration").toggleClass("hide");
 		$("#fullscreen").toggleClass("hide");
 		Player.player.playVideo();
@@ -995,7 +1011,7 @@ $(document).on("click", "#playpause-overlay", function(){
 	}
 });
 
-$(document).on("click", ".castButton-unactive", function(e){
+/*$(document).on("click", ".castButton-unactive", function(e){
 	$(".castButton").trigger("click");
 });
 
@@ -1003,7 +1019,7 @@ $(document).on("click", ".castButton-active", function(e){
 	e.preventDefault();
 	var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
 	castSession.endSession(true);
-});
+});*/
 
 $(document).on('click', '#cookieok', function() {
 	$(this).fadeOut(function(){
@@ -1117,9 +1133,9 @@ $(document).on("click", ".close-user-password", function() {
 	if(user_auth_started) {
 		Player.stopInterval = true;
 		user_auth_avoid = true;
-		$('.castButton-active').tooltip("remove");
+		$('.castButton').tooltip("remove");
 		$("#viewers").tooltip("remove");
-		$('.castButton-unactive').tooltip("remove");
+		//$('.castButton-unactive').tooltip("remove");
 		$("#offline-mode").tooltip("remove");
 		$('#chan_thumbnail').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
@@ -1753,9 +1769,9 @@ function onepage_load(){
 		durationBegun  		 = false;
 
 		$("#embed-button").css("display", "none");
-		$('.castButton-active').tooltip("remove");
+		$('.castButton').tooltip("remove");
 		$("#viewers").tooltip("remove");
-		$('.castButton-unactive').tooltip("remove");
+		//$('.castButton-unactive').tooltip("remove");
 		$("#offline-mode").tooltip("remove");
 		$('#chan_thumbnail').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
