@@ -495,7 +495,7 @@ io.on('connection', function(socket){
 								{
 									db.collection(coll).remove({now_playing:true}, function(err, docs){
 										change_song_post(coll);
-										db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
+										db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:-1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
 									});
 								}else{
 									if(startTime+parseInt(np[0].duration)<=get_time()+5)
