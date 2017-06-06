@@ -1038,6 +1038,7 @@ $(document).on("click", "#closePlayer", function(e){
 		}
 		Player.player.destroy();
 		$("#player_bottom_overlay").toggleClass("hide");
+		$("#player").remove();
 	} catch(error){}
 	socket.removeEventListener("np");
 	socket.removeEventListener("id");
