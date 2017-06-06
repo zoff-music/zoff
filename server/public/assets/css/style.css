@@ -1459,7 +1459,21 @@ ul #chat-log{
 }
 
 .castButton{
-  display:none !important;
+    /* display: none; !important*/
+    width: 32px;
+    margin-top: 4px;
+    background: transparent;
+    border: none;
+    float: right;
+    --disconnected-color: white;
+}
+
+.castButton:focus {
+  background: transparent;
+}
+
+.castButton-white-active {
+  --connected-color: white !important;
 }
 
 .castButton-unactive, .castButton-unactive:active, .castButton-unactive:focus, .castButton-unactive:hover, .castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus {
