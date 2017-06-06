@@ -475,8 +475,9 @@ initializeCastApi = function() {
 		}
 	});
 
-	var cast_state = cast.framework.CastContext.getInstance();
-	cast_state.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
+	//var cast_state = cast.framework.CastContext.getInstance();
+
+	context.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
 		Helper.log("cast state");
 		Helper.log(event.castState);
 		if(event.castState == "NOT_CONNECTED"){
@@ -496,6 +497,11 @@ initializeCastApi = function() {
 			cast_ready_connect = false;
 		}
 	});
+
+	if(context.getCastState() == "NOT_CONNECTED") {
+		$(".castButton-unactive").css("display", "block");
+		cast_ready_connect = true;
+	}
 };
 
 function hide_native(way){
