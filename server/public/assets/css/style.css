@@ -307,6 +307,10 @@ li.disabled span {
   user-select: initial;
 }
 
+#chatchannel li:nth-child(even), #chatall li:nth-child(even) {
+  background: rgba(0,0,0,.1);
+}
+
 #chatchannel li, #chatall li{
   cursor:text;
   -webkit-touch-callout: initial;
@@ -315,6 +319,8 @@ li.disabled span {
   -moz-user-select: initial;
   -ms-user-select: initial;
   user-select: initial;
+  padding: 4px;
+  margin-left: 0px;
 }
 
 #closePlayer{
