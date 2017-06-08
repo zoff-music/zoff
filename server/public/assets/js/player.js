@@ -80,6 +80,9 @@ var Player = {
 				if(embed) {
 					if(window.parentWindow && window.parentOrigin) {
 						window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
+						if(full_playlist.length > 0) {
+							Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+						}
 					}
 				}
 

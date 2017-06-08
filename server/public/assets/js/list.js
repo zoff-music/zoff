@@ -21,21 +21,15 @@ var List = {
 			if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
 				prev_chan_list = chan;
 				List.populate_list(msg.playlist);
-				if(chromecastAvailable){
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-				}
+				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 			} else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
 				List.populate_list(full_playlist, true);
-				if(chromecastAvailable){
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-				}
 			}
 			break;
 			case "added":
 			List.added_song(msg.value);
-			if(chromecastAvailable){
-				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			}
+			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 			break;
 			case "deleted":
 			List.deleted_song(msg.value, msg.removed);
@@ -43,16 +37,12 @@ var List = {
 			case "vote":
 			if(!offline){
 				List.voted_song(msg.value, msg.time);
-				if(chromecastAvailable){
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-				}
+				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 			}
 			break;
 			case "song_change":
 			if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
-			if(chromecastAvailable){
-				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			}
+			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 			break;
 		}
 	},
@@ -365,9 +355,7 @@ var List = {
 			//if(removed) {
 				$("#"+deleted).remove();
         full_playlist.splice(List.getIndexOfSong(deleted), 1);
-				if(chromecastAvailable){
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-				}
+				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 		 	//}
 
 		} catch(err) {
@@ -379,9 +367,7 @@ var List = {
 				} else if($("#wrapper").children().length > List.page + List.can_fit){
 					$($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "inline-block");
 				}
-				if(chromecastAvailable){
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-				}
+				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 			}
 		}
 
