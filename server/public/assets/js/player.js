@@ -297,6 +297,12 @@ var Player = {
 		if(chromecastAvailable){
 			castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", title: obj.title, videoId: obj.videoId});
 		}
+
+		if(embed) {
+			if(window.parentWindow && window.parentOrigin) {
+				window.parentWindow.postMessage({type: "nextVideo", title: obj.title}, window.parentOrigin);
+			}
+		}
 	},
 
 	getTitle: function(titt, v)
@@ -495,6 +501,12 @@ var Player = {
 					per = 100;
 				} else if(duration === 0) {
 					per = 0;
+				}
+
+				if(embed) {
+					if(window.parentWindow && window.parentOrigin) {
+						window.parentWindow.postMessage({type: "duration", duration: Player.player.getCurrentTime(), full_duration: Player.player.getDuration(), percent: per}, window.parentOrigin);
+					}
 				}
 
 				if(!dragging) {
