@@ -2368,6 +2368,7 @@ nav ul li:hover, nav ul li.active {
 
     .castButton {
       width: 3em;
+      margin-top: 0.5em;
     }
 
     #bar{
