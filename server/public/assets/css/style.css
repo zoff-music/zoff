@@ -2359,11 +2359,15 @@ nav ul li:hover, nav ul li.active {
 
     #volume-button{
       float: right;
-      margin-right: 20px;
+      margin-right: 5px;
     }
 
     #fullscreen{
       float: right;
+    }
+
+    .castButton {
+      width: 3em;
     }
 
     #bar{
