@@ -29,6 +29,15 @@ var Player = {
 			} catch(e){}
 			Helper.log("video_id variable: " + video_id);
 			Helper.log("---------------------------------");
+			if(embed && obj.np) {
+				if(window.parentWindow && window.parentOrigin) {
+					window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
+					if(full_playlist.length > 0) {
+						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					}
+				}
+			}
+			
 			if(!obj.np){
 
 				document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
@@ -76,15 +85,6 @@ var Player = {
 				seekTo     = time - conf.startTime;
 				song_title = obj.np[0].title;
 				duration   = obj.np[0].duration;
-
-				if(embed) {
-					if(window.parentWindow && window.parentOrigin) {
-						window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
-						if(full_playlist.length > 0) {
-							Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-						}
-					}
-				}
 
 				if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable) {
 					seekTo = 1;
