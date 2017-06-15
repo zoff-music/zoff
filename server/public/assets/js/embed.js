@@ -51,7 +51,7 @@ function receiveMessage(event)
 	}else if(event.data == "reset") {
 		window.setVolume(100);
 	} else if(event.data == "get_info") {
-		window.parentWindow.postMessage({type: "np", title: Player.player.getVideoData().title}, window.parentOrigin);
+		window.parentWindow.postMessage({type: "np", title: song_title}, window.parentOrigin);
 		window.parentWindow.postMessage({type: "controller", id: Hostcontroller.old_id}, window.parentOrigin);
 		if(full_playlist.length > 0) {
 			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
