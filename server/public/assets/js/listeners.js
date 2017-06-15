@@ -1350,7 +1350,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
 });
 
 $(window).focus(function(){
-	$("#favicon").attr("href", "assets/images/favicon.png");
+	$("#favicon").attr("href", "/assets/images/favicon.png");
 	unseen = false;
 });
 
@@ -1389,7 +1389,7 @@ $(document).on("click", ".chat-link", function(){
 		$(".chat-link span.badge.new.white").addClass("hide");
 	}
 	unseen = false;
-	$("#favicon").attr("href", "assets/images/favicon.png");
+	$("#favicon").attr("href", "/assets/images/favicon.png");
 });
 
 function searchTimeout(event) {
@@ -1441,7 +1441,7 @@ $(document).on("click", ".chat-link", function(e){
 	chat_unseen = false;
 	$(".chat-link").attr("style", "color: white !important;");
 	blinking = false;
-	$("#favicon").attr("href", "assets/images/favicon.png");
+	$("#favicon").attr("href", "/assets/images/favicon.png");
 	$("#chatPlaylist").css("display", "block");
 	$("#wrapper").css("display", "none");
 	$("#suggestions").css("display", "none");
@@ -1840,7 +1840,7 @@ function onepage_load(){
 				else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
 				$(".page-footer").removeClass("padding-bottom-extra");
 				$(".page-footer").removeClass("padding-bottom-novideo");
-				$("#favicon").attr("href", "assets/images/favicon.png");
+				$("#favicon").attr("href", "/assets/images/favicon.png");
 
 				$(".context-menu-list").remove();
 				Helper.log(socket);

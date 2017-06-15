@@ -81,7 +81,7 @@ var Chat = {
 		if(inp.msg.substring(0,1) == ":" && !chat_active)
 		{
 			Chat.all_received += 1;
-			$("#favicon").attr("href", "assets/images/highlogo.png");
+			$("#favicon").attr("href", "/assets/images/highlogo.png");
 			unseen = true;
 			chat_unseen = true;
 			if($(".chat-link span.badge.new.white").hasClass("hide")){
@@ -95,7 +95,7 @@ var Chat = {
 
 		if(document.hidden)
 		{
-			$("#favicon").attr("href", "assets/images/highlogo.png");
+			$("#favicon").attr("href", "/assets/images/highlogo.png");
 		}
 
 		if($("#chatall").children().length > 100){
@@ -119,7 +119,7 @@ var Chat = {
 	{
 		if(data.msg.substring(0,1) == ":" && !chat_active)
 		{
-			$("#favicon").attr("href", "assets/images/highlogo.png");
+			$("#favicon").attr("href", "/assets/images/highlogo.png");
 			unseen = true;
 			chat_unseen = true;
 			Chat.channel_received += 1;
