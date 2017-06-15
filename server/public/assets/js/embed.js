@@ -13,6 +13,7 @@ var durationBegun = false;
 var chromecastAvailable = false;
 var private_channel = false;
 var offline = false;
+var began = false;
 var from_frontpage = false;
 var seekTo;
 var socket;
@@ -75,7 +76,7 @@ $(document).ready(function(){
 		Player.getTitle(song_title, viewers);
 	});
 
-
+	setup_host_initialization();
 	setup_youtube_listener();
 	setup_list_listener();
 
@@ -88,8 +89,20 @@ $(document).ready(function(){
 	window.setVolume = setVolume;
 	$("#controls").css("background-color", color);
 	$("#playlist").css("background-color", color);
+	if(hash.indexOf("controll") > -1) {
+		Hostcontroller.change_enabled(true);
+	} else {
+		Hostcontroller.change_enabled(false);
+	}
 });
 
+function setup_host_listener(id){
+	socket.on(id, Hostcontroller.host_on_action);
+}
+
+function setup_host_initialization(){
+	socket.on("id", Hostcontroller.host_listener);
+}
 
 function setup_youtube_listener(){
 	socket.on("np", Player.youtube_listener);

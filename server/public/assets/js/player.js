@@ -10,6 +10,14 @@ var Player = {
 	youtube_listener: function(obj)
 	{
 		var state;
+		if(embed && obj.np) {
+			if(window.parentWindow && window.parentOrigin) {
+				window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
+				if(full_playlist.length > 0) {
+					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				}
+			}
+		}
 		try{
 			state = Player.player.getPlayerState();
 		}catch(e){
@@ -29,15 +37,7 @@ var Player = {
 			} catch(e){}
 			Helper.log("video_id variable: " + video_id);
 			Helper.log("---------------------------------");
-			if(embed && obj.np) {
-				if(window.parentWindow && window.parentOrigin) {
-					window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
-					if(full_playlist.length > 0) {
-						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-					}
-				}
-			}
-			
+
 			if(!obj.np){
 
 				document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
