@@ -58,7 +58,6 @@ var Hostcontroller = {
 
 	change_enabled:function(val){
 		enabled = val;
-		console.log(enabled);
 		$(".remote_switch_class").prop("checked", enabled);
 	}
 };
