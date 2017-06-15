@@ -39,6 +39,28 @@ var Crypt = {
 	}
 };
 
+function receiveMessage(event)
+{
+	if(event.data == "parent") {
+		//console.log(event);
+		window.parentWindow = event.source;
+		window.parentOrigin = event.origin;
+	}
+	if(event.data == "lower") {
+		window.setVolume(10);
+	}else if(event.data == "reset") {
+		window.setVolume(100);
+	} else if(event.data == "get_info") {
+		window.parentWindow.postMessage({type: "np", title: Player.player.getVideoData().title}, window.parentOrigin);
+		window.parentWindow.postMessage({type: "controller", id: Hostcontroller.old_id}, window.parentOrigin);
+		if(full_playlist.length > 0) {
+			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+		}
+	}
+}
+
+window.addEventListener("message", receiveMessage, false);
+
 $(document).ready(function(){
 
 	if(hash.length >= 3 && hash[2] == "autoplay"){
