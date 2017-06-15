@@ -5,12 +5,16 @@ var Hostcontroller = {
 	old_id: null,
 
 	host_listener: function(id) {
-
 		if(Hostcontroller.old_id === null) Hostcontroller.old_id = id;
 		else {
 			socket.removeAllListeners(id);
 			began = false;
 			Hostcontroller.old_id = id;
+		}
+		if(embed) {
+			if(window.parentWindow && window.parentOrigin) {
+				window.parentWindow.postMessage({type: "controller", id: id}, window.parentOrigin);
+			}
 		}
 		var codeURL = "https://remote."+window.location.hostname+"/"+id;
 		$("#code-text").text(id);
@@ -54,6 +58,7 @@ var Hostcontroller = {
 
 	change_enabled:function(val){
 		enabled = val;
-		document.getElementsByName("remote_switch")[0].checked = enabled;
+		console.log(enabled);
+		$(".remote_switch_class").prop("checked", enabled);
 	}
 };
