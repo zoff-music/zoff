@@ -78,7 +78,10 @@ var List = {
 			}
 			if(transition){
 				setTimeout(function(){
-					$(added).css("height", List.element_height);
+					$(added).css("transform", "translateX(0%)");
+					setTimeout(function() {
+						$(added).removeClass("side_away");
+					}, 300);
 				},5);
 			}
 		}
@@ -319,7 +322,7 @@ var List = {
 		try{
 			var index              = List.getIndexOfSong(deleted);
 			var to_delete          = $("#wrapper").children()[index];
-			if(!removed) to_delete.style.height = 0;
+			//if(!removed) to_delete.style.height = 0;
 
 			if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
 				$($("#wrapper").children()[List.page]).css("height", 0);
@@ -353,7 +356,17 @@ var List = {
 
 			//}, 305);
 			//if(removed) {
+			if(List.page <= index && List.page - List.can_fit <= index) {
+				$("#" + deleted).addClass("side_away");
+				$("#" + deleted).css("transform", "translateX(-100%)");
+				setTimeout(function() {
+					$("#" + deleted).remove();
+
+				}, 300);
+			} else {
 				$("#"+deleted).remove();
+			}
+				//$("#"+deleted).remove();
         full_playlist.splice(List.getIndexOfSong(deleted), 1);
 				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 		 	//}
@@ -824,8 +837,11 @@ var List = {
 		var attr;
 		var del_attr;
 		//song.find(".list-song");
-		if(transition) song.find("#list-song").css("height", 0);
-		else song.find(".list-song").css("height", List.element_height);
+		if(transition) {
+			song.find(".list-song").css("transform", "translateX(-100%)");
+			song.find(".list-song").addClass("side_away");
+		}
+		song.find(".list-song").css("height", List.element_height);
 		if(!w_p) song.find(".card-action").removeClass("hide");
 		if(video_votes == 1)song.find(".vote-text").text("vote");
 		if(lazy){

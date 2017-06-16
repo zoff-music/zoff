@@ -1057,6 +1057,13 @@ hide mdi-action-visibility mdi-action-visibility-off
   top:20px;
 }
 
+.side_away {
+  -webkit-transition: all .3s !important;
+  -moz-transition: all .3s !important;
+  -o-transition: all .3s !important;
+  transition: all .3s !important;
+}
+
 .video-container{
   -webkit-transition: opacity 0.5s;
   -moz-transition: opacity 0.5s;
