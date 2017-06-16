@@ -1573,8 +1573,10 @@ $(document).on( "click", "#add-many", function(e){
 });
 
 $(document).on( "click", ".vote-container", function(e){
-	var id = $(this).attr("data-video-id");
-	List.vote(id, "pos");
+	if(!$(this).parent().hasClass("side_away")) {
+		var id = $(this).attr("data-video-id");
+		List.vote(id, "pos");
+	}
 });
 
 $(document).on( "click", ".delete_button", function(e){
