@@ -285,6 +285,12 @@ function init(){
 		tooltip: "Viewers"
 	});
 
+	$("#fullscreen").tooltip({
+		delay: 5,
+		position: "top",
+		tooltip: "Fullscreen"
+	});
+
 
 	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
 	if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
@@ -1776,6 +1782,7 @@ function onepage_load(){
 		//$('.castButton-unactive').tooltip("remove");
 		$("#offline-mode").tooltip("remove");
 		$('#chan_thumbnail').tooltip("remove");
+		$('#fullscreen').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
 		$("#seekToDuration").remove();
 		$('.tap-target').tapTarget('close');
