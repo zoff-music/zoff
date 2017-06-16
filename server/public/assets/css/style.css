@@ -866,7 +866,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   margin-right: auto;
   margin-top: 1%;
   margin-bottom: 2%;*/
-  width: 41vw;
+  width: 47%;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
@@ -986,6 +986,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   background: #2d2d2d !important;
   display: flex;
   justify-content: center;
+  min-width: 100px;
 }
 
 .cursor-pointer{
@@ -1141,7 +1142,8 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .channel-finder .input-field{
   display: flex;
-  width: 100%;
+  /* width: 69%; */
+  justify-content: center;
 }
 
 .channel-finder .input-field .prefix{
