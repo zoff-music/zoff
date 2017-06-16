@@ -306,6 +306,7 @@ var Frontpage = {
 			socket.removeAllListeners();
 		}
 		$("#main-container").css("background-color", "#2d2d2d");
+		$("#frontpage-viewer-counter").tooltip("remove");
 		$("#offline-mode").tooltip("remove");
 		currently_showing_channels = 1;
 		$.ajax({
@@ -436,6 +437,11 @@ function initfp(){
 			tooltip: "Enable local mode"
 		});
 	}
+	$("#frontpage-viewer-counter").tooltip({
+		delay: 5,
+		position: "bottom",
+		tooltip: "Total Viewers"
+	});
 	socket.emit('frontpage_lists');
 	socket.emit('get_userlists', Crypt.getCookie('_uI'));
 
