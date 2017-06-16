@@ -13,7 +13,7 @@
   transition: all .3s !important;
 }
 
-.card{
+.card {
 	cursor:pointer;
   background-color: rgba(255, 255, 255, 0.04) !important;
 }
