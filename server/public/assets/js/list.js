@@ -838,7 +838,7 @@ var List = {
 		var del_attr;
 		//song.find(".list-song");
 		if(transition) {
-			song.find(".list-song").css("transform", "translateX(-100%)");
+			song.find(".list-song").css("transform", "translateX(100%)");
 			song.find(".list-song").addClass("side_away");
 		}
 		song.find(".list-song").css("height", List.element_height);
