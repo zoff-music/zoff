@@ -244,16 +244,6 @@ var Helper = {
 
 };
 
-$(document).on('submit', '#contact-form', function(e){
-	e.preventDefault();
-
-	var message = $("#contact-form-message").val();
-	var from    = $("#contact-form-from").val();
-
-	Helper.send_mail(from, message);
-});
-
-
 Element.prototype.remove = function() {
 	this.parentElement.removeChild(this);
 };

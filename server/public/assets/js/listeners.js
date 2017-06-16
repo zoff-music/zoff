@@ -1570,6 +1570,20 @@ $(document).on( "click", ".result-object", function(e){
 	}
 });
 
+$(document).on('click', '#submit-contact-form', function(e) {
+	e.preventDefault();
+	$("#contact-form").submit();
+});
+
+$(document).on('submit', '#contact-form', function(e){
+	e.preventDefault();
+	var message = $("#contact-form-message").val();
+	var from    = $("#contact-form-from").val();
+
+	Helper.send_mail(from, message);
+});
+
+
 $(document).on( "click", "#add-many", function(e){
 	var id 		= $(this).attr("data-video-id");
 	var title 	= $(this).attr("data-video-title");

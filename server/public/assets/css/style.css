@@ -924,7 +924,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 
-.listen-button, .contact-button-submit{
+/*.listen-button, .contact-button-submit{
     background: none;
     border: none;
     background-size: auto;
@@ -980,6 +980,12 @@ hide mdi-action-visibility mdi-action-visibility-off
   border-bottom:1px solid #2D2D2D;
   border-radius: 2px;
   text-shadow:rgba(0,0,0,0) 0px 0px 0px;
+}*/
+
+.listen-button {
+  background: #2d2d2d !important;
+  display: flex;
+  justify-content: center;
 }
 
 .cursor-pointer{
