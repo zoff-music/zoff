@@ -49,9 +49,7 @@ var List = {
 								if (navigator.vibrate) {
 									navigator.vibrate(100);
 								}
-							} catch(e) {
-								//console.log(e);
-							}
+							} catch(e) {}
 							$(".accept-delete").attr("data-video-id", $(this).attr("data-video-id"));
 							$("#delete_song_title").html($(this).find(".list-title").html());
 							$("#delete_song_alert").modal("open");
@@ -74,14 +72,8 @@ var List = {
 					}
 				});
 
-				// record the initial position of the cursor on start of the touch
 				jqDraggableItem.on("touchstart", Helper.touchstart);
-
-				// fires whenever the cursor moves
 				jqDraggableItem.on("touchmove", Helper.touchmove);
-
-				// when the user lifts their finger, they will again need to meet the
-				// threshold before vertical scrolling starts.
 				jqDraggableItem.on("touchend", Helper.touchend);
 			}
 		}
@@ -100,16 +92,22 @@ var List = {
 				if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
 					prev_chan_list = chan;
 					List.populate_list(msg.playlist);
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					if(full_playlist.length > 0) {
+						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					}
 				} else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
 					List.populate_list(full_playlist, true);
+					if(full_playlist.length > 0) {
 						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					}
 				}
 				if(!w_p) List.dragging(true);
 				break;
 			case "added":
 				List.added_song(msg.value);
-				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				if(full_playlist.length > 0) {
+					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				}
 				if(!w_p) List.dragging(true);
 				break;
 			case "deleted":
@@ -118,13 +116,17 @@ var List = {
 			case "vote":
 				if(!offline){
 					List.voted_song(msg.value, msg.time);
-					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					if(full_playlist.length > 0) {
+						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+					}
 				}
 				if(!w_p) List.dragging(true);
 				break;
 			case "song_change":
 				if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
-				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				if(full_playlist.length > 0) {
+					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				}
 				if(!w_p) List.dragging(true);
 			break;
 		}
