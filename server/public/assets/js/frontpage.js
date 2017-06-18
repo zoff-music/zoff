@@ -300,6 +300,7 @@ var Frontpage = {
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 		frontpage = false;
+		new_channel = new_channel.toLowerCase();
 		clearTimeout(rotation_timeout);
 		if(Helper.mobilecheck()){
 			Helper.log("removing all listeners");
