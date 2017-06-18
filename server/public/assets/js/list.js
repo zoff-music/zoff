@@ -32,11 +32,20 @@ var List = {
 					axis:"x",
 					containment: [-50, 0, 10, 0],
 					scroll: true,
+					drag: function(event, ui) {
+						if(Helper.vertScroll) {
+							return false;
+						}
+						if(ui.offset.left <= -10) {
+							ui.position.left = ui.offset.left - 10;
+						} else {
+							ui.position.left = 0;
+						}
+					},
 					stop: function(event, ui) {
 						if(ui.offset.left == -50) {
 							try {
 								navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
 								if (navigator.vibrate) {
 									navigator.vibrate(100);
 								}
