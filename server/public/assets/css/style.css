@@ -2147,6 +2147,10 @@ nav ul li:hover, nav ul li.active {
   z-index: 99;
 }
 
+.mobile-delete {
+  display: none;
+}
+
 /***************************************************************************
 ****************************************************************************
 ********************* Screen size specific rules ***************************
@@ -2174,6 +2178,27 @@ nav ul li:hover, nav ul li.active {
 @media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
     .autocomplete-content.dropdown-content{
       width:95vw !important;
+    }
+
+    .list-song {
+      overflow: visible;
+    }
+
+    #main-row {
+      margin-right: -3px !important;
+    }
+
+    .mobile-delete {
+      height: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 60px;
+      top: 0px;
+      right: -60px;
+      /* overflow: visible; */
+      z-index: -99999999;
     }
 
     #main-container {
@@ -2430,8 +2455,9 @@ nav ul li:hover, nav ul li.active {
     }
 
     #playlist {
-      margin-left: 8px;
-      width: calc(100% - 8px);
+      margin-left: 10px;
+      width: calc(100% - 10px);
+      overflow: hidden;
     }
 
     #player{

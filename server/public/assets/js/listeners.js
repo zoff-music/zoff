@@ -208,6 +208,9 @@ function init(){
 	$("#help").modal();
 	$("#contact").modal();
 	$("#embed").modal();
+	$("#delete_song_alert").modal({
+		dismissible: false
+	});
 	$("#user_password").modal({
 		dismissible: false
 	});
@@ -296,8 +299,9 @@ function init(){
 	if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
 	//}
 
-	if(Helper.mobilecheck()) Mobile_remote.initiate_volume();
-	else {
+	if(Helper.mobilecheck()) {
+		Mobile_remote.initiate_volume();
+	}	else {
 		$('input#chan_description').characterCounter();
 	}
 
@@ -911,6 +915,15 @@ function seekToClick(e){
 		}
 	}
 }
+
+$(document).on("click", ".accept-delete", function(e) {
+	e.preventDefault();
+	var delete_id = $(this).attr("data-video-id");
+	if(delete_id) {
+		List.vote(delete_id, 'del');
+	}
+	$("#delete_song_alert").modal("close");
+});
 
 $(document).keyup(function(event) {
 	if(event.keyCode == 27){

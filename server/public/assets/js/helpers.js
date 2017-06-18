@@ -240,7 +240,45 @@ var Helper = {
 			$("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff&Body=" + message + "'>contact@zoff.no</a>");
 			setTimeout(function(){newWindow.close();},500);*/
 		}
-	}
+	},
+
+	firstY: null,
+	lastY: null,
+	currentY: null,
+	vertScroll: false,
+	initAdjustment: 0,
+
+	touchstart: function(event) {
+			Helper.lastY = Helper.currentY = Helper.firstY = event.originalEvent.touches[0].pageY;
+	},
+
+	touchmove: function(event) {
+			Helper.currentY = event.originalEvent.touches[0].pageY;
+			var adjustment = Helper.lastY-Helper.currentY;
+
+			// Mimic native vertical scrolling where scrolling only starts after the
+			// cursor has moved up or down from its original position by ~30 pixels.
+			if (!Helper.vertScroll && Math.abs(Helper.currentY-Helper.firstY) > 30) {
+					Helper.vertScroll = true;
+					Helper.initAdjustment = Helper.currentY-Helper.firstY;
+			}
+
+			// only apply the adjustment if the user has met the threshold for vertical scrolling
+			if (Helper.vertScroll) {
+					window.scrollBy(0,adjustment + Helper.initAdjustment);
+					Helper.lastY = Helper.currentY + adjustment;
+			}
+
+	},
+
+	touchend: function(event) {
+			Helper.vertScroll = false;
+			Helper.firstY = null;
+			Helper.currentY = null;
+			Helper.vertScroll = false;
+			Helper.initAdjustment = 0;
+			Helper.currentY = null;
+	},
 
 };
 
