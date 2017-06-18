@@ -8,6 +8,76 @@ var List = {
 	not_found: [],
 	num_songs: 0,
 
+	dragging: function(enabled) {
+		if(!enabled) {
+			var jqDraggableItem = $(".list-song");
+			try {
+				$(".list-song").draggable("destroy");
+			} catch(e) {}
+
+			jqDraggableItem.off("touchstart", Helper.touchstart);
+			jqDraggableItem.off("touchmove", Helper.touchmove);
+			jqDraggableItem.off("touchend", Helper.touchend);
+		} else {
+			if(Helper.mobilecheck()) {
+				var jqDraggableItem = $(".list-song");
+				try {
+					$(".list-song").draggable("destroy");
+				} catch(e) {}
+
+				jqDraggableItem.off("touchstart", Helper.touchstart);
+				jqDraggableItem.off("touchmove", Helper.touchmove);
+				jqDraggableItem.off("touchend", Helper.touchend);
+				$( ".list-song" ).draggable({
+					axis:"x",
+					containment: [-50, 0, 10, 0],
+					scroll: true,
+					stop: function(event, ui) {
+						if(ui.offset.left == -50) {
+							try {
+								navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+								if (navigator.vibrate) {
+									navigator.vibrate(100);
+								}
+							} catch(e) {
+								//console.log(e);
+							}
+							$(".accept-delete").attr("data-video-id", $(this).attr("data-video-id"));
+							$("#delete_song_title").html($(this).find(".list-title").html());
+							$("#delete_song_alert").modal("open");
+
+							var that = this;
+							$(this).addClass("side_away");
+							$(this).css("left", "0px");
+							setTimeout(function() {
+								$(that).removeClass("side_away");
+							}, 300);
+
+						} else {
+							var that = this;
+							$(this).addClass("side_away");
+							$(this).css("left", "0px");
+							setTimeout(function() {
+								$(that).removeClass("side_away");
+							}, 300);
+						}
+					}
+				});
+
+				// record the initial position of the cursor on start of the touch
+				jqDraggableItem.on("touchstart", Helper.touchstart);
+
+				// fires whenever the cursor moves
+				jqDraggableItem.on("touchmove", Helper.touchmove);
+
+				// when the user lifts their finger, they will again need to meet the
+				// threshold before vertical scrolling starts.
+				jqDraggableItem.on("touchend", Helper.touchend);
+			}
+		}
+	},
+
 	channel_function: function(msg)
 	{
 		if(user_auth_started) {
@@ -18,31 +88,35 @@ var List = {
 		{
 			case "list":
 			//if(full_playlist == undefined || !offline){
-			if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
-				prev_chan_list = chan;
-				List.populate_list(msg.playlist);
-				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			} else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
-				List.populate_list(full_playlist, true);
+				if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
+					prev_chan_list = chan;
+					List.populate_list(msg.playlist);
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			}
-			break;
+				} else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
+					List.populate_list(full_playlist, true);
+						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				}
+				if(!w_p) List.dragging(true);
+				break;
 			case "added":
-			List.added_song(msg.value);
-			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			break;
-			case "deleted":
-			List.deleted_song(msg.value, msg.removed);
-			break;
-			case "vote":
-			if(!offline){
-				List.voted_song(msg.value, msg.time);
+				List.added_song(msg.value);
 				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-			}
-			break;
+				if(!w_p) List.dragging(true);
+				break;
+			case "deleted":
+				List.deleted_song(msg.value, msg.removed);
+				break;
+			case "vote":
+				if(!offline){
+					List.voted_song(msg.value, msg.time);
+					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				}
+				if(!w_p) List.dragging(true);
+				break;
 			case "song_change":
-			if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
-			Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
+				Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+				if(!w_p) List.dragging(true);
 			break;
 		}
 	},
@@ -95,12 +169,15 @@ var List = {
 		} else if(embed) {
 			List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
 			List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
-		}else {
+		} else {
 			List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / 71)+1;
 			List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / List.can_fit)-5;
 		}
 		if(List.element_height < 55.2){
+			List.can_fit = List.can_fit - 1;
 			List.element_height = 55.2;
+			List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / 71);
+			List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 8) / List.can_fit)-5;
 		}
 		if(list_html === undefined) list_html = $("#list-song-html").html();
 		full_playlist = msg;
@@ -358,6 +435,7 @@ var List = {
 			//if(removed) {
 			if(List.page <= index && List.page - List.can_fit <= index) {
 				$("#" + deleted).addClass("side_away");
+				$("#" + deleted).find(".mobile-delete").remove();
 				$("#" + deleted).css("transform", "translateX(-100%)");
 				setTimeout(function() {
 					$("#" + deleted).remove();
@@ -887,6 +965,12 @@ var List = {
 			song.find("#list-song").attr("data-video-id", video_id);
 			song.find("#list-song").attr("id", "suggested-" + video_id);
 			song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
+
+		}
+
+		if(Helper.mobilecheck()) {
+			song.find(".waves-effect").removeClass("waves-effect");
+			song.find(".waves-light").removeClass("waves-light");
 
 		}
 

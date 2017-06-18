@@ -146,6 +146,7 @@ var Admin = {
                 });
             }
         }
+        List.dragging(true);
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
 
@@ -226,6 +227,8 @@ var Admin = {
             $(".playlist-tabs-loggedIn").addClass("hide");
             $(".playlist-tabs").removeClass("hide");
         }
+
+        List.dragging(false);
 
         /*if($(".card-action").length !== 0 &&
         !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
