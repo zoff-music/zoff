@@ -232,7 +232,7 @@ var List = {
 			List.dynamicContentPage(-10);
 
 
-		} else{
+		} else {
 			List.empty = true;
 			$("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
 			if(!$("#pageButtons").length){
@@ -502,9 +502,9 @@ var List = {
 
 	song_change: function(time, remove){
 		try{
-			var length = full_playlist.length-1;
+			var length = full_playlist.length - 1;
 			$("#wrapper").children()[0].remove();
-			if($("#wrapper").children().length === 0) {
+			if(full_playlist.length <= 1) {
 				List.empty = true;
 				$("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
 			}
@@ -524,7 +524,7 @@ var List = {
 			Helper.log("---------------------------");
 			full_playlist.push(full_playlist.shift());
 			if(!remove){
-				List.insertAtIndex(full_playlist[length-1], false, true);
+				List.insertAtIndex(full_playlist[$("#wrapper").children().length], false, true);
 			}
 
 		}catch(e){}
