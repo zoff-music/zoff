@@ -30,20 +30,20 @@ var List = {
 				jqDraggableItem.off("touchend", Helper.touchend);
 				$( ".list-song" ).draggable({
 					axis:"x",
-					containment: [-50, 0, 10, 0],
+					containment: [-60, 0, 10, 0],
 					scroll: true,
 					drag: function(event, ui) {
 						if(Helper.vertScroll) {
 							return false;
 						}
 						if(ui.offset.left <= -10) {
-							ui.position.left = ui.offset.left - 10;
+							ui.position.left = ui.offset.left;
 						} else {
 							ui.position.left = 0;
 						}
 					},
 					stop: function(event, ui) {
-						if(ui.offset.left == -50) {
+						if(ui.offset.left == -50 && !Helper.vertScroll) {
 							try {
 								navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 								if (navigator.vibrate) {
