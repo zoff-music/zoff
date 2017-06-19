@@ -100,11 +100,16 @@ var Player = {
 				Player.getTitle(song_title, viewers);
 				Player.setBGimage(video_id);
 				//if(player_ready && !Helper.mobilecheck())
-				if(player_ready && !window.MSStream)
-				{
+				if(player_ready && !window.MSStream) {
+					try {
+						var compared;
+						try {
+							compared = Player.player.getVideoUrl().split('v=')[1] != video_id;
+						} catch(e) {
+							compared = true;
+						}
+						if(compared || chromecastAvailable){
 
-					try{
-						if(Player.player.getVideoUrl().split('v=')[1] != video_id || chromecastAvailable){
 							Player.loadVideoById(video_id, duration);
 							if(!Helper.mobilecheck()) {
 								Player.notifyUser(video_id, song_title);
@@ -130,8 +135,8 @@ var Player = {
 						if(!Player.loaded) {
 							setTimeout(function(){Player.loaded = true;},500);
 						}
-					}catch(e){
-						if(chromecastAvailable){
+					}catch(e) {
+						if(chromecastAvailable) {
 							Player.loadVideoById(video_id, duration);
 							Player.seekTo(seekTo);
 						}
@@ -144,8 +149,9 @@ var Player = {
 				}
 			}
 		} else {
-			if(!durationBegun)
-			Player.durationSetter();
+			if(!durationBegun) {
+				Player.durationSetter();
+			}
 			duration = Player.player.getDuration();
 		}
 	},
@@ -174,6 +180,10 @@ var Player = {
 				}
 				break;
 			case 1:
+				if(!window.MSStream) {
+					$("#player").css("opacity", "1");
+					if(!Helper.mobilecheck())	$("#channel-load").css("display", "none");
+				}
 				playing = true;
 				if(beginning && Helper.mobilecheck() && !chromecastAvailable){
 					Player.pauseVideo();
@@ -353,10 +363,12 @@ var Player = {
 				if(Helper.mobilecheck()){
 					$("#playpause").css("visibility", "hidden");
 					$("#playpause").css("pointer-events", "none");
+					$("#player").css("opacity", "1");
 				} else {
-					$("#channel-load").css("display", "none");
+					//$("#channel-load").css("display", "none");
 				}
-				$("#player").css("opacity", "1");
+				/*$("#player").css("opacity", "1");*/
+				$(".video-container").removeClass("no-opacity");
 				$("#controls").css("opacity", "1");
 				$(".playlist").css("opacity", "1");
 				Player.loadVideoById(video_id, duration);
@@ -381,7 +393,6 @@ var Player = {
 			Playercontrols.initYoutubeControls(Player.player);
 			Playercontrols.initSlider();
 			Player.player.setVolume(Crypt.get_volume());
-			$(".video-container").removeClass("no-opacity");
 		}catch(e){}
 	},
 

@@ -1536,10 +1536,11 @@ ul #chat-log{
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
-  -webkit-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
-  transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
-  -moz-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
-  -o-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out;
+  opacity: 0;
+  -webkit-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out, opacity 1s;
+  transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out, opacity 1s;
+  -moz-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out, opacity 1s;
+  -o-transition: transform .5s ease-out, width .5s ease-out, height .5s ease-out, opacity 1s;
 }
 
 #fireplace_player{

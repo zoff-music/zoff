@@ -54,7 +54,6 @@ var Playercontrols = {
 	play_pause: function()
 	{
 		if(!chromecastAvailable){
-			console.log(Player.player.getPlayerState());
 			if(Player.player.getPlayerState() == 1)
 			{
 				Player.pauseVideo();
