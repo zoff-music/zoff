@@ -148,7 +148,7 @@ io.on('connection', function(socket){
 	//names.push(name);
 	unique_ids.push(short_id);
 	var name;
-
+	var chromecast_object = false;
 	if(names[guid] === undefined){
 		name = get_name(guid);
 	}
@@ -165,6 +165,7 @@ io.on('connection', function(socket){
 					socketid = msg.socket_id;
 					coll = msg.channel;
 					in_list = true;
+					chromecast_object = true;
 					socket.join(coll);
 				}
 			}
@@ -456,8 +457,14 @@ io.on('connection', function(socket){
 
 	socket.on('end', function(obj)
 	{
+		if(chromecast_object) {
+			console.log("chromecast_object");
+			console.log(obj);
+		}
 		if(typeof(obj) !== 'object') {
 			socket.emit('update_required');
+			console.log("Error with end object");
+			console.log(obj);
 			return;
 		}
 		id = obj.id;
@@ -473,12 +480,16 @@ io.on('connection', function(socket){
 					coll = encodeURIComponent(coll).replace(/\W/g, '');
 					coll = filter.clean(coll);
 				} catch(e) {
+					console.log("Error with setting coll");
+					console.log(obj);
 					return;
 				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
 				socket.emit("update_required");
+				console.log("Error with coll");
+				console.log(obj);
 				return;
 			}
 
