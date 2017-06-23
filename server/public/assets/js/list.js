@@ -982,7 +982,9 @@ var List = {
 		if(Helper.mobilecheck()) {
 			song.find(".waves-effect").removeClass("waves-effect");
 			song.find(".waves-light").removeClass("waves-light");
-
+			song.find(".list-song").addClass("mobile-overflow");
+	 	} else {
+			song.find(".mobile-delete").remove();
 		}
 
 		song.find(".list-title").text(video_title);
