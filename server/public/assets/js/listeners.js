@@ -1711,6 +1711,7 @@ $(document).keydown(function(event) {
 		!$("#contact-form-message").is(":focus") &&
 		!$("#remote_channel").is(":focus") &&
 		!$("#import").is(":focus") &&
+		!$("#find_input").is(":focus") &&
 		!$("#import_spotify").is(":focus")) {
 			if(Player.player.getPlayerState() == 1) {
 				event.preventDefault();
