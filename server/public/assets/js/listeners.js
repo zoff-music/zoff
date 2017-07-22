@@ -613,6 +613,8 @@ function setup_auth_listener() {
 		$("#player_overlay").css("display", "block");
 		$("#user_password").modal("open");
 		Crypt.remove_userpass(chan.toLowerCase());
+		before_toast();
+		Materialize.toast("That is not the correct password, try again..", 4000);
 	});
 
 	socket.on('auth_accepted', function(msg) {
@@ -1769,7 +1771,7 @@ function share_link_modifier_channel(){
 }
 
 function before_toast(){
-	$("#toast-container").remove();
+	Materialize.Toast.removeAll();
 }
 
 function onepage_load(){
