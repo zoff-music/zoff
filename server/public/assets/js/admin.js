@@ -64,6 +64,14 @@ var Admin = {
                 $("#description_form").css("display", "none");
                 $('#chan_thumbnail').tooltip("remove");
                 w_p = true;
+                if(!$("#playlist_loader").hasClass("hide")) {
+                    $("#playlist_loader").addClass("hide");
+                }
+                if(!$("#playlist_loader_spotify").hasClass("hide")) {
+                    $("#playlist_loader_spotify").addClass("hide");
+                }
+                $("#import_spotify").removeClass("hide");
+				$("#import").removeClass("hide");
                 break;
             case "noskip":
                 msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"]);

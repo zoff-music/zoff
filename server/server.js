@@ -457,14 +457,7 @@ io.on('connection', function(socket){
 
 	socket.on('end', function(obj)
 	{
-		if(chromecast_object) {
-			console.log("chromecast_object");
-			console.log(obj);
-		}
 		if(typeof(obj) !== 'object') {
-			socket.emit('update_required');
-			console.log("Error with end object");
-			console.log(obj);
 			return;
 		}
 		id = obj.id;
@@ -480,16 +473,12 @@ io.on('connection', function(socket){
 					coll = encodeURIComponent(coll).replace(/\W/g, '');
 					coll = filter.clean(coll);
 				} catch(e) {
-					console.log("Error with setting coll");
-					console.log(obj);
 					return;
 				}
 			}
 
 			if(coll == "" || coll == undefined || coll == null) {
 				socket.emit("update_required");
-				console.log("Error with coll");
-				console.log(obj);
 				return;
 			}
 
@@ -566,7 +555,6 @@ io.on('connection', function(socket){
 					db.collection(coll).find({views:{$exists:true}}, function(err, docs)
 					{
 						conf = docs;
-
 						if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
 						docs[0].addsongs === false))
 						{
@@ -677,6 +665,10 @@ io.on('connection', function(socket){
 								}
 							});
 							//socket.emit("toast", "listhaspass");
+						} else if (full_list){
+							if(arr.num == 0) {
+								socket.emit("toast", "listhaspass");
+							}
 						}
 					});
 				} else {
