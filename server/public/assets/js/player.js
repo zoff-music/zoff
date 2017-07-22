@@ -42,6 +42,7 @@ var Player = {
 
 				document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
 				document.title = "Zoff - the shared YouTube based radio";
+				$("#channel-load").css("display", "none");
 				//$("#player_overlay").height($("#player").height());
 
 				if(!window.MSStream && !chromecastAvailable) {
