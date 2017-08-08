@@ -71,7 +71,7 @@ var Admin = {
                     $("#playlist_loader_spotify").addClass("hide");
                 }
                 $("#import_spotify").removeClass("hide");
-				$("#import").removeClass("hide");
+				        $("#import").removeClass("hide");
                 break;
             case "noskip":
                 msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"]);
