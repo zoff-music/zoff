@@ -101,14 +101,14 @@ var List = {
 						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 					}
 				}
-				if(!w_p) List.dragging(true);
+				//if(!w_p) List.dragging(true);
 				break;
 			case "added":
 				List.added_song(msg.value);
 				if(full_playlist.length > 0) {
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 				}
-				if(!w_p) List.dragging(true);
+				//if(!w_p) List.dragging(true);
 				break;
 			case "deleted":
 				List.deleted_song(msg.value, msg.removed);
@@ -120,14 +120,14 @@ var List = {
 						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 					}
 				}
-				if(!w_p) List.dragging(true);
+				//if(!w_p) List.dragging(true);
 				break;
 			case "song_change":
 				if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
 				if(full_playlist.length > 0) {
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 				}
-				if(!w_p) List.dragging(true);
+				//if(!w_p) List.dragging(true);
 			break;
 		}
 	},
@@ -979,13 +979,13 @@ var List = {
 
 		}
 
-		if(Helper.mobilecheck()) {
+		/*if(Helper.mobilecheck()) {
 			song.find(".waves-effect").removeClass("waves-effect");
 			song.find(".waves-light").removeClass("waves-light");
 			song.find(".list-song").addClass("mobile-overflow");
-	 	} else {
+	 	} else {*/
 			song.find(".mobile-delete").remove();
-		}
+		//}
 
 		song.find(".list-title").text(video_title);
 		song.find(".list-title").attr("title", video_title);
