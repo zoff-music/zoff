@@ -1196,9 +1196,7 @@ $(document).on("click", ".first_page", function(e){
 });
 
 $(document).on('click', '#toast-container', function(){
-	$(".toast").fadeOut(function(){
-		$(".toast").remove();
-	});
+	Materialize.Toast.removeAll();
 });
 
 $(document).on('click', "#aprilfools", function(){
