@@ -206,6 +206,11 @@ var Player = {
 				break;
 			case 2:
 				if(!chromecastAvailable){
+					if(beginning && mobile_beginning) {
+						$("#playpause").css("visibility", "visible");
+						$("#playpause").css("pointer-events", "all");
+						$("#channel-load").css("display", "none");
+					}
 					paused = true;
 					if(window.location.pathname != "/") Playercontrols.play_pause_show();
 					mobile_beginning = true;
@@ -359,9 +364,6 @@ var Player = {
 					$("#playpause").css("visibility", "hidden");
 					$("#playpause").css("pointer-events", "none");
 					$("#player").css("opacity", "1");
-					$("#playpause").css("visibility", "visible");
-					$("#playpause").css("pointer-events", "all");
-					$("#channel-load").css("display", "none");
 				} else {
 					//$("#channel-load").css("display", "none");
 				}
