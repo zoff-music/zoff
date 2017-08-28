@@ -187,16 +187,10 @@ var Player = {
 				}
 				playing = true;
 				if(beginning && Helper.mobilecheck() && !chromecastAvailable){
-					Player.pauseVideo();
+					//Player.pauseVideo();
 					beginning = false;
 					mobile_beginning = false;
-					setTimeout(function(){
-						if(Helper.mobilecheck()){
-							$("#playpause").css("visibility", "visible");
-							$("#playpause").css("pointer-events", "all");
-							$("#channel-load").css("display", "none");
-						}
-					}, 100);
+
 				}
 				if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
 				if(window.location.pathname != "/"){
@@ -365,6 +359,9 @@ var Player = {
 					$("#playpause").css("visibility", "hidden");
 					$("#playpause").css("pointer-events", "none");
 					$("#player").css("opacity", "1");
+					$("#playpause").css("visibility", "visible");
+					$("#playpause").css("pointer-events", "all");
+					$("#channel-load").css("display", "none");
 				} else {
 					//$("#channel-load").css("display", "none");
 				}
