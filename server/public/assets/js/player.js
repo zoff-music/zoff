@@ -169,9 +169,9 @@ var Player = {
 		Helper.log("---------------------------------");
 		switch(newState.data)
 		{
-			case -1:
+			case YT.PlayerState.UNSTARTED:
 				break;
-			case 0:
+			case YT.PlayerState.ENDED:
 				playing = false;
 				paused  = false;
 				if(!offline) {
@@ -180,7 +180,7 @@ var Player = {
 					Player.playNext();
 				}
 				break;
-			case 1:
+			case YT.PlayerState.PLAYING:
 				if(!window.MSStream) {
 					$("#player").css("opacity", "1");
 					if(!Helper.mobilecheck())	$("#channel-load").css("display", "none");
@@ -204,7 +204,7 @@ var Player = {
 					paused = false;
 				}
 				break;
-			case 2:
+			case YT.PlayerState.PAUSED:
 				if(!chromecastAvailable){
 					if(beginning && mobile_beginning) {
 						$("#playpause").css("visibility", "visible");
@@ -216,7 +216,7 @@ var Player = {
 					mobile_beginning = true;
 				}
 				break;
-			case 3:
+			case YT.PlayerState.BUFFERING:
 				break;
 		}
 	},

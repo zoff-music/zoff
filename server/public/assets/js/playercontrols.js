@@ -54,7 +54,7 @@ var Playercontrols = {
 	play_pause: function()
 	{
 		if(!chromecastAvailable){
-			if(Player.player.getPlayerState() == 1)
+			if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
 			{
 				Player.pauseVideo();
 				if(Helper.mobilecheck() && !window.MSStream){
@@ -63,7 +63,7 @@ var Playercontrols = {
 					$(".video-container").toggleClass("click-through");
 					$(".page-footer").toggleClass("padding-bottom-extra");
 				}
-			} else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() === 0 || (Player.player.getPlayerState() === 5)){
+			} else if(Player.player.getPlayerState() == YT.PlayerState.PAUSED || Player.player.getPlayerState() === YT.PlayerState.ENDED || (Player.player.getPlayerState() === YT.PlayerState.CUED)){
 				Player.playVideo();
 				//if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
 				if(Helper.mobilecheck() && !window.MSStream){
@@ -216,10 +216,10 @@ var Playercontrols = {
 	{
 		state = Player.player.getPlayerState();
 		button = document.getElementById("playpause");
-		if(state == 1)
+		if(state == YT.PlayerState.PLAYING)
 		{
 			Player.pauseVideo();
-		}else if(state == 2)
+		}else if(state == YT.PlayerState.PAUSED)
 		{
 			Player.playVideo();
 		}
