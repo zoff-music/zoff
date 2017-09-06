@@ -219,12 +219,16 @@
               </ul>
               <ul class="tabs playlist-tabs-loggedIn hide tabs-fixed-width" style="width: 96%;">
                 <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
-                <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span class="new badge white hide"></a></li>
+                <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span class="new badge white hide"></span></a></li>
                 <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
               </ul>
               <div id="find_div" class="hide">
                 <form id="find_form">
                   <input type="text" name="find_value" placeholder="Find.." id="find_input" autocomplete="off" />
+                  <div class="num_of_found">
+                        <span id="num_found">0</span>/<span id="of_total_found">0</span>
+                  </div>
+                  <a href="#" id="close_find_form_button"><i class="material-icons">clear</i></a>
                 </form>
               </div>
                 <div id="wrapper" class="tabs_height">
