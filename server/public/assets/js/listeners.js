@@ -59,6 +59,7 @@ var number_suggested 			= 0;
 var prev_chan_list 				= "";
 var prev_chan_player 			= "";
 var chromecastReady 			= false;
+var find_word = "";
 var found_array 				= [];
 var found_array_index 			= 0;
 var guid = "";
@@ -1693,6 +1694,7 @@ $(document).keydown(function(event) {
 			if(find_started){
 				$("#find_div").toggleClass("hide");
 				$("#find_input").focus();
+				find_word = "";
 			} else {
 				$("#find_div").toggleClass("hide");
 				$("#find_input").val("");
@@ -1700,6 +1702,7 @@ $(document).keydown(function(event) {
 				$(".highlight").removeClass("highlight");
 				found_array = [];
 				found_array_index = 0;
+				find_word = "";
 			}
 		} else if(event.keyCode == 32 && $(".search-container").hasClass("hide") && window.location.pathname != "/" &&
 		!$("#text-chat-input").is(":focus") &&
@@ -1728,6 +1731,19 @@ $(document).keydown(function(event) {
 	}
 });
 
+$(document).on("click", "#close_find_form_button", function(e) {
+	e.preventDefault();
+	find_start = false;
+	find_started = false;
+	$("#find_div").toggleClass("hide");
+	$("#find_input").val("");
+	$("#find_input").blur();
+	$(".highlight").removeClass("highlight");
+	found_array = [];
+	found_array_index = 0;
+	find_word = "";
+});
+
 $(document).keyup(function(event){
 	if((event.keyCode == 91 || event.keyCode == 17) && !find_started){
 		find_start = false;
@@ -1736,19 +1752,28 @@ $(document).keyup(function(event){
 
 $(document).on("submit", "#find_form", function(e){
 	e.preventDefault();
+	if(this.find_value.value != find_word) {
+		find_word = this.find_value.value;
+		found_array = [];
+		found_array_index = 0;
+	}
 	if(found_array.length == 0){
 		var that = this;
 		found_array_index = 0;
 		found_array = $.map(full_playlist, function(obj, index) {
-			if(obj.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0) {
+			if(obj.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0 && index != full_playlist.length-1) {
 				return index;
 			}
 		});
+		$("#num_found").text(found_array_index + 1);
+		$("#of_total_found").text(found_array.length);
 	} else {
 		found_array_index = found_array_index + 1;
 		if(found_array.length - 1 < found_array_index){
 			found_array_index = 0;
 		}
+		$("#num_found").text(found_array_index + 1);
+		$("#of_total_found").text(found_array.length);
 	}
 	if(found_array.length > 0 && found_array[found_array_index] != full_playlist.length - 1){
 		$(".highlight").removeClass("highlight");
@@ -1756,6 +1781,7 @@ $(document).on("submit", "#find_form", function(e){
 		$($("#wrapper").children()[found_array[found_array_index]]).addClass("highlight");
 		List.dynamicContentPageJumpTo(jump_to_page);
 	} else {
+		$(".highlight").removeClass("highlight");
 		Helper.log("none found");
 	}
 });

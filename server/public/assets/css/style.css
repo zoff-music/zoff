@@ -837,6 +837,27 @@ hide mdi-action-visibility mdi-action-visibility-off
   color: white;
 }
 
+#find_form {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.num_of_found {
+  display: flex;
+  align-self: center;
+  color: white;
+  padding-left: 8px;
+}
+
+#close_find_form_button {
+  display: flex;
+  align-self: center;
+  padding-left: 10px;
+  color: white;
+}
+
 .highlight{
   background: rgba(255, 255, 255, 0.2) !important;
 }
