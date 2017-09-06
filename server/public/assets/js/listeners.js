@@ -295,6 +295,29 @@ function init(){
 		tooltip: "Fullscreen"
 	});
 
+	$("#search-btn").tooltip({
+		delay: 5,
+		position: "bottom",
+		tooltip: "Search"
+	});
+
+	$("#skip").tooltip({
+		delay: 5,
+		position: "bottom",
+		tooltip: "Skip",
+	});
+
+	$("#shuffle").tooltip({
+		delay: 5,
+		position: "bottom",
+		tooltip: "Shuffle",
+	});
+
+	$("#settings").tooltip({
+		delay: 5,
+		position: "bottom",
+		tooltip: "Settings",
+	});
 
 	window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
 	if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
