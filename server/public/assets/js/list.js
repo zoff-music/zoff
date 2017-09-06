@@ -108,10 +108,14 @@ var List = {
 				if(full_playlist.length > 0) {
 					Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 				}
+				found_array = [];
+				found_array_index = 0;
 				//if(!w_p) List.dragging(true);
 				break;
 			case "deleted":
 				List.deleted_song(msg.value, msg.removed);
+				found_array = [];
+				found_array_index = 0;
 				break;
 			case "vote":
 				if(!offline){
@@ -120,6 +124,8 @@ var List = {
 						Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
 					}
 				}
+				found_array = [];
+				found_array_index = 0;
 				//if(!w_p) List.dragging(true);
 				break;
 			case "song_change":
