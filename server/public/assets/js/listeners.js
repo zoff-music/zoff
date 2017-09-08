@@ -480,7 +480,7 @@ initializeCastApi = function() {
 				} catch(e){
 					_seekTo = seekTo;
 				}
-				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
 				castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 
 				if(Helper.mobilecheck() && !chromecast_specs_sent) {
@@ -503,7 +503,7 @@ initializeCastApi = function() {
 				} catch(e){
 					_seekTo = seekTo;
 				}
-				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo})
+				castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
 				castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 				hide_native(1);
 				break;
