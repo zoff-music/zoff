@@ -90,6 +90,12 @@ $(document).ready(function(){
 		setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
 	});
 
+	socket.on("self_ping", function() {
+		if(chan != undefined && chan.toLowerCase() != "") {
+			socket.emit("self_ping", {channel: chan.toLowerCase()});
+		}
+	});
+
 	socket.on("viewers", function(view)
 	{
 		viewers = view;
