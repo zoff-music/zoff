@@ -151,6 +151,12 @@ $().ready(function(){
 		}
 	});
 
+	socket.on("self_ping", function() {
+		if(chan != undefined && chan.toLowerCase() != "") {
+			socket.emit("self_ping", {channel: chan.toLowerCase()});
+		}
+	});
+
 	setup_no_connection_listener();
 
 	try{

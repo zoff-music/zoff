@@ -141,7 +141,6 @@ io.on('connection', function(socket){
 
 	var socketid = socket.id;
 	var coll;
-	var tot_lists = [];
 	var in_list = false;
 	var short_id = uniqueID(socketid,4);
 	var offline = false;
@@ -156,6 +155,19 @@ io.on('connection', function(socket){
 	name = names[guid];
 
 	socket.emit("guid", guid);
+
+	socket.on('self_ping', function(msg) {
+		var channel = msg.channel;
+		if(offline) {
+			offline_users.push(guid);
+		} else {
+			if(lists[channel] == undefined) {
+				lists[channel] = [];
+			}
+			lists[channel].push(guid);
+		}
+		tot_view += 1
+	});
 
 	socket.on('chromecast', function(msg) {
 		try {
@@ -1155,8 +1167,9 @@ io.on('connection', function(socket){
 			}
 		});
 	});
-
 });
+
+send_ping();
 
 function decrypt_string(socket_id, pw){
 	try {
@@ -1194,6 +1207,14 @@ function decrypt_string(socket_id, pw){
 	} catch(e) {
 		return "";
 	}
+}
+
+function send_ping() {
+	lists = {};
+	offline_users = [];
+	tot_view = 0;
+	io.emit("self_ping");
+	setTimeout(send_ping, 25000);
 }
 
 function left_channel(coll, guid, name, short_id, in_list, socket, change)
