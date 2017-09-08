@@ -262,7 +262,7 @@ var Player = {
 
 	loadVideoById: function(id, this_duration){
 		if(chromecastAvailable){
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id, channel: chanl.toLowerCase()});
+			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id, channel: chan.toLowerCase()});
 			chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
 			chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 		} else {
