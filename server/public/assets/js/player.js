@@ -262,7 +262,7 @@ var Player = {
 
 	loadVideoById: function(id, this_duration){
 		if(chromecastAvailable){
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id});
+			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id, channel: chanl.toLowerCase()});
 			chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
 			chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
 		} else {
@@ -297,7 +297,7 @@ var Player = {
 		Player.getTitle(song_title, viewers);
 		Player.setBGimage(video_id);
 		if(chromecastAvailable){
-			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id});
+			castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase()});
 			chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
 			chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
 		} else {
