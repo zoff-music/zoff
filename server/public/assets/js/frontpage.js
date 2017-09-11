@@ -42,6 +42,9 @@ var Frontpage = {
 			if(!lists[i].hasOwnProperty("pinned")){
 				lists[i].pinned = 0;
 			}
+			if(!lists[i].hasOwnProperty("count") || lists[i].count == 0) {
+				delete lists[i];
+			}
 		}
 
 		if(popular) {
