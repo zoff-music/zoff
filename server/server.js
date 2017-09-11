@@ -360,7 +360,7 @@ io.on('connection', function(socket){
 	socket.on('frontpage_lists', function(msg)
 	{
 
-		if(msg.version != VERSION || msg.version == undefined) {
+		if(!msg.hasOwnProperty('VERSION') || msg.version != VERSION || msg.version == undefined) {
 			socket.emit("update_required");
 		}
 
@@ -423,7 +423,7 @@ io.on('connection', function(socket){
 		if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
 		{
 
-			if(msg.version != VERSION || msg.version == undefined) {
+			if(!msg.hasOwnProperty('VERSION') || msg.version != VERSION || msg.version == undefined) {
 				socket.emit("update_required");
 			}
 
