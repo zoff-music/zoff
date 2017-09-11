@@ -443,7 +443,7 @@ function initfp(){
 		position: "bottom",
 		tooltip: "Total Viewers"
 	});
-	socket.emit('frontpage_lists');
+	socket.emit('frontpage_lists', {version: parseInt(localStorage.getItem("VERSION"))});
 	socket.emit('get_userlists', Crypt.getCookie('_uI'));
 
 	$("#channel-load").css("display", "none");
