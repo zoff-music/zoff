@@ -34,12 +34,21 @@ var Frontpage = {
 
 		var num = 0;
 		var pinned;
-		if(lists[0].pinned == 1){
-			pinned = lists.shift();
+
+		for(var i = 0; i < lists.length; i++) {
+			if(!lists[i].hasOwnProperty("viewers")){
+				lists[i].viewers = 0;
+			}
+			if(!lists[i].hasOwnProperty("pinned")){
+				lists[i].pinned = 0;
+			}
 		}
 
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
+				name: 'pinned',
+				reverse: true
+			}, {
 				name: 'viewers',
 				reverse: true
 			}, {
@@ -51,6 +60,9 @@ var Frontpage = {
 			}));
 		} else {
 			lists = lists.sort(Helper.predicate({
+				name: 'pinned',
+				reverse: true
+			}, {
 				name: 'viewers',
 				reverse: true
 			}, {
@@ -77,7 +89,7 @@ var Frontpage = {
 		for(var x in lists)
 		{
 
-			var chan = lists[x].channel;
+			var chan = lists[x]._id;
 			if(num<12 || !popular)
 			{
 				var id = lists[x].id;
@@ -89,8 +101,6 @@ var Frontpage = {
 				}
 
 				var song_count = lists[x].count;
-
-				//$("#channels").append(channel_list);
 
 				var card = pre_card.clone();
 				if(lists[x].pinned == 1)
@@ -110,7 +120,7 @@ var Frontpage = {
 				card.find(".chan-bg").attr("style", img);
 				card.find(".chan-link").attr("href", chan + "/");
 
-				if(description != "" && !Helper.mobilecheck()){
+				if(description != "" && description != undefined && !Helper.mobilecheck()){
 					card.find(".card-title").text(chan);
 					card.find(".description_text").text(description);
 					description = "";

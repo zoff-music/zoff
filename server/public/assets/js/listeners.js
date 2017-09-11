@@ -1,4 +1,4 @@
-var VERSION = 2;
+var VERSION = 3;
 var chan 				  		= window.chan === undefined ? $("#chan").html() : window.chan;
 var w_p 				  		= true;
 var hasadmin			  		= 0;
@@ -126,7 +126,7 @@ $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
 });
 
 $().ready(function(){
-	if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != 2) {
+	if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
 		localStorage.setItem("VERSION", VERSION);
 	}
 	if(!fromFront && window.location.pathname != "/") init();

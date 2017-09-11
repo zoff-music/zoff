@@ -67,7 +67,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser());
 
-var VERSION = 2;
+var VERSION = 3;
 var io = require('socket.io')(server, {'pingTimeout': 25000}); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
 var mongojs = require('mongojs');
@@ -364,33 +364,10 @@ io.on('connection', function(socket){
 			socket.emit("update_required");
 		}
 
-		var playlists_to_send = [];
-		var i = 0;
-		var viewers;
 		in_list = false;
 
 		db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
-			var playlists_to_send = [];
-			for(var x in docs){
-				var pinned = 0;
-				if(docs[x].pinned == 1) pinned = 1;
-				try{viewers = lists[docs[x]._id].length;}
-				catch(error){viewers = 0;}
-				var to_push = {
-					viewers: viewers,
-					id: docs[x].id,
-					title: docs[x].title,
-					channel: docs[x]._id,
-					count: docs[x].count,
-					pinned: pinned,
-					accessed: docs[x].accessed != undefined ? docs[x].accessed : 0,
-					thumbnail: docs[x].thumbnail != undefined ? docs[x].thumbnail : "",
-					description: docs[x].description != undefined ? docs[x].description : ""
-				};
-				if(pinned == 1 && docs[x].count > 0) playlists_to_send.unshift(to_push);
-				else if(docs[x].count > 0) playlists_to_send.push(to_push);
-			}
-			socket.emit("playlists", {channels: playlists_to_send, viewers: tot_view});
+			socket.emit("playlists", {channels: docs, viewers: tot_view});
 		});
 	});
 
@@ -443,34 +420,36 @@ io.on('connection', function(socket){
 				return;
 			}
 			var pass = decrypt_string(socketid, msg.pass);
-			db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
-				if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
-					if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
-						socket.emit("auth_accepted", {value: true});
-					}
-					in_list = true;
-					socket.join(coll);
-					socket.join(short_id);
-					socket.emit("id", short_id);
-					check_inlist(coll, guid, socket, name, offline);
-					io.to(coll).emit("viewers", lists[coll] == undefined ? 0 : lists[coll].length);
-					db.getCollectionNames(function(err, docs){
-						if(contains(docs, coll))
-						{
+			db.collection('frontpage_lists').find({"_id": coll}, function(err, docs){
+				if(docs.length == 1)
+				{
+					db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
+						if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
+							if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
+								socket.emit("auth_accepted", {value: true});
+							}
+							in_list = true;
+							socket.join(coll);
+							socket.join(short_id);
+							socket.emit("id", short_id);
+							check_inlist(coll, guid, socket, name, offline);
+							io.to(coll).emit("viewers", lists[coll] == undefined ? 0 : lists[coll].length);
+
 							send_list(coll, socket, true, false, true);
-						}else{
-							db.createCollection(coll, function(err, docs){
-								db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
-									send_list(coll, socket, true, false, true);
-									db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": get_time()});
-								});
-							});
+
+						} else {
+							socket.emit("auth_required");
 						}
 					});
-				} else {
-					socket.emit("auth_required");
+				} else{
+					db.createCollection(coll, function(err, docs){
+						db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
+							send_list(coll, socket, true, false, true);
+							db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": get_time()});
+						});
+					});
 				}
-			})
+			});
 		} else {
 			socket.emit('update_required');
 		}
@@ -1234,10 +1213,12 @@ function left_channel(coll, guid, name, short_id, in_list, socket, change)
 		if(index != -1)
 		{
 			lists[coll].splice(index, 1);
-			socket.leave(coll);
-			io.to(coll).emit("viewers", lists[coll].length);
-			io.to(coll).emit('chat', {from: name, msg: " left"});
-			tot_view -= 1;
+			db.collection("frontpage_lists").update({"_id": coll}, {$inc: {"viewers": -1}}, function() {
+				socket.leave(coll);
+				io.to(coll).emit("viewers", lists[coll].length);
+				io.to(coll).emit('chat', {from: name, msg: " left"});
+				tot_view -= 1;
+			});
 		}
 		if(!change) {
 			remove_from_array(names.names, name);
@@ -1333,16 +1314,20 @@ function check_inlist(coll, guid, socket, name, offline)
 		{
 			lists[coll] = [];
 			lists[coll].push(guid);
-			io.to(coll).emit("viewers", lists[coll].length);
-			socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
+			db.collection("frontpage_lists").update({"_id": coll}, {$inc: {"viewers": 1}}, function(){
+				io.to(coll).emit("viewers", lists[coll].length);
+				socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
 
-			tot_view += 1;
+				tot_view += 1;
+		});
 		}else if(!contains(lists[coll], guid))
 		{
 			lists[coll].push(guid);
-			io.to(coll).emit("viewers", lists[coll].length);
-			socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
-			tot_view += 1;
+			db.collection("frontpage_lists").update({"_id": coll}, {$inc: {"viewers": 1}}, function(){
+				io.to(coll).emit("viewers", lists[coll].length);
+				socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
+				tot_view += 1;
+			});
 		}
 	} else {
 		if(!contains(offline_users, guid) && coll != undefined)

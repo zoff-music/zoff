@@ -102,7 +102,6 @@ var Helper = {
 
 	hslToRgb: function(h, s, l) {
   var r, g, b;
-	console.log(h, s, l);
 
   if (s == 0) {
     r = g = b = l; // achromatic
