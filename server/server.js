@@ -412,7 +412,7 @@ io.on('connection', function(socket){
 
 		//in_list = false;
 
-		db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
+		db.collection("frontpage_lists").find({frontpage:true, count: {$gt: 0}}, function(err, docs){
 			db.collection("connected_users").find({"_id": "total_users"}, function(err, tot){
 				socket.emit("playlists", {channels: docs, viewers: tot[0].total_users});
 			});
