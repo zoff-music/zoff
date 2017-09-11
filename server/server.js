@@ -127,7 +127,9 @@ db.on('error',function(err) {
 	console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
 
-db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {});
+db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){});
+db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, {multi: true, upsert: true}, function(err, docs) {});
+db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {});
 
 io.on('connection', function(socket){
 	socket.emit("get_list");
@@ -162,28 +164,43 @@ io.on('connection', function(socket){
 	socket.on('self_ping', function(msg) {
 		var channel = msg.channel;
 		if(offline) {
-			offline_users.push(guid);
+			//offline_users.push(guid);
+			db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs){});
 		} else {
-			if(lists[channel] == undefined) {
-				lists[channel] = [];
-			}
-			lists[channel].push(guid);
-			db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, function(){});
+			db.collection("connected_users").update({"_id": channel}, {$addToSet: {users: guid}}, function(err, docs){
+				/*
+				if(lists[channel] == undefined) {
+					lists[channel] = [];
+				}
+				lists[channel].push(guid);*/
+				db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, function(){});
+			});
 		}
-		tot_view += 1
+		db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
+		//tot_view += 1
 	});
 
 	socket.on('chromecast', function(msg) {
 		try {
 			if(typeof(msg) == "object" && msg.hasOwnProperty("guid") && msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel")) {
-				if(lists[msg.channel].indexOf(msg.guid) > -1) {
+				db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
+					if(connected_users_channel.users.indexOf(msg.guid) > -1) {
+						guid = msg.guid;
+						socketid = msg.socket_id;
+						coll = msg.channel;
+						in_list = true;
+						chromecast_object = true;
+						socket.join(coll);
+					}
+				})
+				/*if(lists[msg.channel].indexOf(msg.guid) > -1) {
 					guid = msg.guid;
 					socketid = msg.socket_id;
 					coll = msg.channel;
 					in_list = true;
 					chromecast_object = true;
 					socket.join(coll);
-				}
+				}*/
 			}
 		} catch(e) {
 			return;
@@ -197,7 +214,9 @@ io.on('connection', function(socket){
 	});
 
 	socket.on("get_spread", function(){
-		socket.emit("spread_listeners", {offline: offline_users.length, total: tot_view, online_users: lists});
+		db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+			socket.emit("spread_listeners", {offline: offline_users.length, total: tot[0].total_users, online_users: lists});
+		});
 	});
 
 	socket.on('suggest_thumbnail', function(msg){
@@ -253,6 +272,22 @@ io.on('connection', function(socket){
 			in_list = false;
 			offline = true;
 			if(channel != "") coll = channel;
+			if(coll !== undefined) {
+				db.collection("connected_users").findAndModify({
+					query: {"_id": coll},
+					update: {$pull: {users: guid}},
+					upsert: true,
+				}, function(err, updated) {
+					if(updated.nModified > 0) {
+						io.to(coll).emit("viewers", updated.users);
+						db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs){});
+					}
+					remove_from_array(names.names, name);
+					delete names[guid];
+				});
+			}
+
+			/*
 			if(coll !== undefined && lists[coll] !== undefined && contains(lists[coll], guid))
 			{
 				var index = lists[coll].indexOf(guid);
@@ -268,17 +303,24 @@ io.on('connection', function(socket){
 				remove_from_array(names.names, name);
 				delete names[guid];
 
-			}
+			}*/
 
 			remove_from_array(unique_ids, short_id);
+
+			db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {});
+			db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
+			/*
 			if(!contains(offline_users, guid) && coll != undefined)
 			{
 				offline_users.push(guid);
 				tot_view += 1;
-			}
+			}*/
 		} else {
 			offline = false;
-			if(contains(offline_users, guid))
+			db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
+				check_inlist(coll, guid, socket, names[guid], offline);
+			});
+			/*if(contains(offline_users, guid))
 			{
 				var index = offline_users.indexOf(guid);
 				if(index != -1){
@@ -287,6 +329,7 @@ io.on('connection', function(socket){
 				}
 			}
 			check_inlist(coll, guid, socket, names[guid], offline);
+			*/
 		}
 	});
 
@@ -370,7 +413,9 @@ io.on('connection', function(socket){
 		in_list = false;
 
 		db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
-			socket.emit("playlists", {channels: docs, viewers: tot_view});
+			db.collection("connected_users").find({"_id": "total_users"}, function(err, tot){
+				socket.emit("playlists", {channels: docs, viewers: tot[0].total_users});
+			});
 		});
 	});
 
@@ -423,8 +468,8 @@ io.on('connection', function(socket){
 				return;
 			}
 			var pass = decrypt_string(socketid, msg.pass);
-			db.collection('frontpage_lists').find({"_id": coll}, function(err, docs){
-				if(docs.length == 1)
+			db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
+				if(frontpage_lists.length == 1)
 				{
 					db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
 						if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
@@ -436,7 +481,8 @@ io.on('connection', function(socket){
 							socket.join(short_id);
 							socket.emit("id", short_id);
 							check_inlist(coll, guid, socket, name, offline);
-							io.to(coll).emit("viewers", lists[coll] == undefined ? 0 : lists[coll].length);
+
+							io.to(coll).emit("viewers", frontpage_lists.viewers);
 
 							send_list(coll, socket, true, false, true);
 
@@ -883,28 +929,30 @@ io.on('connection', function(socket){
 						{
 							if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
 							{
-								if((lists[coll].length/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && lists[coll].length != 2) ||
-								(lists[coll].length == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
-								(docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
-								{
-									//if(!locks[coll] || locks[coll] == undefined){
-									locks[coll] = true;
-									change_song(coll, error, video_id);
-									socket.emit("toast", "skip");
-									io.to(coll).emit('chat', {from: name, msg: " skipped"});
-									//}
-								}else if(!contains(docs[0].skips, guid)){
-									db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
-										if(lists[coll].length == 2)
-										to_skip = 1;
-										else
-										to_skip = (Math.ceil(lists[coll].length/2) - docs[0].skips.length-1);
-										socket.emit("toast", to_skip + " more are needed to skip!");
-										socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
-									});
-								}else{
-									socket.emit("toast", "alreadyskip");
-								}
+								db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
+									if((frontpage_viewers.viewers/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && frontpage_viewers.viewers != 2) ||
+									(frontpage_viewers.viewers == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
+									(docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+									{
+										//if(!locks[coll] || locks[coll] == undefined){
+										locks[coll] = true;
+										change_song(coll, error, video_id);
+										socket.emit("toast", "skip");
+										io.to(coll).emit('chat', {from: name, msg: " skipped"});
+										//}
+									}else if(!contains(docs[0].skips, guid)){
+										db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
+											if(frontpage_viewers.viewers == 2)
+											to_skip = 1;
+											else
+											to_skip = (Math.ceil(frontpage_viewers.viewers/2) - docs[0].skips.length-1);
+											socket.emit("toast", to_skip + " more are needed to skip!");
+											socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+										});
+									}else{
+										socket.emit("toast", "alreadyskip");
+									}
+								});
 							}else
 							socket.emit("toast", "noskip");
 						}
@@ -1100,6 +1148,7 @@ io.on('connection', function(socket){
 			}
 		}
 		left_channel(coll, guid, name, short_id, in_list, socket, true);
+		in_list = false;
 	});
 
 	socket.on('disconnect', function()
@@ -1201,17 +1250,40 @@ function decrypt_string(socket_id, pw){
 }
 
 function send_ping() {
-	lists = {};
+	/*lists = {};
 	offline_users = [];
-	tot_view = 0;
+	tot_view = 0;*/
+	db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, function(err, docs){});
+	db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, function(err, docs){});
 	db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {
 		io.emit("self_ping");
-		setTimeout(send_ping, 4000);
+		setTimeout(send_ping, 25000);
 	});
 }
 
 function left_channel(coll, guid, name, short_id, in_list, socket, change)
 {
+	if(!coll) return;
+	db.collection("connected_users").findAndModify({
+		query: {"_id": coll},
+		update: {$pull: {users: guid}},
+		upsert: true }, function(err, updated, lastErr){
+		if(updated.users.indexOf(guid) > -1) {
+			db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, doc) {
+				socket.leave(coll);
+				io.to(coll).emit("viewers", updated.users.length);
+				io.to(coll).emit('chat', {from: name, msg: " left"});
+			});
+			db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, updated){});
+
+			if(!change) {
+				remove_from_array(names.names, name);
+				delete names[guid];
+			}
+		}
+		db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){});
+	});
+	/*
 	if(lists[coll] !== undefined && contains(lists[coll], guid))
 	{
 		var index = lists[coll].indexOf(guid);
@@ -1237,7 +1309,7 @@ function left_channel(coll, guid, name, short_id, in_list, socket, change)
 			offline_users.splice(index, 1);
 			tot_view -= 1;
 		}
-	}
+	}*/
 
 	remove_from_array(unique_ids, short_id);
 }
@@ -1315,6 +1387,20 @@ function del(params, socket, socketid) {
 function check_inlist(coll, guid, socket, name, offline)
 {
 	if(!offline && coll != undefined){
+		db.collection("connected_users").findAndModify({
+			query: {"_id": coll},
+			update: {$addToSet: {users: guid}},
+			upsert: true,
+			new: true,
+		}, function(err, conn_users) {
+			db.collection("frontpage_lists").update({"_id": coll}, {$inc: {"viewers": 1}}, function(){
+				io.to(coll).emit("viewers", conn_users.users.length);
+				socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
+
+				db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
+			});
+		});
+		/*
 		if(lists[coll] === undefined)
 		{
 			lists[coll] = [];
@@ -1333,13 +1419,15 @@ function check_inlist(coll, guid, socket, name, offline)
 				socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
 				tot_view += 1;
 			});
-		}
+		}*/
 	} else {
-		if(!contains(offline_users, guid) && coll != undefined)
+		db.collection("connected_users").update({"_id": coll}, {$addToSet: {users: guid}}, function(err, docs){});
+		db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
+		/*if(!contains(offline_users, guid) && coll != undefined)
 		{
 			offline_users.push(guid);
 			tot_view += 1;
-		}
+		}*/
 	}
 }
 
