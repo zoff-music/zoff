@@ -1255,7 +1255,7 @@ function send_ping() {
 	tot_view = 0;*/
 	db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, function(err, docs){});
 	db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, function(err, docs){});
-	db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {
+	db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, function(err, docs) {
 		io.emit("self_ping");
 		setTimeout(send_ping, 25000);
 	});
@@ -1392,8 +1392,9 @@ function check_inlist(coll, guid, socket, name, offline)
 			update: {$addToSet: {users: guid}},
 			upsert: true,
 			new: true,
-		}, function(err, conn_users) {
-			db.collection("frontpage_lists").update({"_id": coll}, {$inc: {"viewers": 1}}, function(){
+		}, function(err, conn_users, objectTwo) {
+			console.log(objectTwo);
+			db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": conn_users.users.length}}, function(){
 				io.to(coll).emit("viewers", conn_users.users.length);
 				socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
 
