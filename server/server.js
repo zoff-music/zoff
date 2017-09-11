@@ -127,7 +127,7 @@ db.on('error',function(err) {
 	console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
 
-db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {});
+db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {});
 
 io.on('connection', function(socket){
 	socket.emit("get_list");
@@ -168,7 +168,8 @@ io.on('connection', function(socket){
 				lists[channel] = [];
 			}
 			lists[channel].push(guid);
-			db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, function(){});
+
+			db.collection("frontpage_lists").update({"_id": msg.channel}, {$inc: {viewers: 1}}, function(err, docs){});
 		}
 		tot_view += 1
 	});
@@ -1204,7 +1205,7 @@ function send_ping() {
 	lists = {};
 	offline_users = [];
 	tot_view = 0;
-	db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {
+	db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
 		io.emit("self_ping");
 		setTimeout(send_ping, 4000);
 	});
