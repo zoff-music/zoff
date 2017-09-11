@@ -168,6 +168,7 @@ io.on('connection', function(socket){
 				lists[channel] = [];
 			}
 			lists[channel].push(guid);
+			db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, function(){});
 		}
 		tot_view += 1
 	});
@@ -1203,8 +1204,10 @@ function send_ping() {
 	lists = {};
 	offline_users = [];
 	tot_view = 0;
-	io.emit("self_ping");
-	setTimeout(send_ping, 25000);
+	db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {
+		io.emit("self_ping");
+		setTimeout(send_ping, 4000);
+	});
 }
 
 function left_channel(coll, guid, name, short_id, in_list, socket, change)
