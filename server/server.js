@@ -1254,7 +1254,7 @@ function send_ping() {
 	offline_users = [];
 	tot_view = 0;*/
 	db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){
-		db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}, {multi: true}}, function(err, docs){
+		db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, {multi: true}, function(err, docs){
 			db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
 				io.emit("self_ping");
 				setTimeout(send_ping, 25000);
