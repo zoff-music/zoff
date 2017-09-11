@@ -17,7 +17,7 @@ var mongo_db_cred = {config: 'mydb'};
 app.engine('handlebars', hbs.engine);
 //hbs.loadPartials(publicPath + "/layouts/");
 app.set('view engine', 'handlebars');
-
+app.enable('view cache');
 app.set('views', publicPath);
 
 try{
