@@ -410,7 +410,7 @@ io.on('connection', function(socket){
 			socket.emit("update_required");
 		}
 
-		in_list = false;
+		//in_list = false;
 
 		db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
 			db.collection("connected_users").find({"_id": "total_users"}, function(err, tot){
