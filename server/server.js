@@ -127,6 +127,8 @@ db.on('error',function(err) {
 	console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
 
+db.collection("frontpage_lists").update({viewers: {$gt: 0}}, {$set: {"viewers": 0}}, function(err, docs) {});
+
 io.on('connection', function(socket){
 	socket.emit("get_list");
 
