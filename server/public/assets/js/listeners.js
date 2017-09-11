@@ -1,3 +1,4 @@
+var VERSION = 2;
 var chan 				  		= window.chan === undefined ? $("#chan").html() : window.chan;
 var w_p 				  		= true;
 var hasadmin			  		= 0;
@@ -14,6 +15,7 @@ var frontpage 		   	  		= 1;
 var adminpass 		   	  		= "";
 var showDiscovery						= false;
 var filesadded		   	  		= "";
+var chromecast_icon_color = "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
 var temp_user_pass 				= "";
@@ -124,6 +126,9 @@ $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
 });
 
 $().ready(function(){
+	if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != 2) {
+		localStorage.setItem("VERSION", VERSION);
+	}
 	if(!fromFront && window.location.pathname != "/") init();
 	else if(!fromChannel && window.location.pathname == "/"){
 		initfp();
@@ -287,7 +292,7 @@ function init(){
 	if(no_socket){
 		var add = "";
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
-		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+		socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}
 	$("#viewers").tooltip({
 		delay: 5,
@@ -683,7 +688,7 @@ function get_list_listener(){
 	socket.on("get_list", function(){
 		var add = "";
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
-		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+		socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	});
 }
 
@@ -865,7 +870,7 @@ function change_offline(enabled, already_offline){
 			socket.emit("pos", {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 			var add = "";
 			if(private_channel) add = Crypt.getCookie("_uI") + "_";
-			socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+			socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 			if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
 		}
 	}
@@ -1148,7 +1153,7 @@ $(document).on("submit", "#user-password-channel-form", function(e) {
 	if(user_auth_started) {
 		temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
 		$("#user-pass-input").val("");
-		socket.emit("list", {channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+		socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
 	} else {
 		$("#user_password").modal('close');
 		userpass = $("#user-pass-input").val();
@@ -1170,7 +1175,7 @@ $(document).on("click", ".submit-user-password", function(e) {
 	if(user_auth_started) {
 		temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
 		$("#user-pass-input").val("");
-		socket.emit("list", {channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+		socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
 	} else {
 		$("#user_password").modal('close');
 		userpass = $("#user-pass-input").val();
@@ -1840,7 +1845,7 @@ function onepage_load(){
 		var add = "";
 		w_p = true;
 		if(private_channel) add = Crypt.getCookie("_uI") + "_";
-		socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+		socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 	}else if(url_split[3] === ""){
 		$.contextMenu( 'destroy', ".playlist-element" );
 		user_change_password = false;

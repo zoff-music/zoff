@@ -413,6 +413,16 @@ var Player = {
 				if(window.location.pathname != "/"){
 					document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
 					$("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+					/*chromecast_icon_color = Helper.rgbToHsl(color,true).replace("hsl(", "").replace("%)", "").replace("%", "").replace(" ", "").replace(" ", "");
+					console.log(chromecast_icon_color);
+					chromecast_icon_color = chromecast_icon_color.split(",");
+					console.log(chromecast_icon_color);
+					chromecast_icon_color = Helper.hslToRgb(parseInt(chromecast_icon_color[0]), parseFloat(chromecast_icon_color[1]) / 100, parseFloat(chromecast_icon_color[2]) / 100);
+					console.log(chromecast_icon_color);
+					chromecast_icon_color = Helper.rgbToHex(parseInt(chromecast_icon_color[0]), parseInt(chromecast_icon_color[1]), parseInt(chromecast_icon_color[2]));
+					console.log(chromecast_icon_color);
+
+					$(".castButton").attr("style", "display:" + $(".castButton").css("display") + ";--disconnected-color" + chromecast_icon_color + ";");*/
 				}
 			};
 
