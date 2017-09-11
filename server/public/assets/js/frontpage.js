@@ -251,7 +251,7 @@ var Frontpage = {
 			if(Frontpage.times_rotated == 50 && frontpage){
 				Frontpage.times_rotated = 0;
 				i = 0;
-				socket.emit("frontpage_lists");
+				socket.emit("frontpage_lists", {version: parseInt(localStorage.getItem("VERSION"))});
 				socket.emit('get_userlists', Crypt.getCookie('_uI'));
 			}else if(frontpage){
 				Frontpage.times_rotated += 1;

@@ -67,6 +67,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser());
 
+var VERSION = 2;
 var io = require('socket.io')(server, {'pingTimeout': 25000}); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
 var mongojs = require('mongojs');
@@ -356,8 +357,12 @@ io.on('connection', function(socket){
 		}
 	});
 
-	socket.on('frontpage_lists', function()
+	socket.on('frontpage_lists', function(msg)
 	{
+
+		if(msg.version != VERSION || msg.version == undefined) {
+			socket.emit("update_required");
+		}
 
 		var playlists_to_send = [];
 		var i = 0;
@@ -417,6 +422,10 @@ io.on('connection', function(socket){
 	{
 		if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
 		{
+
+			if(msg.version != VERSION || msg.version == undefined) {
+				socket.emit("update_required");
+			}
 
 			try {
 				var list = msg.channel;
