@@ -81,13 +81,13 @@ var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
 
 var port       = 8080;
-var lists      = {};
-var offline_users = [];
-var unique_ids = [];
+//var lists      = {};
+//var offline_users = [];
+//var unique_ids = [];
 var names      = {names: []};
-var locks      = {};
-var skipped    = {};
-var tot_view   = 0;
+//var locks      = {};
+//var skipped    = {};
+//var tot_view   = 0;
 
 
 
@@ -950,7 +950,7 @@ io.on('connection', function(socket){
 									(docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
 									{
 										//if(!locks[coll] || locks[coll] == undefined){
-										locks[coll] = true;
+										//locks[coll] = true;
 										change_song(coll, error, video_id);
 										socket.emit("toast", "skip");
 										io.to(coll).emit('chat', {from: name, msg: " skipped"});
@@ -1538,18 +1538,21 @@ function change_song(coll, error, id) {
 									db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
 								});
 							} else {
-								if(skipped[coll] != get_time()){
-									skipped[coll] = get_time();
-									db.collection(coll).update({now_playing:true, id:id}, {
-										$set:{
-											now_playing:false,
-											votes:0,
-											guids:[]
-										}
-									},{multi:true}, function(err, docs){
-										var next_song;
-										if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-										if(docs.n >= 1) change_song_post(coll, next_song);
+								if((docs[0].skipped_time != undefined && docs[0].skipped_time != get_time()) || docs[0].skipped_time == undefined) {
+								//if(skipped[coll] != get_time()){
+									db.collection(coll).update({views: {$exists: true}}, {$set: {skipped_time: get_time()}}, function(err, updated){
+										//skipped[coll] = get_time();
+										db.collection(coll).update({now_playing:true, id:id}, {
+											$set:{
+												now_playing:false,
+												votes:0,
+												guids:[]
+											}
+										},{multi:true}, function(err, docs){
+											var next_song;
+											if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
+											if(docs.n >= 1) change_song_post(coll, next_song);
+										});
 									});
 								}
 							}
@@ -1564,7 +1567,8 @@ function change_song(coll, error, id) {
 							db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
 						});
 					} else {
-						if(skipped[coll] != get_time()){
+						if((docs[0].skipped_time != undefined && docs[0].skipped_time != get_time()) || docs[0].skipped_time == undefined) {
+						//if(skipped[coll] != get_time()){
 							//skipped[coll] = get_time();
 							db.collection(coll).update({now_playing:true, id:id}, {
 								$set:{
@@ -1632,7 +1636,7 @@ function change_song_post(coll, next_song)
 					db.collection(coll).find({views:{$exists:true}}, function(err, conf){
 						io.to(coll).emit("channel", {type: "song_change", time: get_time(), remove: conf[0].removeplay});
 						send_play(coll);
-						locks[coll] = false;
+						//locks[coll] = false;
 						update_frontpage(coll, docs[0].id, docs[0].title);
 					});
 				});
