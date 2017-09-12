@@ -20,7 +20,7 @@ var password = function(inp, coll, guid, offline, socket) {
     }
 
     uncrypted = pw;
-    pw = Functions.decrypt_string(socket.id, pw);
+    pw = Functions.decrypt_string(socket.zoff_id, pw);
 
     Functions.check_inlist(coll, guid, socket, offline);
 
@@ -28,7 +28,7 @@ var password = function(inp, coll, guid, offline, socket) {
     {
       opw = inp.oldpass;
     }
-    opw = Functions.decrypt_string(socket.id, opw);
+    opw = Functions.decrypt_string(socket.zoff_id, opw);
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs !== null && docs.length !== 0)
@@ -93,7 +93,7 @@ var conf = function(params, coll, guid, offline, socket) {
     var adminpass = params.adminpass;
     var skipping = params.skipping;
     var shuffling = params.shuffling;
-    var userpass = Functions.decrypt_string(socket.id, params.userpass);
+    var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
 
     if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
       userpass = "";
@@ -105,7 +105,7 @@ var conf = function(params, coll, guid, offline, socket) {
     if(params.description) description = params.description;
 
     if(adminpass !== "") {
-      hash = Functions.hash_pass(Functions.decrypt_string(socket.id, adminpass));
+      hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass));
     } else {
       hash = adminpass;
     }

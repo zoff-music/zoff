@@ -1,5 +1,5 @@
 var add = function(arr, coll, guid, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
   if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
   {
 
@@ -146,7 +146,7 @@ var add = function(arr, coll, guid, offline, socket) {
 }
 
 var voteUndecided = function(msg, coll, guid, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null){
 
     if(coll == "" || coll == undefined || coll == null || !msg.hasOwnProperty("adminpass") || !msg.hasOwnProperty("pass") || !msg.hasOwnProperty("id")) {
@@ -185,7 +185,7 @@ var voteUndecided = function(msg, coll, guid, offline, socket) {
 }
 
 var shuffle = function(msg, coll, guid, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
   if(msg.hasOwnProperty('adminpass') && msg.adminpass !== undefined && msg.adminpass !== null)
   {
     if(coll == "" || coll == undefined || coll == null) {
@@ -260,7 +260,7 @@ function del(params, socket, socketid) {
 }
 
 var delete_all = function(msg, coll, guid, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
   if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
     var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
     var hash_userpass = Functions.decrypt_string(socketid, msg.pass);

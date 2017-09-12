@@ -16,7 +16,7 @@ var now_playing = function(list, fn, socket) {
 }
 
 var list = function(msg, guid, coll, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
 
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
   {
@@ -68,7 +68,7 @@ var list = function(msg, guid, coll, offline, socket) {
 }
 
 var skip = function(list, guid, coll, offline, socket) {
-  var socketid = socket.id;
+  var socketid = socket.zoff_id;
   if(list !== undefined && list !== null && list !== "")
   {
 

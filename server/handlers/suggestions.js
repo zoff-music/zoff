@@ -3,7 +3,7 @@ var thumbnail = function(msg, coll, guid, offline, socket) {
     msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
     if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
     var channel = msg.channel.toLowerCase();
-    var hash = Functions.hash_pass(Functions.decrypt_string(socket.id, msg.adminpass));
+    var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
     db.collection(channel).find({views:{$exists:true}}, function(err, docs){
       if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
         if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
@@ -23,7 +23,7 @@ var thumbnail = function(msg, coll, guid, offline, socket) {
 var description = function(msg, coll, guid, offline, socket) {
   if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
     var channel = msg.channel.toLowerCase();
-    var hash = Functions.hash_pass(Functions.decrypt_string(socket.id, msg.adminpass));
+    var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
     db.collection(channel).find({views:{$exists:true}}, function(err, docs){
       if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
         if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
