@@ -144,13 +144,29 @@ io.on('connection', function(socket){
 		socket.emit("ok");
 	});
 
+	var get_short_id = function(seed, minlen) {
+		var len = minlen;
+		var id = rndName(seed, minlen);
+
+		db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, {upsert: true}, function(err, updated) {
+			if(updated.nModified == 1) {
+				short_id = id;
+				socket.join(short_id);
+				socket.emit("id", short_id);
+			} else {
+				get_short_id(rndName(String(len)+id, len + 0.1));
+			}
+		});
+	}
+
 	var socketid = socket.id;
 	var coll;
 	var in_list = false;
-	var short_id = uniqueID(socketid,4);
+	var short_id = get_short_id(socketid, 4);
+	//var short_id = uniqueID(socketid,4);
 	var offline = false;
 	//names.push(name);
-	unique_ids.push(short_id);
+	//unique_ids.push(short_id);
 	var name;
 	var chromecast_object = false;
 	if(names[guid] === undefined){
@@ -305,7 +321,8 @@ io.on('connection', function(socket){
 
 			}*/
 
-			remove_from_array(unique_ids, short_id);
+			remove_unique_id(short_id);
+			//remove_from_array(unique_ids, short_id);
 
 			db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {});
 			db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
@@ -478,8 +495,6 @@ io.on('connection', function(socket){
 							}
 							in_list = true;
 							socket.join(coll);
-							socket.join(short_id);
-							socket.emit("id", short_id);
 							check_inlist(coll, guid, socket, name, offline);
 
 							io.to(coll).emit("viewers", frontpage_lists.viewers);
@@ -1311,7 +1326,12 @@ function left_channel(coll, guid, name, short_id, in_list, socket, change)
 		}
 	}*/
 
-	remove_from_array(unique_ids, short_id);
+	//remove_from_array(unique_ids, short_id);
+	remove_unique_id(short_id);
+}
+
+function remove_unique_id(short_id) {
+	db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
 }
 
 function remove_from_array(array, element){
@@ -1786,9 +1806,16 @@ function uniqueID(seed, minlen){
 	var len = minlen;
 	var id = rndName(seed, minlen);
 
-	while( contains(unique_ids, id) && len<=8){
+	db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, function(err, updated) {
+		if(updated.nModified == 1) {
+			return id;
+		} else {
+			return uniqueID(rndName(String(len)+id, len + 0.1));
+		}
+	});
+	/*while( contains(unique_ids, id) && len<=8){
 		id = rndName(String(len)+id, len);
 		len += 0.1;                        // try 10 times at each length
 	}
-	return id;
+	return id;*/
 }
