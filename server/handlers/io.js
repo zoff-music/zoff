@@ -1,5 +1,6 @@
 module.exports = function() {
 	io.on('connection', function(socket){
+		socket.zoff_id = socket.id;
 		socket.emit("get_list");
 
 		var guid = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
@@ -14,7 +15,7 @@ module.exports = function() {
 
 
 
-		var socketid = socket.id;
+		var socketid = socket.zoff_id;
 		var coll;
 		var in_list = false;
 		var short_id;
@@ -44,6 +45,7 @@ module.exports = function() {
 						if(connected_users_channel.users.indexOf(msg.guid) > -1) {
 							guid = msg.guid;
 							socketid = msg.socket_id;
+							socket.zoff_id = socketid;
 							coll = msg.channel;
 							in_list = true;
 							chromecast_object = true;
