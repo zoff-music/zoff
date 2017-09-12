@@ -930,8 +930,8 @@ io.on('connection', function(socket){
 							if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
 							{
 								db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-									if((frontpage_viewers.viewers/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && frontpage_viewers.viewers != 2) ||
-									(frontpage_viewers.viewers == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
+									if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+									(frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
 									(docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
 									{
 										//if(!locks[coll] || locks[coll] == undefined){
@@ -942,10 +942,10 @@ io.on('connection', function(socket){
 										//}
 									}else if(!contains(docs[0].skips, guid)){
 										db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
-											if(frontpage_viewers.viewers == 2)
+											if(frontpage_viewers[0].viewers == 2)
 											to_skip = 1;
 											else
-											to_skip = (Math.ceil(frontpage_viewers.viewers/2) - docs[0].skips.length-1);
+											to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
 											socket.emit("toast", to_skip + " more are needed to skip!");
 											socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
 										});
