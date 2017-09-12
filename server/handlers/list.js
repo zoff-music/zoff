@@ -41,7 +41,11 @@ var list = function(msg, guid, coll, offline, socket) {
             socket.join(coll);
             Functions.check_inlist(coll, guid, socket, offline);
 
-            io.to(coll).emit("viewers", frontpage_lists.viewers);
+            if(frontpage_lists.viewers != undefined){
+              io.to(coll).emit("viewers", frontpage_lists.viewers);
+            } else {
+              io.to(coll).emit("viewers", 1);
+            }
 
             send_list(coll, socket, true, false, true);
 

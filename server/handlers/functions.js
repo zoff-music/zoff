@@ -52,7 +52,11 @@ var Functions = {
   			if(updated.nModified > 0) {
   				db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
   					db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": new_doc[0].users.length}}, function(){
-  						io.to(coll).emit("viewers", new_doc[0].users.length);
+                        if(new_doc[0].users == undefined || new_doc[0].users.length == undefined) {
+                            io.to(coll).emit("viewers", 1);
+                        } else {
+		                    io.to(coll).emit("viewers", new_doc[0].users.length);
+                        }
   						db.collection("user_names").find({"guid": guid}, function(err, docs) {
   							if(docs.length == 1) {
   								socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
