@@ -64,7 +64,13 @@ module.exports = function() {
 
 		socket.on("get_spread", function(){
 			db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
-				socket.emit("spread_listeners", {offline: offline_users.length, total: tot[0].total_users, online_users: lists});
+                db.collection("connected_users").find({"_id": "offline_users"}, function(err, off) {
+                    if(tot.length > 0 && off.length == 0) {
+                        socket.emit("spread_listeners", {offline: 0, total: tot[0].total_users});
+                    } else if(tot.length > 0 && off.length > 0){
+						socket.emit("spread_listeners", {offline: off[0].users.length, total: tot[0].total_users});
+					}
+                });
 			});
 		});
 
