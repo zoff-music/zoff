@@ -127,6 +127,8 @@ db.on('error',function(err) {
 	console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
 
+db.collection("user_names").remove({"guid": {$exists: true}}, {multi: true, upsert: true}, function(err, docs){});
+db.collection("user_names").update({"_id": "all_names"}, {$set: {names: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, {multi: true, upsert: true}, function(err, docs) {});
 db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true, upsert: true}, function(err, docs) {});
@@ -159,40 +161,70 @@ io.on('connection', function(socket){
 		});
 	}
 
+	var generate_name = function(guid, announce_payload) {
+		var tmp_name = rndName(guid, 8);
+		db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
+			if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
+				db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name}}, {upsert: true}, function(err, update){
+					name = tmp_name;
+					if(announce_payload.announce) {
+						io.to(coll).emit('chat', {from: announce_payload.old_name,  msg: " changed name to " + name});
+						io.sockets.emit('chat.all', {from: announce_payload.old_name , msg: " changed name to " + name, channel: coll});
+					}
+				});
+			} else {
+				generate_name(tmp_name + "_", announce_payload);
+			}
+		})
+	}
+
+	var get_name = function(guid, announce_payload) {
+		db.collection("user_names").find({"guid": guid}, function(err, docs) {
+			if(docs.length == 0) {
+				generate_name(guid, announce_payload);
+			} else {
+				name = docs[0].name;
+			}
+		})
+	}
+
 	var socketid = socket.id;
 	var coll;
 	var in_list = false;
-	var short_id = get_short_id(socketid, 4);
+	var short_id;
+	var name;
+	get_name(guid, {announce: false});
+	get_short_id(socketid, 4);
 	//var short_id = uniqueID(socketid,4);
 	var offline = false;
 	//names.push(name);
 	//unique_ids.push(short_id);
-	var name;
+	//var name;
 	var chromecast_object = false;
-	if(names[guid] === undefined){
+	/*if(names[guid] === undefined){
 		name = get_name(guid);
 	}
 	else
 	name = names[guid];
-
+	*/
 	socket.emit("guid", guid);
 
 	socket.on('self_ping', function(msg) {
 		var channel = msg.channel;
 		if(offline) {
 			//offline_users.push(guid);
-			db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs){});
+			db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs){});
 		} else {
-			db.collection("connected_users").update({"_id": channel}, {$addToSet: {users: guid}}, function(err, docs){
+			db.collection("connected_users").update({"_id": channel}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs){
 				/*
 				if(lists[channel] == undefined) {
 					lists[channel] = [];
 				}
 				lists[channel].push(guid);*/
-				db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, function(){});
+				db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, {upsert: true}, function(){});
 			});
 		}
-		db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
+		db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, {upsert: true}, function(err, docs){});
 		//tot_view += 1
 	});
 
@@ -298,8 +330,9 @@ io.on('connection', function(socket){
 						io.to(coll).emit("viewers", updated.users);
 						db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs){});
 					}
-					remove_from_array(names.names, name);
-					delete names[guid];
+					remove_name_from_db(guid, name);
+					//remove_from_array(names.names, name);
+					//delete names[guid];
 				});
 			}
 
@@ -335,7 +368,7 @@ io.on('connection', function(socket){
 		} else {
 			offline = false;
 			db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
-				check_inlist(coll, guid, socket, names[guid], offline);
+				check_inlist(coll, guid, socket, offline);
 			});
 			/*if(contains(offline_users, guid))
 			{
@@ -354,6 +387,34 @@ io.on('connection', function(socket){
 	{
 		if(typeof(data) !== "string") return;
 		data = encodeURIComponent(data).replace(/\W/g, '').replace(/[^\x00-\x7F]/g, "");
+		db.collection("user_names").find({"guid": guid}, function(err, docs) {
+			if(docs.length == 1) {
+				var change_name = function(new_name, guid, old_name) {
+					if(new_name.length > 9) {
+						name = old_name;
+						return;
+					} else {
+						db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: new_name}}, function(err, updated) {
+							if(updated.nModified == 1) {
+								db.collection("user_names").update({"guid": guid}, {$set: {name: new_name}}, function(err, updated) {
+									db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function(err, updated) {});
+									name = new_name;
+									io.to(coll).emit('chat', {from: old_name, msg: " changed name to " + name});
+									io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: coll});
+								});
+							} else {
+								change_name(new_name + "_", guid, old_name);
+							}
+						});
+					}
+				}
+
+				var old_name = docs[0].name;
+				change_name(data, guid, old_name);
+
+			}
+		});
+		/*
 		old_name = names[guid];
 		new_name = change_name(data, guid, name);
 		if(new_name == name || new_name === false) return;
@@ -366,11 +427,23 @@ io.on('connection', function(socket){
 			names.names.push(new_name);
 			io.to(coll).emit('chat', {from: old_name, msg: " changed name to " + new_name});
 			io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + new_name, channel: coll});
-		}
+		}*/
 	});
 
-	socket.on("removename", function()
+	socket.on('removename', function()
 	{
+		db.collection("user_names").find({"guid": guid}, function(err, docs) {
+			if(docs.length == 1) {
+				var old_name = docs[0].name;
+
+				db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function(err, updated) {
+					db.collection("user_names").remove({"guid": guid}, function(err, removed) {
+						get_name(guid, {announce: true, old_name: old_name});
+					});
+				});
+			}
+		})
+		/*
 		old_name = names[guid];
 		new_name = rndName(guid, 8);
 		if(old_name != new_name){
@@ -379,7 +452,7 @@ io.on('connection', function(socket){
 			remove_from_array(names.names, old_name);
 			io.to(coll).emit('chat', {from: old_name,  msg: " changed name to " + new_name});
 			io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + new_name, channel: coll});
-		}
+		}*/
 	});
 
 	socket.on('chat', function (msg) {
@@ -390,13 +463,10 @@ io.on('connection', function(socket){
 		db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 			if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
 				var data = msg.data;
-				check_inlist(coll, guid, socket, names[guid], offline);
+				check_inlist(coll, guid, socket, offline);
 				if(data !== "" && data !== undefined && data !== null &&
 				data.length < 151 && data.replace(/\s/g, '').length){
-					if(names[guid] === undefined){
-						name = get_name(guid);
-					} else name = names[guid];
-					io.to(coll).emit('chat', {from: names[guid], msg: ": " + data});
+					io.to(coll).emit('chat', {from: name, msg: ": " + data});
 				}
 			} else {
 				socket.emit('auth_required');
@@ -410,13 +480,10 @@ io.on('connection', function(socket){
 			socket.emit('update_required');
 			return;
 		}
-		check_inlist(coll, guid, socket, names[guid], offline);
+		check_inlist(coll, guid, socket, offline);
 		if(data !== "" && data !== undefined && data !== null &&
 		data.length < 151 && data.replace(/\s/g, '').length){
-			if(names[guid] === undefined){
-				name = get_name(guid);
-			} else name = names[guid];
-			io.sockets.emit('chat.all', {from: names[guid], msg: ": " + data, channel: coll});
+			io.sockets.emit('chat.all', {from: name, msg: ": " + data, channel: coll});
 		}
 	});
 
@@ -495,7 +562,7 @@ io.on('connection', function(socket){
 							}
 							in_list = true;
 							socket.join(coll);
-							check_inlist(coll, guid, socket, name, offline);
+							check_inlist(coll, guid, socket, offline);
 
 							io.to(coll).emit("viewers", frontpage_lists.viewers);
 
@@ -549,7 +616,7 @@ io.on('connection', function(socket){
 			db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 				if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, obj.pass)))) {
 
-					check_inlist(coll, guid, socket, name, offline);
+					check_inlist(coll, guid, socket, offline);
 					db.collection(coll).find({now_playing:true}, function(err, np){
 						if(err !== null) console.log(err);
 						if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
@@ -606,7 +673,7 @@ io.on('connection', function(socket){
 			db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 				if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, arr.pass)))) {
 
-					check_inlist(coll, guid, socket, name, offline);
+					check_inlist(coll, guid, socket, offline);
 
 					var id = arr.id;
 					var title = arr.title;
@@ -810,7 +877,7 @@ io.on('connection', function(socket){
 			db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 				if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
 
-					check_inlist(coll, guid, socket, name, offline);
+					check_inlist(coll, guid, socket, offline);
 
 					if(msg.type == "del")
 					del(msg, socket, socketid);
@@ -863,7 +930,7 @@ io.on('connection', function(socket){
 			uncrypted = pw;
 			pw = decrypt_string(socketid, pw);
 
-			check_inlist(coll, guid, socket, name, offline);
+			check_inlist(coll, guid, socket, offline);
 
 			if(inp.oldpass)
 			{
@@ -919,7 +986,7 @@ io.on('connection', function(socket){
 			db.collection(coll).find({views:{$exists:true}}, function(err, docs){
 				if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == decrypt_string(socketid, list.userpass)))) {
 
-					check_inlist(coll, guid, socket, name, offline);
+					check_inlist(coll, guid, socket, offline);
 
 					adminpass = "";
 					video_id  = list.id;
@@ -1014,7 +1081,7 @@ io.on('connection', function(socket){
 				return;
 			}
 
-			check_inlist(coll, guid, socket, name, offline);
+			check_inlist(coll, guid, socket, offline);
 
 			var voting = params.voting;
 			var addsongs = params.addsongs;
@@ -1109,7 +1176,7 @@ io.on('connection', function(socket){
 				return;
 			}
 
-			check_inlist(coll, guid, socket, name, offline);
+			check_inlist(coll, guid, socket, offline);
 			var hash;
 			if(msg.adminpass === "") hash = msg.adminpass;
 			else hash = hash_pass(decrypt_string(socketid, msg.adminpass));
@@ -1215,7 +1282,7 @@ io.on('connection', function(socket){
 
 		db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
 			if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, obj.pass)))) {
-				check_inlist(coll, guid, socket, name, offline);
+				check_inlist(coll, guid, socket, offline);
 				send_play(coll, socket);
 			} else {
 				socket.emit("auth_required");
@@ -1292,8 +1359,9 @@ function left_channel(coll, guid, name, short_id, in_list, socket, change)
 				db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, updated){});
 
 				if(!change) {
-					remove_from_array(names.names, name);
-					delete names[guid];
+					remove_name_from_db(guid, name);
+					/*remove_from_array(names.names, name);
+					delete names[guid];*/
 				}
 			});
 		}
@@ -1334,6 +1402,12 @@ function remove_unique_id(short_id) {
 	db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
 }
 
+function remove_name_from_db(guid, name) {
+	db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
+		db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+	});
+}
+
 function remove_from_array(array, element){
 	if(contains(array, element)){
 		var index = array.indexOf(element);
@@ -1342,6 +1416,7 @@ function remove_from_array(array, element){
 	}
 }
 
+/*
 function get_name(guid){
 	if(names[guid] !== undefined) return names[guid];
 
@@ -1365,7 +1440,7 @@ function change_name(name, guid, oldname){
 	}else{
 		return name;
 	}
-}
+}*/
 
 function update_frontpage(coll, id, title) {
 	db.collection("frontpage_lists").update({_id: coll}, {$set: {
@@ -1404,7 +1479,7 @@ function del(params, socket, socketid) {
 	}
 }
 
-function check_inlist(coll, guid, socket, name, offline)
+function check_inlist(coll, guid, socket, offline)
 {
 	if(!offline && coll != undefined){
 		db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
@@ -1412,7 +1487,11 @@ function check_inlist(coll, guid, socket, name, offline)
 				db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
 					db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": new_doc[0].users.length}}, function(){
 						io.to(coll).emit("viewers", new_doc[0].users.length);
-						socket.broadcast.to(coll).emit('chat', {from: name, msg: " joined"});
+						db.collection("user_names").find({"guid": guid}, function(err, docs) {
+							if(docs.length == 1) {
+								socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
+							}
+						});
 
 						db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
 					});
