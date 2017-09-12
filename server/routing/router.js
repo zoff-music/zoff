@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const path = require('path');
 var nodemailer = require('nodemailer');
-var mailconfig = require('./mailconfig.js');
+var mailconfig = require('../mailconfig.js');
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here

@@ -65,7 +65,7 @@ var Chat = {
 		} else if(data.value.startsWith("/removename")){
 			Chat.removename();
 		} else if($(".chat-tab-li a.active").attr("href") == "#all_chat"){
-			socket.emit("all,chat", data.value);
+			socket.emit("all,chat", {channel: chan.toLowerCase(), data: data.value});
 		} else {
 			socket.emit("chat", {channel: chan.toLowerCase(), data: data.value, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 		}
