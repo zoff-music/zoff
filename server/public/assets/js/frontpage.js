@@ -148,7 +148,7 @@ var Frontpage = {
 			//if(options_list[x].count > 5 && Math.floor((new Date).getTime()/1000) - options_list[x].accessed < 604800){
 			/*var chan = options_list[x].channel;
 			output+="<option value='"+chan+"'> ";*/
-			data[options_list[x].channel] = null;
+			data[options_list[x]._id] = null;
 			//}
 		}
 
@@ -222,7 +222,7 @@ var Frontpage = {
 					$("#mega-background").css("background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
 					$("#mega-background").css("background-size" , "200%");
 					$("#mega-background").css("opacity", 1);
-					$(".desktop-search").attr("placeholder", list[i].channel);
+					$(".desktop-search").attr("placeholder", list[i]._id);
 					//$(".room-namer").css("opacity", 1);
 				}
 			},500);
@@ -236,19 +236,12 @@ var Frontpage = {
 					data: {id:id},
 					url: "/api/imageblob",
 					success: function(data){
-						//Frontpage.blob_list.push(data);
-						//data will contain the vote count echoed by the controller i.e.
-						//$(".room-namer").css("opacity", 0);
 						setTimeout(function(){
 							$("#mega-background").css("background", "url(/assets/images/thumbnails/"+data+")");
 							$("#mega-background").css("background-size" , "200%");
 							$("#mega-background").css("opacity", 1);
-							$(".desktop-search").attr("placeholder", list[i].channel);
-							//$(".room-namer").css("opacity", 1);
+							$(".desktop-search").attr("placeholder", list[i]._id);
 						},500);
-						//then append the result where ever you want like
-						//$("span#votes_number").html(data); //data will be containing the vote count which you have echoed from the controller
-
 					}
 				});
 			};
@@ -256,7 +249,7 @@ var Frontpage = {
 				$("#mega-background").css("background", "url("+img.src+")");
 				$("#mega-background").css("background-size" , "200%");
 				$("#mega-background").css("opacity", 1);
-				$(".desktop-search").attr("placeholder", list[i].channel);
+				$(".desktop-search").attr("placeholder", list[i]._id);
 			};
 
 		}
@@ -302,10 +295,7 @@ var Frontpage = {
 	},
 
 	set_viewers: function(viewers){
-		//if(viewers > 0){
-		//var to_add = viewers > 1 ? "listeners" : "listener";
 		$("#frontpage-viewer-counter").html("<i class='material-icons frontpage-viewers'>visibility</i>" + viewers);
-		//}
 	},
 
 	to_channel: function(new_channel, popstate){
