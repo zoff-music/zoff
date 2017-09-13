@@ -103,7 +103,7 @@ var generate_name = function(guid, announce_payload) {
         } else if(announce_payload.message && !announce_payload.all) {
           io.to(announce_payload.channel).emit('chat', {from: name, msg: ": " + announce_payload.message});
         } else if(announce_payload.message && announce_payload.all) {
-          io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + announce_payload.message, channel: coll});
+          io.sockets.emit('chat.all', {from: name, msg: ": " + announce_payload.message, channel: coll});
         }
       });
     } else {
