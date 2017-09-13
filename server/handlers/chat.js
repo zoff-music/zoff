@@ -6,7 +6,7 @@ var chat = function(msg, guid, offline, socket) {
   }
   var coll = msg.channel;
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
+    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socket.zoff_id, msg.pass)))) {
       var data = msg.data;
       Functions.check_inlist(coll, guid, socket, offline);
       if(data !== "" && data !== undefined && data !== null &&
@@ -107,7 +107,7 @@ var generate_name = function(guid, announce_payload) {
         }
       });
     } else {
-      generate_name(tmp_name + "_", announce_payload);
+      generate_name(tmp_name, announce_payload);
     }
   })
 }

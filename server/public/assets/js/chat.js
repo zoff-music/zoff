@@ -2,7 +2,7 @@ var Chat = {
 
 	channel_received: 0,
 	all_received: 0,
-	chat_help: ["/name <new name> to change name", "/removename to remove name"],
+	chat_help: [/*"/name <new name> to change name", "/removename to remove name"*/ "There are no commands.. As of now!"],
 
 	namechange: function(newName)
 	{
@@ -20,9 +20,9 @@ var Chat = {
 	{
 		if(data.value.length > 150)
 		return;
-		if(data.value.startsWith("/name ")){
+		/*if(data.value.startsWith("/name ")){
 			Chat.namechange(data.value.substring(6));
-		} else if(data.value.startsWith("/help")){
+		} else */ if(data.value.startsWith("/help")){
 			if($(".chat-tab-li a.active").attr("href") == "#all_chat"){
 				if($("#chatall").children().length > 100){
 					$("#chatall").children()[0].remove()
