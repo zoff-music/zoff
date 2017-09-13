@@ -17,6 +17,7 @@ module.exports = function() {
 		var socketid = socket.zoff_id;
 		var coll;
 		var in_list = false;
+        var name = "";
 		var short_id;
 		Chat.get_name(guid, {announce: false});
 		Functions.get_short_id(socketid, 4, socket);
@@ -34,6 +35,13 @@ module.exports = function() {
 					db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, {upsert: true}, function(){});
 				});
 			}
+			/*if(name != "") {
+				db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, {upsert: true}, function(err, updated) {
+					if(updated.nModified == 1) {
+						db.collection("user_names").update({"guid": guid}, {$set: {name: name}}, {upsert:true}, function(err, update){});
+					}
+				});
+			}*/
 			db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, {upsert: true}, function(err, docs){});
 		});
 
@@ -122,18 +130,21 @@ module.exports = function() {
 			}
 		});
 
-		socket.on('namechange', function(msg)
+		/*socket.on('namechange', function(msg)
 		{
             if(coll == undefined) {
                 coll = msg.channel;
             }
-			Chat.namechange(msg.name, guid, coll);
+			Chat.namechange(msg.name, guid, coll, function(new_name) {
+				name = new_name;
+			});
 		});
 
 		socket.on('removename', function()
 		{
 			Chat.removename(guid, coll);
-		});
+			name = "";
+		});*/
 
 		socket.on('chat', function (msg) {
 			Chat.chat(msg, guid, offline, socket);
@@ -377,13 +388,16 @@ module.exports = function() {
 		var send_ping = function(guid, coll, socket) {
 			console.log(guid, coll);
 			if(coll == undefined) {
-				ping_timeout = setTimeout(send_ping, 3000);
+				ping_timeout = setTimeout(function(){
+					send_ping(guid, coll, socket);
+				}, 3000);
 			} else {
 				db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, docs) {
 					db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs) {
 						db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) {
 							db.collection("user_names").find({"guid": guid}, function(err, user_name) {
 								if(user_name.length > 0) {
+									name = user_name[0].name;
 									db.collection("user_names").remove({"guid": guid}, function(err, docs) {
 										db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: user_name[0].name}}, function(err, docs) {
 											socket.emit("self_ping");
@@ -400,7 +414,8 @@ module.exports = function() {
 			}
 		}*/
 	});
-	send_ping();
+
+    send_ping();
 }
 
 function send_ping() {
