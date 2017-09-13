@@ -108,7 +108,7 @@ app.get('/robots.txt', function (req, res) {
 app.use(function (req, res, next) {
 	var cookie = req.cookies._uI;
 	if (cookie === undefined) {
-		var user_name = rndName(uniqid.time(), 15);
+		var user_name = Functions.rndName(uniqid.time(), 15);
 		res.cookie('_uI',user_name, { maxAge: 365 * 10000 * 3600000 });
 	}
 	next();
