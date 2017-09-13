@@ -4,6 +4,7 @@ var server;
 var add = "";
 const path = require('path');
 const publicPath = path.join(__dirname, 'public');
+pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
