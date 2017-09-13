@@ -318,36 +318,26 @@ module.exports = function() {
 
 		socket.on('disconnect', function()
 		{
-			console.log("disconnect");
-			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('disconnected', function()
 		{
-			console.log("disconnected");
-			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('reconnect_failed', function()
 		{
-			console.log("reconnect_failed");
-			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('connect_timeout', function()
 		{
-			console.log("connect_timeout");
-			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('error', function()
 		{
-			console.log("error");
-			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
