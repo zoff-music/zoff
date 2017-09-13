@@ -1190,6 +1190,10 @@ hide mdi-action-visibility mdi-action-visibility-off
     color: orange;
 }
 
+.channel_info_container {
+  padding-top: 18px !important;
+}
+
 #thumbnail_image{
   text-align: center;
 }
@@ -1199,6 +1203,7 @@ hide mdi-action-visibility mdi-action-visibility-off
   margin: auto;
   color: black;
   justify-content: center;
+  line-height: 30px;
 }
 
 #chan_thumbnail:disabled{
@@ -2258,6 +2263,7 @@ nav ul li:hover, nav ul li.active {
 
     #main_section_frontpage {
       margin-top: -20px;
+      padding-top: 0px;
     }
 
     .delete_button, .del_suggested, .del_user_suggested{
