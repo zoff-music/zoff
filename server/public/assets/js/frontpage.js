@@ -35,7 +35,7 @@ var Frontpage = {
 		var num = 0;
 		var pinned;
 
-		for(var i = 0; i < lists.length; i++) {
+		/*for(var i = 0; i < lists.length; i++) {
 			if(!lists[i].hasOwnProperty("viewers")){
 				lists[i].viewers = 0;
 			}
@@ -48,10 +48,13 @@ var Frontpage = {
 				pinned = lists[i];
 				delete lists[i];
 			}
-		}
+		}*/
 
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
+				name: 'pinned',
+				reverse: true
+			}, {
 				name: 'viewers',
 				reverse: true
 			}, {
@@ -71,7 +74,7 @@ var Frontpage = {
 			}));
 		}
 
-		lists.unshift(pinned);
+		//lists.unshift(pinned);
 
 		if(!Helper.mobilecheck()) {
 			clearTimeout(rotation_timeout);

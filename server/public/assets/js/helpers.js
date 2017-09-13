@@ -25,6 +25,8 @@ var Helper = {
 		field, name, cmp;
 
 		var default_cmp = function (a, b) {
+            if(a == undefined) a = 0;
+            if(b == undefined) b = 0;
 			if (a === b) return 0;
 			return a < b ? -1 : 1;
 		},
