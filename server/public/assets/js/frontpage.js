@@ -39,19 +39,19 @@ var Frontpage = {
 			if(!lists[i].hasOwnProperty("viewers")){
 				lists[i].viewers = 0;
 			}
+			if(!lists[i].hasOwnProperty("accessed")) {
+				lists[i].accessed = 0;
+			}
 			if(!lists[i].hasOwnProperty("pinned")){
 				lists[i].pinned = 0;
-			}
-			if(!lists[i].hasOwnProperty("count") || lists[i].count == 0) {
+			} else if(lists[i].pinned == 1) {
+				pinned = lists[i];
 				delete lists[i];
 			}
 		}
 
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
-				name: 'pinned',
-				reverse: true
-			}, {
 				name: 'viewers',
 				reverse: true
 			}, {
@@ -63,9 +63,6 @@ var Frontpage = {
 			}));
 		} else {
 			lists = lists.sort(Helper.predicate({
-				name: 'pinned',
-				reverse: true
-			}, {
 				name: 'viewers',
 				reverse: true
 			}, {
@@ -74,9 +71,7 @@ var Frontpage = {
 			}));
 		}
 
-		if(pinned !== undefined){
-			lists.unshift(pinned);
-		}
+		lists.unshift(pinned);
 
 		if(!Helper.mobilecheck()) {
 			clearTimeout(rotation_timeout);
@@ -409,7 +404,7 @@ function initfp(){
 
 	if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
 
-	if(window.location.hostname == "zoff.me") add = "https://zoff.me";
+	if(window.location.hostname != "zoff.me") add = "https://zoff.me";
 	else add = window.location.hostname;
 	if(socket === undefined || Helper.mobilecheck() || user_auth_avoid) {
 		socket = io.connect(''+add+':8080', connection_options);
