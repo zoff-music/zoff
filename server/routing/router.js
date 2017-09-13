@@ -26,9 +26,9 @@ router.route('/:channel_name').get(function(req, res, next){
             res.redirect("https://zoff.me");
         } else {
             if(req.params.channel_name == "_embed") {
-                res.sendFile(path.join(__dirname, '/public/assets/html/embed.html'));
+                res.sendFile(path.join(pathThumbnails, '/public/assets/html/embed.html'));
             } else if(req.params.channel_name == "o_callback") {
-                res.sendFile(path.join(__dirname, '/public/assets/html/callback.html'));
+                res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
                 var data = {
                     list_name: capitalizeFirstLetter(req.params.channel_name),
