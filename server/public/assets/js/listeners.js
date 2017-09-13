@@ -154,6 +154,11 @@ $().ready(function(){
 				}
 			});
 		}
+        if(conf_arr != undefined && conf_arr.name !== undefined && conf_arr.name !== "") {
+			setTimeout(function(){
+				Chat.namechange(conf_arr.name);
+			}, 1000);
+		}
 	});
 
 	socket.on("self_ping", function() {

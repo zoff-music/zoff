@@ -6,7 +6,7 @@ var Chat = {
 
 	namechange: function(newName)
 	{
-		socket.emit("namechange", newName);
+		socket.emit("namechange", {name: newName, channel: chan.toLowerCase()});
 		Crypt.set_name(newName);
 	},
 

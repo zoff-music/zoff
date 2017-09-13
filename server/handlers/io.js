@@ -13,8 +13,7 @@ module.exports = function() {
 			socket.emit("ok");
 		});
 
-
-
+		var ping_timeout;
 		var socketid = socket.zoff_id;
 		var coll;
 		var in_list = false;
@@ -123,9 +122,12 @@ module.exports = function() {
 			}
 		});
 
-		socket.on('namechange', function(data)
+		socket.on('namechange', function(msg)
 		{
-			Chat.namechange(data, guid, coll);
+            if(coll == undefined) {
+                coll = msg.channel;
+            }
+			Chat.namechange(msg.name, guid, coll);
 		});
 
 		socket.on('removename', function()
@@ -305,26 +307,36 @@ module.exports = function() {
 
 		socket.on('disconnect', function()
 		{
+			console.log("disconnect");
+			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('disconnected', function()
 		{
+			console.log("disconnected");
+			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('reconnect_failed', function()
 		{
+			console.log("reconnect_failed");
+			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('connect_timeout', function()
 		{
+			console.log("connect_timeout");
+			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
 		socket.on('error', function()
 		{
+			console.log("error");
+			clearTimeout(ping_timeout);
 			List.left_channel(coll, guid, short_id, in_list, socket, false);
 		});
 
@@ -358,8 +370,36 @@ module.exports = function() {
 				}
 			});
 		});
-	});
+		/*ping_timeout = setTimeout(function() {
+			send_ping(guid, coll, socket);
+		}, 3000);
 
+		var send_ping = function(guid, coll, socket) {
+			console.log(guid, coll);
+			if(coll == undefined) {
+				ping_timeout = setTimeout(send_ping, 3000);
+			} else {
+				db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, docs) {
+					db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs) {
+						db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) {
+							db.collection("user_names").find({"guid": guid}, function(err, user_name) {
+								if(user_name.length > 0) {
+									db.collection("user_names").remove({"guid": guid}, function(err, docs) {
+										db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: user_name[0].name}}, function(err, docs) {
+											socket.emit("self_ping");
+											ping_timeout = setTimeout(function(){
+												send_ping(guid, coll, socket);
+											}, 3000);
+										});
+									});
+								}
+							});
+						});
+					});
+				});
+			}
+		}*/
+	});
 	send_ping();
 }
 
