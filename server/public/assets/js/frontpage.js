@@ -35,8 +35,8 @@ var Frontpage = {
 		var num = 0;
 		var pinned;
 
-		/*for(var i = 0; i < lists.length; i++) {
-			if(!lists[i].hasOwnProperty("viewers")){
+		for(var i = 0; i < lists.length; i++) {
+			/*if(!lists[i].hasOwnProperty("viewers")){
 				lists[i].viewers = 0;
 			}
 			if(!lists[i].hasOwnProperty("accessed")) {
@@ -47,8 +47,12 @@ var Frontpage = {
 			} else if(lists[i].pinned == 1) {
 				pinned = lists[i];
 				delete lists[i];
+			}*/
+
+			if(lists[i].count == 0) {
+				delete lists[i];
 			}
-		}*/
+		}
 
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
