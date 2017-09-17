@@ -43,6 +43,13 @@ router.route('/:channel_name').get(function(req, res, next){
     }
 });
 
+router.route('/api/frontpages').get(function(req, res) {
+    db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(docs));
+    });
+});
+
 router.route('/api/imageblob').post(function(req, res) {
     var Jimp = require("jimp");
     Jimp.read('https://img.youtube.com/vi/' + req.body.id + '/mqdefault.jpg', function (err, image) {
