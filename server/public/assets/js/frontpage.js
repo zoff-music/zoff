@@ -137,6 +137,7 @@ var Frontpage = {
 			num++;
 			//if(num>19)break;
 		}
+
 		var options_list = lists.slice();
 
 		options_list = options_list.sort(Frontpage.sortFunction_active);
@@ -153,13 +154,13 @@ var Frontpage = {
 		var to_autocomplete = "input.desktop-search";
 		if(Helper.mobilecheck()) to_autocomplete = "input.mobile-search";
 
-		$(to_autocomplete).autocomplete({
+		/*$(to_autocomplete).autocomplete({
 			data: data,
 			limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
 			onAutocomplete: function(val) {
 				Frontpage.to_channel(val, false);
 			},
-		});
+		});*/
 
 		//$(".autocomplete").off('keydown.autocomplete');
 
@@ -445,7 +446,7 @@ function initfp(){
 		tooltip: "Total Viewers"
 	});
 	socket.emit('frontpage_lists', {version: parseInt(localStorage.getItem("VERSION"))});
-	socket.emit('get_userlists', Crypt.getCookie('_uI'));
+	//socket.emit('get_userlists', Crypt.getCookie('_uI'));
 
 	$("#channel-load").css("display", "none");
 	//Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)

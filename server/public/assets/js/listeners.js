@@ -154,11 +154,11 @@ $().ready(function(){
 				}
 			});
 		}
-        if(conf_arr != undefined && conf_arr.name !== undefined && conf_arr.name !== "") {
+        /*if(conf_arr != undefined && conf_arr.name !== undefined && conf_arr.name !== "") {
 			setTimeout(function(){
 				Chat.namechange(conf_arr.name);
 			}, 1000);
-		}
+		}*/
 	});
 
 	socket.on("self_ping", function() {
@@ -169,7 +169,7 @@ $().ready(function(){
 
 	setup_no_connection_listener();
 
-	try{
+	/*try{
 		$.ajax({
 			type: "GET",
 			url: "https://api.github.com/users/zoff-music/received_events",
@@ -189,7 +189,7 @@ $().ready(function(){
 		});
 	} catch(error){
 		Helper.log("Error with fetching GitHub commit info");
-	}
+	}*/
 });
 
 
@@ -735,6 +735,7 @@ function setup_list_listener(){
 
 function setup_playlist_listener(){
 	Helper.log("Setting up playlist_listener");
+	console.log("asd");
 	socket.on('playlists', Frontpage.frontpage_function);
 }
 

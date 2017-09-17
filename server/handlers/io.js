@@ -65,12 +65,6 @@ module.exports = function() {
 			}
 		});
 
-		socket.on("get_userlists", function(id) {
-			db.collection("frontpage_lists_" + id).find(function(err, docs) {
-				socket.emit("userlists", [docs]);
-			});
-		});
-
 		socket.on("get_spread", function(){
 			db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
                 db.collection("connected_users").find({"_id": "offline_users"}, function(err, off) {
@@ -157,6 +151,7 @@ module.exports = function() {
 
 		socket.on('frontpage_lists', function(msg)
 		{
+            console.log("First gotten", Functions.get_time());
 			Frontpage.frontpage_lists(msg, socket);
 		});
 
@@ -371,38 +366,6 @@ module.exports = function() {
 				}
 			});
 		});
-		/*ping_timeout = setTimeout(function() {
-			send_ping(guid, coll, socket);
-		}, 3000);
-
-		var send_ping = function(guid, coll, socket) {
-			console.log(guid, coll);
-			if(coll == undefined) {
-				ping_timeout = setTimeout(function(){
-					send_ping(guid, coll, socket);
-				}, 3000);
-			} else {
-				db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, docs) {
-					db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs) {
-						db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) {
-							db.collection("user_names").find({"guid": guid}, function(err, user_name) {
-								if(user_name.length > 0) {
-									name = user_name[0].name;
-									db.collection("user_names").remove({"guid": guid}, function(err, docs) {
-										db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: user_name[0].name}}, function(err, docs) {
-											socket.emit("self_ping");
-											ping_timeout = setTimeout(function(){
-												send_ping(guid, coll, socket);
-											}, 3000);
-										});
-									});
-								}
-							});
-						});
-					});
-				});
-			}
-		}*/
 	});
 
     send_ping();
