@@ -381,7 +381,7 @@ module.exports = function() {
 		});
 	});
 
-    send_ping();
+    //send_ping();
 }
 
 function send_ping() {
