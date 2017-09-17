@@ -1171,6 +1171,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 .room-namer.autocomplete{
   margin-left: 3px !important;
+  margin-top: -1px;
 }
 
 .channel-finder .input-field{
