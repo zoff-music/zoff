@@ -20,7 +20,7 @@ var mongo_db_cred = {config: 'mydb'};
 app.engine('handlebars', hbs.engine);
 //hbs.loadPartials(publicPath + "/layouts/");
 app.set('view engine', 'handlebars');
-app.enable('view cache');
+//app.enable('view cache');
 app.set('views', publicPath);
 
 try{
@@ -59,7 +59,7 @@ catch(err){
 	});
 	var http = require('http');
 	server = http.Server(app);
-	add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
+	add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
 }
 
 var bodyParser = require('body-parser');
