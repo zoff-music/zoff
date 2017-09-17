@@ -260,14 +260,30 @@ var Frontpage = {
 			if(Frontpage.times_rotated == 50 && frontpage){
 				Frontpage.times_rotated = 0;
 				i = 0;
-				socket.emit("frontpage_lists", {version: parseInt(localStorage.getItem("VERSION"))});
+				Frontpage.get_frontpage_lists();
+				//socket.emit("frontpage_lists", {version: parseInt(localStorage.getItem("VERSION"))});
 				socket.emit('get_userlists', Crypt.getCookie('_uI'));
 			}else if(frontpage){
 				Frontpage.times_rotated += 1;
 				Frontpage.add_backdrop(list, i+1);
 			}
 		},6000);
+	},
 
+	get_frontpage_lists: function(){
+		$.ajax({
+			url: "/api/frontpages",
+			method: "get",
+			success: function(response){
+				Frontpage.populate_channels(response, true);
+			},
+			error: function() {
+				Materialize.toast("Couldn't fetch lists, trying again in 3 seconds..", 3000, "red lighten connect_error");
+				retry_frontpage = setTimeout(function(){
+					Frontpage.get_frontpage_lists();
+				}, 3000);
+			},
+		});
 	},
 
 	start_snowfall: function(){
@@ -316,6 +332,7 @@ var Frontpage = {
 		$("#frontpage-viewer-counter").tooltip("remove");
 		$("#offline-mode").tooltip("remove");
 		currently_showing_channels = 1;
+		clearTimeout(retry_frontpage);
 		$.ajax({
 			url: "/" + new_channel,
 			method: "get",
@@ -449,7 +466,8 @@ function initfp(){
 		position: "bottom",
 		tooltip: "Total Viewers"
 	});
-	socket.emit('frontpage_lists', {version: parseInt(localStorage.getItem("VERSION"))});
+	Frontpage.get_frontpage_lists();
+	//socket.emit('frontpage_lists', {version: parseInt(localStorage.getItem("VERSION"))});
 	//socket.emit('get_userlists', Crypt.getCookie('_uI'));
 
 	$("#channel-load").css("display", "none");

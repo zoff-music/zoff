@@ -19,6 +19,7 @@ var chromecast_icon_color = "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
 var temp_user_pass 				= "";
+var retry_frontpage;
 var chromecast_specs_sent = false;
 var dragging 					= false;
 var user_auth_started 			= false;
