@@ -22,10 +22,9 @@ var Frontpage = {
 		Helper.log("Frontpage fetch");
 		Helper.log(msg);
 		Helper.log("------------");
-		Frontpage.all_channels = msg.channels;
-		Frontpage.populate_channels(msg.channels, true);
-
-		Frontpage.set_viewers(msg.viewers);
+		Frontpage.all_channels = msg;
+		Frontpage.populate_channels(msg, true);
+		//Frontpage.set_viewers(msg.viewers);
 	},
 
 	populate_channels: function(lists, popular)
@@ -275,7 +274,7 @@ var Frontpage = {
 			url: "/api/frontpages",
 			method: "get",
 			success: function(response){
-				Frontpage.populate_channels(response, true);
+				Frontpage.frontpage_function(response);
 			},
 			error: function() {
 				Materialize.toast("Couldn't fetch lists, trying again in 3 seconds..", 3000, "red lighten connect_error");
