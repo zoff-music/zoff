@@ -17,7 +17,7 @@
     "node-cryptojs-aes": "^0.4.0",
     "nodemailer": "^4.0.1",
     "request": "^2.72.0",
-    "socket.io": "^2.0.1",
+    "socket.io": "^2.0.3",
     "uniqid": "^4.1.1"
   },
   "repository": {
