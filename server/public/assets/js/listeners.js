@@ -735,7 +735,6 @@ function setup_list_listener(){
 
 function setup_playlist_listener(){
 	Helper.log("Setting up playlist_listener");
-	console.log("asd");
 	socket.on('playlists', Frontpage.frontpage_function);
 }
 
