@@ -71,29 +71,17 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(cookieParser());
 
 /* Starting DB and socketio */
-io = require('socket.io')(server, {
+var io = require('socket.io')(server, {
 	pingTimeout: 25000,
 }); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
-db = require('./handlers/db.js');
-var socketIO = require('./handlers/io.js');
-socketIO();
+var request = require('request');
 
-request = require('request');
-
-/* Globally needed "libraries" and files */
-Functions = require('./handlers/functions.js');
-ListChange = require('./handlers/list_change.js');
-Chat = require('./handlers/chat.js');
-List = require('./handlers/list.js');
-Suggestions = require('./handlers/suggestions.js');
-ListSettings = require('./handlers/list_settings.js');
-Frontpage = require('./handlers/frontpage.js');
-crypto = require('crypto');
-node_cryptojs = require('node-cryptojs-aes');
-CryptoJS = node_cryptojs.CryptoJS;
-emojiStrip = require('emoji-strip');
-Filter = require('bad-words');
-filter = new Filter({ placeHolder: 'x'});
+var crypto = require('crypto');
+var node_cryptojs = require('node-cryptojs-aes');
+var CryptoJS = node_cryptojs.CryptoJS;
+var emojiStrip = require('emoji-strip');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
 
 var router = require('./routing/router.js');
 var port = 8080;

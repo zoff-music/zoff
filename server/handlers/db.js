@@ -9,5 +9,3 @@ db.on('connected', function(err) {
 db.on('error',function(err) {
 	console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
-
-module.exports = db;
