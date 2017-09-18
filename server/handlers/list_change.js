@@ -1,4 +1,4 @@
-var add = function(arr, coll, guid, offline, socket) {
+function add_function(arr, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
   {
@@ -84,7 +84,7 @@ var add = function(arr, coll, guid, offline, socket) {
                       send_list(coll, undefined, false, true, false);
                       db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: get_time()}});
                       send_play(coll, undefined);
-                      Frontpage.update_frontpage(coll, id, title);
+                      update_frontpage(coll, id, title);
                     } else {
                       io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
                     }
@@ -145,7 +145,7 @@ var add = function(arr, coll, guid, offline, socket) {
   }
 }
 
-var voteUndecided = function(msg, coll, guid, offline, socket) {
+function voteUndecided(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null){
 
@@ -184,7 +184,7 @@ var voteUndecided = function(msg, coll, guid, offline, socket) {
   }
 }
 
-var shuffle = function(msg, coll, guid, offline, socket) {
+function shuffle(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(msg.hasOwnProperty('adminpass') && msg.adminpass !== undefined && msg.adminpass !== null)
   {
@@ -259,7 +259,7 @@ function del(params, socket, socketid) {
 	}
 }
 
-var delete_all = function(msg, coll, guid, offline, socket) {
+function delete_all(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
     var hash = hash_pass(decrypt_string(socketid, msg.adminpass));

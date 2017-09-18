@@ -181,15 +181,15 @@ io.on('connection', function(socket){
 	socket.on('list', function(msg)
 	{
 		try {
-      var list = msg.channel;
-      if(list.length == 0) return;
-      coll = emojiStrip(list).toLowerCase();
-      coll = coll.replace("_", "");
-      coll = encodeURIComponent(coll).replace(/\W/g, '');
-      coll = filter.clean(coll);
-    } catch(e) {
-      return;
-    }
+	      var _list = msg.channel;
+	      if(_list.length == 0) return;
+	      coll = emojiStrip(_list).toLowerCase();
+	      coll = coll.replace("_", "");
+	      coll = encodeURIComponent(coll).replace(/\W/g, '');
+	      coll = filter.clean(coll);
+	    } catch(e) {
+	      return;
+	    }
 		list(msg, guid, coll, offline, socket);
 	});
 
@@ -224,7 +224,7 @@ io.on('connection', function(socket){
         return;
       }
     }
-		add(arr, coll, guid, offline, socket);
+		add_function(arr, coll, guid, offline, socket);
 	});
 
 	socket.on('delete_all', function(msg) {
@@ -285,7 +285,7 @@ io.on('connection', function(socket){
 
 	socket.on('conf', function(params)
 	{
-		conf(params, coll, guid, offline, socket);
+		conf_function(params, coll, guid, offline, socket);
 	});
 
 	socket.on('shuffle', function(msg)

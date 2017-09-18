@@ -1,5 +1,5 @@
 
-var now_playing = function(list, fn, socket) {
+function now_playing(list, fn, socket) {
   if(typeof(list) !== 'string' || typeof(fn) !== 'function') {
     socket.emit('update_required');
     return;
@@ -15,7 +15,7 @@ var now_playing = function(list, fn, socket) {
   });
 }
 
-var list = function(msg, guid, coll, offline, socket) {
+function list(msg, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
 
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
@@ -67,7 +67,7 @@ var list = function(msg, guid, coll, offline, socket) {
   }
 }
 
-var skip = function(list, guid, coll, offline, socket) {
+function skip(list, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
   if(list !== undefined && list !== null && list !== "")
   {
@@ -268,7 +268,7 @@ function change_song_post(coll, next_song)
 					db.collection(coll).find({views:{$exists:true}}, function(err, conf){
 						io.to(coll).emit("channel", {type: "song_change", time: get_time(), remove: conf[0].removeplay});
 						send_play(coll);
-						Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
+						update_frontpage(coll, docs[0].id, docs[0].title);
 					});
 				});
 			});
@@ -367,7 +367,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 	}
 }
 
-var end = function(obj, coll, guid, offline, socket) {
+function end(obj, coll, guid, offline, socket) {
   if(typeof(obj) !== 'object') {
     return;
   }

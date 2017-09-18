@@ -111,7 +111,7 @@ app.get('/robots.txt', function (req, res) {
 app.use(function (req, res, next) {
 	var cookie = req.cookies._uI;
 	if (cookie === undefined) {
-		var user_name = Functions.rndName(uniqid.time(), 15);
+		var user_name = rndName(uniqid.time(), 15);
 		res.cookie('_uI',user_name, { maxAge: 365 * 10000 * 3600000 });
 	}
 	next();
@@ -317,15 +317,15 @@ io.on('connection', function(socket){
 	socket.on('list', function(msg)
 	{
 		try {
-      var list = msg.channel;
-      if(list.length == 0) return;
-      coll = emojiStrip(list).toLowerCase();
-      coll = coll.replace("_", "");
-      coll = encodeURIComponent(coll).replace(/\W/g, '');
-      coll = filter.clean(coll);
-    } catch(e) {
-      return;
-    }
+	      var _list = msg.channel;
+	      if(_list.length == 0) return;
+	      coll = emojiStrip(_list).toLowerCase();
+	      coll = coll.replace("_", "");
+	      coll = encodeURIComponent(coll).replace(/\W/g, '');
+	      coll = filter.clean(coll);
+	    } catch(e) {
+	      return;
+	    }
 		list(msg, guid, coll, offline, socket);
 	});
 
@@ -360,7 +360,7 @@ io.on('connection', function(socket){
         return;
       }
     }
-		add(arr, coll, guid, offline, socket);
+		add_function(arr, coll, guid, offline, socket);
 	});
 
 	socket.on('delete_all', function(msg) {
@@ -421,7 +421,7 @@ io.on('connection', function(socket){
 
 	socket.on('conf', function(params)
 	{
-		conf(params, coll, guid, offline, socket);
+		conf_function(params, coll, guid, offline, socket);
 	});
 
 	socket.on('shuffle', function(msg)
@@ -698,7 +698,7 @@ function hash_pass(adminpass) {
 }
 
 
-var chat = function(msg, guid, offline, socket) {
+function chat(msg, guid, offline, socket) {
   if(typeof(msg) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel') && !msg.hasOwnProperty('pass')) {
     socket.emit('update_required');
     return;
@@ -724,7 +724,7 @@ var chat = function(msg, guid, offline, socket) {
   });
 }
 
-var all_chat = function(msg, guid, offline, socket) {
+function all_chat(msg, guid, offline, socket) {
   if(typeof(msg) !== 'object' || !msg.hasOwnProperty("channel") || !msg.hasOwnProperty("data")) {
     socket.emit('update_required');
     return;
@@ -745,7 +745,7 @@ var all_chat = function(msg, guid, offline, socket) {
   }
 }
 
-var namechange = function(data, guid, coll) {
+function namechange(data, guid, coll) {
   if(typeof(data) !== "string" || coll == undefined) return;
   data = encodeURIComponent(data).replace(/\W/g, '').replace(/[^\x00-\x7F]/g, "");
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
@@ -777,7 +777,7 @@ var namechange = function(data, guid, coll) {
   });
 }
 
-var removename = function(guid, coll) {
+function removename(guid, coll) {
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
     if(docs.length == 1) {
       var old_name = docs[0].name;
@@ -790,7 +790,7 @@ var removename = function(guid, coll) {
   });
 }
 
-var generate_name = function(guid, announce_payload) {
+function generate_name(guid, announce_payload) {
   var tmp_name = rndName(guid, 8);
   db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
     if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
@@ -811,7 +811,7 @@ var generate_name = function(guid, announce_payload) {
   })
 }
 
-var get_name = function(guid, announce_payload) {
+function get_name(guid, announce_payload) {
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
     if(docs.length == 0) {
       generate_name(guid, announce_payload);
@@ -821,7 +821,7 @@ var get_name = function(guid, announce_payload) {
   })
 }
 
-var add = function(arr, coll, guid, offline, socket) {
+function add_function(arr, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
   {
@@ -907,7 +907,7 @@ var add = function(arr, coll, guid, offline, socket) {
                       send_list(coll, undefined, false, true, false);
                       db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: get_time()}});
                       send_play(coll, undefined);
-                      Frontpage.update_frontpage(coll, id, title);
+                      update_frontpage(coll, id, title);
                     } else {
                       io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
                     }
@@ -968,7 +968,7 @@ var add = function(arr, coll, guid, offline, socket) {
   }
 }
 
-var voteUndecided = function(msg, coll, guid, offline, socket) {
+function voteUndecided(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null){
 
@@ -1007,7 +1007,7 @@ var voteUndecided = function(msg, coll, guid, offline, socket) {
   }
 }
 
-var shuffle = function(msg, coll, guid, offline, socket) {
+function shuffle(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(msg.hasOwnProperty('adminpass') && msg.adminpass !== undefined && msg.adminpass !== null)
   {
@@ -1082,7 +1082,7 @@ function del(params, socket, socketid) {
 	}
 }
 
-var delete_all = function(msg, coll, guid, offline, socket) {
+function delete_all(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
     var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
@@ -1127,7 +1127,7 @@ function vote(coll, id, guid, socket, full_list, last) {
 	});
 }
 
-var password = function(inp, coll, guid, offline, socket) {
+function password(inp, coll, guid, offline, socket) {
   if(inp !== undefined && inp !== null && inp !== "")
   {
     pw = inp.password;
@@ -1180,7 +1180,7 @@ var password = function(inp, coll, guid, offline, socket) {
   }
 }
 
-var conf = function(params, coll, guid, offline, socket) {
+function conf_function(params, coll, guid, offline, socket) {
   if(params !== undefined && params !== null && params !== "" &&
   params.hasOwnProperty('voting') &&
   params.hasOwnProperty('addsongs') &&
@@ -1283,7 +1283,7 @@ var conf = function(params, coll, guid, offline, socket) {
 }
 
 
-var now_playing = function(list, fn, socket) {
+function now_playing(list, fn, socket) {
   if(typeof(list) !== 'string' || typeof(fn) !== 'function') {
     socket.emit('update_required');
     return;
@@ -1299,7 +1299,7 @@ var now_playing = function(list, fn, socket) {
   });
 }
 
-var list = function(msg, guid, coll, offline, socket) {
+function list(msg, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
 
   if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
@@ -1351,7 +1351,7 @@ var list = function(msg, guid, coll, offline, socket) {
   }
 }
 
-var skip = function(list, guid, coll, offline, socket) {
+function skip(list, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
   if(list !== undefined && list !== null && list !== "")
   {
@@ -1552,7 +1552,7 @@ function change_song_post(coll, next_song)
 					db.collection(coll).find({views:{$exists:true}}, function(err, conf){
 						io.to(coll).emit("channel", {type: "song_change", time: get_time(), remove: conf[0].removeplay});
 						send_play(coll);
-						Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
+						update_frontpage(coll, docs[0].id, docs[0].title);
 					});
 				});
 			});
@@ -1651,7 +1651,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 	}
 }
 
-var end = function(obj, coll, guid, offline, socket) {
+function end(obj, coll, guid, offline, socket) {
   if(typeof(obj) !== 'object') {
     return;
   }
@@ -1780,7 +1780,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
 	remove_unique_id(short_id);
 }
 
-var thumbnail = function(msg, coll, guid, offline, socket) {
+function thumbnail(msg, coll, guid, offline, socket) {
   if(msg.thumbnail && msg.channel && msg.adminpass && msg.thumbnail.indexOf("i.imgur.com") > -1){
     msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
     if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
@@ -1802,7 +1802,7 @@ var thumbnail = function(msg, coll, guid, offline, socket) {
   }
 }
 
-var description = function(msg, coll, guid, offline, socket) {
+function description(msg, coll, guid, offline, socket) {
   if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
     var channel = msg.channel.toLowerCase();
     var hash = hash_pass(decrypt_string(socket.zoff_id, msg.adminpass));

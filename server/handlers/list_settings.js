@@ -1,4 +1,4 @@
-var password = function(inp, coll, guid, offline, socket) {
+function password(inp, coll, guid, offline, socket) {
   if(inp !== undefined && inp !== null && inp !== "")
   {
     pw = inp.password;
@@ -51,7 +51,7 @@ var password = function(inp, coll, guid, offline, socket) {
   }
 }
 
-var conf = function(params, coll, guid, offline, socket) {
+function conf_function(params, coll, guid, offline, socket) {
   if(params !== undefined && params !== null && params !== "" &&
   params.hasOwnProperty('voting') &&
   params.hasOwnProperty('addsongs') &&
