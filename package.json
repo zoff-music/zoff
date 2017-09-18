@@ -4,6 +4,8 @@
   "description": "Zoff ====",
   "main": "gulpfile.js",
   "scripts": {
+    "install": "cd server/ && npm install",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
