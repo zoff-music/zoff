@@ -48,8 +48,10 @@ router.route('/:channel_name').get(function(req, res, next){
 
 router.route('/api/frontpages').get(function(req, res) {
     db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(docs));
+        db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({channels: docs, viewers: tot[0].total_users}));
+        });
     });
 });
 
