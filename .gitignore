@@ -1,5 +1,9 @@
 server/public/assets/images/thumbnails/
-server/node_modules/
+server/mailconfig.js
+server/mongo_config.js
+*/node_modules
 node_modules/
 scripts/
 .DS_Store
+npm-debug.log
+server/npm-debug.log

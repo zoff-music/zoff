@@ -20,6 +20,9 @@
     "socket.io": "^2.0.3",
     "uniqid": "^4.1.1"
   },
+  "scripts": {
+      "start": "node index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/zoff-music/zoff-server.git"
