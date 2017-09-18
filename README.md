@@ -17,19 +17,17 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ### Screenshots of desktop version:
 
-![Frontpage desktop](http://i.imgur.com/Qst1R0g.jpg)
+![Frontpage desktop](https://puu.sh/xCI8P/bbfbdd694c.png)
 
-![Channel desktop](http://i.imgur.com/jbw8ZSr.jpg)
+![Channel desktop](https://puu.sh/xCHXj/3f7d826329.png)
 
 ### Screenshots of the mobile version:
 
 <div style="text-align:center;">
 <img src="http://i.imgur.com/aWlEmIx.png" alt="frontpage" height="600px">
 <br>
-<img src="http://i.imgur.com/VgmoWGA.png" alt="channel1" height="600px">
-<br>
-<img src="http://i.imgur.com/UrlyfGg.png" alt="channel2" height="600px">
-<br>
+<img src="https://puu.sh/xCI6X/1aead5e1b6.png" alt="channel1" height="600px">
+
 <img src="http://i.imgur.com/GuBz8zK.png" alt="channel3" height="600px">
 </div>
 
