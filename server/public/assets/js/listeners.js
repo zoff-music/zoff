@@ -1878,6 +1878,10 @@ function onepage_load(){
 		$('#chan_thumbnail').tooltip("remove");
 		$('#fullscreen').tooltip("remove");
 		$('#admin-lock').tooltip("remove");
+        $("#search-btn").tooltip("remove");
+    	$("#skip").tooltip("remove");
+    	$("#shuffle").tooltip("remove");
+    	$("#settings").tooltip("remove");
 		$("#seekToDuration").remove();
 		$('.tap-target').tapTarget('close');
 		clearTimeout(tap_target_timeout);
