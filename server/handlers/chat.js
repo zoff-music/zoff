@@ -6,9 +6,9 @@ function chat(msg, guid, offline, socket) {
   }
   var coll = msg.channel;
   db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socket.zoff_id, msg.pass)))) {
+    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socket.zoff_id, msg.pass)))) {
       var data = msg.data;
-      check_inlist(coll, guid, socket, offline);
+      Functions.check_inlist(coll, guid, socket, offline);
       if(data !== "" && data !== undefined && data !== null &&
       data.length < 151 && data.replace(/\s/g, '').length){
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
@@ -33,7 +33,7 @@ function all_chat(msg, guid, offline, socket) {
   var coll = msg.channel;
   var data = msg.data;
 
-  check_inlist(coll, guid, socket, offline);
+  Functions.check_inlist(coll, guid, socket, offline);
   if(data !== "" && data !== undefined && data !== null &&
   data.length < 151 && data.replace(/\s/g, '').length){
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
@@ -92,7 +92,7 @@ function removename(guid, coll) {
 }
 
 function generate_name(guid, announce_payload) {
-  var tmp_name = rndName(guid, 8);
+  var tmp_name = Functions.rndName(guid, 8);
   db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
     if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
       db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name}}, {upsert: true}, function(err, update){
@@ -107,7 +107,7 @@ function generate_name(guid, announce_payload) {
         }
       });
     } else {
-      generate_name(tmp_name, announce_payload);
+      Chat.generate_name(tmp_name, announce_payload);
     }
   })
 }
@@ -115,9 +115,16 @@ function generate_name(guid, announce_payload) {
 function get_name(guid, announce_payload) {
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
     if(docs.length == 0) {
-      generate_name(guid, announce_payload);
+      Chat.generate_name(guid, announce_payload);
     } else {
       name = docs[0].name;
     }
   })
 }
+
+module.exports.chat = chat;
+module.exports.all_chat = all_chat;
+module.exports.namechange = namechange;
+module.exports.removename = removename;
+module.exports.generate_name = generate_name;
+module.exports.get_name = get_name;
