@@ -28,7 +28,7 @@ function list(msg, guid, coll, offline, socket) {
       socket.emit("update_required");
       return;
     }
-    var pass = decrypt_string(socketid, msg.pass);
+    var pass = Functions.decrypt_string(socketid, msg.pass);
     db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
       if(frontpage_lists.length == 1)
       {
@@ -39,7 +39,7 @@ function list(msg, guid, coll, offline, socket) {
             }
             in_list = true;
             socket.join(coll);
-            check_inlist(coll, guid, socket, offline);
+            Functions.check_inlist(coll, guid, socket, offline);
 
             if(frontpage_lists.viewers != undefined){
               io.to(coll).emit("viewers", frontpage_lists.viewers);
@@ -47,7 +47,7 @@ function list(msg, guid, coll, offline, socket) {
               io.to(coll).emit("viewers", 1);
             }
 
-            send_list(coll, socket, true, false, true);
+            List.send_list(coll, socket, true, false, true);
 
           } else {
             socket.emit("auth_required");
@@ -55,9 +55,9 @@ function list(msg, guid, coll, offline, socket) {
         });
       } else{
         db.createCollection(coll, function(err, docs){
-          db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
-            send_list(coll, socket, true, false, true);
-            db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": get_time()});
+          db.collection(coll).insert({"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""}, function(err, docs){
+            List.send_list(coll, socket, true, false, true);
+            db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time()});
           });
         });
       }
@@ -78,9 +78,9 @@ function skip(list, guid, coll, offline, socket) {
     }
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == decrypt_string(socketid, list.userpass)))) {
+      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == Functions.decrypt_string(socketid, list.userpass)))) {
 
-        check_inlist(coll, guid, socket, offline);
+        Functions.check_inlist(coll, guid, socket, offline);
 
         adminpass = "";
         video_id  = list.id;
@@ -95,7 +95,7 @@ function skip(list, guid, coll, offline, socket) {
         }
 
         if(adminpass !== undefined && adminpass !== null && adminpass !== "")
-        hash = hash_pass(decrypt_string(socketid, adminpass));
+        hash = Functions.hash_pass(Functions.decrypt_string(socketid, adminpass));
         else
         hash = "";
 
@@ -106,14 +106,14 @@ function skip(list, guid, coll, offline, socket) {
             if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
             {
               db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
-                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !contains(docs[0].skips, guid)) ||
+                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
                 (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
                 {
-                  change_song(coll, error, video_id);
+                  List.change_song(coll, error, video_id);
                   socket.emit("toast", "skip");
                   io.to(coll).emit('chat', {from: name, msg: " skipped"});
-                }else if(!contains(docs[0].skips, guid)){
+                }else if(!Functions.contains(docs[0].skips, guid)){
                   db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                     if(frontpage_viewers[0].viewers == 2)
                     to_skip = 1;
@@ -170,13 +170,13 @@ function change_song(coll, error, id) {
 								db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
 									var next_song;
 									if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-									change_song_post(coll, next_song);
+									List.change_song_post(coll, next_song);
 									io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
-									db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
+									db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
 								});
 							} else {
-								if((docs[0].skipped_time != undefined && docs[0].skipped_time != get_time()) || docs[0].skipped_time == undefined) {
-									db.collection(coll).update({views: {$exists: true}}, {$set: {skipped_time: get_time()}}, function(err, updated){
+								if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
+									db.collection(coll).update({views: {$exists: true}}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
 										db.collection(coll).update({now_playing:true, id:id}, {
 											$set:{
 												now_playing:false,
@@ -186,7 +186,7 @@ function change_song(coll, error, id) {
 										},{multi:true}, function(err, docs){
 											var next_song;
 											if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-											if(docs.n >= 1) change_song_post(coll, next_song);
+											if(docs.n >= 1) List.change_song_post(coll, next_song);
 										});
 									});
 								}
@@ -197,12 +197,12 @@ function change_song(coll, error, id) {
 						db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
 							var next_song;
 							if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-							change_song_post(coll, next_song);
+							List.change_song_post(coll, next_song);
 							io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
-							db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
+							db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
 						});
 					} else {
-						if((docs[0].skipped_time != undefined && docs[0].skipped_time != get_time()) || docs[0].skipped_time == undefined) {
+						if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
 							db.collection(coll).update({now_playing:true, id:id}, {
 								$set:{
 									now_playing:false,
@@ -212,7 +212,7 @@ function change_song(coll, error, id) {
 							},{multi:true}, function(err, docs){
 								var next_song;
 								if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-								change_song_post(coll, next_song);
+								List.change_song_post(coll, next_song);
 							});
 						}
 					}
@@ -256,19 +256,19 @@ function change_song_post(coll, next_song)
 					now_playing:true,
 					votes:0,
 					guids:[],
-					added:get_time()
+					added:Functions.get_time()
 				}
 			}, function(err, returnDocs){
 				db.collection(coll).update({views:{$exists:true}},{
 					$set:{
-						startTime:get_time(),
+						startTime:Functions.get_time(),
 						skips:[]
 					}
 				}, function(err, returnDocs){
 					db.collection(coll).find({views:{$exists:true}}, function(err, conf){
-						io.to(coll).emit("channel", {type: "song_change", time: get_time(), remove: conf[0].removeplay});
-						send_play(coll);
-						update_frontpage(coll, docs[0].id, docs[0].title);
+						io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+						List.send_play(coll);
+						Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
 					});
 				});
 			});
@@ -309,17 +309,17 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 										now_playing:true,
 										votes:0,
 										guids:[],
-										added:get_time()
+										added:Functions.get_time()
 									}
 								}, function(err, returnDocs){
 									db.collection(coll).update({views:{$exists:true}}, {
 										$set:{
-											startTime: get_time(),
+											startTime: Functions.get_time(),
 											skips:[]
 										}
 									}, function(err, returnDocs){
-										update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
-										send_list(coll, socket, send, list_send, configs, shuffled);
+										Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
+										List.send_list(coll, socket, send, list_send, configs, shuffled);
 									});
 								});
 							}
@@ -331,9 +331,9 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 							socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
 						}
 						if(socket === undefined && send) {
-							send_play(coll);
+							List.send_play(coll);
 						} else if(send) {
-							send_play(coll, socket);
+							List.send_play(coll, socket);
 						}
 					}
 				});
@@ -344,9 +344,9 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 					socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
 				}
 				if(socket === undefined && send) {
-					send_play(coll);
+					List.send_play(coll);
 				} else if(send) {
-					send_play(coll, socket);
+					List.send_play(coll, socket);
 				}
 			}
 		});
@@ -380,24 +380,24 @@ function end(obj, coll, guid, offline, socket) {
     }
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, obj.pass)))) {
+      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, obj.pass)))) {
 
-        check_inlist(coll, guid, socket, offline);
+        Functions.check_inlist(coll, guid, socket, offline);
         db.collection(coll).find({now_playing:true}, function(err, np){
           if(err !== null) console.log(err);
           if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
             db.collection(coll).find({views:{$exists:true}}, function(err, docs){
               var startTime = docs[0].startTime;
-              if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=get_time()+5)
+              if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
               {
                 db.collection(coll).remove({now_playing:true}, function(err, docs){
-                  change_song_post(coll);
-                  db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:-1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
+                  List.change_song_post(coll);
+                  db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                 });
               }else{
-                if(startTime+parseInt(np[0].duration)<=get_time()+5)
+                if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
                 {
-                  change_song(coll, false, id);
+                  List.change_song(coll, false, id);
                 }
               }
             });
@@ -418,17 +418,17 @@ function send_play(coll, socket)
 		db.collection(coll).find({views:{$exists:true}}, function(err, conf){
 			if(err !== null) console.log(err);
 			try{
-				if(get_time()-conf[0].startTime > np[0].duration){
-					change_song(coll, false, np[0].id);
+				if(Functions.get_time()-conf[0].startTime > np[0].duration){
+					List.change_song(coll, false, np[0].id);
 				}else if(conf !== null && conf !== undefined && conf.length !== 0)
 				{
 					if(conf[0].adminpass !== "") conf[0].adminpass = true;
 					if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
 					else conf[0].userpass = false;
-					toSend = {np: np, conf: conf, time: get_time()};
+					toSend = {np: np, conf: conf, time: Functions.get_time()};
 					if(socket === undefined) {
 						io.to(coll).emit("np", toSend);
-						getNextSong(coll)
+						List.getNextSong(coll)
 					} else {
 						socket.emit("np", toSend);
 					}
@@ -488,10 +488,21 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
 				db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, updated){});
 
 				if(!change) {
-					remove_name_from_db(guid, name);
+					Functions.remove_name_from_db(guid, name);
 				}
 			});
 		}
 	});
-	remove_unique_id(short_id);
+	Functions.remove_unique_id(short_id);
 }
+
+module.exports.now_playing = now_playing;
+module.exports.list = list;
+module.exports.skip = skip;
+module.exports.change_song = change_song;
+module.exports.change_song_post = change_song_post;
+module.exports.send_list = send_list;
+module.exports.end = end;
+module.exports.send_play = send_play;
+module.exports.getNextSong = getNextSong;
+module.exports.left_channel = left_channel;

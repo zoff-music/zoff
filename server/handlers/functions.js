@@ -10,7 +10,7 @@ function remove_name_from_db(guid, name) {
 }
 
 function remove_from_array(array, element){
-	if(contains(array, element)){
+	if(Functions.contains(array, element)){
 		var index = array.indexOf(element);
 		if(index != -1)
 		array.splice(index, 1);
@@ -120,3 +120,14 @@ function contains(a, obj) {
 function hash_pass(adminpass) {
 	return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
+
+module.exports.remove_unique_id = remove_unique_id;
+module.exports.remove_name_from_db = remove_name_from_db;
+module.exports.remove_from_array = remove_from_array;
+module.exports.get_short_id = get_short_id;
+module.exports.check_inlist = check_inlist;
+module.exports.rndName = rndName;
+module.exports.decrypt_string = decrypt_string;
+module.exports.get_time = get_time;
+module.exports.contains = contains;
+module.exports.hash_pass = hash_pass;

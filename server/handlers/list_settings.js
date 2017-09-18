@@ -20,22 +20,22 @@ function password(inp, coll, guid, offline, socket) {
     }
 
     uncrypted = pw;
-    pw = decrypt_string(socket.zoff_id, pw);
+    pw = Functions.decrypt_string(socket.zoff_id, pw);
 
-    check_inlist(coll, guid, socket, offline);
+    Functions.check_inlist(coll, guid, socket, offline);
 
     if(inp.oldpass)
     {
       opw = inp.oldpass;
     }
-    opw = decrypt_string(socket.zoff_id, opw);
+    opw = Functions.decrypt_string(socket.zoff_id, opw);
 
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs !== null && docs.length !== 0)
       {
-        if(docs[0].adminpass === "" || docs[0].adminpass == hash_pass(opw))
+        if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(opw))
         {
-          db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:hash_pass(pw)}}, function(err, docs){
+          db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
             if(inp.oldpass)
             socket.emit("toast", "changedpass");
             else
@@ -82,7 +82,7 @@ function conf_function(params, coll, guid, offline, socket) {
       return;
     }
 
-    check_inlist(coll, guid, socket, offline);
+    Functions.check_inlist(coll, guid, socket, offline);
 
     var voting = params.voting;
     var addsongs = params.addsongs;
@@ -93,7 +93,7 @@ function conf_function(params, coll, guid, offline, socket) {
     var adminpass = params.adminpass;
     var skipping = params.skipping;
     var shuffling = params.shuffling;
-    var userpass = decrypt_string(socket.zoff_id, params.userpass);
+    var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
 
     if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
       userpass = "";
@@ -105,7 +105,7 @@ function conf_function(params, coll, guid, offline, socket) {
     if(params.description) description = params.description;
 
     if(adminpass !== "") {
-      hash = hash_pass(decrypt_string(socket.zoff_id, adminpass));
+      hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass));
     } else {
       hash = adminpass;
     }
@@ -139,7 +139,7 @@ function conf_function(params, coll, guid, offline, socket) {
             socket.emit("toast", "savedsettings");
 
             db.collection("frontpage_lists").update({_id: coll}, {$set:{
-              frontpage:frontpage, accessed: get_time()}
+              frontpage:frontpage, accessed: Functions.get_time()}
             },
             {upsert:true}, function(err, docs){});
           });
@@ -152,3 +152,6 @@ function conf_function(params, coll, guid, offline, socket) {
     socket.emit('update_required');
   }
 }
+
+module.exports.password = password;
+module.exports.conf_function = conf_function;
