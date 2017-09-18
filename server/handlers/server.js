@@ -75,6 +75,7 @@ var io = require('socket.io')(server, {
 	pingTimeout: 25000,
 }); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
+var uniqid = require('uniqid');
 
 var crypto = require('crypto');
 var node_cryptojs = require('node-cryptojs-aes');
@@ -116,6 +117,7 @@ db.on('error',function(err) {
 });
 
 /* Resetting usernames, and connected users */
+db.collection("unique_ids").update({"_id": "unique_ids"}, {$set: {unique_ids: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("user_names").remove({"guid": {$exists: true}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("user_names").update({"_id": "all_names"}, {$set: {names: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true, upsert: true}, function(err, docs){});

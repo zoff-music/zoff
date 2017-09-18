@@ -17,32 +17,11 @@ function remove_from_array(array, element){
 	}
 }
 
-function get_short_id(seed, minlen, socket) {
-	var len = minlen;
-	var id = rndName(seed, minlen, socket);
+function get_short_id(socket) {
+	var new_short_id = uniqid.time().toLowerCase();
 
-	db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, {upsert: true}, function(err, updated) {
-		if(updated.nModified == 1) {
-			short_id = id;
-			socket.join(short_id);
-			socket.emit("id", short_id);
-		} else {
-			get_short_id(rndName(String(len)+id, len + 0.1, socket));
-		}
-	});
-}
-
-function uniqueID(seed, minlen){
-	var len = minlen;
-	var id = rndName(seed, minlen);
-
-	db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, function(err, updated) {
-		if(updated.nModified == 1) {
-			return id;
-		} else {
-			return uniqueID(rndName(String(len)+id, len + 0.1));
-		}
-	});
+	socket.join(new_short_id);
+	socket.emit("id", new_short_id);
 }
 
 function check_inlist(coll, guid, socket, offline)
