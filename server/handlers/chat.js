@@ -1,5 +1,5 @@
 
-var chat = function(msg, guid, offline, socket) {
+function chat(msg, guid, offline, socket) {
   if(typeof(msg) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel') && !msg.hasOwnProperty('pass')) {
     socket.emit('update_required');
     return;
@@ -25,7 +25,7 @@ var chat = function(msg, guid, offline, socket) {
   });
 }
 
-var all_chat = function(msg, guid, offline, socket) {
+function all_chat(msg, guid, offline, socket) {
   if(typeof(msg) !== 'object' || !msg.hasOwnProperty("channel") || !msg.hasOwnProperty("data")) {
     socket.emit('update_required');
     return;
@@ -46,7 +46,7 @@ var all_chat = function(msg, guid, offline, socket) {
   }
 }
 
-var namechange = function(data, guid, coll) {
+function namechange(data, guid, coll) {
   if(typeof(data) !== "string" || coll == undefined) return;
   data = encodeURIComponent(data).replace(/\W/g, '').replace(/[^\x00-\x7F]/g, "");
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
@@ -78,7 +78,7 @@ var namechange = function(data, guid, coll) {
   });
 }
 
-var removename = function(guid, coll) {
+function removename(guid, coll) {
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
     if(docs.length == 1) {
       var old_name = docs[0].name;
@@ -91,7 +91,7 @@ var removename = function(guid, coll) {
   });
 }
 
-var generate_name = function(guid, announce_payload) {
+function generate_name(guid, announce_payload) {
   var tmp_name = rndName(guid, 8);
   db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
     if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
@@ -112,7 +112,7 @@ var generate_name = function(guid, announce_payload) {
   })
 }
 
-var get_name = function(guid, announce_payload) {
+function get_name(guid, announce_payload) {
   db.collection("user_names").find({"guid": guid}, function(err, docs) {
     if(docs.length == 0) {
       generate_name(guid, announce_payload);

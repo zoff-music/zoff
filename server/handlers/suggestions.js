@@ -1,4 +1,4 @@
-var thumbnail = function(msg, coll, guid, offline, socket) {
+function thumbnail(msg, coll, guid, offline, socket) {
   if(msg.thumbnail && msg.channel && msg.adminpass && msg.thumbnail.indexOf("i.imgur.com") > -1){
     msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
     if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
@@ -20,7 +20,7 @@ var thumbnail = function(msg, coll, guid, offline, socket) {
   }
 }
 
-var description = function(msg, coll, guid, offline, socket) {
+function description(msg, coll, guid, offline, socket) {
   if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
     var channel = msg.channel.toLowerCase();
     var hash = hash_pass(decrypt_string(socket.zoff_id, msg.adminpass));
