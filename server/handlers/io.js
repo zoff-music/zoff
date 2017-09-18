@@ -19,7 +19,6 @@ io.on('connection', function(socket){
     var name = "";
 	var short_id;
 	get_name(guid, {announce: false});
-	get_short_id(socketid, 4, socket);
 	var offline = false;
 	var chromecast_object = false;
 
@@ -175,7 +174,7 @@ io.on('connection', function(socket){
 	socket.on('id', function(arr)
 	{
 		if(typeof(arr) == 'object')
-		io.to(arr.id).emit(arr.id, {type: arr.type, value: arr.value});
+		io.to(arr.id).emit(arr.id.toLowerCase(), {type: arr.type, value: arr.value});
 	});
 
 	socket.on('list', function(msg)
@@ -191,6 +190,7 @@ io.on('connection', function(socket){
 	      return;
 	    }
 		list(msg, guid, coll, offline, socket);
+		get_short_id(socket);
 	});
 
 	socket.on('end', function(obj)

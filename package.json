@@ -20,6 +20,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-uglifyjs": "^0.6.2",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "uniqid": "^4.1.1"
   }
 }

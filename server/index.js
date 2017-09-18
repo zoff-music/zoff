@@ -87,6 +87,7 @@ var io = require('socket.io')(server, {
 	pingTimeout: 25000,
 }); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 var request = require('request');
+var uniqid = require('uniqid');
 
 var crypto = require('crypto');
 var node_cryptojs = require('node-cryptojs-aes');
@@ -128,6 +129,7 @@ db.on('error',function(err) {
 });
 
 /* Resetting usernames, and connected users */
+db.collection("unique_ids").update({"_id": "unique_ids"}, {$set: {unique_ids: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("user_names").remove({"guid": {$exists: true}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("user_names").update({"_id": "all_names"}, {$set: {names: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true, upsert: true}, function(err, docs){});
@@ -155,7 +157,6 @@ io.on('connection', function(socket){
     var name = "";
 	var short_id;
 	get_name(guid, {announce: false});
-	get_short_id(socketid, 4, socket);
 	var offline = false;
 	var chromecast_object = false;
 
@@ -311,7 +312,7 @@ io.on('connection', function(socket){
 	socket.on('id', function(arr)
 	{
 		if(typeof(arr) == 'object')
-		io.to(arr.id).emit(arr.id, {type: arr.type, value: arr.value});
+		io.to(arr.id).emit(arr.id.toLowerCase(), {type: arr.type, value: arr.value});
 	});
 
 	socket.on('list', function(msg)
@@ -327,6 +328,7 @@ io.on('connection', function(socket){
 	      return;
 	    }
 		list(msg, guid, coll, offline, socket);
+		get_short_id(socket);
 	});
 
 	socket.on('end', function(obj)
@@ -572,32 +574,11 @@ function remove_from_array(array, element){
 	}
 }
 
-function get_short_id(seed, minlen, socket) {
-	var len = minlen;
-	var id = rndName(seed, minlen, socket);
+function get_short_id(socket) {
+	var new_short_id = uniqid.time().toLowerCase();
 
-	db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, {upsert: true}, function(err, updated) {
-		if(updated.nModified == 1) {
-			short_id = id;
-			socket.join(short_id);
-			socket.emit("id", short_id);
-		} else {
-			get_short_id(rndName(String(len)+id, len + 0.1, socket));
-		}
-	});
-}
-
-function uniqueID(seed, minlen){
-	var len = minlen;
-	var id = rndName(seed, minlen);
-
-	db.collection("unique_ids").update({"_id": "unique_ids"}, {$addToSet: {unique_ids: id}}, function(err, updated) {
-		if(updated.nModified == 1) {
-			return id;
-		} else {
-			return uniqueID(rndName(String(len)+id, len + 0.1));
-		}
-	});
+	socket.join(new_short_id);
+	socket.emit("id", new_short_id);
 }
 
 function check_inlist(coll, guid, socket, offline)
