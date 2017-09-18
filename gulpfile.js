@@ -3,6 +3,12 @@ var gulp    = require('gulp'),
 	uglify  = require('gulp-uglifyjs'),
 	concat  = require('gulp-concat');
 
+gulp.task('server', function() {
+    gulp.src(['server/handlers/db.js', 'server/handlers/server.js', 'server/handlers/io.js', 'server/handlers/frontpage.js', 'server/handlers/functions.js', 'server/handlers/chat.js', 'server/handlers/list_change.js', 'server/handlers/list_settings.js', 'server/handlers/list.js', 'server/handlers/suggestions.js'])
+        .pipe(concat('index.js'))
+        .pipe(gulp.dest('server/'));
+});
+
 gulp.task('js', function () {
     gulp.src(['server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
         .pipe(uglify({
@@ -60,6 +66,7 @@ gulp.task('remotecontroller', function () {
 });
 
 gulp.task('default', function(){
+    gulp.watch(['server/handlers/*.js', 'router/*.js'], ['server']);
     gulp.watch('server/public/assets/js/*.js', ['js']);
     gulp.watch('server/public/assets/js/*.js', ['embed']);
     gulp.watch(['server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);

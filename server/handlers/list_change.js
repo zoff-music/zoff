@@ -11,11 +11,11 @@ var add = function(arr, coll, guid, offline, socket) {
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, arr.pass)))) {
 
-        Functions.check_inlist(coll, guid, socket, offline);
+        check_inlist(coll, guid, socket, offline);
 
         var id = arr.id;
         var title = arr.title;
-        var hash = Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass));
+        var hash = hash_pass(decrypt_string(socketid, arr.adminpass));
         var duration = parseInt(arr.duration);
         var full_list = arr.playlist;
         var last = arr.num == arr.total - 1;
@@ -34,7 +34,7 @@ var add = function(arr, coll, guid, offline, socket) {
                 var votes;
                 var added;
                 if(full_list) {
-                  var time = Functions.get_time()-total;
+                  var time = get_time()-total;
                   time = time.toString();
                   var total_len = total.toString().length;
                   var now_len = num.toString().length;
@@ -49,7 +49,7 @@ var add = function(arr, coll, guid, offline, socket) {
                   added = time;
                   votes = 0;
                 } else {
-                  added = Functions.get_time();
+                  added = get_time();
                   votes = 1;
                 }
 
@@ -81,15 +81,15 @@ var add = function(arr, coll, guid, offline, socket) {
                   db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, {upsert: true}, function(err, docs){
                     if(np)
                     {
-                      List.send_list(coll, undefined, false, true, false);
-                      db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
-                      List.send_play(coll, undefined);
+                      send_list(coll, undefined, false, true, false);
+                      db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: get_time()}});
+                      send_play(coll, undefined);
                       Frontpage.update_frontpage(coll, id, title);
                     } else {
                       io.to(coll).emit("channel", {type: "added", value: {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}});
                     }
-                    db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
-                    List.getNextSong(coll);
+                    db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: get_time()}}, {upsert:true}, function(err, docs){});
+                    getNextSong(coll);
                   });
                   if(!full_list) {
                     socket.emit("toast", "addedsong");
@@ -110,7 +110,7 @@ var add = function(arr, coll, guid, offline, socket) {
             db.collection(coll).find({id: id}, function(err, docs) {
               if(docs.length === 0) {
                 db.collection(coll).update({id: id}, {$set:{
-                  "added":Functions.get_time(),
+                  "added":get_time(),
                   "guids": [guid],
                   "id":id,
                   "now_playing": false,
@@ -157,14 +157,14 @@ var voteUndecided = function(msg, coll, guid, offline, socket) {
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
       if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
 
-        Functions.check_inlist(coll, guid, socket, offline);
+        check_inlist(coll, guid, socket, offline);
 
         if(msg.type == "del")
         del(msg, socket, socketid);
         else
         {
           var id = msg.id;
-          var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+          var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
           db.collection(coll).find({views:{$exists:true}}, function(err, docs){
             if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
             docs[0].vote === false))
@@ -193,17 +193,17 @@ var shuffle = function(msg, coll, guid, offline, socket) {
       return;
     }
 
-    Functions.check_inlist(coll, guid, socket, offline);
+    check_inlist(coll, guid, socket, offline);
     var hash;
     if(msg.adminpass === "") hash = msg.adminpass;
-    else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+    else hash = hash_pass(decrypt_string(socketid, msg.adminpass));
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
+      if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == decrypt_string(socketid, msg.pass)))) {
         if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
         {
           db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
             if(!docs){
-              List.send_list(coll, undefined, false, true, false, true);
+              send_list(coll, undefined, false, true, false, true);
               socket.emit("toast", "shuffled");
 
               return;
@@ -222,8 +222,8 @@ var shuffle = function(msg, coll, guid, offline, socket) {
     var complete = function(tot, curr){
       if(tot == curr)
       {
-        List.send_list(coll, undefined, false, true, false);
-        List.getNextSong(coll);
+        send_list(coll, undefined, false, true, false);
+        getNextSong(coll);
       }
     };
 
@@ -238,7 +238,7 @@ function del(params, socket, socketid) {
 		coll = encodeURIComponent(coll).replace(/\W/g, '');
 		coll = filter.clean(coll);
 		db.collection(coll).find({views:{$exists:true}}, function(err, docs){
-			if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.decrypt_string(socketid, params.adminpass)))
+			if(docs !== null && docs.length !== 0 && docs[0].adminpass == hash_pass(decrypt_string(socketid, params.adminpass)))
 			{
 				db.collection(coll).find({id:params.id}, function(err, docs){
 					dont_increment = true;
@@ -249,7 +249,7 @@ function del(params, socket, socketid) {
 						db.collection(coll).remove({id:params.id}, function(err, docs){
 							socket.emit("toast", "deletesong");
 							io.to(coll).emit("channel", {type:"deleted", value: params.id});
-							if(dont_increment) db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+							if(dont_increment) db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: get_time()}}, {upsert: true}, function(err, docs){});
 						});
 					}
 				});
@@ -262,16 +262,16 @@ function del(params, socket, socketid) {
 var delete_all = function(msg, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
-    var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-    var hash_userpass = Functions.decrypt_string(socketid, msg.pass);
+    var hash = hash_pass(decrypt_string(socketid, msg.adminpass));
+    var hash_userpass = decrypt_string(socketid, msg.pass);
 
     db.collection(coll).find({views: {$exists: true}}, function(err, conf) {
       if(conf.length == 1 && conf) {
         conf = conf[0];
         if(conf.adminpass == hash && conf.adminpass != "" && (conf.userpass == "" || conf.userpass == undefined || (conf.userpass != "" && conf.userpass != undefined && conf.pass == hash_userpass))) {
           db.collection(coll).remove({views: {$exists: false}}, {multi: true}, function(err, succ) {
-            List.send_list(coll, false, true, true, true);
-            db.collection("frontpage_lists").update({_id: coll}, {$set: {count: 0, accessed: Functions.get_time()}}, {upsert: true}, function(err, docs) {});
+            send_list(coll, false, true, true, true);
+            db.collection("frontpage_lists").update({_id: coll}, {$set: {count: 0, accessed: get_time()}}, {upsert: true}, function(err, docs) {});
             socket.emit("toast", "deleted_songs");
           });
         } else {
@@ -287,15 +287,15 @@ var delete_all = function(msg, coll, guid, offline, socket) {
 
 function vote(coll, id, guid, socket, full_list, last) {
 	db.collection(coll).find({id:id, now_playing: false}, function(err, docs){
-		if(docs !== null && docs.length > 0 && !Functions.contains(docs[0].guids, guid))
+		if(docs !== null && docs.length > 0 && !contains(docs[0].guids, guid))
 		{
-			db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, docs)
+			db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:get_time()}, $push :{guids: guid}}, function(err, docs)
 			{
 				if((full_list && last) || (!full_list))
 				socket.emit("toast", "voted");
-				io.to(coll).emit("channel", {type: "vote", value: id, time: Functions.get_time()});
+				io.to(coll).emit("channel", {type: "vote", value: id, time: get_time()});
 
-				List.getNextSong(coll);
+				getNextSong(coll);
 			});
 		}else
 		{
@@ -303,10 +303,3 @@ function vote(coll, id, guid, socket, full_list, last) {
 		}
 	});
 }
-
-module.exports.shuffle = shuffle;
-module.exports.delete_all = delete_all;
-module.exports.del = del;
-module.exports.vote = vote;
-module.exports.voteUndecided = voteUndecided;
-module.exports.add = add;
