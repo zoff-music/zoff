@@ -170,7 +170,7 @@ $().ready(function(){
 
 	setup_no_connection_listener();
 
-	try{
+	/*try{
 		$.ajax({
 			type: "GET",
 			url: "https://api.github.com/users/zoff-music/received_events",
@@ -190,7 +190,7 @@ $().ready(function(){
 		});
 	} catch(error){
 		Helper.log("Error with fetching GitHub commit info");
-	}
+	}*/
 });
 
 

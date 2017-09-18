@@ -30,7 +30,7 @@ $(document).ready(function (){
 		Remotecontroller.control();
 	}
 
-	try{
+	/*try{
 		$.ajax({
 			type: "GET",
 			url: "https://api.github.com/users/zoff-music/received_events",
@@ -50,7 +50,7 @@ $(document).ready(function (){
 		});
 	} catch(error){
 		Helper.log("Error with fetching GitHub commit info");
-	}
+	}*/
 });
 
 $(document).on("click", "#playbutton", function()
