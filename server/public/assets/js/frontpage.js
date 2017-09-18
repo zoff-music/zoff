@@ -22,9 +22,9 @@ var Frontpage = {
 		Helper.log("Frontpage fetch");
 		Helper.log(msg);
 		Helper.log("------------");
-		Frontpage.all_channels = msg;
-		Frontpage.populate_channels(msg, true);
-		//Frontpage.set_viewers(msg.viewers);
+		Frontpage.all_channels = msg.channels;
+		Frontpage.populate_channels(msg.channels, true);
+		Frontpage.set_viewers(msg.viewers);
 	},
 
 	populate_channels: function(lists, popular)
