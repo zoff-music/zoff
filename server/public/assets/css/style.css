@@ -2228,6 +2228,10 @@ nav ul li:hover, nav ul li.active {
       margin-right: -3px !important;
     }
 
+    .admin_panel{
+      margin-top:25px !important;
+    }
+
     .mobile-delete {
       height: 100%;
       position: absolute;
