@@ -1,11 +1,11 @@
-window.addEventListener("load", function(){
+window.addEventListener("load", function() {
 	var query = getQueryHash(window.location.hash);
 	var redirect  = window.location.protocol + "//" + window.location.hostname + "/o_callback";
 	var client_id;
 	var response;
 	var scope;
 
-	if(query.spotify){
+	if(query.spotify) {
 		client_id = "b934ecdd173648f5bcd38738af529d58";
 		response  = "token";
 		scope     = "playlist-read-private playlist-read-collaborative user-read-private playlist-modify-public";
@@ -26,7 +26,7 @@ window.addEventListener("load", function(){
 	}
 });
 
-function getQueryHash(url){
+function getQueryHash(url) {
 	var temp_arr = url.substring(1).split("&");
 	var done_obj = {};
 	var splitted;

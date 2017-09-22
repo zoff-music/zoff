@@ -2,8 +2,7 @@ var Admin = {
 
     beginning:true,
 
-    toast: function(msg)
-    {
+    toast: function(msg) {
         switch(msg) {
             case "suggested_thumbnail":
                 msg = "The thumbnail has been suggested!";
@@ -158,8 +157,7 @@ var Admin = {
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
 
-    conf: function(msg)
-    {
+    conf: function(msg) {
         if(msg[0].adminpass == ""){
             Crypt.remove_pass(chan.toLowerCase());
         }
@@ -170,31 +168,26 @@ var Admin = {
         }
     },
 
-    pass_save: function()
-    {
-        if(!w_p)
-        {
+    pass_save: function() {
+        if(!w_p) {
             socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
-        }
-        else
-        {
+        } else {
             socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
         }
     },
 
-    log_out: function(){
+    log_out: function() {
         before_toast();
-        if(Crypt.get_pass(chan.toLowerCase())){
+        if(Crypt.get_pass(chan.toLowerCase())) {
             Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
             Materialize.toast("Logged out", 4000);
-        }else{
+        } else {
             Materialize.toast("Not logged in", 4000);
         }
     },
 
-    display_logged_out: function()
-    {
+    display_logged_out: function() {
         w_p       = true;
         adminpass = "";
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
@@ -207,10 +200,10 @@ var Admin = {
             $("input[name="+names[i]+"]").attr("disabled", true);
         }
 
-        if($("#admin-lock").html() != "lock"){
+        if($("#admin-lock").html() != "lock") {
             $("#admin-lock").removeClass("clickable");
             $("#admin-lock").html("lock");
-            if(!Helper.mobilecheck()){
+            if(!Helper.mobilecheck()) {
                 $('#admin-lock').tooltip('remove');
             }
         }
@@ -231,17 +224,12 @@ var Admin = {
             $(".change_user_pass").addClass("hide");
         }
 
-        if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")){
+        if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")) {
             $(".playlist-tabs-loggedIn").addClass("hide");
             $(".playlist-tabs").removeClass("hide");
         }
 
         List.dragging(false);
-
-        /*if($(".card-action").length !== 0 &&
-        !Helper.contains($(".card-action").attr("class").split(" "), "hide") && !offline){
-            $(".card-action").addClass("hide");
-        }*/
 
         if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
         {
@@ -254,12 +242,11 @@ var Admin = {
         $("#password").attr("placeholder", "Enter admin password");
     },
 
-    save: function(userpass){
+    save: function(userpass) {
         Admin.submitAdmin(document.getElementById("adminForm").elements, userpass);
     },
 
-    set_conf: function(conf_array)
-    {
+    set_conf: function(conf_array) {
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
@@ -268,22 +255,21 @@ var Admin = {
 
         if(conf_array.adminpass === "" || !w_p){
             hasadmin = false;
-            if(!Helper.mobilecheck()){
+            if(!Helper.mobilecheck()) {
                 //$(".playlist-tabs").removeClass("hide");
                 //$("#wrapper").toggleClass("tabs_height");
             }
         }
         else hasadmin = true;
 
-        for (var i = 0; i < names.length; i++)
-        {
+        for (var i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
             $("input[name="+names[i]+"]").attr("disabled", hasadmin);
         }
 
-        if((hasadmin)){
+        if((hasadmin)) {
             if($("#admin-lock").html() != "lock") Admin.display_logged_out();
-        }else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined){
+        } else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined) {
             if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
                 $(".playlist-tabs-loggedIn").removeClass("hide");
                 $(".playlist-tabs").addClass("hide");
@@ -300,18 +286,17 @@ var Admin = {
             Crypt.remove_userpass(chan.toLowerCase());
         }
 
-        if(conf_array.thumbnail != undefined && conf_array.thumbnail != ""){
+        if(conf_array.thumbnail != undefined && conf_array.thumbnail != "") {
             $("#thumbnail_image").html("<img id='thumbnail_image_channel' src='" + conf_array.thumbnail + "' alt='thumbnail' />");
         }
 
-        if(conf_array.description != undefined && conf_array.description != ""){
+        if(conf_array.description != undefined && conf_array.description != "") {
             $("#description_area").html(conf_array.description);
         }
 
     },
 
-    submitAdmin: function(form, userpass_changed)
-    {
+    submitAdmin: function(form, userpass_changed) {
         voting     = form.vote.checked;
         addsongs   = form.addsongs.checked;
         longsongs  = form.longsongs.checked;
@@ -321,7 +306,7 @@ var Admin = {
         skipping   = form.skip.checked;
         shuffling  = form.shuffle.checked;
         var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
-        configs    = {
+        configs = {
             channel: chan.toLowerCase(),
             voting: voting,
             addsongs: addsongs,
@@ -340,13 +325,12 @@ var Admin = {
         socket.emit("conf", configs);
     },
 
-    hide_settings: function(){
+    hide_settings: function() {
         $('#settings').sideNav('hide');
     },
 
-    shuffle: function()
-    {
-        if(!offline){
+    shuffle: function() {
+        if(!offline) {
             socket.emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
@@ -358,8 +342,7 @@ var Admin = {
         }
     },
 
-    get_admin:function()
-    {
+    get_admin:function() {
         return [w_p, hasadmin];
     }
 
