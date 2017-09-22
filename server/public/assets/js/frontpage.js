@@ -27,31 +27,10 @@ var Frontpage = {
 		Frontpage.set_viewers(msg.viewers);
 	},
 
-	populate_channels: function(lists, popular)
-	{
+	populate_channels: function(lists, popular) {
 		$("#channels").empty();
 
 		var num = 0;
-		var pinned;
-
-		for(var i = 0; i < lists.length; i++) {
-			/*if(!lists[i].hasOwnProperty("viewers")){
-				lists[i].viewers = 0;
-			}
-			if(!lists[i].hasOwnProperty("accessed")) {
-				lists[i].accessed = 0;
-			}
-			if(!lists[i].hasOwnProperty("pinned")){
-				lists[i].pinned = 0;
-			} else if(lists[i].pinned == 1) {
-				pinned = lists[i];
-				delete lists[i];
-			}*/
-
-			if(lists[i].count == 0) {
-				delete lists[i];
-			}
-		}
 
 		if(popular) {
 			lists = lists.sort(Helper.predicate({
@@ -77,8 +56,6 @@ var Frontpage = {
 			}));
 		}
 
-		//lists.unshift(pinned);
-
 		if(!Helper.mobilecheck()) {
 			clearTimeout(rotation_timeout);
 			Frontpage.add_backdrop(lists, 0);
@@ -90,30 +67,24 @@ var Frontpage = {
 		Helper.log(pre_card);
 		Helper.log("-------------");
 
-		for(var x in lists)
-		{
-
+		for(var x in lists) {
 			var chan = lists[x]._id;
-			if(num<12 || !popular)
-			{
+			if(num<12 || !popular) {
 				var id = lists[x].id;
 				var viewers = lists[x].viewers;
 				var description = lists[x].description;
 				var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-				if(lists[x].thumbnail){
+				if(lists[x].thumbnail) {
 					img = "background-image:url('" + lists[x].thumbnail + "');";
 				}
 
 				var song_count = lists[x].count;
 
 				var card = pre_card.clone();
-				if(lists[x].pinned == 1)
-				{
+				if(lists[x].pinned == 1) {
 					card.find(".pin").attr("style", "display:block;");
 					card.find(".card").attr("title", "Pinned!");
-				}
-				else
-				{
+				} else {
 					card.find(".pin").attr("style", "display:none;");
 					card.find(".card").attr("title", "");
 				}
@@ -124,7 +95,7 @@ var Frontpage = {
 				card.find(".chan-bg").attr("style", img);
 				card.find(".chan-link").attr("href", chan + "/");
 
-				if(description != "" && description != undefined && !Helper.mobilecheck()){
+				if(description != "" && description != undefined && !Helper.mobilecheck()) {
 					card.find(".card-title").text(chan);
 					card.find(".description_text").text(description);
 					description = "";
@@ -134,24 +105,16 @@ var Frontpage = {
 				}
 
 				$("#channels").append(card.html());
-
-				//$("#channels").append(card);
 			}
 			num++;
-			//if(num>19)break;
 		}
 
 		var options_list = lists.slice();
 
 		options_list = options_list.sort(Frontpage.sortFunction_active);
 		var data = {};
-		//num = 0;
-		for(var x in options_list){
-			//if(options_list[x].count > 5 && Math.floor((new Date).getTime()/1000) - options_list[x].accessed < 604800){
-			/*var chan = options_list[x].channel;
-			output+="<option value='"+chan+"'> ";*/
+		for(var x in options_list) {
 			data[options_list[x]._id] = null;
-			//}
 		}
 
 		var to_autocomplete = "input.desktop-search";
@@ -164,8 +127,6 @@ var Frontpage = {
 				Frontpage.to_channel(val, false);
 			},
 		});
-
-		//$(".autocomplete").off('keydown.autocomplete');
 
 		document.getElementById("preloader").style.display = "none";
 		//Materialize.fadeInImage('#channels');
@@ -269,7 +230,7 @@ var Frontpage = {
 		},6000);
 	},
 
-	get_frontpage_lists: function(){
+	get_frontpage_lists: function() {
 		$.ajax({
 			url: "/api/frontpages",
 			method: "get",
@@ -285,7 +246,7 @@ var Frontpage = {
 		});
 	},
 
-	start_snowfall: function(){
+	start_snowfall: function() {
 		setTimeout(function(){
 			var x = Math.floor((Math.random() * window.innerWidth) + 1);
 			var snow = document.createElement("div");
@@ -301,7 +262,7 @@ var Frontpage = {
 		}, 800);
 	},
 
-	fall_snow: function(corn){
+	fall_snow: function(corn) {
 		corn.style.top = (parseInt(corn.style.top.replace("px", ""))+2)+"px";
 		if(parseInt(corn.style.top.replace("px", "")) < document.getElementById("mega-background").offsetHeight-2.5){
 			setTimeout(function(){
@@ -312,12 +273,11 @@ var Frontpage = {
 		}
 	},
 
-	set_viewers: function(viewers){
+	set_viewers: function(viewers) {
 		$("#frontpage-viewer-counter").html("<i class='material-icons frontpage-viewers'>visibility</i>" + viewers);
 	},
 
-	to_channel: function(new_channel, popstate){
-
+	to_channel: function(new_channel, popstate) {
 		$("#channel-load").css("display", "block");
 		window.scrollTo(0, 0);
 		frontpage = false;
@@ -396,7 +356,7 @@ String.prototype.capitalizeFirstLetter = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-function share_link_modifier_frontpage(){
+function share_link_modifier_frontpage() {
 	$("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
 	$("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
 	$("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
@@ -405,7 +365,7 @@ function share_link_modifier_frontpage(){
 	$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
 }
 
-function initfp(){
+function initfp() {
 
 	var date = new Date();
 	Frontpage.blob_list = [];

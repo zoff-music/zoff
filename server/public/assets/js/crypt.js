@@ -4,26 +4,26 @@ var Crypt = {
 	user_pass: undefined,
 	tmp_pass: "",
 
-	init: function(){
+	init: function() {
 
-		if(window.location.pathname != "/"){
-			if (location.protocol != "https:"){
+		if(window.location.pathname != "/") {
+			if (location.protocol != "https:") {
 				document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';expires=' + new Date(0).toUTCString();
 			} else {
 				document.cookie = chan.toLowerCase() + '=;path=/' + chan.toLowerCase() + ';secure;expires=' + new Date(0).toUTCString();
 			}
 		}
 
-		try{
+		try {
 			conf_arr = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt");
-		}catch(err){
+		} catch(err) {
 			conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
 		}
 
-		if(window.location.pathname != "/"){
-			try{
+		if(window.location.pathname != "/") {
+			try {
 				Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
-			}catch(err){
+			} catch(err) {
 				Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
 			}
 
@@ -33,7 +33,7 @@ var Crypt = {
 		}
 	},
 
-	decrypt: function(cookie, name){
+	decrypt: function(cookie, name) {
 		if(Crypt.getCookie(name) === undefined) {
 			cookie = Crypt.create_cookie(name);
 		}
@@ -51,7 +51,7 @@ var Crypt = {
 		return $.parseJSON(decrypted.toString(CryptoJS.enc.Utf8));
 	},
 
-	decrypt_pass: function(pass){
+	decrypt_pass: function(pass) {
 		var key = btoa(socket.id) + btoa(socket.id);
 		key = key.substring(0,32);
 		key = btoa(key);
@@ -62,11 +62,10 @@ var Crypt = {
 				padding: CryptoJS.pad.Pkcs7
 			}
 		);
-
 		return decrypted.toString(CryptoJS.enc.Utf8);
 	},
 
-	encrypt: function(json_formated, cookie){
+	encrypt: function(json_formated, cookie) {
 		var to_encrypt = JSON.stringify(json_formated);
 		var key = btoa("0103060703080703080701") + btoa("0103060703080703080701");
 		key = key.substring(0,32);
@@ -89,12 +88,12 @@ var Crypt = {
 		}
 	},
 
-	get_volume: function(){
+	get_volume: function() {
 		return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").volume;
 		//return conf_arr.volume;
 	},
 
-	get_offline: function(){
+	get_offline: function() {
 		var temp_offline = Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").offline;
 		if(temp_offline != undefined){
 			return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").offline;
@@ -104,12 +103,12 @@ var Crypt = {
 		}
 	},
 
-	set_volume: function(val){
+	set_volume: function(val) {
 		conf_arr.volume = val;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
-	create_cookie: function(name){
+	create_cookie: function(name) {
 		if(name == "_opt") cookie_object = {volume: 100, width: 100, remote: true, name: "", offline: false};
 		else cookie_object = {passwords: {}};
 
@@ -139,12 +138,12 @@ var Crypt = {
 		return Crypt.getCookie(name);
 	},
 
-	set_pass: function(chan, pass){
+	set_pass: function(chan, pass) {
 		Crypt.conf_pass.passwords[chan] = pass;
 		Crypt.encrypt(Crypt.conf_pass, chan);
 	},
 
-	remove_pass:function(chan){
+	remove_pass:function(chan) {
 		delete Crypt.conf_pass.passwords[chan];
 		Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
 	},
@@ -154,27 +153,27 @@ var Crypt = {
 		Crypt.encrypt(Crypt.conf_pass, chan);
 	},
 
-	remove_userpass:function(chan){
+	remove_userpass:function(chan) {
 		delete Crypt.conf_pass.passwords["userpass"];
 		Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
 	},
 
-	set_name:function(name){
+	set_name:function(name) {
 		conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
-	set_offline: function(enabled){
+	set_offline: function(enabled) {
 		conf_arr.offline = enabled;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
-	remove_name:function(){
+	remove_name:function() {
 		conf_arr.name = "";
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
-	get_pass: function(chan){
+	get_pass: function(chan) {
 		if(Crypt.conf_pass !== undefined) return Crypt.conf_pass.passwords[chan];
 		return undefined;
 	},
@@ -184,16 +183,16 @@ var Crypt = {
 		return "";
 	},
 
-	set_remote: function(val){
+	set_remote: function(val) {
 		conf_arr.remote = val;
 		Crypt.encrypt(conf_arr, "_opt");
 	},
 
-	get_remote: function(val){
+	get_remote: function(val) {
 		return conf_arr.remote;
 	},
 
-	crypt_pass: function(pass){
+	crypt_pass: function(pass) {
 		Crypt.tmp_pass = pass;
 		var key = btoa(socket.id) + btoa(socket.id);
 		key = key.substring(0,32);
@@ -212,7 +211,7 @@ var Crypt = {
 		return encrypted.toString() + "$" + iv;
 	},
 
-	makeiv: function(){
+	makeiv: function() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -222,11 +221,11 @@ var Crypt = {
     return text;
 	},
 
-	get_width: function(){
+	get_width: function() {
 		return conf_arr.width;
 	},
 
-	set_width: function(val){
+	set_width: function(val) {
 		conf_arr.width = val;
 		Crypt.encrypt(conf_arr, "_opt");
 	},

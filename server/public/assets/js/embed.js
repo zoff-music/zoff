@@ -39,8 +39,7 @@ var Crypt = {
 	}
 };
 
-function receiveMessage(event)
-{
+function receiveMessage(event) {
 	if(event.data == "parent") {
 		//console.log(event);
 		window.parentWindow = event.source;
@@ -61,11 +60,11 @@ function receiveMessage(event)
 
 window.addEventListener("message", receiveMessage, false);
 
-$(document).ready(function(){
+$(document).ready(function() {
 
 	if(hash.length >= 3 && hash[2] == "autoplay"){
 		autoplay = true;
-	}else{
+	} else {
 		paused = true;
 	}
 
@@ -86,7 +85,7 @@ $(document).ready(function(){
 		$("#locked_channel").modal('open');
 	});
 
-	socket.on("get_list", function(){
+	socket.on("get_list", function() {
 		setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
 	});
 
@@ -96,8 +95,7 @@ $(document).ready(function(){
 		}
 	});
 
-	socket.on("viewers", function(view)
-	{
+	socket.on("viewers", function(view) {
 		viewers = view;
 
 		if(song_title !== undefined)
@@ -124,19 +122,19 @@ $(document).ready(function(){
 	}
 });
 
-function setup_host_listener(id){
+function setup_host_listener(id) {
 	socket.on(id, Hostcontroller.host_on_action);
 }
 
-function setup_host_initialization(){
+function setup_host_initialization() {
 	socket.on("id", Hostcontroller.host_listener);
 }
 
-function setup_youtube_listener(){
+function setup_youtube_listener() {
 	socket.on("np", Player.youtube_listener);
 }
 
-function setup_list_listener(){
+function setup_list_listener() {
 	socket.on("channel", List.channel_function);
 }
 
@@ -145,21 +143,21 @@ function setVolume(val) {
 	Playercontrols.setVolume(val);
 }
 
-$(document).on( "click", "#zoffbutton", function(e){
+$(document).on( "click", "#zoffbutton", function(e) {
 	window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });
 
-$(document).on( "click", ".vote-container", function(e){
+$(document).on( "click", ".vote-container", function(e) {
 	var id = $(this).attr("data-video-id");
 	List.vote(id, "pos");
 });
 
-$(document).on("click", ".prev_page", function(e){
+$(document).on("click", ".prev_page", function(e) {
 	e.preventDefault();
 	List.dynamicContentPage(-1);
 });
 
-$(document).on("click", ".next_page", function(e){
+$(document).on("click", ".next_page", function(e) {
 	e.preventDefault();
 	List.dynamicContentPage(1);
 });
