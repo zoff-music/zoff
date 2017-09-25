@@ -2426,13 +2426,28 @@ nav ul li:hover, nav ul li.active {
       display: none;
     }*/
 
+    .volume-container {
+      position: absolute;
+      right: 0%;
+      width: 40px;
+      top: -127px;
+      height: 127px;
+      left: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #464646;
+    }
+
+    .volume-container-cast {
+      right: 10%;
+    }
+
     #volume {
       width: 10px;
       height: 100px;
-      position: absolute;
-      right: 13%;
-      top: -120px;
-      left: auto;
+      left: 0px;
     }
 
     #volume .ui-slider-range-min {
@@ -2440,7 +2455,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #volume .ui-slider-handle {
-      margin-left: 20%;
+      margin-left: 3px;
     }
 
     .ui-widget-header {

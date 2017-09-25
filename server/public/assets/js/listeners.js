@@ -502,6 +502,9 @@ initializeCastApi = function() {
         Helper.log(event.castState);
         if(event.castState == "NOT_CONNECTED"){
             $(".castButton").css("display", "block");
+            if(!$(".volume-container").hasClass("volume-container-cast")) {
+                $(".volume-container").addClass("volume-container-cast");
+            }
             cast_ready_connect = true;
             if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") {
                 $(".castButton").css("display", "block");
@@ -515,6 +518,7 @@ initializeCastApi = function() {
             }
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
             cast_ready_connect = false;
+            $(".volume-container").removeClass("volume-container-cast");
         }
     });
 
