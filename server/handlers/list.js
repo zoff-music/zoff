@@ -368,6 +368,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 }
 
 function end(obj, coll, guid, offline, socket) {
+    var socketid = socket.zoff_id;
     if(typeof(obj) !== 'object') {
         return;
     }
