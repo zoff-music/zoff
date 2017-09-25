@@ -2440,7 +2440,11 @@ nav ul li:hover, nav ul li.active {
     }
 
     #volume .ui-slider-handle {
-      margin-left: 2px;
+      margin-left: 20%;
+    }
+
+    .ui-widget-header {
+      background: rgb(255,255,255);
     }
 
     #viewers {
@@ -2531,7 +2535,7 @@ nav ul li:hover, nav ul li.active {
       display: block !important;
       width: 106vw !important;
       height: 200px !important;
-      z-index: 9999;
+      z-index: 10;
       bottom: 55px;
     }
 
