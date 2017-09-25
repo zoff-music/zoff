@@ -35,7 +35,7 @@ var Playercontrols = {
         };
         if(Helper.mobilecheck()) {
             slider_values.orientation = "vertical";
-            $("#volume").toggleClass("hide");
+            $(".volume-container").toggleClass("hide");
         }
         $("#volume").slider(slider_values);
         Playercontrols.choose_button(vol, false);
@@ -110,7 +110,7 @@ var Playercontrols = {
 
     mute_video: function() {
         if(Helper.mobilecheck()) {
-            $("#volume").toggleClass("hide");
+            $(".volume-container").toggleClass("hide");
         } else {
             if(!Player.player.isMuted()) {
                 if(chromecastAvailable) castSession.sendMessage("urn:x-cast:zoff.me", {type: "mute"});
