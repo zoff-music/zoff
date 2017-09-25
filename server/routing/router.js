@@ -160,7 +160,7 @@ router.route('/').get(function(req, res, next){
             res.render('layouts/frontpage', data);
         }
     } catch(e) {
-        console.log(e);
+        //console.log(e);
         //res.redirect("https://zoff.me");
     }
 });
