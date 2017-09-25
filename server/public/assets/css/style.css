@@ -2422,8 +2422,25 @@ nav ul li:hover, nav ul li.active {
       padding-left: 0px;
     }
 
-    #volume{
+    /*#volume{
       display: none;
+    }*/
+
+    #volume {
+      width: 10px;
+      height: 100px;
+      position: absolute;
+      right: 13%;
+      top: -120px;
+      left: auto;
+    }
+
+    #volume .ui-slider-range-min {
+      width: 10px;
+    }
+
+    #volume .ui-slider-handle {
+      margin-left: 2px;
     }
 
     #viewers {

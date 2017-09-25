@@ -21,7 +21,7 @@ var Playercontrols = {
         try {
             vol = (Crypt.get_volume());
         } catch(e){}
-        $("#volume").slider({
+        var slider_values = {
             min: 0,
             max: 100,
             value: vol,
@@ -32,7 +32,12 @@ var Playercontrols = {
                 Playercontrols.setVolume(ui.value);
                 try{Crypt.set_volume(ui.value);}catch(e){}
             }
-        });
+        };
+        if(Helper.mobilecheck()) {
+            slider_values.orientation = "vertical";
+            $("#volume").toggleClass("hide");
+        }
+        $("#volume").slider(slider_values);
         Playercontrols.choose_button(vol, false);
     },
 
@@ -104,14 +109,18 @@ var Playercontrols = {
     },
 
     mute_video: function() {
-        if(!Player.player.isMuted()) {
-            if(chromecastAvailable) castSession.sendMessage("urn:x-cast:zoff.me", {type: "mute"});
-            Playercontrols.choose_button(0, true);
-            Player.player.mute();
+        if(Helper.mobilecheck()) {
+            $("#volume").toggleClass("hide");
         } else {
-            if(chromecastAvailable)castSession.sendMessage("urn:x-cast:zoff.me", {type: "unMute"});
-            Player.player.unMute();
-            Playercontrols.choose_button(Player.player.getVolume(), false);
+            if(!Player.player.isMuted()) {
+                if(chromecastAvailable) castSession.sendMessage("urn:x-cast:zoff.me", {type: "mute"});
+                Playercontrols.choose_button(0, true);
+                Player.player.mute();
+            } else {
+                if(chromecastAvailable)castSession.sendMessage("urn:x-cast:zoff.me", {type: "unMute"});
+                Player.player.unMute();
+                Playercontrols.choose_button(Player.player.getVolume(), false);
+            }
         }
     },
 
