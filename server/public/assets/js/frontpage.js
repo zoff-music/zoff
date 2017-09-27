@@ -288,8 +288,10 @@ var Frontpage = {
             socket.removeAllListeners();
         }
         $("#main-container").css("background-color", "#2d2d2d");
-        $("#frontpage-viewer-counter").tooltip("remove");
-        $("#offline-mode").tooltip("remove");
+        if(!Helper.mobilecheck()) {
+            $("#frontpage-viewer-counter").tooltip("remove");
+            $("#offline-mode").tooltip("remove");
+        }
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
         $.ajax({
@@ -414,17 +416,21 @@ function initfp() {
     if(Crypt.get_offline()){
         change_offline(true, offline);
     } else {
-        $("#offline-mode").tooltip({
+        if(!Helper.mobilecheck()) {
+            $("#offline-mode").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Enable local mode"
+            });
+        }
+    }
+    if(!Helper.mobilecheck()) {
+        $("#frontpage-viewer-counter").tooltip({
             delay: 5,
             position: "bottom",
-            tooltip: "Enable local mode"
+            tooltip: "Total Viewers"
         });
     }
-    $("#frontpage-viewer-counter").tooltip({
-        delay: 5,
-        position: "bottom",
-        tooltip: "Total Viewers"
-    });
     Frontpage.get_frontpage_lists();
     //socket.emit('frontpage_lists', {version: parseInt(localStorage.getItem("VERSION"))});
     //socket.emit('get_userlists', Crypt.getCookie('_uI'));
