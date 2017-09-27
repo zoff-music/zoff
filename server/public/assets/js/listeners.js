@@ -278,41 +278,43 @@ function init(){
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     }
-    $("#viewers").tooltip({
-        delay: 5,
-        position: "top",
-        tooltip: "Viewers"
-    });
+    if(!Helper.mobilecheck()) {
+        $("#viewers").tooltip({
+            delay: 5,
+            position: "top",
+            tooltip: "Viewers"
+        });
 
-    $("#fullscreen").tooltip({
-        delay: 5,
-        position: "top",
-        tooltip: "Fullscreen"
-    });
+        $("#fullscreen").tooltip({
+            delay: 5,
+            position: "top",
+            tooltip: "Fullscreen"
+        });
 
-    $("#search-btn").tooltip({
-        delay: 5,
-        position: "bottom",
-        tooltip: "Search"
-    });
+        $("#search-btn").tooltip({
+            delay: 5,
+            position: "bottom",
+            tooltip: "Search"
+        });
 
-    $("#skip").tooltip({
-        delay: 5,
-        position: "bottom",
-        tooltip: "Skip",
-    });
+        $("#skip").tooltip({
+            delay: 5,
+            position: "bottom",
+            tooltip: "Skip",
+        });
 
-    $("#shuffle").tooltip({
-        delay: 5,
-        position: "bottom",
-        tooltip: "Shuffle",
-    });
+        $("#shuffle").tooltip({
+            delay: 5,
+            position: "bottom",
+            tooltip: "Shuffle",
+        });
 
-    $("#settings").tooltip({
-        delay: 5,
-        position: "bottom",
-        tooltip: "Settings",
-    });
+        $("#settings").tooltip({
+            delay: 5,
+            position: "bottom",
+            tooltip: "Settings",
+        });
+    }
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
     if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
@@ -335,12 +337,13 @@ function init(){
     $(".search_input").focus();
 
     Helper.sample();
-
-    $('.castButton').tooltip({
-        delay: 5,
-        position: "top",
-        tooltip: "Cast Zoff to TV"
-    });
+    if(!Helper.mobilecheck()) {
+        $('.castButton').tooltip({
+            delay: 5,
+            position: "top",
+            tooltip: "Cast Zoff to TV"
+        });
+    }
 
     $("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
     $("#search").focus();
@@ -530,17 +533,18 @@ initializeCastApi = function() {
 };
 
 function hide_native(way) {
-
     if(way == 1){
-        $('.castButton').tooltip('remove');
         if(!$('.castButton').hasClass('castButton-white-active')) {
             $('.castButton').addClass('castButton-white-active');
         }
-        $('.castButton').tooltip({
-            delay: 5,
-            position: "top",
-            tooltip: "Stop casting"
-        });
+        if(!Helper.mobilecheck()) {
+            $('.castButton').tooltip('remove');
+            $('.castButton').tooltip({
+                delay: 5,
+                position: "top",
+                tooltip: "Stop casting"
+            });
+        }
         $("#duration").toggleClass("hide");
         $("#fullscreen").toggleClass("hide");
         try{
@@ -571,13 +575,15 @@ function hide_native(way) {
 
         $("#player_overlay_text").toggleClass("hide");
     } else if(way == 0){
-        $('.castButton').tooltip('remove');
+        if(!Helper.mobilecheck()) {
+            $('.castButton').tooltip('remove');
+            $('.castButton').tooltip({
+                delay: 5,
+                position: "top",
+                tooltip: "Cast Zoff to TV"
+            });
+        }
         $('.castButton').removeClass('castButton-white-active');
-        $('.castButton').tooltip({
-            delay: 5,
-            position: "top",
-            tooltip: "Cast Zoff to TV"
-        });
 
         $("#duration").toggleClass("hide");
         $("#fullscreen").toggleClass("hide");
@@ -760,7 +766,9 @@ function change_offline(enabled, already_offline){
     Crypt.set_offline(enabled);
     offline = enabled;
     socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
-    $("#offline-mode").tooltip('remove');
+    if(!Helper.mobilecheck()) {
+        $("#offline-mode").tooltip('remove');
+    }
     if(enabled){
         if(list_html){
             list_html = $("<div>" + list_html + "</div>");
@@ -771,11 +779,13 @@ function change_offline(enabled, already_offline){
         $("#viewers").addClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
-        $("#offline-mode").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Disable local mode"
-        });
+        if(!Helper.mobilecheck()) {
+            $("#offline-mode").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Disable local mode"
+            });
+        }
 
         if(window.location.pathname != "/"){
             $("#controls").on("mouseenter", function(e){
@@ -827,11 +837,13 @@ function change_offline(enabled, already_offline){
         $("#viewers").removeClass("hide");
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
-        $("#offline-mode").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Enable local mode"
-        });
+        if(!Helper.mobilecheck()) {
+            $("#offline-mode").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Enable local mode"
+            });
+        }
 
         $("#controls").off("mouseleave");
         $("#controls").off("mouseenter");
@@ -1153,12 +1165,14 @@ $(document).on("click", ".close-user-password", function() {
     if(user_auth_started) {
         Player.stopInterval = true;
         user_auth_avoid = true;
-        $('.castButton').tooltip("remove");
-        $("#viewers").tooltip("remove");
-        //$('.castButton-unactive').tooltip("remove");
-        $("#offline-mode").tooltip("remove");
-        $('#chan_thumbnail').tooltip("remove");
-        $('#admin-lock').tooltip("remove");
+        if(!Helper.mobilecheck()) {
+            $('.castButton').tooltip("remove");
+            $("#viewers").tooltip("remove");
+            //$('.castButton-unactive').tooltip("remove");
+            $("#offline-mode").tooltip("remove");
+            $('#chan_thumbnail').tooltip("remove");
+            $('#admin-lock').tooltip("remove");
+        }
         window.history.pushState("to the frontpage!", "Title", "/");
         onepage_load();
     } else {
@@ -1827,17 +1841,19 @@ function onepage_load(){
         durationBegun  		 = false;
 
         $("#embed-button").css("display", "none");
-        $('.castButton').tooltip("remove");
-        $("#viewers").tooltip("remove");
-        //$('.castButton-unactive').tooltip("remove");
-        $("#offline-mode").tooltip("remove");
-        $('#chan_thumbnail').tooltip("remove");
-        $('#fullscreen').tooltip("remove");
-        $('#admin-lock').tooltip("remove");
-        $("#search-btn").tooltip("remove");
-        $("#skip").tooltip("remove");
-        $("#shuffle").tooltip("remove");
-        $("#settings").tooltip("remove");
+        if(!Helper.mobilecheck()) {
+            $('.castButton').tooltip("remove");
+            $("#viewers").tooltip("remove");
+            //$('.castButton-unactive').tooltip("remove");
+            $("#offline-mode").tooltip("remove");
+            $('#chan_thumbnail').tooltip("remove");
+            $('#fullscreen').tooltip("remove");
+            $('#admin-lock').tooltip("remove");
+            $("#search-btn").tooltip("remove");
+            $("#skip").tooltip("remove");
+            $("#shuffle").tooltip("remove");
+            $("#settings").tooltip("remove");
+        }
         $("#seekToDuration").remove();
         $('.tap-target').tapTarget('close');
         clearTimeout(tap_target_timeout);

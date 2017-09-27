@@ -34,7 +34,9 @@ var Admin = {
                 Admin.display_logged_out();
                 $("#thumbnail_form").css("display", "none");
                 $("#description_form").css("display", "none");
-                $('#chan_thumbnail').tooltip("remove");
+                if(!Helper.mobilecheck()) {
+                    $('#chan_thumbnail').tooltip("remove");
+                }
                 w_p = true;
                 break;
             case "deleted_songs":
@@ -61,7 +63,9 @@ var Admin = {
                 Admin.display_logged_out();
                 $("#thumbnail_form").css("display", "none");
                 $("#description_form").css("display", "none");
-                $('#chan_thumbnail').tooltip("remove");
+                if(!Helper.mobilecheck()) {
+                    $('#chan_thumbnail').tooltip("remove");
+                }
                 w_p = true;
                 if(!$("#playlist_loader").hasClass("hide")) {
                     $("#playlist_loader").addClass("hide");
@@ -86,11 +90,13 @@ var Admin = {
                 msg="Correct password. You now have access to the sacred realm of The Admin.";
                 $("#thumbnail_form").css("display", "inline-block");
                 $("#description_form").css("display", "inline-block");
-                $('#chan_thumbnail').tooltip({
-                    delay: 5,
-                    position: "left",
-                    tooltip: "imgur link"
-                });
+                if(!Helper.mobilecheck()) {
+                    $('#chan_thumbnail').tooltip({
+                        delay: 5,
+                        position: "left",
+                        tooltip: "imgur link"
+                    });
+                }
                 break;
             case "changedpass":
                 msg="Your password has been changed!";
