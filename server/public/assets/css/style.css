@@ -527,6 +527,7 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 	display: flex;
 	flex-direction: row;
 	align-content: center;
+  align-items: center;
 }
 
 .not-imported-container{
@@ -1943,6 +1944,8 @@ nav ul li:hover, nav ul li.active {
 #admin-lock
 {
   position:absolute;
+  display: flex;
+  align-self: center; 
 }
 
 
