@@ -100,7 +100,7 @@ allchat: function(inp) {
     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
     var _time = new Date();
     var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-    $("#chatall").append("<li title='"+inp.channel+"''>" + time + " <span style='color:"+color_temp+";'>"+inp.from+"</span></li>");
+    $("#chatall").append("<li title='"+inp.channel+"''><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+inp.from+"</span></li>");
     var in_text = document.createTextNode(inp.msg);
     $("#chatall li:last")[0].appendChild(in_text);
     document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
@@ -134,7 +134,7 @@ channelchat: function(data) {
     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
     var _time = new Date();
     var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-    $("#chatchannel").append("<li>" + time + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
+    $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+data.from+"</span></li>");
     var in_text = document.createTextNode(data.msg);
     $("#chatchannel li:last")[0].appendChild(in_text);
     document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;

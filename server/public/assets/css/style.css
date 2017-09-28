@@ -1941,11 +1941,15 @@ nav ul li:hover, nav ul li.active {
   text-align: center;
 }
 
+.time_color {
+    color: lightgrey;
+}
+
 #admin-lock
 {
   position:absolute;
   display: flex;
-  align-self: center; 
+  align-self: center;
 }
 
 
