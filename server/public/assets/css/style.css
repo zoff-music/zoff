@@ -524,6 +524,9 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
   display: flex;
   align-items: center;
   height: 64px !important;
+	display: flex;
+	flex-direction: row;
+	align-content: center;
 }
 
 .not-imported-container{
