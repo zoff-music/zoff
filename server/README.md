@@ -1,17 +1,5 @@
 # Backend
 
-## Install
-
-Prerequisites:
-
-```
-MongoDB : https://www.mongodb.org/
-NodeJS  : https://nodejs.org/en/
-npm     : https://www.npmjs.com/
-```
-
-Clone this repository into a folder, and  navigate to it. Use ```npm install``` in the project folder and use ```$ node server.js``` to start the server.
-
 ### Events
 
 Emitted events between the server and client
