@@ -14,7 +14,7 @@ router.route('/browserconfig.xml').get(function(req, res, next) {
 });
 
 router.route('/apple-touch-icon.png').get(function(req, res, next) {
-    res.sendFile(path.join(pathThumbnails, '/public/assets/images/apple-touch-icon.png'));
+    res.sendFile(path.join(pathThumbnails, '/public/assets/images/apple-touch-icon-precomposed.png'));
 });
 
 router.route('/apple-touch-icon-precomposed.png').get(function(req, res, next) {
