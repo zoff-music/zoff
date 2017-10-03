@@ -351,6 +351,10 @@ function init(){
     $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
     $("#search").attr("placeholder", "Find song on YouTube...");
 
+    if(!$("footer").hasClass("padding-bottom-novideo")) {
+        $("footer").addClass("padding-bottom-novideo");
+    }
+
     if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
         $(".castButton").css("display", "none");
     }
@@ -1919,7 +1923,7 @@ function onepage_load(){
                 else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
                 $(".page-footer").removeClass("padding-bottom-extra");
                 $(".page-footer").removeClass("padding-bottom-novideo");
-                $("#favicon").attr("href", "/assets/images/favicon.png");
+                $("#favicon").attr("href", "/assets/images/favicon-32x32.png");
 
                 $(".context-menu-list").remove();
                 Helper.log(socket);

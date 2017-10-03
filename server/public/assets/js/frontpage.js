@@ -193,7 +193,7 @@ var Frontpage = {
             var img = new Image();
             img.src = "/assets/images/thumbnails/"+id+".jpg";
 
-            img.onerror = function(){ // Failed to load
+            img.onerror = function(e){ // Failed to load
                 $.ajax({
                     type: "POST",
                     data: {id:id},

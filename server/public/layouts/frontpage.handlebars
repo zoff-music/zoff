@@ -18,18 +18,18 @@
             <div class="modal-content">
                 <h4>About</h4>
                 <p>Zoff is a shared (free) YouTube based radio service, built upon the YouTube API. <br><br>
-                Zoff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and express on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
-                The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
+                    Zoff is mainly a web-based service. The website uses NodeJS with Socket.IO, MongoDB and express on the backend, with JavaScript, jQuery and Materialize on the frontend.<br><br>
+                    The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.<br><br>
 
                 </p>
                 <h4>Legal</h4>
                 <p>Copyright © 2017 <br>Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
-                <br><br>
-                Creative Commons License<br>
-                Zoff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
-                <br>
-                Do not redistribute without permission from the developers.
-                <br>
+                    <br><br>
+                    Creative Commons License<br>
+                    Zoff is licensed under a <br><a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>
+                    <br>
+                    Do not redistribute without permission from the developers.
+                    <br>
                 </p>
             </div>
             <div class="modal-footer">
@@ -67,73 +67,73 @@
     <div class="section mega">
         <div id="mega-background"></div>
         <h5>Create a radio channel, collaborate and listen</h5>
-            <form class="channel-finder">
-                    <div class="input-field">
-                      <p class="prefix">zoff.me/</p>
-                      <input
-                          class="room-namer autocomplete desktop-search"
-                          type="text"
-                          id="autocomplete-input"
-                          name="chan"
-                          placeholder="chill"
-                          title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                          autocomplete="off"
-                          autofocus
-                          required
-                          pattern="[a-zA-Z0-9]+"
-                          spellcheck="false"
-                          maxlength="18"
-                      />
-                    <button class="listen-button btn waves-effect waves-light white-text col s2">Listen</button>
-                  </div>
-            </form>
-            <div class="pitch outline">
-                <div>Live &amp; democratic playlists with YouTube Music</div>
-                <div>Play everywhere — No login required</div>
+        <form class="channel-finder">
+            <div class="input-field">
+                <p class="prefix">zoff.me/</p>
+                <input
+                class="room-namer autocomplete desktop-search"
+                type="text"
+                id="autocomplete-input"
+                name="chan"
+                placeholder="chill"
+                title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                autocomplete="off"
+                autofocus
+                required
+                pattern="[a-zA-Z0-9]+"
+                spellcheck="false"
+                maxlength="18"
+                />
+                <button class="listen-button btn waves-effect waves-light white-text col s2">Listen</button>
             </div>
+        </form>
+        <div class="pitch outline">
+            <div>Live &amp; democratic playlists with YouTube Music</div>
+            <div>Play everywhere — No login required</div>
+        </div>
     </div>
 
     <div class="section mobile-search">
-            <form class="channel-finder-mobile row" id="base">
-                    <div class="input-field col s12">
-                        <input
-                            class="autocomplete mobile-search"
-                            type="text"
-                            id="searchFrontpage"
-                            name="chan"
-                            title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
-                            autocomplete="off"
-                            required pattern="[a-zA-Z0-9]+"
-                            spellcheck="false"
-                            maxlength="18"
-                            data-length="18"
-                        />
-                        <label for="searchFrontpage" class="noselect">Find or create radio channel</label>
-                </div>
-            </form>
-        </div>
+        <form class="channel-finder-mobile row" id="base">
+            <div class="input-field col s12">
+                <input
+                class="autocomplete mobile-search"
+                type="text"
+                id="searchFrontpage"
+                name="chan"
+                title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
+                autocomplete="off"
+                required pattern="[a-zA-Z0-9]+"
+                spellcheck="false"
+                maxlength="18"
+                data-length="18"
+                />
+                <label for="searchFrontpage" class="noselect">Find or create radio channel</label>
+            </div>
+        </form>
+    </div>
     <div id="channel-load" class="progress">
-            <div class="indeterminate" id="channel-load-move"></div>
-        </div>
+        <div class="indeterminate" id="channel-load-move"></div>
+    </div>
     <main class="center-align container">
         <div id="main_section_frontpage" class="section">
-          <div class="col s12">
-            <div class="row">
-              <div class="input-field col s12">
-                <select id="view_channels_select">
-                  <option value="" disabled>Channels to show</option>
-                  <option value="1" selected>Most Popular</option>
-                  <option value="2">All Channels</option>
-                </select>
-              </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select id="view_channels_select">
+                            <option value="" disabled>Channels to show</option>
+                            <option value="1" selected>Most Popular</option>
+                            <option value="2">All Channels</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-          </div>
             <div id="preloader" class="progress">
                 <div class="indeterminate"></div>
             </div>
             <div id="channel-list-container">
 
-            <ul class="row" id="channels">
+                <ul class="row" id="channels">
                     <li id="chan-card" class="col s6 m4 l3">
                         <div class="card sticky-action">
                             <a class="chan-link">
@@ -154,8 +154,8 @@
                                     <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
                                 </div>
                                 <div class="card-reveal">
-                                  <span class="card-title grey-text text-darken-4 truncate"></span>
-                                  <p class="description_text"></p>
+                                    <span class="card-title grey-text text-darken-4 truncate"></span>
+                                    <p class="description_text"></p>
                                 </div>
                             </a>
                         </div>

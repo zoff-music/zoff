@@ -11,6 +11,10 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
+router.route('/favicon.ico').get(function(req, res, next) {
+    res.sendFile(path.join(pathThumbnails, '/public/assets/images/favicon.ico'));
+});
+
 router.route('/:channel_name').get(function(req, res, next){
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
