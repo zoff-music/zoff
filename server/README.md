@@ -1,4 +1,4 @@
-# Zoff-Serverside
+# Backend
 
 ## Install
 
@@ -46,23 +46,3 @@ socket.on('playlists', {channels: array, viewers: number})														Recieves
 socket.on("np", {np: NOW_PLAYING, conf: CONFIGURATION, time: SERVER_TIME})															Recieves array of now playing song. Is triggered on song-change
 socket.on("viewers", VALUE)															Recieves number of viewers on the current channel
 ```
-
-## About
-
-Zoff is a shared (free) YouTube based radio service, built upon the YouTube API.
-
-Zoff is mainly a webbased service. The website uses NodeJS with Socket.IO, MongoDB and PHP on the backend, with JavaScript, jQuery and Materialize on the frontend.
-
-The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the project has been worked on since late 2014.
-
-The team can be reached on contact@zoff.no
-
-### Legal
-
-Copyright © 2017
-Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
-
-Creative Commons License
-Zoff is licensed under a
-<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>.
-Do not redistribute without permission from the developers.
