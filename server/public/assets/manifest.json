@@ -1,16 +1,31 @@
 {
-  "short_name": "Zoff",
-  "name": "Zoff",
-  "icons": [
-    {
-      "src": "/assets/images/144x144.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#2D2D2D",
-  "theme_color": "#2D2D2D",
-  "orientation": "portrait"
+    "short_name": "Zoff",
+    "name": "Zoff - the shared YouTube based radio",
+    "description": "A free YouTube based radio, where no registration is needed for listening to channels, or creating your own channels. ",
+    "dir": "ltr",
+    "lang": "en-US",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#2D2D2D",
+    "theme_color": "#2D2D2D",
+    "orientation": "portrait",
+    "related_applications": [
+        {
+            "platform": "play",
+            "id": "zoff.me.zoff",
+            "url": "https://play.google.com/store/apps/details?id=zoff.me.zoff"
+        }
+    ],
+    "icons": [
+        {
+            "src": "/assets/images/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }

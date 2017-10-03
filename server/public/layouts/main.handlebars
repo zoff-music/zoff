@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     |    Zoff                                                         |
@@ -11,12 +11,12 @@
     <title>Zoff - the shared YouTube based radio</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
-    <meta name="description" content="The Shared (free) YouTube radio."/>
+    <meta name="description" content="The shared (free) YouTube radio."/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#2D2D2D" />
-    <meta property="og:image" content="https://zoff.me/assets/images/favicon.png" />
+    <meta property="og:image" content="https://zoff.me/assets/images/favicon-32x32.png" />
     <meta property="og:url" content="https://zoff.me" />
     <meta property="og:title" content="Zoff"/>
     <meta property="og:description" content="The Shared (free) YouTube radio."/>
@@ -28,15 +28,18 @@
     <link type="text/css" rel="stylesheet" href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" />
     <link type="text/css" rel="stylesheet" href="/assets/css/materialize.min.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css" title="Default" />
-    <link rel="icon" id="favicon" type="image/png" href="/assets/images/favicon.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', '***REMOVED***', 'auto');
-      ga('send', 'pageview');
+    ga('create', '***REMOVED***', 'auto');
+    ga('send', 'pageview');
 
     </script>
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -51,80 +54,80 @@
     <script type="text/javascript" src="/assets/dist/lib/sha256.js"></script>
     <script type="text/javascript" src="/assets/dist/lib/aes.js"></script>
     <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
-  </head>
-  <body class="noselect">
+</head>
+<body class="noselect">
     {{{body}}}
     <div class="tap-target" data-activates="castButton">
         <div class="tap-target-content">
-          <h5>Chromecast</h5>
-          <p>This site supports chromecasting!</p>
+            <h5>Chromecast</h5>
+            <p>This site supports chromecasting!</p>
         </div>
-      </div>
+    </div>
     <div id="contact" class="modal">
-                <div class="modal-content">
-                    <h4>Contact</h4>
-                    <div id="contact-container">
-                        <p>Found a bug, or just want to contact the team?</p>
-                        <form id="contact-form" method="post" onsubmit="return false;">
-                          <div class="input-field">
-                            <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
-                            <label for="contact-form-from" class="noselect">Email</label>
-                          </div>
-                          <div class="input-field">
-                            <input id="contact-form-message" name="message" type="text" autocomplete="off">
-                            <label for="contact-form-message" class="noselect">Message</label>
-                          </div>
-                            <div class="valign hide" id="send-loader">
-                                 <div class="preloader-wrapper small active">
-                                  <div class="spinner-layer spinner-blue">
-                                    <div class="circle-clipper left">
-                                      <div class="circle"></div>
-                                    </div><div class="gap-patch">
-                                      <div class="circle"></div>
-                                    </div><div class="circle-clipper right">
-                                      <div class="circle"></div>
-                                    </div>
-                                  </div>
-
-                                  <div class="spinner-layer spinner-red">
-                                    <div class="circle-clipper left">
-                                      <div class="circle"></div>
-                                    </div><div class="gap-patch">
-                                      <div class="circle"></div>
-                                    </div><div class="circle-clipper right">
-                                      <div class="circle"></div>
-                                    </div>
-                                  </div>
-
-                                  <div class="spinner-layer spinner-yellow">
-                                    <div class="circle-clipper left">
-                                      <div class="circle"></div>
-                                    </div><div class="gap-patch">
-                                      <div class="circle"></div>
-                                    </div><div class="circle-clipper right">
-                                      <div class="circle"></div>
-                                    </div>
-                                  </div>
-
-                                  <div class="spinner-layer spinner-green">
-                                    <div class="circle-clipper left">
-                                      <div class="circle"></div>
-                                    </div><div class="gap-patch">
-                                      <div class="circle"></div>
-                                    </div><div class="circle-clipper right">
-                                      <div class="circle"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                        </form>
+        <div class="modal-content">
+            <h4>Contact</h4>
+            <div id="contact-container">
+                <p>Found a bug, or just want to contact the team?</p>
+                <form id="contact-form" method="post" onsubmit="return false;">
+                    <div class="input-field">
+                        <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
+                        <label for="contact-form-from" class="noselect">Email</label>
                     </div>
-                </div>
-                <div class="modal-footer">
-                  <button class="waves-effect waves-green btn-flat" id="submit-contact-form">Send</button>
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Close</a>
-                </div>
+                    <div class="input-field">
+                        <input id="contact-form-message" name="message" type="text" autocomplete="off">
+                        <label for="contact-form-message" class="noselect">Message</label>
+                    </div>
+                    <div class="valign hide" id="send-loader">
+                        <div class="preloader-wrapper small active">
+                            <div class="spinner-layer spinner-blue">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+
+                            <div class="spinner-layer spinner-red">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+
+                            <div class="spinner-layer spinner-yellow">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+
+                            <div class="spinner-layer spinner-green">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn-flat" id="submit-contact-form">Send</button>
+            <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+        </div>
+    </div>
     <footer class="page-footer cursor-default">
         <div class="container">
             <div class="row">
@@ -139,21 +142,21 @@
                         Enjoy!
                     </p>
                     <ul class="footer-buttons">
-                      <li>
-                          <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" data-target="help">
-                            <i class="material-icons left footer-button-icon">help_outline</i>HELP
-                          </a>
-                      </li>
-                      <li>
-                        <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" data-target="embed">
-                            <i class="material-icons left footer-button-icon">code</i>EMBED
-                        </a>
-                      </li>
-                      <li>
-                        <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" data-target="contact">
-                        <i class="material-icons left footer-button-icon">email</i>CONTACT
-                        </a>
-                      </li>
+                        <li>
+                            <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" data-target="help">
+                                <i class="material-icons left footer-button-icon">help_outline</i>HELP
+                            </a>
+                        </li>
+                        <li>
+                            <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" data-target="embed">
+                                <i class="material-icons left footer-button-icon">code</i>EMBED
+                            </a>
+                        </li>
+                        <li>
+                            <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" data-target="contact">
+                                <i class="material-icons left footer-button-icon">email</i>CONTACT
+                            </a>
+                        </li>
                     </ul>
                     <p id="latest-commit" class="grey-text text-lighten-4"></p>
                 </div>
@@ -171,37 +174,37 @@
                         </li>
                         <li>
                             <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
-                              <input type="hidden" name="cmd" value="_s-xclick">
-                              <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
-                              <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
-                              <i class="material-icons left footer-button-icon">payment</i>Donate
-                              </a>
+                                <input type="hidden" name="cmd" value="_s-xclick">
+                                <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
+                                <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
+                                    <i class="material-icons left footer-button-icon">payment</i>Donate
+                                </a>
                             </form>
-                          </li>
-                          <li class="google-play-image-list">
-                            <a href="https://play.google.com/store/apps/details?id=zoff.me.zoff&hl=no&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-                              <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"/></a>
-                          </li>
-                          <li>
-                              <div id="qr-code-link" class="hide-on-small-only">
-                                  <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=https://zoff.me/{{list_name}}&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
-                              </div>
                         </li>
-                    </ul>
+                        <li class="google-play-image-list">
+                            <a href="https://play.google.com/store/apps/details?id=zoff.me.zoff&hl=no&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                                <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"/></a>
+                            </li>
+                            <li>
+                                <div id="qr-code-link" class="hide-on-small-only">
+                                    <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=https://zoff.me/{{list_name}}&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                &copy; {{year}}
-                <a href="http://kasperrt.no">KasperRT</a> &amp;
-                <a href="http://nixo.no">Nixo</a>,
-                <br>
-                All rights reserved
-                <a class="right" href="https://github.com/zoff-music/">Contribute on GitHub</a>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; {{year}}
+                    <a href="http://kasperrt.no">KasperRT</a> &amp;
+                    <a href="http://nixo.no">Nixo</a>,
+                    <br>
+                    All rights reserved
+                    <a class="right" href="https://github.com/zoff-music/">Contribute on GitHub</a>
+                </div>
             </div>
-        </div>
-    </footer>
-    <textarea class="copy_video_id" style="display:none;"></textarea>
-  </body>
-</html>
+        </footer>
+        <textarea class="copy_video_id" style="display:none;"></textarea>
+    </body>
+    </html>
