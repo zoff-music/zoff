@@ -613,7 +613,7 @@ nav .brand-logo-navigate{
   background-color:rgba(45,45,45,1);
   position: fixed;
   z-index: 10;
-  width: calc(100vw - 8px);
+  /*width: calc(100vw - 8px);*/
   overflow: hidden;
 }
 
