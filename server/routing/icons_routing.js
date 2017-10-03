@@ -17,4 +17,8 @@ router.route('/apple-touch-icon.png').get(function(req, res, next) {
     res.sendFile(path.join(pathThumbnails, '/public/assets/images/apple-touch-icon.png'));
 });
 
+router.route('/apple-touch-icon-precomposed.png').get(function(req, res, next) {
+    res.sendFile(path.join(pathThumbnails, '/public/assets/images/apple-touch-icon-precomposed.png'));
+});
+
 module.exports = router;
