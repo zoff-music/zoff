@@ -159,7 +159,7 @@ var Admin = {
                 });
             }
         }
-        List.dragging(true);
+        //List.dragging(true);
         $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
     },
 
@@ -235,7 +235,7 @@ var Admin = {
             $(".playlist-tabs").removeClass("hide");
         }
 
-        List.dragging(false);
+        //List.dragging(false);
 
         if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
         {
