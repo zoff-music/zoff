@@ -297,11 +297,17 @@ function init(){
             tooltip: "Search"
         });
 
+        /*$("#prev").tooltip({
+            delay: 5,
+            position: "bottom",
+            tooltip: "Previous",
+        });
+
         $("#skip").tooltip({
             delay: 5,
             position: "bottom",
             tooltip: "Skip",
-        });
+        });*/
 
         $("#shuffle").tooltip({
             delay: 5,
@@ -749,7 +755,7 @@ function set_title_width(start){
         if(start){
             add_width = $(window).width()*0.15;
         }
-        var test_against_width = $(window).width() - $(".control-list").width() - add_width - 66;
+        var test_against_width = $(window).width() - $(".control-list").width() - add_width - 33;
         title_width = test_against_width;
         $(".title-container").width(title_width);
     } else {
@@ -1454,9 +1460,14 @@ $(document).on("click", ".chat-tab", function(){
     $("#text-chat-input").focus();
 });
 
-$(document).on("click", "#skip", function(e){
+$(document).on("click", ".prev", function(e){
     e.preventDefault();
-    List.skip();
+    List.skip(false);
+});
+
+$(document).on("click", ".skip", function(e){
+    e.preventDefault();
+    List.skip(true);
 });
 
 $(document).on("click", "#chan", function(e){
@@ -1854,7 +1865,8 @@ function onepage_load(){
             $('#fullscreen').tooltip("remove");
             $('#admin-lock').tooltip("remove");
             $("#search-btn").tooltip("remove");
-            $("#skip").tooltip("remove");
+            //$("#prev").tooltip("remove");
+            //$("#skip").tooltip("remove");
             $("#shuffle").tooltip("remove");
             $("#settings").tooltip("remove");
         }

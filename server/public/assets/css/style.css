@@ -2006,13 +2006,35 @@ nav ul li:hover, nav ul li.active {
     margin-top:-6px;
 }
 
+.playbar {
+    color: white;
+}
+
+.skip.playbar, .prev.playbar {
+  float:left;
+  font-size: 24px;
+}
+
+.playbar-btn {
+  transition: background-color .2s;
+}
+
+.playbar-btn:hover {
+  background-color: rgba(0,0,0,0.6);
+  color:rgba(255,255,255,0.5);
+}
+
 #playpause, #duration, #volume-button
 {
   float:left;
   color:white;
 }
 
-#playpause, #volume-button
+.prev.playbar, #playpause, .skip.playbar {
+  padding: 0 2.5px;
+}
+
+.prev.playbar, #playpause, #volume-button
 {
   margin-left:10px;
 }
@@ -2058,7 +2080,7 @@ nav ul li:hover, nav ul li.active {
 
 #play, #pause, #volume-button, #fullscreen
 {
-  font-size: 30px;
+  font-size: 24px;
   cursor:pointer;
   height: 33px;
   line-height: 31px;
@@ -2420,7 +2442,7 @@ nav ul li:hover, nav ul li.active {
       padding-left: 10px;
     }
 
-    #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i{
+    #play, #pause, #volume-button i, #fullscreen i, .castButton-unactive i, .castButton-active i, .playbar-btn i{
       font-size: 31px;
       font-size: 31px !important;
       margin-top: 8px;
@@ -2524,7 +2546,7 @@ nav ul li:hover, nav ul li.active {
     }
     .control-list{
         position: absolute !important;
-        width: 120px;
+        width: 88px;
     }
 
     .page-footer{

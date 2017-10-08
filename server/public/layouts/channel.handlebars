@@ -43,12 +43,17 @@
                                 <!--<span class="hover-text">Find</span>-->
                             </a>
                         </li>
-                        <li>
-                            <a class="nav-btn" href="#skip" id="skip">
-                                <i class="material-icons">skip_next</i>
-                                <!--<span class="hover-text">Skip</span>-->
+                        <!--<li>
+                            <a class="nav-btn prev" href="#prev">
+                                <i class="material-icons">skip_previous</i>
                             </a>
                         </li>
+                        <li>
+                            <a class="nav-btn skip" href="#skip">
+                                <i class="material-icons">skip_next</i>
+                                <span class="hover-text">Skip</span>
+                            </a>
+                        </li>-->
                         <li>
                             <a class="nav-btn hide-on-small-only" href="#stir" id="shuffle">
                                 <i class="material-icons">shuffle</i>
@@ -188,10 +193,16 @@
                 </div>
             </div>
             <div id="controls" class="noselect">
-                <div id="playpause">
+                <!--<a class="playbar-btn prev playbar" href="#prev">
+                    <i class="material-icons">skip_previous</i>
+                </a>-->
+                <div id="playpause" class="playbar-btn">
                     <i id="play" class="material-icons hide">play_arrow</i>
                     <i id="pause" class="material-icons">pause</i>
                 </div>
+                <a class="playbar-btn skip playbar" href="#skip">
+                    <i class="material-icons">skip_next</i>
+                </a>
                 <div id="duration"></div>
                 <div id="fullscreen" class="hide-on-small-only">
                     <i class="material-icons">fullscreen</i>
