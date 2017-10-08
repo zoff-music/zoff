@@ -303,6 +303,30 @@ var Player = {
         List.channel_function({type:"song_change", time: time});
     },
 
+    playPrev: function() {
+        var length = full_playlist.length - 2;
+        if(length < 0) {
+            length = 0;
+        }
+        var next_song = full_playlist[length];
+        video_id   = next_song.id;
+        time       = (new Date()).getTime();
+        song_title = next_song.title;
+        duration   = next_song.duration;
+        Player.getTitle(song_title, viewers);
+        Player.setBGimage(video_id);
+
+        if(chromecastAvailable){
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase()});
+            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+            chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+        } else {
+            Player.loadVideoById(video_id, duration);
+        }
+
+        List.channel_function({type:"song_change_prev", time: time});
+    },
+
     sendNext: function(obj){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", title: obj.title, videoId: obj.videoId});

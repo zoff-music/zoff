@@ -2034,7 +2034,7 @@ nav ul li:hover, nav ul li.active {
   padding: 0 2.5px;
 }
 
-.prev.playbar, #playpause, #volume-button
+.margin-playbar, #volume-button
 {
   margin-left:10px;
 }

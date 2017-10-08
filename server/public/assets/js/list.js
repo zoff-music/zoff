@@ -128,14 +128,23 @@ var List = {
             //if(!w_p) List.dragging(true);
             break;
             case "song_change":
-            if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
-            if(full_playlist.length > 0) {
-                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-            }
-            found_array = [];
-            found_array_index = 0;
-            //if(!w_p) List.dragging(true);
-            break;
+                if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
+                if(full_playlist.length > 0) {
+                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
+                found_array = [];
+                found_array_index = 0;
+                //if(!w_p) List.dragging(true);
+                break;
+            case "song_change_prev":
+                if(window.location.pathname != "/") List.song_change_prev(msg.time);
+                if(full_playlist.length > 0) {
+                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                }
+                found_array = [];
+                found_array_index = 0;
+                //if(!w_p) List.dragging(true);
+                break;
         }
     },
 
@@ -204,6 +213,7 @@ var List = {
             }
         }
         List.sortList();
+
         $("#wrapper").empty();
 
         Helper.log("---------------------------");
@@ -496,6 +506,25 @@ var List = {
         List.insertAtIndex(song_voted_on, false);
     },
 
+    song_change_prev: function(time) {
+        full_playlist[full_playlist.length - 1].now_playing = false;
+        full_playlist[full_playlist.length - 1].votes = full_playlist[0].votes;
+        full_playlist[full_playlist.length - 1].guids = [];
+        full_playlist[full_playlist.length - 1].added = full_playlist[0].added - 1;
+
+        full_playlist.unshift(full_playlist.pop());
+
+        full_playlist[full_playlist.length - 1].now_playing = true;
+        $("#wrapper").children()[$("#wrapper").children().length - 1].remove();
+
+        var length = full_playlist.length - 2;
+        if(length < 0) {
+            length = 0;
+        }
+
+        List.insertAtIndex(full_playlist[0], false, true);
+    },
+
     song_change: function(time, remove) {
         try{
             var length = full_playlist.length - 1;
@@ -539,11 +568,15 @@ var List = {
         return true;
     },
 
-    skip: function() {
+    skip: function(way) {
         if(!offline){
             socket.emit('skip', {pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), id:video_id, channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
-            Player.playNext();
+            if(way) {
+                Player.playNext();
+            } else {
+                Player.playPrev();
+            }
         }
         return true;
     },
