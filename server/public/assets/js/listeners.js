@@ -787,6 +787,9 @@ function change_offline(enabled, already_offline){
         }
         //$(".list-remove").removeClass("hide");
         $("#viewers").addClass("hide");
+        $(".margin-playbar").removeClass("margin-playbar");
+        $(".prev.playbar").addClass("margin-playbar");
+        $(".prev.playbar").removeClass("hide");
         $("#offline-mode").removeClass("waves-cyan");
         $("#offline-mode").addClass("cyan");
         if(!Helper.mobilecheck()) {
@@ -844,7 +847,10 @@ function change_offline(enabled, already_offline){
             list_html = $("<div>" + list_html + "</div>");
             list_html = list_html.html();
         }
+        $(".margin-playbar").removeClass("margin-playbar");
+        $("#playpause").addClass("margin-playbar");
         $("#viewers").removeClass("hide");
+        $(".prev.playbar").addClass("hide");
         $("#offline-mode").addClass("waves-cyan");
         $("#offline-mode").removeClass("cyan");
         if(!Helper.mobilecheck()) {
