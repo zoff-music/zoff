@@ -98,16 +98,19 @@ module.exports = function() {
                     }, function(err, updated) {
                         if(updated.nModified > 0) {
                             io.to(coll).emit("viewers", updated.users);
-                            db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs){});
+                            db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs){
+                                db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
+                                    if(docs.nModified == 1) {
+                                        db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
+                                    }
+                                });
+                            });
                         }
                         Functions.remove_name_from_db(guid, name);
                     });
                 }
 
                 Functions.remove_unique_id(short_id);
-
-                db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {});
-                db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
             } else {
                 offline = false;
                 db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
@@ -115,7 +118,7 @@ module.exports = function() {
                 });
             }
         });
-        
+
         socket.on('chat', function (msg) {
             Chat.chat(msg, guid, offline, socket);
         });
