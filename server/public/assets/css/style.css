@@ -2546,7 +2546,7 @@ nav ul li:hover, nav ul li.active {
     }
     .control-list{
         position: absolute !important;
-        width: 88px;
+        width: 120px;
     }
 
     .page-footer{
