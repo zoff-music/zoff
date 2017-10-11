@@ -59,18 +59,18 @@ function namechange(data, guid, socket) {
     }
     var password = Functions.decrypt_string(socket.zoff_id, pw);
     var name = data.name;
-    db.collection("registered_users").find({"_id": name}, function(err, docs) {
+    db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
         var accepted_password = false;
         if(docs.length == 0) {
             if(new_password) {
                 return;
             }
             accepted_password = true;
-            db.collection("registered_users").update({"_id": name}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {});
+            db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {});
         } else if(docs[0].password == Functions.hash_pass(password)) {
             accepted_password = true;
             if(new_password) {
-                db.collection("registered_users").update({"_id": name, password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
+                db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
             }
         }
         if(accepted_password) {
