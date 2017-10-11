@@ -115,11 +115,16 @@ var Chat = {
                 color = "0" + color;
             }
         }
+        var icon_add = "";
+        if(inp.hasOwnProperty("icon") && inp.icon != false) {
+            icon_add = "<img class='chat-icon' src='" + inp.icon + "' alt='" + inp.from + "'>";
+        }
+
         color = Helper.hexToRgb(color.substring(0,6));
         var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
         var _time = new Date();
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        $("#chatall").append("<li title='"+inp.channel+"''><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
+        $("#chatall").append("<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
         var in_text = document.createTextNode(inp.msg);
         $("#chatall li:last")[0].appendChild(in_text);
         document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
@@ -143,6 +148,11 @@ var Chat = {
             $("#chatchannel").children()[0].remove()
         }
 
+        var icon_add = "";
+        if(data.hasOwnProperty("icon") && data.icon != false) {
+            icon_add = "<img class='chat-icon' src='" + data.icon + "' alt='" + data.from + "'>";
+        }
+
         var color = Helper.intToARGB(Helper.hashCode(data.from));
         if(color.length < 6) {
             for(x = color.length; x < 6; x++) {
@@ -153,7 +163,7 @@ var Chat = {
         var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
         var _time = new Date();
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+data.from+"</span></li>");
+        $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
         var in_text = document.createTextNode(data.msg);
         $("#chatchannel li:last")[0].appendChild(in_text);
         document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;

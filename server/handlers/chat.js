@@ -13,7 +13,11 @@ function chat(msg, guid, offline, socket) {
             data.length < 151 && data.replace(/\s/g, '').length){
                 db.collection("user_names").find({"guid": guid}, function(err, docs) {
                     if(docs.length == 1) {
-                        io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data});
+                        var icon = false;
+                        if(docs[0].icon) {
+                            icon = docs[0].icon;
+                        }
+                        io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
                     } else if(docs.length == 0){
                         get_name(guid, {announce: false, channel: coll, message: data, all: false});
                     }
@@ -38,7 +42,11 @@ function all_chat(msg, guid, offline, socket) {
     data.length < 151 && data.replace(/\s/g, '').length){
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
             if(docs.length == 1) {
-                io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll});
+                var icon = false;
+                if(docs[0].icon) {
+                    icon = docs[0].icon;
+                }
+                io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
             } else if(docs.length == 0) {
                 get_name(guid, {announce: false, channel: coll, message: data, all: true});
             }
@@ -65,6 +73,7 @@ function namechange(data, guid, socket) {
     var name = data.name;
     db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
         var accepted_password = false;
+        var icon = false;
         if(docs.length == 0) {
             if(new_password) {
                 return;
@@ -72,6 +81,9 @@ function namechange(data, guid, socket) {
             accepted_password = true;
             db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {});
         } else if(docs[0].password == Functions.hash_pass(password)) {
+            if(docs[0].icon) {
+                icon = docs[0].icon;
+            }
             accepted_password = true;
             if(new_password) {
                 db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
@@ -81,7 +93,7 @@ function namechange(data, guid, socket) {
             db.collection("user_names").find({"guid": guid}, function(err, names) {
                 var old_name = names[0].name;
                 db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
-                db.collection("user_names").update({"guid": guid}, {$set: {name: name}}, function(err, docs) {
+                db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, function(err, docs) {
                     db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
                         socket.emit('name', {type: "name", accepted: true});
                         if(old_name != name && !first) {
@@ -114,7 +126,7 @@ function generate_name(guid, announce_payload) {
     var tmp_name = Functions.rndName(guid, 8);
     db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
         if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
-            db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name}}, {upsert: true}, function(err, update){
+            db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name, icon: false}}, {upsert: true}, function(err, update){
                 name = tmp_name;
                 if(announce_payload.announce) {
                     io.to(announce_payload.channel).emit('chat', {from: announce_payload.old_name,  msg: " changed name to " + name});
