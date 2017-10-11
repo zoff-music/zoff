@@ -50,6 +50,10 @@ function namechange(data, guid, socket) {
     if(!data.hasOwnProperty("name") || data.name.length > 10 || !data.hasOwnProperty("channel")) return;
     var pw = "";
     var new_password;
+    var first = false;
+    if(data.hasOwnProperty("first")) {
+        first = data.first;
+    }
     if(data.hasOwnProperty("password")) {
         pw = data.password;
         new_password = false;
@@ -80,7 +84,7 @@ function namechange(data, guid, socket) {
                 db.collection("user_names").update({"guid": guid}, {$set: {name: name}}, function(err, docs) {
                     db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
                         socket.emit('name', {type: "name", accepted: true});
-                        if(old_name != name) {
+                        if(old_name != name && !first) {
                             io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
                             io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                         }

@@ -157,7 +157,7 @@ $().ready(function(){
                 }
                 if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
                     setTimeout(function() {
-                        Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass);
+                        Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
                     }, 100); //to take height for delay on establishing connection
                 }
             });
@@ -1525,7 +1525,7 @@ $(document).on("click", ".chat-link", function(e){
     $(".chat-link").attr("style", "color: white !important;");
     blinking = false;
     $("#favicon").attr("href", "/assets/images/favicon.png");
-    $("#chatPlaylist").css("display", "block");
+    $("#chat-container").css("display", "block");
     $("#wrapper").css("display", "none");
     $("#suggestions").css("display", "none");
     $("#text-chat-input").focus();
@@ -1534,7 +1534,7 @@ $(document).on("click", ".chat-link", function(e){
 
 $(document).on("click", ".playlist-link", function(e){
     chat_active = false;
-    $("#chatPlaylist").css("display", "none");
+    $("#chat-container").css("display", "none");
     $("#wrapper").css("display", "block");
     $("#suggestions").css("display", "none");
     $("#pageButtons").css("display", "flex");
@@ -1542,7 +1542,7 @@ $(document).on("click", ".playlist-link", function(e){
 
 $(document).on("click", ".suggested-link", function(e){
     chat_active = false;
-    $("#chatPlaylist").css("display", "none");
+    $("#chat-container").css("display", "none");
     $("#wrapper").css("display", "none");
     $("#suggestions").css("display", "block");
     $("#pageButtons").css("display", "none");

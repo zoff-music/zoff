@@ -117,7 +117,7 @@
   cursor:default;
 }
 
-#chatPlaylist, #suggestions{
+#chat-container, #suggestions{
   height:calc(100vh - 48px - 64px) !important;
 }
 
@@ -251,7 +251,7 @@ li.disabled span {
   display: none;
 }
 
-#chatPlaylist{
+#chat-container{
   overflow: hidden;
 }
 
@@ -1807,6 +1807,10 @@ nav ul li:hover, nav ul li.active {
     opacity:0.8;
 }
 
+#suggestions {
+  padding-bottom: 20px;
+}
+
 .tabs_height{
   height:calc(100vh - 48px - 64px - 32px) !important;
   overflow:auto;
@@ -2304,6 +2308,15 @@ nav ul li:hover, nav ul li.active {
       margin-top:25px !important;
     }
 
+    #suggestions {
+      height: auto !important;
+      padding-bottom: 0px;
+    }
+
+    #chat-container {
+      height: calc(100vh - 48px - 64px - 120px) !important;
+    }
+
     .mobile-delete {
       height: 100%;
       position: absolute;
@@ -2482,7 +2495,7 @@ nav ul li:hover, nav ul li.active {
       pointer-events: all;
     }
 
-    #chatPlaylist {
+    #chat-container {
       padding-left: 10px;
     }
 
@@ -2559,6 +2572,8 @@ nav ul li:hover, nav ul li.active {
     #volume-button{
       float: right;
       margin-right: 5px;
+      height: 51px;
+      padding-top: 0px;
     }
 
     #fullscreen{
