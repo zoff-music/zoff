@@ -1525,8 +1525,10 @@ ul #chat-log{
 
 .castButton{
     /* display: none; !important*/
+    height: 32px;
     width: 32px;
-    margin-top: 4px;
+    padding-top: 3px;
+    padding-bottom: 2px;
     background: transparent;
     border: none;
     float: right;
@@ -2013,9 +2015,13 @@ nav ul li:hover, nav ul li.active {
 .skip.playbar, .prev.playbar {
   float:left;
   font-size: 24px;
+  cursor: pointer;
+  height: 32px;
+  line-height: 31px;
 }
 
 .playbar-btn {
+  cursor: pointer;
   transition: background-color .2s;
 }
 
@@ -2053,7 +2059,8 @@ nav ul li:hover, nav ul li.active {
   float:right;
   color:white;
   margin-right:15px;
-  margin-top: 2px;
+  /* margin-top: 2px; */
+  padding-top: 4px;
 }
 
 #duration, #viewers
@@ -2082,7 +2089,7 @@ nav ul li:hover, nav ul li.active {
 {
   font-size: 24px;
   cursor:pointer;
-  height: 33px;
+  height: 32px;
   line-height: 31px;
 }
 
