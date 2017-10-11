@@ -121,6 +121,11 @@
   height:calc(100vh - 48px - 64px) !important;
 }
 
+.channel-info-all-chat {
+    color: lightgrey;
+    font-size: 0.75rem;
+}
+
 #chatForm {
   padding-left: 14px;
 }
@@ -329,6 +334,10 @@ li.disabled span {
   user-select: initial;
   padding: 4px;
   margin-left: 0px;
+}
+
+#chatchannel li span, #chatall li span {
+  padding-right: 1px;
 }
 
 #closePlayer{

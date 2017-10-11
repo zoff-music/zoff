@@ -119,7 +119,7 @@ var Chat = {
         var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
         var _time = new Date();
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        $("#chatall").append("<li title='"+inp.channel+"''><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+inp.from+"</span></li>");
+        $("#chatall").append("<li title='"+inp.channel+"''><span class='time_color'>" + time + "</span> <span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
         var in_text = document.createTextNode(inp.msg);
         $("#chatall li:last")[0].appendChild(in_text);
         document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
