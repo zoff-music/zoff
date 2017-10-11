@@ -196,7 +196,25 @@ function init(){
     $("#settings").sideNav({
         menuWidth: 310,
         edge: side,
-        closeOnClick: false
+        closeOnClick: false,
+        onOpen: function(el) {
+            if(!$(".hamburger-sidenav").hasClass("open")) {
+                $(".hamburger-sidenav").addClass("open");
+            }
+            $('*[id*=sidenav-overlay]:visible').each(function(i) {
+                if(i > 0) {
+                    this.remove();
+                }
+            });
+        },
+        onClose: function(el) {
+            $(".hamburger-sidenav").removeClass("open");
+            $('*[id*=sidenav-overlay]:visible').each(function(i) {
+                if(i > 0) {
+                    this.remove();
+                }
+            });
+        },
     });
     $('.collapsible').collapsible({
         accordion : true
