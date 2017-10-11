@@ -41,7 +41,6 @@ var Crypt = {
 
 function receiveMessage(event) {
     if(event.data == "parent") {
-        //console.log(event);
         window.parentWindow = event.source;
         window.parentOrigin = event.origin;
     }

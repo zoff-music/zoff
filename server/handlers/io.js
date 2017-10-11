@@ -79,6 +79,18 @@ module.exports = function() {
             Suggestions.description(msg, coll, guid, offline, socket);
         });
 
+        socket.on("namechange", function(msg) {
+            Chat.namechange(msg, guid, socket);
+        });
+
+        socket.on("removename", function(msg) {
+            if(typeof(msg) != "object" || !msg.hasOwnProperty("channel")) {
+                socket.emit("update_required");
+                return;
+            }
+            Chat.removename(guid, msg.channel);
+        });
+
         socket.on("offline", function(msg){
             if(!msg.hasOwnProperty('status') && !msg.hasOwnProperty('channel')) {
                 socket.emit("update_required");

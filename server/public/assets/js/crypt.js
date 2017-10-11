@@ -29,7 +29,11 @@ var Crypt = {
 
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-            //if(conf_arr.name !== undefined && conf_arr.name !== "") Chat.namechange(conf_arr.name);
+            if(conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
+                setTimeout(function() {
+                    Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass);
+                }, 100); //to take height for delay on establishing connection
+            }
         }
     },
 
@@ -158,8 +162,9 @@ var Crypt = {
         Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
     },
 
-    set_name:function(name) {
+    set_name:function(name, pass) {
         conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');
+        conf_arr.chat_pass = pass;
         Crypt.encrypt(conf_arr, "_opt");
     },
 
@@ -170,6 +175,7 @@ var Crypt = {
 
     remove_name:function() {
         conf_arr.name = "";
+        conf_arr.chat_pass = "";
         Crypt.encrypt(conf_arr, "_opt");
     },
 

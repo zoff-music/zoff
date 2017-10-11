@@ -46,34 +46,49 @@ function all_chat(msg, guid, offline, socket) {
     }
 }
 
-function namechange(data, guid, coll) {
-    if(typeof(data) !== "string" || coll == undefined) return;
-    data = encodeURIComponent(data).replace(/\W/g, '').replace(/[^\x00-\x7F]/g, "");
-    db.collection("user_names").find({"guid": guid}, function(err, docs) {
-        if(docs.length == 1) {
-            if(docs[0].name == data) return;
-            var change_name = function(new_name, guid, old_name) {
-                if(new_name.length > 9) {
-                    return;
-                } else {
-                    db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: new_name}}, function(err, updated) {
-                        if(updated.nModified == 1) {
-                            db.collection("user_names").update({"guid": guid}, {$set: {name: new_name}}, function(err, updated) {
-                                db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function(err, updated) {});
-                                name = new_name;
-                                io.to(coll).emit('chat', {from: old_name, msg: " changed name to " + name});
-                                io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: coll});
-                            });
-                        } else {
-                            change_name(new_name + "_", guid, old_name);
+function namechange(data, guid, socket) {
+    if(!data.hasOwnProperty("name") || data.name.length > 10 || !data.hasOwnProperty("channel")) return;
+    var pw = "";
+    var new_password;
+    if(data.hasOwnProperty("password")) {
+        pw = data.password;
+        new_password = false;
+    } else if(data.hasOwnProperty("new_password") && data.hasOwnProperty("old_password")) {
+        pw = data.old_password;
+        new_password = Functions.decrypt_string(socket.zoff_id, data.new_password);
+    }
+    var password = Functions.decrypt_string(socket.zoff_id, pw);
+    var name = data.name;
+    db.collection("registered_users").find({"_id": name}, function(err, docs) {
+        var accepted_password = false;
+        if(docs.length == 0) {
+            if(new_password) {
+                return;
+            }
+            accepted_password = true;
+            db.collection("registered_users").update({"_id": name}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {});
+        } else if(docs[0].password == Functions.hash_pass(password)) {
+            accepted_password = true;
+            if(new_password) {
+                db.collection("registered_users").update({"_id": name, password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
+            }
+        }
+        if(accepted_password) {
+            db.collection("user_names").find({"guid": guid}, function(err, names) {
+                var old_name = names[0].name;
+                db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
+                db.collection("user_names").update({"guid": guid}, {$set: {name: name}}, function(err, docs) {
+                    db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
+                        socket.emit('name', {type: "name", accepted: true});
+                        if(old_name != name) {
+                            io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
+                            io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                         }
                     });
-                }
-            }
-
-            var old_name = docs[0].name;
-            change_name(data, guid, old_name);
-
+                });
+            });
+        } else {
+            socket.emit('name', {type: "name", accepted: false});
         }
     });
 }

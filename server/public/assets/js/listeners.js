@@ -15,6 +15,8 @@ var frontpage 		   	  		= 1;
 var adminpass 		   	  		= "";
 var showDiscovery						= false;
 var filesadded		   	  		= "";
+var temp_name = "";
+var temp_pass = "";
 var chromecast_icon_color = "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
@@ -150,16 +152,28 @@ $().ready(function(){
                 if(offline) {
                     socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
                 }
-                if((Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
+                if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
                     socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+                }
+                if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
+                    setTimeout(function() {
+                        Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass);
+                    }, 100); //to take height for delay on establishing connection
                 }
             });
         }
-        /*if(conf_arr != undefined && conf_arr.name !== undefined && conf_arr.name !== "") {
-        setTimeout(function(){
-        Chat.namechange(conf_arr.name);
-    }, 1000);
-}*/
+
+});
+
+socket.on("name", function(data) {
+    if(data.type == "name" && data.accepted) {
+        Crypt.set_name(temp_name, temp_pass);
+        temp_name = "";
+        temp_pass = "";
+    } else {
+        temp_name = "";
+        temp_pass = "";
+    }
 });
 
 socket.on("self_ping", function() {
