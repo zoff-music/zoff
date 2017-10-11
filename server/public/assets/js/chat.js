@@ -4,7 +4,7 @@ var Chat = {
     all_received: 0,
     chat_help: ["/name <new name> <password> to register and save a password for a nickname", "/name <new name> <new_password> <old_password> to change the password on a nickname", "/removename to logout"],//, "There are no commands.. As of now!"],
 
-    namechange: function(data) {
+    namechange: function(data, first) {
         var input = data.split(" ");
         if(input.length == 2) {
             var name = input[0];
@@ -12,7 +12,7 @@ var Chat = {
             temp_name = name;
             temp_pass = password;
             password = Crypt.crypt_pass(password);
-            socket.emit("namechange", {name: name, channel: chan.toLowerCase(), password: password});
+            socket.emit("namechange", {name: name, channel: chan.toLowerCase(), password: password, first: first});
         } else if(input.length == 3) {
             var name = input[0];
             var new_password = input[1];
@@ -38,7 +38,7 @@ var Chat = {
     chat: function(data) {
         if(data.value.length > 150) return;
         if(data.value.startsWith("/name ")){
-            Chat.namechange(data.value.substring(6));
+            Chat.namechange(data.value.substring(6), false);
         } else if(data.value.startsWith("/help")) {
             if($(".chat-tab-li a.active").attr("href") == "#all_chat"){
                 if($("#chatall").children().length > 100) {

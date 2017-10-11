@@ -682,9 +682,9 @@ var List = {
             async: true,
             statusCode: {
                 429: function(jqXHR) {
-                    console.log(jqXHR.getAllResponseHeaders());
+                    Helper.log(jqXHR.getAllResponseHeaders());
                     var retryAfter = jqXHR.getResponseHeader("Retry-After");
-                    console.log(retryAfter);
+                    Helper.log(retryAfter);
                     if (!retryAfter) retryAfter = 5;
                     retryAfter = parseInt(retryAfter, 10);
                     Helper.log("Retry-After", retryAfter);
@@ -695,9 +695,9 @@ var List = {
             },
             error: function(err){
                 if(err.status == 429){
-                    console.log(err.getAllResponseHeaders());
+                    Helper.log(err.getAllResponseHeaders());
                     var retryAfter = err.getResponseHeader("Retry-After");
-                    console.log(retryAfter);
+                    Helper.log(retryAfter);
                     if (!retryAfter) retryAfter = 5;
                     retryAfter = parseInt(retryAfter, 10);
                     Helper.log("Retry-After", retryAfter);
