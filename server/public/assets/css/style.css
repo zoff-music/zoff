@@ -2018,6 +2018,7 @@ nav ul li:hover, nav ul li.active {
   cursor: pointer;
   height: 32px;
   line-height: 31px;
+  padding-top: 3px !important;
 }
 
 .playbar-btn {
