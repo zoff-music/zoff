@@ -126,6 +126,12 @@
     font-size: 0.75rem;
 }
 
+.chat-icon {
+    width: 15px;
+    margin-right: 2px;
+    vertical-align: middle;
+}
+
 #chatForm {
   padding-left: 14px;
 }
