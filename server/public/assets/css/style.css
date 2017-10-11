@@ -324,6 +324,10 @@ li.disabled span {
   background: rgba(0,0,0,.1);
 }
 
+#chatchannel li:nth-child(odd), #chatall li:nth-child(odd) {
+  background: rgba(0,0,0,.2);
+}
+
 #chatchannel li, #chatall li{
   cursor:text;
   -webkit-touch-callout: initial;
@@ -963,65 +967,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 .mega :-ms-input-placeholder { /* Internet Explorer 10-11 */
   opacity: 0.72;
 }
-
-
-/*.listen-button, .contact-button-submit{
-    background: none;
-    border: none;
-    background-size: auto;
-    border-bottom: 1px solid white;
-    border-left:1px solid rgba(255,255,255,0);
-    border-right:1px solid rgba(255,255,255,0);
-    border-top:1px solid rgba(255,255,255,0);
-    cursor: pointer;
-    height: 43px;
-    line-height: 35.625px;
-    margin-left: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    text-shadow: none;
-    color: rgb(255, 255, 255);
-    text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
-    -webkit-transition : border 500ms ease-out;
-    -moz-transition : border 500ms ease-out;
-    -o-transition : border 500ms ease-out;
-    transition : border 500ms ease-out;
-    border-left:1px solid rgba(255,255,255,1);
-  border-right:1px solid rgba(255,255,255,1);
-  border-top:1px solid rgba(255,255,255,1);
-  border-radius: 2px;
-}
-
-.listen-button:hover{
-  border-left:1px solid rgba(255,255,255,1);
-  border-right:1px solid rgba(255,255,255,1);
-  border-top:1px solid rgba(255,255,255,1);
-  border-radius: 2px;
-  background-color:white;
-  color:rgba(255,255,255,0);
-  text-shadow: rgba(18, 18, 18, 0.76) 0px 0px 0px;
-}
-
-.listen-button:focus{
-  border-left:1px solid rgba(255,255,255,1);
-  border-right:1px solid rgba(255,255,255,1);
-  border-top:1px solid rgba(255,255,255,1);
-  border-radius: 2px;
-  background-color:rgba(255,255,255,0);
-  color:rgba(255,255,255,1);
-  text-shadow: rgba(18, 18, 18, 0.76) 0px 1px 4px;
-}
-
-.contact-button-submit{
-  background-color:#FAFAFA;
-  color:#2d2d2d;
-  border-left:1px solid #2D2D2D;
-  border-right:1px solid #2D2D2D;
-  border-top:1px solid #2D2D2D;
-  border-bottom:1px solid #2D2D2D;
-  border-radius: 2px;
-  text-shadow:rgba(0,0,0,0) 0px 0px 0px;
-}*/
 
 .listen-button {
   background: #2d2d2d !important;
@@ -2048,6 +1993,7 @@ nav ul li:hover, nav ul li.active {
 
 .prev.playbar, #playpause, .skip.playbar {
   padding: 0 2.5px;
+  height: 51px;
 }
 
 .margin-playbar, #volume-button
