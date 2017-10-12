@@ -13,11 +13,13 @@ function chat(msg, guid, offline, socket) {
             data.length < 151 && data.replace(/\s/g, '').length){
                 db.collection("user_names").find({"guid": guid}, function(err, docs) {
                     if(docs.length == 1) {
-                        var icon = false;
-                        if(docs[0].icon) {
-                            icon = docs[0].icon;
-                        }
-                        io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
+                        db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                            var icon = false;
+                            if(n.length > 0 && n[0].icon) {
+                                icon = n[0].icon;
+                            }
+                            io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
+                        });
                     } else if(docs.length == 0){
                         get_name(guid, {announce: false, channel: coll, message: data, all: false});
                     }
@@ -42,11 +44,13 @@ function all_chat(msg, guid, offline, socket) {
     data.length < 151 && data.replace(/\s/g, '').length){
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
             if(docs.length == 1) {
-                var icon = false;
-                if(docs[0].icon) {
-                    icon = docs[0].icon;
-                }
-                io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
+                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                    var icon = false;
+                    if(n.length > 0 && n[0].icon) {
+                        icon = n[0].icon;
+                    }
+                    io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
+                });
             } else if(docs.length == 0) {
                 get_name(guid, {announce: false, channel: coll, message: data, all: true});
             }
@@ -124,19 +128,25 @@ function removename(guid, coll) {
 
 function generate_name(guid, announce_payload) {
     var tmp_name = Functions.rndName(guid, 8);
-    db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
-        if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
-            db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name, icon: false}}, {upsert: true}, function(err, update){
-                name = tmp_name;
-                if(announce_payload.announce) {
-                    io.to(announce_payload.channel).emit('chat', {from: announce_payload.old_name,  msg: " changed name to " + name});
-                    io.sockets.emit('chat.all', {from: announce_payload.old_name , msg: " changed name to " + name, channel: announce_payload.channel});
-                } else if(announce_payload.message && !announce_payload.all) {
-                    io.to(announce_payload.channel).emit('chat', {from: name, msg: ": " + announce_payload.message});
-                } else if(announce_payload.message && announce_payload.all) {
-                    io.sockets.emit('chat.all', {from: name, msg: ": " + announce_payload.message, channel: announce_payload.channel});
+    db.collection("registered_users").find({"_id": tmp_name}, function(err, docs) {
+        if(docs.length == 0) {
+            db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
+                if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
+                    db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name, icon: false}}, {upsert: true}, function(err, update){
+                        name = tmp_name;
+                        if(announce_payload.announce) {
+                            io.to(announce_payload.channel).emit('chat', {from: announce_payload.old_name,  msg: " changed name to " + name});
+                            io.sockets.emit('chat.all', {from: announce_payload.old_name , msg: " changed name to " + name, channel: announce_payload.channel});
+                        } else if(announce_payload.message && !announce_payload.all) {
+                            io.to(announce_payload.channel).emit('chat', {from: name, msg: ": " + announce_payload.message});
+                        } else if(announce_payload.message && announce_payload.all) {
+                            io.sockets.emit('chat.all', {from: name, msg: ": " + announce_payload.message, channel: announce_payload.channel});
+                        }
+                    });
+                } else {
+                    Chat.generate_name(tmp_name, announce_payload);
                 }
-            });
+            })
         } else {
             Chat.generate_name(tmp_name, announce_payload);
         }
