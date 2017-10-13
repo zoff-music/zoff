@@ -131,6 +131,10 @@ module.exports = function() {
             }
         });
 
+        socket.on('get_history', function(msg) {
+            Chat.get_history(msg.channel, msg.all, socket);
+        });
+
         socket.on('chat', function (msg) {
             Chat.chat(msg, guid, offline, socket);
         });

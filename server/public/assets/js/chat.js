@@ -89,8 +89,8 @@ var Chat = {
         return;
     },
 
-    allchat: function(inp) {
-        if(inp.msg.substring(0,1) == ":" && !chat_active) {
+    allchat: function(inp, time_sent, disable_blink) {
+        if(inp.msg.substring(0,1) == ":" && !chat_active && !disable_blink) {
             Chat.all_received += 1;
             $("#favicon").attr("href", "/assets/images/highlogo.png");
             unseen = true;
@@ -123,6 +123,9 @@ var Chat = {
         color = Helper.hexToRgb(color.substring(0,6));
         var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
         var _time = new Date();
+        if(time_sent) {
+            _time = new Date(time_sent);
+        }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
         $("#chatall").append("<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
         var in_text = document.createTextNode(inp.msg);
@@ -130,8 +133,8 @@ var Chat = {
         document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
     },
 
-    channelchat: function(data) {
-        if(data.msg.substring(0,1) == ":" && !chat_active) {
+    channelchat: function(data, time_sent, disable_blink) {
+        if(data.msg.substring(0,1) == ":" && !chat_active && !disable_blink) {
             $("#favicon").attr("href", "/assets/images/highlogo.png");
             unseen = true;
             chat_unseen = true;
@@ -162,6 +165,9 @@ var Chat = {
         color = Helper.hexToRgb(color.substring(0,6));
         var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
         var _time = new Date();
+        if(time_sent) {
+            _time = new Date(time_sent);
+        }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
         $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
         var in_text = document.createTextNode(data.msg);

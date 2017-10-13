@@ -310,6 +310,7 @@ function init(){
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     }
+
     if(!Helper.mobilecheck()) {
         $("#viewers").tooltip({
             delay: 5,
@@ -367,6 +368,9 @@ function init(){
     setup_admin_listener();
     setup_list_listener();
     setup_chat_listener();
+
+    socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
+    socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
 
     if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
 
@@ -748,6 +752,16 @@ function setup_admin_listener(){
 }
 
 function setup_chat_listener(){
+    socket.on("chat_history", function(msg) {
+        var data = msg.data;
+        for(var i = 0; i < data.length; i++) {
+            if(msg.all) {
+                Chat.allchat(data[i], data[i].createdAt, true);
+            } else {
+                Chat.channelchat(data[i], data[i].createdAt, true);
+            }
+        }
+    });
     socket.on("chat.all", Chat.allchat);
     socket.on("chat", Chat.channelchat);
 }
