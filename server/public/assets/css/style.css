@@ -3025,7 +3025,7 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
   pointer-events: none;
 	background: none;
 	font-family: Androgyne;
-	background-image: url('assets/images/s1.png'), url('assets/images/s2.png'), url('assets/images/s3.png');
+	background-image: url('/assets/images/s1.png'), url('/assets/images/s2.png'), url('/assets/images/s3.png');
 	height: 100%;
 	left: 0;
 	position: absolute;
