@@ -808,12 +808,6 @@ hide mdi-action-visibility mdi-action-visibility-off
 	margin:-1px;
 }*/
 
-@font-face {
-    font-family:"futura-pt";
-    src:url('../fonts/futura.woff2') format('woff2'),url('../fonts/futura.woff') format('woff');
-    font-style:normal;font-weight:300;
-}
-
 .mega{
   padding: 6% 0px;
   /* height: 100%; */
@@ -895,9 +889,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 }
 
 .mega h5{
-  /*box-sizing: border-box;   */
   color: rgb(255, 255, 255);   cursor: default;   display: inline;
-  /*font-family: futura-pt, 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;  */
   font-size: 50px;
   font-weight: 100;
   height: auto;
