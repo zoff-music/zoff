@@ -1,3 +1,28 @@
+function get_history(channel, all, socket) {
+    var query = {};
+    if(all) {
+        query = {
+            all: true,
+        };
+    } else {
+        query = {
+            all: false,
+            channel: channel,
+        };
+    }
+    db.collection("chat_logs").find(query, {
+        from: 1,
+        createdAt: 1,
+        all: 1,
+        channel: 1,
+        msg: 1,
+        icon: 1,
+        _id: 0
+    }).sort({createdAt: 1}).limit(20, function(err, docs) {
+        socket.emit("chat_history", {all: all, data: docs});
+    });
+}
+
 
 function chat(msg, guid, offline, socket) {
     if(typeof(msg) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel') && !msg.hasOwnProperty('pass')) {
@@ -18,6 +43,7 @@ function chat(msg, guid, offline, socket) {
                             if(n.length > 0 && n[0].icon) {
                                 icon = n[0].icon;
                             }
+                            db.collection("chat_logs").insert({ "createdAt": new Date(), all: false, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon });
                             io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
                         });
                     } else if(docs.length == 0){
@@ -49,6 +75,7 @@ function all_chat(msg, guid, offline, socket) {
                     if(n.length > 0 && n[0].icon) {
                         icon = n[0].icon;
                     }
+                    db.collection("chat_logs").insert({ "createdAt": new Date(), all: true, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon }, function(err, docs) {});
                     io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
                 });
             } else if(docs.length == 0) {
@@ -163,6 +190,7 @@ function get_name(guid, announce_payload) {
     })
 }
 
+module.exports.get_history = get_history;
 module.exports.chat = chat;
 module.exports.all_chat = all_chat;
 module.exports.namechange = namechange;
