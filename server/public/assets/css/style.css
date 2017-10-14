@@ -1968,15 +1968,6 @@ nav ul li:hover, nav ul li.active {
     color: white;
 }
 
-.skip.playbar, .prev.playbar {
-  float:left;
-  font-size: 24px;
-  cursor: pointer;
-  height: 32px;
-  line-height: 31px;
-  padding-top: 3px !important;
-}
-
 .playbar-btn {
   cursor: pointer;
   transition: background-color .2s;
@@ -1995,7 +1986,15 @@ nav ul li:hover, nav ul li.active {
 
 .prev.playbar, #playpause, .skip.playbar {
   padding: 0 2.5px;
-  height: 51px;
+}
+
+.skip.playbar, .prev.playbar {
+  float:left;
+  font-size: 24px;
+  cursor: pointer;
+  height: 32px;
+  line-height: 31px;
+  padding-top: 3px;
 }
 
 .margin-playbar, #volume-button
@@ -2501,6 +2500,11 @@ nav ul li:hover, nav ul li.active {
       font-size: 31px;
       font-size: 31px !important;
       margin-top: 8px;
+    }
+
+    .skip.playbar, .prev.playbar, #playpause {
+      padding-top: 0px;
+      height: 51px;
     }
 
     .castButton-unactive, .castButton-active{
