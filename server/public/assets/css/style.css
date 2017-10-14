@@ -1997,14 +1997,16 @@ nav ul li:hover, nav ul li.active {
   padding-top: 3px;
 }
 
-.margin-playbar, #volume-button
+.margin-playbar
 {
-  margin-left:10px;
+  /*margin-left:10px;*/
 }
 
 #volume-button{
   padding-top: 3px;
-  /* padding-left: 10px; */
+  padding-left: 2px;
+  padding-right: 5px;
+  margin-left: 5px;
 }
 
 #playpause:hover, #volume-button:hover, #fullscreen:hover
@@ -2016,9 +2018,11 @@ nav ul li:hover, nav ul li.active {
 {
   float:right;
   color:white;
-  margin-right:15px;
+  margin-right: 0px;
   /* margin-top: 2px; */
   padding-top: 4px;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 
 #duration, #viewers
@@ -2310,6 +2314,11 @@ nav ul li:hover, nav ul li.active {
       padding-bottom: 0px;
     }
 
+    .margin-playbar {
+      margin-left:10px;
+    }
+
+
     #chat-container {
       height: calc(100vh - 48px - 64px - 120px) !important;
     }
@@ -2500,6 +2509,7 @@ nav ul li:hover, nav ul li.active {
       font-size: 31px;
       font-size: 31px !important;
       margin-top: 8px;
+      line-height: 31px;
     }
 
     .skip.playbar, .prev.playbar, #playpause {
@@ -2520,7 +2530,7 @@ nav ul li:hover, nav ul li.active {
     .volume-container {
       position: absolute;
       right: 0%;
-      width: 40px;
+      width: 37px;
       top: -127px;
       height: 127px;
       left: auto;
@@ -2532,7 +2542,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .volume-container-cast {
-      right: 9.5%;
+      right: 10.1%;
     }
 
     #volume {
@@ -2573,7 +2583,10 @@ nav ul li:hover, nav ul li.active {
 
     #volume-button{
       float: right;
-      margin-right: 5px;
+      /* margin-right: 5px; */
+      padding-right: 3px;
+      margin-left: 0px;
+      padding-left: 3px;
       height: 51px;
       padding-top: 0px;
     }
