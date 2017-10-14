@@ -2538,7 +2538,7 @@ nav ul li:hover, nav ul li.active {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: #464646;
+      background: #1c1c1c;
     }
 
     .volume-container-cast {
