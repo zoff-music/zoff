@@ -1485,6 +1485,7 @@ ul #chat-log{
     border: none;
     float: right;
     --disconnected-color: white;
+    --connected-color: #ff9800;
 }
 
 .castButton:focus {
@@ -2542,7 +2543,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .volume-container-cast {
-      right: 10.1%;
+      right: 42px;
     }
 
     #volume {
@@ -2596,8 +2597,9 @@ nav ul li:hover, nav ul li.active {
     }
 
     .castButton {
-      width: 3em;
-      margin-top: 0.5em;
+      width: 39px;
+      height: 51px;
+      padding-top: 0em;
     }
 
     #bar{
