@@ -233,7 +233,6 @@ var Frontpage = {
     },
 
     get_frontpage_lists: function() {
-        console.log(window.location.hostname);
         var add = "";
         if(window.location.hostname == "fb.zoff.me") {
             add = "https://zoff.me";
@@ -393,6 +392,10 @@ function initfp() {
         }
     };
 
+    if(window.location.hostname == "fb.zoff.me") {
+        $("footer").addClass("hide");
+    }
+    
     channel_list = $("#channel-list-container").clone().html();
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
