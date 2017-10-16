@@ -8,6 +8,7 @@ pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
+var cert_config = require('./cert_config.js');
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/main',
 	layoutsDir: publicPath + '/layouts',
@@ -23,9 +24,9 @@ app.set('views', publicPath);
 
 try{
 	var fs = require('fs');
-	var privateKey  = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/privkey.pem').toString();
-	var certificate = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/cert.pem').toString();
-	var ca          = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/chain.pem').toString();
+	var privateKey  = fs.readFileSync(cert_config.privateKey).toString();
+	var certificate = fs.readFileSync(cert_config.certificate).toString();
+	var ca          = fs.readFileSync(cert_config.ca).toString();
 	var credentials = {
 		key: privateKey,
 		cert: certificate,
