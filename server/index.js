@@ -102,7 +102,6 @@ server.listen(port, function () {
 	console.log('Server listening at port %d', port);
 });
 
-
 app.get('/robots.txt', function (req, res) {
 	res.type('text/plain');
 	res.send("User-agent: *\nAllow: /$\nDisallow: /");
@@ -114,6 +113,8 @@ app.use(function (req, res, next) {
 		var user_name = Functions.rndName(uniqid.time(), 15);
 		res.cookie('_uI',user_name, { maxAge: 365 * 10000 * 3600000 });
 	}
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });
 
