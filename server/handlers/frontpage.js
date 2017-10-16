@@ -1,5 +1,5 @@
 function frontpage_lists(msg, socket) {
-    if(!msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
+    if(msg == undefined || !msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
         socket.emit("update_required");
     }
 

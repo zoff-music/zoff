@@ -424,7 +424,7 @@ var List = {
     deleted_song: function(deleted, removed) {
         try{
             var index              = List.getIndexOfSong(deleted);
-            var to_delete          = $("#wrapper").children()[index];
+            //var to_delete          = $("#wrapper").children()[index];
             //if(!removed) to_delete.style.height = 0;
 
             if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
