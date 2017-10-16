@@ -233,6 +233,7 @@ var Frontpage = {
     },
 
     get_frontpage_lists: function() {
+        console.log(window.location.hostname);
         var add = "";
         if(window.location.hostname == "fb.zoff.me") {
             add = "https://zoff.me";
