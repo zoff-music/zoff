@@ -116,7 +116,7 @@ var Chat = {
             }
         }
         var icon_add = "";
-        if(inp.hasOwnProperty("icon") && inp.icon != false && inp.icon != "") {
+        if(inp.hasOwnProperty("icon") && !inp.icon && inp.icon != "") {
             icon_add = "<img class='chat-icon' src='" + inp.icon + "' alt='" + inp.from + "'>";
         }
 
@@ -152,7 +152,7 @@ var Chat = {
         }
 
         var icon_add = "";
-        if(data.hasOwnProperty("icon") && data.icon != false && data.icon != "") {
+        if(data.hasOwnProperty("icon") && !data.icon && data.icon != "") {
             icon_add = "<img class='chat-icon' src='" + data.icon + "' alt='" + data.from + "'>";
         }
 
