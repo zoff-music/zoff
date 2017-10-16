@@ -23,9 +23,9 @@ app.set('views', publicPath);
 
 try{
 	var fs = require('fs');
-	var privateKey  = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0002/privkey.pem').toString();
-	var certificate = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0002/cert.pem').toString();
-	var ca          = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0002/chain.pem').toString();
+	var privateKey  = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/privkey.pem').toString();
+	var certificate = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/cert.pem').toString();
+	var ca          = fs.readFileSync('/etc/letsencrypt/live/zoff.me-0001/chain.pem').toString();
 	var credentials = {
 		key: privateKey,
 		cert: certificate,
