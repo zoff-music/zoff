@@ -47,6 +47,9 @@ router.route('/:channel_name').get(function(req, res, next){
 });
 
 router.route('/api/frontpages').get(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
         db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
             res.setHeader('Content-Type', 'application/json');
@@ -56,6 +59,9 @@ router.route('/api/frontpages').get(function(req, res) {
 });
 
 router.route('/api/list/:channel_name').get(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     var channel_name = req.params.channel_name;
     db.collection(channel_name).find({views: {$exists: false}}, {added: 1, id: 1, title: 1, votes: 1, duration: 1, type: 1, _id: 0}, function(err, docs) {
         if(docs.length > 0) {
@@ -69,6 +75,9 @@ router.route('/api/list/:channel_name').get(function(req, res) {
 });
 
 router.route('/api/conf/:channel_name').get(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     var channel_name = req.params.channel_name;
     db.collection(channel_name).find({views: {$exists: true}},
         {
@@ -107,6 +116,9 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
 });
 
 router.route('/api/imageblob').post(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     var Jimp = require("jimp");
     Jimp.read('https://img.youtube.com/vi/' + req.body.id + '/mqdefault.jpg', function (err, image) {
         if (err) console.log(err);
