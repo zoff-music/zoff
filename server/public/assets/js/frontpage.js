@@ -194,10 +194,14 @@ var Frontpage = {
             img.src = "/assets/images/thumbnails/"+id+".jpg";
 
             img.onerror = function(e){ // Failed to load
+                var add = "";
+                if(window.location.hostname == "fb.zoff.me") {
+                    add = "https://zoff.me";
+                }
                 $.ajax({
                     type: "POST",
                     data: {id:id},
-                    url: "/api/imageblob",
+                    url: add + "/api/imageblob",
                     success: function(data){
                         setTimeout(function(){
                             $("#mega-background").css("background", "url(/assets/images/thumbnails/"+data+")");
@@ -229,8 +233,12 @@ var Frontpage = {
     },
 
     get_frontpage_lists: function() {
+        var add = "";
+        if(window.location.hostname == "fb.zoff.me") {
+            add = "https://zoff.me";
+        }
         $.ajax({
-            url: "/api/frontpages",
+            url: add + "/api/frontpages",
             method: "get",
             success: function(response){
                 Frontpage.frontpage_function(response);
