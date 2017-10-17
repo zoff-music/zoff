@@ -1,6 +1,7 @@
-var mongo_db_cred = {config: 'mydb'};
+var path = require('path');
+var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
 var mongojs = require('mongojs');
-var db = mongojs(mongo_db_cred.config);
+var db = mongojs(mongo_config.config);
 
 db.collection("chat_logs").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 600 });
 

@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const path = require('path');
+var path = require('path');
 var nodemailer = require('nodemailer');
-var mailconfig = require('../mailconfig.js');
+var mailconfig = require(path.join(__dirname, '../config/mailconfig.js'));
 var mongo_db_cred = {config: 'mydb'};
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);

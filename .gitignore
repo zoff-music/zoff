@@ -1,7 +1,7 @@
 server/public/assets/images/thumbnails/
-server/mailconfig.js
-server/mongo_config.js
-server/cert_config.js
+server/config/mailconfig.js
+server/config/mongo_config.js
+server/config/cert_config.js
 */node_modules
 node_modules/
 scripts/
