@@ -11,14 +11,13 @@
     "type": "git",
     "url": "git+https://github.com/zoff-music/zoff.git"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zoff-music/zoff/issues"
-  },
   "author": {
     "name": "Kasper Rynning Tønnesen",
     "email": "kasper@kasperrt.no"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zoff-music/zoff/issues"
   },
   "devDependencies": {
     "gulp-util": "~3.0.6",
@@ -28,10 +27,6 @@
   },
   "homepage": "https://github.com/zoff-music/zoff#readme",
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-uglifyjs": "^0.6.2",
-    "gulp-util": "^3.0.8",
     "bad-words": "^1.5.1",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
@@ -40,7 +35,12 @@
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "express-subdomain": "^1.0.5",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglifyjs": "^0.6.2",
+    "gulp-util": "^3.0.8",
     "jimp": "^0.2.27",
+    "mobile-detect": "^1.3.7",
     "mongodb": "^2.0.27",
     "mongojs": "^2.4.0",
     "node-cryptojs-aes": "^0.4.0",

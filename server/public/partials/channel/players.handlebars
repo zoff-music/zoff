@@ -1,0 +1,57 @@
+<div id="video-container" class="col s12 m9 video-container no-opacity click-through">
+    <div id="fireplace_player" class="ytplayer"></div>
+    <div id="player" class="ytplayer"></div>
+    <div id="main_components">
+        <div id="player_overlay" class="hide valign-wrapper">
+            <div id="playing_on">
+                <div id="chromecast_icon">
+                    <i class="material-icons">cast</i>
+                </div>
+                <div id="chromecast_text"></div>
+            </div>
+            <div id="player_overlay_text" class="valign center-align">
+                Waiting for Video
+            </div>
+            <div id="player_overlay_controls" class="hide valign-wrapper">
+                <div id="playpause-overlay" class="valign center-align">
+                    <i id="play-overlay" class="material-icons hide">play_arrow</i>
+                    <i id="pause-overlay" class="material-icons">pause</i>
+                </div>
+                <div id="volume-button-overlay">
+                    <i id="v-mute-overlay" class="material-icons">volume_off</i>
+                    <i id="v-low-overlay" class="material-icons">volume_mute</i>
+                    <i id="v-medium-overlay" class="material-icons">volume_down</i>
+                    <i id="v-full-overlay" class="material-icons">volume_up</i>
+                </div>
+            </div>
+        </div>
+        <div id="controls" class="noselect">
+            <div class="playbar-btn prev playbar hide">
+                <i class="material-icons">skip_previous</i>
+            </div>
+            <div id="playpause" class="playbar-btn margin-playbar">
+                <i id="play" class="material-icons hide">play_arrow</i>
+                <i id="pause" class="material-icons">pause</i>
+            </div>
+            <div class="playbar-btn skip playbar">
+                <i class="material-icons">skip_next</i>
+            </div>
+            <div id="duration"></div>
+            <div id="fullscreen" class="hide-on-small-only playbar-btn">
+                <i class="material-icons">fullscreen</i>
+            </div>
+            <button class="castButton playbar-btn" id="castButton" is="google-cast-button"></button>
+            <div id="volume-button" class="playbar-btn">
+                <i id="v-mute" class="material-icons">volume_off</i>
+                <i id="v-low" class="material-icons">volume_mute</i>
+                <i id="v-medium" class="material-icons">volume_down</i>
+                <i id="v-full" class="material-icons">volume_up</i>
+            </div>
+            <div class="volume-container">
+                <div id="volume"></div>
+            </div>
+            <div id="viewers" data-position="top"></div>
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
