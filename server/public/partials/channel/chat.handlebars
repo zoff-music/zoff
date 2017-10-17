@@ -1,0 +1,28 @@
+<div id="chat-container" class="tabs_height" style="display:none;">
+    <ul class="" id="chat-bar">
+        <li id="chat-log">
+            <ul class="inherit-height">
+                <li class="active inherit-height">
+                    <!--<ul id="chat inherit-height">-->
+                    <div class="row inherit-height">
+                        <div class="col s12">
+                            <ul class="tabs chatTabs tabs-fixed-width">
+                                <li class="tab col s3 chat-tab-li"><a class="active chat-tab truncate" href="#channelchat">{{list_name}}</a></li>
+                                <li class="tab col s3 chat-tab-li"><a class="chat-tab" href="#all_chat">All</a></li>
+                            </ul>
+                        </div>
+                        <div id="channelchat" class="col s12 inherit-height"><ul id="chatchannel" class="inherit-height"></ul></div>
+                        <div id="all_chat" class="col s12 inherit-height"><ul id="chatall" class="inherit-height"></ul></div>
+                    </div>
+                    <!--</ul>-->
+                </li>
+            </ul>
+        </li>
+        <li id="chat-input" class="row">
+            <form action="#" id="chatForm">
+                <input id="text-chat-input" class="col s9" name="input" type="text" autocomplete="off" placeholder="Chat" maxlength="150" />
+                <a href="#" id="chat_submit" class="btn col s2 white waves-effect"><i class="material-icons">send</i></a>
+            </form>
+        </li>
+    </ul>
+</div>
