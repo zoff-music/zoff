@@ -85,7 +85,7 @@ function all_chat(msg, guid, offline, socket) {
     }
 }
 
-function namechange(data, guid, socket) {
+function namechange(data, guid, socket, tried) {
     if(!data.hasOwnProperty("name") || data.name.length > 10 || !data.hasOwnProperty("channel")) return;
     var pw = "";
     var new_password;
@@ -122,17 +122,26 @@ function namechange(data, guid, socket) {
         }
         if(accepted_password) {
             db.collection("user_names").find({"guid": guid}, function(err, names) {
-                var old_name = names[0].name;
-                db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
-                db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, function(err, docs) {
-                    db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
-                        socket.emit('name', {type: "name", accepted: true});
-                        if(old_name != name && !first) {
-                            io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
-                            io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
-                        }
+                if(names.length > 0) {
+                    var old_name = names[0].name;
+                    db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
+                    db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, function(err, docs) {
+                        db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
+                            socket.emit('name', {type: "name", accepted: true});
+                            if(old_name != name && !first) {
+                                io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
+                                io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
+                            }
+                        });
                     });
-                });
+                } else {
+                    if(tried < 3 || tried == undefined) {
+                        if(tried == undefined) {
+                            tried = 1;
+                        }
+                        namechange(data, guid, socket, tried + 1);
+                    }
+                }
             });
         } else {
             socket.emit('name', {type: "name", accepted: false});
