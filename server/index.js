@@ -2,13 +2,12 @@ VERSION = 3;
 
 var server;
 var add = "";
-const path = require('path');
-const publicPath = path.join(__dirname, 'public');
+var path = require('path');
+var publicPath = path.join(__dirname, 'public');
 pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
-console.log(path.join(__dirname, 'config'));
 var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/main',
