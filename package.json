@@ -4,7 +4,7 @@
   "description": "Zoff, the shared YouTube based radio services",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "gulp build && node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
