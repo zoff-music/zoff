@@ -1,70 +1,69 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+    <head>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    |    Zoff                                                         |
-    |    Project is on github: https://github.com/zoff-music/Zoff     |
-    |    Made by: Nicolas Almagro Tonne and Kasper Rynning-Tønnesen   |
-    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        |    Zoff                                                         |
+        |    Project is on github: https://github.com/zoff-music/Zoff     |
+        |    Made by: Kasper Rynning-Tønnesen and Nicolas Almagro Tonne   |
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <title>Zoff - the shared YouTube based radio</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
-    <meta name="description" content="The shared (free) YouTube radio."/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#2D2D2D" />
-    <meta property="og:image" content="https://zoff.me/assets/images/favicon-32x32.png" />
-    <meta property="og:url" content="https://zoff.me" />
-    <meta property="og:title" content="Zoff"/>
-    <meta property="og:description" content="The Shared (free) YouTube radio."/>
-    <meta property="og:type" content="website"/>
-    <meta property="fb:app_id" content="1581693815380949" />
-    <link rel="manifest" href="/assets/manifest.json">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css" title="Default" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
-    <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
-    <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <title>Zoff - the shared YouTube based radio</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="author" content="Nicolas 'Nixo' Almagro Tonne &amp; Kasper 'KasperRT' Rynning-Tønnesen"/>
+        <meta name="description" content="The shared (free) YouTube radio."/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#2D2D2D" />
+        <meta property="og:image" content="https://zoff.me/assets/images/favicon-32x32.png" />
+        <meta property="og:url" content="https://zoff.me" />
+        <meta property="og:title" content="Zoff"/>
+        <meta property="og:description" content="The Shared (free) YouTube radio."/>
+        <meta property="og:type" content="website"/>
+        <meta property="fb:app_id" content="1581693815380949" />
+        <link rel="manifest" href="/assets/manifest.json">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/style.css" title="Default" />
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+        <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+        <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-64341767-1', 'auto');
-    ga('send', 'pageview');
-
-    </script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"></script>
-    <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.ui.position.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-    <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
-</head>
-<body class="noselect">
-    {{{body}}}
-    <div class="tap-target" data-activates="castButton">
-        <div class="tap-target-content">
-            <h5>Chromecast</h5>
-            <p>This site supports chromecasting!</p>
+            ga('create', 'UA-64341767-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"></script>
+        <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.ui.position.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+        <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
+    </head>
+    <body class="noselect">
+        {{{body}}}
+        <div class="tap-target" data-activates="castButton">
+            <div class="tap-target-content">
+                <h5>Chromecast</h5>
+                <p>This site supports chromecasting!</p>
+            </div>
         </div>
-    </div>
-    {{> contact}}
-    {{> footer}}
-    <textarea class="copy_video_id" style="display:none;"></textarea>
-</body>
+        {{> contact}}
+        {{> footer}}
+        <textarea class="copy_video_id" style="display:none;"></textarea>
+    </body>
 </html>
