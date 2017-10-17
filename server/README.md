@@ -50,36 +50,36 @@
 
 ### From server
 ```
-// Recieves a string from server for what type of toast to be triggered
+// Receives a string from server for what type of toast to be triggered
 'toast', STRING  
 
-// Recieves the password for the channel if the user sent the right in the first place
+// Receives the password for the channel if the user sent the right in the first place
 'pw', STRING   
 
-// Recieves configuration array from server
+// Receives configuration array from server
 'conf', [ARRAY]
 
-// Recieves chat message from allchat
+// Receives chat message from allchat
 'chat.all', {from: name, msg: message, channel: channel, icon: icon_src}
 
-// Recieves chat message from channelchat
+// Receives chat message from channelchat
 'chat', {from: name, msg: message, icon: icon_src}
 
-// Recieves the ID of the current client, used for remote listening
+// Receives the ID of the current client, used for remote listening
 'id', STRING    
 
-// Recieves the messages sent on CHANNEL_ID above
+// Receives the messages sent on CHANNEL_ID above
 id, {type: STRING, value: VALUE}
 
-// Recieves updates from channel. type is one of the following: list, added, deleted, vote, song_change
+// Receives updates from channel. type is one of the following: list, added, deleted, vote, song_change
 'channel', {type: TYPE, value: value, time: time_of_occurence}
 
-// Recieves message from the server that its ready to send the playlist and info
+// Receives message from the server that its ready to send the playlist and info
 'get_list'
 
-// Recieves array of now playing song. Is triggered on song-change
+// Receives array of now playing song. Is triggered on song-change
 'np', {np: NOW_PLAYING, conf: CONFIGURATION, time: SERVER_TIME}
 
-// Recieves number of viewers on the current channel
+// Receives number of viewers on the current channel
 'viewers', VALUE    
 ```
