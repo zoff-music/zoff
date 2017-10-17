@@ -183,6 +183,7 @@ setup_no_connection_listener();
 });
 
 console.log("Testing small log");
+console.log("another log");
 
 function init(){
     number_suggested = 0;
