@@ -36,17 +36,9 @@ gulp.task('callback', function () {
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
-/*
-gulp.task('nochan', function () {
-    gulp.src(['server/public/assets/js/nochan.js', 'server/public/assets/js/helpers.js'])
-        .pipe(uglify({
-            mangle: true,
-            compress: true,
-            enclose: true
-        }))
-        .pipe(concat('frontpage.min.js'))
-        .pipe(gulp.dest('server/public/assets/dist'));
-});*/
+gulp.task('build', function() {
+    gulp.run(['js', 'embed', 'remotecontroller', 'callback']);
+})
 
 gulp.task('remotecontroller', function () {
     gulp.src(['server/public/assets/js/remotecontroller.js'])
