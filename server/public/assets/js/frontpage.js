@@ -395,7 +395,7 @@ function initfp() {
     if(window.location.hostname == "fb.zoff.me") {
         $("footer").addClass("hide");
     }
-    
+
     channel_list = $("#channel-list-container").clone().html();
 
     if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
@@ -457,16 +457,18 @@ function initfp() {
     }
 
     var pad = 0;
-    document.getElementById("zicon").addEventListener("click", function(){
-        pad+=10;
-        document.getElementById("zicon").style.paddingLeft = pad+"%";
-        if(pad >= 100)
+
+    $(".zicon").on("click", function(e) {
+        e.preventDefault();
+
+        pad += 10;
+        $(".zicon").css("padding-left", pad + "vh");
+        if(pad >= 80)
         window.location.href = 'http://etys.no';
     });
 
     if(!Helper.mobilecheck() && Frontpage.winter) {
         $(".mega").prepend('<div id="snow"></div>');
-        //Frontpage.start_snowfall();
     }
 
     if(Helper.mobilecheck()){

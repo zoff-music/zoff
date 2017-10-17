@@ -789,7 +789,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 
 /* INDEX PAGE */
 
-#zicon{
+.zicon{
     height: 64px;
     transition: padding 1s ease;
 }
@@ -2422,7 +2422,7 @@ nav ul li:hover, nav ul li.active {
     }
 
 
-    #zicon{
+    .zicon{
       height:100%;
     }
     /*.list-remove{
