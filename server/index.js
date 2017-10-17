@@ -8,7 +8,8 @@ pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
-var cert_config = require('./cert_config.js');
+console.log(path.join(__dirname, 'config'));
+var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/main',
 	layoutsDir: publicPath + '/layouts',
