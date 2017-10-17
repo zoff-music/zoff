@@ -182,6 +182,7 @@ socket.on("self_ping", function() {
 setup_no_connection_listener();
 });
 
+console.log("Testing small log");
 
 function init(){
     number_suggested = 0;
