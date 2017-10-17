@@ -1,0 +1,77 @@
+<footer class="page-footer cursor-default">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Zoff</h5>
+                <p class="grey-text text-lighten-4">The shared YouTube radio</p>
+                <p class="grey-text text-lighten-4">
+                    Being built around the YouTube search and video API
+                    it enables the creation of collaborative and shared live playlists,
+                    with billions of videos and songs to choose from, all for free and without registration.
+                    <br />
+                    Enjoy!
+                </p>
+                <ul class="footer-buttons">
+                    <li>
+                        <a class="modal-trigger waves-effect cyan darken-2 btn help-button-footer" title="Need help with the site?" data-target="help">
+                            <i class="material-icons left footer-button-icon">help_outline</i>HELP
+                        </a>
+                    </li>
+                    <li>
+                        <a class="modal-trigger waves-effect blue-grey darken-2 btn help-button-footer hide-on-small-only" id="embed-button" title="Want to embed this channel?" data-target="embed">
+                            <i class="material-icons left footer-button-icon">code</i>EMBED
+                        </a>
+                    </li>
+                    <li>
+                        <a class="modal-trigger waves-effect red darken-2 btn help-button-footer" id="contact-button" title="Contact us" data-target="contact">
+                            <i class="material-icons left footer-button-icon">email</i>CONTACT
+                        </a>
+                    </li>
+                </ul>
+                <p id="latest-commit" class="grey-text text-lighten-4"></p>
+            </div>
+            <div class="col l4 offset-l2 s12 valign-wrapper">
+                <ul class="footer-buttons">
+                    <li>
+                        <a id="facebook-code-link" class="waves-effect waves-light btn light-blue share shareface" href="https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/{{list_name}}" target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/{{list_name}}','Share Playlist','width=600,height=300')">
+                            <img class="left" src="/assets/images/facebook.png" alt="Share on Facebook" />Share on&nbsp;Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a id="twitter-code-link" class="waves-effect waves-light btn light-blue share" href="http://twitter.com/intent/tweet?url=https://zoff.me/{{list_name}}&amp;text=Check%20out%20this%20playlist%20{{list_name}}%20on%20Z&ouml;ff!&amp;via=zoffmusic" target="popup" onclick="window.open('http://twitter.com/intent/tweet?url=https://zoff.me{{list_name}}&amp;text=Check%20out%20this%20playlist%20{{list_name}}%20on%20Z&ouml;ff!&amp;via=zoffmusic','Share Playlist','width=600,height=300')">
+                            <img class="left" src="/assets/images/twitter.png" alt="Share on Twitter" />Share on&nbsp;Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
+                            <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
+                                <i class="material-icons left footer-button-icon">payment</i>Donate
+                            </a>
+                        </form>
+                    </li>
+                    <li class="google-play-image-list">
+                        <a href="https://play.google.com/store/apps/details?id=zoff.me.zoff&hl=no&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+                            <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"/></a>
+                        </li>
+                        <li>
+                            <div id="qr-code-link" class="hide-on-small-only">
+                                <img id="qr-code-image-link" class="card rounded" src="//chart.googleapis.com/chart?chs=150x150&amp;cht=qr&amp;chl=https://zoff.me/{{list_name}}&amp;choe=UTF-8&amp;chld=L%7C1" alt="QRCode for link" title="QR code for this page, for easy sharing!" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; {{year}}
+                <a href="http://kasperrt.no">KasperRT</a> &amp;
+                <a href="http://nixo.no">Nixo</a>,
+                <br>
+                All rights reserved
+                <a class="right" href="https://github.com/zoff-music/">Contribute on GitHub</a>
+            </div>
+        </div>
+    </footer>
