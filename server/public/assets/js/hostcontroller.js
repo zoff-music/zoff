@@ -43,7 +43,7 @@ var Hostcontroller = {
                 w_p = true;
                 var add = "";
                 if(private_channel) add = Crypt.getCookie("_uI") + "_";
-                socket.emit("list", {channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 
                 window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
             } else if(arr.type == "pause") {
