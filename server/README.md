@@ -1,8 +1,6 @@
-# Backend
+## Events
 
-### Events
-
-Emitted events between the server and client
+### To server
 ```
 socket.emit("end", {id: video_id, channel: channel_name}); 														Tells the server the song is clientside
 socket.emit("pos", {channel: channel_name}); 		  														Asks server where in the song it should be
@@ -20,7 +18,10 @@ socket.emit("id", {id: CHANNEL_ID, type: "pause", value: "mock"});									Sends
 socket.emit("id", {id: CHANNEL_ID, type: "skip", value: "mock"});									Sends message to the host channel for skip
 socket.emit("id", {id: CHANNEL_ID, type: "volume", value: VALUE});									Sends message to the host channel to change volume
 socket.emit("id", {id: CHANNEL_ID, type: "channel", value: NEW_CHANNEL_NAME});						Sends message to the host channel to change channel
+```
 
+### From server
+```
 socket.on("toast", STRING)															Recieves a string from server for what type of toast to be triggered
 socket.on("pw", STRING)																Recieves the password for the channel if the user sent the right in the first place
 socket.on("conf", [ARRAY])															Recieves configuration array from server
