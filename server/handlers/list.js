@@ -112,7 +112,17 @@ function skip(list, guid, coll, offline, socket) {
                                 {
                                     List.change_song(coll, error, video_id);
                                     socket.emit("toast", "skip");
-                                    io.to(coll).emit('chat', {from: name, msg: " skipped"});
+                                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                        if(docs.length == 1) {
+                                            db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                                var icon = false;
+                                                if(n.length > 0 && n[0].icon) {
+                                                    icon = n[0].icon;
+                                                }
+                                                io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
+                                            });
+                                        }
+                                    });
                                 }else if(!Functions.contains(docs[0].skips, guid)){
                                     db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                                         if(frontpage_viewers[0].viewers == 2)
