@@ -21,8 +21,8 @@ function add_function(arr, coll, guid, offline, socket) {
                 var last = arr.num == arr.total - 1;
                 var num = arr.num;
                 var total = arr.total;
-                db.collection(coll).find({views:{$exists:true}}, function(err, docs)
-                {
+                /*db.collection(coll).find({views:{$exists:true}}, function(err, docs)
+                {*/
                     conf = docs;
                     if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                     docs[0].addsongs === false))
@@ -135,7 +135,7 @@ function add_function(arr, coll, guid, offline, socket) {
                             socket.emit("toast", "listhaspass");
                         }
                     }
-                });
+                //});
             } else {
                 socket.emit("auth_required");
             }
