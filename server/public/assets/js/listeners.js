@@ -12,6 +12,7 @@ var conf 			   	  		= [];
 var private_channel 			= false;
 var music 			   	  		= 0;
 var frontpage 		   	  		= 1;
+var empty_clear = false;
 var adminpass 		   	  		= "";
 var showDiscovery						= false;
 var temp_name = "";

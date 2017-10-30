@@ -153,6 +153,13 @@ var Player = {
             }
             duration = Player.player.getDuration();
         }
+
+        if(Object.keys(obj).length == 0) {
+            paused = false;
+            empty_clear = true;
+        } else {
+            empty_clear = false;
+        }
     },
 
     onPlayerStateChange: function(newState) {
@@ -208,7 +215,9 @@ var Player = {
                         $("#playpause").css("pointer-events", "all");
                         $("#channel-load").css("display", "none");
                     }
-                    paused = true;
+                    if(!empty_clear) {
+                        paused = true;
+                    }
                     if(window.location.pathname != "/") Playercontrols.play_pause_show();
                     mobile_beginning = true;
                 }
