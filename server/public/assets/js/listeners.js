@@ -386,7 +386,29 @@ function init(){
             position: "top",
             tooltip: "Cast Zoff to TV"
         });
+
+        $("#color_embed").spectrum({
+            color: "#808080",
+            change: function(c) {
+                color = c.toHexString().substring(1); // #ff0000
+                $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+            },
+            appendTo: "#embed",
+            containerClassName: 'polyfill-color z-depth-4',
+            show: function(color) {
+            },
+        });
+
+        $(".sp-choose").addClass("hide");
+        $(".sp-cancel").addClass("btn-flat waves-effect waves-red");
+        $(".sp-cancel").removeClass("sp-cancel");
+        $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
     }
+
+    $(".sp-choose-link").on("click", function(e) {
+        e.preventDefault();
+        $(".sp-choose").trigger("click");
+    });
 
     $("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
     $("#search").focus();
