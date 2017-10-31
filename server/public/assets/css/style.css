@@ -1932,6 +1932,9 @@ nav ul li:hover, nav ul li.active {
   background: white;
   border-radius: 2px;
   padding: 12px 12px 0px 12px;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
 }
 
 .sp-picker-container {
