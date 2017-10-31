@@ -8,6 +8,14 @@
  3.3 Search
 */
 
+html {
+  background: #2d2d2d;
+}
+
+body {
+  background: white;
+}
+
 .admin_panel{
   margin-top:100px;
 }
