@@ -1927,6 +1927,15 @@ nav ul li:hover, nav ul li.active {
   border-top-left-radius: 4px;
 }
 
+.sp-replacer {
+  border: none;
+  background: none;
+}
+
+#embed.modal.open {
+  overflow-y: visible;
+}
+
 #top-button, #bottom-button{
   color: white;
   position: absolute;
