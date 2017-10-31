@@ -1927,6 +1927,36 @@ nav ul li:hover, nav ul li.active {
   border-top-left-radius: 4px;
 }
 
+.polyfill-color {
+  border: none;
+  background: white;
+  border-radius: 2px;
+  padding: 12px 12px 0px 12px;
+}
+
+.sp-picker-container {
+  width: auto;
+}
+
+.sp-container button, .sp-container button:hover, .sp-container button:active {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: black;
+  font-size: inherit;
+  line-height: inherit;
+  box-shadow: none;
+}
+
+.sp-replacer {
+  border: none;
+  background: none;
+}
+
+#embed.modal.open {
+  overflow-y: visible;
+}
+
 #top-button, #bottom-button{
   color: white;
   position: absolute;
