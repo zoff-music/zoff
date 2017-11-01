@@ -4,7 +4,6 @@ server/config/mongo_config.js
 server/config/cert_config.js
 server/public/assets/dist/callback.min.js
 server/public/assets/dist/embed.min.js
-server/public/assets/dist/lib.min.js
 server/public/assets/dist/main.min.js
 server/public/assets/dist/remote.min.js
 */node_modules
