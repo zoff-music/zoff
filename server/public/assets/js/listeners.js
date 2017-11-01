@@ -11,6 +11,7 @@ var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*
 var conf 			   	  		= [];
 var private_channel 			= false;
 var music 			   	  		= 0;
+var gotten_np   = false;
 var frontpage 		   	  		= 1;
 var empty_clear = false;
 var adminpass 		   	  		= "";
@@ -161,26 +162,26 @@ $().ready(function(){
             });
         }
 
-});
+    });
 
-socket.on("name", function(data) {
-    if(data.type == "name" && data.accepted) {
-        Crypt.set_name(temp_name, temp_pass);
-        temp_name = "";
-        temp_pass = "";
-    } else {
-        temp_name = "";
-        temp_pass = "";
-    }
-});
+    socket.on("name", function(data) {
+        if(data.type == "name" && data.accepted) {
+            Crypt.set_name(temp_name, temp_pass);
+            temp_name = "";
+            temp_pass = "";
+        } else {
+            temp_name = "";
+            temp_pass = "";
+        }
+    });
 
-socket.on("self_ping", function() {
-    if(chan != undefined && chan.toLowerCase() != "") {
-        socket.emit("self_ping", {channel: chan.toLowerCase()});
-    }
-});
+    socket.on("self_ping", function() {
+        if(chan != undefined && chan.toLowerCase() != "") {
+            socket.emit("self_ping", {channel: chan.toLowerCase()});
+        }
+    });
 
-setup_no_connection_listener();
+    setup_no_connection_listener();
 });
 
 function init(){
@@ -332,182 +333,182 @@ function init(){
         });
 
         /*$("#prev").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Previous",
-        });
-
-        $("#skip").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Skip",
-        });*/
-
-        $("#shuffle").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Shuffle",
-        });
-
-        $("#settings").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Settings",
-        });
-    }
-
-    window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
-    if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
-    //}
-
-    if(Helper.mobilecheck()) {
-        Mobile_remote.initiate_volume();
-    }	else {
-        $('input#chan_description').characterCounter();
-    }
-
-    setup_admin_listener();
-    setup_list_listener();
-    setup_chat_listener();
-
-    socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
-    socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
-
-    if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
-
-    if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
-
-    $(".search_input").focus();
-
-    Helper.sample();
-    if(!Helper.mobilecheck()) {
-        $('.castButton').tooltip({
-            delay: 5,
-            position: "top",
-            tooltip: "Cast Zoff to TV"
-        });
-
-        $("#color_embed").spectrum({
-            color: "#808080",
-            change: function(c) {
-                color = c.toHexString().substring(1); // #ff0000
-                $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
-            },
-            appendTo: "#embed",
-            containerClassName: 'polyfill-color z-depth-4',
-            show: function(color) {
-            },
-        });
-
-        $(".sp-choose").addClass("hide");
-        $(".sp-cancel").addClass("btn-flat waves-effect waves-red");
-        $(".sp-cancel").removeClass("sp-cancel");
-        $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
-    }
-
-    $(".sp-choose-link").on("click", function(e) {
-        e.preventDefault();
-        $(".sp-choose").trigger("click");
+        delay: 5,
+        position: "bottom",
+        tooltip: "Previous",
     });
 
-    $("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
-    $("#search").focus();
-    $("#embed-button").css("display", "inline-block");
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
-    $("#search").attr("placeholder", "Find song on YouTube...");
+    $("#skip").tooltip({
+    delay: 5,
+    position: "bottom",
+    tooltip: "Skip",
+});*/
 
-    if(!$("footer").hasClass("padding-bottom-novideo")) {
-        $("footer").addClass("padding-bottom-novideo");
-    }
+$("#shuffle").tooltip({
+    delay: 5,
+    position: "bottom",
+    tooltip: "Shuffle",
+});
 
-    if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
-        $(".castButton").css("display", "none");
-    }
+$("#settings").tooltip({
+    delay: 5,
+    position: "bottom",
+    tooltip: "Settings",
+});
+}
 
-    Helper.log("chromecastAvailable" + chromecastAvailable);
-    Helper.log("chromecastAvailable" + chromecastReady);
+window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
+if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
+//}
 
-    if(chromecastAvailable){
-        hide_native(1);
-    } else if(chromecastReady) {
-        initializeCastApi();
-    } else {
-        window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
-            if (loaded) {
-                setTimeout(function(){
-                    chromecastReady = true;
-                    initializeCastApi();
-                }, 1000);
-            } else {
+if(Helper.mobilecheck()) {
+    Mobile_remote.initiate_volume();
+}	else {
+    $('input#chan_description').characterCounter();
+}
+
+setup_admin_listener();
+setup_list_listener();
+setup_chat_listener();
+
+socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
+socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
+
+if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
+
+if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
+
+$(".search_input").focus();
+
+Helper.sample();
+if(!Helper.mobilecheck()) {
+    $('.castButton').tooltip({
+        delay: 5,
+        position: "top",
+        tooltip: "Cast Zoff to TV"
+    });
+
+    $("#color_embed").spectrum({
+        color: "#808080",
+        change: function(c) {
+            color = c.toHexString().substring(1); // #ff0000
+            $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+        },
+        appendTo: "#embed",
+        containerClassName: 'polyfill-color z-depth-4',
+        show: function(color) {
+        },
+    });
+
+    $(".sp-choose").addClass("hide");
+    $(".sp-cancel").addClass("btn-flat waves-effect waves-red");
+    $(".sp-cancel").removeClass("sp-cancel");
+    $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
+}
+
+$(".sp-choose-link").on("click", function(e) {
+    e.preventDefault();
+    $(".sp-choose").trigger("click");
+});
+
+$("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
+$("#search").focus();
+$("#embed-button").css("display", "inline-block");
+$("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+$("#search").attr("placeholder", "Find song on YouTube...");
+
+if(!$("footer").hasClass("padding-bottom-novideo")) {
+    $("footer").addClass("padding-bottom-novideo");
+}
+
+if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
+    $(".castButton").css("display", "none");
+}
+
+Helper.log("chromecastAvailable" + chromecastAvailable);
+Helper.log("chromecastAvailable" + chromecastReady);
+
+if(chromecastAvailable){
+    hide_native(1);
+} else if(chromecastReady) {
+    initializeCastApi();
+} else {
+    window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+        if (loaded) {
+            setTimeout(function(){
                 chromecastReady = true;
+                initializeCastApi();
+            }, 1000);
+        } else {
+            chromecastReady = true;
+        }
+    }
+}
+
+$.contextMenu({
+    selector: '.playlist-element',
+    reposition: true,
+    autoHide: true,
+    items: {
+        copy: {
+            name: "Copy link",
+            callback: function(key, opt){
+                var this_id = $(this[0]).attr("data-video-id");
+                var this_url = "https://www.youtube.com/watch?v=" + this_id;
+                $(".copy_video_id").css("display", "block");
+                $(".copy_video_id").text(this_url);
+                var copyTextarea = document.querySelector('.copy_video_id');
+                copyTextarea.select();
+                var successful = document.execCommand('copy');
+                if(successful) {
+                    Materialize.toast("Copied!", 2000, "green lighten");
+                } else {
+                    Materialize.toast("Error copying..", 2000, "red lighten");
+                }
+                $(".copy_video_id").css("display", "none");
+            }
+        },
+        similar: {
+            name: "Find Similar",
+            callback: function(key, opt) {
+                var this_id = $(this[0]).attr("data-video-id");
+                Search.search(this_id, false, true);
+                if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
+                    Search.showSearch();
+                }
+            }
+        },
+        "sep1": "---------",
+        delete: {
+            name: "Delete",
+            callback: function(key, opt) {
+                var this_id = $(this[0]).attr("data-video-id");
+                var this_type = $(this[0]).attr("data-video-type");
+
+                if(this_type == "suggested") {
+                    number_suggested = number_suggested - 1;
+                    if(number_suggested < 0) number_suggested = 0;
+
+                    var to_display = number_suggested > 9 ? "9+" : number_suggested;
+                    if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+                        $(".suggested-link span.badge.new.white").addClass("hide");
+                    }
+
+                    $(".suggested-link span.badge.new.white").text(to_display);
+                }
+
+                List.vote(this_id, "del");
+            },
+            disabled: function(key, opt) {
+                return w_p;
             }
         }
     }
+});
 
-    $.contextMenu({
-        selector: '.playlist-element',
-        reposition: true,
-        autoHide: true,
-        items: {
-            copy: {
-                name: "Copy link",
-                callback: function(key, opt){
-                    var this_id = $(this[0]).attr("data-video-id");
-                    var this_url = "https://www.youtube.com/watch?v=" + this_id;
-                    $(".copy_video_id").css("display", "block");
-                    $(".copy_video_id").text(this_url);
-                    var copyTextarea = document.querySelector('.copy_video_id');
-                    copyTextarea.select();
-                    var successful = document.execCommand('copy');
-                    if(successful) {
-                        Materialize.toast("Copied!", 2000, "green lighten");
-                    } else {
-                        Materialize.toast("Error copying..", 2000, "red lighten");
-                    }
-                    $(".copy_video_id").css("display", "none");
-                }
-            },
-            similar: {
-                name: "Find Similar",
-                callback: function(key, opt) {
-                    var this_id = $(this[0]).attr("data-video-id");
-                    Search.search(this_id, false, true);
-                    if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
-                        Search.showSearch();
-                    }
-                }
-            },
-            "sep1": "---------",
-            delete: {
-                name: "Delete",
-                callback: function(key, opt) {
-                    var this_id = $(this[0]).attr("data-video-id");
-                    var this_type = $(this[0]).attr("data-video-type");
-
-                    if(this_type == "suggested") {
-                        number_suggested = number_suggested - 1;
-                        if(number_suggested < 0) number_suggested = 0;
-
-                        var to_display = number_suggested > 9 ? "9+" : number_suggested;
-                        if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-                            $(".suggested-link span.badge.new.white").addClass("hide");
-                        }
-
-                        $(".suggested-link span.badge.new.white").text(to_display);
-                    }
-
-                    List.vote(this_id, "del");
-                },
-                disabled: function(key, opt) {
-                    return w_p;
-                }
-            }
-        }
-    });
-
-    if(!Helper.mobilecheck() && navigator.userAgent.match(/iPad/i) == null){
-        setTimeout(function(){set_title_width();}, 100);
-    }
+if(!Helper.mobilecheck() && navigator.userAgent.match(/iPad/i) == null){
+    setTimeout(function(){set_title_width();}, 100);
+}
 }
 
 initializeCastApi = function() {
