@@ -95,6 +95,7 @@ Filter = require('bad-words');
 filter = new Filter({ placeHolder: 'x'});
 
 var router = require('./routing/router.js');
+var api = require('./routing/api.js');
 var ico_router = require('./routing/icons_routing.js');
 var port = 8080;
 
@@ -122,6 +123,7 @@ app.use('/service-worker.js', function(req, res) {
 	res.sendFile(publicPath + '/service-worker.js');
 });
 app.use('/', ico_router);
+app.use('/', api);
 app.use('/', router);
 
 app.use('/assets', express.static(publicPath + '/assets'));
