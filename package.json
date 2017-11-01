@@ -20,10 +20,10 @@
     "url": "https://github.com/zoff-music/zoff/issues"
   },
   "devDependencies": {
+    "gulp-util": "~3.0.6",
     "gulp": "~3.9.0",
     "gulp-concat": "~2.6.0",
-    "gulp-uglifyjs": "~0.6.2",
-    "gulp-util": "~3.0.6"
+    "gulp-uglifyjs": "~0.6.2"
   },
   "homepage": "https://github.com/zoff-music/zoff#readme",
   "dependencies": {
