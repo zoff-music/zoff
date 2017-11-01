@@ -22,6 +22,9 @@ var Player = {
         } catch(e) {
             state = null;
         }
+        if(!paused) {
+            gotten_np = true;
+        }
         if((((!offline && (state != null || from_frontpage)) || (offline && (!(state != null) || from_frontpage))|| (!offline && (!(state != null) || from_frontpage)) || (offline && state == -1)) && !(offline && prev_chan_player == chan)) || (offline && video_id == undefined)){
             prev_chan_player = chan;
             from_frontpage = false;
@@ -55,6 +58,7 @@ var Player = {
                 }catch(e){}
                 //List.importOldList(channel.toLowerCase());
             } else if(paused){
+
                 Player.getTitle(obj.np[0].title, viewers);
                 //Player.setBGimage(video_id);
                 if(!Helper.mobilecheck()) {
@@ -215,9 +219,10 @@ var Player = {
                         $("#playpause").css("pointer-events", "all");
                         $("#channel-load").css("display", "none");
                     }
-                    if(!empty_clear) {
+                    if(!empty_clear && !gotten_np) {
                         paused = true;
                     }
+                    if(gotten_np) gotten_np = false;
                     if(window.location.pathname != "/") Playercontrols.play_pause_show();
                     mobile_beginning = true;
                 }
@@ -252,6 +257,7 @@ var Player = {
             }
             //Playercontrols.play_pause();
         } else {
+            paused = true;
             Player.player.pauseVideo();
         }
     },
