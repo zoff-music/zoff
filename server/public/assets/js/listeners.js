@@ -1027,10 +1027,11 @@ function seekToClick(e){
 
 $(document).on("click", ".accept-delete", function(e) {
     e.preventDefault();
-    var delete_id = $(this).attr("data-video-id");
+    /*var delete_id = $(this).attr("data-video-id");
     if(delete_id) {
         List.vote(delete_id, 'del');
-    }
+    }*/
+    socket.emit("delete_all", {channel: chan.toLowerCase(), adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#delete_song_alert").modal("close");
 });
 
@@ -1272,7 +1273,7 @@ $(document).on("click", ".close-user-password", function() {
 
 $(document).on("click", ".delete-all-songs", function(e){
     e.preventDefault();
-    socket.emit("delete_all", {channel: chan.toLowerCase(), adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+    $("#delete_song_alert").modal("open");
 });
 
 $(document).on("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
