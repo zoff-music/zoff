@@ -3089,6 +3089,13 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
 	-ms-animation: snow 10s linear infinite;
 	animation: snow 10s linear infinite;
 }
+
+#snow.snow-channel {
+    z-index: 9999;
+    width: calc(100% - .75rem);
+    height: calc(100% - 32px);
+}
+
 @keyframes snow {
   0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
   100% {background-position: 500px 500px, 400px 400px, 300px 300px;}
