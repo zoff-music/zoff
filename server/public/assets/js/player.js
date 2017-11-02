@@ -193,9 +193,9 @@ var Player = {
                     $("#player").css("opacity", "1");
                     if(!Helper.mobilecheck()) {
                         $("#channel-load").css("display", "none");
-                        if(Frontpage.winter && $("#snow").length == 0) {
+                        /*if(Frontpage.winter && $("#snow").length == 0) {
                             $("#video-container").prepend('<div id="snow" class="snow-channel"></div>');
-                        }
+                        }*/
                     }
                 }
                 playing = true;
