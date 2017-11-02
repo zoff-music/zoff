@@ -1976,7 +1976,7 @@ function onepage_load(){
                     song_title = "";
                 }
 
-                $("#snow").remove();
+                //$("#snow").remove();
 
                 $("meta[name=theme-color]").attr("content", "#2D2D2D");
 
