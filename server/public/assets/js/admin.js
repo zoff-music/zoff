@@ -119,7 +119,6 @@ var Admin = {
         }
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
-
         Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
