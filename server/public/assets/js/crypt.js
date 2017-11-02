@@ -198,8 +198,7 @@ var Crypt = {
         return conf_arr.remote;
     },
 
-    crypt_pass: function(pass) {
-        Crypt.tmp_pass = pass;
+    crypt_chat_pass: function(pass) {
         var key = btoa(socket.id) + btoa(socket.id);
         key = key.substring(0,32);
         key = btoa(key);
@@ -215,6 +214,11 @@ var Crypt = {
         );
         window.encrypted = encrypted;
         return encrypted.toString() + "$" + iv;
+    },
+
+    crypt_pass: function(pass) {
+        Crypt.tmp_pass = pass;
+        return Crypt.crypt_chat_pass(pass);
     },
 
     makeiv: function() {

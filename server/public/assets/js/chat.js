@@ -11,7 +11,7 @@ var Chat = {
             var password = input[1];
             temp_name = name;
             temp_pass = password;
-            password = Crypt.crypt_pass(password);
+            password = Crypt.crypt_chat_pass(password);
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), password: password, first: first});
         } else if(input.length == 3) {
             var name = input[0];
@@ -21,8 +21,8 @@ var Chat = {
             temp_name = name;
             temp_pass = password;
 
-            new_password = Crypt.crypt_pass(new_password);
-            old_password = Crypt.crypt_pass(old_password);
+            new_password = Crypt.crypt_chat_pass(new_password);
+            old_password = Crypt.crypt_chat_pass(old_password);
 
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), new_password: new_password, old_password: old_password});
         } else {
@@ -83,7 +83,7 @@ var Chat = {
         } else if($(".chat-tab-li a.active").attr("href") == "#all_chat") {
             socket.emit("all,chat", {channel: chan.toLowerCase(), data: data.value});
         } else {
-            socket.emit("chat", {channel: chan.toLowerCase(), data: data.value, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit("chat", {channel: chan.toLowerCase(), data: data.value, pass: embed ? '' : Crypt.crypt_chat_pass(Crypt.get_userpass(chan.toLowerCase()))});
         }
         data.value = "";
         return;
