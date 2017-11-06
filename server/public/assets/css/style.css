@@ -1246,6 +1246,10 @@ hide mdi-action-visibility mdi-action-visibility-off
   display: flex;
 }
 
+.toast {
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 993px){
 	.toast {
 	  float: left;
