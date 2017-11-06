@@ -159,7 +159,9 @@ var Admin = {
             }
         }
         //List.dragging(true);
-        $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
+        if($(".tabs").length > 0 && !changing_to_frontpage) {
+            $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
+        }
     },
 
     conf: function(msg) {
@@ -236,11 +238,11 @@ var Admin = {
 
         //List.dragging(false);
 
-        if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions")
+        if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions" && $(".tabs").length > 0 && !changing_to_frontpage)
         {
             $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-        } else {
+        } else if($(".tabs").length > 0 && !changing_to_frontpage){
             $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
         }
         $("#admin-lock").removeClass("clickable");
