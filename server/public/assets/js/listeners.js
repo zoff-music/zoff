@@ -81,6 +81,7 @@ if(localStorage.debug === undefined){
 var image_timeout;
 var result_html;
 var empty_results_html;
+var pagination_buttons_html;
 var mobile_beginning;
 var timeout_search;
 var id;
@@ -249,6 +250,7 @@ function init(){
     spotify_is_authenticated(spotify_authenticated);
 
     result_html 	   	  = $("#temp-results-container");
+    pagination_buttons_html = $("<div>").append($(".pagination-results").clone()).html();
     empty_results_html 	  = $("#empty-results-container").html();
     not_import_html       = $(".not-imported-container").html();
     not_export_html       = $(".not-exported-container").html();
@@ -1026,6 +1028,15 @@ function seekToClick(e){
     }
 }
 
+$(document).on("click", ".pagination-results a", function(e) {
+    e.preventDefault();
+    var that = $(this);
+    var pageToken = that.attr("data-pagination");
+    var searchInput = that.attr("data-original-search");
+    $(".pagination-results a").addClass("disabled");
+    Search.search(searchInput, false, false, pageToken);
+});
+
 $(document).on("click", ".accept-delete", function(e) {
     e.preventDefault();
     /*var delete_id = $(this).attr("data-video-id");
@@ -1038,7 +1049,7 @@ $(document).on("click", ".accept-delete", function(e) {
 
 $(document).keyup(function(event) {
     if(event.keyCode == 27){
-        $("#results").html("");
+        //$("#results").html("");
         if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
         $("#search-wrapper").toggleClass("hide");
         if($("#song-title").length != 0 && Helper.contains($("#song-title").attr("class").split(" "), "hide"))
@@ -1046,7 +1057,13 @@ $(document).keyup(function(event) {
 
         if($("#search-btn i").html() == "close")
         {
+            $("#results").slideUp({
+                complete: function() {
+                    $("#results").empty();
+                }
+            });
             $("#search-btn i").html("search");
+            $(".search_input").val("");
         }
         if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
             $("#results").toggleClass("hide");

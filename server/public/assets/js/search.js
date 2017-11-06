@@ -10,8 +10,14 @@ var Search = {
             $(".search_input").focus();
         }
         $("#song-title").toggleClass("hide");
-        $("#results").empty();
+        //$("#results").empty();
         if($("#search-btn i").html() == "close") {
+            $("#results").slideUp({
+                complete: function() {
+                    $("#results").empty();
+                }
+            });
+            $(".search_input").val("");
             $("#search-btn i").html("search");
         } else {
             $("#search-btn i").html("close");
@@ -20,19 +26,21 @@ var Search = {
 
     },
 
-    search: function(search_input, retried, related){
+    search: function(search_input, retried, related, pagination){
         if(result_html === undefined || empty_results_html === undefined) {
             result_html = $("#temp-results-container");
             empty_results_html = $("#empty-results-container").html();
         }
-        $(".search_results").html('');
+        if(!pagination && $("#inner-results").length == 0) {
+            $(".search_results").html('');
+        }
         if(search_input !== ""){
             searching = true;
             var keyword= encodeURIComponent(search_input);
-            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&fields=items(id)&type=video&order=viewCount&safeSearch=none&maxResults=25";
+            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=25";
             yt_url+="&q="+keyword;
             if(music)yt_url+="&videoCategoryId=10";
-
+            if(pagination) yt_url += "&pageToken=" + pagination;
             var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
             if(related) {
                 var yt_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId="+keyword+"&type=video&key="+api_key;
@@ -50,9 +58,11 @@ var Search = {
                 url: yt_url,
                 dataType:"jsonp",
                 success: function(response){
+                    var nextPageToken = response.nextPageToken;
+                    var prevPageToken = response.prevPageToken;
                     if(response.items.length === 0) {
 
-                        $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+                        $("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                         if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
                         $(".search_loader_spinner").removeClass("active");
 
@@ -105,9 +115,34 @@ var Search = {
                                         }
                                     }
                                 });
+                                var fresh = false;
+                                if($("#inner-results").length == 0) {
+                                    fresh = true;
+                                }
+                                $(".search_results").empty();
                                 if(output.length > 0) {
+                                    if(!pagination && fresh) {
+                                        $(".search_results").css("display", "none");
+                                    }
+                                    $("#results").append(pagination_buttons_html);
+                                    $("<div id='inner-results'>"+output+"</div>").prependTo($("#results"));
+                                    if(!pagination && fresh) {
+                                        $(".search_results").slideDown();
+                                    }
 
-                                    $("<div style='display:none;' id='mock-div'>"+output+"</div>").appendTo($("#results")).show("blind", (response.items.length-1) * 83.33);
+
+                                    if(nextPageToken) {
+                                        $(".next-results-button").attr("data-pagination", nextPageToken);
+                                    } else {
+                                        $(".next-results-button").addClass("disabled");
+                                    }
+                                    if(prevPageToken) {
+                                        $(".prev-results-button").attr("data-pagination", prevPageToken);
+                                    } else {
+                                        $(".prev-results-button").addClass("disabled");
+                                    }
+
+                                    $(".pagination-results a").attr("data-original-search", search_input);
 
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
@@ -122,7 +157,7 @@ var Search = {
                                 } else if(!retried){
                                     Search.search(search_input, true);
                                 } else {
-                                    $("<div style='display:none;' id='mock-div'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+                                    $("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                                     if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
                                     $(".search_loader_spinner").removeClass("active");
                                 }
