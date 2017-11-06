@@ -31,14 +31,16 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![Channel desktop](https://puu.sh/xCHXj/3f7d826329.png)
 
+![Channel search desktop](https://puu.sh/yg5uM/36932cb0c1.png)
+
 ### Screenshots of the mobile version:
 
 <div style="text-align:center;">
 <img src="http://i.imgur.com/aWlEmIx.png" alt="frontpage" height="600px">
 <br>
-<img src="https://puu.sh/xCI6X/1aead5e1b6.png" alt="channel1" height="600px">
+<img src="https://puu.sh/xCI6X/1aead5e1b6.png" alt="channel" height="600px">
 
-<img src="http://i.imgur.com/GuBz8zK.png" alt="channel3" height="600px">
+<img src="https://puu.sh/yg5y5/2e0f202d6d.png" alt="channel search" height="600px">
 </div>
 
 ### Legal
