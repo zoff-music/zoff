@@ -62,6 +62,7 @@ var offline             		= false;
 var cast_ready_connect  		= false;
 var number_suggested 			= 0;
 var prev_chan_list 				= "";
+var changing_to_frontpage = false;
 var prev_chan_player 			= "";
 var chromecastReady 			= false;
 var find_word = "";
@@ -1296,7 +1297,7 @@ $(document).on("click", ".first_page", function(e){
 });
 
 $(document).on('click', '#toast-container', function(){
-    Materialize.Toast.removeAll();
+    before_toast();
 });
 
 $(document).on('click', "#aprilfools", function(){
@@ -1897,7 +1898,12 @@ function share_link_modifier_channel(){
 }
 
 function before_toast(){
-    Materialize.Toast.removeAll();
+    if($('.toast').length > 0) {
+        var toastElement = $('.toast').first()[0];
+        var toastInstance = toastElement.M_Toast;
+        toastInstance.remove();
+    }
+    //Materialize.Toast.removeAll();
 }
 
 function onepage_load(){
@@ -1915,6 +1921,7 @@ function onepage_load(){
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     } else if(url_split[3] === "") {
+        changing_to_frontpage = true;
         $.contextMenu( 'destroy', ".playlist-element" );
         user_change_password = false;
         clearTimeout(width_timeout);
@@ -1942,14 +1949,14 @@ function onepage_load(){
             $('#fullscreen').tooltip("remove");
             $('#admin-lock').tooltip("remove");
             $("#search-btn").tooltip("remove");
-            //$("#prev").tooltip("remove");
-            //$("#skip").tooltip("remove");
             $("#shuffle").tooltip("remove");
             $("#settings").tooltip("remove");
         }
         $("#seekToDuration").remove();
+        $("#settings").sideNav("destroy");
         $('.tap-target').tapTarget('close');
         clearTimeout(tap_target_timeout);
+        before_toast();
         $.ajax({
             url: "/",
             success: function(e){
@@ -1984,7 +1991,6 @@ function onepage_load(){
                     $(".video-container").resizable("destroy");
                     $("main").append("<a id='closePlayer' title='Close Player'>X</a>");
                     $("#playbar").remove();
-                    $("#playlist").remove();
                     $(".ui-resizable-handle").remove();
                     $("#main_components").remove();
                     $("#player").addClass("player_bottom");
@@ -1992,6 +1998,7 @@ function onepage_load(){
                     $("#player").css("opacity", "1");
                     $("#video-container").removeClass("no-opacity");
                     $("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='player player_bottom'></div>");
+                    $("#playlist").remove();
                 } else {
                     try{
                         Player.player.destroy();
@@ -2002,7 +2009,7 @@ function onepage_load(){
 
                 var response = $("<div>" + e + "</div>");
 
-                $(".drag-target").remove();
+                //$(".drag-target").remove();
                 $("#sidenav-overlay").remove();
                 $("main").attr("class", "center-align container");
                 $("#main-container").removeClass("channelpage");
@@ -2025,6 +2032,7 @@ function onepage_load(){
                     frontpage 	= true;
                     initfp();
                 }
+                changing_to_frontpage = false;
 
                 if($("#alreadychannel").length === 0 && !user_auth_avoid){
                     $("head").append("<div id='alreadychannel'></div");
