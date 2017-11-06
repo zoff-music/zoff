@@ -1272,10 +1272,24 @@ hide mdi-action-visibility mdi-action-visibility-off
   display:none;
 }
 
+#inner-results {
+  height: calc(100vh - 64px - 76px);
+  overflow-y: scroll;
+}
+
 #empty-results {
   text-align:center;
   height:100px;
   cursor: default;
+}
+
+.pagination-results {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-results a {
+  margin: 20px;
 }
 
 #empty-results span {
@@ -2737,6 +2751,11 @@ nav ul li:hover, nav ul li.active {
     }
     .title-container li {
         width: 100%;
+    }
+
+    #inner-results {
+      height: calc(100vh - 54px - 64px - 76px);
+      overflow-y: scroll;
     }
 
     #results{
