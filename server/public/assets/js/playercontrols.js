@@ -17,11 +17,13 @@ var Playercontrols = {
         $("#fullscreen").on("click", Playercontrols.fullscreen);
     },
 
-    initSlider: function(vertical) {
+    initSlider: function() {
         try {
             vol = (Crypt.get_volume());
-            $("#volume").slider( "destroy" );
-        } catch(e){}
+            $("#volume").slider("destroy");
+        } catch(e){
+
+        }
         var slider_values = {
             min: 0,
             max: 100,
@@ -33,9 +35,11 @@ var Playercontrols = {
                 try{Crypt.set_volume(ui.value);}catch(e){}
             }
         };
-        if(Helper.mobilecheck() || vertical) {
+        if(Helper.mobilecheck() || slider_type == "vertical") {
             slider_values.orientation = "vertical";
-            $(".volume-container").toggleClass("hide");
+            if(!$(".volume-container").hasClass("hide")) {
+                $(".volume-container").toggleClass("hide");
+            }
         }
         $("#volume").slider(slider_values);
         Playercontrols.choose_button(vol, false);

@@ -432,7 +432,8 @@ var Player = {
             Playercontrols.initYoutubeControls(Player.player);
             Playercontrols.initSlider();
             Player.player.setVolume(Crypt.get_volume());
-        }catch(e){}
+        }catch(e){
+        }
     },
 
     readyLooks: function() {
