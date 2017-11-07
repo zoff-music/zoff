@@ -17,9 +17,10 @@ var Playercontrols = {
         $("#fullscreen").on("click", Playercontrols.fullscreen);
     },
 
-    initSlider: function() {
+    initSlider: function(vertical) {
         try {
             vol = (Crypt.get_volume());
+            $("#volume").slider( "destroy" );
         } catch(e){}
         var slider_values = {
             min: 0,
@@ -28,12 +29,11 @@ var Playercontrols = {
             range: "min",
             animate: true,
             slide: function(event, ui) {
-
                 Playercontrols.setVolume(ui.value);
                 try{Crypt.set_volume(ui.value);}catch(e){}
             }
         };
-        if(Helper.mobilecheck()) {
+        if(Helper.mobilecheck() || vertical) {
             slider_values.orientation = "vertical";
             $(".volume-container").toggleClass("hide");
         }
@@ -109,7 +109,7 @@ var Playercontrols = {
     },
 
     mute_video: function() {
-        if(Helper.mobilecheck()) {
+        if(Helper.mobilecheck() || slider_type == "vertical") {
             $(".volume-container").toggleClass("hide");
         } else {
             if(!Player.player.isMuted()) {
