@@ -1053,6 +1053,7 @@ $(document).keyup(function(event) {
                     $("#results").empty();
                 }
             });
+            $("body").attr("style", "overflow-y:auto")
             $("#search-btn i").html("search");
             $(".search_input").val("");
         }

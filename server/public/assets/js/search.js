@@ -12,6 +12,7 @@ var Search = {
         $("#song-title").toggleClass("hide");
         //$("#results").empty();
         if($("#search-btn i").html() == "close") {
+            $("body").attr("style", "overflow-y:auto")
             $("#results").slideUp({
                 complete: function() {
                     $("#results").empty();
@@ -121,6 +122,7 @@ var Search = {
                                 }
                                 $(".search_results").empty();
                                 if(output.length > 0) {
+                                    //$(window).scrollTop(0);
                                     if(!pagination && fresh) {
                                         $(".search_results").css("display", "none");
                                     }
@@ -129,7 +131,7 @@ var Search = {
                                     if(!pagination && fresh) {
                                         $(".search_results").slideDown();
                                     }
-
+                                    $("body").attr("style", "overflow-y:hidden !important")
 
                                     if(nextPageToken) {
                                         $(".next-results-button").attr("data-pagination", nextPageToken);
@@ -289,6 +291,7 @@ var Search = {
         $("#results").html('');
         Search.showSearch();
         document.getElementById("search").value = "";
+        $("body").attr("style", "overflow-y:auto")
         $("#results").html = "";
         $(".main").removeClass("blurT");
         $("#controls").removeClass("blurT");
