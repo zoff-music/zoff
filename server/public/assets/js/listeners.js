@@ -301,7 +301,7 @@ function init(){
         $(".playlist").css("opacity", "1");
         Player.readyLooks();
         Playercontrols.initYoutubeControls(Player.player);
-        //Playercontrols.initSlider();
+        Playercontrols.initSlider();
         Player.player.setVolume(Crypt.get_volume());
         $(".video-container").removeClass("no-opacity");
 
