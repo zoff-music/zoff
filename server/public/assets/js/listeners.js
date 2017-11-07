@@ -301,7 +301,7 @@ function init(){
         $(".playlist").css("opacity", "1");
         Player.readyLooks();
         Playercontrols.initYoutubeControls(Player.player);
-        Playercontrols.initSlider();
+        //Playercontrols.initSlider();
         Player.player.setVolume(Crypt.get_volume());
         $(".video-container").removeClass("no-opacity");
 
@@ -1687,11 +1687,11 @@ $(window).resize(function(){
 
 function window_width_volume_slider() {
     if(window.innerWidth <= 600 && slider_type == "horizontal") {
-        Playercontrols.initSlider(true);
         slider_type = "vertical";
-    } else if(window.innerWidth > 600 && slider_type == "vertical") {
         Playercontrols.initSlider();
+    } else if(window.innerWidth > 600 && slider_type == "vertical") {
         slider_type = "horizontal";
+        Playercontrols.initSlider();
     }
 }
 
