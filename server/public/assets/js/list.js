@@ -479,7 +479,7 @@ var List = {
                 Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             }
         }
-        if(full_playlist.length <= 2){
+        if(full_playlist.length < 2){
             List.empty = true;
             $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
         }
