@@ -1755,6 +1755,10 @@ nav ul li:hover, nav ul li.active {
   width: 13rem;
 }
 
+#chan-card {
+  margin-bottom: 20px;
+}
+
 .result-info-no-buttons {
   display: flex;
   width: calc(100% - 165px);
