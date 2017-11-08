@@ -1700,11 +1700,27 @@ $(document).on( "click", ".result-object", function(e){
     var $html  = $(e.target);
 
     var substr = $html.prop('outerHTML').substring(0,4);
-    if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1){
+    if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1 && $html.attr("class") != "result-start" && $html.attr("class") != "result-end"){
         var id 		= $(this).attr("data-video-id");
         var title 	= $(this).attr("data-video-title");
-        var length 	= $(this).attr("data-video-length");
-        Search.submitAndClose(id, title, length);
+        var original_length 	= $(this).attr("data-video-length");
+        var start   = parseInt($(this).find(".result-start").val());
+        var end     = parseInt($(this).find(".result-end").val());
+        if(end > original_length) {
+            end = original_length;
+        }
+        if(start > end) {
+            Materialize.toast("Start can't be before the end..", 3000, "red lighten");
+        } else if(start < 0) {
+            Materialize.toast("Start can't be less than 0..", 3000, "red lighten");
+        } else {
+            try {
+                var length = parseInt(end) - parseInt(start);
+                Search.submitAndClose(id, title, length, start, end);
+            } catch(e) {
+                Materialize.toast("Only numbers are accepted as song start and end parameters..", 3000, "red lighten");
+            }
+        }
     }
 });
 
@@ -1725,9 +1741,28 @@ $(document).on('submit', '#contact-form', function(e){
 $(document).on( "click", "#add-many", function(e){
     var id 		= $(this).attr("data-video-id");
     var title 	= $(this).attr("data-video-title");
-    var length 	= $(this).attr("data-video-length");
-    $(this).parent().parent().remove();
-    Search.submit(id, title, length);
+    var original_length 	= $(this).attr("data-video-length");
+    var parent = $(this).parent().parent();
+
+    var start   = parseInt($(parent).find(".result-start").val());
+    var end     = parseInt($(parent).find(".result-end").val());
+    if(end > original_length) {
+        end = original_length;
+    }
+    if(start > end) {
+        Materialize.toast("Start can't be before the end..", 3000, "red lighten");
+    } else if(start < 0) {
+        Materialize.toast("Start can't be less than 0..", 3000, "red lighten");
+    } else {
+        try {
+            var length = parseInt(end) - parseInt(start);
+            $(this).parent().parent().remove();
+            Search.submit(id, title, length, false, 0, 1, start, end);
+        } catch(e) {
+            Materialize.toast("Only numbers are accepted as song start and end parameters..", 3000, "red lighten");
+        }
+    }
+
 });
 
 $(document).on( "click", ".vote-container", function(e){
@@ -1747,7 +1782,7 @@ $(document).on( "click", ".add-suggested", function(e){
     var title 	= $(this).attr("data-video-title");
     var length 	= $(this).attr("data-video-length");
     var added_by = $(this).attr("data-added-by");
-    Search.submit(id, title, length);
+    Search.submit(id, title, length, false, 0, 1, 0, length);
     if(added_by == "user") {
         number_suggested = number_suggested - 1;
         if(number_suggested < 0) number_suggested = 0;
