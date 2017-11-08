@@ -31,7 +31,7 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![Channel desktop](https://puu.sh/xCHXj/3f7d826329.png)
 
-![Channel search desktop](https://puu.sh/yg5uM/36932cb0c1.png)
+![Channel search desktop](https://puu.sh/yhuVE/b50c6bbe1b.png)
 
 ### Screenshots of the mobile version:
 
