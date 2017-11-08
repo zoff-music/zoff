@@ -3,10 +3,13 @@ function add_function(arr, coll, guid, offline, socket) {
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
     {
 
-        if(coll == "" || coll == undefined || coll == null) {
+        if(coll == "" || coll == undefined || coll == null || !arr.hasOwnProperty("start") || !arr.hasOwnProperty("end")) {
             socket.emit("update_required");
             return;
         }
+
+        var start = arr.start;
+        var end = arr.end;
 
         db.collection(coll).find({views:{$exists:true}}, function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, arr.pass)))) {
@@ -78,7 +81,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                     } else {
                                         np = false;
                                     }
-                                    db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration}, {upsert: true}, function(err, docs){
+                                    db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end}, {upsert: true}, function(err, docs){
                                         if(np)
                                         {
                                             List.send_list(coll, undefined, false, true, false);
@@ -117,6 +120,8 @@ function add_function(arr, coll, guid, offline, socket) {
                                     "title":title,
                                     "votes":1,
                                     "duration":duration,
+                                    "start": start,
+                                    "end": end,
                                     "type":"suggested"}
                                 },
                                 {upsert:true}, function(err, docs){
