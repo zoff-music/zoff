@@ -87,6 +87,7 @@ var Search = {
                                 {
                                     var duration=song.contentDetails.duration;
                                     secs=Search.durationToSeconds(duration);
+                                    var _temp_duration = Helper.secondsToOther(secs);
                                     if(!longsongs || secs<720){
                                         title=song.snippet.title;
                                         enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
@@ -96,9 +97,8 @@ var Search = {
 
                                         //$("#results").append(result_html);
                                         var songs = pre_result;
-
                                         songs.find(".search-title").text(title);
-                                        songs.find(".result_info").text(duration);
+                                        songs.find(".result_info").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
                                         songs.find(".thumb").attr("src", thumb);
                                         //songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
                                         songs.find("#add-many").attr("data-video-id", id);
@@ -109,6 +109,7 @@ var Search = {
                                         songs.find("#temp-results").attr("data-video-title", enc_title);
                                         songs.find("#temp-results").attr("data-video-length", secs);
                                         songs.find(".open-externally").attr("href", "https://www.youtube.com/watch?v=" + id);
+                                        $(songs.find(".result-end")).attr("value", secs);
                                         //$($(songs).find("div")[0]).attr("id", id)
                                         //output += undefined;
                                         if(songs.html() != undefined) {
@@ -276,7 +277,7 @@ var Search = {
         }
         if((Search.submitArray.length - 1) == Search.submitArrayExpected) {
             $.each(Search.submitArray, function(i, data){
-                Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1);
+                Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1, 0, data.duration);
             });
             document.getElementById("import_spotify").disabled = false;
             $("#import_spotify").removeClass("hide");
@@ -286,8 +287,8 @@ var Search = {
         }
     },
 
-    submitAndClose: function(id,title,duration){
-        Search.submit(id,title, duration, false, 0, 1);
+    submitAndClose: function(id,title,duration, start, end){
+        Search.submit(id,title, duration, false, 0, 1, start, end);
         $("#results").html('');
         Search.showSearch();
         document.getElementById("search").value = "";
@@ -418,14 +419,14 @@ var Search = {
                     }
                 });
                 $.each(to_add, function(i, item){
-                    Search.submit(item.id, item.enc_title, item.duration, item.playlist, i, x);
+                    Search.submit(item.id, item.enc_title, item.duration, item.playlist, i, x, 0, item.duration);
                 });
 
             }
         });
     },
 
-    submit: function(id,title,duration, playlist, num, full_num){
+    submit: function(id,title,duration, playlist, num, full_num, start, end){
         if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
             var found_array = [];
             found_array = $.map(full_playlist, function(obj, index) {
@@ -434,12 +435,12 @@ var Search = {
                 }
             });
             if(found_array.length == 0){
-                List.channel_function({type: "added", value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
+                List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
             } else {
                 List.vote(id, "pos");
             }
         } else {
-            socket.emit("add", {id: id, title: title, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit("add", {id: id, start: start, end: end, title: title, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num, pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 

@@ -436,6 +436,8 @@ function send_play(coll, socket)
                     if(conf[0].adminpass !== "") conf[0].adminpass = true;
                     if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
                     else conf[0].userpass = false;
+                    if(!np.hasOwnProperty("start")) np.start = 0;
+                    if(!np.hasOwnProperty("end")) np.end = np.duration;
                     toSend = {np: np, conf: conf, time: Functions.get_time()};
                     if(socket === undefined) {
                         io.to(coll).emit("np", toSend);

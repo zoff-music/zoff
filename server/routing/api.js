@@ -25,7 +25,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     var channel_name = req.params.channel_name;
-    db.collection(channel_name).find({views: {$exists: false}}, {added: 1, id: 1, title: 1, votes: 1, duration: 1, type: 1, _id: 0}, function(err, docs) {
+    db.collection(channel_name).find({views: {$exists: false}}, {start: 1, end: 1, added: 1, id: 1, title: 1, votes: 1, duration: 1, type: 1, _id: 0}, function(err, docs) {
         if(docs.length > 0) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify(docs));
