@@ -1288,6 +1288,7 @@ hide mdi-action-visibility mdi-action-visibility-off
 #inner-results {
   height: calc(100vh - 64px - 76px);
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #empty-results {
@@ -1751,7 +1752,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .result-info-buttons {
-  width: 165px;
+  width: 13rem;
 }
 
 .result-info-no-buttons {
