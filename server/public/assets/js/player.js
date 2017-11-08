@@ -75,6 +75,13 @@ var Player = {
                     end: obj.np[0].end,
                     duration: obj.np[0].duration,
                 };
+                if(!obj.np[0].hasOwnProperty("start")) {
+                    Player.np.start = 0;
+                }
+                if(!obj.np[0].hasOwnProperty("end")) {
+                    Player.np.end = Player.np.duration;
+                }
+
                 conf       = obj.conf[0];
                 time       = obj.time;
                 seekTo     = (time - conf.startTime) + Player.np.start;
@@ -96,6 +103,12 @@ var Player = {
                     end: obj.np[0].end,
                     duration: obj.np[0].duration,
                 };
+                if(!obj.np[0].hasOwnProperty("start")) {
+                    Player.np.start = 0;
+                }
+                if(!obj.np[0].hasOwnProperty("end")) {
+                    Player.np.end = Player.np.duration;
+                }
                 conf       = obj.conf[0];
                 time       = obj.time;
                 seekTo     = (time - conf.startTime) + Player.np.start;
