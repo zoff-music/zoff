@@ -356,6 +356,7 @@ function init(){
 
     if(Helper.mobilecheck()) {
         Mobile_remote.initiate_volume();
+        $(".close-settings").addClass("hide");
     }	else {
         $('input#chan_description').characterCounter();
         window_width_volume_slider();
