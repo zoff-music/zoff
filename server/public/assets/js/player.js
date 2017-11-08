@@ -6,6 +6,7 @@ var Player = {
     player: "",
     stopInterval: false,
     fireplace: "",
+    np: {},
 
     youtube_listener: function(obj) {
         var state;
@@ -68,9 +69,15 @@ var Player = {
                     Player.stopVideo();
                 }
                 video_id   = obj.np[0].id;
+                Player.np = {
+                    id: video_id,
+                    start: obj.np[0].start,
+                    end: obj.np[0].end,
+                    duration: obj.np[0].duration,
+                };
                 conf       = obj.conf[0];
                 time       = obj.time;
-                seekTo     = time - conf.startTime;
+                seekTo     = (time - conf.startTime) + Player.np.start;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
                 Player.setBGimage(video_id);
@@ -83,14 +90,20 @@ var Player = {
                 }
 
                 video_id   = obj.np[0].id;
+                Player.np = {
+                    id: video_id,
+                    start: obj.np[0].start,
+                    end: obj.np[0].end,
+                    duration: obj.np[0].duration,
+                };
                 conf       = obj.conf[0];
                 time       = obj.time;
-                seekTo     = time - conf.startTime;
+                seekTo     = (time - conf.startTime) + Player.np.start;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
 
                 if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable) {
-                    seekTo = 1;
+                    seekTo = 1 + Player.np.start;
                 }
 
                 try{
@@ -273,17 +286,23 @@ var Player = {
         } else if(!offline){
             Player.player.seekTo(_seekTo);
         } else {
-            Player.player.seekTo(0);
+            Player.player.seekTo(0 + Player.np.start);
         }
     },
 
-    loadVideoById: function(id, this_duration){
+    loadVideoById: function(id, this_duration, start, end){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id, channel: chan.toLowerCase()});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
-            Player.player.loadVideoById({'videoId': id, 'startSeconds': 0, 'endSeconds': this_duration});
+            var s;
+            var e;
+            if(start) s = start;
+            else s = Player.np.start;
+            if(end) e = end;
+            else e = Player.np.end;
+            Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
     },
 
@@ -311,14 +330,20 @@ var Player = {
         time       = (new Date()).getTime();
         song_title = next_song.title;
         duration   = next_song.duration;
+        var start;
+        var end;
+        if(next_song.hasOwnProperty("start")) start = next_song.start;
+        else start = 0;
+        if(next_song.hasOwnProperty("end")) end = next_song.end;
+        else end = duration;
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase()});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end:end});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
-            Player.loadVideoById(video_id, duration);
+            Player.loadVideoById(video_id, duration, start, end);
         }
         List.channel_function({type:"song_change", time: time});
     },
@@ -333,15 +358,21 @@ var Player = {
         time       = (new Date()).getTime();
         song_title = next_song.title;
         duration   = next_song.duration;
+        var start;
+        var end;
+        if(next_song.hasOwnProperty("start")) start = next_song.start;
+        else start = 0;
+        if(next_song.hasOwnProperty("end")) end = next_song.end;
+        else end = duration;
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
 
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase()});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end: end});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
-            Player.loadVideoById(video_id, duration);
+            Player.loadVideoById(video_id, duration, start, end);
         }
 
         List.channel_function({type:"song_change_prev", time: time});
@@ -543,9 +574,11 @@ var Player = {
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
                 currDurr = Player.player.getCurrentTime() !== undefined ? Math.floor(Player.player.getCurrentTime()) : seekTo;
-                if(currDurr > duration) {
-                    currDurr = duration;
+                if(currDurr - Player.np.start > duration) {
+                    currDurr = duration - Player.np.start;
                 }
+                currDurr = currDurr - Player.np.start;
+                //currDurr = currDurr - Player.np.start;
                 minutes = Math.floor(currDurr / 60);
                 seconds = currDurr - (minutes * 60);
                 document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
@@ -558,7 +591,7 @@ var Player = {
 
                 if(embed) {
                     if(window.parentWindow && window.parentOrigin) {
-                        window.parentWindow.postMessage({type: "duration", duration: Player.player.getCurrentTime(), full_duration: Player.player.getDuration(), percent: per}, window.parentOrigin);
+                        window.parentWindow.postMessage({type: "duration", duration: Player.player.getCurrentTime() - Player.np.start, full_duration: Player.player.getDuration() - Player.np.end, percent: per}, window.parentOrigin);
                     }
                 }
 

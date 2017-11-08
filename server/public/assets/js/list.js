@@ -220,9 +220,10 @@ var List = {
         Helper.log("---------FULL PLAYLIST-----");
         Helper.log(full_playlist);
         Helper.log("---------------------------");
-
         if(full_playlist.length > 1){
             $.each(full_playlist, function(j, _current_song){
+                if(!_current_song.hasOwnProperty("start")) full_playlist[j].start = 0;
+                if(!_current_song.hasOwnProperty("end")) full_playlist[j].end = full_playlist[j].duration;
                 if(!_current_song.now_playing){ //check that the song isnt playing
                     var generated = List.generateSong(_current_song, false, lazy_load, true, false, "", true)
                     $("#wrapper").append(generated);
@@ -478,7 +479,6 @@ var List = {
                 Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             }
         }
-
         if(full_playlist.length <= 2){
             List.empty = true;
             $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
@@ -920,7 +920,9 @@ var List = {
         var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
         var song        = $("<div>"+list_html+"</div>");
         var image_attr  = "style";
-
+        if(_song_info.hasOwnProperty("start") && _song_info.hasOwnProperty("end")) {
+            _song_info.duration = _song_info.end - _song_info.start;
+        }
         var attr;
         var del_attr;
         //song.find(".list-song");
