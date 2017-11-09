@@ -982,7 +982,7 @@ var List = {
                 }
 
             }).error(function (xhr, errorType, exception) {
-                var errorMessage = exception || xhr.statusText || xhr.responseText;
+                //var errorMessage = exception || xhr.statusText || xhr.responseText;
                 setTimeout(function() {
                     socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
                 }, 500);
@@ -1036,6 +1036,7 @@ var List = {
                     return index;
                 }
             });
+
             return indexes[0];
         } catch(e) {}
     },
