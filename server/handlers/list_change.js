@@ -84,7 +84,6 @@ function add_function(arr, coll, guid, offline, socket) {
                                     db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end}, {upsert: true}, function(err, docs){
                                         if(np)
                                         {
-                                            var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end};
                                             List.send_list(coll, undefined, false, true, false);
                                             db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
                                             List.send_play(coll, undefined);
