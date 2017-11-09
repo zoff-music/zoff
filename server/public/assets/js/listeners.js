@@ -11,6 +11,7 @@ var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*
 var conf 			   	  		= [];
 var private_channel 			= false;
 var music 			   	  		= 0;
+var timed_remove_check;
 var slider_type = "horizontal";
 var gotten_np   = false;
 var frontpage 		   	  		= 1;
@@ -1978,6 +1979,7 @@ function onepage_load(){
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     } else if(url_split[3] === "") {
+        clearTimeout(timed_remove_check);
         changing_to_frontpage = true;
         $.contextMenu( 'destroy', ".playlist-element" );
         user_change_password = false;
