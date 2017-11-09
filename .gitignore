@@ -1,5 +1,6 @@
 server/public/assets/images/thumbnails/
 server/config/mailconfig.js
+server/config/api_key.js
 server/config/mongo_config.js
 server/config/cert_config.js
 server/public/assets/dist/callback.min.js
