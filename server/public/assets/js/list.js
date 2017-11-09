@@ -288,6 +288,27 @@ var List = {
         $("#settings").css("visibility", "visible");
         $("#settings").css("opacity", "1");
         $("#wrapper").css("opacity", "1");
+
+        clearTimeout(timed_remove_check);
+        timed_remove_check = setTimeout(function() {
+            $.each(full_playlist, function(j, _current_song) {
+                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + _current_song.id
+                           + "&key=" + api_key + "&part=snippet",
+                  function (data, status, xhr) {
+                    if (data.items.length == 0) {
+                        setTimeout(function() {
+                            socket.emit("error_video", {channel: chan.toLowerCase(), id: _current_song.id, title: _current_song.title});
+                        }, 500);
+                    }
+
+                }).error(function (xhr, errorType, exception) {
+                    //var errorMessage = exception || xhr.statusText || xhr.responseText;
+                    setTimeout(function() {
+                        socket.emit("error_video", {channel: chan.toLowerCase(), id: _current_song.id, title: _current_song.title});
+                    }, 500);
+                });
+            });
+        }, 1500);
     },
 
     dynamicContentPageJumpTo: function(page) {
@@ -971,22 +992,6 @@ var List = {
             }
             attr     = ".vote-container";
             del_attr = "delete_button";
-
-            $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + video_id
-                       + "&key=" + api_key + "&part=snippet",
-              function (data, status, xhr) {
-                if (data.items.length == 0) {
-                    setTimeout(function() {
-                        socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
-                    }, 500);
-                }
-
-            }).error(function (xhr, errorType, exception) {
-                //var errorMessage = exception || xhr.statusText || xhr.responseText;
-                setTimeout(function() {
-                    socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
-                }, 500);
-            });
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
