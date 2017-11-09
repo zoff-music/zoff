@@ -57,6 +57,20 @@ module.exports = function() {
             }
         });
 
+        socket.on("error_video", function(msg) {
+           try {
+               var _list = msg.channel;
+               if(_list.length == 0) return;
+               coll = emojiStrip(_list).toLowerCase();
+               coll = coll.replace("_", "");
+               coll = encodeURIComponent(coll).replace(/\W/g, '');
+               coll = filter.clean(coll);
+           } catch(e) {
+               return;
+           }
+           Search.check_error_video(msg, coll);
+       });
+
         socket.on("get_spread", function(){
             db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
                 db.collection("connected_users").find({"_id": "offline_users"}, function(err, off) {
