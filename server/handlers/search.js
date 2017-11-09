@@ -64,7 +64,6 @@ function check_error_video(msg, channel) {
                     for(var i = 0; i < resp.items.length; i++) {
                         vid_url += resp.items[i].id.videoId + ",";
                     }
-
                     request({
                             type: "GET",
                             url: vid_url
