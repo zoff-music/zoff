@@ -157,12 +157,14 @@ var List = {
         full_playlist[i].duration = song.duration;
         full_playlist[i].start = song.start;
         full_playlist[i].end = song.end;
+        full_playlist[i].id = song.new_id;
 
         $("#" + song.id).find(".vote-container").attr("title", song.title);
         $("#" + song.id).find(".list-title").attr("title", song.title);
         $("#" + song.id).find(".list-title").text(song.title);
         var _temp_duration = Helper.secondsToOther(song.duration);
         $("#" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
+        $("#" + song.id).attr("id", song.new_id);
     },
 
     insertAtBeginning: function(song_info, transition) {
@@ -965,6 +967,14 @@ var List = {
             }
             attr     = ".vote-container";
             del_attr = "delete_button";
+
+            var img = new Image();
+            img.onerror = function() {
+                setTimeout(function() {
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
+                }, 500);
+            };
+            img.src = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
