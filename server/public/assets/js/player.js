@@ -304,17 +304,17 @@ var Player = {
     },
 
     loadVideoById: function(id, this_duration, start, end){
+        var s;
+        var e;
+        if(start) s = start;
+        else s = Player.np.start;
+        if(end) e = end;
+        else e = Player.np.end;
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: id, channel: chan.toLowerCase()});
+            castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase()});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
-            var s;
-            var e;
-            if(start) s = start;
-            else s = Player.np.start;
-            if(end) e = end;
-            else e = Player.np.end;
             Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
     },
