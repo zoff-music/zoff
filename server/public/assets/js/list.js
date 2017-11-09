@@ -136,6 +136,9 @@ var List = {
                 found_array_index = 0;
                 //if(!w_p) List.dragging(true);
                 break;
+            case "changed_values":
+                List.changedValues(msg.value);
+                break;
             case "song_change_prev":
                 if(window.location.pathname != "/") List.song_change_prev(msg.time);
                 if(full_playlist.length > 0) {
@@ -146,6 +149,20 @@ var List = {
                 //if(!w_p) List.dragging(true);
                 break;
         }
+    },
+
+    changedValues: function(song) {
+        var i = List.getIndexOfSong(song.id);
+        full_playlist[i].title = song.title;
+        full_playlist[i].duration = song.duration;
+        full_playlist[i].start = song.start;
+        full_playlist[i].end = song.end;
+
+        $("#" + song.id).find(".vote-container").attr("title", song.title);
+        $("#" + song.id).find(".list-title").attr("title", song.title);
+        $("#" + song.id).find(".list-title").text(song.title);
+        var _temp_duration = Helper.secondsToOther(song.duration);
+        $("#" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
     },
 
     insertAtBeginning: function(song_info, transition) {
