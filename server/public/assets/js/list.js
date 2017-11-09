@@ -972,17 +972,20 @@ var List = {
             attr     = ".vote-container";
             del_attr = "delete_button";
 
-            var url = "https://zoff.me:8081/https://img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
-            $.ajax({
-                type: "HEAD",
-                url: url,
-                error: function(e) {
-                    if(e.status == 404) {
-                        setTimeout(function() {
-                            socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
-                        }, 500);
-                    }
+            $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + video_id
+                       + "&key=" + api_key + "&part=snippet",
+              function (data, status, xhr) {
+                if (data.items.length == 0) {
+                    setTimeout(function() {
+                        socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
+                    }, 500);
                 }
+
+            }).error(function (xhr, errorType, exception) {
+                var errorMessage = exception || xhr.statusText || xhr.responseText;
+                setTimeout(function() {
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
+                }, 500);
             });
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
