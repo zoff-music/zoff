@@ -153,16 +153,21 @@ var List = {
 
     changedValues: function(song) {
         var i = List.getIndexOfSong(song.id);
-        full_playlist[i].title = song.title;
-        full_playlist[i].duration = song.duration;
-        full_playlist[i].start = song.start;
-        full_playlist[i].end = song.end;
+        if(i >= 0) {
+            full_playlist[i].title = song.title;
+            full_playlist[i].duration = song.duration;
+            full_playlist[i].start = song.start;
+            full_playlist[i].end = song.end;
+            full_playlist[i].id = song.new_id;
 
-        $("#" + song.id).find(".vote-container").attr("title", song.title);
-        $("#" + song.id).find(".list-title").attr("title", song.title);
-        $("#" + song.id).find(".list-title").text(song.title);
-        var _temp_duration = Helper.secondsToOther(song.duration);
-        $("#" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
+            $("#" + song.id).find(".vote-container").attr("title", song.title);
+            $("#" + song.id).find(".list-title").attr("title", song.title);
+            $("#" + song.id).find(".list-title").text(song.title);
+            var _temp_duration = Helper.secondsToOther(song.duration);
+            $("#" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
+            $("#" + song.id).find(".list-image").attr("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+            $("#" + song.id).attr("id", song.new_id);
+        }
     },
 
     insertAtBeginning: function(song_info, transition) {
@@ -934,7 +939,8 @@ var List = {
         var video_id    = _song_info.id;
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;
-        var video_thumb = "background-image:url('//img.youtube.com/vi/"+video_id+"/mqdefault.jpg');";
+        var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
+        var video_thumb = "background-image:url('" + video_thumb_url + "');";
         var song        = $("<div>"+list_html+"</div>");
         var image_attr  = "style";
         if(_song_info.hasOwnProperty("start") && _song_info.hasOwnProperty("end")) {
@@ -965,6 +971,22 @@ var List = {
             }
             attr     = ".vote-container";
             del_attr = "delete_button";
+
+            $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + video_id
+                       + "&key=" + api_key + "&part=snippet",
+              function (data, status, xhr) {
+                if (data.items.length == 0) {
+                    setTimeout(function() {
+                        socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
+                    }, 500);
+                }
+
+            }).error(function (xhr, errorType, exception) {
+                //var errorMessage = exception || xhr.statusText || xhr.responseText;
+                setTimeout(function() {
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: video_id, title: video_title});
+                }, 500);
+            });
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
@@ -1001,6 +1023,7 @@ var List = {
         song.find(".list-title").attr("title", video_title);
         song.find(attr).attr("data-video-id", video_id);
         song.find(".list-image").attr(image_attr,video_thumb);
+        song.find(".list-image-placeholder").attr("src", video_thumb_url);
         song.find(".list-suggested-image").attr(image_attr,video_thumb);
         song.find("."+del_attr).attr("data-video-id", video_id);
         return song.html();
@@ -1013,6 +1036,7 @@ var List = {
                     return index;
                 }
             });
+
             return indexes[0];
         } catch(e) {}
     },
