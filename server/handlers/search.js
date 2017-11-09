@@ -29,7 +29,7 @@ function get_correct_info(song_generated, channel, broadcast) {
                         "title": song_generated.title,
                     }
                 }, function(err, docs) {
-                    if(broadcast) {
+                    if(broadcast && docs.nModified == 1) {
                         song_generated.new_id = song_generated.id;
                         io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
                     }
@@ -52,19 +52,14 @@ function check_error_video(msg, channel) {
 
     }, function(error, response, body) {
         var resp = JSON.parse(body);
-        //console.log(resp.pageInfo.totalResults);
         if(resp.pageInfo.totalResults == 0) {
             var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
-            //console.log(yt_url);
             request({
                 method: "GET",
                 url: yt_url,
             }, function(error, response, body){
                 var resp = JSON.parse(body);
-
                 if(resp.items.length > 0) {
-                    //console.log(resp.items);
-
                     var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=";
                     for(var i = 0; i < resp.items.length; i++) {
                         vid_url += resp.items[i].id.videoId + ",";
@@ -91,14 +86,14 @@ function check_error_video(msg, channel) {
                             }
                         }
                         if(found) {
-                            console.log("time to change", msg.id, element);
                             db.collection(channel).update({"id": msg.id}, {
                                 $set: element
                             }, function(err, docs) {
-                                console.log(err, docs);
+                                if(docs.nModified == 1) {
                                     element.new_id = element.id;
                                     element.id = msg.id;
                                     io.to(channel).emit("channel", {type: "changed_values", value: element});
+                                }
                             });
                         }
                     });
