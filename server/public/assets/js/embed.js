@@ -1,4 +1,6 @@
-
+var slider_type = "horizontal";
+var timed_remove_check;
+var gotten_np = false;
 var song_title = "";
 var paused = false;
 var player_ready = false;

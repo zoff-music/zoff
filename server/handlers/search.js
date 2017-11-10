@@ -8,35 +8,38 @@ function get_correct_info(song_generated, channel, broadcast) {
             url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=" + song_generated.id,
 
     }, function(error, response, body) {
-        var resp = JSON.parse(body);
-        if(resp.items.length == 1) {
-            var duration = parseInt(durationToSeconds(resp.items[0].contentDetails.duration));
-            var title = resp.items[0].snippet.localized.title;
-            if(title != song_generated.title || duration < parseInt(song_generated.duration)) {
-                if(title != song_generated.title) {
-                    song_generated.title = title;
-                }
-                if(duration < parseInt(song_generated.duration)) {
-                    song_generated.duration = duration;
-                    song_generated.start = 0;
-                    song_generated.end = duration;
-                }
-                db.collection(channel).update({"id": song_generated.id}, {
-                    $set: {
-                        "duration": song_generated.duration,
-                        "start": song_generated.start,
-                        "end": song_generated.end,
-                        "title": song_generated.title,
+        try {
+            var resp = JSON.parse(body);
+            if(resp.items.length == 1) {
+                var duration = parseInt(durationToSeconds(resp.items[0].contentDetails.duration));
+                var title = resp.items[0].snippet.localized.title;
+                if(title != song_generated.title || duration < parseInt(song_generated.duration)) {
+                    if(title != song_generated.title) {
+                        song_generated.title = title;
                     }
-                }, function(err, docs) {
-                    if(broadcast && docs.nModified == 1) {
-                        song_generated.new_id = song_generated.id;
-                        io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
+                    if(duration < parseInt(song_generated.duration)) {
+                        song_generated.duration = duration;
+                        song_generated.start = 0;
+                        song_generated.end = duration;
                     }
-                });
+                    db.collection(channel).update({"id": song_generated.id}, {
+                        $set: {
+                            "duration": song_generated.duration,
+                            "start": song_generated.start,
+                            "end": song_generated.end,
+                            "title": song_generated.title,
+                        }
+                    }, function(err, docs) {
+                        if(broadcast && docs.nModified == 1) {
+                            song_generated.new_id = song_generated.id;
+                            io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
+                        }
+                    });
+                }
             }
+        catch(e){
+            console.log(e);
         }
-
     });
 }
 
@@ -51,53 +54,57 @@ function check_error_video(msg, channel) {
             url: "https://www.googleapis.com/youtube/v3/videos?part=id&key="+key+"&id=" + msg.id,
 
     }, function(error, response, body) {
-        var resp = JSON.parse(body);
-        if(resp.pageInfo.totalResults == 0) {
-            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
-            request({
-                method: "GET",
-                url: yt_url,
-            }, function(error, response, body){
-                var resp = JSON.parse(body);
-                if(resp.items.length > 0) {
-                    var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=";
-                    for(var i = 0; i < resp.items.length; i++) {
-                        vid_url += resp.items[i].id.videoId + ",";
-                    }
-                    request({
-                            type: "GET",
-                            url: vid_url
-                    }, function(error, response, body) {
-                        var resp = JSON.parse(body);
-                        var found = false;
-                        var element = {};
+        try {
+            var resp = JSON.parse(body);
+            if(resp.pageInfo.totalResults == 0) {
+                var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
+                request({
+                    method: "GET",
+                    url: yt_url,
+                }, function(error, response, body){
+                    var resp = JSON.parse(body);
+                    if(resp.items.length > 0) {
+                        var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=";
                         for(var i = 0; i < resp.items.length; i++) {
-                            if(similarity(resp.items[i].snippet.localized.title, msg.title) > 0.75) {
-                                found = true;
-                                element = {
-                                    title: resp.items[i].snippet.localized.title,
-                                    duration: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
-                                    id: resp.items[i].id,
-                                    start: 0,
-                                    end: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
+                            vid_url += resp.items[i].id.videoId + ",";
+                        }
+                        request({
+                                type: "GET",
+                                url: vid_url
+                        }, function(error, response, body) {
+                            var resp = JSON.parse(body);
+                            var found = false;
+                            var element = {};
+                            for(var i = 0; i < resp.items.length; i++) {
+                                if(similarity(resp.items[i].snippet.localized.title, msg.title) > 0.75) {
+                                    found = true;
+                                    element = {
+                                        title: resp.items[i].snippet.localized.title,
+                                        duration: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
+                                        id: resp.items[i].id,
+                                        start: 0,
+                                        end: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
+                                    }
+                                    break;
                                 }
-                                break;
                             }
-                        }
-                        if(found) {
-                            db.collection(channel).update({"id": msg.id}, {
-                                $set: element
-                            }, function(err, docs) {
-                                if(docs.nModified == 1) {
-                                    element.new_id = element.id;
-                                    element.id = msg.id;
-                                    io.to(channel).emit("channel", {type: "changed_values", value: element});
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+                            if(found) {
+                                db.collection(channel).update({"id": msg.id}, {
+                                    $set: element
+                                }, function(err, docs) {
+                                    if(docs.nModified == 1) {
+                                        element.new_id = element.id;
+                                        element.id = msg.id;
+                                        io.to(channel).emit("channel", {type: "changed_values", value: element});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        catch(e){
+            console.log(e);
         }
     });
 }
