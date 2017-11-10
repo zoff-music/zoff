@@ -1,3 +1,9 @@
+/**
+ *
+ * Have a look at nodemailer's config on how to set this up https://nodemailer.com/about/
+ *
+ */
+
 var mail_config = {
     port: 587,
     host: 'smtp.example.com',
