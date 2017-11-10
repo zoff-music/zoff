@@ -19,11 +19,10 @@ For the server to run, you have to have the files
 
 ```
 api_key.js
-mailconfig.js
-mongo_config.js 
+mongo_config.js
 ```
 
-in ```/server/config```. There are ```*.example.js``` files for all the ones mentioned above. If you're going to deploy the server with a certificate, you also need to create the ```cert_config.js``` in ```/server/config/```. 
+in ```/server/config```. There are ```*.example.js``` files for all the ones mentioned above. If you're going to deploy the server with a certificate, you also need to create the ```cert_config.js``` in ```/server/config/```. If you want the mailing to work, take a look at ```mailconfig.example.js```. You'll need ```mailconfig.js``` for this to work.
 
 Use ```$ npm start``` to start the server.
 
