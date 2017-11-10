@@ -339,6 +339,7 @@ var Player = {
 
     playNext: function(){
         var next_song = full_playlist[0];
+
         video_id   = next_song.id;
         time       = (new Date()).getTime();
         song_title = next_song.title;
@@ -349,6 +350,14 @@ var Player = {
         else start = 0;
         if(next_song.hasOwnProperty("end")) end = next_song.end;
         else end = duration;
+
+        Player.np = {
+            id: video_id,
+            start: start,
+            end: end,
+            duration: duration,
+        };
+
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
         if(chromecastAvailable){
@@ -377,6 +386,14 @@ var Player = {
         else start = 0;
         if(next_song.hasOwnProperty("end")) end = next_song.end;
         else end = duration;
+
+        Player.np = {
+            id: video_id,
+            start: start,
+            end: end,
+            duration: duration,
+        };
+
         Player.getTitle(song_title, viewers);
         Player.setBGimage(video_id);
 
@@ -591,10 +608,11 @@ var Player = {
                 if(!Player.stopInterval) {
                     durationBegun = true;
                 }
+
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
                 currDurr = Player.player.getCurrentTime() !== undefined ? Math.floor(Player.player.getCurrentTime()) : seekTo;
-                if(currDurr - Player.np.start > duration) {
+                if(currDurr - Player.np.start > duration && !offline) {
                     currDurr = duration - Player.np.start;
                 }
                 currDurr = currDurr - Player.np.start;
