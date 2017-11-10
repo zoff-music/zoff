@@ -326,12 +326,12 @@ li.disabled span {
 }
 
 .select{
-  -webkit-touch-callout: initial;
-  -webkit-user-select: initial;
-  -khtml-user-select: initial;
-  -moz-user-select: initial;
-  -ms-user-select: initial;
-  user-select: initial;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 #chatchannel li:nth-child(even), #chatall li:nth-child(even) {
@@ -344,12 +344,12 @@ li.disabled span {
 
 #chatchannel li, #chatall li{
   cursor:text;
-  -webkit-touch-callout: initial;
-  -webkit-user-select: initial;
-  -khtml-user-select: initial;
-  -moz-user-select: initial;
-  -ms-user-select: initial;
-  user-select: initial;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
   padding: 4px;
   margin-left: 0px;
 }
