@@ -300,7 +300,6 @@ var List = {
     },
 
     check_error_videos: function(i) {
-        console.log(i);
             $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
                        + "&key=" + api_key + "&part=snippet",
               function (data, status, xhr) {
