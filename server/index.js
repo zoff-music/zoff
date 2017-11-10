@@ -49,7 +49,6 @@ try{
 }
 catch(err){
 	console.log("Starting without https (probably on localhost)");
-	if(err.errno != 34)console.log(err);
 	var cors_proxy = require('cors-anywhere');
 	cors_proxy.createServer({
 		requireHeader: ['origin', 'x-requested-with'],
