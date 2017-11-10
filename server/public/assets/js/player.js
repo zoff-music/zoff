@@ -594,6 +594,12 @@ var Player = {
                 //currDurr = currDurr - Player.np.start;
                 minutes = Math.floor(currDurr / 60);
                 seconds = currDurr - (minutes * 60);
+                /*if(isNan(minutes)) {
+                    minutes = 0;
+                }
+                if(isNan(seconds)) {
+                    seconds = 0;
+                }*/
                 document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
                 per = (100 / duration) * currDurr;
                 if(per >= 100) {
