@@ -91,7 +91,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                             Frontpage.update_frontpage(coll, id, title);
                                             if(!full_list) Search.get_correct_info(new_song, coll, false);
                                         } else {
-                                            var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration};
+                                            var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end};
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
                                             if(!full_list) Search.get_correct_info(new_song, coll, true);
                                         }
