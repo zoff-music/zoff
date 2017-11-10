@@ -81,17 +81,17 @@ function add_function(arr, coll, guid, offline, socket) {
                                     } else {
                                         np = false;
                                     }
-                                    db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end}, {upsert: true}, function(err, docs){
+                                    db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)}, {upsert: true}, function(err, docs){
                                         if(np)
                                         {
-                                            var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end};
+                                            var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)};
                                             List.send_list(coll, undefined, false, true, false);
                                             db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
                                             List.send_play(coll, undefined);
                                             Frontpage.update_frontpage(coll, id, title);
                                             if(!full_list) Search.get_correct_info(new_song, coll, false);
                                         } else {
-                                            var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": start, "end": end};
+                                            var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)};
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
                                             if(!full_list) Search.get_correct_info(new_song, coll, true);
                                         }
