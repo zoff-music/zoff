@@ -315,6 +315,7 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
+            window.player = Player.player;
             Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
     },
@@ -635,6 +636,18 @@ var Player = {
 
                 if(!dragging) {
                     $("#bar").width(per+"%");
+                }
+
+                if(Player.player.getCurrentTime() > Player.np.end) {
+                    Player.player.pauseVideo();
+                    playing = false;
+                    paused  = false;
+
+                    if(!offline) {
+                        socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                    } else {
+                        Player.playNext();
+                    }
                 }
             }
         }catch(e){}
