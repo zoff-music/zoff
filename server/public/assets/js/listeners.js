@@ -985,7 +985,7 @@ function seekToMove(e){
 
         var acceptable = ["bar", "controls", "duration"];
         if(acceptable.indexOf($(e.target).attr("id")) >= 0 && dragging) {
-            $("#bar").width(((100 / Player.player.getDuration()) * total) + "%");
+            $("#bar").width(((100 / duration) * total) + "%");
         }
     } catch(e){}
 }
@@ -999,13 +999,15 @@ function seekToClick(e){
 
         Helper.log(total);
         if(!chromecastAvailable){
-            Player.player.seekTo(total);
+            Player.player.seekTo(total + Player.np.start);
 
             dMinutes = Math.floor(duration / 60);
             dSeconds = duration - dMinutes * 60;
             currDurr = total;
-            if(currDurr > duration)
-            currDurr = duration;
+            if(currDurr - Player.np.start > duration) {
+                currDurr = duration - Player.np.start;
+            }
+            currDurr = currDurr - Player.np.start;
             minutes = Math.floor(currDurr / 60);
             seconds = currDurr - (minutes * 60);
             document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
