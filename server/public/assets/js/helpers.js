@@ -309,6 +309,84 @@ var Helper = {
         len = len || 2;
         var zeros = new Array(len).join('0');
         return (zeros + str).slice(-len);
+    },
+
+    replaceForFind: function(str) {
+        str = str.toLowerCase();
+        if(str.startsWith("the")) {
+            str = str.replace("the", "");
+        }
+        str = str.replace(" hd", "");
+        str = str.replace("official hd video", "");
+        str = str.replace("unofficial video", "");
+        str = str.replace("studio footage", "");
+        str = str.replace("great song", "");
+        str = str.replace("-", " ");
+        str = str.replace("-", " ");
+        str = str.replace(" hq", " ");
+        str = str.replace("lyric video", "");
+        str = str.replace("lyrics video", "");
+        str = str.replace("album version", "");
+        str = str.replace("drive original movie soundtrack", "");
+        str = str.replace("original movie soundtrack", "");
+        str = str.replace("live sessions", "");
+        str = str.replace("audio only", "");
+        str = str.replace("audio", "");
+        str = str.replace("(new)", "");
+        str = str.replace(" by ", " ");
+        str = str.replace(" vs ", " ");
+        str = str.replace("(full)", " ");
+        str = str.replace("(video)", " ");
+        str = str.replace("&", " ");
+        str = str.replace("with lyrics", "");
+        str = str.replace("lyrics", "");
+        str = str.replace("w/", "");
+        str = str.replace("w/", "");
+        str = str.replace("official video", "");
+        str = str.replace("studio version", "");
+        str = str.replace("official music video", "");
+        str = str.replace("music video", "");
+        str = str.replace("musicvideo", "");
+        str = str.replace("original video", "");
+        str = str.replace("full version", "");
+        str = str.replace("full song", "");
+        str = str.replace("(official)", "");
+        str = str.replace("official", "");
+        str = str.replace("(original)", "");
+        str = str.replace("(", " ");
+        str = str.replace(")", " ");
+        str = str.replace("|", "");
+        str = str.replace("feat.", " ");
+        str = str.replace("feat", " ");
+        str = str.replace("ft.", " ");
+        str = str.replace("[", " ");
+        str = str.replace("]", " ");
+        str = str.replace(" free ", "");
+        str = str.replace(" hd", "");
+        str = str.replace("original mix", " ");
+        str = str.replace("radio edit", " ");
+        str = str.replace("pop version", " ");
+        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+        str = str.replace("(", " ");
+        str = str.replace(")", " ");
+        str = str.replace("[", " ");
+        str = str.replace("]", " ");
+        str = str.replace("-", " ");
+        str = str.replace("-", " ");
+        str = str.replace("-", " ");
+        str = str.replace("original mix", " ");
+        str = str.replace("album version", " ");
+        str = str.replace("abum version", " ");
+        str = str.replace("feat.", " ");
+        str = str.replace("feat.", " ");
+        str = str.replace("feat", " ");
+        str = str.replace("feat", " ");
+        str = str.replace("ft.", " ");
+        str = str.replace("radio edit", " ");
+        str = str.replace("pop version", " ");
+        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
+        return str;
     }
 
 };
@@ -329,3 +407,44 @@ String.prototype.startsWith = function(searchString, position) {
     position = position || 0;
     return this.indexOf(searchString, position) === position;
 };
+
+function similarity(s1, s2) {
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}

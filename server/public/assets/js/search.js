@@ -221,21 +221,25 @@ var Search = {
                                     //var title = data.snippet.title;
                                     var duration = Search.durationToSeconds(data.contentDetails.duration);
                                     var not_matched = false;
-                                    $.each(temptitle, function(i, data_title){
-                                        if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 || !(
-                                            data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
-                                            title.toLowerCase().indexOf("cover") == -1 &&
-                                            ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
-                                            title.toLowerCase().indexOf("remix") == -1) ||
-                                            (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
-                                            title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                                            (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
-                                            data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
-                                        ))
-                                        not_matched = true;
+                                    if(similarity(data.snippet.title, artist + " - " + title) > 0.75) {
+                                        not_matched = false;
+                                    } else {
+                                        $.each(temptitle, function(i, data_title){
+                                            if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 || !(
+                                                data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
+                                                title.toLowerCase().indexOf("cover") == -1 &&
+                                                ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
+                                                title.toLowerCase().indexOf("remix") == -1) ||
+                                                (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
+                                                title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                                (data.snippet.channelTitle.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                                data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
+                                            ))
+                                            not_matched = true;
 
-                                        return false;
-                                    });
+                                            return false;
+                                        });
+                                    }
 
                                     if((!not_matched)){
                                         matched = true;
