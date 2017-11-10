@@ -153,7 +153,7 @@ var List = {
 
     changedValues: function(song) {
         var i = List.getIndexOfSong(song.id);
-        if(i >= 0) {
+        if(i >= 0 && window.location.pathname != "/") {
             full_playlist[i].title = song.title;
             full_playlist[i].duration = song.duration;
             full_playlist[i].start = song.start;
@@ -289,26 +289,34 @@ var List = {
         $("#settings").css("opacity", "1");
         $("#wrapper").css("opacity", "1");
 
-        clearTimeout(timed_remove_check);
-        timed_remove_check = setTimeout(function() {
-            $.each(full_playlist, function(j, _current_song) {
-                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + _current_song.id
-                           + "&key=" + api_key + "&part=snippet",
-                  function (data, status, xhr) {
-                    if (data.items.length == 0) {
-                        setTimeout(function() {
-                            socket.emit("error_video", {channel: chan.toLowerCase(), id: _current_song.id, title: _current_song.title});
-                        }, 500);
-                    }
+        if(!embed) {
+            clearTimeout(timed_remove_check);
+            timed_remove_check = setTimeout(function() {
+                if(full_playlist.length > 0) {
+                    List.check_error_videos(0);
+                }
+            }, 1500);
+        }
+    },
 
-                }).error(function (xhr, errorType, exception) {
-                    //var errorMessage = exception || xhr.statusText || xhr.responseText;
-                    setTimeout(function() {
-                        socket.emit("error_video", {channel: chan.toLowerCase(), id: _current_song.id, title: _current_song.title});
-                    }, 500);
-                });
+    check_error_videos: function(i) {
+        console.log(i);
+            $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
+                       + "&key=" + api_key + "&part=snippet",
+              function (data, status, xhr) {
+                if (data.items.length == 0) {
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
+                }
+                if(full_playlist.length > i + 1 && window.location.pathname != "/") {
+                    List.check_error_videos(i + 1);
+                }
+
+            }).error(function (xhr, errorType, exception) {
+                socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
+                if(full_playlist.length > i + 1 && window.location.pathname != "/") {
+                    List.check_error_videos(i + 1);
+                }
             });
-        }, 1500);
     },
 
     dynamicContentPageJumpTo: function(page) {

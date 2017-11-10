@@ -89,11 +89,11 @@ function add_function(arr, coll, guid, offline, socket) {
                                             db.collection(coll).update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
                                             List.send_play(coll, undefined);
                                             Frontpage.update_frontpage(coll, id, title);
-                                            Search.get_correct_info(new_song, coll, false);
+                                            if(!full_list) Search.get_correct_info(new_song, coll, false);
                                         } else {
                                             var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration};
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
-                                            Search.get_correct_info(new_song, coll, true);
+                                            if(!full_list) Search.get_correct_info(new_song, coll, true);
                                         }
                                         db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                         List.getNextSong(coll);
