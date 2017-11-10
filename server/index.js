@@ -8,7 +8,7 @@ pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
-var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
+
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/main',
 	layoutsDir: publicPath + '/layouts',
@@ -23,6 +23,7 @@ app.enable('view cache');
 app.set('views', publicPath);
 
 try{
+    var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
 	var fs = require('fs');
 	var privateKey  = fs.readFileSync(cert_config.privateKey).toString();
 	var certificate = fs.readFileSync(cert_config.certificate).toString();
