@@ -37,7 +37,7 @@ function get_correct_info(song_generated, channel, broadcast) {
                     });
                 }
             }
-        catch(e){
+        } catch(e){
             console.log(e);
         }
     });
@@ -103,7 +103,7 @@ function check_error_video(msg, channel) {
                     }
                 });
             }
-        catch(e){
+        } catch(e){
             console.log(e);
         }
     });
