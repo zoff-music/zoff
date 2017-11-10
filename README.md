@@ -13,7 +13,18 @@ NodeJS  : https://nodejs.org/en/
 npm     : https://www.npmjs.com/
 ```
 
-Clone this repository into a folder, and  navigate to it. Use ```$ npm install``` in the project folder and use ```$ npm start``` to start the server.
+Clone this repository into a folder, and  navigate to it. Use ```$ npm install``` in the project folder.
+
+For the server to run, you have to have the files
+
+```
+api_key.js
+mailconfig.js
+mongo_config.js ```
+
+in ```/server/config```. There are ```*.example.js``` files for all the ones mentioned above. If you're going to deploy the server with a certificate, you also need to create the ```cert_config.js``` in ```/server/config/```. 
+
+Use ```$ npm start``` to start the server.
 
 ### About
 
