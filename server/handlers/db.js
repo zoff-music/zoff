@@ -1,5 +1,11 @@
 var path = require('path');
-var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+try {
+    var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+} catch(e) {
+    console.log("Error - missing file");
+    console.log("Seems you forgot to create the file mongo_config.js in /server/config/. Have a look at mongo_config.example.js.");
+    process.exit();
+}
 var mongojs = require('mongojs');
 var db = mongojs(mongo_config.config);
 

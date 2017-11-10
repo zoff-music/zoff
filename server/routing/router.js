@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var mongo_db_cred = {config: 'mydb'};
-var mongojs = require('mongojs');
-var db = mongojs(mongo_db_cred.config);
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
