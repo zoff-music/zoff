@@ -567,6 +567,10 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     margin-left: 0px !important;
 }
 
+.not-exported-container, .not-imported-container {
+    height: auto !important;
+}
+
 .youtube_clicked{
     display: none;
 }
