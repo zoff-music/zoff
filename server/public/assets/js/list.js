@@ -702,7 +702,7 @@ var List = {
                     if(data.name.substring(data.name.length-1) == "." && track.substring(track.length-1) != "."){
                         data.name = data.name.substring(0,data.name.length-1);
                     }
-                    if(similarity(data.artists[0].name + " - " + data.name, decodeURIComponent(track)) > 0.60) {
+                    if(similarity(data.artists[0].name + " - " + data.name, decodeURIComponent(track)) > 0.60 || (data.artists.length > 1 && similarity(data.artists[0].name + " " + data.artists[1].name + " - " + data.name, decodeURIComponent(track)))) {
                         found = true;
                         List.uris.push(data.uri);
                         Helper.log("Found", track);
