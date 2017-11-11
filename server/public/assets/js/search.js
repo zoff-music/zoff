@@ -236,6 +236,7 @@ var Search = {
                                                 data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
                                             ))
                                             not_matched = true;
+                                            else if(duration > 1800) not_matched = true;
 
                                             return false;
                                         });
