@@ -62,4 +62,4 @@ Zoff is licensed under a
 Do not redistribute without permission from the developers.
 
 Copyright © 2017
-Nicolas Almagro Tonne and Kasper Rynning-Tønnesen
+Kasper Rynning-Tønnesen and Nicolas Almagro Tonne
