@@ -244,18 +244,24 @@ var Player = {
                 }
                 break;
             case YT.PlayerState.PAUSED:
-                if(!chromecastAvailable){
-                    if(beginning && mobile_beginning) {
-                        $("#playpause").css("visibility", "visible");
-                        $("#playpause").css("pointer-events", "all");
-                        $("#channel-load").css("display", "none");
+                if(end_programmatically) {
+                    paused = false;
+                    playing = false;
+                    end_programmatically = false;
+                } else {
+                    if(!chromecastAvailable){
+                        if(beginning && mobile_beginning) {
+                            $("#playpause").css("visibility", "visible");
+                            $("#playpause").css("pointer-events", "all");
+                            $("#channel-load").css("display", "none");
+                        }
+                        if(!empty_clear && !gotten_np) {
+                            paused = true;
+                        }
+                        if(gotten_np) gotten_np = false;
+                        if(window.location.pathname != "/") Playercontrols.play_pause_show();
+                        mobile_beginning = true;
                     }
-                    if(!empty_clear && !gotten_np) {
-                        paused = true;
-                    }
-                    if(gotten_np) gotten_np = false;
-                    if(window.location.pathname != "/") Playercontrols.play_pause_show();
-                    mobile_beginning = true;
                 }
                 break;
             case YT.PlayerState.BUFFERING:
@@ -639,9 +645,8 @@ var Player = {
                 }
 
                 if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {
+                    end_programmatically = true;
                     Player.player.pauseVideo();
-                    playing = false;
-                    paused  = false;
 
                     if(!offline) {
                         socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
