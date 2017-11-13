@@ -7,6 +7,7 @@ var player_ready = false;
 var list_html = $("#list-song-html").html();
 var w_p		= true;
 var lazy_load	= false;
+var end_programmatically = false;
 var embed = true;
 var vol	= 100;
 var adminpass = "";
