@@ -638,7 +638,7 @@ var Player = {
                     $("#bar").width(per+"%");
                 }
 
-                if(Player.player.getCurrentTime() > Player.np.end) {
+                if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {
                     Player.player.pauseVideo();
                     playing = false;
                     paused  = false;
