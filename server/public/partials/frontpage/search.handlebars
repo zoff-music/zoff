@@ -1,15 +1,14 @@
 <div class="section mega">
     <div id="mega-background"></div>
     <h5>Create a radio channel, collaborate and listen</h5>
-    <form class="channel-finder">
-        <div class="input-field">
+    <form class="channel-finder row">
+        <div class="input-field col s12">
             <p class="prefix">zoff.me/</p>
             <input
-            class="room-namer autocomplete desktop-search"
+            class="room-namer autocomplete"
             type="text"
             id="autocomplete-input"
             name="chan"
-            placeholder="chill"
             title="Type channel name here to create or listen to a channel. Only alphanumerical chars. [a-zA-Z0-9]+"
             autocomplete="off"
             autofocus
@@ -18,6 +17,7 @@
             spellcheck="false"
             maxlength="18"
             />
+            <label for="autocomplete-input" class="noselect label-for-mobile-frontpage">Find or create radio channel</label>
             <button class="listen-button btn waves-effect waves-light white-text col s2">Listen</button>
         </div>
     </form>
