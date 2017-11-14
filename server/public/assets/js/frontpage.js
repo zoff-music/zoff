@@ -117,8 +117,8 @@ var Frontpage = {
             data[options_list[x]._id] = null;
         }
 
-        var to_autocomplete = "input.desktop-search";
-        if(Helper.mobilecheck()) to_autocomplete = "input.mobile-search";
+        var to_autocomplete = "input.autocomplete";
+        //if(Helper.mobilecheck()) to_autocomplete = "input.mobile-search";
 
         $(to_autocomplete).autocomplete({
             data: data,
@@ -183,9 +183,10 @@ var Frontpage = {
             setTimeout(function(){
                 if(frontpage){
                     $("#mega-background").css("background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
-                    $("#mega-background").css("background-size" , "200%");
+                    $("#mega-background").css("background-size" , "cover");
+                    $("#mega-background").css("background-repeat" , "no-repeat");
                     $("#mega-background").css("opacity", 1);
-                    $(".desktop-search").attr("placeholder", list[i]._id);
+                    $(".autocomplete").attr("placeholder", list[i]._id);
                     //$(".room-namer").css("opacity", 1);
                 }
             },500);
@@ -205,18 +206,20 @@ var Frontpage = {
                     success: function(data){
                         setTimeout(function(){
                             $("#mega-background").css("background", "url(/assets/images/thumbnails/"+data+")");
-                            $("#mega-background").css("background-size" , "200%");
+                            $("#mega-background").css("background-size" , "cover");
+                            $("#mega-background").css("background-repeat" , "no-repeat");
                             $("#mega-background").css("opacity", 1);
-                            $(".desktop-search").attr("placeholder", list[i]._id);
+                            $(".autocomplete").attr("placeholder", list[i]._id);
                         },500);
                     }
                 });
             };
             img.onload = function(){ // Loaded successfully
                 $("#mega-background").css("background", "url("+img.src+")");
-                $("#mega-background").css("background-size" , "200%");
+                $("#mega-background").css("background-size" , "cover");
+                $("#mega-background").css("background-repeat" , "no-repeat");
                 $("#mega-background").css("opacity", 1);
-                $(".desktop-search").attr("placeholder", list[i]._id);
+                $(".autocomplete").attr("placeholder", list[i]._id);
             };
 
         }
@@ -472,7 +475,7 @@ function initfp() {
     }
 
     if(Helper.mobilecheck()){
-        $('input#searchFrontpage').characterCounter();
+        $('input#autocomplete-input').characterCounter();
     }
 
     window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
