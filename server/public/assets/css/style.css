@@ -2739,10 +2739,6 @@ nav ul li:hover, nav ul li.active {
         background-color:rgba(0,0,0,1);
     }
 
-    .row .col.s12 {
-        width: 100% !important;
-    }
-
     .channel-finder .input-field {
         padding: 0 .75rem;
     }
@@ -2848,7 +2844,11 @@ nav ul li:hover, nav ul li.active {
         pointer-events:none;
     }
 
-    .video-container{
+    .row .col.s12 {
+        width: 100% !important;
+    }
+
+    #main-row.row #video-container.video-container{
         position: fixed;
         display: block !important;
         width: 106vw !important;
