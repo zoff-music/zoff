@@ -390,6 +390,7 @@ li.disabled span {
     /* top: 0px; */
     width: 250px !important;
     height: 200px !important;
+    display: block !important;
     /* right: 10px; */
     z-index: 10;
     transition: 1s;
