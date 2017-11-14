@@ -894,12 +894,6 @@ margin:-1px;
     background: rgba(255, 255, 255, 0.2) !important;
 }
 
-.room-namer::-webkit-input-placeholder{
-    /*color:rgb(155, 155, 155) !important;*/
-    -webkit-transition:opacity 0.5s;
-    color: rgb(255, 255, 255) !important;
-}
-
 .mega h5{
     color: rgb(255, 255, 255);   cursor: default;   display: inline;
     font-size: 50px;
@@ -965,17 +959,9 @@ margin:-1px;
     padding-left: 69px !important;
 }
 
-.mega ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    opacity: 0.72;
-}
-.mega :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    opacity: 0.72;
-}
-.mega ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    opacity: 0.72;
-}
-.mega :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    opacity: 0.72;
+
+.label-for-mobile-frontpage {
+    display: none;
 }
 
 .listen-button {
@@ -1138,21 +1124,31 @@ margin:-1px;
 }
 
 .room-namer.autocomplete{
-    margin-left: 3px !important;
+    /*margin-left: 72px !important;*/
     margin-top: -1px !important;
+}
+
+.channel-finder {
+    margin-bottom: 0px !important;
 }
 
 .channel-finder .input-field{
     display: flex;
-    /* width: 69%; */
+    margin-left: 0px !important;
+    width: max-content !important;
     justify-content: center;
+    padding:0;
+}
+
+.room-namer {
+    margin-left: 0px !important;
 }
 
 .channel-finder .input-field .prefix{
     color:white;
     font-size:17px;
     left: 5px;
-    top: -8px;
+    top: -9px;
 }
 
 .autocomplete-content li .highlight {
@@ -2320,6 +2316,12 @@ nav ul li:hover, nav ul li.active {
     cursor: pointer;
 }
 
+.room-namer::-webkit-input-placeholder{
+    /*color:rgb(155, 155, 155) !important;*/
+    -webkit-transition:opacity 0.5s;
+    color: lightgrey !important;
+}
+
 .hamburger-sidenav {
     width: 24px;
     height: 24px;
@@ -2723,11 +2725,83 @@ nav ul li:hover, nav ul li.active {
         padding-top: 0em;
     }
 
+    .label-for-mobile-frontpage {
+        display: initial;
+        width: auto !important;
+        margin-left: auto !important;
+    }
+
+    .mega {
+        background: white;
+        margin-top: 0px;
+    }
     #bar{
         background-color:rgba(0,0,0,1);
     }
 
-    .mega {display:none;}
+    .row .col.s12 {
+        width: 100% !important;
+    }
+
+    .channel-finder .input-field {
+        padding: 0 .75rem;
+    }
+
+    .mega form {
+        display: block;
+        width: auto;
+        margin-bottom: 0px;
+    }
+
+    .mega input {
+        color: black;
+        text-shadow: none;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .room-namer.autocomplete {
+        margin-left: 0px !important;
+        margin-top: auto !important;
+    }
+
+    #autocomplete-input {
+        width: 100%;
+        border-bottom: 1px solid #9e9e9e !important;
+    }
+
+    #autocomplete-input::-webkit-input-placeholder { /* WebKit browsers */
+        color:    #FFF;
+    }
+    #autocomplete-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    #FFF;
+        opacity:  1;
+    }
+    #autocomplete-input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    #FFF;
+        opacity:  1;
+    }
+    #autocomplete-input:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color:    #FFF;
+    }
+
+    .room-namer::-webkit-input-placeholder{
+        /*color:rgb(155, 155, 155) !important;*/
+        -webkit-transition:opacity 0.5s;
+        color: transparent !important;
+    }
+
+    #mega-background, .mega h5, #snow, .pitch, .channel-finder .input-field .prefix, .listen-button {
+        display: none !important;
+    }
+
+    .channel-finder .input-field{
+        display: initial;
+        /* width: 69%; */
+        justify-content: center;
+    }
+
+    /*.mega {display:none;}*/
     .mobile-search{display:block;}
 
     .toast {
