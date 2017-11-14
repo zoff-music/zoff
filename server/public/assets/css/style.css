@@ -442,11 +442,11 @@ body {
 }
 
 #main-container {
-    -webkit-transition: background-color 1s;
-    -moz-transition: background-color 1s;
-    -ms-transition: background-color 1s;
-    -o-transition: background-color 1s;
-    transition: background-color 1s;
+    -webkit-transition: background-color .2s;
+    -moz-transition: background-color .2s;
+    -ms-transition: background-color .2s;
+    -o-transition: background-color .2s;
+    transition: background-color .2s;
 }
 
 .main, #main-row, .video-container, #playlist{
