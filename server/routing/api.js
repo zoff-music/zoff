@@ -25,8 +25,9 @@ router.route('/api/list/:channel_name').get(function(req, res) {
          res.setHeader('Content-Type', 'application/json');
          res.send(JSON.stringify(docs));
       } else {
-         res.status(404);
-         res.send(404);
+         /*res.status(404);
+         res.send(404);*/
+         res.status(404).redirect("/404");
       }
    });
 });
@@ -62,8 +63,9 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
          res.setHeader('Content-Type', 'application/json');
          res.send(JSON.stringify(conf));
       } else {
-         res.status(404);
-         res.send(404);
+         /*res.status(404);
+         res.send(404);*/
+         res.status(404).redirect("/404");
       }
    });
 });
