@@ -70,10 +70,15 @@ function channel(req, res, next) {
                 res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
                 var data = {
+                    title: "404: File Not Found",
                     list_name: capitalizeFirstLetter(req.params.channel_name),
                     year: 2017,
                     javascript_file: "main.min.js"
                 }
+                if(req.params.channel_name == "404") {
+                    res.status(404);
+                }
+
                 res.render('layouts/channel', data);
             }
         }

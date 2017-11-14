@@ -130,7 +130,8 @@ app.use('/', router);
 app.use('/assets', express.static(publicPath + '/assets'));
 
 app.use(function (req, res, next) {
-  res.status(404).redirect("/404");
+  res.status(404);
+  res.redirect("/404");
 })
 
 db.on('error',function(err) {
