@@ -290,6 +290,7 @@ var List = {
         $("#wrapper").css("opacity", "1");
 
         if(!embed) {
+            Helper.log("Starting empty-checker");
             clearTimeout(timed_remove_check);
             timed_remove_check = setTimeout(function() {
                 if(full_playlist.length > 0) {
@@ -300,10 +301,13 @@ var List = {
     },
 
     check_error_videos: function(i) {
+        Helper.log("Empty-checker at", i);
             $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
                        + "&key=" + api_key + "&part=snippet",
               function (data, status, xhr) {
+                  Helper.log("Empty-checker items", data.items.length);
                 if (data.items.length == 0) {
+                    Helper.log("Emtpy-checker error at", full_playlist[i].id, full_playlist[i].title);
                     socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
                 }
                 if(full_playlist.length > i + 1 && window.location.pathname != "/") {
@@ -311,6 +315,7 @@ var List = {
                 }
 
             }).error(function (xhr, errorType, exception) {
+                Helper.log("Emtpy-checker error at", full_playlist[i].id, full_playlist[i].title);
                 socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
                 if(full_playlist.length > i + 1 && window.location.pathname != "/") {
                     List.check_error_videos(i + 1);
