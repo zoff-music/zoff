@@ -8,77 +8,6 @@ var List = {
     not_found: [],
     num_songs: 0,
 
-    dragging: function(enabled) {
-        if(!enabled) {
-            var jqDraggableItem = $(".list-song");
-            try {
-                $(".list-song").draggable("destroy");
-            } catch(e) {}
-
-            jqDraggableItem.off("touchstart", Helper.touchstart);
-            jqDraggableItem.off("touchmove", Helper.touchmove);
-            jqDraggableItem.off("touchend", Helper.touchend);
-        } else {
-            if(Helper.mobilecheck()) {
-                var jqDraggableItem = $(".list-song");
-                try {
-                    $(".list-song").draggable("destroy");
-                } catch(e) {}
-
-                jqDraggableItem.off("touchstart", Helper.touchstart);
-                jqDraggableItem.off("touchmove", Helper.touchmove);
-                jqDraggableItem.off("touchend", Helper.touchend);
-                $( ".list-song" ).draggable({
-                    axis:"x",
-                    containment: [-60, 0, 10, 0],
-                    scroll: true,
-                    drag: function(event, ui) {
-                        if(Helper.vertScroll) {
-                            return false;
-                        }
-                        if(ui.offset.left <= -10) {
-                            ui.position.left = ui.offset.left;
-                        } else {
-                            ui.position.left = 0;
-                        }
-                    },
-                    stop: function(event, ui) {
-                        if(ui.offset.left == -50 && !Helper.vertScroll) {
-                            try {
-                                navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-                                if (navigator.vibrate) {
-                                    navigator.vibrate(100);
-                                }
-                            } catch(e) {}
-                            $(".accept-delete").attr("data-video-id", $(this).attr("data-video-id"));
-                            $("#delete_song_title").html($(this).find(".list-title").html());
-                            $("#delete_song_alert").modal("open");
-
-                            var that = this;
-                            $(this).addClass("side_away");
-                            $(this).css("left", "0px");
-                            setTimeout(function() {
-                                $(that).removeClass("side_away");
-                            }, 300);
-
-                        } else {
-                            var that = this;
-                            $(this).addClass("side_away");
-                            $(this).css("left", "0px");
-                            setTimeout(function() {
-                                $(that).removeClass("side_away");
-                            }, 300);
-                        }
-                    }
-                });
-
-                jqDraggableItem.on("touchstart", Helper.touchstart);
-                jqDraggableItem.on("touchmove", Helper.touchmove);
-                jqDraggableItem.on("touchend", Helper.touchend);
-            }
-        }
-    },
-
     channel_function: function(msg) {
         if(user_auth_started) {
             user_auth_started = false;
@@ -100,7 +29,6 @@ var List = {
                     Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
             }
-            //if(!w_p) List.dragging(true);
             break;
             case "added":
             List.added_song(msg.value);
@@ -109,7 +37,6 @@ var List = {
             }
             found_array = [];
             found_array_index = 0;
-            //if(!w_p) List.dragging(true);
             break;
             case "deleted":
             List.deleted_song(msg.value, msg.removed);
@@ -125,7 +52,6 @@ var List = {
             }
             found_array = [];
             found_array_index = 0;
-            //if(!w_p) List.dragging(true);
             break;
             case "song_change":
                 if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
@@ -134,7 +60,6 @@ var List = {
                 }
                 found_array = [];
                 found_array_index = 0;
-                //if(!w_p) List.dragging(true);
                 break;
             case "changed_values":
                 List.changedValues(msg.value);
@@ -146,7 +71,6 @@ var List = {
                 }
                 found_array = [];
                 found_array_index = 0;
-                //if(!w_p) List.dragging(true);
                 break;
         }
     },
