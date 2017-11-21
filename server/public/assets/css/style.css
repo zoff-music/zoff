@@ -1631,8 +1631,8 @@ nav ul li:hover, nav ul li.active {
 }
 
 .list-image:after {
-    -webkit-transition: all .3s;
-    transition: all .3s;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
     font-family: "Material Icons";
     content:"thumb_up";
     speak: none;
@@ -1694,16 +1694,6 @@ nav ul li:hover, nav ul li.active {
     color:white !important;
 }
 
-.list-song{
-    background-color: rgba(255, 255, 255, 0.04);
-    color:white;
-    font:12px Arial,sans-serif;
-    -webkit-transition:height .3s;
-    -moz-transition:height .3s;
-    -o-transition:height .3s;
-    transition:height .3s;
-    height:66px;
-}
 .list-song .card-content{padding:0;}
 .list-title{
     display:block;
@@ -1724,6 +1714,18 @@ nav ul li:hover, nav ul li.active {
     margin:2.5px 0 2.5px 0 !important;
     overflow:hidden;
     transition: box-shadow 0s;
+}
+.list-song{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.04);
+    color:white;
+    font:12px Arial,sans-serif;
+    -webkit-transition:height .3s;
+    -moz-transition:height .3s;
+    -o-transition:height .3s;
+    transition:height .3s;
+    height:66px;
+    margin: 2.5px 0 2.5px -1px !important;
 }
 .card:hover{
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
@@ -1783,10 +1785,6 @@ nav ul li:hover, nav ul li.active {
 .open-externally {
     float:none;
     color:white;
-}
-
-.list-song {
-    width: 100%;
 }
 
 .open-externally:hover {
@@ -2501,6 +2499,16 @@ nav ul li:hover, nav ul li.active {
         padding: 0px !important;
         margin: 0px !important;
     }
+
+    .vote-container:hover .list-image:after, .add-suggested:hover .list-suggested-image:after {
+        opacity: 1;
+        content: "thumb_up";
+    }
+
+    .list-image:after, .list-suggested-image:after {
+        content: none;
+    }
+
 
     .delete_button .material-icons, .del_suggested .material-icons, .del_user_suggested .material-icons{
         font-size: 2.5rem;
