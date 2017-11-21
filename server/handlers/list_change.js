@@ -258,7 +258,7 @@ function del(params, socket, socketid) {
                         db.collection(coll).remove({id:params.id}, function(err, docs){
                             socket.emit("toast", "deletesong");
                             io.to(coll).emit("channel", {type:"deleted", value: params.id});
-                            if(dont_increment) db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                            if(dont_increment) db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                         });
                     }
                 });
