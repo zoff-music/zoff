@@ -124,7 +124,7 @@ module.exports = function() {
                     }, function(err, updated) {
                         if(updated.nModified > 0) {
                             io.to(coll).emit("viewers", updated.users);
-                            db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, docs){
+                            db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){
                                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
                                     if(docs.nModified == 1) {
                                         db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
