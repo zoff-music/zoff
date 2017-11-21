@@ -184,7 +184,7 @@ function change_song(coll, error, id) {
                                     if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
                                     List.change_song_post(coll, next_song);
                                     io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
-                                    db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                                    db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                                 });
                             } else {
                                 if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
@@ -211,7 +211,7 @@ function change_song(coll, error, id) {
                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
                             List.change_song_post(coll, next_song);
                             io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
-                            db.collection("frontpage_lists").update({_id: coll}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                            db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                         });
                     } else {
                         if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
@@ -404,7 +404,7 @@ function end(obj, coll, guid, offline, socket) {
                             {
                                 db.collection(coll).remove({now_playing:true}, function(err, docs){
                                     List.change_song_post(coll);
-                                    db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
+                                    db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                 });
                             }else{
                                 if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
@@ -499,7 +499,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                 });
-                db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: -1}}, function(err, updated){});
+                db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, updated){});
 
                 if(!change) {
                     Functions.remove_name_from_db(guid, name);
