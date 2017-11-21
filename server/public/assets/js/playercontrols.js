@@ -3,9 +3,6 @@ var Playercontrols = {
     stopInterval: false,
 
     initYoutubeControls: function() {
-        if(Helper.mobilecheck() && !window.MSStream) {
-            $("#controls").appendTo("#playbar");
-        }
         Playercontrols.initControls();
     },
 
