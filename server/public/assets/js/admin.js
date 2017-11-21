@@ -158,7 +158,6 @@ var Admin = {
                 });
             }
         }
-        //List.dragging(true);
         if($(".tabs").length > 0 && !changing_to_frontpage) {
             $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
         }
@@ -235,8 +234,6 @@ var Admin = {
             $(".playlist-tabs-loggedIn").addClass("hide");
             $(".playlist-tabs").removeClass("hide");
         }
-
-        //List.dragging(false);
 
         if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions" && $(".tabs").length > 0 && !changing_to_frontpage)
         {
