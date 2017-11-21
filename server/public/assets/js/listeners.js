@@ -1698,6 +1698,7 @@ function window_width_volume_slider() {
     } else if(window.innerWidth > 600 && slider_type == "vertical") {
         slider_type = "horizontal";
         Playercontrols.initSlider();
+        $(".volume-container").removeClass("hide");
     }
 }
 
