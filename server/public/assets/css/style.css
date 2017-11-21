@@ -1447,6 +1447,10 @@ ul #chat-log{
 
 }
 
+nav .zbrand.channel-logo-container {
+    overflow: visible;
+}
+
 .channelpage{
     background-color:#2D2D2D;
     -webkit-transition: background-color .5s ease;
