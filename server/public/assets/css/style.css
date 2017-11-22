@@ -1822,19 +1822,19 @@ nav ul li:hover, nav ul li.active {
 
 .list-remove{
     width: 70px;
-    margin-top: -19px;
+    /*margin-top: -19px;*/
     font-size: 12px;
-    height: 0px;
     display: inline-table;
     float: right;
     padding-left: 10px;
+    height: 100%;
 }
 
 .playlist-element .list-remove {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    margin-top: -32px;
+    /*margin-top: -32px;*/
     margin-left: 0px;
     width: 10%;
 }
