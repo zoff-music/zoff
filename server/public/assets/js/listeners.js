@@ -1675,7 +1675,7 @@ $(window).resize(function(){
             List.dynamicContentPage(-10);
         }
         if(List.can_fit < temp_fit){
-            $($("#wrapper").children()[List.page + temp_fit - 1]).css("display", "inline-block");
+            $($("#wrapper").children()[List.page + temp_fit - 1]).css("display", "inline-flex");
         } else if(List.can_fit > temp_fit){
             $($("#wrapper").children()[List.page + temp_fit]).css("display", "none");
         }

@@ -104,7 +104,7 @@ var List = {
         var i = List.getIndexOfSong(song_info.id);
         var display = "none";
         if(!song_info.now_playing){
-            if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-block"
+            if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-flex"
             var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
                 $("#wrapper").prepend(add);
@@ -113,12 +113,12 @@ var List = {
             }
             var added = $("#wrapper").children()[i];
             $(added).css("display", display);
-            if(display == "inline-block" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
+            if(display == "inline-flex" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
                 $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
             } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-                $($("#wrapper").children()[List.page]).css("display", "inline-block");
+                $($("#wrapper").children()[List.page]).css("display", "inline-flex");
             } else if($("#wrapper").children().length > List.page + List.can_fit){
-                $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "inline-block");
+                $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "inline-flex");
             }
             if(change && List.page > 0){
                 $($("#wrapper").children()[List.page - 1]).css("display", "none");
@@ -252,7 +252,7 @@ var List = {
         if(page > List.page || page < List.page){
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = page;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
                 $(".prev_page").css("display", "inline-flex");
                 $(".prev_page_hide").css("display", "none");
@@ -275,7 +275,7 @@ var List = {
         if(way == 1){
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = List.page + List.can_fit;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
                 $(".prev_page").css("display", "inline-flex");
                 $(".prev_page_hide").css("display", "none");
@@ -293,7 +293,7 @@ var List = {
         } else if(way == 10) {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = (Math.floor(($("#wrapper").children().length - 1)/ List.can_fit) * List.can_fit);
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
 
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
                 $(".prev_page").css("display", "inline-flex");
@@ -310,7 +310,7 @@ var List = {
         } else if(way==-10) {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = 0;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-block");
+            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
                 $(".prev_page").css("display", "none");
                 $(".prev_page_hide").css("display", "inline-flex");
@@ -330,7 +330,7 @@ var List = {
                 $(".last_page").css("display", "inline-flex");
             }
         } else {
-            $("#wrapper").children().slice(List.page - List.can_fit, List.page).css("display", "inline-block");
+            $("#wrapper").children().slice(List.page - List.can_fit, List.page).css("display", "inline-flex");
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
@@ -409,11 +409,11 @@ var List = {
 
             if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
                 $($("#wrapper").children()[List.page]).css("height", 0);
-                $($("#wrapper").children()[List.page]).css("display", "inline-block");
+                $($("#wrapper").children()[List.page]).css("display", "inline-flex");
                 $($("#wrapper").children()[List.page]).css("height", List.element_height);
             } else if($("#wrapper").children().length > List.page + (List.can_fit)){
                 $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", 0);
-                $($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "inline-block");
+                $($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "inline-flex");
                 $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", List.element_height);
             }
 
@@ -451,9 +451,9 @@ var List = {
             if(!List.empty){
                 $("#"+deleted).remove();
                 if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-                    $($("#wrapper").children()[List.page - 1]).css("display", "inline-block");
+                    $($("#wrapper").children()[List.page - 1]).css("display", "inline-flex");
                 } else if($("#wrapper").children().length > List.page + List.can_fit){
-                    $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "inline-block");
+                    $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "inline-flex");
                 }
                 Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             }
@@ -882,6 +882,7 @@ var List = {
             song.find(attr).attr("data-added-by", added_by);
             song.find("#list-song").attr("data-video-type", "suggested");
             song.find("#list-song").attr("data-video-id", video_id);
+            song.find("#list-song").css("display", "inline-flex");
             song.find("#list-song").attr("id", "suggested-" + video_id);
             song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
 
