@@ -121,9 +121,10 @@ module.exports = function() {
                         query: {"_id": coll},
                         update: {$pull: {users: guid}},
                         upsert: true,
-                    }, function(err, updated) {
-                        if(updated.nModified > 0) {
-                            io.to(coll).emit("viewers", updated.users);
+                    }, function(err, updated, d) {
+                        if(d.n == 1) {
+                            io.to(coll).emit("viewers", updated.users.length);
+                            db.collection("frontpage_lists").update({"_id": coll, "viewers": {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) { });
                             db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){
                                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
                                     if(docs.nModified == 1) {
@@ -140,6 +141,9 @@ module.exports = function() {
             } else {
                 offline = false;
                 db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
+                    if(docs.n && docs.n == 1) {
+                        db.collection("connected_users").update({"_id": "total_users", "total_users": {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){});
+                    }
                     Functions.check_inlist(coll, guid, socket, offline);
                 });
             }
