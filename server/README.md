@@ -46,6 +46,9 @@
 
 // Sends message to the host channel to change channel
 'id', {id: CHANNEL_ID, type: "channel", value: NEW_CHANNEL_NAME}
+
+// Sends a video that triggered an error
+'error_video', {channel: CHANNE_NAME, id: VIDEO_ID, title: VIDEO_TITLE}
 ```
 
 ### From server
@@ -71,7 +74,7 @@
 // Receives the messages sent on CHANNEL_ID above
 id, {type: STRING, value: VALUE}
 
-// Receives updates from channel. type is one of the following: list, added, deleted, vote, song_change
+// Receives updates from channel. type is one of the following: list, added, deleted, vote, song_change, changed_values (see further down for better explanation here)
 'channel', {type: TYPE, value: value, time: time_of_occurence}
 
 // Receives message from the server that its ready to send the playlist and info
@@ -82,4 +85,7 @@ id, {type: STRING, value: VALUE}
 
 // Receives number of viewers on the current channel
 'viewers', VALUE    
+
+// Receives a newly updated video, that was checked for errors (song_generated contains .id which is the current id of the video, and a .new_id for the new video to change the video to)
+'channel', {type: "changed_values", value: song_generated}
 ```
