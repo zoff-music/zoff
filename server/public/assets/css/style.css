@@ -2438,7 +2438,7 @@ nav ul li:hover, nav ul li.active {
 
     #suggestions {
         height: auto !important;
-        padding-bottom: 0px;
+        /*padding-bottom: 0px;*/
     }
 
     .margin-playbar {
@@ -2448,6 +2448,7 @@ nav ul li:hover, nav ul li.active {
 
     #chat-container {
         height: calc(100vh - 48px - 64px - 120px) !important;
+        margin-bottom: 18px;
     }
 
     .mobile-delete {
@@ -2464,7 +2465,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #main-container {
-        padding-bottom: 20px;
+        /*padding-bottom: 20px;*/
     }
 
     #fireplace_player {
@@ -2824,6 +2825,12 @@ nav ul li:hover, nav ul li.active {
     .navbar-fixed, #nav{
         position: relative;
     }
+
+    .navbar-fixed {
+        height: 100px;
+        margin-bottom: 25px;
+    }
+
     .control-list{
         position: absolute !important;
         width: 120px;
@@ -2843,7 +2850,7 @@ nav ul li:hover, nav ul li.active {
 
     .main, #main-row, .video-container, #playlist{
         height:auto !important;
-        margin-bottom: -5px;
+        margin-bottom: 0px;
         margin-top:-6px;
     }
 
