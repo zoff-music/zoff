@@ -176,14 +176,11 @@ var List = {
                 }
             });
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pageNumber">1</span> <a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span><a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span></div>').insertAfter("#wrapper");
                 $(".prev_page").css("display", "none");
                 $(".first_page").css("display", "none");
                 $(".next_page_hide").css("display","none");
                 $(".last_page_hide").css("display","none");
-
             } else if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pageNumber">1</span> <a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span><a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span></div>').insertAfter("#wrapper");
                 $(".prev_page").css("display", "none");
                 $(".next_page").css("display", "none");
                 $(".last_page").css("display", "none");
@@ -198,9 +195,6 @@ var List = {
         } else {
             List.empty = true;
             $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
-            if(!$("#pageButtons").length){
-                $('<div id="pageButtons"><span class="first_page_hide btn-flat"><i class="material-icons">first_page</i></span><a class="first_page waves-effect waves-light btn-flat"><i class="material-icons">first_page</i></a><span class="prev_page_hide btn-flat"><i class="material-icons">navigate_before</i> prev</span><a class="prev_page waves-effect waves-light btn-flat"><i class="material-icons">navigate_before</i> prev</a> <span id="pageNumber">1</span> <a class="next_page waves-effect waves-light btn-flat">next <i class="material-icons">navigate_next</i></a><span class="next_page_hide btn-flat">next <i class="material-icons">navigate_next</i></span><a class="last_page waves-effect waves-light btn-flat"><i class="material-icons">last_page</i></a><span class="last_page_hide btn-flat"><i class="material-icons">last_page</i></span></div>').insertAfter("#wrapper");
-            }
             $(".prev_page").css("display", "none");
             $(".next_page").css("display", "none");
             $(".last_page").css("display", "none");
@@ -212,6 +206,7 @@ var List = {
         $("#settings").css("visibility", "visible");
         $("#settings").css("opacity", "1");
         $("#wrapper").css("opacity", "1");
+        $("#pageButtons").removeClass("hide");
 
         if(!embed) {
             Helper.log("Starting empty-checker");
