@@ -147,6 +147,8 @@ $().ready(function(){
         });
     }
 
+    $("#donate").modal();
+
     socket.on("connect", function(){
         if(connect_error){
             connect_error = false;
@@ -1024,6 +1026,17 @@ function seekToClick(e){
     }
 }
 
+$(document).on("click", "#bitcoin-address", function(e) {
+    var copyTextarea = document.querySelector('#bitcoin-address');
+    copyTextarea.select();
+    var successful = document.execCommand('copy');
+    if(successful) {
+        Materialize.toast("Copied!", 2000, "green lighten");
+    } else {
+        Materialize.toast("Error copying..", 2000, "red lighten");
+    }
+});
+
 $(document).on("click", ".pagination-results a", function(e) {
     e.preventDefault();
     var that = $(this);
@@ -1308,6 +1321,11 @@ $(document).on("click", ".last_page", function(e){
 $(document).on("click", ".first_page", function(e){
     e.preventDefault();
     List.dynamicContentPage(-10);
+});
+
+$(document).on("click", ".donate-button", function(e) {
+    e.preventDefault();
+    $("#donate").modal("open");
 });
 
 $(document).on('click', '#toast-container', function(){

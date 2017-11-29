@@ -1,0 +1,60 @@
+<div id="user_password" class="modal">
+    <div class="modal-content">
+        <h5>Locked Channel</h5>
+        <form id="user-password-channel-form">
+            <div class="input-field">
+                <input id="user-pass-input" name="user-pass" type="password" autocomplete="off" />
+                <label for="user-pass-input" class="noselect">Password</label>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat close-user-password">Close</a>
+        <a href="#!" class="waves-effect waves-green btn-flat submit-user-password">Submit</a>
+    </div>
+</div>
+<div id="delete_song_alert" class="modal">
+    <div class="modal-content">
+        <h5>Delete songs</h5>
+        <p>Are you sure you want to delete all the songs in the channel?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="waves-effect waves-red btn-flat accept-delete right red-text">Delete</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat cancel-song-delete">Cancel</a>
+    </div>
+</div>
+<div id="help" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Help</h4>
+        <p>When listening on a channel, there are some different buttons you can click.</p>
+        <p>If you click the <i class="material-icons">menu</i>, you'll open the settings panel. Here you can change channel settings, decide if you want the computer you're on can be remote-controlled, enable or disable local mode, and import playlists from YouTube.</p>
+        <p>The <i class="material-icons">search</i>, opens up a search inputfield. If you start typing here, the site will automagically search for your input!</p>
+        <p>The one next to that one <i class="material-icons">shuffle</i>, is shuffling of the list.</p>
+        <p>Clicking a song in the playlist, gives it a vote. If you're logged in, you'll have a delete button at your disposal.</p>
+        <p>Also, whenever you're logged in, you'll have three tabs in the top of the playlist thats called "Playlist", "Suggested" and "Chat". The playlist obviously shows the playlist. But the suggested tab, shows 5 songs that YouTube recommends based on the current song. There might also be user recommended songs. To add any of these, just click them as you'd click a song to vote.</p>
+        <p>If you want to listen to the channel without any "hickups", or being affected by other peoples votes, there is a local mode. By opening up the settings <i class="material-icons">menu</i>, and checking the local mode checkbox, you will be free of synced listening! This will also enable seeking in the current playing video, perfect for those songs you only like a part of!</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+<div id="embed" class="modal">
+    <div class="modal-content">
+        <h4>Embed</h4>
+        <p>Copy the code in the textarea, and paste on your website.</p>
+        <p>
+            <input type="checkbox" id="autoplay" checked="checked" />
+            <label for="autoplay" class="padding_right_26">Autoplay</label>
+            <label for="width_embed" class="embed-label">Width</label>
+            <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
+            <label for="height_embed" class="padding_left_6 embed-label">Height</label>
+            <input type="number" value="300" id="height_embed" class="settings_embed" min="1" />
+            <label for="color_embed" class="padding_left_6 embed-label">Color</label>
+            <input type="text" id="color_embed" class="settings_embed" value="#808080" />
+        </p>
+        <textarea id="embed-area"></textarea>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
