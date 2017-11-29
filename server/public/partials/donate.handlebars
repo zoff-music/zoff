@@ -1,0 +1,28 @@
+<div id="donate" class="modal">
+    <div class="modal-content">
+        <h4>Donate</h4>
+        <p>Want to donate and support our server-bills?</p>
+        <p>We take all donations happily, via both PayPal and bitcoin core (BTC).</p>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col s6 center">
+                <img src="https://en.bitcoin.it/w/images/en/c/cb/BC_Logotype.png" alt="bitcoin-image" class="col s6 center"/>
+                <input type="text" id="bitcoin-address" readonly value="18DxBV9ij9t1eSLC3rTrugJbzGtMVPEyNB" />
+            </div>
+            <div class="col s6 center">
+                <img src="https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.png" alt="paypal-image" class="center-align" />
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" id="donate_form">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="JEXDYP59N5VWE">
+                    <a title="Like what we made? Help us by donating (a) beer!" class="waves-effect waves-light btn orange light-blue share" onclick="document.getElementById('donate_form').submit();">
+                        PayPal
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
