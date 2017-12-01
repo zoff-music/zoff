@@ -595,8 +595,6 @@ var List = {
                                     contentType: "image/jpeg",
                                     data: image,
                                     success: function(resp) {
-                                        console.log(resp);
-                                        console.log("Added image");
                                     },
                                     error: function(error) {
                                         console.log(error);
