@@ -575,11 +575,35 @@ var List = {
                     },
                     data: JSON.stringify({
                         name: chan.toLowerCase() + " - Zoff",
+                        description: "Playlist exported from Zoff (https://zoff.me/" + chan.toLowerCase() + "/)",
                         public: true
                     }),
                     success: function(response){
                         var playlist_id = response.id;
-                        //$.each(full_playlist, function(i, curr_song){
+                        $.ajax({
+                            type: "GET",
+                            url: window.location.protocol + "//" + window.location.hostname + "/assets/images/small-square.base64.txt",
+                            success: function(base64image) {
+                                var image = base64image.substring(0, base64image.length - 1);
+                                $.ajax({
+                                    type: "PUT",
+                                    url: "https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/images",
+                                    headers: {
+                                        'Authorization': 'Bearer ' + access_token_data.access_token,
+                                        'Content-Type': 'image/jpeg'
+                                    },
+                                    contentType: "image/jpeg",
+                                    data: image,
+                                    success: function(resp) {
+                                        console.log(resp);
+                                        console.log("Added image");
+                                    },
+                                    error: function(error) {
+                                        console.log(error);
+                                    }
+                                });
+                            }
+                        });
                         var i = 0;
                             List.searchSpotify(full_playlist[i], playlist_id, user_id, full_playlist, i);
                         //});
