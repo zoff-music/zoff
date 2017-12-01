@@ -582,7 +582,7 @@ var List = {
                         var playlist_id = response.id;
                         $.ajax({
                             type: "GET",
-                            url: window.location.protocol + "//" + window.location.hostname + "/assets/images/small-square.base64.txt",
+                            url: "https://zoff.me/assets/images/small-square.base64.txt",
                             success: function(base64image) {
                                 var image = base64image.substring(0, base64image.length - 1);
                                 $.ajax({
