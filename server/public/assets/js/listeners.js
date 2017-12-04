@@ -14,6 +14,8 @@ var end_programmatically = false;
 var music 			   	  		= 0;
 var timed_remove_check;
 var slider_type = "horizontal";
+var programscroll = false;
+var userscroll = false;
 var gotten_np   = false;
 var frontpage 		   	  		= 1;
 var empty_clear = false;
@@ -443,7 +445,7 @@ function init(){
             }
         }
     }
-
+    channel_listeners(true);
     $.contextMenu({
         selector: '.playlist-element',
         reposition: true,
@@ -780,8 +782,10 @@ function setup_chat_listener(){
         for(var i = 0; i < data.length; i++) {
             if(msg.all) {
                 Chat.allchat(data[i], data[i].createdAt, true);
+                document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
             } else {
                 Chat.channelchat(data[i], data[i].createdAt, true);
+                document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
             }
         }
     });
@@ -1542,7 +1546,46 @@ $(document).on("click", ".chat-link", function(){
     }
     unseen = false;
     $("#favicon").attr("href", "/assets/images/favicon.png");
+
+    scrollChat();
 });
+
+$(document).on("click", ".chat-tab-li", function() {
+    scrollChat();
+});
+
+function channel_listeners(on) {
+    if(on) {
+        $("#chatchannel").scroll(function(e) {
+            if(!programscroll) {
+                userscroll = true;
+                if($("#chatchannel").scrollTop() + $("#chatchannel").innerHeight() >= $("#chatchannel")[0].scrollHeight) {
+                    userscroll = false;
+                }
+            }
+        });
+        $("#chatall").scroll(function(e) {
+            if(!programscroll) {
+                userscroll = true;
+                if($("#chatall").scrollTop() + $("#chatall").innerHeight() >= $("#chatall")[0].scrollHeight) {
+                    userscroll = false;
+                }
+            }
+        })
+    } else {
+        $("#chatchannel").off("scroll");
+        $("#chatall").off("scroll");
+    }
+}
+
+function scrollChat() {
+    var current = $(".chat-tab.active").attr("href");
+    if(current == "#channelchat") {
+        $('#chatchannel').scrollTop($('#chatchannel')[0].scrollHeight);
+    } else if(current == "#all_chat") {
+        $('#chatall').scrollTop($('#chatall')[0].scrollHeight);
+    }
+}
 
 function searchTimeout(event) {
     search_input = $(".search_input").val();
@@ -2063,7 +2106,7 @@ function onepage_load(){
                 document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
                 document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
                 document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
-
+                channel_listeners(false);
                 if(Helper.mobilecheck() || user_auth_avoid) {
                     video_id   = "";
                     song_title = "";

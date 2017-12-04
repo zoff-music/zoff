@@ -130,7 +130,11 @@ var Chat = {
         $("#chatall").append("<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
         var in_text = document.createTextNode(inp.msg);
         $("#chatall li:last")[0].appendChild(in_text);
-        document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
+        if(!userscroll) {
+            programscroll = true;
+            document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
+            programscroll = false;
+        }
     },
 
     channelchat: function(data, time_sent, disable_blink) {
@@ -172,7 +176,11 @@ var Chat = {
         $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
         var in_text = document.createTextNode(data.msg);
         $("#chatchannel li:last")[0].appendChild(in_text);
-        document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
+        if(!userscroll) {
+            programscroll = true;
+            document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
+            programscroll = false;
+        }
     },
 
     chat_blink: function() {
