@@ -373,7 +373,7 @@ function share_link_modifier_frontpage() {
     $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
     $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
     //$("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
-    $("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
+    //$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
 }
 
 function initfp() {
