@@ -1041,6 +1041,17 @@ $(document).on("click", "#bitcoin-address", function(e) {
     }
 });
 
+$(document).on("click", "#ethereum-address", function(e) {
+    var copyTextarea = document.querySelector('#ethereum-address');
+    copyTextarea.select();
+    var successful = document.execCommand('copy');
+    if(successful) {
+        Materialize.toast("Copied!", 2000, "green lighten");
+    } else {
+        Materialize.toast("Error copying..", 2000, "red lighten");
+    }
+});
+
 $(document).on("click", ".pagination-results a", function(e) {
     e.preventDefault();
     var that = $(this);
