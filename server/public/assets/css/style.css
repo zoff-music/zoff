@@ -160,12 +160,20 @@ li.disabled span {
 }
 
 .prev_page_hide, .prev_page, .first_page, .first_page_hide{
-    padding:0 10px;
+    padding:0 1px;
 }
 
 .next_page_hide, .next_page, .last_page, .last_page_hide{
-    padding:0 10px;
+    padding:0 0px;
     display: flex;
+}
+
+.first_page, .first_page_hide {
+    padding: 0 0 0 10px;
+}
+
+.last_page, .last_page_hide {
+    padding: 0 10px 0 0;
 }
 
 .settings_embed:focus{
@@ -2334,10 +2342,10 @@ nav ul li:hover, nav ul li.active {
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
-    -webkit-transition: .5s ease-in-out;
-    -moz-transition: .5s ease-in-out;
-    -o-transition: .5s ease-in-out;
-    transition: .5s ease-in-out;
+    -webkit-transition: position .5s ease-in-out;
+    -moz-transition: position .5s ease-in-out;
+    -o-transition: position .5s ease-in-out;
+    transition: position .5s ease-in-out;
     cursor: pointer;
 }
 
