@@ -1,4 +1,4 @@
-VERSION = 3;
+VERSION = require('./VERSION.js');
 
 var server;
 var add = "";
