@@ -4,7 +4,7 @@ var gulp    = require('gulp'),
 	concat  = require('gulp-concat');
 
 gulp.task('js', function () {
-    gulp.src(['server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
+    gulp.src(['server/VERSION.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
         .pipe(uglify({
         	mangle: true,
             compress: true,
@@ -15,7 +15,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('embed', function () {
-    gulp.src(['server/public/assets/js/player.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
+    gulp.src(['server/VERSION.js', 'server/public/assets/js/player.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,
@@ -26,7 +26,7 @@ gulp.task('embed', function () {
 });
 
 gulp.task('callback', function () {
-    gulp.src(['server/public/assets/js/callback.js'])
+    gulp.src(['server/VERSION.js', 'server/public/assets/js/callback.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,
@@ -41,7 +41,7 @@ gulp.task('build', function() {
 })
 
 gulp.task('remotecontroller', function () {
-    gulp.src(['server/public/assets/js/remotecontroller.js'])
+    gulp.src(['server/VERSION.js', 'server/public/assets/js/remotecontroller.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,
@@ -52,9 +52,9 @@ gulp.task('remotecontroller', function () {
 });
 
 gulp.task('default', function(){
-    gulp.watch('server/public/assets/js/*.js', ['js']);
-    gulp.watch('server/public/assets/js/*.js', ['embed']);
-    gulp.watch(['server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);
+    gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['js']);
+    gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['embed']);
+    gulp.watch(['server/VERSION.js', 'server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);
     //gulp.watch('server/public/assets/js/*.js', ['nochan']);
-    gulp.watch('server/public/assets/js/remotecontroller.js', ['remotecontroller']);
+    gulp.watch(['server/VERSION.js', 'server/public/assets/js/remotecontroller.js'], ['remotecontroller']);
 });
