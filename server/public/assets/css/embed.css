@@ -49,6 +49,8 @@
 #pageButtons{
   text-align: center;
   padding-top:15px;
+  display: flex;
+  justify-content: space-around;
 }
 
 #pageButtons, #pageButtons a{
@@ -365,17 +367,25 @@ html {
 }
 
 .prev_page_hide, .prev_page, .first_page, .first_page_hide{
-  padding:0 10px;
-  float:left;
+    padding:0 1px;
 }
 
 .next_page_hide, .next_page, .last_page, .last_page_hide{
-  padding:0 10px;
-  float:right;
+    padding:0 0px;
+    display: flex;
+}
+
+.first_page, .first_page_hide {
+    padding: 0 0 0 10px;
+}
+
+.last_page, .last_page_hide {
+    padding: 0 10px 0 0;
 }
 
 .vote-container {
   height: 100%;
+  width: 100%;
 }
 
 .card-duration {
