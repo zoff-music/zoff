@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var year = new Date().getYear()+1900;
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -28,7 +29,7 @@ function root(req, res, next) {
         }
         if(subdomain[0] == "remote") {
             var data = {
-                year: 2017,
+                year: year,
                 javascript_file: "remote.min.js"
             }
             res.render('layouts/remote', data);
@@ -36,7 +37,7 @@ function root(req, res, next) {
             res.redirect("https://zoff.me");
         } else {
             var data = {
-                year: 2017,
+                year: year,
                 javascript_file: "main.min.js",
             }
             res.render('layouts/frontpage', data);
@@ -57,7 +58,7 @@ function channel(req, res, next) {
         }
         if(subdomain[0] == "remote") {
             var data = {
-                year: 2017,
+                year: year,
                 javascript_file: "remote.min.js"
             }
             res.render('layouts/remote', data);
@@ -72,7 +73,7 @@ function channel(req, res, next) {
                 var data = {
                     title: "404: File Not Found",
                     list_name: capitalizeFirstLetter(req.params.channel_name),
-                    year: 2017,
+                    year: year,
                     javascript_file: "main.min.js"
                 }
                 if(req.params.channel_name == "404") {
