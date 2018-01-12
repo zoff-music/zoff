@@ -59,7 +59,8 @@ function list(msg, guid, coll, offline, socket) {
                     db.collection(coll).insert(configs, function(err, docs){
                         socket.join(coll);
                         List.send_list(coll, socket, true, false, true);
-                        db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time()});
+                        db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
+                        Functions.check_inlist(coll, guid, socket, offline);
                     });
                 });
             }

@@ -188,6 +188,9 @@ var List = {
                 $(".first_page").css("display", "none");
                 $(".next_page_hide").css("display","inline-flex");
                 $(".prev_page_hide").css("display","inline-flex");
+            } else {
+                $(".next_page").css("display", "none");
+                $(".last_page").css("display", "none");
             }
 
             List.dynamicContentPage(-10);
