@@ -28,7 +28,7 @@ function check_inlist(coll, guid, socket, offline)
 {
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
-            if(updated.nModified > 0) {
+            if(updated.nModified > 0 || updated.upserted != undefined) {
                 db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
                     db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": new_doc[0].users.length}}, function(){
                         if(new_doc[0].users == undefined || new_doc[0].users.length == undefined) {
@@ -41,7 +41,6 @@ function check_inlist(coll, guid, socket, offline)
                                 socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
                             }
                         });
-
                         db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
                     });
                 });
