@@ -2870,6 +2870,7 @@ nav ul li:hover, nav ul li.active {
 
     #player{
         pointer-events:none;
+        margin-top: 7px;
     }
 
     .row .col.s12 {
