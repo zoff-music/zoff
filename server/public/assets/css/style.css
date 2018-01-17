@@ -2427,6 +2427,12 @@ nav ul li:hover, nav ul li.active {
     }
 }
 
+@media (min-width:600px), (min-width:961px), (min-width:1025px), (min-width:1281px) {
+    #controls {
+        background: none !important;
+    }
+}
+
 @media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
     .autocomplete-content.dropdown-content{
         width:95vw !important;
