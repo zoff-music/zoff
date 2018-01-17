@@ -533,6 +533,11 @@ var Player = {
                 if(window.location.pathname != "/") {
                     document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
                     $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+                    var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
+                    new_color = Helper.hexToComplimentary(new_color);
+                    new_color = Helper.hexToRgb(new_color);
+                    new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
+                    $("#controls").css("background", new_color);
                 }
             };
 
