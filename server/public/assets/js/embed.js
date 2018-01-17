@@ -146,6 +146,7 @@ function setVolume(val) {
 }
 
 $(document).on( "click", "#zoffbutton", function(e) {
+    Player.pauseVideo();
     window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });
 
