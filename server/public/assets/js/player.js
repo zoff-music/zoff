@@ -428,8 +428,13 @@ var Player = {
     },
 
     getTitle: function(titt, v) {
-        var outPutWord    = "<i class='material-icons'>visibility</i>"//v > 1 ? "viewers" : "viewer";
-        var title         = decodeURIComponent(titt);
+        var outPutWord = "<i class='material-icons'>visibility</i>"//v > 1 ? "viewers" : "viewer";
+        var title;
+        try {
+            title = decodeURIComponent(titt);
+        } catch(e) {
+            title = titt;
+        }
         if(window.location.pathname != "/"){
             var elem          = document.getElementById('song-title');
             var getTitleViews = document.getElementById('viewers');
