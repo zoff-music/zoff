@@ -2442,6 +2442,10 @@ nav ul li:hover, nav ul li.active {
         overflow: visible;
     }
 
+    .footer-buttons, .footer-buttons li a {
+        width: 100%;
+    }
+
     #main-row {
         margin-right: -3px !important;
     }
