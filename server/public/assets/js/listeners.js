@@ -1501,6 +1501,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
             url = url[1].split("/");
             var user = url[0];
             var playlist_id = url[2];
+            playlist_id = playlist_id.split("?")[0];
 
             document.getElementById("import_spotify").disabled = true;
             $("#import_spotify").addClass("hide");
