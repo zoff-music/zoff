@@ -162,8 +162,8 @@ function removename(guid, coll) {
     });
 }
 
-function generate_name(guid, announce_payload) {
-    var tmp_name = Functions.rndName(guid, 8);
+function generate_name(guid, announce_payload, second) {
+    var tmp_name = Functions.rndName(second ? second : guid, 8);
     db.collection("registered_users").find({"_id": tmp_name}, function(err, docs) {
         if(docs.length == 0) {
             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
@@ -180,11 +180,11 @@ function generate_name(guid, announce_payload) {
                         }
                     });
                 } else {
-                    Chat.generate_name(tmp_name, announce_payload);
+                    Chat.generate_name(guid, announce_payload, tmp_name);
                 }
             })
         } else {
-            Chat.generate_name(tmp_name, announce_payload);
+            Chat.generate_name(guid, announce_payload, tmp_name);
         }
     })
 }
