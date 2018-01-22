@@ -61,5 +61,5 @@ Zoff is licensed under a
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/no/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Norway License.</a>.
 Do not redistribute without permission from the developers.
 
-Copyright © 2017
+Copyright © 2018
 Kasper Rynning-Tønnesen and Nicolas Almagro Tonne
