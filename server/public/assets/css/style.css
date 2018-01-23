@@ -759,6 +759,10 @@ nav .zbrand{
     padding: 0;
     margin: 0;
     width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-action .delete_button {
