@@ -200,6 +200,8 @@ function init(){
     mobile_beginning = Helper.mobilecheck();
     var side = Helper.mobilecheck() ? "left" : "right";
 
+    ga('send', 'pageview');
+
     window.onpopstate = function(e){
         onepage_load();
     };
