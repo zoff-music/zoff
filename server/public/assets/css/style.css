@@ -2655,6 +2655,10 @@ nav ul li:hover, nav ul li.active {
         bottom: 0px;
         position: fixed;
         pointer-events: all;
+        -webkit-transition: background-color .5s ease;
+        -moz-transition: background-color .5s ease;
+        -o-transition: background-color .5s ease;
+        transition: background-color .5s ease;
     }
 
     #chat-container {
