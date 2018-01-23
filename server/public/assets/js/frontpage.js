@@ -386,6 +386,7 @@ function initfp() {
         //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
     }
 
+    ga('send', 'pageview');
 
     window.onpopstate = function(e){
         var url_split = window.location.href.split("/");
