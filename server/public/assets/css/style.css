@@ -1827,6 +1827,7 @@ nav ul li:hover, nav ul li.active {
 
 .search-title{
     height: 40px;
+    width: 70vw;
     /*padding-top: 33px;
     margin-bottom: -16px;
     line-height: initial;*/
@@ -2335,6 +2336,10 @@ nav ul li:hover, nav ul li.active {
     /*color:rgb(155, 155, 155) !important;*/
     -webkit-transition:opacity 0.5s;
     color: lightgrey !important;
+}
+
+.result-get-more-info {
+    display: none;
 }
 
 .hamburger-sidenav {
@@ -2972,18 +2977,49 @@ nav ul li:hover, nav ul li.active {
         width: 99%;
     }
 
+    .result-get-more-info {
+        position: absolute;
+        right: 0px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 45px;
+    }
+
+    .result-info-no-buttons {
+        width: calc(100% - 200px);
+    }
+
+    .result-object {
+        -webkit-transform: translateX(0%);
+        transform: translateX(0%);
+        -webkit-transition: transform .5s;
+        -moz-transition: transform .5s;
+        transition: transform .5s;
+    }
+
+    .result-object-slid {
+        -webkit-transform: translateX(calc(-100% + 45px)) !important;
+        transform: translateX(calc(-100% + 45px)) !important;
+    }
+
     .result-start-end-container {
-        visibility: hidden;
-        pointer-events: none;
+        /*visibility: hidden;
+        pointer-events: none;*/
+        margin-left: 120%;
+        position: relative;
+        top: -10px;
     }
 
     .result-info-buttons {
         margin-top: 20px;
+        width: 200px;
     }
 
     .result .search-title{
         white-space: nowrap;
-        width: calc(100vw - 123px);
+        width: calc(100vw - 165px);
         margin-top: -5px;
         z-index: 9999;
     }

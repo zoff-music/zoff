@@ -1785,7 +1785,7 @@ $(document).on( "click", ".result-object", function(e){
     var $html  = $(e.target);
 
     var substr = $html.prop('outerHTML').substring(0,4);
-    if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1 && $html.attr("class") != "result-start" && $html.attr("class") != "result-end"){
+    if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1 && $html.attr("class") != "result-start" && $html.attr("class") != "result-end" && $html.attr("class") != "result-get-more-info"){
         var id 		= $(this).attr("data-video-id");
         var title 	= $(this).attr("data-video-title");
         var original_length 	= $(this).attr("data-video-length");
@@ -1808,6 +1808,21 @@ $(document).on( "click", ".result-object", function(e){
         }
     }
 });
+
+$(document).on("click", ".result-get-more-info", function(e) {
+    e.preventDefault();
+    var that = $(this);
+    var parent = that.parent().parent().parent().parent();
+
+    var to_toggle = $("#inner-results").find("[data-video-id='" + parent.attr("data-video-id") + "']")[0];
+
+    $(to_toggle).toggleClass("result-object-slid");
+    if($(that.children()[0]).text() == "keyboard_arrow_right") {
+        $(that.children()[0]).text("keyboard_arrow_left")
+    } else {
+        $(that.children()[0]).text("keyboard_arrow_right")
+    }
+})
 
 $(document).on('click', '#submit-contact-form', function(e) {
     e.preventDefault();
