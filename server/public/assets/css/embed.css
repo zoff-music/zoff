@@ -398,10 +398,11 @@ color: white;
 padding: 0 5px;
 }
 
+/*
 .last_page, .last_page_hide, .first_page, .first_page_hide{
   display: none !important;
 }
-
+*/
 #wrapper{
   /*height: 94%;*/
 }
