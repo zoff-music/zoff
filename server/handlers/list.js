@@ -500,7 +500,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                 });
-                db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, updated){});
+                db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
 
                 if(!change) {
                     Functions.remove_name_from_db(guid, name);
