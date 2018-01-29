@@ -2,8 +2,30 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var year = new Date().getYear()+1900;
+var path = require('path');
 
-router.use(function(req, res, next) {
+try {
+    var Recaptcha = require('express-recaptcha');
+    var recaptcha_config = require(path.join(path.join(__dirname, '../config/'), 'recaptcha.js'));
+    var RECAPTCHA_SITE_KEY = recaptcha_config.site;
+    var RECAPTCHA_SECRET_KEY = recaptcha_config.key;
+    var recaptcha = new Recaptcha(RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY);
+} catch(e) {
+    console.log("Error - missing file");
+    console.log("Seems you forgot to create the file recaptcha.js in /server/config/. Have a look at recaptcha.example.js.");
+    var recaptcha = {
+        middleware: {
+            render: (req, res, next) => {
+                res.recaptcha = ""
+                next()
+            }
+        }
+    }
+}
+
+
+
+router.use(recaptcha.middleware.render, function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -19,6 +41,7 @@ router.route('/').post(function(req, res, next){
     root(req, res, next);
 });
 
+
 function root(req, res, next) {
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
@@ -30,7 +53,8 @@ function root(req, res, next) {
         if(subdomain[0] == "remote") {
             var data = {
                 year: year,
-                javascript_file: "remote.min.js"
+                javascript_file: "remote.min.js",
+                captcha: res.recaptcha
             }
             res.render('layouts/remote', data);
         } else if(subdomain[0] == "www") {
@@ -39,7 +63,9 @@ function root(req, res, next) {
             var data = {
                 year: year,
                 javascript_file: "main.min.js",
+                captcha: res.recaptcha
             }
+            console.log(data.recaptcha);
             res.render('layouts/frontpage', data);
         }
     } catch(e) {
@@ -59,7 +85,8 @@ function channel(req, res, next) {
         if(subdomain[0] == "remote") {
             var data = {
                 year: year,
-                javascript_file: "remote.min.js"
+                javascript_file: "remote.min.js",
+                captcha: res.recaptcha
             }
             res.render('layouts/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
@@ -74,8 +101,11 @@ function channel(req, res, next) {
                     title: "404: File Not Found",
                     list_name: capitalizeFirstLetter(req.params.channel_name),
                     year: year,
-                    javascript_file: "main.min.js"
+                    javascript_file: "main.min.js",
+                    captcha: res.recaptcha,
                 }
+
+
                 if(req.params.channel_name == "404") {
                     res.status(404);
                 }

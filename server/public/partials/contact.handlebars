@@ -3,7 +3,7 @@
         <h4>Contact</h4>
         <div id="contact-container">
             <p>Found a bug, or just want to contact the team?</p>
-            <form id="contact-form" method="post" onsubmit="return false;">
+            <form id="contact-form" method="post">
                 <div class="input-field">
                     <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
                     <label for="contact-form-from" class="noselect">Email</label>
@@ -12,6 +12,7 @@
                     <input id="contact-form-message" name="message" type="text" autocomplete="off">
                     <label for="contact-form-message" class="noselect">Message</label>
                 </div>
+                {{{captcha}}}
                 <div class="valign hide" id="send-loader">
                     <div class="preloader-wrapper small active">
                         {{> spinner}}
