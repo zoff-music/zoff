@@ -153,20 +153,20 @@ $().ready(function(){
     socket.on("connect", function(){
         if(connect_error){
             connect_error = false;
+            if(offline) {
+                socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
+            }
+            if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
+                socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+            }
+            if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
+                setTimeout(function() {
+                    Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
+                }, 100); //to take height for delay on establishing connection
+            }
             $(".connect_error").fadeOut(function(){
                 $(".connect_error").remove();
                 Materialize.toast("Connected!", 2000, "green lighten");
-                if(offline) {
-                    socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
-                }
-                if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
-                    socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
-                }
-                if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
-                    setTimeout(function() {
-                        Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
-                    }, 100); //to take height for delay on establishing connection
-                }
             });
         }
 
@@ -746,7 +746,7 @@ function get_list_listener(){
     socket.on("get_list", function(){
         var add = "";
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
-        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     });
 }
 
