@@ -5,7 +5,7 @@ function frontpage_lists(msg, socket) {
 
     db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
         db.collection("connected_users").find({"_id": "total_users"}, function(err, tot){
-            socket.compress(true).emit("playlists", {channels: docs, viewers: tot[0].total_users});
+            socket.compress(true).emit("playlists", {channels: docs, viewers: tot[0].total_users.length});
         });
     });
 }

@@ -34,7 +34,7 @@ module.exports = function() {
                 });
             }
 
-            db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, {upsert: true}, function(err, docs){});
+            db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + channel}}, {upsert: true}, function(err, docs){});
         });
 
         socket.on('chromecast', function(msg) {
@@ -76,9 +76,9 @@ module.exports = function() {
                 db.collection("connected_users").find({"_id": "offline_users"}, function(err, off) {
                     db.collection("connected_users").find({"_id": {$ne: "total_users"}, "_id": {$ne: "offline_users"}}, function(err, users_list) {
                         if(tot.length > 0 && off.length == 0) {
-                            socket.emit("spread_listeners", {offline: 0, total: tot[0].total_users, online_users: users_list});
+                            socket.emit("spread_listeners", {offline: 0, total: tot[0].total_users.length, online_users: users_list});
                         } else if(tot.length > 0 && off.length > 0){
-                            socket.emit("spread_listeners", {offline: off[0].users.length, total: tot[0].total_users, online_users: users_list});
+                            socket.emit("spread_listeners", {offline: off[0].users.length, total: tot[0].total_users.length, online_users: users_list});
                         }
                     });
                 });
@@ -117,6 +117,7 @@ module.exports = function() {
                 offline = true;
                 if(channel != "") coll = channel;
                 if(coll !== undefined) {
+
                     db.collection("connected_users").findAndModify({
                         query: {"_id": coll},
                         update: {$pull: {users: guid}},
@@ -129,10 +130,10 @@ module.exports = function() {
                             }
                             io.to(coll).emit("viewers", num);
                             db.collection("frontpage_lists").update({"_id": coll, "viewers": {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) { });
-                            db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){
+                            db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, docs){
                                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
                                     if(docs.nModified == 1) {
-                                        db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
+                                        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
                                     }
                                 });
                             });
@@ -146,7 +147,7 @@ module.exports = function() {
                 offline = false;
                 db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
                     if(docs.n && docs.n == 1) {
-                        db.collection("connected_users").update({"_id": "total_users", "total_users": {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){});
+                        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + channel}}, function(err, docs){});
                     }
                     Functions.check_inlist(coll, guid, socket, offline);
                 });
@@ -193,6 +194,10 @@ module.exports = function() {
                 coll = filter.clean(coll);
             } catch(e) {
                 return;
+            }
+
+            if(msg.hasOwnProperty("offline") && msg.offline) {
+                offline = true;
             }
             List.list(msg, guid, coll, offline, socket);
             Functions.get_short_id(socket);

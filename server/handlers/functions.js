@@ -41,15 +41,20 @@ function check_inlist(coll, guid, socket, offline)
                                 socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
                             }
                         });
-                        db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs){});
+                        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){});
                     });
                 });
             }
         });
 
     } else {
-        db.collection("connected_users").update({"_id": coll}, {$addToSet: {users: guid}}, function(err, docs){});
-        db.collection("connected_users").update({"_id": "total_users"}, {$inc: {total_users: 1}}, function(err, docs) {});
+        if(offline) {
+            db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs){});
+        } else {
+            db.collection("connected_users").update({"_id": coll}, {$addToSet: {users: guid}}, function(err, docs){});
+        }
+        //
+        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
     }
 }
 
