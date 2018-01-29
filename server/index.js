@@ -87,6 +87,7 @@ List = require('./handlers/list.js');
 Suggestions = require('./handlers/suggestions.js');
 ListSettings = require('./handlers/list_settings.js');
 Frontpage = require('./handlers/frontpage.js');
+Notifications = require('./handlers/notifications.js');
 Search = require('./handlers/search.js');
 crypto = require('crypto');
 node_cryptojs = require('node-cryptojs-aes');
