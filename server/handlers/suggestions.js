@@ -8,6 +8,7 @@ function thumbnail(msg, coll, guid, offline, socket) {
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
                 if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
                     db.collection("suggested_thumbnails").update({channel: channel}, {$set:{thumbnail: msg.thumbnail}}, {upsert:true}, function(err, docs){
+                        Notifications.requested_change("thumbnail", msg.thumbnail, channel);
                         socket.emit("toast", "suggested_thumbnail");
                     });
                 }
@@ -28,6 +29,7 @@ function description(msg, coll, guid, offline, socket) {
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
                 if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
                     db.collection("suggested_descriptions").update({channel: channel}, {$set:{description: msg.description}}, {upsert:true}, function(err, docs){
+                        Notifications.requested_change("description", msg.description, channel);
                         socket.emit("toast", "suggested_description");
                     });
                 }
