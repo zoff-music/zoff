@@ -123,7 +123,11 @@ module.exports = function() {
                         upsert: true,
                     }, function(err, updated, d) {
                         if(d.n == 1) {
-                            io.to(coll).emit("viewers", updated.users ? updated.users.length : 0);
+                            var num = 0;
+                            if(updated && updated.users) {
+                                num = updated.users.length;
+                            }
+                            io.to(coll).emit("viewers", num);
                             db.collection("frontpage_lists").update({"_id": coll, "viewers": {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) { });
                             db.collection("connected_users").update({"_id": "total_users", total_users: {$gt: 0}}, {$inc: {total_users: -1}}, function(err, docs){
                                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
