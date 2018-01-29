@@ -229,10 +229,15 @@ var Helper = {
             $("#send-loader").removeClass("hide");
             $("#contact-form-from").attr("disabled", "true");
             $("#contact-form-message").attr("disabled", "true");
-
+            var captcha_response = grecaptcha.getResponse();
+            console.log(captcha_response);
             $.ajax({
                 type: "POST",
-                data: {from: from, message: message},
+                data: {
+                    from: from,
+                    message: message,
+                    "g-recaptcha-response": captcha_response,
+                },
                 url: "/api/mail",
                 success: function(data){
                     if(data == "success"){

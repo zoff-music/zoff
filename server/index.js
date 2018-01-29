@@ -123,6 +123,7 @@ app.use(function (req, res, next) {
 app.use('/service-worker.js', function(req, res) {
 	res.sendFile(publicPath + '/service-worker.js');
 });
+
 app.use('/', ico_router);
 app.use('/', api);
 app.use('/', router);
