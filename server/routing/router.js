@@ -65,7 +65,6 @@ function root(req, res, next) {
                 javascript_file: "main.min.js",
                 captcha: res.recaptcha
             }
-            console.log(data.recaptcha);
             res.render('layouts/frontpage', data);
         }
     } catch(e) {
