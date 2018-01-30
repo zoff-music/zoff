@@ -506,6 +506,13 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
                     Functions.remove_name_from_db(guid, name);
                 }
             });
+        } else {
+            db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){
+                if(updated.nModified > 0) {
+                    db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
+                }
+            });
+
         }
     });
     Functions.remove_unique_id(short_id);
