@@ -106,6 +106,8 @@ var Frontpage = {
                     }
 
                     $("#channels").append(card.html());
+                } else {
+                    num--;
                 }
             }
             num++;
