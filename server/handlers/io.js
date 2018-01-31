@@ -33,8 +33,9 @@ module.exports = function() {
                     db.collection("frontpage_lists").update({"_id": channel}, {$inc: {viewers: 1}}, {upsert: true}, function(){});
                 });
             }
-
-            db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + channel}}, {upsert: true}, function(err, docs){});
+            if(channel != "" && channel != undefined) {
+                db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + channel}}, {upsert: true}, function(err, docs){});
+            }
         });
 
         socket.on('chromecast', function(msg) {
@@ -132,7 +133,7 @@ module.exports = function() {
                             db.collection("frontpage_lists").update({"_id": coll, "viewers": {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) { });
                             db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, docs){
                                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
-                                    if(docs.nModified == 1) {
+                                    if(docs.nModified == 1 && (coll != undefined && coll != "")) {
                                         db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
                                     }
                                 });
@@ -146,9 +147,6 @@ module.exports = function() {
             } else {
                 offline = false;
                 db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
-                    if(docs.n && docs.n == 1) {
-                        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + channel}}, function(err, docs){});
-                    }
                     Functions.check_inlist(coll, guid, socket, offline);
                 });
             }
@@ -392,14 +390,14 @@ module.exports = function() {
 
     //send_ping();
 }
-
+/*
 function send_ping() {
     db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){
-        db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: 0}}, {multi: true}, function(err, docs){
+        db.collection("connected_users").update({"_id": "total_users"}, {$add: {total_users: 0}}, {multi: true}, function(err, docs){
             db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
                 io.emit("self_ping");
                 setTimeout(send_ping, 25000);
             });
         });
     });
-}
+}*/
