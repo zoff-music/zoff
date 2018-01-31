@@ -10,6 +10,15 @@ var Helper = {
         return arr[Math.floor(Math.random() * arr.length)];
     },
 
+    randomString: function(length){
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_";
+        for(var i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+    },
+
     mobilecheck: function() {
         var isMobile = false; //initiate as false
         // device detection
