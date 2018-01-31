@@ -351,138 +351,138 @@ var Frontpage = {
                 $(".page-footer").addClass("padding-bottom-novideo");
                 from_frontpage = true;
                 if($("#alreadychannel").length == 1){
-                    init();
+                    Channel.init();
                 }else{
                     fromFront = true;
-                    init();
+                    Channel.init();
                 }
                 if($("#alreadyfp").length === 0) $("head").append("<div id='alreadyfp'></div>");
 
             }
         });
+    },
+
+    init: function() {
+
+        var date = new Date();
+        Frontpage.blob_list = [];
+        if(date.getMonth() == 3 && date.getDate() == 1){
+            $(".mega").css("-webkit-transform", "rotate(180deg)");
+            $(".mega").css("-moz-transform", "rotate(180deg)");
+            //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
+        }
+
+        ga('send', 'pageview');
+
+        window.onpopstate = function(e){
+            var url_split = window.location.href.split("/");
+
+            if(url_split[3] !== "" && url_split[3].substring(0,1) != "#"){
+                Frontpage.to_channel(url_split[3], true);
+            }
+        };
+
+        if(window.location.hostname == "fb.zoff.me") {
+            $("footer").addClass("hide");
+        }
+
+        channel_list = $("#channel-list-container").clone().html();
+
+        if(window.location.hostname != "fb.zoff.me") Frontpage.share_link_modifier();
+
+        if(window.location.hostname == "zoff.me" || window.location.hostname == "fb.zoff.me") add = "https://zoff.me";
+        else add = window.location.hostname;
+        if(socket === undefined || Helper.mobilecheck() || user_auth_avoid) {
+            socket = io.connect(''+add+':8080', connection_options);
+            socket.on('update_required', function() {
+                window.location.reload(true);
+            });
+        }
+        if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists || user_auth_avoid){
+            setup_playlist_listener();
+        }
+
+        $("#about").modal();
+        $("#help").modal();
+        $("#contact").modal();
+        $('select').material_select();
+
+        Helper.log("----");
+        Helper.log("Sending frontpage_lists");
+        Helper.log("Socket", socket);
+        Helper.log("-----");
+
+        Crypt.init();
+        if(Crypt.get_offline()){
+            change_offline(true, offline);
+        } else {
+            if(!Helper.mobilecheck()) {
+                $("#offline-mode").tooltip({
+                    delay: 5,
+                    position: "bottom",
+                    tooltip: "Enable local mode"
+                });
+            }
+        }
+        if(!Helper.mobilecheck()) {
+            $("#frontpage-viewer-counter").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Total Viewers"
+            });
+        }
+        Frontpage.get_frontpage_lists();
+
+        $("#channel-load").css("display", "none");
+        //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
+        if(window.location.hash == "#donation") {
+            window.location.hash = "#";
+            $('#donation').modal();
+            $('#donation').modal('open');
+        }
+
+        if(!localStorage.ok_cookie){
+            before_toast();
+            Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
+        }
+
+        var pad = 0;
+
+        $(".zicon").on("click", function(e) {
+            e.preventDefault();
+
+            pad += 10;
+            $(".zicon").css("padding-left", pad + "vh");
+            if(pad >= 80)
+            window.location.href = 'http://etys.no';
+        });
+
+        if(!Helper.mobilecheck() && Frontpage.winter) {
+            $(".mega").prepend('<div id="snow"></div>');
+        }
+
+        if(Helper.mobilecheck()){
+            $('input#autocomplete-input').characterCounter();
+        }
+
+        window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+            if (loaded) {
+                chromecastReady = true;
+            } else {
+            }
+        }
+    },
+
+    share_link_modifier: function() {
+        $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
+        $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
+        $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
+        $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+        //$("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
+        //$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
     }
 };
 
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
-
-function share_link_modifier_frontpage() {
-    $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
-    $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
-    $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
-    $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
-    //$("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
-    //$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
-}
-
-function initfp() {
-
-    var date = new Date();
-    Frontpage.blob_list = [];
-    if(date.getMonth() == 3 && date.getDate() == 1){
-        $(".mega").css("-webkit-transform", "rotate(180deg)");
-        $(".mega").css("-moz-transform", "rotate(180deg)");
-        //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
-    }
-
-    ga('send', 'pageview');
-
-    window.onpopstate = function(e){
-        var url_split = window.location.href.split("/");
-
-        if(url_split[3] !== "" && url_split[3].substring(0,1) != "#"){
-            Frontpage.to_channel(url_split[3], true);
-        }
-    };
-
-    if(window.location.hostname == "fb.zoff.me") {
-        $("footer").addClass("hide");
-    }
-
-    channel_list = $("#channel-list-container").clone().html();
-
-    if(window.location.hostname != "fb.zoff.me") share_link_modifier_frontpage();
-
-    if(window.location.hostname == "zoff.me" || window.location.hostname == "fb.zoff.me") add = "https://zoff.me";
-    else add = window.location.hostname;
-    if(socket === undefined || Helper.mobilecheck() || user_auth_avoid) {
-        socket = io.connect(''+add+':8080', connection_options);
-        socket.on('update_required', function() {
-            window.location.reload(true);
-        });
-    }
-    if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists || user_auth_avoid){
-        setup_playlist_listener();
-    }
-
-    $("#about").modal();
-    $("#help").modal();
-    $("#contact").modal();
-    $('select').material_select();
-
-    Helper.log("----");
-    Helper.log("Sending frontpage_lists");
-    Helper.log("Socket", socket);
-    Helper.log("-----");
-
-    Crypt.init();
-    if(Crypt.get_offline()){
-        change_offline(true, offline);
-    } else {
-        if(!Helper.mobilecheck()) {
-            $("#offline-mode").tooltip({
-                delay: 5,
-                position: "bottom",
-                tooltip: "Enable local mode"
-            });
-        }
-    }
-    if(!Helper.mobilecheck()) {
-        $("#frontpage-viewer-counter").tooltip({
-            delay: 5,
-            position: "bottom",
-            tooltip: "Total Viewers"
-        });
-    }
-    Frontpage.get_frontpage_lists();
-
-    $("#channel-load").css("display", "none");
-    //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
-    if(window.location.hash == "#donation") {
-        window.location.hash = "#";
-        $('#donation').modal();
-        $('#donation').modal('open');
-    }
-
-    if(!localStorage.ok_cookie){
-        before_toast();
-        Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;'> ok</a>", 10000);
-    }
-
-    var pad = 0;
-
-    $(".zicon").on("click", function(e) {
-        e.preventDefault();
-
-        pad += 10;
-        $(".zicon").css("padding-left", pad + "vh");
-        if(pad >= 80)
-        window.location.href = 'http://etys.no';
-    });
-
-    if(!Helper.mobilecheck() && Frontpage.winter) {
-        $(".mega").prepend('<div id="snow"></div>');
-    }
-
-    if(Helper.mobilecheck()){
-        $('input#autocomplete-input').characterCounter();
-    }
-
-    window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
-        if (loaded) {
-            chromecastReady = true;
-        } else {
-        }
-    }
-}
