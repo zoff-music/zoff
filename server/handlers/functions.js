@@ -54,7 +54,9 @@ function check_inlist(coll, guid, socket, offline)
             db.collection("connected_users").update({"_id": coll}, {$addToSet: {users: guid}}, function(err, docs){});
         }
         //
-        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
+        if(coll != undefined && coll != "") {
+            db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
+        }
     }
 }
 
