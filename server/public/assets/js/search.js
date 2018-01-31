@@ -331,7 +331,7 @@ var Search = {
             {
                 if(response.error){
                     if(response.error.errors[0].reason == "playlistItemsNotAccessible"){
-                        var nonce = randomString(29);
+                        var nonce = Helper.randomString(29);
                         window.callback = function(data) {
                             access_token_data_youtube = data;
                             if(access_token_data_youtube.state == nonce){
