@@ -81,30 +81,32 @@ var Frontpage = {
                 var song_count = lists[x].count;
 
                 var card = pre_card.clone();
-                if(lists[x].pinned == 1) {
-                    card.find(".pin").attr("style", "display:block;");
-                    card.find(".card").attr("title", "Pinned!");
-                } else {
-                    card.find(".pin").attr("style", "display:none;");
-                    card.find(".card").attr("title", "");
-                }
-                card.find(".chan-name").text(chan);
-                card.find(".chan-name").attr("title", chan);
-                card.find(".chan-views").text(viewers);
-                card.find(".chan-songs").text(song_count);
-                card.find(".chan-bg").attr("style", img);
-                card.find(".chan-link").attr("href", chan + "/");
+                if(song_count > 4) {
+                    if(lists[x].pinned == 1) {
+                        card.find(".pin").attr("style", "display:block;");
+                        card.find(".card").attr("title", "Pinned!");
+                    } else {
+                        card.find(".pin").attr("style", "display:none;");
+                        card.find(".card").attr("title", "");
+                    }
+                    card.find(".chan-name").text(chan);
+                    card.find(".chan-name").attr("title", chan);
+                    card.find(".chan-views").text(viewers);
+                    card.find(".chan-songs").text(song_count);
+                    card.find(".chan-bg").attr("style", img);
+                    card.find(".chan-link").attr("href", chan + "/");
 
-                if(description != "" && description != undefined && !Helper.mobilecheck()) {
-                    card.find(".card-title").text(chan);
-                    card.find(".description_text").text(description);
-                    description = "";
-                } else {
-                    card.find(".card-reveal").remove();
-                    card.find(".card").removeClass("sticky-action")
-                }
+                    if(description != "" && description != undefined && !Helper.mobilecheck()) {
+                        card.find(".card-title").text(chan);
+                        card.find(".description_text").text(description);
+                        description = "";
+                    } else {
+                        card.find(".card-reveal").remove();
+                        card.find(".card").removeClass("sticky-action")
+                    }
 
-                $("#channels").append(card.html());
+                    $("#channels").append(card.html());
+                }
             }
             num++;
         }
