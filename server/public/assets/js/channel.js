@@ -8,7 +8,9 @@ var Channel = {
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
 
-        ga('send', 'pageview');
+        if(window.location.hostname != "localhost") {
+            ga('send', 'pageview');
+        }
 
         window.onpopstate = function(e){
             Channel.onepage_load();
