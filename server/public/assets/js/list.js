@@ -825,7 +825,7 @@ var List = {
     show: function() {
         if(!Helper.mobilecheck())
         {
-            if(showToggle){
+            /*if(showToggle){
                 showToggle=false;
                 $("#toptitle").empty();
                 $("#chan").addClass("bigChan");
@@ -836,7 +836,7 @@ var List = {
                 $("#toptitle").html("Zoff");
                 $("#chan").removeClass("bigChan");
                 $("#chan").html(chan);
-            }
+            }*/$("#channel-share-modal").modal("open");
         }
     },
 
