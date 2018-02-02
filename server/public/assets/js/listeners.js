@@ -288,7 +288,7 @@ initializeCastApi = function() {
     }
 };
 
-$("#bitcoin-address").on("click", function(e) {
+$(document).on("click", "#bitcoin-address", function(e) {
     var copyTextarea = document.querySelector('#bitcoin-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
@@ -299,7 +299,7 @@ $("#bitcoin-address").on("click", function(e) {
     }
 });
 
-$("#ethereum-address").on("click", function(e) {
+$(document).on("click", "#ethereum-address", function(e) {
     var copyTextarea = document.querySelector('#ethereum-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
