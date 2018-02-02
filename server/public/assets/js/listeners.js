@@ -848,6 +848,10 @@ $(document).on("submit", "#adminForm", function(e){
     Admin.pass_save();
 });
 
+$(document).on("click", "#channel-share-modal", function(){
+	$("#channel-share-modal").modal("close")
+});
+
 $(document).on("click", ".chat-link", function(e){
     chat_active = true;
     unseen = false;
