@@ -95,6 +95,34 @@ body {
     line-height: 36px;
 }
 
+#channel-share-modal {
+    background: transparent !important;
+    text-align: center !important;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-shadow: none;
+}
+
+.chan.tap-target-origin {
+    display: none;
+}
+
+.tap-target-join {
+    color: white;
+}
+
+#channel-share-modal p {
+    color: white;
+    font-size: 2rem;
+}
+
+#channel-share-modal.open {
+    display: flex !important;
+}
+
 #playing_on{
     display: none;
     text-align: left;

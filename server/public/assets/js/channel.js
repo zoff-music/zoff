@@ -58,6 +58,7 @@ var Channel = {
         $("#help").modal();
         $("#contact").modal();
         $("#embed").modal();
+        $("#channel-share-modal").modal();
         $("#delete_song_alert").modal({
             dismissible: false
         });
@@ -128,10 +129,21 @@ var Channel = {
             $("#code-link").attr("href", codeURL);
         }
 
+        var shareCodeUrl = window.location.protocol + "//"+window.location.hostname+"/"+chan.toLowerCase();
+        $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
+        $("#channel-name-join").text(window.location.hostname + "/" + chan.toLowerCase());
         if(no_socket){
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+        }
+
+        if(!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") {
+            $('.tap-target-join').tapTarget('open');
+            tap_target_timeout = setTimeout(function() {
+                $('.tap-target-join').tapTarget('close');
+            }, 4000);
+            localStorage.setItem("_jSeen", "seen");
         }
 
         if(!Helper.mobilecheck()) {
