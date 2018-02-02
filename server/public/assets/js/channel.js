@@ -138,7 +138,7 @@ var Channel = {
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         }
 
-        if(!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") {
+        if((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) {
             $('.tap-target-join').tapTarget('open');
             tap_target_timeout = setTimeout(function() {
                 $('.tap-target-join').tapTarget('close');
@@ -520,6 +520,7 @@ var Channel = {
             $("#seekToDuration").remove();
             $("#settings").sideNav("destroy");
             $('.tap-target').tapTarget('close');
+            $('.tap-target-join').tapTarget('close');
             clearTimeout(tap_target_timeout);
             before_toast();
             $.ajax({
