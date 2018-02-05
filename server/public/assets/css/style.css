@@ -78,6 +78,7 @@ body {
 
 #pageButtons{
     display: flex;
+    justify-content: space-around;
     align-items: center;
     flex-shrink: initial;
     justify-content: space-between;
@@ -86,6 +87,22 @@ body {
 
 #pageButtons, #pageButtons a{
     color:white !important;
+    width: 100%;
+    justify-content: center;
+}
+
+#pageButtons span {
+    width: 100%;
+    justify-content: center;
+}
+
+#pageNumber {
+    width: auto !important;
+    margin: 0 5px;
+}
+
+.first_page, .first_page_hide, .last_page, .last_page_hide {
+    width: 50% !important;
 }
 
 #pageNumber{
