@@ -54,6 +54,7 @@ function startClustered() {
 function startSingle(clustered) {
     var app = require('./index.js');
     var cors_options = {};
+    var cors_proxy = require('cors-anywhere');
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -81,7 +82,6 @@ function startSingle(clustered) {
             requireHeader: ['origin', 'x-requested-with'],
             removeHeaders: ['cookie', 'cookie2'],
         };
-        var cors_proxy = require('cors-anywhere');
         var http = require('http');
         server = http.Server(app);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
