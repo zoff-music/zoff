@@ -37,7 +37,9 @@ var Player = {
             Helper.log("mobile_beginning variable: " + mobile_beginning);
             try{
                 Helper.log("getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]);
-            } catch(e){}
+            } catch(e){
+
+            }
             Helper.log("video_id variable: " + video_id);
             Helper.log("---------------------------------");
 
@@ -56,7 +58,9 @@ var Player = {
                     if(!chromecastAvailable) {
                         Player.stopVideo();
                     }
-                }catch(e){}
+                }catch(e){
+
+                }
                 //List.importOldList(channel.toLowerCase());
             } else if(paused){
 
@@ -87,7 +91,7 @@ var Player = {
                 seekTo     = (time - conf.startTime) + Player.np.start;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
-                Player.setBGimage(video_id);
+                //Player.setBGimage(video_id);
             } else if(!paused){
                 //Helper.log("gotten new song");
                 if(previous_video_id === undefined) {
@@ -127,7 +131,7 @@ var Player = {
                 }catch(e){}
 
                 Player.getTitle(song_title, viewers);
-                Player.setBGimage(video_id);
+                //Player.setBGimage(video_id);
                 //if(player_ready && !Helper.mobilecheck())
                 if(player_ready && !window.MSStream) {
                     try {
@@ -324,6 +328,9 @@ var Player = {
             window.player = Player.player;
             Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
+        if(offline) {
+            socket.emit("color", {id: id});
+        }
     },
 
     stopVideo: function(){
@@ -366,7 +373,7 @@ var Player = {
         };
 
         Player.getTitle(song_title, viewers);
-        Player.setBGimage(video_id);
+        //Player.setBGimage(video_id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end:end});
             chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
@@ -402,7 +409,7 @@ var Player = {
         };
 
         Player.getTitle(song_title, viewers);
-        Player.setBGimage(video_id);
+        //Player.setBGimage(video_id);
 
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end: end});
@@ -517,32 +524,19 @@ var Player = {
     },
 
     readyLooks: function() {
-        Player.setBGimage(video_id);
+        //Player.setBGimage(video_id);
     },
 
-    setBGimage: function(id){
-        if(id !== undefined && !embed)
-        {
-            var img    = new Image();
-            img.onload = function ()
-            {
-
-                var colorThief = new ColorThief();
-                var color      = colorThief.getColor(img);
-
-                if(window.location.pathname != "/") {
-                    document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
-                    $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
-                    var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
-                    new_color = Helper.hexToComplimentary(new_color);
-                    new_color = Helper.hexToRgb(new_color);
-                    new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
-                    $("#controls").css("background", new_color);
-                }
-            };
-
-            img.crossOrigin = 'Anonymous';
-            img.src         = 'https://zoff.me:8081/https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    setBGimage: function(c){
+        var color = c.color;
+        if(window.location.pathname != "/") {
+            document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
+            $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+            var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
+            new_color = Helper.hexToComplimentary(new_color);
+            new_color = Helper.hexToRgb(new_color);
+            new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
+            $("#controls").css("background", new_color);
         }
     },
 
