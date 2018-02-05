@@ -1,13 +1,16 @@
 var cluster = require('cluster'),
     net = require('net'),
     path = require('path'),
-    publicPath = path.join(__dirname, 'public'),
+    //publicPath = path.join(__dirname, 'public'),
     http = require('http'),
     port = 8080,
     num_processes = require('os').cpus().length,
     express = require('express'),
     vhost = require('vhost'),
     app = express();
+
+publicPath = path.join(__dirname, 'public');
+pathThumbnails = __dirname;
 
 try {
     var redis = require("redis");
@@ -57,7 +60,7 @@ function startClustered(redis_enabled) {
 
 function startSingle(clustered, redis_enabled) {
     var server;
-    var client = require('./client.js');
+    var client = require('./apps/client.js');
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -136,8 +139,8 @@ function onListen() {
 }
 
 function routingFunction(req, res, next) {
-    var client = require('./client.js');
-    var admin = require('./admin.js');
+    var client = require('./apps/client.js');
+    var admin = require('./apps/admin.js');
     var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
     var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
 

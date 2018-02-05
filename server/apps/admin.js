@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 const path = require('path');
-const publicPath = path.join(__dirname, 'public');
+const publicPath = path.join(__dirname + "", '../public');
 var exphbs = require('express-handlebars');
 var hbs = exphbs.create({
    defaultLayout: publicPath + '/layouts/admin/main',
@@ -14,16 +14,16 @@ var passport = require('passport');
 var mpromise = require('mpromise');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-var mongo_db_cred = require(path.join(__dirname, './config/mongo_config.js'));
+var mongo_db_cred = require(pathThumbnails + '/config/mongo_config.js');
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
 var token_db = mongojs("tokens");
 var bodyParser = require('body-parser');
 var Cookies = require('cookies');
 var session = require('express-session');
-var api = require('./routing/admin/api.js');
+var api = require(pathThumbnails + '/routing/admin/api.js');
 
-var User = require('./models/user.js');
+var User = require(pathThumbnails + '/models/user.js');
 var url = 'mongodb://localhost/users';
 mongoose.connect(url);
 

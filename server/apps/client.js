@@ -1,9 +1,7 @@
-VERSION = require('./VERSION.js');
+VERSION = require(pathThumbnails + '/VERSION.js');
 
 var add = "";
 var path = require('path');
-var publicPath = path.join(__dirname, 'public');
-pathThumbnails = __dirname;
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
@@ -35,8 +33,8 @@ io = require('socket.io')({
 	//path: '/zoff',
 	//"origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*, http://localhost:8080*")});
 });
-db = require('./handlers/db.js');
-var socketIO = require('./handlers/io.js');
+db = require(pathThumbnails + '/handlers/db.js');
+var socketIO = require(pathThumbnails +'/handlers/io.js');
 socketIO();
 
 app.socketIO = io;
@@ -44,15 +42,15 @@ app.socketIO = io;
 request = require('request');
 
 /* Globally needed "libraries" and files */
-Functions = require('./handlers/functions.js');
-ListChange = require('./handlers/list_change.js');
-Chat = require('./handlers/chat.js');
-List = require('./handlers/list.js');
-Suggestions = require('./handlers/suggestions.js');
-ListSettings = require('./handlers/list_settings.js');
-Frontpage = require('./handlers/frontpage.js');
-Notifications = require('./handlers/notifications.js');
-Search = require('./handlers/search.js');
+Functions = require(pathThumbnails + '/handlers/functions.js');
+ListChange = require(pathThumbnails + '/handlers/list_change.js');
+Chat = require(pathThumbnails + '/handlers/chat.js');
+List = require(pathThumbnails + '/handlers/list.js');
+Suggestions = require(pathThumbnails + '/handlers/suggestions.js');
+ListSettings = require(pathThumbnails + '/handlers/list_settings.js');
+Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+Notifications = require(pathThumbnails + '/handlers/notifications.js');
+Search = require(pathThumbnails + '/handlers/search.js');
 crypto = require('crypto');
 node_cryptojs = require('node-cryptojs-aes');
 CryptoJS = node_cryptojs.CryptoJS;
@@ -60,9 +58,9 @@ emojiStrip = require('emoji-strip');
 Filter = require('bad-words');
 filter = new Filter({ placeHolder: 'x'});
 
-var router = require('./routing/client/router.js');
-var api = require('./routing/client/api.js');
-var ico_router = require('./routing/client/icons_routing.js');
+var router = require(pathThumbnails + '/routing/client/router.js');
+var api = require(pathThumbnails + '/routing/client/api.js');
+var ico_router = require(pathThumbnails + '/routing/client/icons_routing.js');
 
 app.get('/robots.txt', function (req, res) {
 	res.type('text/plain');
