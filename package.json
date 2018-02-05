@@ -27,14 +27,18 @@
   },
   "homepage": "https://github.com/zoff-music/zoff#readme",
   "dependencies": {
+    "assert": "^1.4.1",
     "bad-words": "^1.5.1",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
     "color-thief-jimp": "^2.0.2",
     "cookie-parser": "^1.4.3",
+    "cookies": "^0.7.1",
     "emoji-strip": "^0.0.3",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "express-recaptcha": "^3.0.1",
+    "express-session": "^1.15.6",
     "express-subdomain": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -44,13 +48,18 @@
     "mobile-detect": "^1.3.7",
     "mongodb": "^2.0.27",
     "mongojs": "^2.4.0",
+    "mongoose": "^5.0.3",
+    "mpromise": "^0.5.5",
     "node-cryptojs-aes": "^0.4.0",
     "nodemailer": "^4.0.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "redis": "^2.8.0",
     "request": "^2.72.0",
     "socket.io": "^2.0.3",
     "socket.io-redis": "^5.2.0",
     "sticky-session": "^1.1.2",
-    "uniqid": "^4.1.1"
+    "uniqid": "^4.1.1",
+    "vhost": "^3.0.2"
   }
 }

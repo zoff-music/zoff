@@ -4,19 +4,23 @@ var cluster = require('cluster'),
     publicPath = path.join(__dirname, 'public'),
     http = require('http'),
     port = 8080,
-    num_processes = require('os').cpus().length;
+    num_processes = require('os').cpus().length,
+    express = require('express'),
+    vhost = require('vhost'),
+    app = express();
 
 try {
+    a
     var redis = require("redis");
     var client = redis.createClient({host: "localhost", port: 6379});
     client.quit();
-    startClustered();
+    startClustered(true);
 } catch(e) {
     console.log("Couldn't connect to redis-server, assuming non-clustered run");
-    startSingle(false);
+    startClustered(false);
 }
 
-function startClustered() {
+function startClustered(redis_enabled) {
     //Found https://stackoverflow.com/questions/40885592/use-node-js-cluster-with-socket-io-chat-application
     if (cluster.isMaster) {
         var workers = [];
@@ -47,12 +51,13 @@ function startClustered() {
             worker.send('sticky-session:connection', connection);
         }).listen(port);
     } else {
-        startSingle(true);
+        startSingle(true, redis_enabled);
     }
 }
 
-function startSingle(clustered) {
-    var app = require('./index.js');
+function startSingle(clustered, redis_enabled) {
+    var client = require('./client.js');
+    var admin = require('./admin.js');
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -66,24 +71,47 @@ function startSingle(clustered) {
         };
 
         var https = require('https');
-        server = https.Server(credentials, app);
+        server = https.Server(credentials, client);
 
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        var http = require('http');
-        server = http.Server(app);
+        server = http.Server(client);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
 
+    admin_server = http.Server(admin);
+
     if(clustered) {
-        server.listen(onListen);
+        app
+        .use( vhost('*', function(req, res) {
+            server.emit("request", req, res);
+        }) )
+        .use( vhost('remote.*', function(req, res) {
+            server.emit("request", req, res);
+        }) )
+        .use( vhost('admin.*', function(req, res) {
+            admin_server.emit("request", req, res);
+        }) )
+        .listen(onListen);
+        //server.listen(onListen);
     } else {
-        server.listen(port, onListen);
+        app
+        .use( vhost('*', function(req, res) {
+            server.emit("request", req, res);
+        }) )
+        .use( vhost('remote.*', function(req, res) {
+            server.emit("request", req, res);
+        }) )
+        .use( vhost('admin.*', function(req, res) {
+            admin_server.emit("request", req, res);
+        }) )
+        .listen(port, onListen);
+        //server.listen(port, onListen);
     }
 
-    var socketIO = app.socketIO;
+    var socketIO = client.socketIO;
 
-    if(clustered) {
+    if(redis_enabled) {
         var redis = require('socket.io-redis');
         try {
             socketIO.adapter(redis({ host: 'localhost', port: 6379 }));
@@ -91,17 +119,18 @@ function startSingle(clustered) {
             console.log("No redis-server to connect to..");
         }
         socketIO.listen(server);
-        process.on('message', function(message, connection) {
-            if (message !== 'sticky-session:connection') {
-                return;
-            }
-            server.emit('connection', connection);
-
-            connection.resume();
-        });
     } else {
         socketIO.listen(server);
     }
+
+    process.on('message', function(message, connection) {
+        if (message !== 'sticky-session:connection') {
+            return;
+        }
+        server.emit('connection', connection);
+
+        connection.resume();
+    });
 }
 
 function onListen() {
