@@ -38,6 +38,12 @@ module.exports = function() {
             }
         });
 
+        socket.on('color', function(msg) {
+            if(msg.hasOwnProperty("id")) {
+                List.sendColor(false, socket, msg.id);
+            }
+        });
+
         socket.on('chromecast', function(msg) {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") && msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel")) {
