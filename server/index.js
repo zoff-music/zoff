@@ -32,11 +32,10 @@ app.use(cookieParser());
 /* Starting DB and socketio */
 io = require('socket.io')({
 	pingTimeout: 25000,
-	path: '/zoff',
-}); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
+	//path: '/zoff',
+	//"origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*, http://localhost:8080*")});
+});
 db = require('./handlers/db.js');
-redis = require('socket.io-redis');
-io.adapter(redis({ host: 'localhost', port: 6379 }));
 var socketIO = require('./handlers/io.js');
 socketIO();
 
