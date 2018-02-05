@@ -99,8 +99,6 @@ function startSingle(clustered) {
 
     var socketIO = app.socketIO;
 
-    socketIO.listen(server);
-
     if(clustered) {
         var redis = require('socket.io-redis');
         try {
@@ -117,6 +115,8 @@ function startSingle(clustered) {
 
             connection.resume();
         });
+    } else {
+        socketIO.listen(server);
     }
 }
 
