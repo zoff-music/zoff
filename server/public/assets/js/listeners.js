@@ -1,7 +1,6 @@
 var chan 				  		= window.chan === undefined ? $("#chan").html() : window.chan;
 var w_p 				  		= true;
 var hasadmin			  		= 0;
-var showToggle 			  		= true;
 var list_html 			  		= $("#list-song-html").html();
 var unseen 			   	  		= false;
 var api_key 		   	  		= "AIzaSyDvMlC0Kvk76-WO9UrtBaaEYyUw4z-TGqE";

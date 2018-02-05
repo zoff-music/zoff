@@ -825,18 +825,7 @@ var List = {
     show: function() {
         if(!Helper.mobilecheck())
         {
-            /*if(showToggle){
-                showToggle=false;
-                $("#toptitle").empty();
-                $("#chan").addClass("bigChan");
-                //$("#chan").html("zoff.me/"+encodeURI(chan));
-                $("#chan").html("zoff.me/"+chan.toLowerCase());
-            }else{
-                showToggle=true;
-                $("#toptitle").html("Zoff");
-                $("#chan").removeClass("bigChan");
-                $("#chan").html(chan);
-            }*/$("#channel-share-modal").modal("open");
+            $("#channel-share-modal").modal("open");
         }
     },
 
