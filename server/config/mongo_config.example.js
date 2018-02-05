@@ -1,5 +1,6 @@
 var mongo_config = {
-    config: 'mydb'
+    config: 'mydb',
+    secret: "secret",
 };
 
 module.exports = mongo_config;
