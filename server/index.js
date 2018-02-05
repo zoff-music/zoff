@@ -1,6 +1,5 @@
 VERSION = require('./VERSION.js');
 
-var server;
 var add = "";
 var path = require('path');
 var publicPath = path.join(__dirname, 'public');
@@ -22,45 +21,6 @@ app.set('view engine', 'handlebars');
 app.enable('view cache');
 app.set('views', publicPath);
 
-try{
-    var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
-	var fs = require('fs');
-	var privateKey  = fs.readFileSync(cert_config.privateKey).toString();
-	var certificate = fs.readFileSync(cert_config.certificate).toString();
-	var ca          = fs.readFileSync(cert_config.ca).toString();
-	var credentials = {
-		key: privateKey,
-		cert: certificate,
-		ca: ca
-	};
-
-	var https = require('https');
-	server = https.Server(credentials, app);
-
-	var cors_proxy = require('cors-anywhere');
-
-	cors_proxy.createServer({
-		requireHeader: ['origin', 'x-requested-with'],
-		removeHeaders: ['cookie', 'cookie2'],
-		httpsOptions: credentials
-	}).listen(8081, function() {
-		console.log('Running CORS Anywhere on :' + 8081);
-	});
-}
-catch(err){
-	console.log("Starting without https (probably on localhost)");
-	var cors_proxy = require('cors-anywhere');
-	cors_proxy.createServer({
-		requireHeader: ['origin', 'x-requested-with'],
-		removeHeaders: ['cookie', 'cookie2'],
-	}).listen(8081, function() {
-		console.log('Running CORS Anywhere on :' + 8081);
-	});
-	var http = require('http');
-	server = http.Server(app);
-	add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
-}
-
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -70,12 +30,17 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(cookieParser());
 
 /* Starting DB and socketio */
-io = require('socket.io')(server, {
+io = require('socket.io')({
 	pingTimeout: 25000,
+	path: '/zoff',
 }); //, "origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*" + add)});
 db = require('./handlers/db.js');
+redis = require('socket.io-redis');
+io.adapter(redis({ host: 'localhost', port: 6379 }));
 var socketIO = require('./handlers/io.js');
 socketIO();
+
+app.socketIO = io;
 
 request = require('request');
 
@@ -99,11 +64,6 @@ filter = new Filter({ placeHolder: 'x'});
 var router = require('./routing/router.js');
 var api = require('./routing/api.js');
 var ico_router = require('./routing/icons_routing.js');
-var port = 8080;
-
-server.listen(port, function () {
-	console.log('Server listening at port %d', port);
-});
 
 app.get('/robots.txt', function (req, res) {
 	res.type('text/plain');
@@ -147,3 +107,5 @@ db.collection("user_names").update({"_id": "all_names"}, {$set: {names: []}}, {m
 db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true, upsert: true}, function(err, docs){});
 db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: []}}, {multi: true, upsert: true}, function(err, docs) {});
 db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true, upsert: true}, function(err, docs) {});
+
+module.exports = app;
