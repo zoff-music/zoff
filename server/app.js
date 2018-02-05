@@ -16,6 +16,7 @@ try {
     startClustered(true);
 } catch(e) {
     console.log("Couldn't connect to redis-server, assuming non-clustered run");
+    num_processes = 1;
     startClustered(false);
 }
 
