@@ -48,6 +48,8 @@
     "nodemailer": "^4.0.1",
     "request": "^2.72.0",
     "socket.io": "^2.0.3",
+    "socket.io-redis": "^5.2.0",
+    "sticky-session": "^1.1.2",
     "uniqid": "^4.1.1"
   }
 }
