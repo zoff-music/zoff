@@ -53,8 +53,6 @@ function startClustered() {
 
 function startSingle(clustered) {
     var app = require('./index.js');
-    var cors_options = {};
-    var cors_proxy = require('cors-anywhere');
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -70,26 +68,12 @@ function startSingle(clustered) {
         var https = require('https');
         server = https.Server(credentials, app);
 
-        cors_options = {
-            requireHeader: ['origin', 'x-requested-with'],
-            removeHeaders: ['cookie', 'cookie2'],
-            httpsOptions: credentials
-        };
-
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        cors_options = {
-            requireHeader: ['origin', 'x-requested-with'],
-            removeHeaders: ['cookie', 'cookie2'],
-        };
         var http = require('http');
         server = http.Server(app);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
-
-    cors_proxy.createServer(cors_options).listen(8081, function() {
-        console.log('Running CORS Anywhere on :' + 8081 + " [" + process.pid + "]");
-    });
 
     if(clustered) {
         server.listen(onListen);
