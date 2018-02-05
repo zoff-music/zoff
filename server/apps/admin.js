@@ -24,7 +24,7 @@ var session = require('express-session');
 var api = require(pathThumbnails + '/routing/admin/api.js');
 
 var User = require(pathThumbnails + '/models/user.js');
-var url = 'mongodb://localhost/users';
+var url = 'mongodb://' + mongo_db_cred.host + '/' + mongo_db_cred.user;
 mongoose.connect(url);
 
 
