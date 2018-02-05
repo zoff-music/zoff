@@ -57,7 +57,7 @@ function startClustered(redis_enabled) {
 function startSingle(clustered, redis_enabled) {
     var client = require('./client.js');
     var admin = require('./admin.js');
-    var server;
+    var client_server;
     var admin_server;
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
@@ -72,12 +72,12 @@ function startSingle(clustered, redis_enabled) {
         };
 
         var https = require('https');
-        server = https.Server(credentials, client);
+        client_server = https.Server(credentials, client);
         admin_server = https.Server(credentials, admin);
 
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        server = http.Server(client);
+        client_server = http.Server(client);
         admin_server = http.Server(admin);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
@@ -87,10 +87,10 @@ function startSingle(clustered, redis_enabled) {
     if(clustered) {
         app
         .use( vhost('*', function(req, res) {
-            server.emit("request", req, res);
+            client_server.emit("request", req, res);
         }) )
         .use( vhost('remote.*', function(req, res) {
-            server.emit("request", req, res);
+            client_server.emit("request", req, res);
         }) )
         .use( vhost('admin.*', function(req, res) {
             admin_server.emit("request", req, res);
@@ -100,10 +100,10 @@ function startSingle(clustered, redis_enabled) {
     } else {
         app
         .use( vhost('*', function(req, res) {
-            server.emit("request", req, res);
+            client_server.emit("request", req, res);
         }) )
         .use( vhost('remote.*', function(req, res) {
-            server.emit("request", req, res);
+            client_server.emit("request", req, res);
         }) )
         .use( vhost('admin.*', function(req, res) {
             admin_server.emit("request", req, res);
@@ -121,16 +121,16 @@ function startSingle(clustered, redis_enabled) {
         } catch(e) {
             console.log("No redis-server to connect to..");
         }
-        socketIO.listen(server);
+        socketIO.listen(client_server);
     } else {
-        socketIO.listen(server);
+        socketIO.listen(client_server);
     }
 
     process.on('message', function(message, connection) {
         if (message !== 'sticky-session:connection') {
             return;
         }
-        server.emit('connection', connection);
+        client_server.emit('connection', connection);
 
         connection.resume();
     });
