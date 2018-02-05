@@ -57,6 +57,8 @@ function startClustered(redis_enabled) {
 function startSingle(clustered, redis_enabled) {
     var client = require('./client.js');
     var admin = require('./admin.js');
+    var server;
+    var admin_server;
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -71,14 +73,16 @@ function startSingle(clustered, redis_enabled) {
 
         var https = require('https');
         server = https.Server(credentials, client);
+        admin_server = https.Server(credentials, admin);
 
     } catch(err){
         console.log("Starting without https (probably on localhost)");
         server = http.Server(client);
+        admin_server = http.Server(admin);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
 
-    admin_server = http.Server(admin);
+
 
     if(clustered) {
         app
