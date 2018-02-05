@@ -10,7 +10,6 @@ var cluster = require('cluster'),
     app = express();
 
 try {
-    a
     var redis = require("redis");
     var client = redis.createClient({host: "localhost", port: 6379});
     client.quit();
