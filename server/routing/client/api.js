@@ -94,8 +94,8 @@ router.route('/api/imageblob').post(function(req, res) {
 
 var nodemailer = require('nodemailer');
 try {
-    var mailconfig = require(path.join(__dirname, '../config/mailconfig.js'));
-    var recaptcha_config = require(path.join(__dirname, '../config/recaptcha.js'));
+    var mailconfig = require(path.join(__dirname, '../../config/mailconfig.js'));
+    var recaptcha_config = require(path.join(__dirname, '../../config/recaptcha.js'));
     var Recaptcha = require('express-recaptcha');
     var RECAPTCHA_SITE_KEY = recaptcha_config.site;
     var RECAPTCHA_SECRET_KEY = recaptcha_config.key;

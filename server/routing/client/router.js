@@ -6,7 +6,7 @@ var path = require('path');
 
 try {
     var Recaptcha = require('express-recaptcha');
-    var recaptcha_config = require(path.join(path.join(__dirname, '../config/'), 'recaptcha.js'));
+    var recaptcha_config = require(path.join(path.join(__dirname, '../../config/'), 'recaptcha.js'));
     var RECAPTCHA_SITE_KEY = recaptcha_config.site;
     var RECAPTCHA_SECRET_KEY = recaptcha_config.key;
     var recaptcha = new Recaptcha(RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET_KEY);
@@ -56,7 +56,7 @@ function root(req, res, next) {
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha
             }
-            res.render('layouts/remote', data);
+            res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
@@ -65,7 +65,7 @@ function root(req, res, next) {
                 javascript_file: "main.min.js",
                 captcha: res.recaptcha
             }
-            res.render('layouts/frontpage', data);
+            res.render('layouts/client/frontpage', data);
         }
     } catch(e) {
         //console.log(e);
@@ -87,7 +87,7 @@ function channel(req, res, next) {
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha
             }
-            res.render('layouts/remote', data);
+            res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
@@ -109,7 +109,7 @@ function channel(req, res, next) {
                     res.status(404);
                 }
 
-                res.render('layouts/channel', data);
+                res.render('layouts/client/channel', data);
             }
         }
     } catch(e) {

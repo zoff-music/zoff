@@ -9,8 +9,8 @@ var app = express();
 var exphbs = require('express-handlebars');
 
 var hbs = exphbs.create({
-	defaultLayout: publicPath + '/layouts/main',
-	layoutsDir: publicPath + '/layouts',
+	defaultLayout: publicPath + '/layouts/client/main',
+	layoutsDir: publicPath + '/layouts/client',
 	partialsDir: publicPath + '/partials'
 });
 uniqid = require('uniqid');
@@ -60,9 +60,9 @@ emojiStrip = require('emoji-strip');
 Filter = require('bad-words');
 filter = new Filter({ placeHolder: 'x'});
 
-var router = require('./routing/router.js');
-var api = require('./routing/api.js');
-var ico_router = require('./routing/icons_routing.js');
+var router = require('./routing/client/router.js');
+var api = require('./routing/client/api.js');
+var ico_router = require('./routing/client/icons_routing.js');
 
 app.get('/robots.txt', function (req, res) {
 	res.type('text/plain');
