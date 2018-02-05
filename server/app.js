@@ -4,10 +4,7 @@ var cluster = require('cluster'),
     //publicPath = path.join(__dirname, 'public'),
     http = require('http'),
     port = 8080,
-    num_processes = require('os').cpus().length,
-    express = require('express'),
-    vhost = require('vhost'),
-    app = express();
+    num_processes = require('os').cpus().length;
 
 publicPath = path.join(__dirname, 'public');
 pathThumbnails = __dirname;
@@ -72,41 +69,17 @@ function startSingle(clustered, redis_enabled) {
             cert: certificate,
             ca: ca
         };
-
         var https = require('https');
         server = https.Server(credentials, routingFunction);
     } catch(err){
         console.log("Starting without https (probably on localhost)");
         server = http.createServer(routingFunction);
-        //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
 
     if(clustered) {
-        app
-        .use( vhost('*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .use( vhost('remote.*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .use( vhost('admin.*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .listen(onListen);
-        //server.listen(onListen);
+        server.listen(onListen);
     } else {
-        app
-        .use( vhost('*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .use( vhost('remote.*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .use( vhost('admin.*', function(req, res) {
-            server.emit("request", req, res);
-        }) )
-        .listen(port, onListen);
-        //server.listen(port, onListen);
+        server.listen(port, onListen);
     }
 
     var socketIO = client.socketIO;
@@ -118,18 +91,14 @@ function startSingle(clustered, redis_enabled) {
         } catch(e) {
             console.log("No redis-server to connect to..");
         }
-        socketIO.listen(server);
-    } else {
-        socketIO.listen(server);
     }
-
+    socketIO.listen(server);
 
     process.on('message', function(message, connection) {
         if (message !== 'sticky-session:connection') {
             return;
         }
         server.emit('connection', connection);
-
         connection.resume();
     });
 }
