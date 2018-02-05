@@ -7,7 +7,7 @@ try {
     process.exit();
 }
 var mongojs = require('mongojs');
-var db = mongojs(mongo_config.config);
+var db = mongojs('mongodb://' + mongo_config.host + '/' + mongo_config.config);
 
 db.collection("chat_logs").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 600 });
 
