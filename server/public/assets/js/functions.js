@@ -191,6 +191,7 @@ function setup_chat_listener(){
 
 function setup_list_listener(){
     socket.on("channel", List.channel_function);
+    socket.on("color", Player.setBGimage);
 }
 
 function setup_playlist_listener(){

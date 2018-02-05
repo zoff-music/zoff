@@ -1,3 +1,5 @@
+var ColorThief = require('color-thief-jimp');
+var Jimp = require('jimp');
 
 function now_playing(list, fn, socket) {
     if(typeof(list) !== 'string' || typeof(fn) !== 'function') {
@@ -443,12 +445,16 @@ function send_play(coll, socket)
                     toSend = {np: np, conf: conf, time: Functions.get_time()};
                     if(socket === undefined) {
                         io.to(coll).emit("np", toSend);
+                        //
                         List.getNextSong(coll)
+                        sendColor(coll, false, np[0].id);
                     } else {
                         socket.emit("np", toSend);
+                        sendColor(coll, socket, np[0].id);
                     }
                 }
             } catch(e){
+                console.log(e);
                 if(socket) {
                     socket.emit("np", {});
                 } else {
@@ -456,6 +462,19 @@ function send_play(coll, socket)
                 }
             }
         });
+    });
+}
+
+function sendColor(coll, socket, id) {
+    var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    Jimp.read(url).then(function (image) {
+
+        var c = ColorThief.getColor(image);
+        if(socket) {
+            socket.emit("color", {color: c});
+        } else {
+            io.to(coll).emit("color", {color: c});
+        }
     });
 }
 
@@ -518,6 +537,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change)
     Functions.remove_unique_id(short_id);
 }
 
+module.exports.sendColor = sendColor;
 module.exports.now_playing = now_playing;
 module.exports.list = list;
 module.exports.skip = skip;

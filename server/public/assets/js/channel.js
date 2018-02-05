@@ -540,6 +540,7 @@ var Channel = {
                         socket.removeEventListener("channel");
                         //socket.removeEventListener(id);
                     }
+                    socket.removeEventListener("color");
                     document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
                     document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
                     document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
