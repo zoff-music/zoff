@@ -1,0 +1,172 @@
+<header>
+    <nav id="fp-nav">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo noselect">
+                <img class="zicon" src="/assets/images/squareicon_small.png" alt="Zoff" title="Zoff" />
+            </a>
+            <ul class="right">
+                <li><a class="header-buttons waves-effect waves-cyan" id="logout" title="Logout" href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main class="container center-align admin_panel">
+  <div class="row">
+    <h2 class="col s11">Admin</h2>
+    <a href="#" id="refresh_all" class="col s1"><h2><i class="material-icons">refresh</i></h2></a>
+  </div>
+  <div class="row">
+    <div class="col s12 m10">
+      <ul class="tabs tabs_admin">
+        <li class="tab col s3"><a class="active" href="#general">General</a></li>
+        <li class="tab col s3"><a href="#thumbnails">Thumbnails<span class="new thumbnails-badge badge admin-panel hide"></span></a></li>
+        <li class="tab col s3"><a href="#descriptions">Descriptions<span class="new descriptions-badge badge admin-panel hide"></span></a></li>
+        <li class="tab col s3"><a href="#names">Names</a></li>
+      </ul>
+      <div id="general" class="col s12">
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-zoff-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+        <div class="channel_things hide">
+          <form id="change_pinned">
+            <div class="row">
+              <div class="input-field col s8 m10">
+                <select id="frontpage_pinned">
+                  <option value="" disabled>Channels</option>
+                </select>
+                <label>Change Pinned</label>
+              </div>
+              <div class="col s2">
+                <a href="#" id="change_pinned_button" class="btn green waves-effect">UPDATE</a>
+              </div>
+            </div>
+          </form>
+          <form id="delete_list">
+            <div class="row">
+              <div class="input-field col s8 m10">
+                <select id="delete_list_name">
+                  <option value="" disabled>Channels</option>
+                </select>
+                <label>Delete Admin</label>
+              </div>
+              <div class="col s2">
+                <a href="#" id="delete_admin_button" class="btn orange waves-effect">UPDATE</a>
+              </div>
+            </div>
+          </form>
+          <form id="delete_userpass">
+            <div class="row">
+              <div class="input-field col s8 m10">
+                <select id="delete_userpass_name">
+                  <option value="" disabled>Channels</option>
+                </select>
+                <label>Delete Userpass</label>
+              </div>
+              <div class="col s2">
+                <a href="#" id="delete_userpass_button" class="btn blue waves-effect">UPDATE</a>
+              </div>
+            </div>
+          </form>
+          <form id="delete_channel">
+            <div class="row">
+              <div class="input-field col s8 m10">
+                <select id="delete_channel_name">
+                  <option value="" disabled>Channels</option>
+                </select>
+                <label>Delete Channel</label>
+              </div>
+              <div class="col s2">
+                <a href="#" id="delete_channel_button" class="btn red waves-effect">DELETE</a>
+              </div>
+            </div>
+          </form>
+
+          <div class="row">
+            <div class="input-field col s8 m10">
+              <input type="text" readonly id="new_token" />
+            </div>
+            <div class="col s2">
+              <a href="#" id="get_token" class="btn waves-effect">TOKEN</a>
+              <a href="#" id="remove_token" class="btn red waves-effect hide">REMOVE</a>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div id="thumbnails" class="col s12">
+      <div class="row">
+        <div class="input-field col s8 m10">
+          <select id="remove_thumbnail">
+            <option value="" disabled>Channels</option>
+          </select>
+          <label>Remove Thumbnail</label>
+        </div>
+        <div class="col s2">
+          <a href="#" id="remove_thumbnail_button" class="btn red waves-effect">REMOVE</a>
+        </div>
+        <div id="thumbnails_cont" class="col s12">
+        </div>
+      </div>
+    </div>
+    <div id="descriptions" class="col s12">
+      <div class="row">
+        <div class="input-field col s8 m10">
+          <select id="remove_description">
+            <option value="" disabled>Channels</option>
+          </select>
+          <label>Remove Description</label>
+        </div>
+        <div class="col s2">
+          <a href="#" id="remove_description_button" class="btn red waves-effect">REMOVE</a>
+        </div>
+      </div>
+      <div id="descriptions_cont" class="col s12">
+      </div>
+    </div>
+    <div id="names" class="col s12">
+        <div class="row names-container">
+
+        </div>
+    </div>
+    </div>
+    <div class="col s10 m2 left-align" id="listeners">
+      <div class="row">
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="page-footer cursor-default">
+<div class="container">
+    <div class="row">
+        <div class="col l6 s12">
+            <h5 class="white-text">Zoff</h5>
+            <p class="grey-text text-lighten-4">The shared YouTube radio</p>
+            <p class="grey-text text-lighten-4">
+                Being built around the YouTube search and video API
+                it enables the creation of collaborative and shared live playlists,
+                with billions of videos and songs to choose from, all for free and without registration.
+                <br />
+                Enjoy!
+            </p>
+        </div>
+        <div class="col l4 offset-l2 s12 valign-wrapper">
+        </div>
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container">
+        &copy; {{year}}
+        <a href="http://nixo.no">Nixo</a> &amp;
+        <a href="http://kasperrt.no">KasperRT</a>
+        <br>
+        All Rights Reserved.
+    </div>
+</div>
+</footer>
