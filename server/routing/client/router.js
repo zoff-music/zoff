@@ -46,7 +46,7 @@ function root(req, res, next) {
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
         var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
-        if(url != "zoff.me" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
+        if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
             res.redirect("https://zoff.me");
             return;
         }
@@ -77,7 +77,7 @@ function channel(req, res, next) {
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
         var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
-        if(url != "zoff.me" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
+        if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
             res.redirect("https://zoff.me");
             return;
         }

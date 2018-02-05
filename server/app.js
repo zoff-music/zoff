@@ -45,7 +45,7 @@ function startClustered(redis_enabled) {
             return Number(s) % len;
         };
 
-        var server = net.createServer({ pauseOnConnect: true }, function(connection) {
+        var server = net.createServer({ pauseOnConnect: true }, function(connection, a) {
             var worker = workers[worker_index(connection.remoteAddress, num_processes)];
             worker.send('sticky-session:connection', connection);
         }).listen(port);
@@ -55,10 +55,8 @@ function startClustered(redis_enabled) {
 }
 
 function startSingle(clustered, redis_enabled) {
+    var server;
     var client = require('./client.js');
-    var admin = require('./admin.js');
-    var client_server;
-    var admin_server;
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -72,41 +70,36 @@ function startSingle(clustered, redis_enabled) {
         };
 
         var https = require('https');
-        client_server = https.Server(credentials, client);
-        admin_server = https.Server(credentials, admin);
-
+        server = https.Server(credentials, routingFunction);
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        client_server = http.Server(client);
-        admin_server = http.Server(admin);
+        server = http.createServer(routingFunction);
         //add = ",http://localhost:80*,http://localhost:8080*,localhost:8080*, localhost:8082*,http://zoff.dev:80*,http://zoff.dev:8080*,zoff.dev:8080*, zoff.dev:8082*";
     }
-
-
 
     if(clustered) {
         app
         .use( vhost('*', function(req, res) {
-            client_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .use( vhost('remote.*', function(req, res) {
-            client_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .use( vhost('admin.*', function(req, res) {
-            admin_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .listen(onListen);
         //server.listen(onListen);
     } else {
         app
         .use( vhost('*', function(req, res) {
-            client_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .use( vhost('remote.*', function(req, res) {
-            client_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .use( vhost('admin.*', function(req, res) {
-            admin_server.emit("request", req, res);
+            server.emit("request", req, res);
         }) )
         .listen(port, onListen);
         //server.listen(port, onListen);
@@ -121,16 +114,17 @@ function startSingle(clustered, redis_enabled) {
         } catch(e) {
             console.log("No redis-server to connect to..");
         }
-        socketIO.listen(client_server);
+        socketIO.listen(server);
     } else {
-        socketIO.listen(client_server);
+        socketIO.listen(server);
     }
+
 
     process.on('message', function(message, connection) {
         if (message !== 'sticky-session:connection') {
             return;
         }
-        client_server.emit('connection', connection);
+        server.emit('connection', connection);
 
         connection.resume();
     });
@@ -138,4 +132,17 @@ function startSingle(clustered, redis_enabled) {
 
 function onListen() {
     console.log("Started with pid [" + process.pid + "]");
+}
+
+function routingFunction(req, res, next) {
+    var client = require('./client.js');
+    var admin = require('./admin.js');
+    var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
+    var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
+
+    if(subdomain.length > 1 && subdomain[0] == "admin") {
+        admin(req, res, next);
+    } else {
+        client(req, res, next);
+    }
 }
