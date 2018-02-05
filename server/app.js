@@ -1,13 +1,8 @@
-var express = require('express'),
-    cluster = require('cluster'),
+var cluster = require('cluster'),
     net = require('net'),
-    socketio = require('socket.io'),
-    socket_redis = require('socket.io-redis');
-
-    var path = require('path');
-    var publicPath = path.join(__dirname, 'public');
-
-    var http = require('http');
+    path = require('path'),
+    publicPath = path.join(__dirname, 'public'),
+    http = require('http');
 
 var port = 8080,
     num_processes = require('os').cpus().length;
@@ -37,7 +32,7 @@ if (cluster.isMaster) {
     // Helper function for getting a worker index based on IP address.
     // This is a hot path so it should be really fast. The way it works
     // is by converting the IP address to a number by removing non numeric
-  // characters, then compressing it to the number of slots we have.
+    // characters, then compressing it to the number of slots we have.
     //
     // Compared against "real" hashing (from the sticky-session code) and
     // "real" IP number conversion, this function is on par in terms of
@@ -110,27 +105,12 @@ if (cluster.isMaster) {
 
     var socketIO = app.socketIO;
     var redis = require('socket.io-redis');
-    socketIO.adapter(redis({ host: 'localhost', port: 6379 }));
-    //socketIO.set( 'origins', '*localhost:8080' );
+    try {
+        socketIO.adapter(redis({ host: 'localhost', port: 6379 }));
+    } catch(e) {
+        console.log("No redis-server to connect to..");
+    }
     socketIO.listen(server);
-
-    // Tell Socket.IO to use the redis adapter. By default, the redis
-    // server is assumed to be on localhost:6379. You don't have to
-    // specify them explicitly unless you want to change them.
-    //io.adapter(socket_redis({ host: 'localhost', port: 6379 }));
-
-    // Here you might use Socket.IO middleware for authorization etc.
-
-    /*io.on('connection', function(socket) {
-        console.log('New client connection detected on process ' + process.pid);
-
-        socket.emit('welcome', {message: 'Welcome to BlueFrog Chat Room'});
-        socket.on('new.message', function(message) {
-            socket.emit('new.message', message);
-        })
-
-    });*/
-
 
     // Listen to messages sent from the master. Ignore everything else.
     process.on('message', function(message, connection) {

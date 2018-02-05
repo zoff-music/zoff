@@ -2,9 +2,9 @@
   "name": "zoff",
   "version": "2.0.2",
   "description": "Zoff, the shared YouTube based radio services",
-  "main": "server/index.js",
+  "main": "server/app.js",
   "scripts": {
-    "start": "gulp build && node server/index.js",
+    "start": "gulp build && node server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
