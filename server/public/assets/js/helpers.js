@@ -254,7 +254,7 @@ var Helper = {
                         $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
                     }else{
                         $("#contact-container").empty();
-                        $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.no?Subject=Contact%20Zoff'>contact@zoff.no</a>")
+                        $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
                     }
                 }
             });
