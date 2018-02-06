@@ -4,6 +4,7 @@ var path = require('path');
 var mongo_db_cred = require(path.join(__dirname, '../../config/mongo_config.js'));
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
+var token_db = mongojs("tokens");
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -41,7 +42,7 @@ router.route('/api/descriptions').get(function(req, res){
 
 router.route('/api/approve_thumbnail').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("suggested_thumbnails").find({channel: channel}, function(err, docs){
          var thumbnail = docs[0].thumbnail;
          db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
@@ -59,10 +60,10 @@ router.route('/api/approve_thumbnail').post(function(req, res){
 
 router.route('/api/deny_thumbnail').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("suggested_thumbnails").remove({channel: channel},function(err, docs){
          res.send(true);
-      });
+     });
    } else {
       res.send(false);
    }
@@ -70,7 +71,7 @@ router.route('/api/deny_thumbnail').post(function(req, res){
 
 router.route('/api/approve_description').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("suggested_descriptions").find({channel: channel}, function(err, docs){
          var description = docs[0].description;
          db.collection("frontpage_lists").update({_id: channel}, {$set:{description: description}}, {upsert: true}, function(err, docs){
@@ -88,7 +89,7 @@ router.route('/api/approve_description').post(function(req, res){
 
 router.route('/api/deny_description').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("suggested_descriptions").remove({channel: channel}, 1,function(err, docs){
          res.send(true);
       });
@@ -99,7 +100,7 @@ router.route('/api/deny_description').post(function(req, res){
 
 router.route('/api/remove_thumbnail').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: ""}}, function(err, docs){
          db.collection(channel).update({views:{$exists:true}}, {$set:{thumbnail: ""}}, function(err, docs){
             res.send(true);
@@ -112,7 +113,7 @@ router.route('/api/remove_thumbnail').post(function(req, res){
 
 router.route('/api/remove_description').post(function(req, res){
    if(req.isAuthenticated()){
-      var channel = req.param("channel");
+      var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{description: ""}}, function(err, docs){
          db.collection(channel).update({views:{$exists:true}}, {$set:{description: ""}}, function(err, docs){
             res.send(true);
@@ -135,8 +136,8 @@ router.route('/api/names').get(function(req, res) {
 
 router.route('/api/names').post(function(req, res) {
    if(req.isAuthenticated()) {
-      var icon = req.param("icon");
-      var name = req.param("name");
+      var icon = req.body.icon;
+      var name = req.body.name;
       db.collection("registered_users").update({_id: name}, {$set: {icon: icon}}, function(err, docs) {
          if(err) res.send(false);
          else res.send(true);
@@ -165,7 +166,7 @@ router.route('/api/token').get(function(req, res){
 
 router.route('/api/delete').post(function(req, res){
    if(req.isAuthenticated()){
-      var list = req.param("_id");
+      var list = req.body._id;
       db.collection(list).drop(function(err, docs){
          db.collection("frontpage_lists").remove({_id: list}, function(err, docs){
             res.send(true);
@@ -194,7 +195,7 @@ router.route('/api/remove_token').get(function(req, res){
 
 router.route('/api/pinned').post(function(req, res){
    if(req.isAuthenticated()){
-      var to_pin = req.param("_id");
+      var to_pin = req.body._id;
       db.collection("frontpage_lists").update({pinned:1}, {$set:{pinned:0}}, function(err, resp){
         	db.collection("frontpage_lists").update({_id:to_pin}, {$set:{pinned:1}}, function(err, resp){
         		res.send(true);
@@ -207,7 +208,7 @@ router.route('/api/pinned').post(function(req, res){
 
 router.route('/api/admin').post(function(req, res){
    if(req.isAuthenticated()){
-      var to_remove = req.param("_id");
+      var to_remove = req.body._id;
       db.collection(to_remove).update({views: {$exists: true}}, {$set:{adminpass: ""}}, function(err, docs){
          res.send(true);
       });
@@ -218,7 +219,7 @@ router.route('/api/admin').post(function(req, res){
 
 router.route('/api/userpass').post(function(req, res){
    if(req.isAuthenticated()){
-      var to_remove = req.param("_id");
+      var to_remove = req.body._id;
       db.collection(to_remove).update({views: {$exists: true}}, {$set:{userpass: ""}}, function(err, docs){
          res.send(true);
       });
@@ -226,5 +227,17 @@ router.route('/api/userpass').post(function(req, res){
       res.send(false);
    }
 });
+
+function makeid()
+{
+   var text = "";
+   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+   for( var i=0; i < 20; i++ )
+   text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+   return text;
+}
+
 
 module.exports = router;
