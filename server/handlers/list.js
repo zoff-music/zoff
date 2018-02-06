@@ -154,7 +154,7 @@ function skip(list, guid, coll, offline, socket) {
     }
 }
 
-function change_song(coll, error, id) {
+function change_song(coll, error, id, callback) {
     db.collection(coll).find({views:{$exists:true}}, function(err, docs){
         var startTime = docs[0].startTime;
         if(docs !== null && docs.length !== 0)
@@ -185,8 +185,10 @@ function change_song(coll, error, id) {
                                 db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                                     var next_song;
                                     if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                    List.change_song_post(coll, next_song);
-                                    io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
+                                    List.change_song_post(coll, next_song, callback);
+                                    if(!callback) {
+                                        io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
+                                    }
                                     db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                                 });
                             } else {
@@ -201,7 +203,7 @@ function change_song(coll, error, id) {
                                         },{multi:true}, function(err, docs){
                                             var next_song;
                                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                            if(docs.n >= 1) List.change_song_post(coll, next_song);
+                                            if(docs.n >= 1) List.change_song_post(coll, next_song, callback);
                                         });
                                     });
                                 }
@@ -212,8 +214,10 @@ function change_song(coll, error, id) {
                         db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                             var next_song;
                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                            List.change_song_post(coll, next_song);
-                            io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
+                            List.change_song_post(coll, next_song, callback);
+                            if(!callback) {
+                                io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
+                            }
                             db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                         });
                     } else {
@@ -227,7 +231,7 @@ function change_song(coll, error, id) {
                             },{multi:true}, function(err, docs){
                                 var next_song;
                                 if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                List.change_song_post(coll, next_song);
+                                List.change_song_post(coll, next_song, callback);
                             });
                         }
                     }
@@ -239,7 +243,7 @@ function change_song(coll, error, id) {
     });
 }
 
-function change_song_post(coll, next_song)
+function change_song_post(coll, next_song, callback)
 {
     db.collection(coll).aggregate([{
         $match:{
@@ -281,8 +285,12 @@ function change_song_post(coll, next_song)
                     }
                 }, function(err, returnDocs){
                     db.collection(coll).find({views:{$exists:true}}, function(err, conf){
-                        io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
-                        List.send_play(coll);
+                        if(!callback) {
+                            io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+                            List.send_play(coll);
+                        } else {
+                            callback();
+                        }
                         Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
                     });
                 });
@@ -340,15 +348,21 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                             }
                         });
                     } else {
-                        if(list_send) {
-                            io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
-                        } else if(!list_send) {
-                            socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
-                        }
-                        if(socket === undefined && send) {
-                            List.send_play(coll);
-                        } else if(send) {
-                            List.send_play(coll, socket);
+                        if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
+                            List.change_song(coll, false, np_docs[0].id, function() {
+                                List.send_list(coll, socket, send, list_send, configs, shuffled);
+                            });
+                        } else {
+                            if(list_send) {
+                                io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                            } else if(!list_send) {
+                                socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                            }
+                            if(socket === undefined && send) {
+                                List.send_play(coll);
+                            } else if(send) {
+                                List.send_play(coll, socket);
+                            }
                         }
                     }
                 });
@@ -435,7 +449,7 @@ function send_play(coll, socket)
             try{
                 if(Functions.get_time()-conf[0].startTime > np[0].duration){
                     List.change_song(coll, false, np[0].id);
-                }else if(conf !== null && conf !== undefined && conf.length !== 0)
+                } else if(conf !== null && conf !== undefined && conf.length !== 0)
                 {
                     if(conf[0].adminpass !== "") conf[0].adminpass = true;
                     if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
@@ -454,7 +468,6 @@ function send_play(coll, socket)
                     }
                 }
             } catch(e){
-                console.log(e);
                 if(socket) {
                     socket.emit("np", {});
                 } else {
