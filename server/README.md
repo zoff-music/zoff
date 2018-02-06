@@ -1,3 +1,7 @@
+## Apps
+
+Under ``` /server/apps/ ```, there are two files, ``` admin.js ``` and ``` client.js ```.``` admin.js ``` are for the adminpanel, and ``` client.js ``` are for zoff itself.
+
 ## Events
 
 ### To server
