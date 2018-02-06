@@ -19,8 +19,6 @@ var Player = {
             }
         }
         try {
-            console.log(paused);
-            console.log(Player.player.getPlayerState());
             state = Player.player.getPlayerState();
         } catch(e) {
             state = null;
@@ -142,7 +140,6 @@ var Player = {
                             compared = true;
                         }
 
-                        console.log("Compared", compared);
                         if(compared || chromecastAvailable){
 
                             Player.loadVideoById(video_id, duration);
@@ -171,7 +168,6 @@ var Player = {
                             setTimeout(function(){Player.loaded = true;},500);
                         }
                     }catch(e) {
-                        console.log(e);
                         if(chromecastAvailable) {
                             Player.loadVideoById(video_id, duration);
                             Player.seekTo(seekTo);
