@@ -113,8 +113,8 @@ try {
                     var from = req.body.from;
                     var message = req.body.message;
                     var msg = {
-                        from: 'no-reply@zoff.no',
-                        to: 'contact@zoff.no',
+                        from: 'no-reply@zoff.me',
+                        to: 'contact@zoff.me',
                         subject: 'ZOFF: Contact form webpage',
                         text: message,
                         html: message,
