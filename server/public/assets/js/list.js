@@ -827,6 +827,9 @@ var List = {
         {
             $("#channel-share-modal").modal("open");
         }
+        if(chromecastAvailable) {
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "showJoinInfo"});
+        }
     },
 
     generateSong: function(_song_info, transition, lazy, list, user, display, initial) {
