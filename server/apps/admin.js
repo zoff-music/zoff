@@ -71,7 +71,7 @@ function(req, username, password, done) {
 
       // find a user whose username is the same as the forms username
       // we are checking to see if the user trying to login already exists
-      var token = req.param("token");
+      var token = req.body.token;
       token_db.collection("tokens").find({token: token}, function(err, docs){
          if(docs.length == 1){
             token_db.collection("tokens").remove({token: token}, function(err, docs){
@@ -185,17 +185,6 @@ app.use('/', isLoggedIn, function(req, res) {
 
    res.render('layouts/admin/authenticated', data);
 });
-
-function makeid()
-{
-   var text = "";
-   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-   for( var i=0; i < 20; i++ )
-   text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-   return text;
-}
 
 function isLoggedInTryingToLogIn(req, res, next){
    if(!req.isAuthenticated()){
