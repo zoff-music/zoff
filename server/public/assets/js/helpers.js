@@ -239,7 +239,6 @@ var Helper = {
             $("#contact-form-from").attr("disabled", "true");
             $("#contact-form-message").attr("disabled", "true");
             var captcha_response = grecaptcha.getResponse();
-            console.log(captcha_response);
             $.ajax({
                 type: "POST",
                 data: {
