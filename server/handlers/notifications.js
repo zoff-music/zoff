@@ -14,8 +14,8 @@ function requested_change(type, string, channel) {
                 var message = "A " + type + " change was requested on <b>" + channel + "</b><br><br>New supposed value is: <br><br><b>" + string + "</b><br><br><br> \
                 Go to <a href='https://admin.zoff.me/'>https://admin.zoff.me/</a> to accept or decline the request.";
                 var msg = {
-                    from: 'no-reply@zoff.no',
-                    to: 'kasper@zoff.no',
+                    from: 'no-reply@zoff.me',
+                    to: 'kasper@zoff.me',
                     subject: 'ZOFF: Requested new ' + type,
                     text: message,
                     html: message,
