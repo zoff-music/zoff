@@ -19,6 +19,8 @@ var Player = {
             }
         }
         try {
+            console.log(paused);
+            console.log(Player.player.getPlayerState());
             state = Player.player.getPlayerState();
         } catch(e) {
             state = null;
@@ -131,16 +133,16 @@ var Player = {
                 }catch(e){}
 
                 Player.getTitle(song_title, viewers);
-                //Player.setBGimage(video_id);
-                //if(player_ready && !Helper.mobilecheck())
                 if(player_ready && !window.MSStream) {
                     try {
                         var compared;
                         try {
-                            compared = Player.player.getVideoUrl().split('v=')[1] != video_id;
+                            compared = Player.player.getVideoUrl().split('v=')[1] != video_id && state != 2;
                         } catch(e) {
                             compared = true;
                         }
+
+                        console.log("Compared", compared);
                         if(compared || chromecastAvailable){
 
                             Player.loadVideoById(video_id, duration);
@@ -169,6 +171,7 @@ var Player = {
                             setTimeout(function(){Player.loaded = true;},500);
                         }
                     }catch(e) {
+                        console.log(e);
                         if(chromecastAvailable) {
                             Player.loadVideoById(video_id, duration);
                             Player.seekTo(seekTo);
