@@ -111,7 +111,6 @@ var Channel = {
             get_list_listener();
             setup_suggested_listener();
             setup_viewers_listener();
-
         } else {
             $("#channel-load").css("display", "none");
             $("#player").css("opacity", "1");

@@ -16,7 +16,7 @@ var Hostcontroller = {
                 window.parentWindow.postMessage({type: "controller", id: id}, window.parentOrigin);
             }
         }
-        var codeURL = "https://remote."+window.location.hostname+"/"+id;
+        var codeURL = window.location.protocol + "//remote."+window.location.hostname+"/"+id;
         $("#code-text").text(id);
         $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
         $("#code-link").attr("href", codeURL);

@@ -43,7 +43,7 @@ var Playercontrols = {
     },
 
     fullscreen: function() {
-        var playerElement = $("#player");
+        var playerElement = $("#player").get(0);
         var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
         if (requestFullScreen) {
             requestFullScreen.bind(playerElement)();
