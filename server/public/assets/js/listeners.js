@@ -53,6 +53,7 @@ var not_import_html       		= "";
 var not_export_html       		= "";
 var embed_height          		= 300;
 var embed_width           		= 600;
+var embed_videoonly = "";
 var embed_autoplay        		= "&autoplay";
 var connect_error         		= false;
 var access_token_data_youtube 	= {};
@@ -617,19 +618,19 @@ $(document).on('change', '#view_channels_select', function(e) {
 $(document).on('keyup mouseup', '#width_embed', function(){
     var that = $(this);
     embed_width = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
 $(document).on('keyup mouseup', '#height_embed', function(){
     var that = $(this);
     embed_height = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
 $(document).on('input', '#color_embed', function(){
     var that = $(this);
     color = that.val().substring(1);
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
 $(document).on('click', ".chan-link", function(e){
@@ -778,7 +779,13 @@ $(window).focus(function(){
 $(document).on("change", "#autoplay", function() {
     if(this.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
+});
+
+$(document).on("change", "#videoonly", function() {
+    if(this.checked) embed_videoonly = "&videoonly";
+    else embed_videoonly = "";
+    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
 $(document).on("click", "#playbutton_remote", function(e) {
