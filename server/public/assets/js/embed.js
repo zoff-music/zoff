@@ -74,6 +74,7 @@ $(document).ready(function() {
         $("#playlist").addClass("hide");
         $("#controls").addClass("hide");
         $("#player").addClass("video_only");
+        $("#zoffbutton").css("bottom", "0px");
     }
 
     $("#locked_channel").modal({
