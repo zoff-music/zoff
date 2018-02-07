@@ -16,6 +16,7 @@ $(document).ready(function (){
 
     $("#about").modal();
     $("#contact").modal();
+    $("#help").modal();
 
     if(window.location.hostname == "remote.zoff.me") add = "https://zoff.me";
     else add = "localhost";
