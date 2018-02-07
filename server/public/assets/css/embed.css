@@ -189,7 +189,7 @@
 #zoffbutton{
   cursor:pointer;
   position: absolute;
-    top: -47px;
+    bottom: 35px;
     left: 10px;
     background-image: url('/assets/images/z.svg');
     width: 50px;
