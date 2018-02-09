@@ -10,6 +10,7 @@ var conf 			   	  		= [];
 var private_channel 			= false;
 var end_programmatically = false;
 var music 			   	  		= 0;
+var was_stopped = false;
 var timed_remove_check;
 var slider_type = "horizontal";
 var programscroll = false;

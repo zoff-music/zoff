@@ -134,38 +134,51 @@ var Player = {
                 if(player_ready && !window.MSStream) {
                     try {
                         var compared;
+                        var prev_state = state;
                         try {
-                            compared = Player.player.getVideoUrl().split('v=')[1] != video_id && state != 2;
+                            compared = Player.player.getVideoUrl().split('v=')[1] != video_id;
                         } catch(e) {
                             compared = true;
                         }
-
-                        if(compared || chromecastAvailable){
-
-                            Player.loadVideoById(video_id, duration);
-                            if(!Helper.mobilecheck()) {
-                                Player.notifyUser(video_id, song_title);
-                            }
-                            Player.seekTo(seekTo);
-                            if(paused && !chromecastAvailable){
-                                Player.pauseVideo();
-                            }
-                        }
-                        if(!paused){
-                            if(!mobile_beginning || chromecastAvailable) {
-                                Player.playVideo();
-                            }
+                        if(prev_state == 2 && !chromecastAvailable) {
+                            console.log("pausing");
+                            Player.stopVideo();
+                            was_stopped = true;
                             if(!durationBegun) {
                                 Player.durationSetter();
                             }
-                        }
-                        if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo) {
-                            Player.seekTo(seekTo);
-                        }
-                        Player.after_load  = video_id;
+                        } else {
+                            if(compared || chromecastAvailable){
 
-                        if(!Player.loaded) {
-                            setTimeout(function(){Player.loaded = true;},500);
+                                Player.loadVideoById(video_id, duration);
+                                if(!Helper.mobilecheck()) {
+                                    Player.notifyUser(video_id, song_title);
+                                }
+                                Player.seekTo(seekTo);
+                                if(paused && !chromecastAvailable){
+                                    Player.pauseVideo();
+                                }
+                            }
+                            if(!paused){
+                                if((!mobile_beginning || chromecastAvailable) && prev_state != 2) {
+                                    console.log("playing");
+                                    Player.playVideo();
+                                }
+                                if(!durationBegun) {
+                                    Player.durationSetter();
+                                }
+                            }
+
+                            console.log(prev_state, chromecastAvailable);
+
+                            if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo) {
+                                Player.seekTo(seekTo);
+                            }
+                            Player.after_load  = video_id;
+
+                            if(!Player.loaded) {
+                                setTimeout(function(){Player.loaded = true;},500);
+                            }
                         }
                     }catch(e) {
                         if(chromecastAvailable) {
@@ -241,9 +254,10 @@ var Player = {
                     if(document.getElementById("pause").className.split(" ").length == 2)
                     $("#pause").toggleClass("hide");
                 }
-                if(paused && !offline) {
+                if((paused && !offline) || was_stopped) {
                     socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
                     paused = false;
+                    was_stopped = false;
                 }
                 break;
             case YT.PlayerState.PAUSED:
