@@ -1837,7 +1837,7 @@ nav ul li:hover, nav ul li.active {
 
 .result-info-no-buttons {
     display: flex;
-    width: calc(100% - 165px);
+    width: calc(100% - 13rem);
     align-items: center;
 }
 
