@@ -1,6 +1,6 @@
 var Channel = {
     init: function() {
-
+        Admin.display_logged_out();
         number_suggested = 0;
         var no_socket = true;
 
