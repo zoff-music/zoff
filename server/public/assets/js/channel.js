@@ -86,7 +86,7 @@ var Channel = {
                 Channel.set_title_width();
             },
             handles: "e",
-            minWidth: 350,
+            minWidth: 280,
             maxWidth: $(window).width()-241
         });
 
@@ -197,7 +197,7 @@ var Channel = {
         socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
         socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
 
-        if(!Helper.mobilecheck() && $("#alreadychannel").length === 0) setup_host_initialization();
+        if(!Helper.mobilecheck() && ($("#alreadychannel").length === 0 || !Hostcontroller.old_id || $("#code-text").text().toUpperCase() == "ABBADUR")) setup_host_initialization();
 
         if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
 
