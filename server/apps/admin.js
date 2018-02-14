@@ -38,7 +38,15 @@ app.use(bodyParser.urlencoded({
 app.use(session({
   secret: mongo_db_cred.secret,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new (require('express-sessions'))({
+      storage: 'mongodb',
+      instance: mongoose,
+      host: mongo_db_cred.host,
+      port: 27017,
+      collection: 'sessions',
+      expire: 86400
+  })
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
