@@ -3,6 +3,7 @@ var mongo_config = {
     secret: 'secret',
     users: 'users',
     host: 'localhost',
+    port: '27017',
 };
 
 module.exports = mongo_config;

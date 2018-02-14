@@ -39,6 +39,7 @@
     "express-handlebars": "^3.0.0",
     "express-recaptcha": "^3.0.1",
     "express-session": "^1.15.6",
+    "express-sessions": "^1.0.6",
     "express-subdomain": "^1.0.5",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
