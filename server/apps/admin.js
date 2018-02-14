@@ -45,7 +45,7 @@ app.use(session({
       host: mongo_db_cred.host,
       port: 27017,
       collection: 'sessions',
-      expire: 86400
+      expire: mongo_db_cred.expire
   })
 })); // session secret
 app.use(passport.initialize());
