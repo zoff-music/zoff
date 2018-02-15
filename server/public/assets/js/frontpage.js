@@ -319,8 +319,9 @@ var Frontpage = {
                 }
                 $("#frontpage_player").empty();
                 if(Helper.mobilecheck()) {
-                    Helper.log("disconnecting");
-                    socket.disconnect();
+                    //Helper.log("disconnecting");
+                    //socket.disconnect();
+                    socket.removeAllListeners();
                 }
 
                 if(!popstate){
