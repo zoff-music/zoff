@@ -141,7 +141,6 @@ var Player = {
                             compared = true;
                         }
                         if(prev_state == 2 && !chromecastAvailable) {
-                            console.log("pausing");
                             Player.stopVideo();
                             was_stopped = true;
                             if(!durationBegun) {
@@ -161,15 +160,12 @@ var Player = {
                             }
                             if(!paused){
                                 if((!mobile_beginning || chromecastAvailable) && prev_state != 2) {
-                                    console.log("playing");
                                     Player.playVideo();
                                 }
                                 if(!durationBegun) {
                                     Player.durationSetter();
                                 }
                             }
-
-                            console.log(prev_state, chromecastAvailable);
 
                             if(Player.player.getDuration() > seekTo || Player.player.getDuration() === 0 || chromecastAvailable || Player.player.getCurrentTime() != seekTo) {
                                 Player.seekTo(seekTo);
