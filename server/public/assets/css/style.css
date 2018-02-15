@@ -425,13 +425,13 @@ li.disabled span {
 
 #closePlayer{
     position: fixed;
-    bottom: 175px;
-    right: 20px;
+    top: 7px;
+    right: 14px;
     z-index: 999999999999999;
     font-size: 18px;
     color: white;
     text-shadow: 0px 0px 2px black;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 #player_bottom_overlay{
@@ -439,6 +439,11 @@ li.disabled span {
     cursor: pointer;
     top: 0px;
     left: 0px;
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -ms-transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
+    transition: all .5s ease-out;
 }
 
 .frontpage_modified_heights{
@@ -458,7 +463,7 @@ li.disabled span {
     display: block !important;
     /* right: 10px; */
     z-index: 10;
-    transition: 1s;
+    /*transition: 1s;*/
 }
 
 #frontpage_player{
@@ -884,6 +889,27 @@ hide mdi-action-visibility mdi-action-visibility-off
     text-transform: capitalize;
     display: inline-block;
     width: 100%;
+}
+
+#player_bottom_overlay::after {
+    background: rgba(0,0,0,.8);
+    content: "To Channel";
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    height: 100%;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: opacity .5s;
+    opacity: 0;
+}
+
+#player_bottom_overlay:hover#player_bottom_overlay::after {
+    opacity: 1;
+    cursor: pointer;
 }
 
 /*#nav-mobile{
@@ -2533,6 +2559,10 @@ nav ul li:hover, nav ul li.active {
     #chat-container {
         height: calc(100vh - 48px - 64px - 120px) !important;
         margin-bottom: 18px;
+    }
+
+    #player_bottom_overlay {
+        top: 7px;
     }
 
     .mobile-delete {
