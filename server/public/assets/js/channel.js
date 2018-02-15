@@ -525,7 +525,8 @@ var Channel = {
             if(Helper.mobilecheck() || user_auth_avoid) {
                 Helper.log("Removing all listeners");
                 socket.emit("change_channel");
-                socket.removeAllListeners();
+                removeAllListeners();
+                //socket.removeEventListener(id);
                 //socket.disconnect();
             } else {
                 socket.removeEventListener("chat.all");

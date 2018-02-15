@@ -1,4 +1,25 @@
 
+function removeAllListeners() {
+    Helper.log("Removing all listeners");
+    socket.removeEventListener("chat.all");
+    socket.removeEventListener("chat");
+    socket.removeEventListener("conf");
+    socket.removeEventListener("pw");
+    socket.removeEventListener("toast");
+    socket.removeEventListener("id");
+    socket.removeEventListener("channel");
+    socket.removeEventListener("np");
+    socket.removeEventListener("get_list");
+    //socket.removeEventListener("self_ping");
+    socket.removeEventListener("viewers");
+    socket.removeEventListener("auth_accepted");
+    socket.removeEventListener("suggested");
+    socket.removeEventListener("color");
+    socket.removeEventListener("chat_history");
+    //socket.removeEventListener("name");
+    socket.removeEventListener(id);
+}
+
 function hide_native(way) {
     if(way == 1){
         if(!$('.castButton').hasClass('castButton-white-active')) {

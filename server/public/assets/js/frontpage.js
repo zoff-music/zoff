@@ -298,7 +298,7 @@ var Frontpage = {
         clearTimeout(rotation_timeout);
         if(Helper.mobilecheck()){
             Helper.log("removing all listeners");
-            socket.removeAllListeners();
+            removeAllListeners();
         }
         $("#main-container").css("background-color", "#2d2d2d");
         if(!Helper.mobilecheck()) {
