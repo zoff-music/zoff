@@ -12,6 +12,7 @@ function removeAllListeners() {
     socket.removeEventListener("get_list");
     //socket.removeEventListener("self_ping");
     socket.removeEventListener("viewers");
+    socket.removeEventListener("auth_required");
     socket.removeEventListener("auth_accepted");
     socket.removeEventListener("suggested");
     socket.removeEventListener("color");
