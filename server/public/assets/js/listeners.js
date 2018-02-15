@@ -1134,7 +1134,8 @@ $(document).on("click", ".brand-logo-navigate", function(e){
     Channel.onepage_load();
 });
 
-$(document).on("click", "#player_bottom_overlay", function(){
+$(document).on("click", "#player_bottom_overlay", function(e){
+    if($(e.target).attr("id") == "closePlayer")) return;
     Frontpage.to_channel(chan.toLowerCase(), false);
 });
 

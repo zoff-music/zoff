@@ -556,7 +556,6 @@ var Channel = {
 
                     if(!Helper.mobilecheck() && !user_auth_avoid){
                         $(".video-container").resizable("destroy");
-                        $("main").append("<a id='closePlayer' title='Close Player'>X</a>");
                         $("#playbar").remove();
                         $(".ui-resizable-handle").remove();
                         $("#main_components").remove();
@@ -565,6 +564,7 @@ var Channel = {
                         $("#player").css("opacity", "1");
                         $("#video-container").removeClass("no-opacity");
                         $("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='player player_bottom'></div>");
+                        $("#player_bottom_overlay").append("<a id='closePlayer' title='Close Player'>X</a>");
                         $("#playlist").remove();
                     } else {
                         try{
