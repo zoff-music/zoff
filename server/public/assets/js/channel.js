@@ -536,6 +536,11 @@ var Channel = {
                 socket.removeEventListener("toast");
                 //socket.removeEventListener("id");
                 socket.removeEventListener("channel");
+                socket.removeEventListener("auth_required");
+                socket.removeEventListener("auth_accepted");
+                socket.removeEventListener("suggested");
+                socket.removeEventListener("color");
+                socket.removeEventListener("chat_history");
                 //socket.removeEventListener(id);
             }
             socket.removeEventListener("color");
@@ -563,7 +568,7 @@ var Channel = {
                         $("#main-row").addClass("frontpage_modified_heights");
                         $("#player").css("opacity", "1");
                         $("#video-container").removeClass("no-opacity");
-                        $("#main-row").prepend("<div id='player_bottom_overlay' title='To Channel' class='player player_bottom'></div>");
+                        $("#main-row").prepend("<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         $("#player_bottom_overlay").append("<a id='closePlayer' title='Close Player'>X</a>");
                         $("#playlist").remove();
                     } else {
