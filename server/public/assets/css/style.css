@@ -650,6 +650,10 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     position: absolute;
 }
 
+#preloader.progress.frontpage-preloader .indeterminate {
+    background-color: #ff9800 !important;
+}
+
 #import, #import_spotify{
     width: 65%;
     padding-left: 35px;
