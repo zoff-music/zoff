@@ -131,7 +131,7 @@ var Channel = {
         var shareCodeUrl = window.location.protocol + "//"+window.location.hostname+"/"+chan.toLowerCase();
         $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
         $("#channel-name-join").text(window.location.hostname + "/" + chan.toLowerCase());
-        if(no_socket){
+        if(no_socket || Helper.mobilecheck()){
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
@@ -522,24 +522,26 @@ var Channel = {
             $('.tap-target-join').tapTarget('close');
             clearTimeout(tap_target_timeout);
             before_toast();
+            if(Helper.mobilecheck() || user_auth_avoid) {
+                Helper.log("Removing all listeners");
+                socket.emit("change_channel");
+                socket.removeAllListeners();
+                //socket.disconnect();
+            } else {
+                socket.removeEventListener("chat.all");
+                socket.removeEventListener("chat");
+                socket.removeEventListener("conf");
+                socket.removeEventListener("pw");
+                socket.removeEventListener("toast");
+                //socket.removeEventListener("id");
+                socket.removeEventListener("channel");
+                //socket.removeEventListener(id);
+            }
+            socket.removeEventListener("color");
             $.ajax({
                 url: "/",
                 success: function(e){
-                    if(Helper.mobilecheck() || user_auth_avoid) {
-                        Helper.log("Removing all listeners");
-                        socket.removeAllListeners();
-                        socket.disconnect();
-                    } else {
-                        socket.removeEventListener("chat.all");
-                        socket.removeEventListener("chat");
-                        socket.removeEventListener("conf");
-                        socket.removeEventListener("pw");
-                        socket.removeEventListener("toast");
-                        //socket.removeEventListener("id");
-                        socket.removeEventListener("channel");
-                        //socket.removeEventListener(id);
-                    }
-                    socket.removeEventListener("color");
+
                     document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
                     document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
                     document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
