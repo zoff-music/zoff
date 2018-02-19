@@ -15,6 +15,7 @@ var mobile_beginning = false;
 var durationBegun = false;
 var chromecastAvailable = false;
 var private_channel = false;
+var was_stopped = false;
 var offline = false;
 var began = false;
 var from_frontpage = false;
