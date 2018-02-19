@@ -524,10 +524,10 @@ var Channel = {
             before_toast();
             if(Helper.mobilecheck() || user_auth_avoid) {
                 Helper.log("Removing all listeners");
-                socket.emit("change_channel");
-                removeAllListeners();
+                //socket.emit("change_channel");
+                //removeAllListeners();
                 //socket.removeEventListener(id);
-                //socket.disconnect();
+                socket.disconnect();
             } else {
                 socket.removeEventListener("chat.all");
                 socket.removeEventListener("chat");
