@@ -1139,6 +1139,18 @@ $(document).on("click", "#player_bottom_overlay", function(e){
     Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
+$(document).on("click", ".generate-channel-name", function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: "/api/generate_name",
+        success: function(response) {
+            $(".room_namer").val("");
+            $(".room-namer").val(response);
+        }
+    })
+});
+
 $(document).keydown(function(event) {
     if(window.location.pathname != "/"){
         if(event.keyCode == 91 || event.keyCode == 17){
