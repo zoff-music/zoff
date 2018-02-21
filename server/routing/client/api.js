@@ -15,6 +15,10 @@ router.route('/api/frontpages').get(function(req, res) {
     });
 });
 
+router.route('/api/generate_name').get(function(req, res) {
+    Functions.generate_channel_name(res);
+});
+
 router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

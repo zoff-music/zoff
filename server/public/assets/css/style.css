@@ -466,6 +466,15 @@ li.disabled span {
     /*transition: 1s;*/
 }
 
+.generate-channel-name {
+    margin-left: -24px;
+    padding-right: 5px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #frontpage_player{
     position: fixed;
     bottom: 10px;

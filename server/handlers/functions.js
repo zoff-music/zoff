@@ -17,6 +17,17 @@ function remove_from_array(array, element){
     }
 }
 
+function generate_channel_name(res) {
+    var trying_id = uniqid.time().toLowerCase();
+    db.collection("frontpage_lists").find({frontpage: {$exists: true }, "_id": trying_id }, {"_id": 1}, function(err, docs){
+        if(docs.length == 0) {
+            res.send(trying_id);
+            return;
+        }
+        generate_channel_name(res);
+    });
+}
+
 function get_short_id(socket) {
     var new_short_id = uniqid.time().toLowerCase();
 
@@ -125,6 +136,7 @@ function hash_pass(adminpass) {
     return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
 
+module.exports.generate_channel_name = generate_channel_name;
 module.exports.remove_unique_id = remove_unique_id;
 module.exports.remove_name_from_db = remove_name_from_db;
 module.exports.remove_from_array = remove_from_array;
