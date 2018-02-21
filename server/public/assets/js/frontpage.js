@@ -303,6 +303,7 @@ var Frontpage = {
         $("#main-container").css("background-color", "#2d2d2d");
         if(!Helper.mobilecheck()) {
             $("#frontpage-viewer-counter").tooltip("remove");
+            $(".generate-channel-name").tooltip("remove");
             $("#offline-mode").tooltip("remove");
         }
         currently_showing_channels = 1;
@@ -436,6 +437,11 @@ var Frontpage = {
                 delay: 5,
                 position: "bottom",
                 tooltip: "Total Viewers"
+            });
+            $(".generate-channel-name").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Generate name"
             });
         }
         Frontpage.get_frontpage_lists();
