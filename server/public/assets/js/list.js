@@ -224,11 +224,11 @@ var List = {
     },
 
     check_error_videos: function(i) {
-        Helper.log("Empty-checker at " + i);
+        //Helper.log("Empty-checker at " + i);
             $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
                        + "&key=" + api_key + "&part=snippet",
               function (data, status, xhr) {
-                  Helper.log("Empty-checker items " + data.items.length);
+                  //Helper.log("Empty-checker items " + data.items.length);
                 if (data.items.length == 0) {
                     Helper.log("Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title);
                     socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
