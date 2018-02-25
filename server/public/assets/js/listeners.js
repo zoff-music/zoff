@@ -1023,7 +1023,7 @@ $(document).on("click", ".result-get-more-info", function(e) {
     var parent = that.parent().parent().parent().parent();
 
     var to_toggle = $("#inner-results").find("[data-video-id='" + parent.attr("data-video-id") + "']")[0];
-
+    to_toggle = $(to_toggle).children()[0];
     $(to_toggle).toggleClass("result-object-slid");
     if($(that.children()[0]).text() == "keyboard_arrow_right") {
         $(that.children()[0]).text("keyboard_arrow_left")
