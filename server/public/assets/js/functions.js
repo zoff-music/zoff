@@ -230,10 +230,12 @@ function setup_playlist_listener(){
 }
 
 function setup_host_initialization(){
+    Helper.log("Setting up host initialization listener");
     socket.on("id", Hostcontroller.host_listener);
 }
 
 function setup_host_listener(id){
+    Helper.log("Setting up host action listener");
     socket.on(id, Hostcontroller.host_on_action);
 }
 
