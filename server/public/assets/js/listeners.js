@@ -210,50 +210,57 @@ initializeCastApi = function() {
         Helper.log(event.sessionState);
         switch (event.sessionState) {
             case cast.framework.SessionState.SESSION_STARTED:
-            castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-            castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
-            chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-            chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-            chromecastAvailable = true;
-            paused = false;
-            mobile_beginning = false;
-            var _seekTo;
-            try{
-                _seekTo = Player.player.getCurrentTime();
-            } catch(e){
-                _seekTo = seekTo;
-            }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+                castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
+                chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+                chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+                chromecastAvailable = true;
+                paused = false;
+                mobile_beginning = false;
+                var _seekTo;
+                try{
+                    _seekTo = Player.player.getCurrentTime();
+                } catch(e){
+                    _seekTo = seekTo;
+                }
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 
-            if(Helper.mobilecheck() && !chromecast_specs_sent) {
-                chromecast_specs_sent = true;
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))})
-            }
-            hide_native(1);
-            break;
+                if(Helper.mobilecheck() && !chromecast_specs_sent) {
+                    chromecast_specs_sent = true;
+                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))})
+                }
+                hide_native(1);
+                if(Helper.mobilecheck()) {
+                    Player.playVideo();
+                }
+                $("#channel-load").css("display", "none");
+                $('.castButton').addClass('castButton-white-active');
+                break;
             case cast.framework.SessionState.SESSION_RESUMED:
-            castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-            castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
-            chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-            chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-            chromecastAvailable = true;
-            paused = false;
-            mobile_beginning = false;
-            var _seekTo;
-            try{
-                _seekTo = Player.player.getCurrentTime();
-            } catch(e){
-                _seekTo = seekTo;
-            }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
-            hide_native(1);
-            break;
+                castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
+                chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+                chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+                chromecastAvailable = true;
+                paused = false;
+                mobile_beginning = false;
+                var _seekTo;
+                try{
+                    _seekTo = Player.player.getCurrentTime();
+                } catch(e){
+                    _seekTo = seekTo;
+                }
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+                hide_native(1);
+                $("#channel-load").css("display", "none");
+                $('.castButton').addClass('castButton-white-active');
+                break;
             case cast.framework.SessionState.SESSION_ENDED:
-            chromecastAvailable = false;
-            hide_native(0);
-            break;
+                chromecastAvailable = false;
+                hide_native(0);
+                break;
         }
     });
 
