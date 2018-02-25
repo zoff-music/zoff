@@ -40,8 +40,6 @@ function hide_native(way) {
             Player.player.stopVideo();
         } catch(e){}
         Player.stopInterval = true;
-        $("#player_overlay").removeClass("hide");
-        $("#player_overlay").css("display", "block");
         if(Helper.mobilecheck()){
             if($("#pause").hasClass("hide")){
                 $("#play").toggleClass("hide");
@@ -53,13 +51,23 @@ function hide_native(way) {
         } else {
             $("#volume").slider("value", 100);
         }
-        $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
-        $("#player_overlay").css("background-position", "center");
-        $("#player_overlay").css("background-size", "100%");
-        $("#player_overlay").css("background-color", "black");
-        $("#player_overlay").css("background-repeat", "no-repeat");
-        $("#playing_on").css("display", "flex");
-        $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
+        if(Helper.mobilecheck()) {
+            if(!$("#player_overlay").hasClass("hide")) {
+                $("#player_overlay").addClass("hide")
+            }
+            $("#player_overlay").css("display", "none");
+            $("#playing_on").css("display", "none");
+        } else {
+            $("#player_overlay").removeClass("hide");
+            $("#player_overlay").css("display", "block");
+            $("#player_overlay").css("background", "url(https://i.ytimg.com/vi/" + video_id + "/maxresdefault.jpg)");
+            $("#player_overlay").css("background-position", "center");
+            $("#player_overlay").css("background-size", "100%");
+            $("#player_overlay").css("background-color", "black");
+            $("#player_overlay").css("background-repeat", "no-repeat");
+            $("#playing_on").css("display", "flex");
+            $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
+        }
         Player.player.setVolume(100);
 
         $("#player_overlay_text").toggleClass("hide");
