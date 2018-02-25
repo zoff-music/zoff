@@ -639,7 +639,9 @@ var Player = {
                 //currDurr = currDurr - Player.np.start;
                 minutes = Math.floor(currDurr / 60);
                 seconds = currDurr - (minutes * 60);
-                document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+                if(!isNaN(minutes) && !isNaN(seconds) && !isNaN(dMinutes) && !isNaN(dSeconds)) {
+                    $("#duration").html(Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds));
+                }
                 per = (100 / duration) * currDurr;
                 if(per >= 100) {
                     per = 100;
