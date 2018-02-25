@@ -12,8 +12,16 @@ pathThumbnails = __dirname;
 try {
     var redis = require("redis");
     var client = redis.createClient({host: "localhost", port: 6379});
-    client.quit();
-    startClustered(true);
+    client.on("error", function (err) {
+        console.log("Couldn't connect to redis-server, assuming non-clustered run");
+        num_processes = 1;
+        startClustered(false);
+        client.quit();
+    });
+    client.on("connect", function() {
+        startClustered(true);
+        client.quit();
+    });
 } catch(e) {
     console.log("Couldn't connect to redis-server, assuming non-clustered run");
     num_processes = 1;
