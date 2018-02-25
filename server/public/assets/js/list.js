@@ -560,6 +560,8 @@ var List = {
     },
 
     exportToSpotify: function() {
+        ga('send', 'event', "export", "spotify");
+
         $.ajax({
             type: "GET",
             url: "https://api.spotify.com/v1/me",
@@ -742,6 +744,8 @@ var List = {
     },
 
     exportToYoutube: function() {
+        ga('send', 'event', "export", "youtube");
+
         var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
         $(".exported-list-container").removeClass("hide");
         $("#playlist_loader_export").removeClass("hide");

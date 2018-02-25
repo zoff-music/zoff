@@ -252,6 +252,7 @@ function embed_code(autoplay, width, height, color, embed_code){
 function change_offline(enabled, already_offline){
     Crypt.set_offline(enabled);
     offline = enabled;
+    ga('send', 'event', "button-click", "offline", "", offline ? 1 : 0);
     socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
     if(!Helper.mobilecheck()) {
         $("#offline-mode").tooltip('remove');
