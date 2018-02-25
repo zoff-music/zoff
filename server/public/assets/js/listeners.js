@@ -236,6 +236,8 @@ initializeCastApi = function() {
                 }
                 $("#channel-load").css("display", "none");
                 $('.castButton').addClass('castButton-white-active');
+                $("#playpause").css("visibility", "visible");
+                $("#playpause").css("pointer-events", "all");
                 break;
             case cast.framework.SessionState.SESSION_RESUMED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -256,6 +258,8 @@ initializeCastApi = function() {
                 hide_native(1);
                 $("#channel-load").css("display", "none");
                 $('.castButton').addClass('castButton-white-active');
+                $("#playpause").css("visibility", "visible");
+                $("#playpause").css("pointer-events", "all");
                 break;
             case cast.framework.SessionState.SESSION_ENDED:
                 chromecastAvailable = false;
