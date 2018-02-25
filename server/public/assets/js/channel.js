@@ -105,6 +105,7 @@ var Channel = {
             $(".offline_switch_class")[0].checked = true;
             change_offline(true, offline);
         }
+        if(!Helper.mobilecheck() && ($("#alreadychannel").length === 0 || !Hostcontroller.old_id || $("#code-text").text().toUpperCase() == "ABBADUR")) setup_host_initialization();
 
         if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
             setup_youtube_listener();
@@ -196,8 +197,6 @@ var Channel = {
 
         socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
         socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
-
-        if(!Helper.mobilecheck() && ($("#alreadychannel").length === 0 || !Hostcontroller.old_id || $("#code-text").text().toUpperCase() == "ABBADUR")) setup_host_initialization();
 
         if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
 

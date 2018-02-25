@@ -422,7 +422,6 @@ $(document).on("click", "#offline-mode", function(e){
     } else{
         change_offline(false, offline);
     }
-
 });
 
 $(document).on("submit", "#thumbnail_form", function(e){
@@ -606,6 +605,8 @@ $(document).on("click", ".first_page", function(e){
 
 $(document).on("click", ".donate-button", function(e) {
     e.preventDefault();
+    ga('send', 'event', "button-click", "donate");
+
     $("#donate").modal("open");
 });
 
@@ -706,6 +707,7 @@ $(document).on("click", "#listExport", function(e){
                     access_token_data_youtube = {};
                 }, access_token_data_youtube.expires_in * 1000);
                 List.exportToYoutube();
+
             } else {
                 access_token_data_youtube = "";
                 console.error("Nonce doesn't match");
@@ -753,6 +755,8 @@ $(document).on("submit", "#listImport", function(e){
         document.getElementById("import").disabled = true;
         $("#import").addClass("hide");
         $("#playlist_loader").removeClass("hide");
+
+        ga('send', 'event', "import", "youtube");
     } else {
         before_toast();
         Materialize.toast("It seems you've entered a invalid url.", 4000);
@@ -773,6 +777,8 @@ $(document).on("submit", "#listImportSpotify", function(e){
             document.getElementById("import_spotify").disabled = true;
             $("#import_spotify").addClass("hide");
             $("#playlist_loader_spotify").removeClass("hide");
+
+            ga('send', 'event', "import", "spotify");
 
             Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
         } else {
@@ -869,6 +875,26 @@ $(document).on("submit", "#adminForm", function(e){
 $(document).on("click", "#channel-share-modal", function(){
 	$("#channel-share-modal").modal("close")
 });
+
+$(document).on("click", ".shareface", function(e) {
+    ga('send', 'event', "button-click", "share-facebook");
+});
+
+$(document).on("click", ".android-image-link", function() {
+    ga('send', 'event', "button-click", "android-playstore-link");
+});
+
+$(document).on("click", "#twitter-code-link", function() {
+    ga('send', 'event', "button-click", "share-twitter");
+});
+
+$(document).on("click", ".help-button-footer", function() {
+    ga('send', 'event', "button-click", "help-footer");
+});
+
+$(document).on("click", "#embed-button", function() {
+    ga('send', 'event', "button-click", "embed-channel", "channel-name", chan.toLowerCase());
+})
 
 $(document).on("click", ".chat-link", function(e){
     chat_active = true;
@@ -1159,7 +1185,9 @@ $(document).on("click", ".generate-channel-name", function(e) {
             $(".room_namer").val("");
             $(".room-namer").val(response);
         }
-    })
+    });
+
+    ga('send', 'event', "button-click", "generate-channel");
 });
 
 $(document).keydown(function(event) {
