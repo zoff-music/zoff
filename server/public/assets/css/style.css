@@ -575,7 +575,7 @@ footer{
     right:0px;
 }
 
-.help-button-footer{
+.help-button-footer, .embed-button-footer, .contact-button-footer{
     width:17em;
     background: #1e88e5;
     border-radius: 2px;
