@@ -1984,7 +1984,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .result {
-    border-bottom: solid 1px rgba(229, 229, 229, 0.5);
+    /*border-bottom: solid 1px rgba(229, 229, 229, 0.5);*/
     cursor: pointer;
     /*width:93%;*/
 }
@@ -2436,6 +2436,10 @@ nav ul li:hover, nav ul li.active {
 
 .result-get-more-info {
     display: none;
+}
+
+.result-object {
+    border-bottom: solid 1px rgba(229, 229, 229, 0.5);
 }
 
 .hamburger-sidenav {
@@ -3078,6 +3082,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .result-get-more-info {
+        background: black;
         position: absolute;
         right: 0px;
         height: 100%;
@@ -3094,14 +3099,19 @@ nav ul li:hover, nav ul li.active {
     .result-object {
         -webkit-transform: translateX(0%);
         transform: translateX(0%);
-        -webkit-transition: transform .5s;
-        -moz-transition: transform .5s;
-        transition: transform .5s;
+        overflow: hidden;
+    }
+
+    .result {
+        -webkit-transition: margin .5s;
+        -moz-transition: margin .5s;
+        transition: margin .5s;
     }
 
     .result-object-slid {
-        -webkit-transform: translateX(calc(-100% + 45px)) !important;
-        transform: translateX(calc(-100% + 45px)) !important;
+        /*-webkit-transform: translateX(calc(-100% + 45px)) !important;
+        transform: translateX(calc(-100% + 45px)) !important;*/
+        margin-left: -99%;
     }
 
     .result-start-end-container {
