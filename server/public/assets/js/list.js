@@ -842,7 +842,7 @@ var List = {
     },
 
     show: function() {
-        if(!Helper.mobilecheck())
+        if(!Helper.mobilecheck() && !chromecastAvailable)
         {
             $("#channel-share-modal").modal("open");
         }
