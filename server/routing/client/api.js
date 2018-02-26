@@ -114,12 +114,16 @@ try {
                     res.sendStatus(500);
                     return;
                 } else {
+                    var subject = 'ZOFF: Contact form webpage';
+                    if(req.body.error_report) {
+                        subject = 'ZOFF: Error report';
+                    }
                     var from = req.body.from;
                     var message = req.body.message;
                     var msg = {
-                        from: 'no-reply@zoff.me',
-                        to: 'contact@zoff.me',
-                        subject: 'ZOFF: Contact form webpage',
+                        from: mailconfig.from,
+                        to: mailconfig.to,
+                        subject: subject,
                         text: message,
                         html: message,
                         replyTo: from

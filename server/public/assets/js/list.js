@@ -163,10 +163,10 @@ var List = {
 
         $("#wrapper").empty();
 
-        Helper.log("---------------------------");
-        Helper.log("---------FULL PLAYLIST-----");
-        Helper.log(full_playlist);
-        Helper.log("---------------------------");
+        Helper.log([
+            "FULL PLAYLIST",
+            full_playlist
+        ]);
         if(full_playlist.length > 1){
             $.each(full_playlist, function(j, _current_song){
                 if(!_current_song.hasOwnProperty("start")) full_playlist[j].start = 0;
@@ -213,7 +213,7 @@ var List = {
         $("#pageButtons").removeClass("hide");
 
         if(!embed) {
-            Helper.log("Starting empty-checker");
+            Helper.log(["Starting empty-checker"]);
             clearTimeout(timed_remove_check);
             timed_remove_check = setTimeout(function() {
                 if(full_playlist.length > 0) {
@@ -230,7 +230,7 @@ var List = {
               function (data, status, xhr) {
                   //Helper.log("Empty-checker items " + data.items.length);
                 if (data.items.length == 0) {
-                    Helper.log("Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title);
+                    Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
                     socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
                 }
                 if(full_playlist.length > i + 1 && window.location.pathname != "/") {
@@ -238,7 +238,7 @@ var List = {
                 }
 
             }).error(function (xhr, errorType, exception) {
-                Helper.log("Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title);
+                Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
                 socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
                 if(full_playlist.length > i + 1 && window.location.pathname != "/") {
                     List.check_error_videos(i + 1);
@@ -521,10 +521,10 @@ var List = {
             } else {
                 delete full_playlist[length];
             }
-            Helper.log("---------------------------");
-            Helper.log("---SONG ON FIRST INDEX-----");
-            Helper.log(full_playlist[0]);
-            Helper.log("---------------------------");
+            Helper.log([
+                "SONG ON FIRST INDEX",
+                full_playlist[0]
+            ]);
             full_playlist.push(full_playlist.shift());
             if(!remove){
                 List.insertAtIndex(full_playlist[$("#wrapper").children().length], false, true);
@@ -634,12 +634,12 @@ var List = {
             async: true,
             error: function(err){
                 if(err.status == 429 || err.status == 502){
-                    Helper.log(err.getAllResponseHeaders());
+                    Helper.log([err.getAllResponseHeaders()]);
                     var retryAfter = err.getResponseHeader("Retry-After");
-                    Helper.log(retryAfter);
+                    Helper.log([retryAfter]);
                     if (!retryAfter) retryAfter = 5;
                     retryAfter = parseInt(retryAfter, 10);
-                    Helper.log("Retry-After", retryAfter);
+                    Helper.log(["Retry-After", retryAfter]);
                     setTimeout(function(){
                         List.searchSpotify(curr_song, playlist_id, user_id, full_playlist, current_element);
                     }, retryAfter * 1000);
@@ -657,13 +657,19 @@ var List = {
                     if(similarity(data.artists[0].name + " - " + data.name, decodeURIComponent(track)) > 0.60 || (data.artists.length > 1 && similarity(data.artists[0].name + " " + data.artists[1].name + " - " + data.name, decodeURIComponent(track)))) {
                         found = true;
                         List.uris.push(data.uri);
-                        Helper.log("Found", track);
+                        Helper.log([
+                            "Found",
+                            track
+                        ]);
                         //List.num_songs = List.num_songs + 1;
                         return false;
                     } else if(decodeURIComponent(track).indexOf(data.artists[0].name.toLowerCase()) >= 0 && decodeURIComponent(track).indexOf(data.name.toLowerCase()) >= 0){
                         found = true;
                         List.uris.push(data.uri);
-                        Helper.log("Found", track);
+                        Helper.log([
+                            "Found",
+                            track
+                        ]);
                         //List.num_songs = List.num_songs + 1;
                         return false;
                     } else {
@@ -677,7 +683,10 @@ var List = {
                         }
                         found = true;
                         List.uris.push(data.uri);
-                        Helper.log("Found", track);
+                        Helper.log([
+                            "Found",
+                            track
+                        ]);
                         //List.num_songs = List.num_songs + 1;
                         return false;
                     }
@@ -685,7 +694,10 @@ var List = {
                 if(!found){
                     List.not_found.push(original_track);
                     List.num_songs = List.num_songs + 1;
-                    Helper.log("Didn't find", original_track);
+                    Helper.log([
+                        "Didn't find",
+                        original_track
+                    ]);
                 }
                 if(List.num_songs + List.uris.length == full_playlist.length){
                     if(List.uris.length > 100){
@@ -738,7 +750,7 @@ var List = {
                 }, 3000);
             },
             success: function(response){
-                Helper.log("Added songs");
+                Helper.log(["Added songs"]);
             }
         })
     },
@@ -769,7 +781,10 @@ var List = {
                 List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
             },
             error: function(response){
-                Helper.log(response);
+                Helper.log([
+                    "export to youtube response",
+                    response
+                ]);
             }
         });
     },
@@ -793,10 +808,10 @@ var List = {
             },
             data: _data,
             success: function(response){
-                Helper.log("Added video: " + full_playlist[num].id + " to playlist id " + playlist_id);
+                Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
                 if(num == full_playlist.length - 1){
-                    Helper.log("All videoes added!");
-                    Helper.log("url: https://www.youtube.com/playlist?list=" + playlist_id);
+                    Helper.log(["All videoes added!"]);
+                    Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
                     $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                     $("#playlist_loader_export").addClass("hide");
                     $(".current_number").addClass("hide");

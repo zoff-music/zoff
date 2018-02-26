@@ -138,10 +138,34 @@ window.zoff = {
     disable_debug: disable_debug
 }
 
+if(!Helper.mobilecheck()) {
+    $(window).error(function(e){
+        e.preventDefault();
+        Helper.logs.unshift({log: e.originalEvent.error.stack.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
+        $(".contact-form-content").remove();
+        $("#submit-contact-form").remove();
+        $(".contact-modal-header").text("An error occurred");
+        $(".contact-container-info").remove();
+        $(".contact-modal-footer").prepend('<a href="#!" class="waves-effect waves-green btn-flat send-error-modal">Send</a>');
+        $("#contact-form").attr("id", "error-report-form");
+        $("#contact-container").prepend('<p>Do you want to send an error-report?</p> \
+            <p class="error-report-success"></p> \
+            <div class="error-code-container"> \
+                <code id="error-report-code"></code> \
+            </div>');
+        $("#contact").modal();
+        $("#contact").modal("open");
+        /*$("#error-report-modal").modal();*/
+        $("#error-report-code").text(JSON.stringify(Helper.logs, undefined, 4));
+        console.error(e.originalEvent.error);
+    });
+}
+
 $().ready(function(){
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
     }
+
     if(!fromFront && window.location.pathname != "/") Channel.init();
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
@@ -205,8 +229,10 @@ initializeCastApi = function() {
     var context = cast.framework.CastContext.getInstance();
     chromecastReady = true;
     context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-        Helper.log("session state");
-        Helper.log(event.sessionState);
+        Helper.log([
+            "session state",
+            event.sessionState
+        ]);
         switch (event.sessionState) {
             case cast.framework.SessionState.SESSION_STARTED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -268,8 +294,10 @@ initializeCastApi = function() {
     });
 
     context.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
-        Helper.log("cast state");
-        Helper.log(event.castState);
+        Helper.log([
+            "cast state",
+            event.castState
+        ]);
         if(event.castState == "NOT_CONNECTED"){
             $(".castButton").css("display", "block");
             if(!$(".volume-container").hasClass("volume-container-cast")) {
@@ -692,7 +720,6 @@ $("#clickme").click(function(){
 
 $(document).on("click", "#listExport", function(e){
     e.preventDefault();
-    Helper.log(full_playlist);
     if(!youtube_authenticated){
         var nonce = Helper.randomString(29);
         window.callback = function(data) {
@@ -1070,6 +1097,37 @@ $(document).on('submit', '#contact-form', function(e){
     Helper.send_mail(from, message);
 });
 
+$(document).on('click', ".send-error-modal", function(e) {
+    e.preventDefault();
+    $("#error-report-form").submit();
+})
+
+$(document).on('submit', "#error-report-form", function(e) {
+    e.preventDefault();
+    var captcha_response = grecaptcha.getResponse();
+    $("#send-loader").removeClass("hide");
+    $.ajax({
+        type: "POST",
+        data: {
+            from: "no-reply@zoff.me",
+            message: $("#error-report-code").text(),
+            "g-recaptcha-response": captcha_response,
+        },
+        url: "/api/mail",
+        success: function(data){
+            if(data == "success"){
+                $(".send-error-modal").remove();
+                $("#error-report-form").remove();
+                $(".error-code-container").remove();
+                $(".error-report-success").text("Error report sent!");
+                $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
+            }else{
+                $(".error-report-success").text("Mail was not sent, try again");
+            }
+            $("#send-loader").addClass("hide");
+        }
+    });
+});
 
 $(document).on( "click", "#add-many", function(e){
     var id 		= $(this).attr("data-video-id");
@@ -1288,6 +1346,6 @@ $(document).on("submit", "#find_form", function(e){
         List.dynamicContentPageJumpTo(jump_to_page);
     } else {
         $(".highlight").removeClass("highlight");
-        Helper.log("none found");
+        Helper.log(["none found"]);
     }
 });
