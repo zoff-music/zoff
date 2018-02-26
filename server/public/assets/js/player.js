@@ -283,6 +283,12 @@ var Player = {
         }
     },
 
+    playPauseVideo: function() {
+        if(chromecastAvailable) {
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "playPauseVideo"});
+        }
+    }
+
     playVideo: function(){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "playVideo"});
