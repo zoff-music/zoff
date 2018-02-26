@@ -2739,6 +2739,19 @@ nav ul li:hover, nav ul li.active {
     }
 
 
+    .empty-inner-results {
+        height: 100vh !important;
+    }
+
+    #empty-results {
+        height: calc(100vh - 112px);
+    }
+
+    .search_input {
+        padding-right: 50px;
+        width: calc(100vw - 78px);
+    }
+
     .playlist-tabs-loggedIn, .playlist-tabs {
         width: calc(100%) !important;
     }
@@ -3041,6 +3054,9 @@ nav ul li:hover, nav ul li.active {
         margin-left: -36px;
         margin-top: 0;
         height: 56px;
+        position: absolute;
+        right: 15px;
+        top: 50px;
     }
 
     .title-container{

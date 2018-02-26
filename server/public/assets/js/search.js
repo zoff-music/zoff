@@ -62,8 +62,9 @@ var Search = {
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
                     if(response.items.length === 0) {
-
-                        $("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+                        $("#results").empty();
+                        $("#results").css("display", "block");
+                        $("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                         if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
                         $(".search_loader_spinner").removeClass("active");
 
