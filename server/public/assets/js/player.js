@@ -293,8 +293,8 @@ var Player = {
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "playVideo"});
             //socket.emit('pos', {channel: chan.toLowerCase()});
-            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-            chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+            //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
             if($("#pause").hasClass("hide")){
                 $("#play").toggleClass("hide");
                 $("#pause").toggleClass("hide");
@@ -338,7 +338,7 @@ var Player = {
         else e = Player.np.end;
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase()});
-            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg'});
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
             window.player = Player.player;
@@ -392,7 +392,7 @@ var Player = {
         //Player.setBGimage(video_id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end:end});
-            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
             Player.loadVideoById(video_id, duration, start, end);
@@ -429,7 +429,7 @@ var Player = {
 
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end: end});
-            chrome.cast.media.GenericMediaMetadata({metadataType: "GENERIC", title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
             Player.loadVideoById(video_id, duration, start, end);
