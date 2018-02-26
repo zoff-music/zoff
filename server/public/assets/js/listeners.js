@@ -237,8 +237,8 @@ initializeCastApi = function() {
             case cast.framework.SessionState.SESSION_STARTED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
-                chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-                chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+                //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                 chromecastAvailable = true;
                 paused = false;
                 mobile_beginning = false;
@@ -267,8 +267,8 @@ initializeCastApi = function() {
             case cast.framework.SessionState.SESSION_RESUMED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
-                chrome.cast.media.GenericMediaMetadata({title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'});
-                chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+                //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                 chromecastAvailable = true;
                 paused = false;
                 mobile_beginning = false;
