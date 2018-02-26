@@ -38,7 +38,7 @@ var Search = {
         if(search_input !== ""){
             searching = true;
             var keyword= encodeURIComponent(search_input);
-            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=25";
+            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id&type=video&order=relevance&safeSearch=none&maxResults=25";
             yt_url+="&q="+keyword;
             if(music)yt_url+="&videoCategoryId=10";
             if(pagination) yt_url += "&pageToken=" + pagination;
