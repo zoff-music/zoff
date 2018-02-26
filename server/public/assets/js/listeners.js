@@ -3,7 +3,6 @@ var w_p 				  		= true;
 var hasadmin			  		= 0;
 var list_html 			  		= $("#list-song-html").html();
 var unseen 			   	  		= false;
-var api_key 		   	  		= "AIzaSyDvMlC0Kvk76-WO9UrtBaaEYyUw4z-TGqE";
 var searching 		   	  		= false;
 var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
 var conf 			   	  		= [];

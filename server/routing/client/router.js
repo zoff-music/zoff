@@ -3,7 +3,12 @@ var router = express.Router();
 var path = require('path');
 var year = new Date().getYear()+1900;
 var path = require('path');
-
+var analytics = "xx";
+try {
+    analytics = require(path.join(path.join(__dirname, '../../config/'), 'analytics.js'));
+} catch(e) {
+    console.log("No analytics-id found");
+}
 try {
     var Recaptcha = require('express-recaptcha');
     var recaptcha_config = require(path.join(path.join(__dirname, '../../config/'), 'recaptcha.js'));
@@ -52,7 +57,8 @@ function root(req, res, next) {
             var data = {
                 year: year,
                 javascript_file: "remote.min.js",
-                captcha: res.recaptcha
+                captcha: res.recaptcha,
+                analytics: analytics
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
@@ -61,7 +67,8 @@ function root(req, res, next) {
             var data = {
                 year: year,
                 javascript_file: "main.min.js",
-                captcha: res.recaptcha
+                captcha: res.recaptcha,
+                analytics: analytics
             }
             res.render('layouts/client/frontpage', data);
         }
@@ -83,7 +90,8 @@ function channel(req, res, next) {
             var data = {
                 year: year,
                 javascript_file: "remote.min.js",
-                captcha: res.recaptcha
+                captcha: res.recaptcha,
+                analytics: analytics
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
@@ -100,6 +108,7 @@ function channel(req, res, next) {
                     year: year,
                     javascript_file: "main.min.js",
                     captcha: res.recaptcha,
+                    analytics: analytics
                 }
 
 

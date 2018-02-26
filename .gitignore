@@ -4,6 +4,7 @@ server/config/api_key.js
 server/config/mongo_config.js
 server/config/cert_config.js
 server/config/recaptcha.js
+server/config/analytics.js
 server/public/assets/dist/callback.min.js
 server/public/assets/dist/embed.min.js
 server/public/assets/dist/main.min.js

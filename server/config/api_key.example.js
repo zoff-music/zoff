@@ -1,3 +1,5 @@
-var key = "xxxx";
+var api_key = "xxxx";
 
-module.exports = key;
+try {
+    module.exports = api_key;
+} catch(e) {}
