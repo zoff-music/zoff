@@ -327,6 +327,12 @@ initializeCastApi = function() {
     }
 };
 
+$(document).on("click", "#player_overlay", function(e) {
+    if(chromecastAvailable) {
+        Player.playPauseVideo();
+    }
+});
+
 $(document).on("click", "#bitcoin-address", function(e) {
     var copyTextarea = document.querySelector('#bitcoin-address');
     copyTextarea.select();
