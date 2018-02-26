@@ -26,7 +26,7 @@ in ```/server/config```. There are ```*.example.js``` files for all the ones men
 
 If you want to use Google Analytics, have a look at ```analytics.example.js``` in ```server/config/```.
 
-Use ```$ npm start``` to start the server.
+Use ```$ npm start``` to start the server. (Alternative you can use the ```pm2.json``` in the project-root, if you prefer pm2 for running the apps.)
 
 ### About
 
