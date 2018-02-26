@@ -1,6 +1,6 @@
 
 function removeAllListeners() {
-    Helper.log("Removing all listeners");
+    Helper.log(["Removing all listeners"]);
     socket.removeEventListener("chat.all");
     socket.removeEventListener("chat");
     socket.removeEventListener("conf");
@@ -147,7 +147,7 @@ function setup_auth_listener() {
 
 function setup_no_connection_listener(){
     socket.on('connect_failed', function(){
-        Helper.log('Connection Failed');
+        Helper.log(['Connection Failed']);
         if(!connect_error){
             connect_error = true;
             Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
@@ -155,7 +155,7 @@ function setup_no_connection_listener(){
     });
 
     socket.on("connect_error", function(){
-        Helper.log("Connection Failed.");
+        Helper.log(["Connection Failed."]);
         if(!connect_error){
             connect_error = true;
             Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
@@ -225,17 +225,17 @@ function setup_list_listener(){
 }
 
 function setup_playlist_listener(){
-    Helper.log("Setting up playlist_listener");
+    Helper.log(["Setting up playlist_listener"]);
     socket.on('playlists', Frontpage.frontpage_function);
 }
 
 function setup_host_initialization(){
-    Helper.log("Setting up host initialization listener");
+    Helper.log(["Setting up host initialization listener"]);
     socket.on("id", Hostcontroller.host_listener);
 }
 
 function setup_host_listener(id){
-    Helper.log("Setting up host action listener");
+    Helper.log(["Setting up host action listener"]);
     socket.on(id, Hostcontroller.host_on_action);
 }
 

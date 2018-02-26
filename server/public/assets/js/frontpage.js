@@ -18,10 +18,10 @@ var Frontpage = {
     frontpage_function: function(msg) {
         frontpage = true;
 
-        Helper.log("-----------");
-        Helper.log("Frontpage fetch");
-        Helper.log(msg);
-        Helper.log("------------");
+        Helper.log([
+            "Frontpage fetch",
+            msg
+        ]);
         Frontpage.all_channels = msg.channels;
         Frontpage.populate_channels(msg.channels, true);
         Frontpage.set_viewers(msg.viewers);
@@ -63,9 +63,10 @@ var Frontpage = {
 
         pre_card = $(channel_list);
 
-        Helper.log("------------");
-        Helper.log(pre_card);
-        Helper.log("-------------");
+        Helper.log([
+            "Pre_card: ",
+            pre_card
+        ]);
 
         for(var x in lists) {
             var chan = lists[x]._id;
@@ -297,7 +298,7 @@ var Frontpage = {
         new_channel = new_channel.toLowerCase();
         clearTimeout(rotation_timeout);
         if(Helper.mobilecheck()){
-            Helper.log("removing all listeners");
+            Helper.log(["removing all listeners"]);
             removeAllListeners();
         }
         $("#main-container").css("background-color", "#2d2d2d");
@@ -415,10 +416,11 @@ var Frontpage = {
         $("#contact").modal();
         $('select').material_select();
 
-        Helper.log("----");
-        Helper.log("Sending frontpage_lists");
-        Helper.log("Socket", socket);
-        Helper.log("-----");
+        Helper.log([
+            "Sending frontpage_lists",
+            "Socket",
+            socket
+        ]);
 
         Crypt.init();
         if(Crypt.get_offline()){

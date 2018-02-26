@@ -15,7 +15,9 @@ var mail_config = {
     authMethod: 'PLAIN',
     tls: {
         ciphers:'SSLv3'
-    }
+    },
+    from: 'no-reply@zoff.me',
+    to: 'contact@zoff.me'
 };
 
 module.exports = mail_config;

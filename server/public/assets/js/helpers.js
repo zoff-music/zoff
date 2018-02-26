@@ -1,8 +1,16 @@
 var Helper = {
-
+    logs: [],
     log: function(to_log) {
         if(localStorage.debug === "true") {
-            console.log(to_log);
+            console.log("------------ " + new Date());
+            for(var i = 0; i < to_log.length; i++) {
+                console.log(to_log[i]);
+            }
+            console.log("------------ " + new Date());
+        }
+        Helper.logs.unshift({log: to_log, date: new Date()});
+        if(Helper.logs.length > 10) {
+            Helper.logs.splice(-1, Helper.logs.length - 10);
         }
     },
 

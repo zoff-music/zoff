@@ -30,21 +30,21 @@ var Player = {
             prev_chan_player = chan;
             from_frontpage = false;
             Player.loaded      = false;
-            Helper.log("--------youtube_listener--------");
-            Helper.log("Received: ");
-            Helper.log(obj);
-            Helper.log("paused variable: " + paused);
-            Helper.log("mobile_beginning variable: " + mobile_beginning);
+            Helper.log([
+                "youtube_listener",
+                "Received: ",
+                obj,
+                "paused variable: " + paused,
+                "mobile_beginning variable: " + mobile_beginning]);
             try{
-                Helper.log("getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]);
+                Helper.log(["getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]]);
             } catch(e){
 
             }
-            Helper.log("video_id variable: " + video_id);
-            Helper.log("---------------------------------");
+            Helper.log(["video_id variable: " + video_id]);
 
             if(!obj.np){
-                document.getElementById('song-title').innerHTML = "Empty channel. Add some songs!";
+                $('#song-title').html("Empty channel. Add some songs!");
                 document.title = "Zoff - the shared YouTube based radio";
                 $("#channel-load").css("display", "none");
                 //$("#player_overlay").height($("#player").height());
@@ -205,15 +205,16 @@ var Player = {
     },
 
     onPlayerStateChange: function(newState) {
-        Helper.log("-------onPlayerStateChange------");
-        Helper.log("New state\nState: ");
-        Helper.log(newState);
+        Helper.log([
+            "onPlayerStateChange",
+            "New state\nState: ",
+            newState
+        ]);
         try{
-            Helper.log("Duration: " + Player.player.getDuration(), "Current time: " + Player.player.getCurrentTime());
-            Helper.log("getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]);
+            Helper.log(["Duration: " + Player.player.getDuration(), "Current time: " + Player.player.getCurrentTime()]);
+            Helper.log(["getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]]);
         }catch(e){}
-        Helper.log("video_id variable: " + video_id);
-        Helper.log("---------------------------------");
+        Helper.log(["video_id variable: " + video_id]);
         switch(newState.data) {
             case YT.PlayerState.UNSTARTED:
                 break;
