@@ -247,9 +247,9 @@ var Player = {
                 if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
                 if(window.location.pathname != "/"){
                     if(document.getElementById("play").className.split(" ").length == 1)
-                    $("#play").toggleClass("hide");
+                        $("#play").toggleClass("hide");
                     if(document.getElementById("pause").className.split(" ").length == 2)
-                    $("#pause").toggleClass("hide");
+                        $("#pause").toggleClass("hide");
                 }
                 if((paused && !offline) || was_stopped) {
                     socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
@@ -287,7 +287,7 @@ var Player = {
         if(chromecastAvailable) {
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "playPauseVideo"});
         }
-    }
+    },
 
     playVideo: function(){
         if(chromecastAvailable){
