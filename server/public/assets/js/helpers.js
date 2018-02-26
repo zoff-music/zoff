@@ -2,7 +2,11 @@ var Helper = {
 
     log: function(to_log) {
         if(localStorage.debug === "true") {
-            console.log(to_log);
+            console.log("------------");
+            for(var i = 0; i < to_log.length; i++) {
+                console.log(to_log[i]);
+            }
+            console.log("------------");
         }
     },
 

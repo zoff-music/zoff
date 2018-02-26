@@ -193,11 +193,11 @@ var Search = {
                 //Helper.log(response);
                 if(response.items.length === 0){
                     Search.readySubmit(false, {totalLength: totalNumber - 1});
-                    Helper.log("------------------------------");
-                    Helper.log("NO MATCH FOR:");
-                    Helper.log("Spotify title: " + title + " " + artist.join(" "));
-                    Helper.log("Spotify length: " + length);
-                    Helper.log("------------------------------");
+                    Helper.log([
+                        "NO MATCH FOR:",
+                        "Spotify title: " + title + " " + artist.join(" "),
+                        "Spotify length: " + length
+                    ]);
                     var not_added_song = $("<div>" + not_import_html + "</div>");
                     not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
                     not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
@@ -251,11 +251,11 @@ var Search = {
                                 });
                                 if(!matched){
                                     Search.readySubmit(false, {totalLength: totalNumber - 1});
-                                    Helper.log("------------------------------");
-                                    Helper.log("NO MATCH FOR:");
-                                    Helper.log("Spotify title: " + title + " " + artist.join(" "));
-                                    Helper.log("Spotify length: " + length);
-                                    Helper.log("------------------------------");
+                                    Helper.log([
+                                        "NO MATCH FOR:",
+                                        "Spotify title: " + title + " " + artist.join(" "),
+                                        "Spotify length: " + length
+                                    ]);
                                     var not_added_song = $("<div>" + not_import_html + "</div>");
                                     not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
                                     not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
@@ -351,7 +351,10 @@ var Search = {
                         };
                         youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
                     } else {
-                        Helper.log(response.error);
+                        Helper.log([
+                            "import list error: ",
+                            response.error
+                        ]);
                         document.getElementById("import").disabled = false;
                         $("#playlist_loader").addClass("hide");
                         $("#import").removeClass("hide");

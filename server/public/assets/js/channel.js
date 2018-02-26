@@ -247,8 +247,7 @@ var Channel = {
             $(".castButton").css("display", "none");
         }
 
-        Helper.log("chromecastAvailable" + chromecastAvailable);
-        Helper.log("chromecastAvailable" + chromecastReady);
+        Helper.log(["chromecastAvailable " + chromecastAvailable, "chromecastAvailable" + chromecastReady]);
 
         if(chromecastAvailable){
             hide_native(1);
@@ -281,7 +280,6 @@ var Channel = {
             var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
             total = total * e.clientX;
 
-            Helper.log(total);
             if(!chromecastAvailable){
                 Player.player.seekTo(total + Player.np.start);
 
@@ -345,18 +343,17 @@ var Channel = {
 
     spotify_is_authenticated: function(bool){
         if(bool){
-            Helper.log("------------------------");
-            Helper.log("Spotify is authenticated");
-            Helper.log("access_token: " + access_token_data.access_token);
-            Helper.log("token_type:" + access_token_data.token_type);
-            Helper.log("expires_in: " + access_token_data.expires_in);
-            Helper.log("------------------------");
+            Helper.log([
+                "Spotify is authenticated",
+                "access_token: " + access_token_data.access_token,
+                "token_type:" + access_token_data.token_type,
+                "expires_in: " + access_token_data.expires_in
+            ]);
+
             $(".spotify_authenticated").css("display", "block");
             $(".spotify_unauthenticated").css("display", "none");
         } else {
-            Helper.log("----------------------------");
-            Helper.log("Spotify is not authenticated");
-            Helper.log("----------------------------");
+            Helper.log(["Spotify is not authenticated"]);
             $(".spotify_authenticated").css("display", "none");
             $(".spotify_unauthenticated").css("display", "block");
         }
@@ -522,7 +519,7 @@ var Channel = {
             clearTimeout(tap_target_timeout);
             before_toast();
             if(Helper.mobilecheck() || user_auth_avoid) {
-                Helper.log("Removing all listeners");
+                Helper.log(["Removing all listeners"]);
                 //socket.emit("change_channel");
                 //removeAllListeners();
                 //socket.removeEventListener(id);
@@ -595,7 +592,7 @@ var Channel = {
                     $("#favicon").attr("href", "/assets/images/favicon-32x32.png");
 
                     $(".context-menu-list").remove();
-                    Helper.log(socket);
+                    Helper.log(["Socket", socket]);
                     if($("#alreadyfp").length == 1){
                         Frontpage.init();
                     }else {
