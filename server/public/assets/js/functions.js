@@ -108,19 +108,31 @@ function chromecastListener(evt, data) {
     var json_parsed = JSON.parse(data);
     switch(json_parsed.type){
         case -1:
-        if(offline){
-            Player.playNext();
-        } else {
-            socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
-        }
-        break;
+            if(offline){
+                Player.playNext();
+            } else {
+                socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            }
+            break;
         case 0:
-        if(offline){
-            Player.playNext();
-        } else {
-            socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
-        }
-        break;
+            if(offline){
+                Player.playNext();
+            } else {
+                socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            }
+            break;
+        case 1:
+            if(!$("#play").hasClass("hide")) {
+                $("#play").addClass("hide");
+            }
+            $("#pause").removeClass("hide");
+            break;
+        case 2:
+            if(!$("#pause").hasClass("hide")) {
+                $("#pause").addClass("hide");
+            }
+            $("#play").removeClass("hide");
+            break;
     }
 }
 
