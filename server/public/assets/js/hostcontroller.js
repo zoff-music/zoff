@@ -5,8 +5,10 @@ var Hostcontroller = {
     old_id: null,
 
     host_listener: function(id) {
-        Helper.log("Host-listener triggered");
-        Helper.log("Host-listener id:" + id);
+        Helper.log([
+            "Host-listener triggered",
+            "Host-listener id:" + id
+        ]);
         if(Hostcontroller.old_id === null) Hostcontroller.old_id = id;
         else {
             socket.removeAllListeners(id);

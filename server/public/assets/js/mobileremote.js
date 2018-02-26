@@ -47,7 +47,6 @@ var Mobile_remote = {
 			animate: true,
 			stop:function(event, ui) {
 				socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
-				Helper.log("volume");
 			}
 		});
 	}

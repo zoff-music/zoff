@@ -205,8 +205,10 @@ initializeCastApi = function() {
     var context = cast.framework.CastContext.getInstance();
     chromecastReady = true;
     context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-        Helper.log("session state");
-        Helper.log(event.sessionState);
+        Helper.log([
+            "session state",
+            event.sessionState
+        ]);
         switch (event.sessionState) {
             case cast.framework.SessionState.SESSION_STARTED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -268,8 +270,10 @@ initializeCastApi = function() {
     });
 
     context.addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function(event){
-        Helper.log("cast state");
-        Helper.log(event.castState);
+        Helper.log([
+            "cast state",
+            event.castState
+        ]);
         if(event.castState == "NOT_CONNECTED"){
             $(".castButton").css("display", "block");
             if(!$(".volume-container").hasClass("volume-container-cast")) {
@@ -692,7 +696,6 @@ $("#clickme").click(function(){
 
 $(document).on("click", "#listExport", function(e){
     e.preventDefault();
-    Helper.log(full_playlist);
     if(!youtube_authenticated){
         var nonce = Helper.randomString(29);
         window.callback = function(data) {
@@ -1288,6 +1291,6 @@ $(document).on("submit", "#find_form", function(e){
         List.dynamicContentPageJumpTo(jump_to_page);
     } else {
         $(".highlight").removeClass("highlight");
-        Helper.log("none found");
+        Helper.log(["none found"]);
     }
 });
