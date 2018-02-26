@@ -247,7 +247,7 @@ var Channel = {
             $(".castButton").css("display", "none");
         }
 
-        Helper.log(["chromecastAvailable " + chromecastAvailable, "chromecastAvailable" + chromecastReady]);
+        Helper.log(["chromecastAvailable " + chromecastAvailable, "chromecastReady " + chromecastReady]);
 
         if(chromecastAvailable){
             hide_native(1);
