@@ -1,8 +1,16 @@
 {
-  "apps" : [{
-    "name"        : "zoff",
-    "script"      : "./server/app.js",
-    "watch"       : true,
-    "ignore_watch": ["node_modules", "public/assets/images/thumbnails"],
-  }]
+    "apps" : [
+        {
+            "name"        : "zoff",
+            "script"      : "./server/app.js",
+            "watch"       : true,
+            "ignore_watch": ["./node_modules", "./server/public/assets/images/thumbnails"],
+        },
+        {
+            "name"        : "gulp",
+            "script"      : "./gulpfile.js",
+            "watch"       : true,
+            "ignore_watch": ["./node_modules", "./server/"],
+        }
+    ]
 }
