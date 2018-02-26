@@ -1,16 +1,18 @@
 <div id="contact" class="modal">
-    <div class="modal-content">
-        <h4>Contact</h4>
+    <div class="modal-content contact-modal-content">
+        <h4 class="contact-modal-header">Contact</h4>
         <div id="contact-container">
-            <p>Found a bug, or just want to contact the team?</p>
+            <p class="contact-container-info">Found a bug, or just want to contact the team?</p>
             <form id="contact-form" method="post">
-                <div class="input-field">
-                    <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
-                    <label for="contact-form-from" class="noselect">Email</label>
-                </div>
-                <div class="input-field">
-                    <input id="contact-form-message" name="message" type="text" autocomplete="off">
-                    <label for="contact-form-message" class="noselect">Message</label>
+                <div class="contact-form-content">
+                    <div class="input-field">
+                        <input id="contact-form-from" name="from" type="email" autocomplete="off" class="validate" />
+                        <label for="contact-form-from" class="noselect">Email</label>
+                    </div>
+                    <div class="input-field">
+                        <input id="contact-form-message" name="message" type="text" autocomplete="off">
+                        <label for="contact-form-message" class="noselect">Message</label>
+                    </div>
                 </div>
                 {{{captcha}}}
                 <div class="valign hide" id="send-loader">
@@ -21,7 +23,7 @@
             </form>
         </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer contact-modal-footer">
         <button class="waves-effect waves-green btn-flat" id="submit-contact-form">Send</button>
         <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Close</a>
     </div>

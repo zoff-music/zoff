@@ -16,6 +16,12 @@ body {
     background: white;
 }
 
+.error-code-container {
+    background: lightgrey;
+    border: 1px solid darkgrey;
+    margin-bottom: 20px;
+}
+
 .admin_panel{
     margin-top:100px;
 }
