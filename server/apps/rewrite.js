@@ -8,17 +8,9 @@ db.getCollectionNames(function(err, docs) {
     }
 })
 
-/*function delete(name) {
-    db.collection(name).remove(function(err, doc) {
-
-    })
-}*/
-
 function makeNewAndDelete(name) {
     db.collection(name).find({views: {$exists: true}}, function(err, doc) {
-        //console.log(doc);
         if(doc.length == 0) {
-            //console.log(name);
         } else if(doc.length == 1) {
             db.collection(name + "_settings").insert(doc[0], function(err, result){
                 console.log("Result insert", result);
