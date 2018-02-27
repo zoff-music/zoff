@@ -258,8 +258,11 @@ initializeCastApi = function() {
                 request.customData = customData;
                 request.metadata = metadata;
                 castSession.loadMedia(request).then(
-                  function() { console.log('Load succeed'); },
-                  function(errorCode) { console.log('Error code: ' + errorCode);
+                  function() {
+                      console.log('Load succeed');
+                  },
+                  function(errorCode) {
+                      console.log('Error code: ' + errorCode);
                 });
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
                 chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});

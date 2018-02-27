@@ -5,11 +5,11 @@ var gulp    = require('gulp'),
 
 gulp.task('js', function () {
     gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
-        .pipe(uglify({
+        /*.pipe(uglify({
         	mangle: true,
             compress: true,
         	enclose: true
-        }))
+        }))*/
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
