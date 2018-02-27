@@ -12,10 +12,12 @@ function add_function(arr, coll, guid, offline, socket) {
             var start = parseInt(arr.start);
             var end = parseInt(arr.end);
             if(start < 0) {
-                start = 0;
+                socket.emit("toast", "faulty_start_end");
+                return;
             }
             if(end < 0) {
-                end = arr.duration;
+                socket.emit("toast", "faulty_start_end");
+                return;
             }
             if(start >= end) {
                 start = 0;
