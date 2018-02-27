@@ -8,8 +8,24 @@ function add_function(arr, coll, guid, offline, socket) {
             return;
         }
 
-        var start = arr.start;
-        var end = arr.end;
+        try {
+            var start = parseInt(arr.start);
+            var end = parseInt(arr.end);
+            if(start < 0) {
+                socket.emit("toast", "faulty_start_end");
+                return;
+            }
+            if(end < 0) {
+                socket.emit("toast", "faulty_start_end");
+                return;
+            }
+            if(start >= end) {
+                start = 0;
+                arr.duration = end - start;
+            }
+        } catch(e) {
+            return;
+        }
 
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, arr.pass)))) {
