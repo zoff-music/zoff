@@ -49,7 +49,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
 
 router.route('/api/conf/:channel_name').get(function(req, res) {
     var channel_name = req.params.channel_name;
-    db.collection(channel_name).find({views: {$exists: true}}, {
+    db.collection(channel_name + "_settings").find({views: {$exists: true}}, {
         addsongs: 1,
         adminpass: 1,
         allvideos: 1,
