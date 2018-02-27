@@ -7,6 +7,9 @@ var Admin = {
             case "suggested_thumbnail":
                 msg = "The thumbnail has been suggested!";
                 break;
+            case "faulty_start_end":
+                msg = "You tried to send a faulty start/end value. Try again..";
+                break;
             case "suggested_description":
                 msg = "The description has been suggested!";
                 break;
