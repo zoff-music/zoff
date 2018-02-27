@@ -8,12 +8,16 @@ function add_function(arr, coll, guid, offline, socket) {
             return;
         }
 
-        var start = arr.start;
-        var end = arr.end;
+        try {
+            var start = parseInt(arr.start);
+            var end = parseInt(arr.end);
 
-        if(start >= end) {
-            start = 0;
-            arr.duration = end - start;
+            if(start >= end) {
+                start = 0;
+                arr.duration = end - start;
+            }
+        } catch(e) {
+            return;
         }
 
         db.collection(coll + "_settings").find(function(err, docs){
