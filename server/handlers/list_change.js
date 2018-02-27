@@ -11,6 +11,11 @@ function add_function(arr, coll, guid, offline, socket) {
         var start = arr.start;
         var end = arr.end;
 
+        if(start >= end) {
+            start = 0;
+            arr.duration = end - start;
+        }
+
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, arr.pass)))) {
 
