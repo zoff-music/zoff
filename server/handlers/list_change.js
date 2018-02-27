@@ -11,7 +11,12 @@ function add_function(arr, coll, guid, offline, socket) {
         try {
             var start = parseInt(arr.start);
             var end = parseInt(arr.end);
-
+            if(start < 0) {
+                start = 0;
+            }
+            if(end < 0) {
+                end = arr.duration;
+            }
             if(start >= end) {
                 start = 0;
                 arr.duration = end - start;
