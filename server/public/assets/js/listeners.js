@@ -245,12 +245,21 @@ initializeCastApi = function() {
                 if(Helper.mobilecheck()) {
                     customData.push({type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
                 }
-                var request = new chrome.cast.media.LoadRequest({
-                    media: {
-                        contentId: video_id,
-                        contentType: 'video/*',
-                    },
-                    customData: customData,
+                var metadata = new chrome.cast.media.GenericMediaMetadata();
+                metadata.title = song_title
+                metadata.image = 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg';
+                metadata.images = ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg'];
+                var mediaInfo = new chrome.cast.media.MediaInfo();
+                mediaInfo.contentType = "video/*";
+                mediaInfo.contentId = video_id;
+                mediaInfo.duration = Player.np.end - Player.np.start;
+                var request = new chrome.cast.media.LoadRequest();
+                request.media = mediaInfo;
+                request.customData = customData;
+                request.metadata = metadata;
+                castSession.loadMedia(request).then(
+                  function() { console.log('Load succeed'); },
+                  function(errorCode) { console.log('Error code: ' + errorCode);
                 });
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
                 chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
