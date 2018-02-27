@@ -30,12 +30,12 @@ function password(inp, coll, guid, offline, socket) {
         }
         opw = Functions.decrypt_string(socket.zoff_id, opw);
 
-        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+        db.collection(coll + "_settings").find(function(err, docs){
             if(docs !== null && docs.length !== 0)
             {
                 if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(opw))
                 {
-                    db.collection(coll).update({views:{$exists:true}}, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
+                    db.collection(coll + "_settings").update({views:{$exists:true}}, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
                         if(inp.oldpass)
                         socket.emit("toast", "changedpass");
                         else
@@ -109,7 +109,7 @@ function conf_function(params, coll, guid, offline, socket) {
         } else {
             hash = adminpass;
         }
-        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+        db.collection(coll + "_settings").find(function(err, docs){
             if(docs !== null && docs.length !== 0 && (docs[0].adminpass === "" || docs[0].adminpass == hash)) {
                 var obj = {
                     addsongs:addsongs,
@@ -128,10 +128,10 @@ function conf_function(params, coll, guid, offline, socket) {
                 } else if (frontpage) {
                     obj["userpass"] = "";
                 }
-                db.collection(coll).update({views:{$exists:true}}, {
+                db.collection(coll + "_settings").update({views:{$exists:true}}, {
                     $set:obj
                 }, function(err, docs){
-                    db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                    db.collection(coll + "_settings").find(function(err, docs){
                         if(docs[0].adminpass !== "") docs[0].adminpass = true;
                         if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                         else docs[0].userpass = false;
