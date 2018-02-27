@@ -141,7 +141,9 @@ window.zoff = {
 if(!Helper.mobilecheck()) {
     $(window).error(function(e){
         e.preventDefault();
-        Helper.logs.unshift({log: e.originalEvent.error.stack.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
+        try {
+            Helper.logs.unshift({log: e.originalEvent.error.stack.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
+        }catch(e){}
         $(".contact-form-content").remove();
         $("#submit-contact-form").remove();
         $(".contact-modal-header").text("An error occurred");
