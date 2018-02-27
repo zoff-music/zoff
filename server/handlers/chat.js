@@ -30,7 +30,7 @@ function chat(msg, guid, offline, socket) {
         return;
     }
     var coll = msg.channel;
-    db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+    db.collection(coll + "_settings").find(function(err, docs){
         if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socket.zoff_id, msg.pass)))) {
             var data = msg.data;
             Functions.check_inlist(coll, guid, socket, offline);
