@@ -58,7 +58,7 @@ function list(msg, guid, coll, offline, socket) {
             } else {
                 db.createCollection(coll, function(err, docs){
                     var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
-                    db.collection(coll).insert(configs, function(err, docs){
+                    db.collection(coll + "_settings").insert(configs, function(err, docs){
                         socket.join(coll);
                         List.send_list(coll, socket, true, false, true);
                         db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
