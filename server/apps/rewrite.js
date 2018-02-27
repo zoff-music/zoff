@@ -22,9 +22,9 @@ function makeNewAndDelete(name) {
         } else if(doc.length == 1) {
             db.collection(name + "_settings").insert(doc[0], function(err, result){
                 console.log("Result insert", result);
-                /*db.collection(name).remove({views: {$exists: true}}, function(err, result_del) {
+                db.collection(name).remove({views: {$exists: true}}, function(err, result_del) {
                     console.log("Result delete", result_del);
-                });*/
+                });
             });
         }
     });

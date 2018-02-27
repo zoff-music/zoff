@@ -46,7 +46,7 @@ router.route('/api/approve_thumbnail').post(function(req, res){
       db.collection("suggested_thumbnails").find({channel: channel}, function(err, docs){
          var thumbnail = docs[0].thumbnail;
          db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
-            db.collection(channel).update({views:{$exists:true}}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
+            db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
                db.collection("suggested_thumbnails").remove({channel: channel}, function(err, docs){
                   res.send(true);
                });
@@ -75,7 +75,7 @@ router.route('/api/approve_description').post(function(req, res){
       db.collection("suggested_descriptions").find({channel: channel}, function(err, docs){
          var description = docs[0].description;
          db.collection("frontpage_lists").update({_id: channel}, {$set:{description: description}}, {upsert: true}, function(err, docs){
-           db.collection(channel).update({views:{$exists:true}}, {$set:{description: description}}, function(err, docs){
+           db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{description: description}}, function(err, docs){
              db.collection("suggested_descriptions").remove({channel: channel}, function(err, docs){
                 res.send(true);
               });
@@ -102,7 +102,7 @@ router.route('/api/remove_thumbnail').post(function(req, res){
    if(req.isAuthenticated()){
       var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: ""}}, function(err, docs){
-         db.collection(channel).update({views:{$exists:true}}, {$set:{thumbnail: ""}}, function(err, docs){
+         db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{thumbnail: ""}}, function(err, docs){
             res.send(true);
          });
       });
@@ -115,7 +115,7 @@ router.route('/api/remove_description').post(function(req, res){
    if(req.isAuthenticated()){
       var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{description: ""}}, function(err, docs){
-         db.collection(channel).update({views:{$exists:true}}, {$set:{description: ""}}, function(err, docs){
+         db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{description: ""}}, function(err, docs){
             res.send(true);
          });
       });
@@ -209,7 +209,7 @@ router.route('/api/pinned').post(function(req, res){
 router.route('/api/admin').post(function(req, res){
    if(req.isAuthenticated()){
       var to_remove = req.body._id;
-      db.collection(to_remove).update({views: {$exists: true}}, {$set:{adminpass: ""}}, function(err, docs){
+      db.collection(to_remove + "_settings").update({views: {$exists: true}}, {$set:{adminpass: ""}}, function(err, docs){
          res.send(true);
       });
    } else {
@@ -220,7 +220,7 @@ router.route('/api/admin').post(function(req, res){
 router.route('/api/userpass').post(function(req, res){
    if(req.isAuthenticated()){
       var to_remove = req.body._id;
-      db.collection(to_remove).update({views: {$exists: true}}, {$set:{userpass: ""}}, function(err, docs){
+      db.collection(to_remove + "_settings").update({views: {$exists: true}}, {$set:{userpass: ""}}, function(err, docs){
          res.send(true);
       });
    } else {
