@@ -238,6 +238,20 @@ initializeCastApi = function() {
         switch (event.sessionState) {
             case cast.framework.SessionState.SESSION_STARTED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+                var customData = [
+                    {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title},
+                    {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()},
+                ];
+                if(Helper.mobilecheck()) {
+                    customData.push({type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                }
+                var request = new chrome.cast.media.LoadRequest({
+                    media: {
+                        contentId: video_id,
+                        contentType: 'video/*',
+                    },
+                    customData: customData,
+                });
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
                 chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
                 //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');

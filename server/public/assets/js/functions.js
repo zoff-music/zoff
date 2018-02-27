@@ -113,19 +113,6 @@ function chromecastListener(evt, data) {
         console.log("error parsing again");
     }
     console.log(json_parsed.type, typeof(json_parsed));
-    if(json_parsed.type == 1) {
-        console.log("it is 1");
-        if(!$("#play").hasClass("hide")) {
-            $("#play").addClass("hide");
-        }
-        $("#pause").removeClass("hide");
-    } else if(json_parsed.type == 2) {
-        console.log("it is 1");
-        if(!$("#pause").hasClass("hide")) {
-            $("#pause").addClass("hide");
-        }
-        $("#play").removeClass("hide");
-    }
     //console.log(JSON.parse(json_parsed), json_parsed.type, json_parsed.type == 1, json_parsed.type == "1");
     switch(json_parsed.type){
         case -1:
