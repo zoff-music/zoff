@@ -9,6 +9,7 @@ var Player = {
     np: {},
 
     youtube_listener: function(obj) {
+        Helper.log(["object", obj]);
         var state;
         if(embed && obj.np) {
             if(window.parentWindow && window.parentOrigin) {
@@ -42,7 +43,6 @@ var Player = {
 
             }
             Helper.log(["video_id variable: " + video_id]);
-
             if(!obj.np){
                 $('#song-title').html("Empty channel. Add some songs!");
                 document.title = "Zoff - the shared YouTube based radio";

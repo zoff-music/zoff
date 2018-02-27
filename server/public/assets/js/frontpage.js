@@ -23,7 +23,12 @@ var Frontpage = {
             msg
         ]);
         Frontpage.all_channels = msg.channels;
-        Frontpage.populate_channels(msg.channels, true);
+        if(msg.channels.length == 0) {
+            $("#preloader").css("display", "none");
+            $("#channel-list-container").append("<p>No channels yet</p>");
+        } else {
+            Frontpage.populate_channels(msg.channels, true);
+        }
         Frontpage.set_viewers(msg.viewers);
     },
 

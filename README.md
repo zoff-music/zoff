@@ -26,6 +26,8 @@ in ```/server/config```. There are ```*.example.js``` files for all the ones men
 
 If you want to use Google Analytics, have a look at ```analytics.example.js``` in ```server/config/```.
 
+If you have run the server before the table-structures where added, please run ```node server/apps/rewrite.js```. This will fix any crashes that occurs because of faulty document-collectionnames due to moving channel-settings to a separate collection.
+
 Use ```$ npm start``` to start the server. (Alternative you can use the ```pm2.json``` in the project-root, if you prefer pm2 for running the apps.)
 
 ### About

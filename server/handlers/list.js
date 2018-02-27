@@ -34,7 +34,7 @@ function list(msg, guid, coll, offline, socket) {
         db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
             if(frontpage_lists.length == 1)
             {
-                db.collection(coll).find({views: {$exists: true}}, function(err, docs) {
+                db.collection(coll + "_settings").find(function(err, docs) {
                     if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
                         if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
                             socket.emit("auth_accepted", {value: true});
@@ -58,7 +58,7 @@ function list(msg, guid, coll, offline, socket) {
             } else {
                 db.createCollection(coll, function(err, docs){
                     var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
-                    db.collection(coll).insert(configs, function(err, docs){
+                    db.collection(coll + "_settings").insert(configs, function(err, docs){
                         socket.join(coll);
                         List.send_list(coll, socket, true, false, true);
                         db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
@@ -82,7 +82,7 @@ function skip(list, guid, coll, offline, socket) {
             return;
         }
 
-        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+        db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == Functions.decrypt_string(socketid, list.userpass)))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
@@ -104,7 +104,7 @@ function skip(list, guid, coll, offline, socket) {
                 else
                 hash = "";
 
-                db.collection(coll).find({views: {$exists:true}}, function(err, docs){
+                db.collection(coll + "_settings").find(function(err, docs){
 
                     if(docs !== null && docs.length !== 0)
                     {
@@ -129,7 +129,7 @@ function skip(list, guid, coll, offline, socket) {
                                         }
                                     });
                                 }else if(!Functions.contains(docs[0].skips, guid)){
-                                    db.collection(coll).update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
+                                    db.collection(coll + "_settings").update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
                                         if(frontpage_viewers[0].viewers == 2)
                                         to_skip = 1;
                                         else
@@ -155,7 +155,7 @@ function skip(list, guid, coll, offline, socket) {
 }
 
 function change_song(coll, error, id, callback) {
-    db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+    db.collection(coll + "_settings").find(function(err, docs){
         var startTime = docs[0].startTime;
         if(docs !== null && docs.length !== 0)
         {
@@ -193,7 +193,7 @@ function change_song(coll, error, id, callback) {
                                 });
                             } else {
                                 if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
-                                    db.collection(coll).update({views: {$exists: true}}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
+                                    db.collection(coll + "_settings").update({views: {$exists: true}}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
                                         db.collection(coll).update({now_playing:true, id:id}, {
                                             $set:{
                                                 now_playing:false,
@@ -278,13 +278,13 @@ function change_song_post(coll, next_song, callback)
                     added:Functions.get_time()
                 }
             }, function(err, returnDocs){
-                db.collection(coll).update({views:{$exists:true}},{
+                db.collection(coll + "_settings").update({views: {$exists: true}}, {
                     $set:{
                         startTime:Functions.get_time(),
                         skips:[]
                     }
                 }, function(err, returnDocs){
-                    db.collection(coll).find({views:{$exists:true}}, function(err, conf){
+                    db.collection(coll + "_settings").find(function(err, conf){
                         if(!callback) {
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
                             List.send_play(coll);
@@ -301,7 +301,7 @@ function change_song_post(coll, next_song, callback)
 
 function send_list(coll, socket, send, list_send, configs, shuffled)
 {
-    db.collection(coll).find({views:{$exists:true}}, function(err, conf){
+    db.collection(coll + "_settings").find(function(err, conf){
         db.collection(coll).find({views:{$exists:false}, type: {$ne: "suggested"}}, function(err, docs)
         {
             if(docs.length > 0) {
@@ -335,7 +335,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                         added:Functions.get_time()
                                     }
                                 }, function(err, returnDocs){
-                                    db.collection(coll).update({views:{$exists:true}}, {
+                                    db.collection(coll + "_settings").update({views:{$exists:true}}, {
                                         $set:{
                                             startTime: Functions.get_time(),
                                             skips:[]
@@ -408,14 +408,14 @@ function end(obj, coll, guid, offline, socket) {
             return;
         }
 
-        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+        db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, obj.pass)))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
                 db.collection(coll).find({now_playing:true}, function(err, np){
                     if(err !== null) console.log(err);
                     if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
-                        db.collection(coll).find({views:{$exists:true}}, function(err, docs){
+                        db.collection(coll + "_settings").find(function(err, docs){
                             var startTime = docs[0].startTime;
                             if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
                             {
@@ -444,7 +444,7 @@ function end(obj, coll, guid, offline, socket) {
 function send_play(coll, socket)
 {
     db.collection(coll).find({now_playing:true}, function(err, np){
-        db.collection(coll).find({views:{$exists:true}}, function(err, conf){
+        db.collection(coll + "_settings").find(function(err, conf){
             if(err !== null) console.log(err);
             try{
                 if(Functions.get_time()-conf[0].startTime > np[0].duration){
