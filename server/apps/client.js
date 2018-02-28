@@ -86,6 +86,16 @@ app.use('/', ico_router);
 app.use('/', api);
 app.use('/', router);
 
+app.use('/assets/js', function(req, res, next) {
+    res.sendStatus(403);
+    return;
+});
+
+app.use('/assets/admin', function(req, res, next) {
+    res.sendStatus(403);
+    return;
+});
+
 app.use('/assets', express.static(publicPath + '/assets'));
 
 app.use(function (req, res, next) {
