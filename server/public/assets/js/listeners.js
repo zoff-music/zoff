@@ -13,6 +13,8 @@ var was_stopped = false;
 var timed_remove_check;
 var slider_type = "horizontal";
 var programscroll = false;
+var lastCommand;
+var tried_again = false;
 var userscroll = false;
 var gotten_np   = false;
 var frontpage 		   	  		= 1;
@@ -186,7 +188,7 @@ $().ready(function(){
                 socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
             }
             if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
-                socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+                emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             }
             if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
                 setTimeout(function() {
@@ -366,7 +368,7 @@ $(document).on("click", ".pagination-results a", function(e) {
 
 $(document).on("click", ".accept-delete", function(e) {
     e.preventDefault();
-    socket.emit("delete_all", {channel: chan.toLowerCase(), adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+    emit("delete_all", {channel: chan.toLowerCase(), adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#delete_song_alert").modal("close");
 });
 
@@ -459,13 +461,13 @@ $(document).on("click", "#offline-mode", function(e){
 
 $(document).on("submit", "#thumbnail_form", function(e){
     e.preventDefault();
-    socket.emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+    emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#chan_thumbnail").val("");
 });
 
 $(document).on("submit", "#description_form", function(e){
     e.preventDefault();
-    socket.emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+    emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
     $("#chan_description").val("");
 });
 

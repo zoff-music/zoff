@@ -118,7 +118,7 @@ function chromecastListener(evt, data) {
             if(offline){
                 Player.playNext();
             } else {
-                socket.emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
             }
             break;
         case 1:
@@ -367,6 +367,18 @@ function change_offline(enabled, already_offline){
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
             if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
         }
+    }
+}
+
+function emit() {
+    lastCommand = [];
+    for(var i = 0; i < arguments.length; i++) {
+        lastCommand.push(arguments[i]);
+    }
+    if(arguments.length == 1) {
+        socket.emit(arguments[0]);
+    } else {
+        socket.emit(arguments[0], arguments[1]);
     }
 }
 

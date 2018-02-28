@@ -61,6 +61,19 @@ var Admin = {
                 msg=Helper.rnd(["The song was skipped", "I have skipped a song", "Skipped to the beat", "Skipmaster3000", "They see me skippin', they hatin'"]);
                 break;
             case "listhaspass":
+                if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
+                    if(Crypt.get_pass() != undefined) {
+                        tried_again = true;
+                        if(lastCommand.length == 1) {
+                            socket.emit(lastCommand[0]);
+                        } else if(lastCommand.length == 2) {
+                            socket.emit(lastCommand[0], lastCommand[1]);
+                        }
+                        lastCommand = [];
+                        return;
+                    }
+                }
+                tried_again = false;
                 msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
                 Crypt.remove_pass(chan.toLowerCase());
                 Admin.display_logged_out();
@@ -80,6 +93,19 @@ var Admin = {
 				        $("#import").removeClass("hide");
                 break;
             case "noskip":
+                if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
+                    if(Crypt.get_pass() != undefined) {
+                        tried_again = true;
+                        if(lastCommand.length == 1) {
+                            socket.emit(lastCommand[0]);
+                        } else if(lastCommand.length == 2) {
+                            socket.emit(lastCommand[0], lastCommand[1]);
+                        }
+                        lastCommand = [];
+                        return;
+                    }
+                }
+                tried_again = false;
                 msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"]);
                 break;
             case "alreadyskip":
@@ -89,6 +115,7 @@ var Admin = {
                 msg="Skipping is disabled the first 10 seconds.";
                 break;
             case "correctpass":
+                tried_again = false;
                 adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
                 msg="Correct password. You now have access to the sacred realm of The Admin.";
                 $("#thumbnail_form").css("display", "inline-block");
@@ -172,16 +199,16 @@ var Admin = {
         }
         Admin.set_conf(msg[0]);
         if(msg[0].adminpass !== "" && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) !== "")){
-            socket.emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+            emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             Admin.beginning = false;
         }
     },
 
     pass_save: function() {
         if(!w_p) {
-            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+            emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
         } else {
-            socket.emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
+            emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
         }
     },
 
@@ -329,7 +356,7 @@ var Admin = {
         };
 
         Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
-        socket.emit("conf", configs);
+        emit("conf", configs);
     },
 
     hide_settings: function() {
@@ -338,7 +365,7 @@ var Admin = {
 
     shuffle: function() {
         if(!offline) {
-            socket.emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
                 var num = Math.floor(Math.random()*1000000);
