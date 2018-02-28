@@ -183,6 +183,14 @@ app.use('/logout', function(req, res) {
    res.redirect('/login');
 });
 
+app.use('/assets/admin/authenticated', function(req, res, next) {
+    if(!req.isAuthenticated()) {
+        res.sendStatus(403);
+        return;
+    }
+    return next();
+});
+
 app.use('/assets', express.static(publicPath + '/assets'));
 
 app.use('/', isLoggedIn, function(req, res) {
