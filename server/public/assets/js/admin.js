@@ -10,6 +10,9 @@ var Admin = {
             case "faulty_start_end":
                 msg = "You tried to send a faulty start/end value. Try again..";
                 break;
+            case "wait_longer":
+                msg = Helper.rnd(["Have you tried to wait longer between commands?!", "Looks like you're clicking that button too much..", "You need to wait longer between clicks.."]);
+                break;
             case "suggested_description":
                 msg = "The description has been suggested!";
                 break;
