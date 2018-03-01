@@ -74,6 +74,8 @@ var chromecastReady 			= false;
 var find_word = "";
 var found_array 				= [];
 var found_array_index 			= 0;
+var startTime = 0;
+var fix_too_far = false;
 var guid = "";
 var castSession;
 var width_timeout;
@@ -141,9 +143,9 @@ window.zoff = {
 }
 
 if(!Helper.mobilecheck()) {
-    $(window).error(function(e){
-        e.preventDefault();
-        Helper.logs.unshift({log: e.originalEvent.error.stack.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
+    window.onerror = function(e) {
+        if(e == "Script error.") return true;
+        Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
         $(".contact-form-content").remove();
         $("#submit-contact-form").remove();
         $(".contact-modal-header").text("An error occurred");
@@ -159,8 +161,9 @@ if(!Helper.mobilecheck()) {
         $("#contact").modal("open");
         /*$("#error-report-modal").modal();*/
         $("#error-report-code").text(JSON.stringify(Helper.logs, undefined, 4));
-        console.error(e.originalEvent.error);
-    });
+        //console.error(e.originalEvent.error);
+        return true;
+    };
 }
 
 $().ready(function(){
