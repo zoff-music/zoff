@@ -242,40 +242,63 @@ function shuffle(msg, coll, guid, offline, socket) {
                 return;
             }
 
-        Functions.check_inlist(coll, guid, socket, offline);
-        var hash;
-        if(msg.adminpass === "") hash = msg.adminpass;
-        else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-        db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
-                if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
-                {
-                    db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
-                        if(!docs){
-                            List.send_list(coll, undefined, false, true, false, true);
-                            socket.emit("toast", "shuffled");
-
-                            return;
-                        }else{
-                            num = Math.floor(Math.random()*1000000);
-                            db.collection(coll).update({id:docs.id}, {$set:{added:num}});
-                        }
-                    });
-                }else
-                socket.emit("toast", "wrongpass");
-            } else {
-                socket.emit("auth_required");
+        db.collection("timeout_api").find({
+            type: "shuffle",
+            guid: guid,
+        }, function(err, docs) {
+            if(docs.length > 0) {
+                var date = new Date(docs[0].createdAt);
+                date.setSeconds(date.getSeconds() + 5);
+                var now = new Date();
+                var retry_in = (date.getTime() - now.getTime()) / 1000;
+                if(retry_in > 0) {
+                    socket.emit("toast", "wait_longer");
+                    return;
+                }
             }
+            var now_date = new Date();
+            db.collection("timeout_api").update({type: "shuffle", guid: guid}, {
+                $set: {
+                    "createdAt": now_date,
+                    type: "shuffle",
+                    guid: guid,
+                },
+            }, {upsert: true}, function(err, docs) {
+                Functions.check_inlist(coll, guid, socket, offline);
+                var hash;
+                if(msg.adminpass === "") hash = msg.adminpass;
+                else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+                db.collection(coll + "_settings").find(function(err, docs){
+                    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
+                        if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
+                        {
+                            db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
+                                if(!docs){
+                                    List.send_list(coll, undefined, false, true, false, true);
+                                    socket.emit("toast", "shuffled");
+
+                                    return;
+                                }else{
+                                    num = Math.floor(Math.random()*1000000);
+                                    db.collection(coll).update({id:docs.id}, {$set:{added:num}});
+                                }
+                            });
+                        }else
+                        socket.emit("toast", "wrongpass");
+                    } else {
+                        socket.emit("auth_required");
+                    }
+                });
+
+                var complete = function(tot, curr){
+                    if(tot == curr)
+                    {
+                        List.send_list(coll, undefined, false, true, false);
+                        List.getNextSong(coll);
+                    }
+                };
+            });
         });
-
-        var complete = function(tot, curr){
-            if(tot == curr)
-            {
-                List.send_list(coll, undefined, false, true, false);
-                List.getNextSong(coll);
-            }
-        };
-
     }else
     socket.emit("toast", "wrongpass");
 }

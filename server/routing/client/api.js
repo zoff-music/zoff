@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var mongojs = require('mongojs');
+var ObjectId = mongojs.ObjectId;
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -43,34 +45,66 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         return;
     }
 
-    validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
-        if(!exists) {
-            res.sendStatus(404);
-            return;
+    db.collection("timeout_api").find({
+        type: "DELETE",
+        guid: guid,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + 5);
+            var now = new Date();
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            if(retry_in > 0) {
+                res.header({'Retry-After': retry_in});
+                res.sendStatus(429);
+                return;
+            }
         }
-        db.collection(channel_name).find({id:video_id, now_playing: false}, function(err, docs){
-            if(docs.length == 0) {
+        validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
+            if(!exists) {
                 res.sendStatus(404);
                 return;
             }
-            dont_increment = true;
-            if(docs[0]){
-                if(docs[0].type == "suggested"){
-                    dont_increment = false;
+            db.collection(channel_name).find({id:video_id, now_playing: false}, function(err, docs){
+                if(docs.length == 0) {
+                    res.sendStatus(404);
+                    return;
                 }
-                db.collection(channel_name).remove({id:video_id}, function(err, docs){
-                    io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
-                    if(dont_increment) {
-                        db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
-                            res.sendStatus(200);
-                            return;
-                        });
-                    } else {
-                        res.sendStatus(200);
-                        return;
+                dont_increment = true;
+                if(docs[0]){
+                    if(docs[0].type == "suggested"){
+                        dont_increment = false;
                     }
-                });
-            }
+                    db.collection(channel_name).remove({id:video_id}, function(err, docs){
+                        io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
+                        if(dont_increment) {
+                            db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
+                                db.collection("timeout_api").update({type: "DELETE", guid: guid}, {
+                                    $set: {
+                                        "createdAt": new Date(),
+                                        type: "DELETE",
+                                        guid: guid,
+                                    },
+                                }, {upsert: true}, function(err, docs) {
+                                    res.sendStatus(200);
+                                    return;
+                                });
+                            });
+                        } else {
+                            db.collection("timeout_api").update({type: "DELETE", guid: guid}, {
+                                $set: {
+                                    "createdAt": new Date(),
+                                    type: "DELETE",
+                                    guid: guid,
+                                },
+                            }, {upsert: true}, function(err, docs) {
+                                res.sendStatus(200);
+                                return;
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 });
@@ -148,7 +182,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         return;
     }
     db.collection("timeout_api").find({
-        type: "DELETE",
+        type: "CONFIG",
         guid: guid,
     }, function(err, docs) {
         if(docs.length > 0) {
@@ -156,9 +190,11 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             date.setSeconds(date.getSeconds() + 5);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
-            res.header({'Retry-After': retry_in});
-            res.sendStatus(429);
-            return;
+            if(retry_in > 0) {
+                res.header({'Retry-After': retry_in});
+                res.sendStatus(429);
+                return;
+            }
         }
         validateLogin(adminpass, userpass, channel_name, "config", res, function(exists) {
             if(!exists) {
@@ -203,10 +239,10 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
                     frontpage:frontpage, accessed: Functions.get_time()}
                 },
                 {upsert:true}, function(err, docs){
-                    db.collection("timeout_api").update({type: "DELETE", guid: guid}, {
+                    db.collection("timeout_api").update({type: "CONFIG", guid: guid}, {
                         $set: {
                             "createdAt": new Date(),
-                            type: "DELETE",
+                            type: "CONFIG",
                             guid: guid,
                         },
                     }, {upsert: true}, function(err, docs) {
@@ -217,7 +253,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             });
         });
     });
-})
+});
 
 router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -254,9 +290,11 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
             date.setSeconds(date.getSeconds() + 5);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
-            res.header({'Retry-After': retry_in});
-            res.sendStatus(429);
-            return;
+            if(retry_in > 0) {
+                res.header({'Retry-After': retry_in});
+                res.sendStatus(429);
+                return;
+            }
         }
 
         validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
@@ -338,9 +376,11 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             date.setSeconds(date.getSeconds() + 5);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
-            res.header({'Retry-After': retry_in});
-            res.sendStatus(429);
-            return;
+            if(retry_in > 0) {
+                res.header({'Retry-After': retry_in});
+                res.sendStatus(429);
+                return;
+            }
         }
 
         validateLogin(adminpass, userpass, channel_name, "add", res, function(exists) {

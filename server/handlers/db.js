@@ -8,6 +8,7 @@ try {
 }
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://' + mongo_config.host + '/' + mongo_config.config);
+var ObjectId = mongojs.ObjectId;
 
 db.collection("chat_logs").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 600 });
 db.collection("timeout_api").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 5 });
