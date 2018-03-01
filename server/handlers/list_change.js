@@ -27,6 +27,17 @@ function add_function(arr, coll, guid, offline, socket) {
             return;
         }
 
+
+        if(typeof(arr.id) != "string" || typeof(arr.start) != "number" ||
+            typeof(arr.end) != "number" || typeof(arr.title) != "string" ||
+            typeof(arr.list) != "string" || typeof(arr.duration) != "number" ||
+            typeof(arr.playlist) != "boolean" || typeof(arr.num) != "number" ||
+            typeof(arr.total) != "number" || typeof(arr.pass) != "string" ||
+            typeof(arr.adminpass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
+
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, arr.pass)))) {
 
@@ -179,6 +190,13 @@ function voteUndecided(msg, coll, guid, offline, socket) {
             return;
         }
 
+        if(typeof(msg.channel) != "string" || typeof(msg.id) != "string" ||
+            typeof(msg.type) != "string" || typeof(msg.adminpass) != "string" ||
+            typeof(msg.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
+
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
 
@@ -217,6 +235,12 @@ function shuffle(msg, coll, guid, offline, socket) {
             socket.emit("update_required");
             return;
         }
+
+        if(typeof(msg.adminpass) != "string" || typeof(msg.channel) != "string" ||
+            typeof(msg.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
 
         Functions.check_inlist(coll, guid, socket, offline);
         var hash;
@@ -290,6 +314,11 @@ function delete_all(msg, coll, guid, offline, socket) {
         var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
         var hash_userpass = Functions.decrypt_string(socketid, msg.pass);
 
+        if(typeof(msg.channel) != "string" || typeof(msg.adminpass) != "string" ||
+            typeof(msg.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
         db.collection(coll + "_settings").find(function(err, conf) {
             if(conf.length == 1 && conf) {
                 conf = conf[0];
