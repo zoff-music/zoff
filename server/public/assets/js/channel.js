@@ -135,7 +135,7 @@ var Channel = {
         if(no_socket || Helper.mobilecheck()){
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         }
 
         if((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) {
@@ -478,7 +478,7 @@ var Channel = {
             var add = "";
             w_p = true;
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         } else if(url_split[3] === "") {
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
