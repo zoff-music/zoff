@@ -437,8 +437,9 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
 });
 
 function postEnd(channel_name, configs, new_song, guid, res) {
-    io.to(channel_name).emit("conf", configs);
-    io.to(channel_name).emit("channel", {type: "added", value: new_song});
+    if(configs != undefined) {
+        io.to(channel_name).emit("conf", configs);
+    }
     List.getNextSong(channel_name, function() {
         db.collection("timeout_api").update({type: "POST", guid: guid}, {
             $set: {
@@ -447,9 +448,11 @@ function postEnd(channel_name, configs, new_song, guid, res) {
                 guid: guid,
             },
         }, {upsert: true}, function(err, docs) {
-            res.header({'Content-Type': 'application/json'});
-            res.status(200).send(JSON.stringify(new_song));
-            return;
+            Search.get_correct_info(new_song, channel_name, !new_song.now_playing, function() {
+                res.header({'Content-Type': 'application/json'});
+                res.status(200).send(JSON.stringify(new_song));
+                return;
+            });
         });
     });
 }
