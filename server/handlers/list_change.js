@@ -244,7 +244,7 @@ function shuffle(msg, coll, guid, offline, socket) {
 
         db.collection("timeout_api").find({
             type: "shuffle",
-            guid: guid,
+            guid: coll,
         }, function(err, docs) {
             if(docs.length > 0) {
                 var date = new Date(docs[0].createdAt);
@@ -257,11 +257,11 @@ function shuffle(msg, coll, guid, offline, socket) {
                 }
             }
             var now_date = new Date();
-            db.collection("timeout_api").update({type: "shuffle", guid: guid}, {
+            db.collection("timeout_api").update({type: "shuffle", guid: coll}, {
                 $set: {
                     "createdAt": now_date,
                     type: "shuffle",
-                    guid: guid,
+                    guid: coll,
                 },
             }, {upsert: true}, function(err, docs) {
                 Functions.check_inlist(coll, guid, socket, offline);
