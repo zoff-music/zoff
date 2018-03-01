@@ -10,12 +10,14 @@ function frontpage_lists(msg, socket) {
     });
 }
 
-function update_frontpage(coll, id, title) {
+function update_frontpage(coll, id, title, callback) {
     db.collection("frontpage_lists").update({_id: coll}, {$set: {
         id: id,
         title: title,
         accessed: Functions.get_time()}
-    },{upsert: true}, function(err, returnDocs){});
+    },{upsert: true}, function(err, returnDocs){
+        if(typeof(callback) == "function") callback();
+    });
 }
 
 module.exports.frontpage_lists = frontpage_lists;

@@ -1,5 +1,10 @@
 function thumbnail(msg, coll, guid, offline, socket) {
     if(msg.thumbnail && msg.channel && msg.adminpass && msg.thumbnail.indexOf("i.imgur.com") > -1){
+        if(typeof(msg.channel) != "string" || typeof(msg.thumbnail) != "string" ||
+            typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
         msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
         if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
         var channel = msg.channel.toLowerCase();
@@ -23,6 +28,11 @@ function thumbnail(msg, coll, guid, offline, socket) {
 
 function description(msg, coll, guid, offline, socket) {
     if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
+        if(typeof(msg.channel) != "string" || typeof(msg.description) != "string" ||
+            typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
         var channel = msg.channel.toLowerCase();
         var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
         db.collection(channel + "_settings").update({views: {$exists: true}}, function(err, docs){
