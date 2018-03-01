@@ -21,7 +21,6 @@ function password(inp, coll, guid, offline, socket) {
 
         uncrypted = pw;
         pw = Functions.decrypt_string(socket.zoff_id, pw);
-
         Functions.check_inlist(coll, guid, socket, offline);
 
         if(inp.oldpass)
@@ -44,6 +43,7 @@ function password(inp, coll, guid, offline, socket) {
                     });
                 }else
                 socket.emit("toast", "wrongpass");
+                socket.emit("pw", false);
             }
         });
     } else {
@@ -94,6 +94,15 @@ function conf_function(params, coll, guid, offline, socket) {
         var skipping = params.skipping;
         var shuffling = params.shuffling;
         var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
+        if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
+            typeof(voting) != "boolean" || typeof(addsongs) != "boolean" ||
+            typeof(longsongs) != "boolean" || typeof(frontpage) != "boolean" ||
+            typeof(allvideos) != "boolean" || typeof(removeplay) != "boolean" ||
+            typeof(skipping) != "boolean" || typeof(shuffling) != "boolean" ||
+            typeof(params.userpass_changed) != "boolean") {
+                socket.emit("toast", "wrongpass");
+                return;
+            }
 
         if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
             userpass = "";
