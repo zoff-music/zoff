@@ -121,6 +121,7 @@ POST /api/list/:channel_name/
         "userpass": USERPASS
     }
 
+Returns 400 for bad request
 Returns 403 for bad authentication
 Returns 404 if the song doesn't exist
 Returns 200 and the song
