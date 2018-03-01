@@ -128,7 +128,7 @@ Returns 200 and the song
 
 Get channelsettings
 ```
-GET /api/list/:channel_name/
+GET /api/conf/:channel_name/
 
 Returns 403 for bad authentication (if you get this, try POST with userpassword attached)
 Returns 404 if the channel doesn't exist
@@ -137,7 +137,7 @@ Returns 200 and the objects in the channel
 
 Get channelsettings (protected)
 ```
-POST /api/list/:channel_name/
+POST /api/conf/:channel_name/
     {
         "userpass": USERPASS
     }
