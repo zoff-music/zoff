@@ -4,6 +4,8 @@ Under ``` /server/apps/ ```, there are two files, ``` admin.js ``` and ``` clien
 
 ## REST
 
+All PUT, DELETE and POST endpoints have a 5-second waitlimit for each command per client. The same with shuffling in a player, even when using the client and socket-connection. You'll get a response with Retry-After header for how long you have to wait.
+
 Add song
 
 ```
@@ -19,6 +21,7 @@ POST /api/list/:channel_name/:video_id
 
 Returns 403 for bad authentication
 Returns 409 if the song exists
+Returns 429 if you're doing too much of this request, with a Retry-After int value in the header.
 Returns 200 and the added song object if successful
 ```
 
@@ -32,6 +35,7 @@ DELETE /api/list/:channel_name/:video_id
 
 Returns 403 for bad authentication
 Returns 404 if the song doesnt exist
+Returns 429 if you're doing too much of this request, with a Retry-After int value in the header.
 Returns 200 if successful
 ```
 
@@ -46,6 +50,7 @@ PUT /api/list/:channel_name/:video_id
 Returns 403 for bad authentication
 Returns 404 if the song doesnt exist
 Returns 409 if you've already voted on that song
+Returns 429 if you're doing too much of this request, with a Retry-After int value in the header.
 Returns 200 and the added song object if successful
 ```
 
@@ -68,6 +73,7 @@ PUT /api/conf/:channel_name
 
 Returns 403 for bad authentication
 Returns 404 if the list doesn't exist
+Returns 429 if you're doing too much of this request, with a Retry-After int value in the header.
 Returns 200 and the newly added configuration if successful
 ```
 
@@ -135,6 +141,13 @@ Still to come: SKIP and SHUFFLE RESTApi calls..
     id: VIDEO_ID,
     type: VOTE_TYPE,
     adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD)
+}
+
+// Sends shuffle to the server
+'shuffle', {
+    adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD), 
+    channel: CHANNELNAME,
+    pass: USER_PASSWORD
 }
 
 // Sends skip message to server
