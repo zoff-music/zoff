@@ -11,6 +11,7 @@ var Player = {
     youtube_listener: function(obj) {
         Helper.log(["object", obj]);
         var state;
+        fix_too_far = false;
         if(embed && obj.np) {
             if(window.parentWindow && window.parentOrigin) {
                 window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
@@ -89,6 +90,7 @@ var Player = {
                 conf       = obj.conf[0];
                 time       = obj.time;
                 seekTo     = (time - conf.startTime) + Player.np.start;
+                startTime = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
                 //Player.setBGimage(video_id);
@@ -116,6 +118,7 @@ var Player = {
                 conf       = obj.conf[0];
                 time       = obj.time;
                 seekTo     = (time - conf.startTime) + Player.np.start;
+                startTime = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
 
@@ -210,10 +213,15 @@ var Player = {
             "New state\nState: ",
             newState
         ]);
-        try{
+        if(player.getCurrentTime() > startTime + Player.np.start && !fix_too_far)  {
+            Player.seekTo(seekTo);
+            Player.playVideo();
+            fix_too_far = true;
+        }
+        try {
             Helper.log(["Duration: " + Player.player.getDuration(), "Current time: " + Player.player.getCurrentTime()]);
             Helper.log(["getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]]);
-        }catch(e){}
+        } catch(e){}
         Helper.log(["video_id variable: " + video_id]);
         switch(newState.data) {
             case YT.PlayerState.UNSTARTED:
@@ -221,6 +229,7 @@ var Player = {
             case YT.PlayerState.ENDED:
                 playing = false;
                 paused  = false;
+
                 if(!offline) {
                     socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
                 } else {
@@ -482,7 +491,7 @@ var Player = {
         if(!user_auth_started) {
             if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150) {
                 curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
-                socket.emit("skip", {error: newState.data, id: video_id, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                emit("skip", {error: newState.data, id: video_id, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
 
             } else if(video_id !== undefined) {
                 Player.loadVideoById(video_id, duration);
@@ -573,7 +582,7 @@ var Player = {
     notifyUser: function(id, title) {
         title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
         if (Notification.permission === "granted" && document.hidden && !embed) {
-            var notification = new Notification("Now Playing", {body: title, icon: "https://i.ytimg.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://i.ytimg.com/vi/"+id+"/mqdefault.jpg"});
+            var notification = new Notification("Now Playing", {body: title, icon: "https://img.youtube.com/vi/"+id+"/mqdefault.jpg", iconUrl: "http://img.youtube.com/vi/"+id+"/mqdefault.jpg"});
             notification.onclick = function(x) { window.focus(); this.cancel(); };
             setTimeout(function(){
                 notification.close();

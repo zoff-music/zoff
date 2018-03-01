@@ -143,6 +143,7 @@ var Admin = {
     },
 
     pw: function(msg) {
+        if(msg == false) return;
         w_p       = false;
         if(adminpass == undefined || adminpass == "") {
             adminpass = Crypt.get_pass(chan.toLowerCase());
@@ -354,8 +355,9 @@ var Admin = {
             userpass: Crypt.crypt_pass(pass_send),
             userpass_changed: userpass_changed
         };
-
-        Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
+        if(userpass_changed){
+            Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
+        }
         emit("conf", configs);
     },
 
