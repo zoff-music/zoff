@@ -8,12 +8,12 @@ try {
     process.exit();
 }
 
-function get_correct_info(song_generated, channel, broadcast) {
+function get_correct_info(song_generated, channel, broadcast, callback) {
     request({
             type: "GET",
             url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=" + song_generated.id,
 
-    }, function(error, response, body, callback) {
+    }, function(error, response, body) {
         try {
             var resp = JSON.parse(body);
             if(resp.items.length == 1) {
@@ -39,9 +39,11 @@ function get_correct_info(song_generated, channel, broadcast) {
                         if(broadcast && docs.nModified == 1) {
                             song_generated.new_id = song_generated.id;
                             io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
-                            if(callback) {
+                            if(typeof(callback) == "function") {
                                 callback();
                             }
+                        } else {
+                            callback();
                         }
                     });
                 }
