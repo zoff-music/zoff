@@ -231,7 +231,7 @@ var Player = {
                 paused  = false;
 
                 if(!offline) {
-                    socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                    socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
                 } else {
                     Player.playNext();
                 }
@@ -261,7 +261,7 @@ var Player = {
                         $("#pause").toggleClass("hide");
                 }
                 if((paused && !offline) || was_stopped) {
-                    socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                    socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
                     paused = false;
                     was_stopped = false;
                 }
@@ -491,7 +491,7 @@ var Player = {
         if(!user_auth_started) {
             if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150) {
                 curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
-                emit("skip", {error: newState.data, id: video_id, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                emit("skip", {error: newState.data, id: video_id, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
 
             } else if(video_id !== undefined) {
                 Player.loadVideoById(video_id, duration);
@@ -680,7 +680,7 @@ var Player = {
                     Player.player.pauseVideo();
 
                     if(!offline) {
-                        socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+                        socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
                     } else {
                         Player.playNext();
                     }

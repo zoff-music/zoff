@@ -28,6 +28,13 @@ If you want to use Google Analytics, have a look at ```analytics.example.js``` i
 
 If you have run the server before the table-structures where added, please run ```node server/apps/rewrite.js```. This will fix any crashes that occurs because of faulty document-collectionnames due to moving channel-settings to a separate collection.
 
+Run
+```
+db.chat_logs.createIndex({ "createdAt": 1 }, { expireAfterSeconds: X });
+db.timeout_api.createIndex({ "createdAt": 1 }, { expireAfterSeconds: Y });
+```
+in mongo to have chat_logs and api be deleted after X and Y seconds.
+
 Use ```$ npm start``` to start the server. (Alternative you can use the ```pm2.json``` in the project-root, if you prefer pm2 for running the apps.)
 
 ### About

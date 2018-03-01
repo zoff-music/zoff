@@ -367,7 +367,7 @@ var Admin = {
 
     shuffle: function() {
         if(!offline) {
-            emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
                 var num = Math.floor(Math.random()*1000000);

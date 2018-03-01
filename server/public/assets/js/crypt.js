@@ -2,6 +2,7 @@ var Crypt = {
 
     conf_pass: undefined,
     user_pass: undefined,
+    tmp_pass_user: "",
     tmp_pass: "",
 
     init: function() {
@@ -216,8 +217,12 @@ var Crypt = {
         return encrypted.toString() + "$" + iv;
     },
 
-    crypt_pass: function(pass) {
-        Crypt.tmp_pass = pass;
+    crypt_pass: function(pass, userpass) {
+        if(userpass) {
+            Crypt.tmp_pass_user = pass;
+        } else {
+            Crypt.tmp_pass = pass;
+        }
         return Crypt.crypt_chat_pass(pass);
     },
 
