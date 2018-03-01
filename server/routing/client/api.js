@@ -51,7 +51,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
     }, function(err, docs) {
         if(docs.length > 0) {
             var date = new Date(docs[0].createdAt);
-            date.setSeconds(date.getSeconds() + 5);
+            date.setSeconds(date.getSeconds() + 2);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
@@ -187,7 +187,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
     }, function(err, docs) {
         if(docs.length > 0) {
             var date = new Date(docs[0].createdAt);
-            date.setSeconds(date.getSeconds() + 5);
+            date.setSeconds(date.getSeconds() + 2);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
@@ -287,7 +287,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
     }, function(err, docs) {
         if(docs.length > 0) {
             var date = new Date(docs[0].createdAt);
-            date.setSeconds(date.getSeconds() + 5);
+            date.setSeconds(date.getSeconds() + 2);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
@@ -373,7 +373,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     }, function(err, docs) {
         if(docs.length > 0) {
             var date = new Date(docs[0].createdAt);
-            date.setSeconds(date.getSeconds() + 5);
+            date.setSeconds(date.getSeconds() + 2);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
