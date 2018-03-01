@@ -74,6 +74,7 @@ function list(msg, guid, coll, offline, socket) {
 
 function skip(list, guid, coll, offline, socket) {
     var socketid = socket.zoff_id;
+
     if(list !== undefined && list !== null && list !== "")
     {
 
@@ -81,7 +82,11 @@ function skip(list, guid, coll, offline, socket) {
             socket.emit("update_required");
             return;
         }
-
+        if(typeof(list.pass) != "string" || typeof(list.id) != "string" ||
+            typeof(list.channel) != "string" || typeof(list.userpass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == Functions.decrypt_string(socketid, list.userpass)))) {
 
@@ -401,12 +406,19 @@ function end(obj, coll, guid, offline, socket) {
         return;
     }
     id = obj.id;
+
     if(id !== undefined && id !== null && id !== "") {
 
         if(coll == "" || coll == undefined || coll == null) {
             socket.emit("update_required");
             return;
         }
+
+        if(typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
+            typeof(obj.pass) != "string") {
+                socket.emit("toast", "update_required");
+                return;
+            }
 
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, obj.pass)))) {
@@ -491,7 +503,7 @@ function sendColor(coll, socket, id) {
     });
 }
 
-function getNextSong(coll) {
+function getNextSong(coll, callback) {
     db.collection(coll).aggregate([{
         $match:{
             views:{
@@ -514,6 +526,7 @@ function getNextSong(coll) {
         if(doc.length == 1) {
             io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title});
         }
+        if(typeof(callback) == "function") callback();
     });
 }
 
