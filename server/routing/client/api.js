@@ -8,6 +8,11 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
+router.route('/api/help').get(function(req, res) {
+    res.redirect('https://github.com/zoff-music/zoff/blob/master/server/README.md');
+    return;
+})
+
 router.route('/api/frontpages').get(function(req, res) {
     db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
         db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
