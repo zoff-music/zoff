@@ -282,18 +282,6 @@ module.exports = function() {
 
         socket.on('skip', function(list)
         {
-            if(coll !== undefined) {
-                try {
-                    coll = list.channel;
-                    if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
-                    coll = filter.clean(coll);
-                } catch(e) {
-                    return;
-                }
-            }
             List.skip(list, guid, coll, offline, socket);
         });
 

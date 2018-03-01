@@ -22,7 +22,6 @@ function password(inp, coll, guid, offline, socket) {
         uncrypted = pw;
         pw = Functions.decrypt_string(socket.zoff_id, pw);
         Functions.check_inlist(coll, guid, socket, offline);
-
         if(inp.oldpass)
         {
             opw = inp.oldpass;

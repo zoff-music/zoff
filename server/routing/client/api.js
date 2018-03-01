@@ -147,52 +147,73 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         res.sendStatus(400);
         return;
     }
-
-    validateLogin(adminpass, userpass, channel_name, "config", res, function(exists) {
-        if(!exists) {
-            res.sendStatus(404);
+    db.collection("timeout_api").find({
+        type: "DELETE",
+        guid: guid,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + 5);
+            var now = new Date();
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            res.header({'Retry-After': retry_in});
+            res.sendStatus(429);
             return;
         }
+        validateLogin(adminpass, userpass, channel_name, "config", res, function(exists) {
+            if(!exists) {
+                res.sendStatus(404);
+                return;
+            }
 
-        if((!userpass_changed && frontpage) || (userpass_changed && userpass == "")) {
-            userpass = "";
-        } else if(userpass_changed && userpass != "") {
-            frontpage = false;
-        }
-        var description = "";
+            if((!userpass_changed && frontpage) || (userpass_changed && userpass == "")) {
+                userpass = "";
+            } else if(userpass_changed && userpass != "") {
+                frontpage = false;
+            }
+            var description = "";
 
-        var obj = {
-            addsongs:addsongs,
-            allvideos:allvideos,
-            frontpage:frontpage,
-            skip:skipping,
-            vote:voting,
-            removeplay:removeplay,
-            shuffle:shuffling,
-            longsongs:longsongs,
-            adminpass:adminpass,
-            desc: description,
-        };
-        if(userpass_changed) {
-            obj["userpass"] = userpass;
-        } else if (frontpage) {
-            obj["userpass"] = "";
-        }
-        db.collection(channel_name + "_settings").update({views:{$exists:true}}, {
-            $set:obj
-        }, function(err, docs){
+            var obj = {
+                addsongs:addsongs,
+                allvideos:allvideos,
+                frontpage:frontpage,
+                skip:skipping,
+                vote:voting,
+                removeplay:removeplay,
+                shuffle:shuffling,
+                longsongs:longsongs,
+                adminpass:adminpass,
+                desc: description,
+            };
+            if(userpass_changed) {
+                obj["userpass"] = userpass;
+            } else if (frontpage) {
+                obj["userpass"] = "";
+            }
+            db.collection(channel_name + "_settings").update({views:{$exists:true}}, {
+                $set:obj
+            }, function(err, docs){
 
-            if(obj.adminpass !== "") obj.adminpass = true;
-            if(obj.hasOwnProperty("userpass") && obj.userpass != "") obj.userpass = true;
-            else obj.userpass = false;
-            io.to(channel_name).emit("conf", [obj]);
+                if(obj.adminpass !== "") obj.adminpass = true;
+                if(obj.hasOwnProperty("userpass") && obj.userpass != "") obj.userpass = true;
+                else obj.userpass = false;
+                io.to(channel_name).emit("conf", [obj]);
 
-            db.collection("frontpage_lists").update({_id: channel_name}, {$set:{
-                frontpage:frontpage, accessed: Functions.get_time()}
-            },
-            {upsert:true}, function(err, docs){
-                res.header({'Content-Type': 'application/json'});
-                res.status(200).send(JSON.stringify(obj));
+                db.collection("frontpage_lists").update({_id: channel_name}, {$set:{
+                    frontpage:frontpage, accessed: Functions.get_time()}
+                },
+                {upsert:true}, function(err, docs){
+                    db.collection("timeout_api").update({type: "DELETE", guid: guid}, {
+                        $set: {
+                            "createdAt": new Date(),
+                            type: "DELETE",
+                            guid: guid,
+                        },
+                    }, {upsert: true}, function(err, docs) {
+                        res.header({'Content-Type': 'application/json'});
+                        res.status(200).send(JSON.stringify(obj));
+                    });
+                });
             });
         });
     });
@@ -206,6 +227,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         res.sendStatus(400);
         return;
     }
+
     try {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
@@ -223,31 +245,54 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         return;
     }
 
-    validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
-        if(!exists) {
-            res.sendStatus(404);
+    db.collection("timeout_api").find({
+        type: "PUT",
+        guid: guid,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + 5);
+            var now = new Date();
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            res.header({'Retry-After': retry_in});
+            res.sendStatus(429);
             return;
         }
-        db.collection(channel_name).find({id: video_id, now_playing: false}, function(err, song) {
-            if(song.length == 0) {
+
+        validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
+            if(!exists) {
                 res.sendStatus(404);
                 return;
-            } else if(song[0].guids.indexOf(guid) > -1) {
-                res.sendStatus(409);
-                return;
-            } else {
-                song[0].votes += 1;
-                song[0].guids.push(guid);
-                db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, success) {
-                    io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
-                    List.getNextSong(channel_name, function() {
-                        res.header({'Content-Type': 'application/json'});
-                        res.status(200).send(JSON.stringify(song[0]));
-                        return;
-                    });
-                });
             }
-        })
+            db.collection(channel_name).find({id: video_id, now_playing: false}, function(err, song) {
+                if(song.length == 0) {
+                    res.sendStatus(404);
+                    return;
+                } else if(song[0].guids.indexOf(guid) > -1) {
+                    res.sendStatus(409);
+                    return;
+                } else {
+                    song[0].votes += 1;
+                    song[0].guids.push(guid);
+                    db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, success) {
+                        io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
+                        List.getNextSong(channel_name, function() {
+                            db.collection("timeout_api").update({type: "PUT", guid: guid}, {
+                                $set: {
+                                    "createdAt": new Date(),
+                                    type: "PUT",
+                                    guid: guid,
+                                },
+                            }, {upsert: true}, function(err, docs) {
+                                res.header({'Content-Type': 'application/json'});
+                                res.status(200).send(JSON.stringify(song[0]));
+                                return;
+                            });
+                        });
+                    });
+                }
+            })
+        });
     });
 });
 
@@ -284,66 +329,85 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         return;
     }
 
-    validateLogin(adminpass, userpass, channel_name, "add", res, function(exists) {
-        db.collection(channel_name).find({id: video_id}, function(err, result) {
-            if(result.length == 0) {
-                db.collection(channel_name).find({now_playing: true}, function(err, now_playing) {
-                    var set_np = false;
-                    if(now_playing.length == 0) {
-                        set_np = true;
-                    }
-                    var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time)};
-                    db.collection("frontpage_lists").find({"_id": channel_name}, function(err, count) {
-                        var create_frontpage_lists = false;
-                        if(count.length == 0) {
-                            create_frontpage_lists = true;
+    db.collection("timeout_api").find({
+        type: "POST",
+        guid: guid,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + 5);
+            var now = new Date();
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            res.header({'Retry-After': retry_in});
+            res.sendStatus(429);
+            return;
+        }
+
+        validateLogin(adminpass, userpass, channel_name, "add", res, function(exists) {
+            db.collection(channel_name).find({id: video_id}, function(err, result) {
+                if(result.length == 0) {
+                    db.collection(channel_name).find({now_playing: true}, function(err, now_playing) {
+                        var set_np = false;
+                        if(now_playing.length == 0) {
+                            set_np = true;
                         }
-                        if(!exists) {
-                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
-                            db.collection(channel_name + "_settings").insert(configs, function(err, docs){
-                                io.to(channel_name).emit("conf", configs);
-                            });
-                        }
-                        db.collection(channel_name).insert(new_song, function(err, success) {
-                            if(create_frontpage_lists) {
-                                db.collection("frontpage_lists").insert({"_id": channel_name, "count" : 1, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(err, docs) {
+                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time)};
+                        db.collection("frontpage_lists").find({"_id": channel_name}, function(err, count) {
+                            var create_frontpage_lists = false;
+                            if(count.length == 0) {
+                                create_frontpage_lists = true;
+                            }
+                            if(!exists) {
+                                var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
+                                db.collection(channel_name + "_settings").insert(configs, function(err, docs){
                                     io.to(channel_name).emit("conf", configs);
-                                    io.to(channel_name).emit("channel", {type: "added", value: new_song});
-                                    List.getNextSong(channel_name, function() {
-                                        res.header({'Content-Type': 'application/json'});
-                                        res.status(200).send(JSON.stringify(new_song));
-                                        return;
-                                    });
-                                });
-                            } else if(set_np) {
-                                Frontpage.update_frontpage(channel_name, video_id, title, function() {
-                                    io.to(channel_name).emit("np", new_song);
-                                    List.getNextSong(channel_name, function() {
-                                        res.header({'Content-Type': 'application/json'});
-                                        res.status(200).send(JSON.stringify(new_song));
-                                        return;
-                                    });
-                                });
-                            } else {
-                                db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: 1}}, function(err, docs) {
-                                    io.to(channel_name).emit("channel", {type: "added", value: new_song});
-                                    List.getNextSong(channel_name, function() {
-                                        res.header({'Content-Type': 'application/json'});
-                                        res.status(200).send(JSON.stringify(new_song));
-                                        return;
-                                    });
                                 });
                             }
-                        });
+                            db.collection(channel_name).insert(new_song, function(err, success) {
+                                if(create_frontpage_lists) {
+                                    db.collection("frontpage_lists").insert({"_id": channel_name, "count" : 1, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(err, docs) {
+                                        postEnd(channel_name, configs, new_song, guid, res);
+                                    });
+                                } else if(set_np) {
+                                    Frontpage.update_frontpage(channel_name, video_id, title, function() {
+                                        io.to(channel_name).emit("np", new_song);
+                                        postEnd(channel_name, configs, new_song, guid, res);
+                                    });
+                                } else {
+                                    db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: 1}}, function(err, docs) {
+                                        io.to(channel_name).emit("channel", {type: "added", value: new_song});
+                                        postEnd(channel_name, configs, new_song, guid, res);
+                                    });
+                                }
+                            });
+                        })
                     })
-                })
-            } else {
-                res.sendStatus(409);
-                return;
-            }
+                } else {
+                    res.sendStatus(409);
+                    return;
+                }
+            });
         });
     });
 });
+
+function postEnd(channel_name, configs, new_song, guid, res) {
+    io.to(channel_name).emit("conf", configs);
+    io.to(channel_name).emit("channel", {type: "added", value: new_song});
+    List.getNextSong(channel_name, function() {
+        db.collection("timeout_api").update({type: "POST", guid: guid}, {
+            $set: {
+                "createdAt": new Date(),
+                type: "POST",
+                guid: guid,
+            },
+        }, {upsert: true}, function(err, docs) {
+            res.header({'Content-Type': 'application/json'});
+            res.status(200).send(JSON.stringify(new_song));
+            return;
+        });
+    });
+}
 
 router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");

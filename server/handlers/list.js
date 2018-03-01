@@ -77,10 +77,18 @@ function skip(list, guid, coll, offline, socket) {
 
     if(list !== undefined && list !== null && list !== "")
     {
-
-        if(coll == "" || coll == undefined || coll == null) {
-            socket.emit("update_required");
-            return;
+        if(coll == undefined && list.hasOwnProperty('channel')) coll = list.channel;
+        if(coll !== undefined) {
+            try {
+                coll = list.channel;
+                if(coll.length == 0) return;
+                coll = emojiStrip(coll).toLowerCase();
+                coll = coll.replace("_", "");
+                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = filter.clean(coll);
+            } catch(e) {
+                return;
+            }
         }
         if(typeof(list.pass) != "string" || typeof(list.id) != "string" ||
             typeof(list.channel) != "string" || typeof(list.userpass) != "string") {
