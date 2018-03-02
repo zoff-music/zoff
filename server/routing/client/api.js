@@ -89,14 +89,14 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
                     res.sendStatus(404);
                     return;
                 }
-                dont_increment = true;
+                var dont_increment = false;
                 if(docs[0]){
                     if(docs[0].type == "suggested"){
-                        dont_increment = false;
+                        dont_increment = true;
                     }
                     db.collection(channel_name).remove({id:video_id}, function(err, docs){
                         io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
-                        if(dont_increment) {
+                        if(!dont_increment) {
                             db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
                                 updateTimeout(guid, res, "DELETE", function(err, docs) {
                                     res.sendStatus(200);
@@ -378,25 +378,29 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                     io.to(channel_name).emit("conf", configs);
                                 });
                             }
-                            db.collection(channel_name).update(new_song, {upsert: true}, function(err, success) {
+                            db.collection(channel_name).update({"id": new_song.id}, new_song, {upsert: true}, function(err, success) {
                                 if(create_frontpage_lists) {
-                                    db.collection("frontpage_lists").update({"_id": channel_name, "count" : 1, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
+                                    db.collection("frontpage_lists").update({"_id": channel_name, "count" :  (authenticated ? 1 : 0), "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
                                         if(authenticated) {
                                             io.to(channel_name).emit("channel", {type: "added", value: new_song});
                                         } else {
-                                            io.to(coll).emit("suggested", new_song);
+                                            io.to(channel_name).emit("suggested", new_song);
                                         }
-                                        postEnd(channel_name, configs, new_song, guid, res);
+                                        postEnd(channel_name, configs, new_song, guid, res, authenticated);
                                     });
                                 } else if(set_np) {
                                     Frontpage.update_frontpage(channel_name, video_id, title, function() {
                                         io.to(channel_name).emit("np", new_song);
-                                        postEnd(channel_name, configs, new_song, guid, res);
+                                        postEnd(channel_name, configs, new_song, guid, res, authenticated);
                                     });
                                 } else {
-                                    db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: 1}}, function(err, docs) {
-                                        io.to(channel_name).emit("channel", {type: "added", value: new_song});
-                                        postEnd(channel_name, configs, new_song, guid, res);
+                                    db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: (authenticated ? 1 : 0)}}, function(err, docs) {
+                                        if(authenticated) {
+                                            io.to(channel_name).emit("channel", {type: "added", value: new_song});
+                                        } else {
+                                            io.to(channel_name).emit("suggested", new_song);
+                                        }
+                                        postEnd(channel_name, configs, new_song, guid, res, authenticated);
                                     });
                                 }
                             });
@@ -718,7 +722,7 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
             (type == "vote" && ((conf[0].vote && (conf[0].adminpass == "" || conf[0].adminpass == undefined || conf[0].adminpass == adminpass)) || !conf[0].vote)) ||
             (type == "config" && (conf[0].adminpass == "" || conf[0].adminpass == undefined || conf[0].adminpass == adminpass))
         ) {
-            callback(exists, conf);
+            callback(exists, conf, true);
         } else if(type == "add") {
             callback(exists, conf, false);
         } else {
@@ -728,7 +732,7 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
     });
 }
 
-function postEnd(channel_name, configs, new_song, guid, res) {
+function postEnd(channel_name, configs, new_song, guid, res, authenticated) {
     if(configs != undefined) {
         io.to(channel_name).emit("conf", configs);
     }
@@ -736,7 +740,7 @@ function postEnd(channel_name, configs, new_song, guid, res) {
         updateTimeout(guid, res, "POST", function(err, docs) {
             Search.get_correct_info(new_song, channel_name, !new_song.now_playing, function() {
                 res.header({'Content-Type': 'application/json'});
-                res.status(200).send(JSON.stringify(new_song));
+                res.status(authenticated ? 200 : 403).send(JSON.stringify(new_song));
                 return;
             });
         });

@@ -38,6 +38,7 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
                     }, function(err, docs) {
                         if(broadcast && docs.nModified == 1) {
                             song_generated.new_id = song_generated.id;
+                            //if(song_generated.type == "video")
                             io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
                             if(typeof(callback) == "function") {
                                 callback();
