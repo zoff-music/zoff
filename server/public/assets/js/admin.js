@@ -146,8 +146,8 @@ var Admin = {
     },
 
     pw: function(msg) {
-        if(msg == false) return;
-        w_p       = false;
+        if(!msg) return;
+        w_p = false;
         if(adminpass == undefined || adminpass == "") {
             adminpass = Crypt.get_pass(chan.toLowerCase());
         }
