@@ -254,7 +254,7 @@ var Frontpage = {
             url: add + "/api/frontpages",
             method: "get",
             success: function(response){
-                Frontpage.frontpage_function(response);
+                Frontpage.frontpage_function(response.results);
             },
             error: function() {
                 Materialize.toast("Couldn't fetch lists, trying again in 3 seconds..", 3000, "red lighten connect_error");
