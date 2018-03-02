@@ -504,9 +504,9 @@ function sendColor(coll, socket, id) {
 
         var c = ColorThief.getColor(image);
         if(socket) {
-            socket.emit("color", {color: c});
+            socket.emit("color", {color: c, only: true});
         } else {
-            io.to(coll).emit("color", {color: c});
+            io.to(coll).emit("color", {color: c, only: false});
         }
     });
 }

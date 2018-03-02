@@ -406,7 +406,7 @@ var Player = {
         } else {
             Player.loadVideoById(video_id, duration, start, end);
         }
-        List.channel_function({type:"song_change", time: time});
+        List.channel_function({type:"song_change", time: time, offline_change: true});
     },
 
     playPrev: function() {
@@ -444,7 +444,7 @@ var Player = {
             Player.loadVideoById(video_id, duration, start, end);
         }
 
-        List.channel_function({type:"song_change_prev", time: time});
+        List.channel_function({type:"song_change_prev", time: time, offline_change: true});
     },
 
     sendNext: function(obj){
@@ -554,7 +554,7 @@ var Player = {
 
     setBGimage: function(c){
         var color = c.color;
-        if(window.location.pathname != "/") {
+        if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
             $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
             var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
@@ -677,9 +677,9 @@ var Player = {
 
                 if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {
                     end_programmatically = true;
-                    Player.player.pauseVideo();
 
                     if(!offline) {
+                        Player.player.pauseVideo();
                         socket.emit("end", {id: video_id, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
                     } else {
                         Player.playNext();

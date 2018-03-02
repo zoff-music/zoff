@@ -227,6 +227,11 @@ $().ready(function(){
 });
 
 initializeCastApi = function() {
+    try {
+        if(cast == undefined) return;
+    } catch(e) {
+        return;
+    }
     cast.framework.CastContext.getInstance().setOptions({
         receiverApplicationId: "E6856E24",
         autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
@@ -1159,7 +1164,7 @@ $(document).on( "click", "#add-many", function(e){
     } else {
         try {
             var length = parseInt(end) - parseInt(start);
-            $(this).parent().parent().remove();
+            $(this).parent().parent().parent().remove();
             Search.submit(id, title, length, false, 0, 1, start, end);
         } catch(e) {
             Materialize.toast("Only numbers are accepted as song start and end parameters..", 3000, "red lighten");
