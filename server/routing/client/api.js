@@ -452,7 +452,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         });
                                     } else if(set_np) {
                                         Frontpage.update_frontpage(channel_name, video_id, title, function() {
-                                            io.to(channel_name).emit("np", new_song);
+                                            io.to(channel_name).emit("np", {np: [new_song], conf: [conf]});
                                             postEnd(channel_name, configs, new_song, guid, res, authenticated);
                                         });
                                     } else {
