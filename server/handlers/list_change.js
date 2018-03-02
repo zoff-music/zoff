@@ -108,17 +108,16 @@ function add_function(arr, coll, guid, offline, socket) {
                                     } else {
                                         np = false;
                                     }
-                                    db.collection(coll).update({id: id}, {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)}, {upsert: true}, function(err, docs){
-                                        if(np)
-                                        {
-                                            var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)};
+                                    var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video"};
+                                    db.collection(coll).update({id: id}, new_song, {upsert: true}, function(err, docs){
+                                        new_song._id = "asd";
+                                        if(np) {
                                             List.send_list(coll, undefined, false, true, false);
                                             db.collection(coll + "_settings").update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
                                             List.send_play(coll, undefined);
                                             Frontpage.update_frontpage(coll, id, title);
                                             if(!full_list) Search.get_correct_info(new_song, coll, false);
                                         } else {
-                                            var new_song = {"_id": "asd", "added":added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end)};
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
                                             if(!full_list) Search.get_correct_info(new_song, coll, true);
                                         }
@@ -202,21 +201,17 @@ function voteUndecided(msg, coll, guid, offline, socket) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
 
-                if(msg.type == "del")
-                ListChange.del(msg, socket, socketid);
-                else
-                {
+                if(msg.type == "del") {
+                    ListChange.del(msg, socket, socketid);
+                } else {
                     var id = msg.id;
                     var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-                    db.collection(coll + "_settings").find(function(err, docs){
-                        if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
-                        docs[0].vote === false))
-                        {
-                            ListChange.vote(coll, id, guid, socket, false, false);
-                        }else{
-                            socket.emit("toast", "listhaspass");
-                        }
-                    });
+                    if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
+                    docs[0].vote === false)) {
+                        ListChange.vote(coll, id, guid, socket, false, false);
+                    } else {
+                        socket.emit("toast", "listhaspass");
+                    }
                 }
             } else {
                 socket.emit("auth_required");
@@ -363,7 +358,7 @@ function delete_all(msg, coll, guid, offline, socket) {
 }
 
 function vote(coll, id, guid, socket, full_list, last) {
-    db.collection(coll).find({id:id, now_playing: false}, function(err, docs){
+    db.collection(coll).find({id:id, now_playing: false, type:"video"}, function(err, docs){
         if(docs !== null && docs.length > 0 && !Functions.contains(docs[0].guids, guid))
         {
             db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, docs)

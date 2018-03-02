@@ -14,6 +14,7 @@ var toShowChannel = {
     type: 1,
     _id: 0,
     now_playing: 1,
+    type: 1,
 };
 var toShowConfig = {
     addsongs: 1,
@@ -241,7 +242,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                 res.sendStatus(404);
                 return;
             }
-            db.collection(channel_name).find({id: video_id, now_playing: false}, function(err, song) {
+            db.collection(channel_name).find({id: video_id, now_playing: false, type:"video"}, function(err, song) {
                 if(song.length == 0) {
                     res.sendStatus(404);
                     return;
@@ -251,7 +252,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                 } else {
                     song[0].votes += 1;
                     song[0].guids.push(guid);
-                    db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, success) {
+                    db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time(), type: "video"}, $push :{guids: guid}}, function(err, success) {
                         io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
                         List.getNextSong(channel_name, function() {
                             updateTimeout(guid, res, "PUT", function(err, docs) {
@@ -345,26 +346,27 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                 }
         }
     } catch(e) {
-        console.log("crash here", e);
         res.sendStatus(400);
         return;
     }
 
     checkTimeout(guid, res, "POST", function() {
         var type = fetch_only ? "fetch_song" : "add";
-        validateLogin(adminpass, userpass, channel_name, type, res, function(exists) {
+        validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
             db.collection(channel_name).find({id: video_id}, function(err, result) {
-                if(result.length == 0) {
-                    if(fetch_only) {
+                if(result.length == 0 || result[0].type == "suggested") {
+                    var song_type = authenticated ? "video" : "suggested";
+                    if(fetch_only && result.length == 0) {
                         res.sendStatus(404);
                         return;
                     }
+
                     db.collection(channel_name).find({now_playing: true}, function(err, now_playing) {
                         var set_np = false;
-                        if(now_playing.length == 0) {
+                        if(now_playing.length == 0 && authenticated) {
                             set_np = true;
                         }
-                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time)};
+                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type};
                         db.collection("frontpage_lists").find({"_id": channel_name}, function(err, count) {
                             var create_frontpage_lists = false;
                             if(count.length == 0) {
@@ -376,9 +378,14 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                     io.to(channel_name).emit("conf", configs);
                                 });
                             }
-                            db.collection(channel_name).insert(new_song, function(err, success) {
+                            db.collection(channel_name).update(new_song, {upsert: true}, function(err, success) {
                                 if(create_frontpage_lists) {
-                                    db.collection("frontpage_lists").insert({"_id": channel_name, "count" : 1, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(err, docs) {
+                                    db.collection("frontpage_lists").update({"_id": channel_name, "count" : 1, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
+                                        if(authenticated) {
+                                            io.to(channel_name).emit("channel", {type: "added", value: new_song});
+                                        } else {
+                                            io.to(coll).emit("suggested", new_song);
+                                        }
                                         postEnd(channel_name, configs, new_song, guid, res);
                                     });
                                 } else if(set_np) {
@@ -712,6 +719,8 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
             (type == "config" && (conf[0].adminpass == "" || conf[0].adminpass == undefined || conf[0].adminpass == adminpass))
         ) {
             callback(exists, conf);
+        } else if(type == "add") {
+            callback(exists, conf, false);
         } else {
             res.sendStatus(403);
             return;
