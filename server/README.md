@@ -183,6 +183,13 @@ Returns 404 if the channel doesn't exist
 Returns 200 and the now playing object
 ```
 
+Get all lists
+```
+GET /api/frontpages
+
+Returns 200 and the frontpage-lists
+```
+
 Still to come: SKIP and SHUFFLE RESTApi calls..
 
 
