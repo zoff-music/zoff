@@ -812,7 +812,7 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
         } else if(type == "add") {
             callback(exists, conf, false);
         } else {
-            res.status(404).send(JSON.stringify(error.not_authenticated));
+            res.status(403).send(JSON.stringify(error.not_authenticated));
             return;
         }
     });
@@ -825,6 +825,10 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated) {
     List.getNextSong(channel_name, function() {
         updateTimeout(guid, res, "POST", function(err, docs) {
             var to_return = error.no_error;
+            if(!authenticated) {
+                to_return = error.not_authenticated;
+                to_return.success = true;
+            }
             to_return.results = [new_song];
             res.status(authenticated ? 200 : 403).send(JSON.stringify(to_return));
             return;
