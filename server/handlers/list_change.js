@@ -308,15 +308,15 @@ function del(params, socket, socketid) {
             if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.decrypt_string(socketid, params.adminpass)))
             {
                 db.collection(coll).find({id:params.id}, function(err, docs){
-                    dont_increment = true;
+                    var dont_increment = false;
                     if(docs[0]){
                         if(docs[0].type == "suggested"){
-                            dont_increment = false;
+                            dont_increment = true;
                         }
                         db.collection(coll).remove({id:params.id}, function(err, docs){
                             socket.emit("toast", "deletesong");
                             io.to(coll).emit("channel", {type:"deleted", value: params.id});
-                            if(dont_increment) db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                            if(!dont_increment) db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                         });
                     }
                 });

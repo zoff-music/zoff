@@ -76,6 +76,16 @@ var List = {
     },
 
     changedValues: function(song) {
+        if(song.type == "suggested") {
+            $("#suggested-" + song.id).find(".vote-container").attr("title", song.title);
+            $("#suggested-" + song.id).find(".list-title").attr("title", song.title);
+            $("#suggested-" + song.id).find(".list-title").text(song.title);
+            var _temp_duration = Helper.secondsToOther(song.duration);
+            $("#suggested-" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
+            $("#suggested-" + song.id).find(".list-image").attr("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+            $("#suggested-" + song.id).attr("id", song.new_id);
+            return;
+        }
         var i = List.getIndexOfSong(song.id);
         if(i >= 0 && window.location.pathname != "/") {
             full_playlist[i].title = song.title;

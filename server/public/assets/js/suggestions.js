@@ -6,6 +6,11 @@ var Suggestions = {
         } else {
             number_suggested = number_suggested + params.length;
         }
+        for(var i = 0; i < params.length; i++) {
+            if($("#suggested-" + params[i].id).length > 0) {
+                number_suggested -= 1;
+            }
+        }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0){
             $(".suggested-link span.badge.new.white").removeClass("hide");
@@ -26,7 +31,9 @@ var Suggestions = {
         var video_id 	= params.id;
         var video_title = params.title;
         var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
-        $("#user-suggest-html").append(song);
+        if($("#" + $(song).attr("id")).length == 0) {
+            $("#user-suggest-html").append(song);
+        }
     },
 
     fetchYoutubeSuggests: function(id){
