@@ -13,7 +13,7 @@ All requests return things on this form (results field is added if successful.)
     status: STATUSCODE,
     error: MESSAGE,
     success: IF_SUCCESSFULL,
-    (results: RESULTS)
+    results: [RESULTS]
 }
 ```
 
@@ -74,14 +74,14 @@ PUT /api/conf/:channel_name
     {
         "userpass": USER_PASSWORD,
         "adminpass": PASSWORD,
-        "voting": BOOLEAN,
+        "vote": BOOLEAN,
         "addsongs": BOOLEAN,
         "longsongs": BOOLEAN,
         "frontpage": BOOLEAN (if you want to set userpassword, this MUST be false for it to work),
         "allvideos": BOOLEAN,
         "removeplay": BOOLEAN,
-        "skipping": BOOLEAN,
-        "shuffling": BOOLEAN,
+        "skip": BOOLEAN,
+        "shuffle": BOOLEAN,
         "userpass_changed": BOOLEAN (this must be true if you want to keep the userpassword you're sending)
     }
 

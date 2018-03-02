@@ -57,7 +57,7 @@ function list(msg, guid, coll, offline, socket) {
                 });
             } else {
                 db.createCollection(coll, function(err, docs){
-                    var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
+                    var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: ""};
                     db.collection(coll + "_settings").insert(configs, function(err, docs){
                         socket.join(coll);
                         List.send_list(coll, socket, true, false, true);
