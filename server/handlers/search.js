@@ -39,18 +39,21 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
                         if(broadcast && docs.nModified == 1) {
                             song_generated.new_id = song_generated.id;
                             //if(song_generated.type == "video")
-                            io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
                             if(typeof(callback) == "function") {
-                                callback();
+                                callback(song_generated, true);
+                            } else {
+                                io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
                             }
                         } else {
-                            callback();
+                            callback(song_generated, true);
                         }
                     });
                 }
+            } else {
+                findSimilar(song_generated, channel, broadcast, callback)
             }
         } catch(e){
-            console.log(e);
+            callback({}, false);
         }
     });
 }
@@ -69,54 +72,70 @@ function check_error_video(msg, channel) {
         try {
             var resp = JSON.parse(body);
             if(resp.pageInfo.totalResults == 0) {
-                var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
-                request({
-                    method: "GET",
-                    url: yt_url,
-                }, function(error, response, body){
-                    var resp = JSON.parse(body);
-                    if(resp.items.length > 0) {
-                        var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=";
-                        for(var i = 0; i < resp.items.length; i++) {
-                            vid_url += resp.items[i].id.videoId + ",";
-                        }
-                        request({
-                                type: "GET",
-                                url: vid_url
-                        }, function(error, response, body) {
-                            var resp = JSON.parse(body);
-                            var found = false;
-                            var element = {};
-                            for(var i = 0; i < resp.items.length; i++) {
-                                if(similarity(resp.items[i].snippet.localized.title, msg.title) > 0.75) {
-                                    found = true;
-                                    element = {
-                                        title: resp.items[i].snippet.localized.title,
-                                        duration: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
-                                        id: resp.items[i].id,
-                                        start: 0,
-                                        end: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
-                                    }
-                                    break;
-                                }
-                            }
-                            if(found) {
-                                db.collection(channel).update({"id": msg.id}, {
-                                    $set: element
-                                }, function(err, docs) {
-                                    if(docs.nModified == 1) {
-                                        element.new_id = element.id;
-                                        element.id = msg.id;
-                                        io.to(channel).emit("channel", {type: "changed_values", value: element});
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+                findSimilar(msg, channel, true, undefined)
             }
         } catch(e){
             console.log(e);
+        }
+    });
+}
+
+function findSimilar(msg, channel, broadcast, callback) {
+    var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
+    request({
+        method: "GET",
+        url: yt_url,
+    }, function(error, response, body){
+        var resp = JSON.parse(body);
+        if(resp.items.length > 0) {
+            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=";
+            for(var i = 0; i < resp.items.length; i++) {
+                vid_url += resp.items[i].id.videoId + ",";
+            }
+            request({
+                    type: "GET",
+                    url: vid_url
+            }, function(error, response, body) {
+                var resp = JSON.parse(body);
+                var found = false;
+                var element = {};
+                for(var i = 0; i < resp.items.length; i++) {
+                    if(similarity(resp.items[i].snippet.localized.title, msg.title) > 0.75) {
+                        found = true;
+                        element = {
+                            title: resp.items[i].snippet.localized.title,
+                            duration: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
+                            id: resp.items[i].id,
+                            start: 0,
+                            end: parseInt(durationToSeconds(resp.items[i].contentDetails.duration)),
+                        }
+                        break;
+                    }
+                }
+                if(found) {
+                    db.collection(channel).update({"id": msg.id}, {
+                        $set: element
+                    }, function(err, docs) {
+                        if(docs.nModified == 1 && broadcast) {
+                            element.new_id = element.id;
+                            element.id = msg.id;
+                            if(!callback) {
+                                io.to(channel).emit("channel", {type: "changed_values", value: element});
+                            }
+                        }
+                        if(callback) {
+                            msg.title = element.title;
+                            msg.id = element.id;
+                            msg.duration = element.duration;
+                            msg.start = element.start;
+                            msg.end = element.end;
+                            callback(msg, true);
+                        }
+                    });
+                } else if(callback) {
+                    callback({}, false);
+                }
+            });
         }
     });
 }
