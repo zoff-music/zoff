@@ -37,42 +37,50 @@ var error = {
             status: 404,
             error: "Couldn't find a song like that on YouTube.",
             success: false,
+            results: [],
         },
         local: {
             status: 404,
             error: "Couldn't find a song like that in the channel",
             success: false,
+            results: [],
         },
         list: {
             status: 404,
             error: "The list doesn't exist",
             success: false,
+            results: [],
         }
     },
     not_authenticated: {
         status: 403,
         error: "Wrong adminpassword or userpassword.",
         success: false,
+        results: [],
     },
     formatting: {
         status: 400,
         error: "Malformed request parameters.",
         success: false,
+        results: [],
     },
     conflicting: {
         status: 409,
         error: "That element already exists.",
         success: false,
+        results: [],
     },
     tooMany: {
         status: 429,
         error: "You're doing too many requests, check header-field Retry-After for the wait-time left.",
         success: false,
+        results: [],
     },
     no_error: {
         status: 200,
         error: false,
         success: true,
+        results: [],
     }
 }
 
@@ -201,6 +209,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             typeof(allvideos) != "boolean" || typeof(removeplay) != "boolean" ||
             typeof(skipping) != "boolean" || typeof(shuffling) != "boolean" ||
             typeof(userpass_changed) != "boolean") {
+                console.log("crash here");
                 throw "Wrong format";
             }
     } catch(e) {
@@ -253,7 +262,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
                 {upsert:true}, function(err, docs){
                     updateTimeout(guid, res, "CONFIG", function(err, docs) {
                         var to_return = error.no_error;
-                        to_return.results = obj;
+                        to_return.results = [obj];
                         res.status(200).send(JSON.stringify(to_return));
                         return;
                     });
@@ -311,7 +320,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                         List.getNextSong(channel_name, function() {
                             updateTimeout(guid, res, "PUT", function(err, docs) {
                                 var to_return = error.no_error;
-                                to_return.results = song[0];
+                                to_return.results = song;
                                 res.status(200).send(JSON.stringify(to_return));
                                 return;
                             });
@@ -357,7 +366,9 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                         return;
                     }
                     updateTimeout(guid, res, "POST", function(err, docs) {
-                        res.status(200).send(JSON.stringify(list[0]));
+                        var to_return = error.no_error;
+                        to_return.results = list;
+                        res.status(200).send(JSON.stringify(to_return));
                     });
                 });
             } else {
@@ -471,7 +482,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                     });
                 } else if(fetch_only) {
                     var to_return = error.no_error;
-                    to_return.results = result[0];
+                    to_return.results = result;
                     res.status(200).send(JSON.stringify(to_return));
                     return;
                 } else {
@@ -531,7 +542,7 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
                     return;
                 }
                 var to_return = error.no_error;
-                to_return.results = docs[0];
+                to_return.results = docs;
                 res.status(200).send(JSON.stringify(to_return));
                 return;
             });
@@ -556,7 +567,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
             } else {
                 conf.adminpass = false;
             }
-            if(conf.userpass != "") {
+            if(conf.userpass != "" && conf.userpass != undefined) {
                 conf.userpass = true;
             } else {
                 conf.userpass = false;
@@ -785,7 +796,10 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
         if(conf.length > 0 && ((conf[0].userpass == undefined || conf[0].userpass == "" || conf[0].userpass == userpass))) {
             exists = true;
         } else if(conf.length > 0 && type != "config") {
-            res.status(404).send(JSON.stringify(error.not_authenticated));
+            res.status(404).send(JSON.stringify(error.not_found.list));
+            return;
+        } else if(conf.length == 0) {
+            res.status(404).send(JSON.stringify(error.not_found.list));
             return;
         }
 
@@ -813,7 +827,7 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated) {
     List.getNextSong(channel_name, function() {
         updateTimeout(guid, res, "POST", function(err, docs) {
             var to_return = error.no_error;
-            to_return.results = new_song;
+            to_return.results = [new_song];
             res.status(authenticated ? 200 : 403).send(JSON.stringify(to_return));
             return;
         });
