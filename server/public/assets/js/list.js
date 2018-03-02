@@ -54,23 +54,28 @@ var List = {
             found_array_index = 0;
             break;
             case "song_change":
-                if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
-                if(full_playlist.length > 0) {
-                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                if((offline && msg.offline_change) || !offline) {
+                    if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
+                    if(full_playlist.length > 0) {
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                    found_array = [];
+                    found_array_index = 0;
                 }
-                found_array = [];
-                found_array_index = 0;
                 break;
             case "changed_values":
                 List.changedValues(msg.value);
                 break;
             case "song_change_prev":
-                if(window.location.pathname != "/") List.song_change_prev(msg.time);
-                if(full_playlist.length > 0) {
-                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                if((offline && msg.offline_change) || !offline) {
+
+                    if(window.location.pathname != "/") List.song_change_prev(msg.time);
+                    if(full_playlist.length > 0) {
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                    found_array = [];
+                    found_array_index = 0;
                 }
-                found_array = [];
-                found_array_index = 0;
                 break;
         }
     },
