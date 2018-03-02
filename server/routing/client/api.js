@@ -209,7 +209,6 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             typeof(allvideos) != "boolean" || typeof(removeplay) != "boolean" ||
             typeof(skipping) != "boolean" || typeof(shuffling) != "boolean" ||
             typeof(userpass_changed) != "boolean") {
-                console.log("crash here");
                 throw "Wrong format";
             }
     } catch(e) {
@@ -532,24 +531,23 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
         searchQuery = {now_playing: true};
     }
     db.collection(channel_name).find(searchQuery, toShowChannel, function(err, docs) {
-        if(docs.length > 0) {
-            db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
-                if(conf.length == 0) {
-                    res.status(404).send(JSON.stringify(error.not_found.list));
-                    return;
-                } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
-                    res.status(404).send(JSON.stringify(error.not_authenticated));
-                    return;
-                }
-                var to_return = error.no_error;
-                to_return.results = docs;
-                res.status(200).send(JSON.stringify(to_return));
+        db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
+            if(conf.length == 0) {
+                res.status(404).send(JSON.stringify(error.not_found.list));
                 return;
-            });
-        } else {
-            res.status(404).send(JSON.stringify(error.not_found.local));
+            } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
+                res.status(404).send(JSON.stringify(error.not_authenticated));
+                return;
+            }
+            if(docs.length == 0) {
+                res.status(404).send(JSON.stringify(error.not_found.local));
+                return;
+            }
+            var to_return = error.no_error;
+            to_return.results = docs;
+            res.status(200).send(JSON.stringify(to_return));
             return;
-        }
+        });
     });
 });
 
