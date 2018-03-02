@@ -6,6 +6,17 @@ Under ``` /server/apps/ ```, there are two files, ``` admin.js ``` and ``` clien
 
 All PUT, DELETE and POST endpoints have a 2-second waitlimit for each command per client. You'll get a response with Retry-After header for how long you have to wait. Shuffling in a player has a 5-second waitlimit, but per channel instead of per client.
 
+All requests return things on this form (results field is added if successful.)
+
+```
+{
+    status: STATUSCODE,
+    error: MESSAGE,
+    success: IF_SUCCESSFULL,
+    (results: RESULTS)
+}
+```
+
 Add song
 
 ```
@@ -15,12 +26,12 @@ POST /api/list/:channel_name/:video_id
         "duration": END_TIME - START_TIME,
         "end_time": END_TIME,
         "start_time": START_TIME,
-        "adminpass": PASSWORD,
+        "adminpass": PASSWORD, (leave this blank if there is no password/you don't know the password)
         "userpass": USER_PASSWORD
     }
 
 Returns 400 for bad request
-Returns 403 for bad authentication
+Returns 403 for bad authentication (but will return a song object, with the type == "suggested", and the song will show up in the suggested tab for channel-admins)
 Returns 409 if the song exists
 Returns 429 if you're doing too much of this request, with a Retry-After int value in the header.
 Returns 200 and the added song object if successful
