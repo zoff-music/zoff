@@ -33,7 +33,7 @@ function password(inp, coll, guid, offline, socket) {
             {
                 if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(opw))
                 {
-                    db.collection(coll + "_settings").update({views:{$exists:true}}, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
+                    db.collection(coll + "_settings").update({ id: "config" }, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
                         if(inp.oldpass)
                         socket.emit("toast", "changedpass");
                         else
@@ -136,7 +136,7 @@ function conf_function(params, coll, guid, offline, socket) {
                 } else if (frontpage) {
                     obj["userpass"] = "";
                 }
-                db.collection(coll + "_settings").update({views:{$exists:true}}, {
+                db.collection(coll + "_settings").update({ id: "config" }, {
                     $set:obj
                 }, function(err, docs){
                     db.collection(coll + "_settings").find(function(err, docs){
