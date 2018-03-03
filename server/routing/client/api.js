@@ -144,7 +144,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
 
@@ -236,7 +236,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
         checkTimeout(guid, res, authorized, "CONFIG", function() {
@@ -328,7 +328,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
 
@@ -386,17 +386,15 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     if(req.body.hasOwnProperty("token")) {
         token = req.body.token;
     }
-    console.log(token);
     if(typeof(userpass) != "string") {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        console.log(authorized);
         checkTimeout(guid, res, authorized, "POST", function() {
             db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
@@ -467,7 +465,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
         checkTimeout(guid, res, authorized, "POST", function() {
@@ -663,7 +661,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
         checkTimeout(guid, res, authorized, "POST", function() {
@@ -724,7 +722,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
 
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
         var authorized = false;
-        if(token_docs.length == 1 && token_docs.token == token) {
+        if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
         checkTimeout(guid, res, authorized, "POST", function() {
