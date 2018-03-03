@@ -6,6 +6,8 @@ Under ``` /server/apps/ ```, there are two files, ``` admin.js ``` and ``` clien
 
 All PUT, DELETE and POST endpoints have a 2-second waitlimit for each command per client. You'll get a response with Retry-After header for how long you have to wait. Shuffling in a player has a 5-second waitlimit, but per channel instead of per client.
 
+If you want to skip the wait-times, send a mail to the team at contact@zoff.me, and get a token. Tokens are added to all the POST, PUT, DELETE, requests as ``` token: TOKEN ```
+
 All requests return things on this form (results field is added if successful.)
 
 ```
