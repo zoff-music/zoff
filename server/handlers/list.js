@@ -191,6 +191,7 @@ function change_song(coll, error, id, callback) {
             }, {
                 $limit:2
             }], function(err, now_playing_doc){
+
                 if((id && id == now_playing_doc[0].id) || !id) {
                     if(error){
                         request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
@@ -234,6 +235,7 @@ function change_song(coll, error, id, callback) {
                             db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
                         });
                     } else {
+
                         if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
                             db.collection(coll).update({now_playing:true, id:id}, {
                                 $set:{
@@ -291,13 +293,13 @@ function change_song_post(coll, next_song, callback)
                     added:Functions.get_time()
                 }
             }, function(err, returnDocs){
-                db.collection(coll + "_settings").update({id: "configs"}, {
+                db.collection(coll + "_settings").update({id: "config"}, {
                     $set:{
                         startTime:Functions.get_time(),
                         skips:[]
                     }
                 }, function(err, returnDocs){
-                    db.collection(coll + "_settings").find(function(err, conf){
+                    db.collection(coll + "_settings").find({id: "config"}, function(err, conf){
                         if(!callback) {
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
                             List.send_play(coll);
@@ -314,83 +316,91 @@ function change_song_post(coll, next_song, callback)
 
 function send_list(coll, socket, send, list_send, configs, shuffled)
 {
-    db.collection(coll + "_settings").find(function(err, conf){
-        db.collection(coll).find({views:{$exists:false}, type: {$ne: "suggested"}}, function(err, docs)
-        {
-            if(docs.length > 0) {
-                db.collection(coll).find({now_playing: true}, function(err, np_docs) {
-                    if(np_docs.length == 0) {
-                        db.collection(coll).aggregate([{
-                            $match:{
-                                views:{
-                                    $exists: false
-                                },
-                                type:{
-                                    $ne: "suggested"
-                                }
-                            }
-                        }, {
-                            $sort:{
-                                now_playing: -1,
-                                votes:-1,
-                                added:1,
-                                title: 1
-                            }
-                        }, {
-                            $limit:1
-                        }], function(err, now_playing_doc){
-                            if(now_playing_doc[0].now_playing == false) {
-                                db.collection(coll).update({id:now_playing_doc[0].id}, {
-                                    $set:{
-                                        now_playing:true,
-                                        votes:0,
-                                        guids:[],
-                                        added:Functions.get_time()
+    db.collection(coll + "_settings").find({id: "config"}, function(err, _conf){
+        var conf = _conf;
+        if(conf.length == 0) {
+            var conf = {"id": "config", "addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: ""};
+            db.collection(coll + "_settings").update({id: "config"}, conf, {upsert: true}, function(err, docs) {
+                send_list(coll, socket, send, list_send, configs, shuffled);
+            });
+        } else {
+            db.collection(coll).find({views:{$exists:false}, type: {$ne: "suggested"}}, function(err, docs)
+            {
+                if(docs.length > 0) {
+                    db.collection(coll).find({now_playing: true}, function(err, np_docs) {
+                        if(np_docs.length == 0) {
+                            db.collection(coll).aggregate([{
+                                $match:{
+                                    views:{
+                                        $exists: false
+                                    },
+                                    type:{
+                                        $ne: "suggested"
                                     }
-                                }, function(err, returnDocs){
-                                    db.collection(coll + "_settings").update({ id: "config" }, {
+                                }
+                            }, {
+                                $sort:{
+                                    now_playing: -1,
+                                    votes:-1,
+                                    added:1,
+                                    title: 1
+                                }
+                            }, {
+                                $limit:1
+                            }], function(err, now_playing_doc){
+                                if(now_playing_doc[0].now_playing == false) {
+                                    db.collection(coll).update({id:now_playing_doc[0].id}, {
                                         $set:{
-                                            startTime: Functions.get_time(),
-                                            skips:[]
+                                            now_playing:true,
+                                            votes:0,
+                                            guids:[],
+                                            added:Functions.get_time()
                                         }
                                     }, function(err, returnDocs){
-                                        Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
-                                        List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                        db.collection(coll + "_settings").update({ id: "config" }, {
+                                            $set:{
+                                                startTime: Functions.get_time(),
+                                                skips:[]
+                                            }
+                                        }, function(err, returnDocs){
+                                            Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
+                                            List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                        });
                                     });
-                                });
-                            }
-                        });
-                    } else {
-                        if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
-                            List.change_song(coll, false, np_docs[0].id, function() {
-                                List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                }
                             });
                         } else {
-                            if(list_send) {
-                                io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
-                            } else if(!list_send) {
-                                socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
-                            }
-                            if(socket === undefined && send) {
-                                List.send_play(coll);
-                            } else if(send) {
-                                List.send_play(coll, socket);
+                            if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
+                                List.change_song(coll, false, np_docs[0].id, function() {
+                                    List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                });
+                            } else {
+                                if(list_send) {
+                                    io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                                } else if(!list_send) {
+                                    socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                                }
+                                if(socket === undefined && send) {
+                                    List.send_play(coll);
+                                } else if(send) {
+                                    List.send_play(coll, socket);
+                                }
                             }
                         }
+                    });
+                } else {
+                    if(list_send) {
+                        io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                    } else if(!list_send) {
+                        socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
                     }
-                });
-            } else {
-                if(list_send) {
-                    io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
-                } else if(!list_send) {
-                    socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
+                    if(socket === undefined && send) {
+                        List.send_play(coll);
+                    } else if(send) {
+                        List.send_play(coll, socket);
+                    }
                 }
-                if(socket === undefined && send) {
-                    List.send_play(coll);
-                } else if(send) {
-                    List.send_play(coll, socket);
-                }
-            }
+            });
             if(configs)
             {
                 if(conf.length > 0) {
@@ -405,7 +415,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                     });
                 }
             }
-        });
+        }
     });
     if(socket){
         db.collection(coll).find({type:"suggested"}).sort({added: 1}, function(err, sugg){
