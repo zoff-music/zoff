@@ -205,6 +205,19 @@ $(document).on("click", "#get_token", function(e){
 	})
 });
 
+$(document).on("click", "#get_api_token", function(e){
+	e.preventDefault();
+	$.ajax({
+		type: "GET",
+		url: "/api/api_token",
+		success: function(response){
+			if(response != false){
+				$("#new_api_token").val(response.token);
+			}
+		}
+	})
+});
+
 $(document).on("click", ".approve_thumbnails", function(e){
 	e.preventDefault();
 	var channel = $(this).attr("data-channel");
