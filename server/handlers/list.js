@@ -142,7 +142,7 @@ function skip(list, guid, coll, offline, socket) {
                                         }
                                     });
                                 }else if(!Functions.contains(docs[0].skips, guid)){
-                                    db.collection(coll + "_settings").update({views:{$exists:true}}, {$push:{skips:guid}}, function(err, d){
+                                    db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
                                         if(frontpage_viewers[0].viewers == 2)
                                         to_skip = 1;
                                         else
@@ -206,7 +206,7 @@ function change_song(coll, error, id, callback) {
                                 });
                             } else {
                                 if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
-                                    db.collection(coll + "_settings").update({views: {$exists: true}}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
+                                    db.collection(coll + "_settings").update({id: "config"}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
                                         db.collection(coll).update({now_playing:true, id:id}, {
                                             $set:{
                                                 now_playing:false,
@@ -291,7 +291,7 @@ function change_song_post(coll, next_song, callback)
                     added:Functions.get_time()
                 }
             }, function(err, returnDocs){
-                db.collection(coll + "_settings").update({views: {$exists: true}}, {
+                db.collection(coll + "_settings").update({id: "configs"}, {
                     $set:{
                         startTime:Functions.get_time(),
                         skips:[]
@@ -348,7 +348,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                         added:Functions.get_time()
                                     }
                                 }, function(err, returnDocs){
-                                    db.collection(coll + "_settings").update({views:{$exists:true}}, {
+                                    db.collection(coll + "_settings").update({ id: "config" }, {
                                         $set:{
                                             startTime: Functions.get_time(),
                                             skips:[]
@@ -391,17 +391,21 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                     List.send_play(coll, socket);
                 }
             }
-        });
-
-        if(configs)
-        {
-            if(conf.length > 0) {
-                if(conf[0].adminpass !== "") conf[0].adminpass = true;
-                if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
-                else conf[0].userpass = false;
-                io.to(coll).emit("conf", conf);
+            if(configs)
+            {
+                if(conf.length > 0) {
+                    if(conf[0].adminpass !== "") conf[0].adminpass = true;
+                    if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
+                    else conf[0].userpass = false;
+                    io.to(coll).emit("conf", conf);
+                } else if(conf.length == 0 && docs.length > 0) {
+                    var conf = {"id": "config", "addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: ""};
+                    db.collection(coll + "_settings").update({id: "config"}, conf, {upsert: true}, function(err, docs) {
+                        io.to(coll).emit("conf", conf);
+                    });
+                }
             }
-        }
+        });
     });
     if(socket){
         db.collection(coll).find({type:"suggested"}).sort({added: 1}, function(err, sugg){

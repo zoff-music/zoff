@@ -113,7 +113,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                         new_song._id = "asd";
                                         if(np) {
                                             List.send_list(coll, undefined, false, true, false);
-                                            db.collection(coll + "_settings").update({views:{$exists:true}}, {$set:{startTime: Functions.get_time()}});
+                                            db.collection(coll + "_settings").update({ id: "config" }, {$set:{startTime: Functions.get_time()}});
                                             List.send_play(coll, undefined);
                                             Frontpage.update_frontpage(coll, id, title);
                                             if(!full_list) Search.get_correct_info(new_song, coll, false);
