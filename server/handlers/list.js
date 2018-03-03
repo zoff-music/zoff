@@ -395,10 +395,12 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
 
         if(configs)
         {
-            if(conf[0].adminpass !== "") conf[0].adminpass = true;
-            if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
-            else conf[0].userpass = false;
-            io.to(coll).emit("conf", conf);
+            if(conf.length > 0) {
+                if(conf[0].adminpass !== "") conf[0].adminpass = true;
+                if(conf[0].hasOwnProperty("userpass") && conf[0].userpass != "") conf[0].userpass = true;
+                else conf[0].userpass = false;
+                io.to(coll).emit("conf", conf);
+            }
         }
     });
     if(socket){
