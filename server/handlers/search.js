@@ -45,15 +45,23 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
                                 io.to(channel).emit("channel", {type: "changed_values", value: song_generated});
                             }
                         } else {
-                            callback(song_generated, true);
+                            if(typeof(callback) == "function") {
+                                callback(song_generated, true);
+                            }
                         }
                     });
+                } else {
+                    if(typeof(callback) == "function") {
+                        callback(song_generated, true);
+                    }
                 }
             } else {
                 findSimilar(song_generated, channel, broadcast, callback)
             }
         } catch(e){
-            callback({}, false);
+            if(typeof(callback) == "function") {
+                callback({}, false);
+            }
         }
     });
 }
@@ -123,7 +131,7 @@ function findSimilar(msg, channel, broadcast, callback) {
                                 io.to(channel).emit("channel", {type: "changed_values", value: element});
                             }
                         }
-                        if(callback) {
+                        if(typeof(callback) == "function") {
                             msg.title = element.title;
                             msg.id = element.id;
                             msg.duration = element.duration;
@@ -132,7 +140,7 @@ function findSimilar(msg, channel, broadcast, callback) {
                             callback(msg, true);
                         }
                     });
-                } else if(callback) {
+                } else if(typeof(callback) == "function") {
                     callback({}, false);
                 }
             });

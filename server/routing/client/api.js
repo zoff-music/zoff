@@ -381,7 +381,6 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-
     var fetch_only = false;
     if(req.body.hasOwnProperty('fetch_song')) {
         fetch_only = true;
