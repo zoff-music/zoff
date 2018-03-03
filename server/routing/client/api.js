@@ -147,11 +147,13 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "DELETE", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
                 if(!exists) {
                     res.status(404).send(JSON.stringify(error.not_found.list));
@@ -242,11 +244,13 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "CONFIG", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             validateLogin(adminpass, userpass, channel_name, "config", res, function(exists, conf) {
                 if(!exists && conf.length == 0) {
                     res.status(404).send(JSON.stringify(error.not_found.list));
@@ -338,11 +342,13 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "PUT", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
                 if(!exists) {
                     res.status(404).send(JSON.stringify(error.not_found.list));
@@ -405,11 +411,13 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "POST", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
                     db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
@@ -482,11 +490,13 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "POST", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             var type = fetch_only ? "fetch_song" : "add";
             validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
                 db.collection(channel_name).find({id: video_id}, function(err, result) {
@@ -682,11 +692,13 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "POST", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
                 if(docs.length > 0 && docs[0].userpass == userpass) {
                     var conf = docs[0];
@@ -747,11 +759,13 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-        if(token != "" && !authorized) {
-            res.status(403).send(JSON.stringify(error.not_authenticated));
-            return;
-        }
         checkTimeout(guid, res, authorized, "POST", function() {
+            if(token != "" && !authorized) {
+                updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
+                    return;
+                });
+            }
             db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
                     db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
