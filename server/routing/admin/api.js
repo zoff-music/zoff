@@ -7,6 +7,7 @@ var db = mongojs(mongo_db_cred.config);
 var token_db = mongojs("tokens");
 var uniqid = require('uniqid');
 var crypto = require('crypto');
+var ObjectId = mongojs.ObjectId;
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -166,11 +167,37 @@ router.route('/api/token').get(function(req, res){
    }
 });
 
-router.route('/api/api_token').get(function(req, res){
+router.route('/api/api_token').get(function(req, res) {
+   if(req.isAuthenticated()) {
+      token_db.collection("api_token").find({token: {$exists: true}}, function(err, all) {
+         res.json(all);
+      })
+   } else {
+      res.sendStatus(403);
+   }
+});
+
+router.route('/api/api_token').delete(function(req, res){
    if(req.isAuthenticated()){
+      var id = req.body.id;
+      token_db.collection("api_token").remove({_id: ObjectId(id)}, function(err, success) {
+         if(err) {
+            res.send("failed");
+            return;
+         }
+         res.send("success");
+      })
+   }
+});
+
+router.route('/api/api_token').post(function(req, res){
+   if(req.isAuthenticated()){
+      var name = req.body.name;
       var id = crypto.createHash('sha256').update(uniqid()).digest('base64');
-      token_db.collection("api_token").insert({token: id}, function(err, docs){
-         res.json({token: id});
+      token_db.collection("api_token").insert({name: name, token: id, usage: 0}, function(err, docs){
+         token_db.collection("api_token").find({token: id}, function(err, d) {
+            res.json({token: id, _id: d[0]._id});
+         });
       });
    } else {
       res.send(false);

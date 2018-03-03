@@ -170,6 +170,9 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
                             dont_increment = true;
                         }
                         db.collection(channel_name).remove({id:video_id}, function(err, docs){
+                            if(authorized) {
+                                incrementToken(token);
+                            }
                             io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
                             if(!dont_increment) {
                                 db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
@@ -294,6 +297,9 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
                         frontpage:frontpage, accessed: Functions.get_time()}
                     },
                     {upsert:true}, function(err, docs){
+                        if(authorized) {
+                            incrementToken(token);
+                        }
                         updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
                             var to_return = error.no_error;
                             to_return.results = [obj];
@@ -365,6 +371,9 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                         song[0].votes += 1;
                         song[0].guids.push(guid);
                         db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time(), type: "video"}, $push :{guids: guid}}, function(err, success) {
+                            if(authorized) {
+                                incrementToken(token);
+                            }
                             io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
                             List.getNextSong(channel_name, function() {
                                 updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
@@ -421,6 +430,9 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
             db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
                     db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
+                        if(authorized) {
+                            incrementToken(token);
+                        }
                         if(conf.length == 0) {
                             res.status(404).send(JSON.stringify(error.not_found.list));
                             return;
@@ -530,6 +542,9 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         });
                                     }
                                     db.collection(channel_name).update({"id": new_song.id}, new_song, {upsert: true}, function(err, success) {
+                                        if(authorized) {
+                                            incrementToken(token);
+                                        }
                                         if(create_frontpage_lists) {
                                             db.collection("frontpage_lists").update({"_id": channel_name, "count" :  (authenticated ? 1 : 0), "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
                                                 if(authenticated) {
@@ -712,6 +727,9 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                     } else {
                         conf.userpass = false;
                     }
+                    if(authorized) {
+                        incrementToken(token);
+                    }
                     updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                         var to_return = error.no_error;
                         to_return.results = conf;
@@ -776,6 +794,9 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                             res.status(403).send(JSON.stringify(error.not_authenticated));
                             return;
                         }
+                        if(authorized) {
+                            incrementToken(token);
+                        }
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                             var to_return = error.no_error;
                             to_return.results = list;
@@ -791,6 +812,12 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         });
     });
 });
+
+function incrementToken(token) {
+    token_db.collection("api_token").update({token: token}, {$inc: {usage: 1}}, function(err, doc) {
+
+    });
+}
 
 router.route('/api/imageblob').post(function(req, res) {
     var Jimp = require("jimp");
@@ -915,7 +942,7 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
         var exists = false;
         if(conf.length > 0 && ((conf[0].userpass == undefined || conf[0].userpass == "" || conf[0].userpass == userpass))) {
             exists = true;
-        } else if(conf.length > 0 && type != "config") {
+        } else if(conf.length > 0 && type == "config") {
             res.status(404).send(JSON.stringify(error.not_found.list));
             return;
         } else if(conf.length == 0) {

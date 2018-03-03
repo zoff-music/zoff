@@ -100,11 +100,31 @@
         </div>
 
         <div class="row">
-          <div class="input-field col s8 m10">
+          <div class="input-field col s4 m5">
+            <input type="text" id="new_api_token_name" />
+          </div>
+          <div class="input-field col s4 m5">
             <input type="text" readonly id="new_api_token" />
           </div>
           <div class="col s2">
             <a href="#" id="get_api_token" class="btn waves-effect purple">GET API</a>
+          </div>
+      </div>
+      <div class="row header-api-fields">
+          <div class="col s4">
+            Name
+          </div>
+          <div class="col s4">
+            Usage
+          </div>
+      </div>
+      <div class="row" id="api_token_list">
+          <div class="col s4 api_token_name">
+          </div>
+          <div class="col s4 api_token_usage">
+          </div>
+          <div class="col s2">
+            <a href="#" id="delete_api_token" class="btn waves-effect red">REMOVE</a>
           </div>
       </div>
       </div>
