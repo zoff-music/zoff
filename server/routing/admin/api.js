@@ -5,6 +5,8 @@ var mongo_db_cred = require(path.join(__dirname, '../../config/mongo_config.js')
 var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
 var token_db = mongojs("tokens");
+var uniqid = require('uniqid');
+var crypto = require('crypto');
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -159,6 +161,17 @@ router.route('/api/token').get(function(req, res){
             });
          }
       })
+   } else {
+      res.send(false);
+   }
+});
+
+router.route('/api/api_token').get(function(req, res){
+   if(req.isAuthenticated()){
+      var id = crypto.createHash('sha256').update(uniqid()).digest('base64');
+      token_db.collection("api_token").insert({token: id}, function(err, docs){
+         res.json({token: id});
+      });
    } else {
       res.send(false);
    }

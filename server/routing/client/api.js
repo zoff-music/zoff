@@ -3,6 +3,8 @@ var router = express.Router();
 var path = require('path');
 var mongojs = require('mongojs');
 var ObjectId = mongojs.ObjectId;
+var token_db = mongojs("tokens");
+
 var toShowChannel = {
     start: 1,
     end: 1,
@@ -120,6 +122,10 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
     try {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
@@ -136,39 +142,46 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         return;
     }
 
-    checkTimeout(guid, res, "DELETE", function() {
-        validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
-            if(!exists) {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-                return;
-            }
-            db.collection(channel_name).find({id:video_id, now_playing: false}, function(err, docs){
-                if(docs.length == 0) {
-                    res.status(404).send(JSON.stringify(error.not_found.local));
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+
+        checkTimeout(guid, res, authorized, "DELETE", function() {
+            validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
+                if(!exists) {
+                    res.status(404).send(JSON.stringify(error.not_found.list));
                     return;
                 }
-                var dont_increment = false;
-                if(docs[0]){
-                    if(docs[0].type == "suggested"){
-                        dont_increment = true;
+                db.collection(channel_name).find({id:video_id, now_playing: false}, function(err, docs){
+                    if(docs.length == 0) {
+                        res.status(404).send(JSON.stringify(error.not_found.local));
+                        return;
                     }
-                    db.collection(channel_name).remove({id:video_id}, function(err, docs){
-                        io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
-                        if(!dont_increment) {
-                            db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
-                                updateTimeout(guid, res, "DELETE", function(err, docs) {
+                    var dont_increment = false;
+                    if(docs[0]){
+                        if(docs[0].type == "suggested"){
+                            dont_increment = true;
+                        }
+                        db.collection(channel_name).remove({id:video_id}, function(err, docs){
+                            io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
+                            if(!dont_increment) {
+                                db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
+                                    updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                                        res.status(200).send(JSON.stringify(error.no_error));
+                                        return;
+                                    });
+                                });
+                            } else {
+                                updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
                                     res.status(200).send(JSON.stringify(error.no_error));
                                     return;
                                 });
-                            });
-                        } else {
-                            updateTimeout(guid, res, "DELETE", function(err, docs) {
-                                res.status(200).send(JSON.stringify(error.no_error));
-                                return;
-                            });
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
+                });
             });
         });
     });
@@ -178,6 +191,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
+
     if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
         !req.params.hasOwnProperty('channel_name') || !req.body.hasOwnProperty('vote') ||
         !req.body.hasOwnProperty('addsongs') || !req.body.hasOwnProperty('longsongs') ||
@@ -186,6 +200,10 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         !req.body.hasOwnProperty('userpass_changed')) {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
+    }
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
     }
     try {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -215,55 +233,62 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
-    checkTimeout(guid, res, "CONFIG", function() {
-        validateLogin(adminpass, userpass, channel_name, "config", res, function(exists, conf) {
-            if(!exists && conf.length == 0) {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-                return;
-            }
 
-            if((!userpass_changed && frontpage) || (userpass_changed && userpass == "")) {
-                userpass = "";
-            } else if(userpass_changed && userpass != "") {
-                frontpage = false;
-            }
-            var description = "";
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+        checkTimeout(guid, res, authorized, "CONFIG", function() {
+            validateLogin(adminpass, userpass, channel_name, "config", res, function(exists, conf) {
+                if(!exists && conf.length == 0) {
+                    res.status(404).send(JSON.stringify(error.not_found.list));
+                    return;
+                }
 
-            var obj = {
-                addsongs:addsongs,
-                allvideos:allvideos,
-                frontpage:frontpage,
-                skip:skipping,
-                vote:voting,
-                removeplay:removeplay,
-                shuffle:shuffling,
-                longsongs:longsongs,
-                adminpass:adminpass,
-                desc: description,
-            };
-            if(userpass_changed) {
-                obj["userpass"] = userpass;
-            } else if (frontpage) {
-                obj["userpass"] = "";
-            }
-            db.collection(channel_name + "_settings").update({views:{$exists:true}}, {
-                $set:obj
-            }, function(err, docs){
+                if((!userpass_changed && frontpage) || (userpass_changed && userpass == "")) {
+                    userpass = "";
+                } else if(userpass_changed && userpass != "") {
+                    frontpage = false;
+                }
+                var description = "";
 
-                if(obj.adminpass !== "") obj.adminpass = true;
-                if(obj.hasOwnProperty("userpass") && obj.userpass != "") obj.userpass = true;
-                else obj.userpass = false;
-                io.to(channel_name).emit("conf", [obj]);
+                var obj = {
+                    addsongs:addsongs,
+                    allvideos:allvideos,
+                    frontpage:frontpage,
+                    skip:skipping,
+                    vote:voting,
+                    removeplay:removeplay,
+                    shuffle:shuffling,
+                    longsongs:longsongs,
+                    adminpass:adminpass,
+                    desc: description,
+                };
+                if(userpass_changed) {
+                    obj["userpass"] = userpass;
+                } else if (frontpage) {
+                    obj["userpass"] = "";
+                }
+                db.collection(channel_name + "_settings").update({views:{$exists:true}}, {
+                    $set:obj
+                }, function(err, docs){
 
-                db.collection("frontpage_lists").update({_id: channel_name}, {$set:{
-                    frontpage:frontpage, accessed: Functions.get_time()}
-                },
-                {upsert:true}, function(err, docs){
-                    updateTimeout(guid, res, "CONFIG", function(err, docs) {
-                        var to_return = error.no_error;
-                        to_return.results = [obj];
-                        res.status(200).send(JSON.stringify(to_return));
-                        return;
+                    if(obj.adminpass !== "") obj.adminpass = true;
+                    if(obj.hasOwnProperty("userpass") && obj.userpass != "") obj.userpass = true;
+                    else obj.userpass = false;
+                    io.to(channel_name).emit("conf", [obj]);
+
+                    db.collection("frontpage_lists").update({_id: channel_name}, {$set:{
+                        frontpage:frontpage, accessed: Functions.get_time()}
+                    },
+                    {upsert:true}, function(err, docs){
+                        updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
+                            var to_return = error.no_error;
+                            to_return.results = [obj];
+                            res.status(200).send(JSON.stringify(to_return));
+                            return;
+                        });
                     });
                 });
             });
@@ -281,7 +306,10 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
-
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
     try {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
@@ -298,35 +326,42 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         return;
     }
 
-    checkTimeout(guid, res, "PUT", function() {
-        validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
-            if(!exists) {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-                return;
-            }
-            db.collection(channel_name).find({id: video_id, now_playing: false, type:"video"}, function(err, song) {
-                if(song.length == 0) {
-                    res.status(404).send(JSON.stringify(error.not_found.local));
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+
+        checkTimeout(guid, res, authorized, "PUT", function() {
+            validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
+                if(!exists) {
+                    res.status(404).send(JSON.stringify(error.not_found.list));
                     return;
-                } else if(song[0].guids.indexOf(guid) > -1) {
-                    res.status(409).send(JSON.stringify(error.conflicting));
-                    return;
-                } else {
-                    song[0].votes += 1;
-                    song[0].guids.push(guid);
-                    db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time(), type: "video"}, $push :{guids: guid}}, function(err, success) {
-                        io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
-                        List.getNextSong(channel_name, function() {
-                            updateTimeout(guid, res, "PUT", function(err, docs) {
-                                var to_return = error.no_error;
-                                to_return.results = song;
-                                res.status(200).send(JSON.stringify(to_return));
-                                return;
+                }
+                db.collection(channel_name).find({id: video_id, now_playing: false, type:"video"}, function(err, song) {
+                    if(song.length == 0) {
+                        res.status(404).send(JSON.stringify(error.not_found.local));
+                        return;
+                    } else if(song[0].guids.indexOf(guid) > -1) {
+                        res.status(409).send(JSON.stringify(error.conflicting));
+                        return;
+                    } else {
+                        song[0].votes += 1;
+                        song[0].guids.push(guid);
+                        db.collection(channel_name).update({id: video_id}, {$inc:{votes:1}, $set:{added:Functions.get_time(), type: "video"}, $push :{guids: guid}}, function(err, success) {
+                            io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
+                            List.getNextSong(channel_name, function() {
+                                updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
+                                    var to_return = error.no_error;
+                                    to_return.results = song;
+                                    res.status(200).send(JSON.stringify(to_return));
+                                    return;
+                                });
                             });
                         });
-                    });
-                }
-            })
+                    }
+                })
+            });
         });
     });
 });
@@ -347,32 +382,42 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     var channel_name = req.params.channel_name;
     req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
     var userpass = req.body.userpass;
-
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
+    console.log(token);
     if(typeof(userpass) != "string") {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
-
-    checkTimeout(guid, res, "POST", function() {
-        db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
-            if(list.length > 0) {
-                db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
-                    if(conf.length == 0) {
-                        res.status(404).send(JSON.stringify(error.not_found.list));
-                        return;
-                    } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
-                        res.status(404).send(JSON.stringify(error.not_authenticated));
-                        return;
-                    }
-                    updateTimeout(guid, res, "POST", function(err, docs) {
-                        var to_return = error.no_error;
-                        to_return.results = list;
-                        res.status(200).send(JSON.stringify(to_return));
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+        console.log(authorized);
+        checkTimeout(guid, res, authorized, "POST", function() {
+            db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
+                if(list.length > 0) {
+                    db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
+                        if(conf.length == 0) {
+                            res.status(404).send(JSON.stringify(error.not_found.list));
+                            return;
+                        } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
+                            res.status(404).send(JSON.stringify(error.not_authenticated));
+                            return;
+                        }
+                        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                            var to_return = error.no_error;
+                            to_return.results = list;
+                            res.status(200).send(JSON.stringify(to_return));
+                        });
                     });
-                });
-            } else {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-            }
+                } else {
+                    res.status(404).send(JSON.stringify(error.not_found.list));
+                }
+            });
         });
     });
 });
@@ -384,6 +429,10 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     var fetch_only = false;
     if(req.body.hasOwnProperty('fetch_song')) {
         fetch_only = true;
+    }
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
     }
     if(!fetch_only && (!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
         !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id') ||
@@ -416,77 +465,83 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         return;
     }
 
-    checkTimeout(guid, res, "POST", function() {
-        var type = fetch_only ? "fetch_song" : "add";
-        validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
-            db.collection(channel_name).find({id: video_id}, function(err, result) {
-                if(result.length == 0 || result[0].type == "suggested") {
-                    var song_type = authenticated ? "video" : "suggested";
-                    if(fetch_only && result.length == 0) {
-                        res.status(404).send(JSON.stringify(error.not_found.local));
-                        return;
-                    }
-                    db.collection(channel_name).find({now_playing: true}, function(err, now_playing) {
-                        var set_np = false;
-                        if(now_playing.length == 0 && authenticated) {
-                            set_np = true;
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+        checkTimeout(guid, res, authorized, "POST", function() {
+            var type = fetch_only ? "fetch_song" : "add";
+            validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
+                db.collection(channel_name).find({id: video_id}, function(err, result) {
+                    if(result.length == 0 || result[0].type == "suggested") {
+                        var song_type = authenticated ? "video" : "suggested";
+                        if(fetch_only && result.length == 0) {
+                            res.status(404).send(JSON.stringify(error.not_found.local));
+                            return;
                         }
-                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type};
-                        Search.get_correct_info(new_song, channel_name, false, function(element, found) {
-                            if(!found) {
-                                res.status(404).send(JSON.stringify(error.not_found.youtube));
-                                return;
+                        db.collection(channel_name).find({now_playing: true}, function(err, now_playing) {
+                            var set_np = false;
+                            if(now_playing.length == 0 && authenticated) {
+                                set_np = true;
                             }
-                            new_song = element;
-                            db.collection("frontpage_lists").find({"_id": channel_name}, function(err, count) {
-                                var create_frontpage_lists = false;
-                                if(count.length == 0) {
-                                    create_frontpage_lists = true;
+                            var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type};
+                            Search.get_correct_info(new_song, channel_name, false, function(element, found) {
+                                if(!found) {
+                                    res.status(404).send(JSON.stringify(error.not_found.youtube));
+                                    return;
                                 }
-                                if(!exists) {
-                                    var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
-                                    db.collection(channel_name + "_settings").insert(configs, function(err, docs){
-                                        io.to(channel_name).emit("conf", configs);
-                                    });
-                                }
-                                db.collection(channel_name).update({"id": new_song.id}, new_song, {upsert: true}, function(err, success) {
-                                    if(create_frontpage_lists) {
-                                        db.collection("frontpage_lists").update({"_id": channel_name, "count" :  (authenticated ? 1 : 0), "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
-                                            if(authenticated) {
-                                                io.to(channel_name).emit("channel", {type: "added", value: new_song});
-                                            } else {
-                                                io.to(channel_name).emit("suggested", new_song);
-                                            }
-                                            postEnd(channel_name, configs, new_song, guid, res, authenticated);
-                                        });
-                                    } else if(set_np) {
-                                        Frontpage.update_frontpage(channel_name, video_id, title, function() {
-                                            io.to(channel_name).emit("np", {np: [new_song], conf: [conf]});
-                                            postEnd(channel_name, configs, new_song, guid, res, authenticated);
-                                        });
-                                    } else {
-                                        db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: (authenticated ? 1 : 0)}}, function(err, docs) {
-                                            if(authenticated) {
-                                                io.to(channel_name).emit("channel", {type: "added", value: new_song});
-                                            } else {
-                                                io.to(channel_name).emit("suggested", new_song);
-                                            }
-                                            postEnd(channel_name, configs, new_song, guid, res, authenticated);
+                                new_song = element;
+                                db.collection("frontpage_lists").find({"_id": channel_name}, function(err, count) {
+                                    var create_frontpage_lists = false;
+                                    if(count.length == 0) {
+                                        create_frontpage_lists = true;
+                                    }
+                                    if(!exists) {
+                                        var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": ""};
+                                        db.collection(channel_name + "_settings").insert(configs, function(err, docs){
+                                            io.to(channel_name).emit("conf", configs);
                                         });
                                     }
-                                });
-                            })
+                                    db.collection(channel_name).update({"id": new_song.id}, new_song, {upsert: true}, function(err, success) {
+                                        if(create_frontpage_lists) {
+                                            db.collection("frontpage_lists").update({"_id": channel_name, "count" :  (authenticated ? 1 : 0), "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, {upsert: true}, function(err, docs) {
+                                                if(authenticated) {
+                                                    io.to(channel_name).emit("channel", {type: "added", value: new_song});
+                                                } else {
+                                                    io.to(channel_name).emit("suggested", new_song);
+                                                }
+                                                postEnd(channel_name, configs, new_song, guid, res, authenticated, authorized);
+                                            });
+                                        } else if(set_np) {
+                                            Frontpage.update_frontpage(channel_name, video_id, title, function() {
+                                                io.to(channel_name).emit("np", {np: [new_song], conf: [conf]});
+                                                postEnd(channel_name, configs, new_song, guid, res, authenticated, authorized);
+                                            });
+                                        } else {
+                                            db.collection("frontpage_lists").update({"_id": channel_name}, {$inc: {count: (authenticated ? 1 : 0)}}, function(err, docs) {
+                                                if(authenticated) {
+                                                    io.to(channel_name).emit("channel", {type: "added", value: new_song});
+                                                } else {
+                                                    io.to(channel_name).emit("suggested", new_song);
+                                                }
+                                                postEnd(channel_name, configs, new_song, guid, res, authenticated, authorized);
+                                            });
+                                        }
+                                    });
+                                })
+                            });
                         });
-                    });
-                } else if(fetch_only) {
-                    var to_return = error.no_error;
-                    to_return.results = result;
-                    res.status(200).send(JSON.stringify(to_return));
-                    return;
-                } else {
-                    res.status(409).send(JSON.stringify(error.conflicting));
-                    return;
-                }
+                    } else if(fetch_only) {
+                        var to_return = error.no_error;
+                        to_return.results = result;
+                        res.status(200).send(JSON.stringify(to_return));
+                        return;
+                    } else {
+                        res.status(409).send(JSON.stringify(error.conflicting));
+                        return;
+                    }
+                });
             });
         });
     });
@@ -500,7 +555,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     var channel_name = req.params.channel_name;
     db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, docs) {
         if(docs.length > 0) {
-            db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
+            db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                 if(conf.length == 0) {
                     res.status(404).send(JSON.stringify(error.not_found.list));
                     return;
@@ -530,7 +585,7 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
         searchQuery = {now_playing: true};
     }
     db.collection(channel_name).find(searchQuery, toShowChannel, function(err, docs) {
-        db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
+        db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
             if(conf.length == 0) {
                 res.status(404).send(JSON.stringify(error.not_found.list));
                 return;
@@ -556,7 +611,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
     res.header({"Content-Type": "application/json"});
 
     var channel_name = req.params.channel_name;
-    db.collection(channel_name + "_settings").find({views: {$exists: true}}, toShowConfig, function(err, docs) {
+    db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
         if(docs.length > 0 && docs[0].userpass == "" || docs[0].userpass == undefined) {
             var conf = docs[0];
             if(conf.adminpass != "") {
@@ -591,6 +646,10 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         res.status(400).send(JSON.stringify(error.formatting));
         return;
     }
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
     var channel_name = req.params.channel_name;
@@ -602,32 +661,38 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         return;
     }
 
-    checkTimeout(guid, res, "POST", function() {
-        db.collection(channel_name + "_settings").find({views: {$exists: true}}, toShowConfig, function(err, docs) {
-            if(docs.length > 0 && docs[0].userpass == userpass) {
-                var conf = docs[0];
-                if(conf.adminpass != "") {
-                    conf.adminpass = true;
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+        checkTimeout(guid, res, authorized, "POST", function() {
+            db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
+                if(docs.length > 0 && docs[0].userpass == userpass) {
+                    var conf = docs[0];
+                    if(conf.adminpass != "") {
+                        conf.adminpass = true;
+                    } else {
+                        conf.adminpass = false;
+                    }
+                    if(conf.userpass != "") {
+                        conf.userpass = true;
+                    } else {
+                        conf.userpass = false;
+                    }
+                    updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                        var to_return = error.no_error;
+                        to_return.results = conf;
+                        res.status(200).send(JSON.stringify(to_return));
+                    });
+                } else if(docs.length > 0 && docs[0].userpass != userpass) {
+                    res.status(404).send(JSON.stringify(error.not_authenticated));
+                    return;
                 } else {
-                    conf.adminpass = false;
+                    res.status(404).send(JSON.stringify(error.not_found.list));
+                    return;
                 }
-                if(conf.userpass != "") {
-                    conf.userpass = true;
-                } else {
-                    conf.userpass = false;
-                }
-                updateTimeout(guid, res, "POST", function(err, docs) {
-                    var to_return = error.no_error;
-                    to_return.results = conf;
-                    res.status(200).send(JSON.stringify(to_return));
-                });
-            } else if(docs.length > 0 && docs[0].userpass != userpass) {
-                res.status(404).send(JSON.stringify(error.not_authenticated));
-                return;
-            } else {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-                return;
-            }
+            });
         });
     });
 });
@@ -642,6 +707,10 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         return;
     }
 
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
     var channel_name = req.params.channel_name;
@@ -653,26 +722,32 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         return;
     }
 
-    checkTimeout(guid, res, "POST", function() {
-        db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
-            if(list.length > 0) {
-                db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
-                    if(conf.length == 0) {
-                        res.status(404).send(JSON.stringify(error.not_found.list));
-                        return;
-                    } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
-                        res.status(404).send(JSON.stringify(error.not_authenticated));
-                        return;
-                    }
-                    updateTimeout(guid, res, "POST", function(err, docs) {
-                        var to_return = error.no_error;
-                        to_return.results = list;
-                        res.status(200).send(JSON.stringify(to_return));
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        if(token_docs.length == 1 && token_docs.token == token) {
+            authorized = true;
+        }
+        checkTimeout(guid, res, authorized, "POST", function() {
+            db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
+                if(list.length > 0) {
+                    db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
+                        if(conf.length == 0) {
+                            res.status(404).send(JSON.stringify(error.not_found.list));
+                            return;
+                        } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
+                            res.status(404).send(JSON.stringify(error.not_authenticated));
+                            return;
+                        }
+                        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                            var to_return = error.no_error;
+                            to_return.results = list;
+                            res.status(200).send(JSON.stringify(to_return));
+                        });
                     });
-                });
-            } else {
-                res.status(404).send(JSON.stringify(error.not_found.list));
-            }
+                } else {
+                    res.status(404).send(JSON.stringify(error.not_found.list));
+                }
+            });
         });
     });
 });
@@ -747,11 +822,15 @@ try {
     });
 }
 
-function updateTimeout(guid, res, type, callback) {
-    db.collection("timeout_api").update({type: "DELETE", guid: guid}, {
+function updateTimeout(guid, res, authorized, type, callback) {
+    if(authorized) {
+        callback(null, null);
+        return;
+    }
+    db.collection("timeout_api").update({type: type, guid: guid}, {
         $set: {
             "createdAt": new Date(),
-            type: "DELETE",
+            type: type,
             guid: guid,
         },
     }, {upsert: true}, function(err, docs) {
@@ -759,7 +838,11 @@ function updateTimeout(guid, res, type, callback) {
     });
 }
 
-function checkTimeout(guid, res, type, callback) {
+function checkTimeout(guid, res, authorized, type, callback) {
+    if(authorized) {
+        callback();
+        return;
+    }
     db.collection("timeout_api").find({
         type: type,
         guid: guid,
@@ -788,7 +871,7 @@ function cleanChannelName(channel_name) {
 }
 
 function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
-    db.collection(channel_name + "_settings").find({views: {$exists: true}}, function(err, conf) {
+    db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
         var exists = false;
         if(conf.length > 0 && ((conf[0].userpass == undefined || conf[0].userpass == "" || conf[0].userpass == userpass))) {
             exists = true;
@@ -817,12 +900,12 @@ function validateLogin(adminpass, userpass, channel_name, type, res, callback) {
     });
 }
 
-function postEnd(channel_name, configs, new_song, guid, res, authenticated) {
+function postEnd(channel_name, configs, new_song, guid, res, authenticated, authorized) {
     if(configs != undefined) {
         io.to(channel_name).emit("conf", configs);
     }
     List.getNextSong(channel_name, function() {
-        updateTimeout(guid, res, "POST", function(err, docs) {
+        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
             var to_return = error.no_error;
             if(!authenticated) {
                 to_return = error.not_authenticated;
