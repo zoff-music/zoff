@@ -147,7 +147,10 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
+        }
         checkTimeout(guid, res, authorized, "DELETE", function() {
             validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
                 if(!exists) {
@@ -238,6 +241,10 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         var authorized = false;
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
+        }
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
         }
         checkTimeout(guid, res, authorized, "CONFIG", function() {
             validateLogin(adminpass, userpass, channel_name, "config", res, function(exists, conf) {
@@ -331,7 +338,10 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
-
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
+        }
         checkTimeout(guid, res, authorized, "PUT", function() {
             validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
                 if(!exists) {
@@ -395,6 +405,10 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
+        }
         checkTimeout(guid, res, authorized, "POST", function() {
             db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
@@ -403,7 +417,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                             res.status(404).send(JSON.stringify(error.not_found.list));
                             return;
                         } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
-                            res.status(404).send(JSON.stringify(error.not_authenticated));
+                            res.status(403).send(JSON.stringify(error.not_authenticated));
                             return;
                         }
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
@@ -467,6 +481,10 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         var authorized = false;
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
+        }
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
         }
         checkTimeout(guid, res, authorized, "POST", function() {
             var type = fetch_only ? "fetch_song" : "add";
@@ -558,7 +576,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
                     res.status(404).send(JSON.stringify(error.not_found.list));
                     return;
                 } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
-                    res.status(404).send(JSON.stringify(error.not_authenticated));
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
                     return;
                 }
                 var to_return = error.no_error;
@@ -588,7 +606,7 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
                 res.status(404).send(JSON.stringify(error.not_found.list));
                 return;
             } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
-                res.status(404).send(JSON.stringify(error.not_authenticated));
+                res.status(403).send(JSON.stringify(error.not_authenticated));
                 return;
             }
             if(docs.length == 0) {
@@ -626,7 +644,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
             to_return.results = conf;
             res.status(200).send(JSON.stringify(to_return));
         } else if(docs.length > 0 && docs[0].userpass != "" && docs[0].userpass != undefined){
-            res.status(404).send(JSON.stringify(error.not_authenticated));
+            res.status(403).send(JSON.stringify(error.not_authenticated));
             return;
         } else {
             res.status(404).send(JSON.stringify(error.not_found.list));
@@ -664,6 +682,10 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
+        }
         checkTimeout(guid, res, authorized, "POST", function() {
             db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
                 if(docs.length > 0 && docs[0].userpass == userpass) {
@@ -684,7 +706,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                         res.status(200).send(JSON.stringify(to_return));
                     });
                 } else if(docs.length > 0 && docs[0].userpass != userpass) {
-                    res.status(404).send(JSON.stringify(error.not_authenticated));
+                    res.status(403).send(JSON.stringify(error.not_authenticated));
                     return;
                 } else {
                     res.status(404).send(JSON.stringify(error.not_found.list));
@@ -725,6 +747,10 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         if(token_docs.length == 1 && token_docs[0].token == token) {
             authorized = true;
         }
+        if(token != "" && !authorized) {
+            res.status(403).send(JSON.stringify(error.not_authenticated));
+            return;
+        }
         checkTimeout(guid, res, authorized, "POST", function() {
             db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
                 if(list.length > 0) {
@@ -733,17 +759,19 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                             res.status(404).send(JSON.stringify(error.not_found.list));
                             return;
                         } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
-                            res.status(404).send(JSON.stringify(error.not_authenticated));
+                            res.status(403).send(JSON.stringify(error.not_authenticated));
                             return;
                         }
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                             var to_return = error.no_error;
                             to_return.results = list;
                             res.status(200).send(JSON.stringify(to_return));
+                            return;
                         });
                     });
                 } else {
                     res.status(404).send(JSON.stringify(error.not_found.list));
+                    return;
                 }
             });
         });
