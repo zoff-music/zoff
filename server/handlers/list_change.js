@@ -34,7 +34,7 @@ function add_function(arr, coll, guid, offline, socket) {
             typeof(arr.playlist) != "boolean" || typeof(arr.num) != "number" ||
             typeof(arr.total) != "number" || typeof(arr.pass) != "string" ||
             typeof(arr.adminpass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
 
@@ -192,7 +192,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
         if(typeof(msg.channel) != "string" || typeof(msg.id) != "string" ||
             typeof(msg.type) != "string" || typeof(msg.adminpass) != "string" ||
             typeof(msg.pass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
 
@@ -233,7 +233,7 @@ function shuffle(msg, coll, guid, offline, socket) {
 
         if(typeof(msg.adminpass) != "string" || typeof(msg.channel) != "string" ||
             typeof(msg.pass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
 
@@ -334,7 +334,7 @@ function delete_all(msg, coll, guid, offline, socket) {
 
         if(typeof(msg.channel) != "string" || typeof(msg.adminpass) != "string" ||
             typeof(msg.pass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
         db.collection(coll + "_settings").find(function(err, conf) {
