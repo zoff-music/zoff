@@ -33,6 +33,7 @@
             <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/if}}
+        <link rel="stylesheet" href="/assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default" />
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -43,7 +44,6 @@
         {{else}}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
             <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"></script>
-            <script type="text/javascript" src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.ui.position.min.js"></script>
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
             <script type="text/javascript">
                 if(window.location.hostname != "localhost") {
@@ -55,7 +55,7 @@
                     ga('create', '{{{ analytics }}}', 'auto');
                 } else {
                     function ga() {
-                        console.log(arguments);
+                        
                     }
                 }
             </script>
