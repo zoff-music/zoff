@@ -51,7 +51,7 @@ router.route('/api/apply/:id').get(function(req,res) {
     token_db.collection('api_links').find({id: id}, function(err, result) {
         if(result.length == 1) {
             token_db.collection('api_links').remove({id: id}, function(e,d) {
-                token_db.collection('api_token').update({id: result[0].token}, {$set: {active: true }}, function(e,d) {
+                token_db.collection('api_token').update({token: result[0].token}, {$set: {active: true}}, function(e,d) {
                     var data = {
                         year: year,
                         javascript_file: "token.min.js",
