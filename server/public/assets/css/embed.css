@@ -295,6 +295,7 @@
   outline: none;
   border: none;
   margin-left: -7.5px;
+  margin-top: 0;
   border-radius: 1000px;
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }

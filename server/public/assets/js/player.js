@@ -44,8 +44,10 @@ var Player = {
             startTime = time - conf.startTime;
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
-            Player.loadVideoById(video_id, duration);
-            Player.stopVideo();
+            if(player_ready) {
+                Player.cueVideoById(video_id, duration);
+                Player.stopVideo();
+            }
             return;
         }
         if(embed && obj.np) {
@@ -76,9 +78,7 @@ var Player = {
                 "mobile_beginning variable: " + mobile_beginning]);
             try{
                 Helper.log(["getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]]);
-            } catch(e){
-
-            }
+            } catch(e){}
             Helper.log(["video_id variable: " + video_id]);
             if(!obj.np){
                 $('#song-title').html("Empty channel. Add some songs!");
@@ -99,7 +99,8 @@ var Player = {
 
                 }
                 //List.importOldList(channel.toLowerCase());
-            } else if(paused){
+            } else if(paused || was_stopped){
+
                 Player.getTitle(obj.np[0].title, viewers);
                 //Player.setBGimage(video_id);
                 if(!Helper.mobilecheck()) {
@@ -128,6 +129,7 @@ var Player = {
                 startTime = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
+                Player.cueVideoById(video_id, duration);
                 //Player.setBGimage(video_id);
             } else if(!paused){
                 //Helper.log("gotten new song");
@@ -187,13 +189,14 @@ var Player = {
                         } else {
                             if(compared || chromecastAvailable){
 
-                                Player.loadVideoById(video_id, duration);
+                                if(paused && !chromecastAvailable){
+                                    Player.cueVideoById(video_id, duration);
+                                } else {
+                                    Player.loadVideoById(video_id, duration);
+                                    Player.seekTo(seekTo);
+                                }
                                 if(!Helper.mobilecheck()) {
                                     Player.notifyUser(video_id, song_title);
-                                }
-                                Player.seekTo(seekTo);
-                                if(paused && !chromecastAvailable){
-                                    Player.pauseVideo();
                                 }
                             }
                             if(!paused){
@@ -215,7 +218,7 @@ var Player = {
                             }
                         }
                     }catch(e) {
-                        if(chromecastAvailable) {
+                        if(chromecastAvailable && !paused) {
                             Player.loadVideoById(video_id, duration);
                             Player.seekTo(seekTo);
                         }
@@ -397,6 +400,18 @@ var Player = {
         }
     },
 
+    cueVideoById: function(id, this_duration, start, end){
+        var s;
+        var e;
+        if(start) s = start;
+        else s = Player.np.start;
+        if(end) e = end;
+        else e = Player.np.end;
+
+        Player.player.cueVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
+
+    },
+
     stopVideo: function(){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "stopVideo"});
@@ -561,21 +576,25 @@ var Player = {
                 $(".video-container").removeClass("no-opacity");
                 $("#controls").css("opacity", "1");
                 $(".playlist").css("opacity", "1");
-                Player.loadVideoById(video_id, duration);
+                if(autoplay) {
+                    Player.loadVideoById(video_id, duration);
+                } else {
+                    Player.cueVideoById(video_id, duration);
+                }
                 if(autoplay && (!Helper.mobilecheck() || chromecastAvailable)) {
-                    Player.playVideo();
+                    //Player.playVideo();
                 }
                 if(!durationBegun) {
                     Player.durationSetter();
                 }
                 if(embed){
-                    setTimeout(function(){
-                        Player.player.seekTo(seekTo);
+                    //setTimeout(function(){
+                        //Player.player.seekTo(seekTo);
                         if(!autoplay){
-                            Player.player.pauseVideo();
+                            Player.player.stopVideo();
                             Playercontrols.play_pause_show();
                         }
-                    }, 1000);
+                    //}, 1000);
                 }else
                 Player.seekTo(seekTo);
             }
