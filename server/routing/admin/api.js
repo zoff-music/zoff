@@ -171,7 +171,7 @@ router.route('/api/api_token').get(function(req, res) {
    if(req.isAuthenticated()) {
       token_db.collection("api_token").find({token: {$exists: true}}, function(err, all) {
          res.json(all);
-      })
+        });
    } else {
       res.sendStatus(403);
    }
@@ -186,6 +186,24 @@ router.route('/api/api_token').delete(function(req, res){
             return;
          }
          res.send("success");
+      })
+   }
+});
+
+router.route('/api/api_token').put(function(req, res){
+   if(req.isAuthenticated()){
+      var id = req.body.id;
+      var limit = req.body.limit;
+      if(limit < 0) {
+         res.sendStatus(500);
+         return;
+      }
+      token_db.collection("api_token").update({_id: ObjectId(id)}, {$set: {limit: limit}}, function(err, success) {
+         if(err) {
+            res.sendStatus(500);
+            return;
+         }
+         res.sendStatus(200);
       })
    }
 });
