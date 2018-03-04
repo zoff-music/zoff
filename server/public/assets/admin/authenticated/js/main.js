@@ -17,7 +17,7 @@ $(document).on("click", "#refresh_all", function(e){
 	e.preventDefault();
 	$("#descriptions_cont").empty();
 	$("#thumbnails_cont").empty();
-	$("#api_token_name").remove();
+	$(".api_token_container").remove();
 	$.ajax({
 		type: "GET",
 		url: "/api/api_token",
