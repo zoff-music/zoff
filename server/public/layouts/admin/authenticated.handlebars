@@ -18,10 +18,11 @@
   <div class="row">
     <div class="col s12 m10">
       <ul class="tabs tabs_admin">
-        <li class="tab col s3"><a class="active" href="#general">General</a></li>
+        <li class="tab col s2"><a class="active" href="#general">General</a></li>
+        <li class="tab col s2"><a href="#api_keys">API<span class="new admin-panel hide"></span></a></li>
         <li class="tab col s3"><a href="#thumbnails">Thumbnails<span class="new thumbnails-badge badge admin-panel hide"></span></a></li>
         <li class="tab col s3"><a href="#descriptions">Descriptions<span class="new descriptions-badge badge admin-panel hide"></span></a></li>
-        <li class="tab col s3"><a href="#names">Names</a></li>
+        <li class="tab col s2"><a href="#names">Names</a></li>
       </ul>
       <div id="general" class="col s12">
         <div class="preloader-wrapper big active">
@@ -110,6 +111,9 @@
             <a href="#" id="get_api_token" class="btn waves-effect purple">GET API</a>
           </div>
       </div>
+      </div>
+    </div>
+    <div id="api_keys" class="col s12">
       <div class="row header-api-fields">
           <div class="col s3">
             Name
@@ -127,9 +131,12 @@
           <div class="col s3 api_token_usage">
           </div>
             <input class="api_token_limit col s1" type="number" />
+            <div class="col s1 api_token_activated">
+                <i class="material-icons check hide">check</i>
+                <i class="material-icons uncheck hide">close</i>
+            </div>
           <a href="#" class="btn waves-effect green col s2 update_api_token">UPDATE</a>
           <a href="#" class="btn waves-effect red col s1 delete_api_token">X</a>
-      </div>
       </div>
     </div>
     <div id="thumbnails" class="col s12">

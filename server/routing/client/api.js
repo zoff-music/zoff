@@ -893,43 +893,50 @@ try {
             var id = crypto.createHash('sha256').update(uniqid()).digest('base64');
             var uniqid_link = crypto.createHash('sha256').update(uniqid()).digest('hex');
             token_db.collection("api_token").find({name: name}, function(err, results_find) {
+                var token = "";
                 if(results_find.length > 0) {
-                    res.send("failed");
-                    return;
+                    token = results_find[0].token;
                 }
-                token_db.collection("api_token").insert({name: name, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
-                   token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
-                       let transporter = nodemailer.createTransport(mailconfig);
+                token_db.collection("api_links").find({token: token}, function(e, d) {
+                    if(results_find.length == 0 || (d.length == 0 && results_find.length > 0 && !results_find[0].active)) {
+                        token_db.collection("api_token").insert({name: name, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
+                           token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
+                               let transporter = nodemailer.createTransport(mailconfig);
 
-                       transporter.verify(function(error, success) {
-                           if (error) {
-                               token_db.collection("api_links").remove({id: uniqid_link}, function(e,d) {
-                                   res.send("failed");
-                                   return;
-                               })
-                           } else {
-                               var subject = 'ZOFF: API-key';
-                               var message = "Link to API-key: <a href='https://zoff.me/api/apply/" + uniqid_link + "'/>https://zoff.me/api/apply/" + uniqid_link + "</a>\n\nThis link expires in 1 day.";
-                               var msg = {
-                                   from: mailconfig.from,
-                                   to: name,
-                                   subject: subject,
-                                   text: message,
-                                   html: message,
-                               }
-                               transporter.sendMail(msg, (error, info) => {
+                               transporter.verify(function(error, success) {
                                    if (error) {
-                                       res.status(400).send("failed");
-                                       transporter.close();
-                                       return;
+                                       token_db.collection("api_links").remove({id: uniqid_link}, function(e,d) {
+                                           res.send("failed");
+                                           return;
+                                       })
+                                   } else {
+                                       var subject = 'ZOFF: API-key';
+                                       var message = "Link to API-key: <a href='https://zoff.me/api/apply/" + uniqid_link + "'/>https://zoff.me/api/apply/" + uniqid_link + "</a>\n\nThis link expires in 1 day.";
+                                       var msg = {
+                                           from: mailconfig.from,
+                                           to: name,
+                                           subject: subject,
+                                           text: message,
+                                           html: message,
+                                       }
+                                       transporter.sendMail(msg, (error, info) => {
+                                           if (error) {
+                                               res.status(400).send("failed");
+                                               transporter.close();
+                                               return;
+                                           }
+                                           res.status(200).send("success");
+                                           transporter.close();
+                                           return;
+                                       });
                                    }
-                                   res.status(200).send("success");
-                                   transporter.close();
-                                   return;
                                });
-                           }
-                       });
-                   })
+                           })
+                        });
+                    } else {
+                        res.send("failed");
+                        return;
+                    }
                 });
             })
         } else {

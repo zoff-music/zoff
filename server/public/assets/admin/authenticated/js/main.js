@@ -35,11 +35,16 @@ $(document).on("click", "#refresh_all", function(e){
 				to_add.attr("id", response[i]._id);
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
-				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
+				to_add.find(".update_api_token").attr("id", response[i]._id + "-limit");
 				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
 				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
 				to_add.find(".update_api_token").attr("data-id", response[i]._id);
-				$(".channel_things").append(to_add);
+                if(response[i].active) {
+                    to_add.find(".check").removeClass("hide");
+                } else {
+                    to_add.find(".uncheck").removeClass("hide");
+                }
+				$("#api_keys").append(to_add);
 			}
 		},
 		error: function(err) {
@@ -170,7 +175,7 @@ $(document).on("click", ".delete_api_token", function(e) {
 				$("#" + id + "-limit").toggleClass("disabled");
 			}
 		},
-	})
+	});
 });
 
 function loaded() {
@@ -191,11 +196,16 @@ function loaded() {
 				to_add.attr("id", response[i]._id);
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
-				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
+				to_add.find(".update_api_token").attr("id", response[i]._id + "-limit");
 				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
 				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
 				to_add.find(".update_api_token").attr("data-id", response[i]._id);
-				$(".channel_things").append(to_add);
+				if(response[i].active) {
+                    to_add.find(".check").removeClass("hide");
+                } else {
+                    to_add.find(".uncheck").removeClass("hide");
+                }
+				$("#api_keys").append(to_add);
 			}
 		},
 		error: function(err) {
