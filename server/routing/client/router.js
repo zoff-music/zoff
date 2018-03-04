@@ -4,6 +4,8 @@ var path = require('path');
 var year = new Date().getYear()+1900;
 var path = require('path');
 var analytics = "xx";
+var mongojs = require('mongojs');
+var token_db = mongojs("tokens");
 try {
     analytics = require(path.join(path.join(__dirname, '../../config/'), 'analytics.js'));
 } catch(e) {
@@ -44,6 +46,52 @@ router.route('/').post(function(req, res, next){
     root(req, res, next);
 });
 
+router.route('/api/apply/:id').get(function(req,res) {
+    var id = req.params.id;
+    token_db.collection('api_links').find({id: id}, function(err, result) {
+        if(result.length == 1) {
+            token_db.collection('api_links').remove({id: id}, function(e,d) {
+                token_db.collection('api_token').update({id: result[0].token}, {$set: {active: true }}, function(e,d) {
+                    var data = {
+                        year: year,
+                        javascript_file: "token.min.js",
+                        captcha: res.recaptcha,
+                        analytics: analytics,
+                        activated: true,
+                        token: result[0].token,
+                        correct: true,
+                    }
+                    res.render('layouts/client/token', data);
+                });
+            })
+        } else {
+            var data = {
+                year: year,
+                javascript_file: "token.min.js",
+                captcha: res.recaptcha,
+                analytics: analytics,
+                activated: false,
+                id:"",
+                correct: false,
+            }
+            res.render('layouts/client/token', data);
+        }
+    });
+});
+
+
+router.route('/api/apply').get(function(req, res, next) {
+    var data = {
+        year: year,
+        javascript_file: "token.min.js",
+        captcha: res.recaptcha,
+        analytics: analytics,
+        activated: false,
+        id: "",
+        correct: false,
+    }
+    res.render('layouts/client/token', data);
+});
 
 function root(req, res, next) {
     try{
