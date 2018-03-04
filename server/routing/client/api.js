@@ -776,12 +776,12 @@ function checkOveruseApiToken(authorized, token_docs, res, callback) {
                 res.status(429).send(JSON.stringify(error.tooMany));
                 return;
             } else {
-                db.collection("timeout_api").update({guid: token}, {$inc: {used: 1}}, function(e, d) {
+                db.collection("timeout_api").update({guid: token_docs[0].token}, {$inc: {used: 1}}, function(e, d) {
                     callback();
                 });
             }
         } else {
-            db.collection("timeout_api").insert({guid: token, used: 0, createdAt: new Date(), type: "ALL"}, function(e, d) {
+            db.collection("timeout_api").insert({guid: token_docs[0].token, used: 0, createdAt: new Date(), type: "ALL"}, function(e, d) {
                 callback();
             });
         }
