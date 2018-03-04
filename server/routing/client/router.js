@@ -71,7 +71,7 @@ router.route('/api/apply/:id').get(function(req,res) {
                 captcha: res.recaptcha,
                 analytics: analytics,
                 activated: false,
-                id:"",
+                token:"",
                 correct: false,
             }
             res.render('layouts/client/token', data);

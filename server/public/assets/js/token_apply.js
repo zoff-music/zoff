@@ -7,6 +7,10 @@ $(document).ready(function() {
     $("#contact-container").html("Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
     $("#submit-contact-form").hide();
 
+    if(!Helper.mobilecheck()) {
+        $("#iframe-container").append('<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
+    }
+
     $(".token-form").on("submit", function(e) {
         e.preventDefault();
         var email = $("#email_address").val();
@@ -26,8 +30,9 @@ $(document).ready(function() {
                 if(response == "success") {
                     Materialize.toast("Email sent!", 3000, "green lighten");
                 } else {
-                    $("#email_address").attr("readonly", true);
+                    $("#email_address").attr("readonly", false);
                     $(".submit").toggleClass("disabled");
+                    grecaptcha.reset();
                     Materialize.toast("Something went wrong. Sure that email hasn't been used for another token?", 3000, "red lighten");
                 }
             },
