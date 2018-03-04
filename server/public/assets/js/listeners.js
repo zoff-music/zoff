@@ -491,7 +491,8 @@ $(document).on("click", "#playpause-overlay", function(){
     }
 });
 
-$(document).on('click', '#cookieok', function() {
+$(document).on('click', '#cookieok', function(e) {
+    e.preventDefault();
     $(this).fadeOut(function(){
         $(this).remove();
         localStorage.ok_cookie = true;
