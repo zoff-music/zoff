@@ -93,6 +93,8 @@ body {
 
 .token-container {
     padding-top: 64px;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .token-form {
@@ -3556,4 +3558,11 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
 * {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.select-all {
+    -webkit-user-select: all !important;  /* Chrome 49+ */
+  -moz-user-select: all !important;     /* Firefox 43+ */
+  -ms-user-select: all !important;      /* No support yet */
+  user-select: all !important;          /* Likely future */
 }

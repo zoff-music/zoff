@@ -33,9 +33,9 @@
             {{#if activated}}
                 <h1 class="center-align">API-token</h1>
                 <p>Here is your api token</p>
-                <h4 class="select auto-pointer">{{token}}</h3>
+                <h4 class="select-all auto-pointer">{{token}}</h3>
                 <p>Use it wisely, and don't lose it!</p>
-                <p>As of now, the tokens have no limit for how many requests you can do is 100 requests a second. If you need a higher limit, just contact the team and we'll set you up for as much as you need.</p>
+                <p>As of now, the tokens have a limit of 100 requests a second. If you need a higher limit, just contact the team and we'll set you up for as much as you need.</p>
             {{else}}
                 <h2 class="center-align">API-token</h2>
                 <p>Apply for a API-token with your email here! You'll get an email on the specified address, with a link. Follow that link, and the token will be shown to you! Take good care of it, and don't lose it. It won't be shown to you again.</p>
@@ -44,7 +44,7 @@
             {{/if}}
         </div>
         {{#if activated}}
-            <iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>
+        <div id="iframe-container"></div>
         {{else}}
         <form class="token-form row" type="post">
             <div class="row center">
@@ -53,7 +53,7 @@
                 <input type="email" autocomplete="off" class="validate" id="email_address" />
               </div>
             </div>
-            <div class="col offset-s3">
+            <div class="col offset-m3">
                 {{{captcha}}}
             </div>
             <div class="input-field col s12 m2">
