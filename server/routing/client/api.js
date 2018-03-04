@@ -897,7 +897,7 @@ try {
                     res.send("failed");
                     return;
                 }
-                token_db.collection("api_token").insert({name: name, token: id, usage: 0, active: false}, function(err, docs){
+                token_db.collection("api_token").insert({name: name, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
                    token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
                        let transporter = nodemailer.createTransport(mailconfig);
 
