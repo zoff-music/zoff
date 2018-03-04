@@ -23,13 +23,12 @@ $(document).ready(function() {
             },
             success: function(response) {
                 $(".full-form-token").addClass("hide");
-                if(response != "OK") {
+                if(response == "success") {
+                    Materialize.toast("Email sent!", 3000, "green lighten");
+                } else {
                     $("#email_address").attr("readonly", true);
                     $(".submit").toggleClass("disabled");
-                    Materialize.toast("Couldn't send email.", 3000, "red lighten");
-                } else {
-                    Materialize.toast("Email sent!", 3000, "green lighten");
-                    grecaptcha.reset();
+                    Materialize.toast("Something went wrong. Sure that email hasn't been used for another token?", 3000, "red lighten");
                 }
             },
             error: function(response) {

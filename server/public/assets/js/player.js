@@ -12,6 +12,42 @@ var Player = {
         Helper.log(["object", obj]);
         var state;
         fix_too_far = false;
+        if(embed && !autoplay && obj && obj.np.length > 0) {
+            if(Object.keys(obj).length == 0) {
+                paused = false;
+                empty_clear = true;
+            } else {
+                empty_clear = false;
+            }
+            Player.getTitle(obj.np[0].title, viewers);
+            //Player.setBGimage(video_id);
+            if(!Helper.mobilecheck()) {
+                Player.notifyUser(obj.np[0].id, obj.np[0].title);
+            }
+            video_id   = obj.np[0].id;
+            Player.np = {
+                id: video_id,
+                start: obj.np[0].start,
+                end: obj.np[0].end,
+                duration: obj.np[0].duration,
+            };
+            if(!obj.np[0].hasOwnProperty("start")) {
+                Player.np.start = 0;
+            }
+            if(!obj.np[0].hasOwnProperty("end")) {
+                Player.np.end = Player.np.duration;
+            }
+
+            conf       = obj.conf[0];
+            time       = obj.time;
+            seekTo     = (time - conf.startTime) + Player.np.start;
+            startTime = time - conf.startTime;
+            song_title = obj.np[0].title;
+            duration   = obj.np[0].duration;
+            Player.loadVideoById(video_id, duration);
+            Player.stopVideo();
+            return;
+        }
         if(embed && obj.np) {
             if(window.parentWindow && window.parentOrigin) {
                 window.parentWindow.postMessage({type: "np", title: obj.np[0].title}, window.parentOrigin);
@@ -64,7 +100,6 @@ var Player = {
                 }
                 //List.importOldList(channel.toLowerCase());
             } else if(paused){
-
                 Player.getTitle(obj.np[0].title, viewers);
                 //Player.setBGimage(video_id);
                 if(!Helper.mobilecheck()) {
@@ -162,7 +197,7 @@ var Player = {
                                 }
                             }
                             if(!paused){
-                                if((!mobile_beginning || chromecastAvailable) && prev_state != 2) {
+                                if(((!mobile_beginning || chromecastAvailable) && prev_state != 2) && autoplay) {
                                     Player.playVideo();
                                 }
                                 if(!durationBegun) {
@@ -189,6 +224,9 @@ var Player = {
                         }
                     }
                 } else {
+                    if(!autoplay) {
+                        Player.stopVideo();
+                    }
                     Player.getTitle(song_title, viewers);
                 }
             }
@@ -213,7 +251,7 @@ var Player = {
             "New state\nState: ",
             newState
         ]);
-        if(player.getCurrentTime() > startTime + Player.np.start && !fix_too_far && autoplay)  {
+        if(Player.player && Player.player.getCurrentTime() > startTime + Player.np.start && !fix_too_far && autoplay)  {
             Player.seekTo(seekTo);
             Player.playVideo();
             fix_too_far = true;
@@ -237,6 +275,7 @@ var Player = {
                 }
                 break;
             case YT.PlayerState.PLAYING:
+                if(embed && !autoplay) autoplay = true;
                 if(!window.MSStream) {
                     $("#player").css("opacity", "1");
                     if(!Helper.mobilecheck()) {
@@ -350,7 +389,7 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
-            window.player = Player.player;
+            //window.player = Player.player;
             Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
         if(offline) {

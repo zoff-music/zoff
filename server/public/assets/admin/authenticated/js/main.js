@@ -36,8 +36,9 @@ $(document).on("click", "#refresh_all", function(e){
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
 				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
-				to_add.find("#delete_api_token").attr("data-id", response[i]._id);
-				to_add.find("#update_api_token").attr("data-id", response[i]._id);
+				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
+				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
+				to_add.find(".update_api_token").attr("data-id", response[i]._id);
 				$(".channel_things").append(to_add);
 			}
 		},
@@ -120,14 +121,14 @@ if(!$(".channel_things").hasClass("hide")) {
 }
 $(".preloader-wrapper").removeClass("hide");
 
-$(document).on("click", "#update_api_token", function(e) {
+$(document).on("click", ".update_api_token", function(e) {
 	e.preventDefault();
 
 	var id = $(this).attr("data-id");
 	var limit = $("#" + id + "-limit").val();
 	var that = this;
 	$(that).toggleClass("disabled");
-	$("#delete_api_token").toggleClass("disabled");
+	$("#" + id + "-delete").toggleClass("disabled");
 	$.ajax({
 		type: "PUT",
 		url: "api/api_token",
@@ -142,17 +143,17 @@ $(document).on("click", "#update_api_token", function(e) {
 				Materialize.toast("Something went wrong...", 2000, "red lighten");
 			}
 			$(that).toggleClass("disabled");
-			$("#delete_api_token").toggleClass("disabled");
+			$("#" + id + "-delete").toggleClass("disabled");
 		}
 	});
 });
 
-$(document).on("click", "#delete_api_token", function(e) {
+$(document).on("click", ".delete_api_token", function(e) {
 	e.preventDefault();
 	var id = $(this).attr("data-id");
 	var that = this;
 	$(that).toggleClass("disabled");
-	$("#update_api_token").toggleClass("disabled");
+	$("#" + id + "-limit").toggleClass("disabled");
 	$.ajax({
 		type: "DELETE",
 		url: "api/api_token",
@@ -166,7 +167,7 @@ $(document).on("click", "#delete_api_token", function(e) {
 			} else {
 				Materialize.toast("Something went wrong...", 2000, "red lighten");
 				$(that).toggleClass("disabled");
-				$("#update_api_token").toggleClass("disabled");
+				$("#" + id + "-limit").toggleClass("disabled");
 			}
 		},
 	})
@@ -191,8 +192,9 @@ function loaded() {
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
 				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
-				to_add.find("#delete_api_token").attr("data-id", response[i]._id);
-				to_add.find("#update_api_token").attr("data-id", response[i]._id);
+				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
+				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
+				to_add.find(".update_api_token").attr("data-id", response[i]._id);
 				$(".channel_things").append(to_add);
 			}
 		},
