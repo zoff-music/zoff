@@ -25,7 +25,10 @@ function get_history(channel, all, socket) {
 
 
 function chat(msg, guid, offline, socket) {
-    if(typeof(msg) !== 'object' && !msg.hasOwnProperty('data') && !msg.hasOwnProperty('channel') && !msg.hasOwnProperty('pass')) {
+    if(typeof(msg) !== 'object' || !msg.hasOwnProperty('data') ||
+     !msg.hasOwnProperty('channel') || !msg.hasOwnProperty('pass') ||
+     typeof(msg.data) != "string" || typeof(msg.channel) != "string" ||
+     typeof(msg.pass) != "string") {
         socket.emit('update_required');
         return;
     }
@@ -58,7 +61,9 @@ function chat(msg, guid, offline, socket) {
 }
 
 function all_chat(msg, guid, offline, socket) {
-    if(typeof(msg) !== 'object' || !msg.hasOwnProperty("channel") || !msg.hasOwnProperty("data")) {
+    if(typeof(msg) !== 'object' || !msg.hasOwnProperty("channel") ||
+     !msg.hasOwnProperty("data") || typeof(msg.data) != "string" ||
+     typeof(msg.channel) != "string") {
         socket.emit('update_required');
         return;
     }
@@ -86,7 +91,9 @@ function all_chat(msg, guid, offline, socket) {
 }
 
 function namechange(data, guid, socket, tried) {
-    if(!data.hasOwnProperty("name") || data.name.length > 10 || !data.hasOwnProperty("channel")) return;
+    if(!data.hasOwnProperty("name") || data.name.length > 10 ||
+    !data.hasOwnProperty("channel") || typeof(msg.name) != "string" ||
+     typeof(msg.channel) != "string") return;
     var pw = "";
     var new_password;
     var first = false;

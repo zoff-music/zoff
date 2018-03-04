@@ -2,7 +2,7 @@ function thumbnail(msg, coll, guid, offline, socket) {
     if(msg.thumbnail && msg.channel && msg.adminpass && msg.thumbnail.indexOf("i.imgur.com") > -1){
         if(typeof(msg.channel) != "string" || typeof(msg.thumbnail) != "string" ||
             typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
         msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
@@ -30,7 +30,7 @@ function description(msg, coll, guid, offline, socket) {
     if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
         if(typeof(msg.channel) != "string" || typeof(msg.description) != "string" ||
             typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
         var channel = msg.channel.toLowerCase();

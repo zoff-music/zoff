@@ -22,8 +22,10 @@ function list(msg, guid, coll, offline, socket) {
 
     if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
     {
-        if(!msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
+        if(!msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined ||
+        typeof(msg.channel) != "string" || typeof(msg.pass) != "string") {
             socket.emit("update_required");
+            return;
         }
 
         if(coll == "" || coll == undefined || coll == null) {
@@ -92,7 +94,7 @@ function skip(list, guid, coll, offline, socket) {
         }
         if(typeof(list.pass) != "string" || typeof(list.id) != "string" ||
             typeof(list.channel) != "string" || typeof(list.userpass) != "string") {
-                socket.emit("toast", "update_required");
+                socket.emit("update_required");
                 return;
             }
         db.collection(coll + "_settings").find(function(err, docs){
@@ -433,16 +435,11 @@ function end(obj, coll, guid, offline, socket) {
 
     if(id !== undefined && id !== null && id !== "") {
 
-        if(coll == "" || coll == undefined || coll == null) {
+        if(coll == "" || coll == undefined || coll == null || typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
+            typeof(obj.pass) != "string") {
             socket.emit("update_required");
             return;
         }
-
-        if(typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
-            typeof(obj.pass) != "string") {
-                socket.emit("toast", "update_required");
-                return;
-            }
 
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, obj.pass)))) {

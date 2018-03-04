@@ -1,6 +1,11 @@
 function password(inp, coll, guid, offline, socket) {
     if(inp !== undefined && inp !== null && inp !== "")
     {
+        if(!inp.hasOwnProperty("password") || !inp.hasOwnProperty("channel") ||
+         typeof(inp.password) != "string" || typeof(inp.channel) != "string") {
+            socket.emit("update_required");
+            return;
+        }
         pw = inp.password;
         opw = inp.password;
         try {

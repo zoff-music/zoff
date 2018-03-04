@@ -46,7 +46,9 @@ module.exports = function() {
 
         socket.on('chromecast', function(msg) {
             try {
-                if(typeof(msg) == "object" && msg.hasOwnProperty("guid") && msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel")) {
+                if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
+                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
+                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             guid = msg.guid;
@@ -113,7 +115,8 @@ module.exports = function() {
         });
 
         socket.on("offline", function(msg){
-            if(!msg.hasOwnProperty('status') && !msg.hasOwnProperty('channel')) {
+            if(!msg.hasOwnProperty('status') || !msg.hasOwnProperty('channel') ||
+            typeof(msg.status) != "boolean" || typeof(msg.channel) != "string") {
                 socket.emit("update_required");
                 return;
             }
@@ -159,6 +162,11 @@ module.exports = function() {
         });
 
         socket.on('get_history', function(msg) {
+            if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
+            typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
+                socket.emit("update_required");
+                return;
+            }
             Chat.get_history(msg.channel, msg.all, socket);
         });
 
@@ -352,7 +360,8 @@ module.exports = function() {
 
         socket.on('pos', function(obj)
         {
-
+            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
+            (obj.hasOwnProperty("pass") && typeof(obj.pass) != "string"))
             if(coll !== undefined) {
                 try {
                     coll = obj.channel;

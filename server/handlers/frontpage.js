@@ -1,6 +1,7 @@
 function frontpage_lists(msg, socket) {
     if(msg == undefined || !msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
         socket.emit("update_required");
+        return;
     }
 
     db.collection("frontpage_lists").find({frontpage:true}, function(err, docs){
