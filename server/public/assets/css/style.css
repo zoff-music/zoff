@@ -91,6 +91,27 @@ body {
     height: 32px;
 }
 
+.token-container {
+    padding-top: 64px;
+}
+
+.token-form {
+    position: relative;
+}
+
+.full-form-token {
+    background: rgba(0,0,0,.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.center-loader-token {
+    margin: auto;
+}
+
 #send-loader {
     position: absolute;
     top: 0px;
@@ -403,6 +424,10 @@ li.disabled span {
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
+}
+
+.auto-pointer {
+    cursor: auto !important;
 }
 
 #chatchannel li:nth-child(even), #chatall li:nth-child(even) {

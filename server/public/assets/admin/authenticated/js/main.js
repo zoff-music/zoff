@@ -30,17 +30,21 @@ $(document).on("click", "#refresh_all", function(e){
 			}
 			$(".header-api-fields").removeClass("hide");
 			for(var i = 0; i < response.length; i++) {
-				var to_add = api_token_list;
+				var to_add = api_token_list.clone();
+                to_add.find(".api_token_limit").val(response[i].limit);
 				to_add.attr("id", response[i]._id);
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
+				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
 				to_add.find("#delete_api_token").attr("data-id", response[i]._id);
+				to_add.find("#update_api_token").attr("data-id", response[i]._id);
 				$(".channel_things").append(to_add);
 			}
 		},
 		error: function(err) {
 		}
 	});
+
 	if(!$(".channel_things").hasClass("hide")) {
 		$(".channel_things").addClass("hide")
 	}
@@ -116,11 +120,39 @@ if(!$(".channel_things").hasClass("hide")) {
 }
 $(".preloader-wrapper").removeClass("hide");
 
+$(document).on("click", "#update_api_token", function(e) {
+	e.preventDefault();
+
+	var id = $(this).attr("data-id");
+	var limit = $("#" + id + "-limit").val();
+	var that = this;
+	$(that).toggleClass("disabled");
+	$("#delete_api_token").toggleClass("disabled");
+	$.ajax({
+		type: "PUT",
+		url: "api/api_token",
+		data: {
+			id: id,
+			limit: limit,
+		},
+		success: function(response) {
+			if(response == "OK") {
+				Materialize.toast("Updated limit!", 2000, "green lighten");
+			} else {
+				Materialize.toast("Something went wrong...", 2000, "red lighten");
+			}
+			$(that).toggleClass("disabled");
+			$("#delete_api_token").toggleClass("disabled");
+		}
+	});
+});
+
 $(document).on("click", "#delete_api_token", function(e) {
 	e.preventDefault();
 	var id = $(this).attr("data-id");
 	var that = this;
 	$(that).toggleClass("disabled");
+	$("#update_api_token").toggleClass("disabled");
 	$.ajax({
 		type: "DELETE",
 		url: "api/api_token",
@@ -134,6 +166,7 @@ $(document).on("click", "#delete_api_token", function(e) {
 			} else {
 				Materialize.toast("Something went wrong...", 2000, "red lighten");
 				$(that).toggleClass("disabled");
+				$("#update_api_token").toggleClass("disabled");
 			}
 		},
 	})
@@ -153,10 +186,13 @@ function loaded() {
 			$(".header-api-fields").removeClass("hide");
 			for(var i = 0; i < response.length; i++) {
 				var to_add = api_token_list.clone();
+                to_add.find(".api_token_limit").val(response[i].limit);
 				to_add.attr("id", response[i]._id);
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
+				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
 				to_add.find("#delete_api_token").attr("data-id", response[i]._id);
+				to_add.find("#update_api_token").attr("data-id", response[i]._id);
 				$(".channel_things").append(to_add);
 			}
 		},

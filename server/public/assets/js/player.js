@@ -213,7 +213,7 @@ var Player = {
             "New state\nState: ",
             newState
         ]);
-        if(player.getCurrentTime() > startTime + Player.np.start && !fix_too_far)  {
+        if(player.getCurrentTime() > startTime + Player.np.start && !fix_too_far && autoplay)  {
             Player.seekTo(seekTo);
             Player.playVideo();
             fix_too_far = true;
