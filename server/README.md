@@ -216,7 +216,7 @@ Still to come: SKIP and SHUFFLE RESTApi calls..
 'list', {
     channel: channel_name,
     pass: channel_pass,
-    version: system_version (now 3)
+    version: system_version (can be checked in VERSION.js)
 }
 
 // Sends info about a song the client wants to add
