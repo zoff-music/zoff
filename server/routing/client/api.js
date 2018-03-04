@@ -760,7 +760,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
 });
 
 function checkOveruseApiToken(authorized, token_docs, res, callback) {
-    if(authorized || (authorized && token_docs[0].limit == 0)) {
+    if(!authorized || (authorized && token_docs[0].limit == 0)) {
         callback();
         return;
     }
