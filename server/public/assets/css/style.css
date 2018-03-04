@@ -1389,6 +1389,7 @@ margin:-1px;
 }
 
 .toast {
+    word-break: normal;
     cursor: pointer;
 }
 

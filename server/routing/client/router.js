@@ -60,6 +60,8 @@ router.route('/api/apply/:id').get(function(req,res) {
                         activated: true,
                         token: result[0].token,
                         correct: true,
+                        stylesheet: "style.css",
+                        embed: false,
                     }
                     res.render('layouts/client/token', data);
                 });
@@ -73,6 +75,8 @@ router.route('/api/apply/:id').get(function(req,res) {
                 activated: false,
                 token:"",
                 correct: false,
+                stylesheet: "style.css",
+                embed: false,
             }
             res.render('layouts/client/token', data);
         }
@@ -89,6 +93,8 @@ router.route('/api/apply').get(function(req, res, next) {
         activated: false,
         id: "",
         correct: false,
+        stylesheet: "style.css",
+        embed: false,
     }
     res.render('layouts/client/token', data);
 });
@@ -106,7 +112,9 @@ function root(req, res, next) {
                 year: year,
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha,
-                analytics: analytics
+                analytics: analytics,
+                stylesheet: "style.css",
+                embed: false,
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
@@ -116,7 +124,9 @@ function root(req, res, next) {
                 year: year,
                 javascript_file: "main.min.js",
                 captcha: res.recaptcha,
-                analytics: analytics
+                analytics: analytics,
+                stylesheet: "style.css",
+                embed: false,
             }
             res.render('layouts/client/frontpage', data);
         }
@@ -139,14 +149,25 @@ function channel(req, res, next) {
                 year: year,
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha,
-                analytics: analytics
+                analytics: analytics,
+                stylesheet: "style.css",
+                embed: false,
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
             if(req.params.channel_name == "_embed") {
-                res.sendFile(path.join(pathThumbnails, '/public/assets/html/embed.html'));
+                //res.sendFile(path.join(pathThumbnails, '/public/assets/html/embed.html'));
+                var data = {
+                    year: year,
+                    javascript_file: "embed.min.js",
+                    captcha: res.recaptcha,
+                    analytics: analytics,
+                    stylesheet: "embed.css",
+                    embed: true,
+                }
+                res.render('layouts/client/embed', data);
             } else if(req.params.channel_name == "o_callback") {
                 res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
@@ -156,7 +177,9 @@ function channel(req, res, next) {
                     year: year,
                     javascript_file: "main.min.js",
                     captcha: res.recaptcha,
-                    analytics: analytics
+                    analytics: analytics,
+                    stylesheet: "style.css",
+                    embed: false,
                 }
 
 
