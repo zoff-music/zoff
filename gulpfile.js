@@ -4,7 +4,7 @@ var gulp    = require('gulp'),
 	concat  = require('gulp-concat');
 
 gulp.task('js', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
+    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/token*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
         .pipe(uglify({
         	mangle: true,
             compress: true,
@@ -24,6 +24,17 @@ gulp.task('embed', function () {
         .pipe(concat('embed.min.js'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
+
+gulp.task('token', function() {
+    gulp.src(['server/public/assets/js/token*', 'server/public/assets/js/helpers.js'])
+        .pipe(uglify({
+            mangle: true,
+            compress: true,
+            enclose: true
+        }))
+        .pipe(concat('token.min.js'))
+        .pipe(gulp.dest('server/public/assets/dist'));
+})
 
 gulp.task('callback', function () {
     gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/callback.js'])
@@ -53,6 +64,7 @@ gulp.task('remotecontroller', function () {
 
 gulp.task('default', function(){
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['js']);
+    gulp.watch(['server/public/assets/js/token*.js', 'server/public/assets/js/helpers.js'], ['token']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['embed']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);
     //gulp.watch('server/public/assets/js/*.js', ['nochan']);
