@@ -117,7 +117,7 @@ function conf_function(params, coll, guid, offline, socket) {
         } else {
             hash = adminpass;
         }
-        db.collection(coll + "_settings").find(function(err, docs){
+        db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
             if(docs !== null && docs.length !== 0 && (docs[0].adminpass === "" || docs[0].adminpass == hash)) {
                 var obj = {
                     addsongs:addsongs,
