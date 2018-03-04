@@ -48,7 +48,7 @@ gulp.task('callback', function () {
 });
 
 gulp.task('build', function() {
-    gulp.run(['js', 'embed', 'remotecontroller', 'callback']);
+    gulp.run(['js', 'embed', 'remotecontroller', 'callback', 'token']);
 })
 
 gulp.task('remotecontroller', function () {
