@@ -32,6 +32,7 @@ Run
 ```
 db.chat_logs.createIndex({ "createdAt": 1 }, { expireAfterSeconds: X });
 db.timeout_api.createIndex({ "createdAt": 1 }, { expireAfterSeconds: Y });
+db.api_links.createIndex({ "createdAt": 1 }, { expireAfterSeconds: 86400 });
 ```
 in mongo to have chat_logs and api be deleted after X and Y seconds.
 
