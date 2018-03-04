@@ -587,7 +587,7 @@ footer{
 }
 
 .modal {
-    z-index: 9999999999 !important;
+    z-index: 999999999 !important;
 }
 
 .material-tooltip {
