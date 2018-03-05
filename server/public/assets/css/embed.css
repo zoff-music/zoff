@@ -399,6 +399,10 @@ html {
     padding: 0 10px 0 0;
 }
 
+body {
+    background: #2d2d2d;
+}
+
 .vote-container {
   height: 100%;
   width: 100%;
