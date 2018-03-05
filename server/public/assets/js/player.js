@@ -279,6 +279,9 @@ var Player = {
                 }
                 break;
             case YT.PlayerState.PLAYING:
+                if(embed) {
+                    $("#player").css("visibility", "visible");
+                }
                 if(embed && !autoplay) autoplay = true;
                 if(!window.MSStream) {
                     $("#player").css("opacity", "1");
