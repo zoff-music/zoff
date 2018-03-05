@@ -429,6 +429,6 @@ padding: 0 5px;
 
 @media only screen and (max-width: 992px) and (min-width: 601px) {
   #toast-container {
-    bottom: 12%;
+    bottom: 90px;
   }
 }
