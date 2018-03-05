@@ -92,8 +92,8 @@ function all_chat(msg, guid, offline, socket) {
 
 function namechange(data, guid, socket, tried) {
     if(!data.hasOwnProperty("name") || data.name.length > 10 ||
-    !data.hasOwnProperty("channel") || typeof(msg.name) != "string" ||
-     typeof(msg.channel) != "string") return;
+    !data.hasOwnProperty("channel") || typeof(data.name) != "string" ||
+     typeof(data.channel) != "string") return;
     var pw = "";
     var new_password;
     var first = false;
