@@ -188,7 +188,6 @@ var Player = {
                             }
                         } else {
                             if(compared || chromecastAvailable){
-
                                 if(paused && !chromecastAvailable){
                                     Player.cueVideoById(video_id, duration);
                                 } else {
@@ -229,6 +228,8 @@ var Player = {
                 } else {
                     if(!autoplay) {
                         Player.stopVideo();
+                    } else if(player_ready){
+                        Player.seekTo(seekTo);
                     }
                     Player.getTitle(song_title, viewers);
                 }
@@ -593,6 +594,8 @@ var Player = {
                         if(!autoplay){
                             Player.player.stopVideo();
                             Playercontrols.play_pause_show();
+                        } else {
+                            Player.seekTo(seekTo);
                         }
                     //}, 1000);
                 }else
