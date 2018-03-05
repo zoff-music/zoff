@@ -84,8 +84,8 @@ $(document).ready(function() {
         dismissible: false
     });
     color = "#" + hash[1];
-    //add = "https://zoff.me";
-    add = "localhost";
+    add = "https://zoff.me";
+    //add = "localhost";
     socket = io.connect(''+add+':8080', connection_options);
 
     socket.on('auth_required', function() {
