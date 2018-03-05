@@ -70,7 +70,7 @@ $(document).ready(function() {
         autoplay = true;
     } else {
         paused = true;
-        
+
     }
 
     if(hash.indexOf("videoonly") > -1) {
@@ -84,7 +84,8 @@ $(document).ready(function() {
         dismissible: false
     });
     color = "#" + hash[1];
-    add = "https://zoff.me";
+    //add = "https://zoff.me";
+    add = "localhost";
     socket = io.connect(''+add+':8080', connection_options);
 
     socket.on('auth_required', function() {
@@ -92,7 +93,7 @@ $(document).ready(function() {
     });
 
     socket.on("get_list", function() {
-        setTimeout(function(){socket.emit('list', {channel: chan.toLowerCase(), pass: ''});},1000);
+        setTimeout(function(){socket.emit('list', {version: VERSION, channel: chan.toLowerCase(), pass: ''});},1000);
     });
 
     socket.on("self_ping", function() {
@@ -113,11 +114,10 @@ $(document).ready(function() {
     setup_list_listener();
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
-
+    socket.on("toast", toast);
     Player.loadPlayer();
 
     Playercontrols.initSlider();
-
     window.setVolume = setVolume;
     $("#controls").css("background-color", color);
     $("#playlist").css("background-color", color);

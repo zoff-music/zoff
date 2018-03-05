@@ -15,6 +15,7 @@ var List = {
         }
         switch(msg.type)
         {
+
             case "list":
             //if(full_playlist == undefined || !offline){
             if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
