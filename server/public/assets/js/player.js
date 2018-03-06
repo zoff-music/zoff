@@ -183,6 +183,7 @@ var Player = {
                         if(prev_state == 2 && !chromecastAvailable) {
                             Player.stopVideo();
                             was_stopped = true;
+                            Player.cueVideoById(video_id, duration);
                             if(!durationBegun) {
                                 Player.durationSetter();
                             }
