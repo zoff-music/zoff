@@ -179,6 +179,7 @@ module.exports = function() {
 
         socket.on('get_history', function(msg) {
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
+            !msg.hasOwnProperty("pass") || typeof(msg.pass) != "string" ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
                 var result = {
                     all: {
@@ -197,7 +198,7 @@ module.exports = function() {
                socket.emit('update_required', result);
                 return;
             }
-            Chat.get_history(msg.channel, msg.all, socket);
+            Chat.get_history(msg.channel, msg.all, socket, msg.pass);
         });
 
         socket.on('chat', function (msg) {
