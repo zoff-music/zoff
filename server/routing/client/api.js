@@ -91,7 +91,7 @@ router.use(function(req, res, next) {
 });
 
 router.route('/api/help').get(function(req, res) {
-    res.redirect('https://github.com/zoff-music/zoff/blob/master/server/README.md');
+    res.redirect('https://github.com/zoff-music/zoff/blob/master/server/REST.md');
     return;
 })
 
