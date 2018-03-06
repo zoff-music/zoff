@@ -306,7 +306,7 @@ var Player = {
                     if(document.getElementById("pause").className.split(" ").length == 2)
                         $("#pause").toggleClass("hide");
                 }
-                if((paused && !offline) || was_stopped) {
+                if((paused || was_stopped) && !offline) {
                     socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
                     paused = false;
                     was_stopped = false;
