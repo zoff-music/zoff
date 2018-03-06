@@ -3,7 +3,17 @@ function password(inp, coll, guid, offline, socket) {
     {
         if(!inp.hasOwnProperty("password") || !inp.hasOwnProperty("channel") ||
          typeof(inp.password) != "string" || typeof(inp.channel) != "string") {
-            socket.emit("update_required");
+             var result = {
+                 channel: {
+                     expected: "string",
+                     got: inp.hasOwnProperty("channel") ? typeof(iinp.channel) : undefined,
+                 },
+                 password: {
+                     expected: "password",
+                     got: inp.hasOwnProperty("password") ? typeof(inp.password) : undefined,
+                 },
+             };
+             socket.emit('update_required', result);
             return;
         }
         pw = inp.password;
@@ -16,11 +26,6 @@ function password(inp, coll, guid, offline, socket) {
             coll = encodeURIComponent(coll).replace(/\W/g, '');
             coll = filter.clean(coll);
         } catch(e) {
-            return;
-        }
-
-        if(coll == "" || coll == undefined || coll == null) {
-            socket.emit("update_required");
             return;
         }
 
@@ -51,22 +56,18 @@ function password(inp, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            inp: {
+                expected: "string",
+                got: typeof(inpt)
+            },
+        };
+        socket.emit('update_required', result);
     }
 }
 
 function conf_function(params, coll, guid, offline, socket) {
-    if(params !== undefined && params !== null && params !== "" &&
-    params.hasOwnProperty('voting') &&
-    params.hasOwnProperty('addsongs') &&
-    params.hasOwnProperty('longsongs') &&
-    params.hasOwnProperty('frontpage') &&
-    params.hasOwnProperty('allvideos') &&
-    params.hasOwnProperty('removeplay') &&
-    params.hasOwnProperty('adminpass') &&
-    params.hasOwnProperty('skipping') &&
-    params.hasOwnProperty('shuffling') &&
-    params.hasOwnProperty('channel'))
+    if(params !== undefined && params !== null && params !== "")
     {
         if(coll !== undefined) {
             try {
@@ -88,6 +89,59 @@ function conf_function(params, coll, guid, offline, socket) {
 
         Functions.check_inlist(coll, guid, socket, offline);
 
+
+        if(!params.hasOwnProperty('voting') || !params.hasOwnProperty('addsongs') ||
+            !params.hasOwnProperty('longsongs') || !params.hasOwnProperty('frontpage') ||
+            !params.hasOwnProperty('allvideos') || !params.hasOwnProperty('removeplay') ||
+            !params.hasOwnProperty('adminpass') || !params.hasOwnProperty('skipping') ||
+            !params.hasOwnProperty('shuffling') || !params.hasOwnProperty('channel') ||
+            typeof(params.userpass) != "string" || typeof(params.adminpass) != "string" ||
+            typeof(params.voting) != "boolean" || typeof(params.addsongs) != "boolean" ||
+            typeof(params.longsongs) != "boolean" || typeof(params.frontpage) != "boolean" ||
+            typeof(params.allvideos) != "boolean" || typeof(params.removeplay) != "boolean" ||
+            typeof(params.skipping) != "boolean" || typeof(params.shuffling) != "boolean" ||
+            typeof(params.userpass_changed) != "boolean") {
+                var result = {
+                    adminpass: {
+                        expected: "string",
+                        got: params.hasOwnProperty("adminpass") ? typeof(params.adminpass) : undefined,
+                    },
+                    userpass: {
+                        expected: "string",
+                        got: params.hasOwnProperty("userpass") ? typeof(params.userpass) : undefined,
+                    },
+                    vote: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("vote") ? typeof(params.vote) : undefined,
+                    },
+                    addsongs: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("addsongs") ? typeof(params.addsongs) : undefined,
+                    },
+                    longsongs: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("longsongs") ? typeof(params.longsongs) : undefined,
+                    },
+                    frontpage: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("frontpage") ? typeof(params.frontpage) : undefined,
+                    },
+                    skipping: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("skipping") ? typeof(params.skipping) : undefined,
+                    },
+                    shuffling: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("shuffling") ? typeof(params.shuffling) : undefined,
+                    },
+                    userpass_changed: {
+                        expected: "boolean",
+                        got: params.hasOwnProperty("userpass_changed") ? typeof(params.userpass_changed) : undefined,
+                    }
+                };
+                socket.emit("update_required", result);
+                return;
+            }
         var voting = params.voting;
         var addsongs = params.addsongs;
         var longsongs = params.longsongs;
@@ -98,15 +152,6 @@ function conf_function(params, coll, guid, offline, socket) {
         var skipping = params.skipping;
         var shuffling = params.shuffling;
         var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
-        if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
-            typeof(voting) != "boolean" || typeof(addsongs) != "boolean" ||
-            typeof(longsongs) != "boolean" || typeof(frontpage) != "boolean" ||
-            typeof(allvideos) != "boolean" || typeof(removeplay) != "boolean" ||
-            typeof(skipping) != "boolean" || typeof(shuffling) != "boolean" ||
-            typeof(params.userpass_changed) != "boolean") {
-                socket.emit("toast", "wrongpass");
-                return;
-            }
 
         if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
             userpass = "";
@@ -162,7 +207,13 @@ function conf_function(params, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            params: {
+                expected: "object",
+                got: typeof(params),
+            }
+        }
+        socket.emit('update_required', result);
     }
 }
 

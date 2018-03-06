@@ -3,8 +3,19 @@ function add_function(arr, coll, guid, offline, socket) {
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
     {
 
-        if(coll == "" || coll == undefined || coll == null || !arr.hasOwnProperty("start") || !arr.hasOwnProperty("end")) {
-            socket.emit("update_required");
+        if(coll == "" || coll == undefined || coll == null ||
+         !arr.hasOwnProperty("start") || !arr.hasOwnProperty("end")) {
+             var result = {
+                 start: {
+                     expected: "number or string that can be cast to int",
+                     got: arr.hasOwnProperty("start") ? typeof(arr.start) : undefined
+                 },
+                 end: {
+                     expected: "number or string that can be cast to int",
+                     got: arr.hasOwnProperty("end") ? typeof(arr.end) : undefined
+                 }
+             };
+             socket.emit('update_required', result);
             return;
         }
 
@@ -34,7 +45,49 @@ function add_function(arr, coll, guid, offline, socket) {
             typeof(arr.playlist) != "boolean" || typeof(arr.num) != "number" ||
             typeof(arr.total) != "number" || typeof(arr.pass) != "string" ||
             typeof(arr.adminpass) != "string") {
-                socket.emit("update_required");
+                var result = {
+                    start: {
+                        expected: "number or string that can be cast to int",
+                        got: arr.hasOwnProperty("start") ? typeof(arr.start) : undefined
+                    },
+                    end: {
+                        expected: "number or string that can be cast to int",
+                        got: arr.hasOwnProperty("end") ? typeof(arr.end) : undefined
+                    },
+                    title: {
+                        expected: "string",
+                        got: arr.hasOwnProperty("title") ? typeof(arr.title) : undefined
+                    },
+                    list: {
+                        expected: "string",
+                        got: arr.hasOwnProperty("list") ? typeof(arr.list) : undefined
+                    },
+                    duration: {
+                        expected: "number or string that can be cast to int",
+                        got: arr.hasOwnProperty("duration") ? typeof(arr.duration) : undefined
+                    },
+                    playlist: {
+                        expected: "boolean",
+                        got: arr.hasOwnProperty("playlist") ? typeof(arr.playlist) : undefined
+                    },
+                    num: {
+                        expected: "number or string that can be cast to int",
+                        got: arr.hasOwnProperty("num") ? typeof(arr.num) : undefined
+                    },
+                    total: {
+                        expected: "number or string that can be cast to int",
+                        got: arr.hasOwnProperty("total") ? typeof(arr.total) : undefined
+                    },
+                    pass: {
+                        expected: "string",
+                        got: arr.hasOwnProperty("pass") ? typeof(arr.pass) : undefined
+                    },
+                    adminpass: {
+                        expected: "string",
+                        got: arr.hasOwnProperty("adminpass") ? typeof(arr.adminpass) : undefined
+                    }
+                };
+                socket.emit('update_required', result);
                 return;
             }
 
@@ -176,7 +229,17 @@ function add_function(arr, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            arr: {
+                expected: "object",
+                got: typeof(arr)
+            },
+            duration: {
+                expected: "number or string that can be cast to int",
+                got: arr.hasOwnProperty("duration") ? typeof(arr.duration) : undefined,
+            }
+        };
+        socket.emit('update_required', result);
     }
 }
 
@@ -184,19 +247,39 @@ function voteUndecided(msg, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(msg) === 'object' && msg !== undefined && msg !== null){
 
-        if(coll == "" || coll == undefined || coll == null || !msg.hasOwnProperty("adminpass") || !msg.hasOwnProperty("pass") || !msg.hasOwnProperty("id")) {
-            socket.emit("update_required");
-            return;
-        }
-
-        if(typeof(msg.channel) != "string" || typeof(msg.id) != "string" ||
-            typeof(msg.type) != "string" || typeof(msg.adminpass) != "string" ||
-            typeof(msg.pass) != "string") {
-                socket.emit("update_required");
+        if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("id") ||
+            !msg.hasOwnProperty("type") || !msg.hasOwnProperty("adminpass") ||
+            !msg.hasOwnProperty("pass") || typeof(msg.pass) != "string" ||
+            typeof(msg.channel) != "string" || typeof(msg.id) != "string" ||
+            typeof(msg.type) != "string" || typeof(msg.adminpass) != "string") {
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    id: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("id") ? typeof(msg.id) : undefined,
+                    },
+                    type: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("type") ? typeof(msg.type) : undefined,
+                    },
+                    adminpass: {
+                        expected: "adminpass",
+                        got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                };
+                socket.emit('update_required', result);
                 return;
             }
+        coll = msg.channel.toLowerCase();;
 
-        db.collection(coll + "_settings").find(function(err, docs){
+        db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
@@ -218,84 +301,99 @@ function voteUndecided(msg, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            msg: {
+                expected: "object",
+                got: typeof(msg)
+            }
+        };
+        socket.emit('update_required', result);
     }
 }
 
 function shuffle(msg, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
-    if(msg.hasOwnProperty('adminpass') && msg.adminpass !== undefined && msg.adminpass !== null)
-    {
-        if(coll == "" || coll == undefined || coll == null) {
-            socket.emit("update_required");
+
+
+    if(!msg.hasOwnProperty("adminpass") || !msg.hasOwnProperty("channel") ||
+        !msg.hasOwnProperty("pass") || typeof(msg.adminpass) != "string" ||
+        typeof(msg.channel) != "string" || typeof(msg.pass) != "string") {
+            var result = {
+                channel: {
+                    expected: "string",
+                    got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                },
+                adminpass: {
+                    expected: "adminpass",
+                    got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                },
+                pass: {
+                    expected: "string",
+                    got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                },
+            };
+            socket.emit('update_required', result);
             return;
         }
+    coll = msg.channel.toLowerCase();
 
-        if(typeof(msg.adminpass) != "string" || typeof(msg.channel) != "string" ||
-            typeof(msg.pass) != "string") {
-                socket.emit("update_required");
+    db.collection("timeout_api").find({
+        type: "shuffle",
+        guid: coll,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + 5);
+            var now = new Date();
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            if(retry_in > 0) {
+                socket.emit("toast", "wait_longer");
                 return;
             }
-
-        db.collection("timeout_api").find({
-            type: "shuffle",
-            guid: coll,
-        }, function(err, docs) {
-            if(docs.length > 0) {
-                var date = new Date(docs[0].createdAt);
-                date.setSeconds(date.getSeconds() + 5);
-                var now = new Date();
-                var retry_in = (date.getTime() - now.getTime()) / 1000;
-                if(retry_in > 0) {
-                    socket.emit("toast", "wait_longer");
-                    return;
-                }
-            }
-            var now_date = new Date();
-            db.collection("timeout_api").update({type: "shuffle", guid: coll}, {
-                $set: {
-                    "createdAt": now_date,
-                    type: "shuffle",
-                    guid: coll,
-                },
-            }, {upsert: true}, function(err, docs) {
-                Functions.check_inlist(coll, guid, socket, offline);
-                var hash;
-                if(msg.adminpass === "") hash = msg.adminpass;
-                else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-                db.collection(coll + "_settings").find(function(err, docs){
-                    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
-                        if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
-                        {
-                            db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
-                                if(!docs){
-                                    List.send_list(coll, undefined, false, true, false, true);
-                                    socket.emit("toast", "shuffled");
-
-                                    return;
-                                }else{
-                                    num = Math.floor(Math.random()*1000000);
-                                    db.collection(coll).update({id:docs.id}, {$set:{added:num}});
-                                }
-                            });
-                        }else
-                        socket.emit("toast", "wrongpass");
-                    } else {
-                        socket.emit("auth_required");
-                    }
-                });
-
-                var complete = function(tot, curr){
-                    if(tot == curr)
+        }
+        var now_date = new Date();
+        db.collection("timeout_api").update({type: "shuffle", guid: coll}, {
+            $set: {
+                "createdAt": now_date,
+                type: "shuffle",
+                guid: coll,
+            },
+        }, {upsert: true}, function(err, docs) {
+            Functions.check_inlist(coll, guid, socket, offline);
+            var hash;
+            if(msg.adminpass === "") hash = msg.adminpass;
+            else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+            db.collection(coll + "_settings").find(function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
+                    if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
                     {
-                        List.send_list(coll, undefined, false, true, false);
-                        List.getNextSong(coll);
-                    }
-                };
+                        db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
+                            if(!docs){
+                                List.send_list(coll, undefined, false, true, false, true);
+                                socket.emit("toast", "shuffled");
+
+                                return;
+                            }else{
+                                num = Math.floor(Math.random()*1000000);
+                                db.collection(coll).update({id:docs.id}, {$set:{added:num}});
+                            }
+                        });
+                    }else
+                    socket.emit("toast", "wrongpass");
+                } else {
+                    socket.emit("auth_required");
+                }
             });
+
+            var complete = function(tot, curr){
+                if(tot == curr)
+                {
+                    List.send_list(coll, undefined, false, true, false);
+                    List.getNextSong(coll);
+                }
+            };
         });
-    }else
-    socket.emit("toast", "wrongpass");
+    });
 }
 
 function del(params, socket, socketid) {
@@ -328,15 +426,30 @@ function del(params, socket, socketid) {
 
 function delete_all(msg, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
-    if(typeof(msg) == 'object' && msg.hasOwnProperty('channel') && msg.hasOwnProperty('adminpass') && msg.hasOwnProperty('pass')) {
-        var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-        var hash_userpass = Functions.decrypt_string(socketid, msg.pass);
-
-        if(typeof(msg.channel) != "string" || typeof(msg.adminpass) != "string" ||
-            typeof(msg.pass) != "string") {
-                socket.emit("update_required");
+    if(typeof(msg) == 'object' ) {
+        if(!msg.hasOwnProperty('channel') || !msg.hasOwnProperty('adminpass') ||
+         !msg.hasOwnProperty('pass') || typeof(msg.channel) != "string" ||
+         typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    adminpass: {
+                        expected: "adminpass",
+                        got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                };
+                socket.emit('update_required', result);
                 return;
             }
+
+            var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+            var hash_userpass = Functions.decrypt_string(socketid, msg.pass);
         db.collection(coll + "_settings").find(function(err, conf) {
             if(conf.length == 1 && conf) {
                 conf = conf[0];
@@ -352,7 +465,13 @@ function delete_all(msg, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit("update_required");
+        var result = {
+            msg: {
+                expected: "object",
+                got: typeof(msg)
+            },
+        };
+        socket.emit('update_required', result);
         return;
     }
 }

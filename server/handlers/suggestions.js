@@ -2,7 +2,25 @@ function thumbnail(msg, coll, guid, offline, socket) {
     if(msg.thumbnail && msg.channel && msg.adminpass && msg.thumbnail.indexOf("i.imgur.com") > -1){
         if(typeof(msg.channel) != "string" || typeof(msg.thumbnail) != "string" ||
             typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
-                socket.emit("update_required");
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                    thumbnail: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("thumbnail") ? typeof(msg.thumbnail) : undefined,
+                    },
+                    adminpass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                    },
+                };
+                socket.emit("update_required", result);
                 return;
             }
         msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
@@ -30,7 +48,25 @@ function description(msg, coll, guid, offline, socket) {
     if(msg.description && msg.channel && msg.adminpass && msg.description.length < 100){
         if(typeof(msg.channel) != "string" || typeof(msg.description) != "string" ||
             typeof(msg.adminpass) != "string" || typeof(msg.pass) != "string") {
-                socket.emit("update_required");
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                    description: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("description") ? typeof(msg.description) : undefined,
+                    },
+                    adminpass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                    },
+                };
+                socket.emit("update_required", result);
                 return;
             }
         var channel = msg.channel.toLowerCase();

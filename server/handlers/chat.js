@@ -29,10 +29,24 @@ function chat(msg, guid, offline, socket) {
      !msg.hasOwnProperty('channel') || !msg.hasOwnProperty('pass') ||
      typeof(msg.data) != "string" || typeof(msg.channel) != "string" ||
      typeof(msg.pass) != "string") {
-        socket.emit('update_required');
+         var result = {
+             data: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("data") ? typeof(msg.data) : undefined,
+             },
+             channel: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined
+             },
+             pass: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined
+             }
+         };
+        socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel;
+    var coll = msg.channel.toLowerCase();
     db.collection(coll + "_settings").find(function(err, docs){
         if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socket.zoff_id, msg.pass)))) {
             var data = msg.data;
@@ -64,10 +78,20 @@ function all_chat(msg, guid, offline, socket) {
     if(typeof(msg) !== 'object' || !msg.hasOwnProperty("channel") ||
      !msg.hasOwnProperty("data") || typeof(msg.data) != "string" ||
      typeof(msg.channel) != "string") {
-        socket.emit('update_required');
+         var result = {
+             data: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("data") ? typeof(msg.data) : undefined,
+             },
+             channel: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined
+             }
+         };
+        socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel;
+    var coll = msg.channel.toLowerCase();
     var data = msg.data;
 
     Functions.check_inlist(coll, guid, socket, offline);

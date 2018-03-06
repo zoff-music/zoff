@@ -93,7 +93,11 @@ var Channel = {
         if(socket === undefined || Helper.mobilecheck()){
             no_socket = false;
             socket = io.connect(''+add+':8080', connection_options);
-            socket.on('update_required', function() {
+            socket.on('update_required', function(msg) {
+                if(window.location.hostname == "localhost") {
+                    console.log(msg);
+                    return;
+                }
                 window.location.reload(true);
             });
         }
