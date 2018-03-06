@@ -406,9 +406,8 @@ module.exports = function() {
                 }
             }
 
-            if(coll == "" || coll == undefined || coll == null || 
-            !obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
-            obj.hasOwnProperty("pass") || typeof(obj.pass) != "string") {
+            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
+            !obj.hasOwnProperty("pass") || typeof(obj.pass) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
