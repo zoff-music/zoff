@@ -187,7 +187,7 @@ function skip(list, guid, coll, offline, socket) {
                                         else
                                         to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
                                         socket.emit("toast", to_skip + " more are needed to skip!");
-                                        socket.broadcast.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                        socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
                                     });
                                 }else{
                                     socket.emit("toast", "alreadyskip");
@@ -212,7 +212,7 @@ function skip(list, guid, coll, offline, socket) {
     }
 }
 
-function change_song(coll, error, id, callback) {
+function change_song(coll, error, id, callback, socket) {
     db.collection(coll + "_settings").find(function(err, docs){
         var startTime = docs[0].startTime;
         if(docs !== null && docs.length !== 0)
@@ -244,7 +244,7 @@ function change_song(coll, error, id, callback) {
                                 db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                                     var next_song;
                                     if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                    List.change_song_post(coll, next_song, callback);
+                                    List.change_song_post(coll, next_song, callback, socket);
                                     if(!callback) {
                                         io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                                     }
@@ -262,7 +262,7 @@ function change_song(coll, error, id, callback) {
                                         },{multi:true}, function(err, docs){
                                             var next_song;
                                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                            if(docs.n >= 1) List.change_song_post(coll, next_song, callback);
+                                            if(docs.n >= 1) List.change_song_post(coll, next_song, callback, socket);
                                         });
                                     });
                                 }
@@ -273,7 +273,7 @@ function change_song(coll, error, id, callback) {
                         db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                             var next_song;
                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                            List.change_song_post(coll, next_song, callback);
+                            List.change_song_post(coll, next_song, callback, socket);
                             if(!callback) {
                                 io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                             }
@@ -291,7 +291,7 @@ function change_song(coll, error, id, callback) {
                             },{multi:true}, function(err, docs){
                                 var next_song;
                                 if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                List.change_song_post(coll, next_song, callback);
+                                List.change_song_post(coll, next_song, callback, socket);
                             });
                         }
                     }
@@ -303,7 +303,7 @@ function change_song(coll, error, id, callback) {
     });
 }
 
-function change_song_post(coll, next_song, callback)
+function change_song_post(coll, next_song, callback, socket)
 {
     db.collection(coll).aggregate([{
         $match:{
@@ -349,6 +349,8 @@ function change_song_post(coll, next_song, callback)
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
                             List.send_play(coll);
                         } else {
+                            socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+                            List.send_play(coll, socket, true);
                             callback();
                         }
                         Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
@@ -418,7 +420,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                             if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
                                 List.change_song(coll, false, np_docs[0].id, function() {
                                     List.send_list(coll, socket, send, list_send, configs, shuffled);
-                                });
+                                }, socket);
                             } else {
                                 if(list_send) {
                                     io.to(coll).emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
@@ -538,7 +540,7 @@ function end(obj, coll, guid, offline, socket) {
     }
 }
 
-function send_play(coll, socket)
+function send_play(coll, socket, broadcast)
 {
     db.collection(coll).find({now_playing:true}, function(err, np){
         db.collection(coll + "_settings").find(function(err, conf){
@@ -560,12 +562,21 @@ function send_play(coll, socket)
                         List.getNextSong(coll)
                         sendColor(coll, false, np[0].id);
                     } else {
-                        socket.emit("np", toSend);
                         sendColor(coll, socket, np[0].id);
+                        if(broadcast) {
+                            socket.to(coll).emit("np", toSend);
+                            return;
+                        }
+                        socket.emit("np", toSend);
                     }
                 }
             } catch(e){
+                console.log(e);
                 if(socket) {
+                    if(broadcast) {
+                        socket.to(coll).emit("np", {});
+                        return;
+                    }
                     socket.emit("np", {});
                 } else {
                     io.to(coll).emit("np", {});
