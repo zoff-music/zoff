@@ -18,6 +18,7 @@ var mail_config = {
     },
     from: 'no-reply@zoff.me',
     to: 'contact@zoff.me'
+    notify_mail: 'notify@mail.example',
 };
 
 module.exports = mail_config;
