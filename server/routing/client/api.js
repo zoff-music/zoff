@@ -119,7 +119,19 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
     res.header({"Content-Type": "application/json"});
     if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
         !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id')) {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var result = {
+            adminpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("adminpass") ? typeof(req.body.adminpass) : undefined,
+            },
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
     var token = "";
@@ -138,7 +150,19 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
                 throw "Wrong format";
             }
     } catch(e) {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var result = {
+            adminpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("adminpass") ? typeof(req.body.adminpass) : undefined,
+            },
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
 
@@ -202,20 +226,20 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
-        !req.params.hasOwnProperty('channel_name') || !req.body.hasOwnProperty('vote') ||
-        !req.body.hasOwnProperty('addsongs') || !req.body.hasOwnProperty('longsongs') ||
-        !req.body.hasOwnProperty('frontpage') || !req.body.hasOwnProperty('allvideos') ||
-        !req.body.hasOwnProperty('skip') || !req.body.hasOwnProperty('shuffle') ||
-        !req.body.hasOwnProperty('userpass_changed')) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
-    var token = "";
-    if(req.body.hasOwnProperty("token")) {
-        token = req.body.token;
-    }
     try {
+        if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
+            !req.params.hasOwnProperty('channel_name') || !req.body.hasOwnProperty('vote') ||
+            !req.body.hasOwnProperty('addsongs') || !req.body.hasOwnProperty('longsongs') ||
+            !req.body.hasOwnProperty('frontpage') || !req.body.hasOwnProperty('allvideos') ||
+            !req.body.hasOwnProperty('skip') || !req.body.hasOwnProperty('shuffle') ||
+            !req.body.hasOwnProperty('userpass_changed')) {
+            throw "Wrong format";
+        }
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
+
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var adminpass = req.body.adminpass == "" ? "" : Functions.hash_pass(crypto.createHash('sha256').update(req.body.adminpass, 'utf8').digest("hex"));
@@ -240,7 +264,47 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
                 throw "Wrong format";
             }
     } catch(e) {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var result = {
+            adminpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("adminpass") ? typeof(req.body.adminpass) : undefined,
+            },
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined,
+            },
+            vote: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("vote") ? typeof(req.body.vote) : undefined,
+            },
+            addsongs: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("addsongs") ? typeof(req.body.addsongs) : undefined,
+            },
+            longsongs: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("longsongs") ? typeof(req.body.longsongs) : undefined,
+            },
+            frontpage: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("frontpage") ? typeof(req.body.frontpage) : undefined,
+            },
+            skip: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("skip") ? typeof(req.body.skip) : undefined,
+            },
+            shuffle: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("shuffle") ? typeof(req.body.shuffle) : undefined,
+            },
+            userpass_changed: {
+                expected: "boolean",
+                got: req.body.hasOwnProperty("userpass_changed") ? typeof(req.body.userpass_changed) : undefined,
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(result));
         return;
     }
 
@@ -322,16 +386,15 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
-        !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id')) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
-    var token = "";
-    if(req.body.hasOwnProperty("token")) {
-        token = req.body.token;
-    }
     try {
+        if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
+            !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id')) {
+            throw "Wrong format";
+        }
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var adminpass = req.body.adminpass == "" ? "" : Functions.hash_pass(crypto.createHash('sha256').update(req.body.adminpass, 'utf8').digest("hex"));
@@ -343,7 +406,19 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                 throw "Wrong format";
             }
     } catch(e) {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var result = {
+            adminpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("adminpass") ? typeof(req.body.adminpass) : undefined,
+            },
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
 
@@ -402,23 +477,33 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
+    try {
+        if(!req.body.hasOwnProperty('userpass')) {
+            throw "Wrong format";
+        }
 
-    if(!req.body.hasOwnProperty('userpass')) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
-
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-    var channel_name = req.params.channel_name;
-    req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
-    var userpass = req.body.userpass;
-    var token = "";
-    if(req.body.hasOwnProperty("token")) {
-        token = req.body.token;
-    }
-    if(typeof(userpass) != "string") {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+        var channel_name = req.params.channel_name;
+        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        var userpass = req.body.userpass;
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
+        if(typeof(userpass) != "string") {
+            throw "Wrong format";
+        }
+    } catch(e) {
+        var result = {
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
     token_db.collection("api_token").find({token: token}, function(err, token_docs) {
@@ -474,14 +559,14 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     if(req.body.hasOwnProperty("token")) {
         token = req.body.token;
     }
-    if(!fetch_only && (!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
-        !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id') ||
-        !req.body.hasOwnProperty('duration') || !req.body.hasOwnProperty('start_time') ||
-        !req.body.hasOwnProperty('end_time') || !req.body.hasOwnProperty('title'))) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
     try {
+        if(!fetch_only && (!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
+            !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id') ||
+            !req.body.hasOwnProperty('duration') || !req.body.hasOwnProperty('start_time') ||
+            !req.body.hasOwnProperty('end_time') || !req.body.hasOwnProperty('title'))) {
+            throw "Wrong format";
+        }
+
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
@@ -496,12 +581,40 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             if(duration != end_time - start_time) duration = end_time - start_time;
             var title = req.body.title;
             if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
-                typeof(title) != "string") {
+                typeof(title) != "string" || isNaN(duration) || isNaN(start_time) || isNaN(end_time)) {
                     throw "Wrong format";
                 }
         }
     } catch(e) {
-        res.status(400).send(JSON.stringify(error.formatting));
+        var result = {
+            adminpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("adminpass") ? typeof(req.body.adminpass) : undefined,
+            },
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            },
+            title: {
+                expected: "string",
+                got: req.body.hasOwnProperty("title") ? typeof(req.body.title) : undefined
+            },
+            start_time: {
+                expected: "number or string that can be cast to int",
+                got: !req.body.hasOwnProperty("start_time") ? undefined : isNaN(req.body.start_time) ? "uncastable string" : typeof(req.body.start_time)
+            },
+            end_time: {
+                expected: "number or string that can be cast to int",
+                got: !req.body.hasOwnProperty("end_time") ? undefined : isNaN(req.body.end_time) ? "uncastable string" : typeof(req.body.end_time)
+            },
+            duration: {
+                expected: "number or string that can be cast to int",
+                got: !req.body.hasOwnProperty("duration") ? undefined : isNaN(req.body.duration) ? "uncastable string" : typeof(req.body.duration)
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
 
@@ -693,22 +806,33 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    if(!req.body.hasOwnProperty('userpass')) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
-    var token = "";
-    if(req.body.hasOwnProperty("token")) {
-        token = req.body.token;
-    }
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-    var channel_name = req.params.channel_name;
-    req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
-    var userpass = req.body.userpass;
+    try {
+        if(!req.body.hasOwnProperty('userpass')) {
+            throw "Wrong format"
+        }
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+        var channel_name = req.params.channel_name;
+        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        var userpass = req.body.userpass;
 
-    if(typeof(userpass) != "string") {
-        res.status(400).send(JSON.stringify(error.formatting));
+        if(typeof(userpass) != "string") {
+            throw "Wrong format";
+        }
+    } catch(e) {
+        var result = {
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
 
@@ -793,23 +917,34 @@ router.route('/api/list/:channel_name').post(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    if(!req.body.hasOwnProperty('userpass')) {
-        res.status(400).send(JSON.stringify(error.formatting));
-        return;
-    }
+    try {
+        if(!req.body.hasOwnProperty('userpass')) {
+            throw "Wrong format";
+        }
 
-    var token = "";
-    if(req.body.hasOwnProperty("token")) {
-        token = req.body.token;
-    }
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-    var channel_name = req.params.channel_name;
-    req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
-    var userpass = req.body.userpass;
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+        var channel_name = req.params.channel_name;
+        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        var userpass = req.body.userpass;
 
-    if(typeof(userpass) != "string") {
-        res.status(400).send(JSON.stringify(error.formatting));
+        if(typeof(userpass) != "string") {
+            throw "Wrong format";
+        }
+    } catch(e) {
+        var result = {
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results.push(result);
+        res.status(400).send(JSON.stringify(to_send));
         return;
     }
 

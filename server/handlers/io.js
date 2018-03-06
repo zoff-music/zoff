@@ -54,7 +54,7 @@ module.exports = function() {
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
-                            coll = msg.channel;
+                            coll = msg.channel.toLowerCase();
                             in_list = true;
                             chromecast_object = true;
                             socket.join(coll);
@@ -108,7 +108,13 @@ module.exports = function() {
 
         socket.on("removename", function(msg) {
             if(typeof(msg) != "object" || !msg.hasOwnProperty("channel")) {
-                socket.emit("update_required");
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    }
+                };
+               socket.emit('update_required', result);
                 return;
             }
             Chat.removename(guid, msg.channel);
@@ -117,7 +123,17 @@ module.exports = function() {
         socket.on("offline", function(msg){
             if(!msg.hasOwnProperty('status') || !msg.hasOwnProperty('channel') ||
             typeof(msg.status) != "boolean" || typeof(msg.channel) != "string") {
-                socket.emit("update_required");
+                var result = {
+                    status: {
+                        expected: "boolean",
+                        got: msg.hasOwnProperty("status") ? typeof(msg.status) : undefined,
+                    },
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined
+                    }
+                };
+               socket.emit('update_required', result);
                 return;
             }
             var status = msg.status;
@@ -164,7 +180,21 @@ module.exports = function() {
         socket.on('get_history', function(msg) {
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
-                socket.emit("update_required");
+                var result = {
+                    all: {
+                        expected: "boolean",
+                        got: msg.hasOwnProperty("all") ? typeof(msg.all) : undefined,
+                    },
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    }
+                };
+               socket.emit('update_required', result);
                 return;
             }
             Chat.get_history(msg.channel, msg.all, socket);
@@ -219,7 +249,7 @@ module.exports = function() {
         {
             if(coll === undefined) {
                 try {
-                    coll = obj.channel;
+                    coll = obj.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -252,7 +282,7 @@ module.exports = function() {
         socket.on('delete_all', function(msg) {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel;
+                    coll = msg.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -270,7 +300,7 @@ module.exports = function() {
         {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel;
+                    coll = msg.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -302,7 +332,7 @@ module.exports = function() {
         {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel;
+                    coll = msg.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -319,7 +349,7 @@ module.exports = function() {
         {
             if(coll === undefined && obj !== undefined && obj.channel !== undefined){
                 try {
-                    coll = obj.channel;
+                    coll = obj.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -364,7 +394,7 @@ module.exports = function() {
             (obj.hasOwnProperty("pass") && typeof(obj.pass) != "string"))
             if(coll !== undefined) {
                 try {
-                    coll = obj.channel;
+                    coll = obj.channel.toLowerCase();
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -375,8 +405,20 @@ module.exports = function() {
                 }
             }
 
-            if(coll == "" || coll == undefined || coll == null) {
-                socket.emit("update_required");
+            if(coll == "" || coll == undefined || coll == null || 
+            !obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
+            obj.hasOwnProperty("pass") || typeof(obj.pass) != "string") {
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: obj.hasOwnProperty("channel") ? typeof(obj.channel) : undefined
+                    },
+                    pass: {
+                        expected: "string",
+                        got: obj.hasOwnProperty("pass") ? typeof(obj.pass) : undefined
+                    }
+                };
+                socket.emit('update_required', result);
                 return;
             }
 

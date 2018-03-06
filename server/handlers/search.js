@@ -69,7 +69,17 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
 function check_error_video(msg, channel) {
     if(!msg.hasOwnProperty("id") || !msg.hasOwnProperty("title") ||
      typeof(msg.id) != "string" || typeof(msg.title) != "string") {
-        socket.emit("update_required");
+         var result = {
+             id: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("id") ? typeof(msg.id) : undefined,
+             },
+             title: {
+                 expected: "string",
+                 got: msg.hasOwnProperty("title") ? typeof(msg.title) : undefined,
+             },
+         };
+         socket.emit("update_required", result);
         return;
     }
 

@@ -1,6 +1,12 @@
 function frontpage_lists(msg, socket) {
     if(msg == undefined || !msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
-        socket.emit("update_required");
+        var result = {
+            version: {
+                expected: VERSION,
+                got: msg.hasOwnProperty("version") ? msg.version : undefined,
+            }
+        };
+        socket.emit('update_required', result);
         return;
     }
 

@@ -20,18 +20,29 @@ function now_playing(list, fn, socket) {
 function list(msg, guid, coll, offline, socket) {
     var socketid = socket.zoff_id;
 
-    if(typeof(msg) === 'object' && msg !== undefined && msg !== null && msg.hasOwnProperty("channel") && msg.hasOwnProperty('pass'))
+    if(typeof(msg) === 'object' && msg !== undefined && msg !== null)
     {
-        if(!msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined ||
+        if(!msg.hasOwnProperty('version') || !msg.hasOwnProperty("channel") || !msg.hasOwnProperty("pass") ||
+         msg.version != VERSION || msg.version == undefined ||
         typeof(msg.channel) != "string" || typeof(msg.pass) != "string") {
-            socket.emit("update_required");
+            var result = {
+                channel: {
+                    expected: "string",
+                    got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                },
+                version: {
+                    expected: VERSION,
+                    got: msg.version,
+                },
+                pass: {
+                    expected: "string",
+                    got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                },
+            };
+            socket.emit('update_required', result);
             return;
         }
-
-        if(coll == "" || coll == undefined || coll == null) {
-            socket.emit("update_required");
-            return;
-        }
+        coll = msg.channel.toLowerCase();
         var pass = Functions.decrypt_string(socketid, msg.pass);
         db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
             if(frontpage_lists.length == 1)
@@ -70,7 +81,13 @@ function list(msg, guid, coll, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            msg: {
+                expected: "object",
+                got: typeof(msg)
+            },
+        };
+        socket.emit('update_required', result);
     }
 }
 
@@ -79,10 +96,10 @@ function skip(list, guid, coll, offline, socket) {
 
     if(list !== undefined && list !== null && list !== "")
     {
-        if(coll == undefined && list.hasOwnProperty('channel')) coll = list.channel;
+        if(coll == undefined && list.hasOwnProperty('channel')) coll = list.channel.toLowerCase();
         if(coll !== undefined) {
             try {
-                coll = list.channel;
+                coll = list.channel.toLowerCase();
                 if(coll.length == 0) return;
                 coll = emojiStrip(coll).toLowerCase();
                 coll = coll.replace("_", "");
@@ -92,9 +109,29 @@ function skip(list, guid, coll, offline, socket) {
                 return;
             }
         }
-        if(typeof(list.pass) != "string" || typeof(list.id) != "string" ||
+        if(!list.hasOwnProperty("pass") || !list.hasOwnProperty("userpass") ||
+            !list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
+            typeof(list.pass) != "string" || typeof(list.id) != "string" ||
             typeof(list.channel) != "string" || typeof(list.userpass) != "string") {
-                socket.emit("update_required");
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: list.hasOwnProperty("channel") ? typeof(list.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: list.hasOwnProperty("pass") ? typeof(list.pass) : undefined,
+                    },
+                    userpass: {
+                        expected: "string",
+                        got: list.hasOwnProperty("userpass") ? typeof(list.userpass) : undefined,
+                    },
+                    id: {
+                        expected: "string",
+                        got: list.hasOwnProperty("id") ? typeof(list.id) : undefined,
+                    },
+                };
+                socket.emit('update_required', result);
                 return;
             }
         db.collection(coll + "_settings").find(function(err, docs){
@@ -165,7 +202,13 @@ function skip(list, guid, coll, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            msg: {
+                expected: "object",
+                got: typeof(list),
+            },
+        };
+        socket.emit("update_required", result);
     }
 }
 
@@ -435,9 +478,24 @@ function end(obj, coll, guid, offline, socket) {
 
     if(id !== undefined && id !== null && id !== "") {
 
-        if(coll == "" || coll == undefined || coll == null || typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
+        if(!obj.hasOwnProperty("id") || !obj.hasOwnProperty("channel") || !obj.hasOwnProperty("pass") ||
+            typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
             typeof(obj.pass) != "string") {
-            socket.emit("update_required");
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: obj.hasOwnProperty("channel") ? typeof(obj.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: obj.hasOwnProperty("pass") ? typeof(obj.pass) : undefined,
+                    },
+                    id: {
+                        expected: "string",
+                        got: obj.hasOwnProperty("id") ? typeof(obj.id) : undefined,
+                    },
+                };
+                socket.emit("update_required", result);
             return;
         }
 
@@ -470,7 +528,13 @@ function end(obj, coll, guid, offline, socket) {
             }
         });
     } else {
-        socket.emit('update_required');
+        var result = {
+            msg: {
+                expected: "object",
+                got: typeof(obj)
+            },
+        };
+        socket.emit("update_required", result);
     }
 }
 
