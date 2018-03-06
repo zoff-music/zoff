@@ -103,6 +103,7 @@ var Channel = {
         }
 
         Crypt.init();
+
         setup_auth_listener();
 
         if(Crypt.get_offline()){
@@ -198,9 +199,7 @@ var Channel = {
         setup_admin_listener();
         setup_list_listener();
         setup_chat_listener();
-
-        socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
-        socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
+        get_history();
 
         if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
 
@@ -616,5 +615,18 @@ var Channel = {
                 }
             });
         }
+    }
+}
+
+function get_history() {
+    if(socket.id) {
+        var p = Crypt.get_userpass();
+        var c = Crypt.crypt_pass(p, true);
+        socket.emit("get_history", {channel: chan.toLowerCase(), all: false, pass: embed ? '' : c});
+        socket.emit("get_history", {channel: chan.toLowerCase(), all: true, pass: ""});
+    } else {
+        setTimeout(function() {
+            get_history();
+        }, 50);
     }
 }

@@ -1,4 +1,4 @@
-function get_history(channel, all, socket) {
+function get_history(channel, all, socket, pass) {
     var query = {};
     if(all) {
         query = {
@@ -10,6 +10,18 @@ function get_history(channel, all, socket) {
             channel: channel,
         };
     }
+    if(!query.all) {
+        db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
+            if(conf.length > 0 && conf[0].userpass == "" || conf[0].userpass == Functions.decrypt_string(socket.zoff_id, pass)) {
+                getAndSendLogs(channel, all, socket, pass, query);
+            }
+        });
+    } else {
+        getAndSendLogs(channel, all, socket, pass, query);
+    }
+}
+
+function getAndSendLogs(channel, all, socket, pass, query) {
     db.collection("chat_logs").find(query, {
         from: 1,
         createdAt: 1,
