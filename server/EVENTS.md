@@ -6,19 +6,19 @@
 'end', {
     id: video_id,
     channel: channel_name,
-    pass: channel_pass
+    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
 }
 
 // Asks server where in the song it should be
 'pos', {
     channel: channel_name,
-    pass: channel_pass
+    pass: cAES-CBC-Pkcs7 with Base64 IV(hannel_pass)
 }
 
 // Tells the server the client wants the list
 'list', {
     channel: channel_name,
-    pass: channel_pass,
+    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass),
     version: system_version (can be checked in VERSION.js)
 }
 
@@ -32,7 +32,7 @@
     playlist: true_if_importing_playlist,
     num: current_number_of_sending_songs,
     total: total_number_of_sending_songs,
-    pass: channel_pass
+    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
 }
 
 // Tells the server to disconnect the user from the current channel, is used for remote controlling on the host side
@@ -50,7 +50,7 @@
 'chat',{
     channel: channel_name,
     data: input,
-    pass: channel_pass
+    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
 }
 
 // Sends info about song the user wants to vote on. If VOTE_TYPE is del, its deleting the song, if its pos, its just voting
@@ -65,7 +65,7 @@
 'shuffle', {
     adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
     channel: CHANNELNAME,
-    pass: USER_PASSWORD
+    pass: AES-CBC-Pkcs7 with Base64 IV(USER_PASSWORD)
 }
 
 // Sends skip message to server
@@ -73,14 +73,14 @@
     pass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
     id:video_id,
     channel: chan,
-    userpass: channel_pass
+    userpass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
 }
 
 // Sends password for instant log in to server
 'password', {
-    password: PASSWORD,
+    password: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
     channel: CHANNEL_NAME,
-    oldpass: old_pass_if_changing_password
+    oldpass: AES-CBC-Pkcs7 with Base64 IV(old_pass_if_changing_password)
 }
 
 // Sends message to the host channel for play
@@ -120,9 +120,16 @@
 
 // Sends a video that triggered an error
 'error_video', {
-    channel: CHANNE_NAME,
+    channel: CHANNEL_NAME,
     id: VIDEO_ID,
     title: VIDEO_TITLE
+}
+
+// Requests chat-history from the last 10 minutes
+'get_history', {
+    channel: CHANNEL_NAME,
+    all: BOOLEAN (if true, it requests  for all-chat),
+    pass: AES-CBC-Pkcs7 with Base64 IV(USERPASS)
 }
 ```
 
