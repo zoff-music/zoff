@@ -619,7 +619,7 @@ var Channel = {
 }
 
 function get_history() {
-    if(socket.id) {
+    if(socket && socket.id) {
         var p = Crypt.get_userpass();
         var c = Crypt.crypt_pass(p, true);
         socket.emit("get_history", {channel: chan.toLowerCase(), all: false, pass: embed ? '' : c});
