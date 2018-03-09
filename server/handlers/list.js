@@ -571,7 +571,6 @@ function send_play(coll, socket, broadcast)
                     }
                 }
             } catch(e){
-                console.log(e);
                 if(socket) {
                     if(broadcast) {
                         socket.to(coll).emit("np", {});
