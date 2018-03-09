@@ -146,6 +146,7 @@ if(!Helper.mobilecheck()) {
     window.onerror = function(e) {
         if(e == "Script error.") return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
+        Helper.logs.unshift({log: chan.toLowerCase(), date: new Date()});
         $(".contact-form-content").remove();
         $("#submit-contact-form").remove();
         $(".contact-modal-header").text("An error occurred");
