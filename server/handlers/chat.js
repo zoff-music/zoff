@@ -12,8 +12,10 @@ function get_history(channel, all, socket, pass) {
     }
     if(!query.all) {
         db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
-            if(conf.length > 0 && conf[0].userpass == "" || conf[0].userpass == Functions.decrypt_string(socket.zoff_id, pass)) {
-                getAndSendLogs(channel, all, socket, pass, query);
+            if(conf.length > 0) {
+                if(conf[0].userpass == "" || conf[0].userpass == Functions.decrypt_string(socket.zoff_id, pass)) {
+                    getAndSendLogs(channel, all, socket, pass, query);
+                }
             }
         });
     } else {

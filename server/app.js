@@ -78,10 +78,10 @@ function startSingle(clustered, redis_enabled) {
             ca: ca
         };
         var https = require('https');
-        server = https.Server(credentials, routingFunction);
+        server = require('http2').createSecureServer(credentials, routingFunction);
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        server = http.createServer(routingFunction);
+        server = require('http2').createServer(routingFunction);
     }
 
     if(clustered) {

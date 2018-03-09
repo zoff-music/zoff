@@ -423,8 +423,7 @@ var Frontpage = {
 
         Helper.log([
             "Sending frontpage_lists",
-            "Socket",
-            socket
+            "Socket"
         ]);
 
         Crypt.init();

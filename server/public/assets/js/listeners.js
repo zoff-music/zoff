@@ -143,10 +143,10 @@ window.zoff = {
 }
 
 if(!Helper.mobilecheck()) {
-    window.onerror = function(e) {
+    window.onerror = function(e, source, lineno, colno, error) {
         if(e == "Script error.") return true;
-        Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date()});
-        Helper.logs.unshift({log: chan.toLowerCase(), date: new Date()});
+        Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
+        Helper.logs.unshift({log: chan != "" && chan != undefined ? chan.toLowerCase() : "frontpage", date: new Date()});
         $(".contact-form-content").remove();
         $("#submit-contact-form").remove();
         $(".contact-modal-header").text("An error occurred");
@@ -1139,7 +1139,8 @@ $(document).on('submit', "#error-report-form", function(e) {
                 $("#error-report-form").remove();
                 $(".error-code-container").remove();
                 $(".error-report-success").text("Error report sent!");
-                $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
+                $("#contact-container").html("Mail has been sent, we'll be back with you shortly.");
+                window.location.reload(true);
             }else{
                 $(".error-report-success").text("Mail was not sent, try again");
             }
@@ -1151,7 +1152,7 @@ $(document).on('submit', "#error-report-form", function(e) {
 $(document).on( "click", "#add-many", function(e){
     var id 		= $(this).attr("data-video-id");
     var title 	= $(this).attr("data-video-title");
-    var original_length 	= $(this).attr("data-video-length");
+    var original_length = $(this).attr("data-video-length");
     var parent = $(this).parent().parent();
 
     var start   = parseInt($(parent).find(".result-start").val());
