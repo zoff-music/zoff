@@ -1,10 +1,10 @@
 var cluster = require('cluster'),
-    net = require('net'),
-    path = require('path'),
-    //publicPath = path.join(__dirname, 'public'),
-    http = require('http'),
-    port = 8080,
-    num_processes = require('os').cpus().length;
+net = require('net'),
+path = require('path'),
+//publicPath = path.join(__dirname, 'public'),
+http = require('http'),
+port = 8080,
+num_processes = require('os').cpus().length;
 
 publicPath = path.join(__dirname, 'public');
 pathThumbnails = __dirname;
@@ -78,10 +78,10 @@ function startSingle(clustered, redis_enabled) {
             ca: ca
         };
         var https = require('https');
-        server = require('http2').createSecureServer(credentials, routingFunction);
+        server = https.Server(credentials, routingFunction);
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        server = require('http2').createServer(routingFunction);
+        server = http.createServer(routingFunction);
     }
 
     if(clustered) {
