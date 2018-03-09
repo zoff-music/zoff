@@ -186,7 +186,7 @@ var Frontpage = {
 
     add_backdrop: function(list, i) {
         if(i >= list.length || i >= 20) i = 0;
-
+        if(list[i] == undefined) return;
         var id = list[i].id;
         if(Frontpage.blob_list[i] !== undefined){
             //$(".room-namer").css("opacity", 0);

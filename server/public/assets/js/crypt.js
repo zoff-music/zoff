@@ -57,17 +57,19 @@ var Crypt = {
     },
 
     decrypt_pass: function(pass) {
-        var key = btoa(socket.id) + btoa(socket.id);
-        key = key.substring(0,32);
-        key = btoa(key);
-        var decrypted = CryptoJS.AES.decrypt(
-            pass,key,
-            {
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.Pkcs7
-            }
-        );
-        return decrypted.toString(CryptoJS.enc.Utf8);
+        if(socket) {
+            var key = btoa(socket.id) + btoa(socket.id);
+            key = key.substring(0,32);
+            key = btoa(key);
+            var decrypted = CryptoJS.AES.decrypt(
+                pass,key,
+                {
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                }
+            );
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        } return false;
     },
 
     encrypt: function(json_formated, cookie) {
