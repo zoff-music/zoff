@@ -142,7 +142,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var adminpass = req.body.adminpass == "" ? "" : Functions.hash_pass(crypto.createHash('sha256').update(req.body.adminpass, 'utf8').digest("hex"));
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
         var channel_name = cleanChannelName(req.params.channel_name);
         var video_id = req.params.video_id;
@@ -243,7 +243,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var adminpass = req.body.adminpass == "" ? "" : Functions.hash_pass(crypto.createHash('sha256').update(req.body.adminpass, 'utf8').digest("hex"));
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
         var voting = req.body.vote;
         var addsongs = req.body.addsongs;
@@ -398,7 +398,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var adminpass = req.body.adminpass == "" ? "" : Functions.hash_pass(crypto.createHash('sha256').update(req.body.adminpass, 'utf8').digest("hex"));
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
         var channel_name = cleanChannelName(req.params.channel_name);
         var video_id = req.params.video_id;
@@ -485,7 +485,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = req.params.channel_name;
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
         var token = "";
         if(req.body.hasOwnProperty("token")) {
@@ -569,7 +569,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
 
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
         var channel_name = cleanChannelName(req.params.channel_name);
         var video_id = req.params.video_id;
@@ -817,7 +817,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = req.params.channel_name;
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
 
         if(typeof(userpass) != "string") {
@@ -916,7 +916,6 @@ router.route('/api/list/:channel_name').post(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-
     try {
         if(!req.body.hasOwnProperty('userpass')) {
             throw "Wrong format";
@@ -929,7 +928,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = req.params.channel_name;
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("hex");
+        req.body.userpass = req.body.userpass == "" ? "" : req.body.userpass;
         var userpass = req.body.userpass;
 
         if(typeof(userpass) != "string") {

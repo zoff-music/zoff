@@ -1,5 +1,10 @@
 var chan 				  		= window.chan === undefined ? $("#chan").html() : window.chan;
 var w_p 				  		= true;
+var domain = window.location.host.split(".");
+var client = false;
+if(domain.length > 0 && domain[0] == "client") {
+    client = true;
+}
 var hasadmin			  		= 0;
 var list_html 			  		= $("#list-song-html").html();
 var unseen 			   	  		= false;
@@ -864,6 +869,10 @@ $(document).on("click", "#pausebutton_remote", function(e) {
 $(document).on("click", "#skipbutton_remote", function(e) {
     e.preventDefault();
     Mobile_remote.skip_remote();
+});
+
+$(document).on("click", ".skip_next_client", function(e) {
+    e.preventDefault();
 });
 
 $(document).on("submit", "#remoteform", function(e) {

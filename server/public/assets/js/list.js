@@ -152,17 +152,20 @@ var List = {
 
     populate_list: function(msg, no_reset) {
         // This math is fucked and I don't know how it works. Should be fixed sometime
-        if(!Helper.mobilecheck() && !embed){
+        if(!Helper.mobilecheck() && !embed && !client){
             List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
         } else if(embed) {
             List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
             List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
-        } else {
+        } else if(!client){
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / 71)+1;
             List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / List.can_fit)-5;
+        } else {
+            List.can_fit = Math.round(($(window).height() - $("header").height() - $("#pageButtons").height()) / 80)+1;
+            List.element_height = (($(window).height() - $("header").height() - $("#pageButtons").height()) / List.can_fit) - 8;
         }
-        if(List.element_height < 55.2){
+        if(List.element_height < 55.2 && !client){
             List.can_fit = List.can_fit - 1;
             List.element_height = 55.2;
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / 71);

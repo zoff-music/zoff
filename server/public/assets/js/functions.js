@@ -136,8 +136,8 @@ function chromecastListener(evt, data) {
     }
 }
 
-function setup_auth_listener() {
-    socket.on('auth_required', function() {
+function start_auth() {
+    if(!user_auth_started) {
         user_auth_started = true;
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
@@ -145,6 +145,24 @@ function setup_auth_listener() {
         Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
         Materialize.toast("That is not the correct password, try again..", 4000);
+    }
+}
+
+function emit_list() {
+    var add = "";
+    if(private_channel) add = Crypt.getCookie("_uI") + "_";
+    if(socket.id) {
+        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+    } else {
+        setTimeout(function(){
+            emit_list();
+        }, 50);
+    }
+}
+
+function setup_auth_listener() {
+    socket.on('auth_required', function() {
+        start_auth();
     });
 
     socket.on('auth_accepted', function(msg) {
@@ -232,7 +250,9 @@ function setup_chat_listener(){
 }
 
 function setup_list_listener(){
-    socket.on("color", Player.setBGimage);
+    //if(!client) {
+        socket.on("color", Player.setBGimage);
+    //}
     socket.on("channel", List.channel_function);
 }
 
@@ -242,13 +262,17 @@ function setup_playlist_listener(){
 }
 
 function setup_host_initialization(){
-    Helper.log(["Setting up host initialization listener"]);
-    socket.on("id", Hostcontroller.host_listener);
+    if(!client) {
+        Helper.log(["Setting up host initialization listener"]);
+        socket.on("id", Hostcontroller.host_listener);
+    }
 }
 
 function setup_host_listener(id){
-    Helper.log(["Setting up host action listener"]);
-    socket.on(id, Hostcontroller.host_on_action);
+    if(!client) {
+        Helper.log(["Setting up host action listener"]);
+        socket.on(id, Hostcontroller.host_on_action);
+    }
 }
 
 function enable_debug(){

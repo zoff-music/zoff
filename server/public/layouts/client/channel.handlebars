@@ -5,7 +5,10 @@
     </div>
     <main class="container center-align main">
         <div id="main-row" class="row">
-            {{> channel/players}}
+            {{#if client}}
+            {{else}}
+                {{> channel/players}}
+            {{/if}}
             {{> channel/tabs}}
         </div>
         <!--<div id="playbar">
