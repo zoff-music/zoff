@@ -536,6 +536,7 @@ var Channel = {
                 var host = window.location.hostname.split(".");
                 window.location.hostname = host[host.length -1];
             }*/
+            var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
             $.contextMenu( 'destroy', ".playlist-element" );
@@ -579,7 +580,10 @@ var Channel = {
                 //socket.emit("change_channel");
                 //removeAllListeners();
                 //socket.removeEventListener(id);
-                socket.disconnect();
+                socket.emit("left_channel", {
+                    channel: channel_before_move
+                });
+                //socket.disconnect();
             } else {
                 socket.removeEventListener("chat.all");
                 socket.removeEventListener("chat");

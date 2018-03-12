@@ -374,6 +374,13 @@ module.exports = function() {
             List.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
+        socket.on("left_channel", function(msg) {
+            if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
+                coll = msg.channel;
+                List.left_channel(coll, guid, short_id, in_list, socket, false);
+            }
+        })
+
         socket.on('reconnect_failed', function()
         {
             List.left_channel(coll, guid, short_id, in_list, socket, false);
