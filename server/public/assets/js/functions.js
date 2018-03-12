@@ -160,6 +160,150 @@ function emit_list() {
     }
 }
 
+function get_list_ajax() {
+    var c = Crypt.get_userpass(chan.toLowerCase());
+    if(c == "" || c == undefined) {
+        c = "";
+    }
+    $.ajax({
+        type: "POST",
+        data: {
+            userpass: c,
+        },
+        url: "/api/list/" + chan.toLowerCase(),
+        success: function(response) {
+            if(response.results.length > 0) {
+                $("#channel-load").remove();
+                if(response.status == 403) {
+                    start_auth();
+                }
+                $("#channel-load").remove();
+                List.populate_list(response.results);
+            }
+        },
+        error: function(response) {
+            if(response.responseJSON.status == 403) {
+                start_auth();
+            } else if(response.responseJSON.status == 429) {
+                setTimeout(function() {
+                    get_list_ajax();
+                }, response.getResponseHeader("Retry-After") * 1000)
+            }
+            $("#channel-load").remove();
+            //List.populate_list(response.responseJSON.results);
+        }
+    });
+}
+
+function get_np_ajax() {
+    var c = Crypt.get_userpass(chan.toLowerCase());
+    $.ajax({
+        type: "POST",
+        data: {
+            userpass: c,
+            fetch_song: true
+        },
+        url: "/api/list/" + chan.toLowerCase() + "/__np__",
+        success: function(response) {
+            Player.getTitle(response.results[0].title, 1);
+        },
+        error: function(response) {
+            if(response.responseJSON.status == 403) {
+                start_auth();
+            } else if(response.responseJSON.status == 429) {
+                setTimeout(function() {
+                    get_np_ajax();
+                }, response.getResponseHeader("Retry-After") * 1000)
+            }
+        }
+    })
+}
+
+function del_ajax(id) {
+    var a = Crypt.get_pass(chan.toLowerCase());
+    var u = Crypt.get_userpass(chan.toLowerCase());
+    if(a == undefined) a = "";
+    if(u == undefined) u = "";
+    $.ajax({
+        type: "DELETE",
+        data: {
+            adminpass: a,
+            userpass: u
+        },
+        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        success: function(response) {
+            toast("deletesong");
+        },
+        error: function(response) {
+            if(response.responseJSON.status == 403) {
+                start_auth();
+            } else if(response.responseJSON.status == 429) {
+                setTimeout(function() {
+                    vote_ajax(id);
+                }, response.getResponseHeader("Retry-After") * 1000);
+            }
+        }
+    })
+}
+
+function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
+    var a = Crypt.get_pass(chan.toLowerCase());
+    var u = Crypt.get_userpass(chan.toLowerCase());
+    if(a == undefined) a = "";
+    if(u == undefined) u = "";
+    $.ajax({
+        type: "POST",
+        data: {
+            adminpass: a,
+            userpass: u,
+            title: title,
+            duration: duration,
+            end_time: end,
+            start_time: start,
+        },
+        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        success: function(response) {
+            toast("addedsong");
+        },
+        error: function(response) {
+            if(response.responseJSON.status == 409) {
+                vote_ajax(id);
+            } else if(response.responseJSON.status == 429) {
+                setTimeout(function() {
+                    add_ajax(id, title, duration, playlist, num, full_num, start, end);
+                }, response.getResponseHeader("Retry-After") * 1000);
+            }
+        }
+    });
+}
+
+function vote_ajax(id) {
+    var a = Crypt.get_pass(chan.toLowerCase());
+    var u = Crypt.get_userpass(chan.toLowerCase());
+    if(a == undefined) a = "";
+    if(u == undefined) u = "";
+    $.ajax({
+        type: "PUT",
+        data: {
+            adminpass: a,
+            userpass: u
+        },
+        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        success: function(response) {
+            toast("voted");
+        },
+        error: function(response) {
+            if(response.responseJSON.status == 403) {
+                start_auth();
+            } else if(response.responseJSON.status == 429) {
+                setTimeout(function() {
+                    vote_ajax(id);
+                }, response.getResponseHeader("Retry-After") * 1000);
+            }
+        }
+    })
+}
+
 function setup_auth_listener() {
     socket.on('auth_required', function() {
         start_auth();
@@ -288,6 +432,10 @@ function embed_code(autoplay, width, height, color, embed_code){
 }
 
 function change_offline(enabled, already_offline){
+    if(client) {
+        offline = false;
+        return;
+    }
     Crypt.set_offline(enabled);
     offline = enabled;
     ga('send', 'event', "button-click", "offline", "", offline ? 1 : 0);

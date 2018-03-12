@@ -243,36 +243,11 @@ var Channel = {
         if(!client) {
             setup_chat_listener();
             get_history();
-            //console.log(Crypt.get_userpass(chan.toLowerCase()));
-        } else {
-            var c = Crypt.get_userpass(chan.toLowerCase());
-            if(c == "" || c == undefined) {
-                c = "";
-            }
-            $.ajax({
-                type: "POST",
-                data: {
-                    userpass: c,
-                },
-                url: "/api/list/" + chan.toLowerCase(),
-                success: function(response) {
-                    if(response.results.length > 0) {
-                        $("#channel-load").remove();
-                        if(response.status == 403) {
-                            start_auth();
-                        }
-                        $("#channel-load").remove();
-                        List.populate_list(response.results);
-                    }
-                },
-                error: function(response) {
-                    if(response.responseJSON.status == 403) {
-                        start_auth();
-                    }
-                    $("#channel-load").remove();
-                    //List.populate_list(response.responseJSON.results);
-                }
-            });
+        }
+        if(client || Helper.mobilecheck()){
+            get_list_ajax();
+            get_np_ajax();
+
         }
 
         if(!Helper.msieversion() && !Helper.mobilecheck() && !client) Notification.requestPermission();

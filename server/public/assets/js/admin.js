@@ -202,7 +202,7 @@ var Admin = {
         removeplay = form.removeplay.checked;
         skipping   = form.skip.checked;
         shuffling  = form.shuffle.checked;
-        var pass_send = userpass == '' ? userpass : CryptoJS.SHA256(userpass).toString();
+        var pass_send = userpass_changed && !form.userpass.checked ? "" : userpass;
         configs = {
             channel: chan.toLowerCase(),
             voting: voting,
@@ -218,7 +218,7 @@ var Admin = {
             userpass_changed: userpass_changed
         };
         if(userpass_changed){
-            Crypt.set_userpass(chan.toLowerCase(), CryptoJS.SHA256(userpass).toString());
+            Crypt.set_userpass(chan.toLowerCase(), userpass);
         }
         emit("conf", configs);
     },

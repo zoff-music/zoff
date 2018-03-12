@@ -554,6 +554,14 @@ var List = {
     },
 
     vote: function(id, vote) {
+        if(client && !socket.connected) {
+            if(vote != "del") {
+                vote_ajax(id);
+            } else {
+                del_ajax(id);
+            }
+            return;
+        }
         if(!offline || (vote == "del" && (hasadmin && (!w_p && adminpass != "")))){
             emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         } else {

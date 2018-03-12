@@ -167,6 +167,9 @@ function conf_function(params, coll, guid, offline, socket) {
         } else {
             hash = adminpass;
         }
+        if(userpass != "") {
+            userpass = crypto.createHash('sha256').update(userpass).digest("base64");
+        }
         db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
             if(docs !== null && docs.length !== 0 && (docs[0].adminpass === "" || docs[0].adminpass == hash)) {
                 var obj = {
