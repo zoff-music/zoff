@@ -311,6 +311,7 @@ var Frontpage = {
             $("#frontpage-viewer-counter").tooltip("remove");
             $(".generate-channel-name").tooltip("remove");
             $("#offline-mode").tooltip("remove");
+            $("#client-mode-button").tooltip("remove");
         }
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
@@ -443,6 +444,11 @@ var Frontpage = {
                 delay: 5,
                 position: "bottom",
                 tooltip: "Total Viewers"
+            });
+            $("#client-mode-button").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Client mode"
             });
             $(".generate-channel-name").tooltip({
                 delay: 5,

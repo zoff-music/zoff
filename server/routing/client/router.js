@@ -121,7 +121,6 @@ function root(req, res, next) {
         } else if(subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
-
             var data = {
                 year: year,
                 javascript_file: "main.min.js",
@@ -131,7 +130,7 @@ function root(req, res, next) {
                 embed: false,
                 client: false
             }
-            if(subdomain == "client") {
+            if(subdomain[0] == "client") {
                 data.client = true;
             }
             res.render('layouts/client/frontpage', data);
