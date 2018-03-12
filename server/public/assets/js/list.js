@@ -257,13 +257,7 @@ var List = {
                 List.check_error_videos(i + 1);
             }
 
-        }).error(function (xhr, errorType, exception) {
-            Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
-            socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
-            if(full_playlist.length > i + 1 && window.location.pathname != "/") {
-                List.check_error_videos(i + 1);
-            }
-        });
+        })
     },
 
     dynamicContentPageJumpTo: function(page) {

@@ -79,7 +79,7 @@ var Channel = {
         } else {
             //$("#help").remove();
             $("#embed").remove();
-            $(".help-button-footer").remove();
+            //$(".help-button-footer").remove();
             $(".embed-button-footer").remove();
             $(".tabs").remove();
         }
