@@ -4,7 +4,7 @@ var Channel = {
             $(".tabs").addClass("hide");
             $("#wrapper").removeClass("tabs_height");
             $("#wrapper").addClass("client-wrapper");
-            $(".embed-button-footer").addClass("hide");
+            //$(".embed-button-footer").addClass("hide");
             $(".skip_next_client").removeClass("hide");
             if(!Helper.mobilecheck()) {
                 $(".skip_next_client").tooltip({
@@ -75,15 +75,15 @@ var Channel = {
             accordion : true
         });
         if(!client) {
-            $("#help").modal();
             $("#embed").modal();
         } else {
-            $("#help").remove();
+            //$("#help").remove();
             $("#embed").remove();
             $(".help-button-footer").remove();
             $(".embed-button-footer").remove();
             $(".tabs").remove();
         }
+        $("#help").modal();
         $("#contact").modal();
         $("#channel-share-modal").modal();
         $("#delete_song_alert").modal({
