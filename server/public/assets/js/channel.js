@@ -246,6 +246,9 @@ var Channel = {
             //console.log(Crypt.get_userpass(chan.toLowerCase()));
         } else {
             var c = Crypt.get_userpass(chan.toLowerCase());
+            if(c == "" || c == undefined) {
+                c = "";
+            }
             $.ajax({
                 type: "POST",
                 data: {
