@@ -34,7 +34,7 @@ var Hostcontroller = {
         if(enabled){
             if(arr.type == "volume") {
                 $("#volume").slider("value", arr.value);
-                Player.player.setVolume(arr.value);
+                Player.setVolume(arr.value);
                 localStorage.setItem("volume", arr.value);
                 Playercontrols.choose_button(arr.value, false);
             } else if(arr.type == "channel") {
