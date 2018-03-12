@@ -3,6 +3,7 @@ var timed_remove_check;
 var gotten_np = false;
 var song_title = "";
 var paused = false;
+var client = false;
 var startTime = 0;
 var player_ready = false;
 var list_html = $("#list-song-html").html();

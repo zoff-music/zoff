@@ -527,12 +527,13 @@ var Player = {
             title = titt;
         }
         if(window.location.pathname != "/"){
-            var elem          = document.getElementById('song-title');
-            var getTitleViews = document.getElementById('viewers');
+            //var elem          = document.getElementById('song-title');
+            //var getTitleViews = document.getElementById('viewers');
 
-            elem.innerHTML    = title;
-            getTitleViews.innerHTML = outPutWord + " " + v;
-            elem.title        = title;
+            $("#song-title").text(title);
+            $("#viewers").html(outPutWord + " " + v);
+            $("#song-title").attr("title", title);
+            //elem.title        = title;
             if(chromecastAvailable){
                 $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
                 $("#player_overlay").css("background-position", "center");
@@ -622,11 +623,13 @@ var Player = {
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
             $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
-            var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
-            new_color = Helper.hexToComplimentary(new_color);
-            new_color = Helper.hexToRgb(new_color);
-            new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
-            $("#controls").css("background", new_color);
+            if(!client) {
+                var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
+                new_color = Helper.hexToComplimentary(new_color);
+                new_color = Helper.hexToRgb(new_color);
+                new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
+                $("#controls").css("background", new_color);
+            }
         }
     },
 

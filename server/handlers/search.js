@@ -79,7 +79,9 @@ function check_error_video(msg, channel) {
                  got: msg.hasOwnProperty("title") ? typeof(msg.title) : undefined,
              },
          };
-         socket.emit("update_required", result);
+         if(socket) {
+             socket.emit("update_required", result);
+         }
         return;
     }
 
