@@ -197,6 +197,7 @@ function get_list_ajax() {
 
 function get_np_ajax() {
     var c = Crypt.get_userpass(chan.toLowerCase());
+    if(c == undefined) c = "";
     $.ajax({
         type: "POST",
         data: {
