@@ -90,31 +90,9 @@ Returns 429 if you're doing too much of this request, with a Retry-After int val
 Returns 200 and the newly added configuration if successful
 ```
 
-Get channelsettings
-```
-GET /api/conf/:channel_name/
-
-Returns 403 for bad authentication (if you get this, try POST with userpassword attached)
-Returns 404 if the channel doesn't exist
-Returns 200 and the settings-object
-```
-
-Get channelsettings (protected)
-```
-POST /api/conf/:channel_name/
-    {
-        "userpass": USERPASS
-    }
-
-Returns 400 for bad request
-Returns 403 for bad authentication
-Returns 404 if the channel doesn't exist
-Returns 200 and the settings-object
-```
-
 Get song in channel
 ```
-GET /api/list/:channel_name/
+GET /api/list/:channel_name/:video_id
 
 Returns 403 for bad authentication (if you get this, the channel is protected, try getting the full channel with POST, and search through the object)
 Returns 404 if the song doesn't exist
@@ -124,15 +102,38 @@ Returns 200 and the song
 Get song in channel (protected)
 ```
 // Important fetch_song is present, or else the request will try to add a song to the channel
-POST /api/list/:channel_name/
+POST /api/list/:channel_name/:video_id
     {
         "fetch_song": ANYTHING_HERE,
-        "userpass": USERPASS
+        "userpass": SHA256(USERPASS)
     }
 
 Returns 400 for bad request
 Returns 403 for bad authentication
 Returns 404 if the song doesn't exist
+Returns 200 and the song
+```
+
+Get list
+```
+GET /api/list/:channel_name/
+
+Returns 403 for bad authentication (if you get this, the channel is protected, try getting the full channel with POST, and search through the object)
+Returns 404 if the song doesn't exist
+Returns 200 and the song
+```
+
+Get list (protected)
+```
+// Important fetch_song is present, or else the request will try to add a song to the channel
+POST /api/list/:channel_name/
+    {
+        "userpass": SHA256(USERPASS)
+    }
+
+Returns 400 for bad request
+Returns 403 for bad authentication
+Returns 404 if the list doesn't exist
 Returns 200 and the song
 ```
 
@@ -149,7 +150,7 @@ Get channelsettings (protected)
 ```
 POST /api/conf/:channel_name/
     {
-        "userpass": USERPASS
+        "userpass": SHA256(USERPASS)
     }
 
 Returns 400 for bad request
@@ -172,7 +173,7 @@ Get now playing song (protected)
 ```
 POST /api/list/:channel_name/__np__
     {
-        "userpass": USERPASS
+        "userpass": SHA256(USERPASS)
     }
 
 Returns 400 for bad request

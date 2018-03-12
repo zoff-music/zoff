@@ -33,11 +33,15 @@ var Admin = {
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
         }
-        if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
-            $(".playlist-tabs-loggedIn").removeClass("hide");
-            $(".playlist-tabs").addClass("hide");
+        if(!client) {
+            if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
+                $(".playlist-tabs-loggedIn").removeClass("hide");
+                $(".playlist-tabs").addClass("hide");
+            }
+            if($(".tabs").length > 0 && !changing_to_frontpage) {
+                $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
+            }
         }
-
         if($("#admin-lock").html() != "lock_open"){
             $("#admin-lock").addClass("clickable");
             $("#admin-lock").html("lock_open");
@@ -48,9 +52,6 @@ var Admin = {
                     tooltip: "Logout"
                 });
             }
-        }
-        if($(".tabs").length > 0 && !changing_to_frontpage) {
-            $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
         }
     },
 
@@ -120,18 +121,19 @@ var Admin = {
         if(!$(".change_user_pass").hasClass("hide")) {
             $(".change_user_pass").addClass("hide");
         }
+        if(!client) {
+            if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")) {
+                $(".playlist-tabs-loggedIn").addClass("hide");
+                $(".playlist-tabs").removeClass("hide");
+            }
 
-        if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")) {
-            $(".playlist-tabs-loggedIn").addClass("hide");
-            $(".playlist-tabs").removeClass("hide");
-        }
-
-        if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions" && $(".tabs").length > 0 && !changing_to_frontpage)
-        {
-            $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
-            $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-        } else if($(".tabs").length > 0 && !changing_to_frontpage){
-            $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
+            if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions" && $(".tabs").length > 0 && !changing_to_frontpage)
+            {
+                $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
+                $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
+            } else if($(".tabs").length > 0 && !changing_to_frontpage){
+                $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
+            }
         }
         $("#admin-lock").removeClass("clickable");
         $("#password").attr("placeholder", "Enter admin password");

@@ -1,5 +1,22 @@
 var Channel = {
     init: function() {
+        if(client) {
+            $(".tabs").addClass("hide");
+            $("#wrapper").removeClass("tabs_height");
+            $("#wrapper").addClass("client-wrapper");
+            $(".embed-button-footer").addClass("hide");
+            $(".skip_next_client").removeClass("hide");
+            if(!Helper.mobilecheck()) {
+                $(".skip_next_client").tooltip({
+                    delay: 5,
+                    position: "bottom",
+                    tooltip: "Skip"
+                });
+            }
+            $("#results").addClass("client-results-height");
+            $(".pagination-results").addClass("client-pagination-height");
+            $(".control-list").addClass("client-control-list");
+        }
         Admin.display_logged_out();
         number_suggested = 0;
         var no_socket = true;
@@ -24,11 +41,13 @@ var Channel = {
         if(window.location.hostname == "zoff.me" || window.location.hostname == "fb.zoff.me") add = "https://zoff.me";
         else add = window.location.hostname;
 
-        if(Player !== undefined) Player.stopInterval= false;
+        if(Player !== undefined && !client) Player.stopInterval= false;
 
-        $('ul.playlist-tabs').tabs();
-        $('ul.playlist-tabs-loggedIn').tabs();
-        $('ul.chatTabs').tabs();
+        if(!client) {
+            $('ul.playlist-tabs').tabs();
+            $('ul.playlist-tabs-loggedIn').tabs();
+            $('ul.chatTabs').tabs();
+        }
         $("#settings").sideNav({
             menuWidth: 310,
             edge: side,
@@ -55,9 +74,17 @@ var Channel = {
         $('.collapsible').collapsible({
             accordion : true
         });
-        $("#help").modal();
+        if(!client) {
+            $("#help").modal();
+            $("#embed").modal();
+        } else {
+            $("#help").remove();
+            $("#embed").remove();
+            $(".help-button-footer").remove();
+            $(".embed-button-footer").remove();
+            $(".tabs").remove();
+        }
         $("#contact").modal();
-        $("#embed").modal();
         $("#channel-share-modal").modal();
         $("#delete_song_alert").modal({
             dismissible: false
@@ -122,25 +149,34 @@ var Channel = {
             $("#player").css("opacity", "1");
             $("#controls").css("opacity", "1");
             $(".playlist").css("opacity", "1");
-            Player.readyLooks();
-            Playercontrols.initYoutubeControls(Player.player);
-            Playercontrols.initSlider();
-            Player.player.setVolume(Crypt.get_volume());
-            $(".video-container").removeClass("no-opacity");
-
-            var codeURL = "https://remote."+window.location.hostname+"/"+id;
-            $("#code-text").text(id);
-            $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
-            $("#code-link").attr("href", codeURL);
+            if(!client) {
+                Player.readyLooks();
+                Playercontrols.initYoutubeControls(Player.player);
+                Playercontrols.initSlider();
+                Player.player.setVolume(Crypt.get_volume());
+                $(".video-container").removeClass("no-opacity");
+                var codeURL = "https://remote."+window.location.hostname+"/"+id;
+                $("#code-text").text(id);
+                $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+                $("#code-link").attr("href", codeURL);
+            }
         }
 
-        var shareCodeUrl = window.location.protocol + "//"+window.location.hostname+"/"+chan.toLowerCase();
-        $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
-        $("#channel-name-join").text(window.location.hostname + "/" + chan.toLowerCase());
+
+        if(!client) {
+            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/"+chan.toLowerCase();
+            $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
+            $("#channel-name-join").text("client." + window.location.hostname + "/" + chan.toLowerCase());
+        } else {
+            $(".video-container").remove();
+            $(".offline-panel").remove();
+            $(".remote-panel").remove();
+            $(".mobile-remote-panel").remove();
+            $(".import-panel").remove();
+            $(".export-panel").remove();
+        }
         if(no_socket || Helper.mobilecheck()){
-            var add = "";
-            if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+            emit_list();
         }
 
         if((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) {
@@ -184,29 +220,64 @@ var Channel = {
             });
         }
 
-        window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
-        if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
+        if(!client) {
+            window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
+            if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
+        }
         //}
 
         if(Helper.mobilecheck()) {
-            Mobile_remote.initiate_volume();
+            if(!client) {
+                Mobile_remote.initiate_volume();
+            }
             $(".close-settings").addClass("hide");
         }	else {
             $('input#chan_description').characterCounter();
-            Channel.window_width_volume_slider();
+            if(!client) {
+                Channel.window_width_volume_slider();
+            }
         }
 
         setup_admin_listener();
         setup_list_listener();
-        setup_chat_listener();
-        get_history();
+        if(!client) {
+            setup_chat_listener();
+            get_history();
+            //console.log(Crypt.get_userpass(chan.toLowerCase()));
+        } else {
+            var c = Crypt.get_userpass(chan.toLowerCase());
+            $.ajax({
+                type: "POST",
+                data: {
+                    userpass: c,
+                },
+                url: "/api/list/" + chan.toLowerCase(),
+                success: function(response) {
+                    if(response.results.length > 0) {
+                        $("#channel-load").remove();
+                        if(response.status == 403) {
+                            start_auth();
+                        }
+                        $("#channel-load").remove();
+                        List.populate_list(response.results);
+                    }
+                },
+                error: function(response) {
+                    if(response.responseJSON.status == 403) {
+                        start_auth();
+                    }
+                    $("#channel-load").remove();
+                    //List.populate_list(response.responseJSON.results);
+                }
+            });
+        }
 
-        if(!Helper.msieversion() && !Helper.mobilecheck()) Notification.requestPermission();
+        if(!Helper.msieversion() && !Helper.mobilecheck() && !client) Notification.requestPermission();
 
         $(".search_input").focus();
 
         Helper.sample();
-        if(!Helper.mobilecheck()) {
+        if(!Helper.mobilecheck() && !client) {
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
@@ -242,21 +313,21 @@ var Channel = {
         $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
         $("#search").attr("placeholder", "Find song on YouTube...");
 
-        if(!$("footer").hasClass("padding-bottom-novideo")) {
+        if(!$("footer").hasClass("padding-bottom-novideo") && !client) {
             $("footer").addClass("padding-bottom-novideo");
         }
 
-        if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck()){
+        if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck() && !client){
             $(".castButton").css("display", "none");
         }
 
         Helper.log(["chromecastAvailable " + chromecastAvailable, "chromecastReady " + chromecastReady]);
 
-        if(chromecastAvailable){
+        if(chromecastAvailable && !client){
             hide_native(1);
-        } else if(chromecastReady) {
+        } else if(chromecastReady && !client) {
             initializeCastApi();
-        } else {
+        } else if(!client){
             window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
                 if (loaded) {
                     setTimeout(function(){
@@ -483,6 +554,10 @@ var Channel = {
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         } else if(url_split[3] === "") {
+            if(client) {
+                var host = window.location.hostname.split(".");
+                window.location.hostname = host[host.length -1];
+            }
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
             $.contextMenu( 'destroy', ".playlist-element" );

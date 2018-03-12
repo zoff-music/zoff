@@ -103,10 +103,10 @@ function root(req, res, next) {
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
         var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
-        if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
+        /*if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
             res.redirect("https://zoff.me");
             return;
-        }
+        }*/
         if(subdomain[0] == "remote") {
             var data = {
                 year: year,
@@ -115,11 +115,13 @@ function root(req, res, next) {
                 analytics: analytics,
                 stylesheet: "style.css",
                 embed: false,
+                client: false
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
+
             var data = {
                 year: year,
                 javascript_file: "main.min.js",
@@ -127,6 +129,10 @@ function root(req, res, next) {
                 analytics: analytics,
                 stylesheet: "style.css",
                 embed: false,
+                client: false
+            }
+            if(subdomain == "client") {
+                data.client = true;
             }
             res.render('layouts/client/frontpage', data);
         }
@@ -140,10 +146,10 @@ function channel(req, res, next) {
     try{
         var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
         var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
-        if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
+        /*if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
             res.redirect("https://zoff.me");
             return;
-        }
+        }*/
         if(subdomain[0] == "remote") {
             var data = {
                 year: year,
@@ -152,6 +158,7 @@ function channel(req, res, next) {
                 analytics: analytics,
                 stylesheet: "style.css",
                 embed: false,
+                client: false
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
@@ -180,8 +187,11 @@ function channel(req, res, next) {
                     analytics: analytics,
                     stylesheet: "style.css",
                     embed: false,
+                    client:false
                 }
-
+                if(subdomain == "client") {
+                    data.client = true;
+                }
 
                 if(req.params.channel_name == "404") {
                     res.status(404);

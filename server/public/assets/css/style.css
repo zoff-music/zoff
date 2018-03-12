@@ -2045,6 +2045,10 @@ nav ul li:hover, nav ul li.active {
     overflow:auto;
 }
 
+.client-wrapper {
+    height: calc(100vh - 48px - 64px) !important;
+}
+
 
 /** settings **/
 
@@ -2264,6 +2268,10 @@ nav ul li:hover, nav ul li.active {
 .margin-playbar
 {
     margin-left:10px;
+}
+
+.skip_next_client {
+    float: left;
 }
 
 #volume-button{
@@ -2795,6 +2803,18 @@ nav ul li:hover, nav ul li.active {
         overflow:initial;
     }
 
+    .client-wrapper {
+        height: calc(100vh - 48px - 64px - 36px) !important;
+    }
+
+    .client-results-height {
+        margin-top: 50px !important;
+    }
+
+    .client-pagination-height {
+        height: 80px;
+    }
+
     .brand-mobile{
         padding-left:0px !important;
     }
@@ -3019,6 +3039,10 @@ nav ul li:hover, nav ul li.active {
         width: 120px;
     }
 
+    .client-control-list {
+        width: auto;
+    }
+
     .page-footer{
         padding-top: 40px !important;
     }
@@ -3162,6 +3186,10 @@ nav ul li:hover, nav ul li.active {
         -webkit-transition: margin .5s;
         -moz-transition: margin .5s;
         transition: margin .5s;
+    }
+
+    #user_password {
+        width: 80% !important;
     }
 
     .result-object-slid {
