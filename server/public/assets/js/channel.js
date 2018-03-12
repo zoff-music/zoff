@@ -153,7 +153,9 @@ var Channel = {
                 Player.readyLooks();
                 Playercontrols.initYoutubeControls(Player.player);
                 Playercontrols.initSlider();
-                Player.player.setVolume(Crypt.get_volume());
+                if(player_ready) {
+                    Player.player.setVolume(Crypt.get_volume());
+                }
                 $(".video-container").removeClass("no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;
                 $("#code-text").text(id);
