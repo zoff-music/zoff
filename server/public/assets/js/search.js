@@ -436,6 +436,10 @@ var Search = {
     },
 
     submit: function(id,title,duration, playlist, num, full_num, start, end){
+        if(client && !socket.connected) {
+            add_ajax(id, title, duration, playlist, num, full_num, start, end);
+            return;
+        }
         if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
             var found_array = [];
             found_array = $.map(full_playlist, function(obj, index) {

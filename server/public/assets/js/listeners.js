@@ -572,7 +572,7 @@ $(document).on("change", ".password_protected", function(e) {
 $(document).on("submit", "#user-password-channel-form", function(e) {
     e.preventDefault();
     if(user_auth_started) {
-        temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
+        temp_user_pass = $("#user-pass-input").val();
 
         $("#user-pass-input").val("");
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
@@ -595,7 +595,7 @@ $(document).on("click", ".change_user_pass_btn", function(e) {
 $(document).on("click", ".submit-user-password", function(e) {
     e.preventDefault();
     if(user_auth_started) {
-        temp_user_pass = CryptoJS.SHA256($("#user-pass-input").val()).toString();
+        temp_user_pass = $("#user-pass-input").val();
         $("#user-pass-input").val("");
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
     } else {

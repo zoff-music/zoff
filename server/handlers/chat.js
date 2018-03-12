@@ -13,7 +13,7 @@ function get_history(channel, all, socket, pass) {
     if(!query.all) {
         db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
             if(conf.length > 0) {
-                if(conf[0].userpass == "" || conf[0].userpass == Functions.decrypt_string(socket.zoff_id, pass)) {
+                if(conf[0].userpass == "" || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, pass)).digest('base64')) {
                     getAndSendLogs(channel, all, socket, pass, query);
                 }
             }
@@ -62,7 +62,7 @@ function chat(msg, guid, offline, socket) {
     }
     var coll = msg.channel.toLowerCase();
     db.collection(coll + "_settings").find(function(err, docs){
-        if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socket.zoff_id, msg.pass)))) {
+        if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, msg.pass)).digest("base64")))) {
             var data = msg.data;
             Functions.check_inlist(coll, guid, socket, offline);
             if(data !== "" && data !== undefined && data !== null &&

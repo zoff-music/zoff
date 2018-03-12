@@ -43,7 +43,7 @@ function list(msg, guid, coll, offline, socket) {
             return;
         }
         coll = msg.channel.toLowerCase();
-        var pass = Functions.decrypt_string(socketid, msg.pass);
+        var pass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
         db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
             if(frontpage_lists.length == 1)
             {
@@ -135,7 +135,7 @@ function skip(list, guid, coll, offline, socket) {
                 return;
             }
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == Functions.decrypt_string(socketid, list.userpass)))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, list.userpass)).digest("base64")))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
 
@@ -502,7 +502,7 @@ function end(obj, coll, guid, offline, socket) {
         }
 
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, obj.pass)))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
                 db.collection(coll).find({now_playing:true}, function(err, np){

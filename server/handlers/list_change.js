@@ -92,7 +92,7 @@ function add_function(arr, coll, guid, offline, socket) {
             }
 
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, arr.pass)))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.pass)).digest("base64")))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
 
@@ -280,7 +280,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
         coll = msg.channel.toLowerCase();;
 
         db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
 
                 Functions.check_inlist(coll, guid, socket, offline);
 
@@ -364,7 +364,7 @@ function shuffle(msg, coll, guid, offline, socket) {
             if(msg.adminpass === "") hash = msg.adminpass;
             else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
             db.collection(coll + "_settings").find(function(err, docs){
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == Functions.decrypt_string(socketid, msg.pass)))) {
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
                     {
                         db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
@@ -449,7 +449,7 @@ function delete_all(msg, coll, guid, offline, socket) {
             }
 
             var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
-            var hash_userpass = Functions.decrypt_string(socketid, msg.pass);
+            var hash_userpass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
         db.collection(coll + "_settings").find(function(err, conf) {
             if(conf.length == 1 && conf) {
                 conf = conf[0];

@@ -105,7 +105,7 @@ Get song in channel (protected)
 POST /api/list/:channel_name/:video_id
     {
         "fetch_song": ANYTHING_HERE,
-        "userpass": SHA256(USERPASS)
+        "userpass": USERPASS
     }
 
 Returns 400 for bad request
@@ -128,7 +128,7 @@ Get list (protected)
 // Important fetch_song is present, or else the request will try to add a song to the channel
 POST /api/list/:channel_name/
     {
-        "userpass": SHA256(USERPASS)
+        "userpass": USERPASS
     }
 
 Returns 400 for bad request
@@ -150,7 +150,7 @@ Get channelsettings (protected)
 ```
 POST /api/conf/:channel_name/
     {
-        "userpass": SHA256(USERPASS)
+        "userpass": USERPASS
     }
 
 Returns 400 for bad request
@@ -173,7 +173,7 @@ Get now playing song (protected)
 ```
 POST /api/list/:channel_name/__np__
     {
-        "userpass": SHA256(USERPASS)
+        "userpass": USERPASS
     }
 
 Returns 400 for bad request
