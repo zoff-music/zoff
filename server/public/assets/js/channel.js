@@ -532,10 +532,10 @@ var Channel = {
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
         } else if(url_split[3] === "") {
-            if(client) {
+            /*if(client) {
                 var host = window.location.hostname.split(".");
                 window.location.hostname = host[host.length -1];
-            }
+            }*/
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
             $.contextMenu( 'destroy', ".playlist-element" );
@@ -600,9 +600,11 @@ var Channel = {
                 url: "/",
                 success: function(e){
 
-                    document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
-                    document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
-                    document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
+                    if(!client) {
+                        document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
+                        document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
+                        document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
+                    }
                     Channel.listeners(false);
                     if(Helper.mobilecheck() || user_auth_avoid) {
                         video_id   = "";
