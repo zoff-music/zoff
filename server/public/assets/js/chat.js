@@ -4,13 +4,12 @@ var Chat = {
     all_received: 0,
     chat_help: ["/name <new name> <password> to register and save a password for a nickname", "/name <new name> <new_password> <old_password> to change the password on a nickname", "/removename to logout"],//, "There are no commands.. As of now!"],
 
-    namechange: function(data, first) {
+    namechange: function(data, first, initial) {
         var input = data.split(" ");
         if(input.length == 2) {
             var name = input[0];
             var password = input[1];
-            temp_name = name;
-            temp_pass = password;
+
             password = Crypt.crypt_chat_pass(password);
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), password: password, first: first});
         } else if(input.length == 3) {
@@ -18,15 +17,14 @@ var Chat = {
             var new_password = input[1];
             var old_password = input[2];
 
-            temp_name = name;
-            temp_pass = password;
+
 
             new_password = Crypt.crypt_chat_pass(new_password);
             old_password = Crypt.crypt_chat_pass(old_password);
 
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), new_password: new_password, old_password: old_password});
-        } else {
-
+        } else if(first) {
+            socket.emit("namechange", {channel: chan.toLowerCase(), initial: initial, first: true});
         }
     },
 
@@ -83,7 +81,7 @@ var Chat = {
         } else if($(".chat-tab-li a.active").attr("href") == "#all_chat") {
             socket.emit("all,chat", {channel: chan.toLowerCase(), data: data.value});
         } else {
-            socket.emit("chat", {channel: chan.toLowerCase(), data: data.value, pass: embed ? '' : Crypt.crypt_chat_pass(Crypt.get_userpass(chan.toLowerCase()))});
+            socket.emit("chat", {channel: chan.toLowerCase(), data: data.value});
         }
         data.value = "";
         return;

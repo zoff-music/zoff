@@ -453,9 +453,9 @@ var Search = {
                 List.vote(id, "pos");
             }
         } else {
-            var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-            if(u == undefined) u = "";
-            emit("add", {id: id, start: start, end: end, title: title, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num, pass: embed ? '' : u});
+            /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+            if(u == undefined) u = "";*/
+            emit("add", {id: id, start: start, end: end, title: title, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
         }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 

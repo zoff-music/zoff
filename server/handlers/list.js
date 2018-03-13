@@ -22,63 +22,72 @@ function list(msg, guid, coll, offline, socket) {
 
     if(typeof(msg) === 'object' && msg !== undefined && msg !== null)
     {
-        if(!msg.hasOwnProperty('version') || !msg.hasOwnProperty("channel") || !msg.hasOwnProperty("pass") ||
-         msg.version != VERSION || msg.version == undefined ||
-        typeof(msg.channel) != "string" || typeof(msg.pass) != "string") {
-            var result = {
-                channel: {
-                    expected: "string",
-                    got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
-                },
-                version: {
-                    expected: VERSION,
-                    got: msg.version,
-                },
-                pass: {
-                    expected: "string",
-                    got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
-                },
-            };
-            socket.emit('update_required', result);
-            return;
-        }
-        coll = msg.channel.toLowerCase();
-        var pass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
-        db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
-            if(frontpage_lists.length == 1)
-            {
-                db.collection(coll + "_settings").find(function(err, docs) {
-                    if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
-                        if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
-                            socket.emit("auth_accepted", {value: true});
-                        }
-                        in_list = true;
-                        socket.join(coll);
-                        Functions.check_inlist(coll, guid, socket, offline);
-
-                        if(frontpage_lists.viewers != undefined){
-                            io.to(coll).emit("viewers", frontpage_lists.viewers);
-                        } else {
-                            io.to(coll).emit("viewers", 1);
-                        }
-
-                        List.send_list(coll, socket, true, false, true);
-
-                    } else {
-                        socket.emit("auth_required");
-                    }
-                });
-            } else {
-                db.createCollection(coll, function(err, docs){
-                    var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
-                    db.collection(coll + "_settings").insert(configs, function(err, docs){
-                        socket.join(coll);
-                        List.send_list(coll, socket, true, false, true);
-                        db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
-                        Functions.check_inlist(coll, guid, socket, offline);
-                    });
-                });
+        Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
+            if(gotten && userpass != "" && !msg.hasOwnProperty("pass")) {
+                msg.pass = userpass;
             }
+            if(!msg.hasOwnProperty('version') || !msg.hasOwnProperty("channel") ||
+             msg.version != VERSION || msg.version == undefined ||
+            typeof(msg.channel) != "string") {
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    version: {
+                        expected: VERSION,
+                        got: msg.version,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                };
+                socket.emit('update_required', result);
+                return;
+            }
+            coll = msg.channel.toLowerCase();
+            var pass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
+            db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
+                if(frontpage_lists.length == 1)
+                {
+                    db.collection(coll + "_settings").find(function(err, docs) {
+                        if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
+                            if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
+                                Functions.setSessionUserPass(Functions.getSession(socket), msg.pass, coll, function(){})
+                                socket.emit("auth_accepted", {value: true});
+                            }
+                            if(docs.length > 0 && docs[0].hasOwnProperty("adminpass") && docs[0].adminpass != "" && docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, adminpass), true))) {
+                                socket.emit("pw", true);
+                            }
+                            in_list = true;
+                            socket.join(coll);
+                            Functions.check_inlist(coll, guid, socket, offline);
+
+                            if(frontpage_lists.viewers != undefined){
+                                io.to(coll).emit("viewers", frontpage_lists.viewers);
+                            } else {
+                                io.to(coll).emit("viewers", 1);
+                            }
+
+                            List.send_list(coll, socket, true, false, true);
+
+                        } else {
+                            socket.emit("auth_required");
+                        }
+                    });
+                } else {
+                    db.createCollection(coll, function(err, docs){
+                        var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
+                        db.collection(coll + "_settings").insert(configs, function(err, docs){
+                            socket.join(coll);
+                            List.send_list(coll, socket, true, false, true);
+                            db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
+                            Functions.check_inlist(coll, guid, socket, offline);
+                        });
+                    });
+                }
+            });
         });
     } else {
         var result = {
@@ -109,10 +118,8 @@ function skip(list, guid, coll, offline, socket) {
                 return;
             }
         }
-        if(!list.hasOwnProperty("pass") || !list.hasOwnProperty("userpass") ||
-            !list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
-            typeof(list.pass) != "string" || typeof(list.id) != "string" ||
-            typeof(list.channel) != "string" || typeof(list.userpass) != "string") {
+        if(!list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
+            typeof(list.id) != "string" || typeof(list.channel) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
@@ -134,72 +141,77 @@ function skip(list, guid, coll, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
-        db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, list.userpass)).digest("base64")))) {
+        Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
+            list.pass = adminpass;
+            list.userpass = userpass;
 
-                Functions.check_inlist(coll, guid, socket, offline);
+            db.collection(coll + "_settings").find(function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, list.userpass)).digest("base64")))) {
 
-                adminpass = "";
-                video_id  = list.id;
-                err       = list.error;
-                var error = false;
-                var video_id;
-                if(err != "5" && err != "100" && err != "101" && err != "150")
-                {
-                    adminpass = list.pass;
-                }else if(err == "5" || err == "100" || err == "101" || err == "150"){
-                    error = true;
-                }
+                    Functions.check_inlist(coll, guid, socket, offline);
 
-                if(adminpass !== undefined && adminpass !== null && adminpass !== "")
-                hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, adminpass),true));
-                else
-                hash = "";
-
-                db.collection(coll + "_settings").find(function(err, docs){
-
-                    if(docs !== null && docs.length !== 0)
+                    adminpass = "";
+                    video_id  = list.id;
+                    err       = list.error;
+                    var error = false;
+                    var video_id;
+                    if(err != "5" && err != "100" && err != "101" && err != "150")
                     {
-                        if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
-                        {
-                            db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
-                                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
-                                (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
-                                {
-                                    List.change_song(coll, error, video_id);
-                                    socket.emit("toast", "skip");
-                                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                                        if(docs.length == 1) {
-                                            db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
-                                                var icon = false;
-                                                if(n.length > 0 && n[0].icon) {
-                                                    icon = n[0].icon;
-                                                }
-                                                io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
-                                            });
-                                        }
-                                    });
-                                }else if(!Functions.contains(docs[0].skips, guid)){
-                                    db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
-                                        if(frontpage_viewers[0].viewers == 2)
-                                        to_skip = 1;
-                                        else
-                                        to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
-                                        socket.emit("toast", to_skip + " more are needed to skip!");
-                                        socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
-                                    });
-                                }else{
-                                    socket.emit("toast", "alreadyskip");
-                                }
-                            });
-                        }else
-                        socket.emit("toast", "noskip");
+                        adminpass = list.pass;
+                    }else if(err == "5" || err == "100" || err == "101" || err == "150"){
+                        error = true;
                     }
-                });
-            } else {
-                socket.emit("auth_required");
-            }
+
+                    if(adminpass !== undefined && adminpass !== null && adminpass !== "")
+                    hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, adminpass),true));
+                    else
+                    hash = "";
+
+                    db.collection(coll + "_settings").find(function(err, docs){
+
+                        if(docs !== null && docs.length !== 0)
+                        {
+                            if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
+                            {
+                                db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
+                                    if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+                                    (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
+                                    (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                                    {
+                                        List.change_song(coll, error, video_id);
+                                        socket.emit("toast", "skip");
+                                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                            if(docs.length == 1) {
+                                                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                                    var icon = false;
+                                                    if(n.length > 0 && n[0].icon) {
+                                                        icon = n[0].icon;
+                                                    }
+                                                    io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
+                                                });
+                                            }
+                                        });
+                                    }else if(!Functions.contains(docs[0].skips, guid)){
+                                        db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
+                                            if(frontpage_viewers[0].viewers == 2)
+                                            to_skip = 1;
+                                            else
+                                            to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
+                                            socket.emit("toast", to_skip + " more are needed to skip!");
+                                            socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                        });
+                                    }else{
+                                        socket.emit("toast", "alreadyskip");
+                                    }
+                                });
+                            }else
+                            socket.emit("toast", "noskip");
+                        }
+                    });
+                } else {
+                    socket.emit("auth_required");
+                }
+            });
         });
     } else {
         var result = {
@@ -480,9 +492,8 @@ function end(obj, coll, guid, offline, socket) {
 
     if(id !== undefined && id !== null && id !== "") {
 
-        if(!obj.hasOwnProperty("id") || !obj.hasOwnProperty("channel") || !obj.hasOwnProperty("pass") ||
-            typeof(obj.id) != "string" || typeof(obj.channel) != "string" ||
-            typeof(obj.pass) != "string") {
+        if(!obj.hasOwnProperty("id") || !obj.hasOwnProperty("channel") ||
+            typeof(obj.id) != "string" || typeof(obj.channel) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
@@ -500,34 +511,37 @@ function end(obj, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
             return;
         }
+        Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
+            obj.pass = userpass;
 
-        db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
+            db.collection(coll + "_settings").find(function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
 
-                Functions.check_inlist(coll, guid, socket, offline);
-                db.collection(coll).find({now_playing:true}, function(err, np){
-                    if(err !== null) console.log(err);
-                    if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
-                        db.collection(coll + "_settings").find(function(err, docs){
-                            var startTime = docs[0].startTime;
-                            if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
-                            {
-                                db.collection(coll).remove({now_playing:true}, function(err, docs){
-                                    List.change_song_post(coll);
-                                    db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
-                                });
-                            }else{
-                                if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
+                    Functions.check_inlist(coll, guid, socket, offline);
+                    db.collection(coll).find({now_playing:true}, function(err, np){
+                        if(err !== null) console.log(err);
+                        if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
+                            db.collection(coll + "_settings").find(function(err, docs){
+                                var startTime = docs[0].startTime;
+                                if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
                                 {
-                                    List.change_song(coll, false, id);
+                                    db.collection(coll).remove({now_playing:true}, function(err, docs){
+                                        List.change_song_post(coll);
+                                        db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
+                                    });
+                                }else{
+                                    if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
+                                    {
+                                        List.change_song(coll, false, id);
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
-            } else {
-                socket.emit("auth_required");
-            }
+                            });
+                        }
+                    });
+                } else {
+                    socket.emit("auth_required");
+                }
+            });
         });
     } else {
         var result = {

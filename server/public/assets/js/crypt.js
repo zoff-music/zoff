@@ -23,18 +23,13 @@ var Crypt = {
 
         if(window.location.pathname != "/") {
             try {
-                Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
+                //Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
             } catch(err) {
-                Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
+                //Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
             }
 
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-            if(conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
-                setTimeout(function() {
-                    Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
-                }, 100); //to take height for delay on establishing connection
-            }
         }
     },
 
@@ -148,7 +143,7 @@ var Crypt = {
         return Crypt.getCookie(name);
     },
 
-    set_pass: function(chan, pass) {
+    /*set_pass: function(chan, pass) {
         Crypt.conf_pass.passwords[chan] = pass;
         Crypt.encrypt(Crypt.conf_pass, chan);
     },
@@ -166,7 +161,7 @@ var Crypt = {
     remove_userpass:function(chan) {
         delete Crypt.conf_pass.passwords["userpass"];
         Crypt.encrypt(Crypt.conf_pass, chan.toLowerCase());
-    },
+    },*/
 
     set_name:function(name, pass) {
         conf_arr.name = encodeURIComponent(name).replace(/\W/g, '');

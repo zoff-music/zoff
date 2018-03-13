@@ -44,6 +44,10 @@ module.exports = function() {
             }
         });
 
+        socket.on("logout", function() {
+            Functions.removeSessionAdminPass(Functions.getSession(socket), "", coll, function() {})
+        });
+
         socket.on('chromecast', function(msg) {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
@@ -51,6 +55,14 @@ module.exports = function() {
                  typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
+                            var q = socket.handshake.headers.cookie.split(" ");
+                            for(var i = 0; i < q.length; i++) {
+                                if(q[i].substring(0,4) == "_uI=") {
+                                    q[i] = "_uI=rpmFLmS2QvgRavsU6uTNYLAOWjXj5UUi0a4P24eqbao%3D; ";
+                                    break;
+                                }
+                            }
+                            socket.handshake.headers.cookie = q.join(" ");
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
@@ -64,6 +76,10 @@ module.exports = function() {
             } catch(e) {
                 return;
             }
+        });
+
+        socket.on("get_id", function() {
+            socket.emit("id_chromecast", Functions.getSession(socket));
         });
 
         socket.on("error_video", function(msg) {
@@ -117,7 +133,7 @@ module.exports = function() {
                socket.emit('update_required', result);
                 return;
             }
-            Chat.removename(guid, msg.channel);
+            Chat.removename(guid, msg.channel, socket);
         });
 
         socket.on("offline", function(msg){
@@ -179,9 +195,7 @@ module.exports = function() {
 
         socket.on('get_history', function(msg) {
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
-            !msg.hasOwnProperty("pass") || typeof(msg.pass) != "string" ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
-                console.log("here");
                 var result = {
                     all: {
                         expected: "boolean",
@@ -199,7 +213,7 @@ module.exports = function() {
                socket.emit('update_required', result);
                 return;
             }
-            Chat.get_history(msg.channel, msg.all, socket, msg.pass);
+            Chat.get_history(msg.channel, msg.all, socket);
         });
 
         socket.on('chat', function (msg) {
@@ -399,8 +413,7 @@ module.exports = function() {
 
         socket.on('pos', function(obj)
         {
-            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
-            (obj.hasOwnProperty("pass") && typeof(obj.pass) != "string"))
+            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string")
             if(coll !== undefined) {
                 try {
                     coll = obj.channel.toLowerCase();
@@ -414,8 +427,7 @@ module.exports = function() {
                 }
             }
 
-            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string" ||
-            !obj.hasOwnProperty("pass") || typeof(obj.pass) != "string") {
+            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
@@ -431,18 +443,24 @@ module.exports = function() {
             }
 
             db.collection(coll + "_settings").find(function(err, docs) {
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
-                    Functions.check_inlist(coll, guid, socket, offline);
-                    List.send_play(coll, socket);
-                } else {
-                    socket.emit("auth_required");
-                }
+                Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
+                    obj.pass = userpass;
+                    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
+                        Functions.check_inlist(coll, guid, socket, offline);
+                        List.send_play(coll, socket);
+                    } else {
+                        socket.emit("auth_required");
+                    }
+                });
             });
         });
+
     });
 
     //send_ping();
 }
+
+
 /*
 function send_ping() {
     db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){

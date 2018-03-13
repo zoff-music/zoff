@@ -97,7 +97,7 @@ function hide_native(way) {
         $("#chromecast_text").html("");
         $("#playing_on").css("display", "none");
         if(!offline){
-            socket.emit('pos', {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+            socket.emit('pos', {channel: chan.toLowerCase()});
         } else {
             Player.loadVideoById(video_id);
         }
@@ -111,14 +111,14 @@ function chromecastListener(evt, data) {
             if(offline){
                 Player.playNext();
             } else {
-                socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+                socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
             }
             break;
         case 0:
             if(offline){
                 Player.playNext();
             } else {
-                emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+                emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, channel: chan.toLowerCase()});
             }
             break;
         case 1:
@@ -142,7 +142,7 @@ function start_auth() {
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
         $("#user_password").modal("open");
-        Crypt.remove_userpass(chan.toLowerCase());
+        //Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
         Materialize.toast("That is not the correct password, try again..", 4000);
     }
@@ -151,10 +151,10 @@ function start_auth() {
 function emit_list() {
     var add = "";
     if(private_channel) add = Crypt.getCookie("_uI") + "_";
-    var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-    if(p == undefined) p = "";
+    /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+    if(p == undefined) p = "";*/
     if(socket.id) {
-        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : p});
+        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
     } else {
         setTimeout(function(){
             emit_list();
@@ -163,14 +163,11 @@ function emit_list() {
 }
 
 function get_list_ajax() {
-    var c = Crypt.get_userpass(chan.toLowerCase());
-    if(c == "" || c == undefined) {
-        c = "";
-    }
+    //var c = Crypt.get_userpass(chan.toLowerCase());
     $.ajax({
         type: "POST",
         data: {
-            userpass: c,
+            userpass: "",
         },
         url: "/api/list/" + chan.toLowerCase(),
         success: function(response) {
@@ -198,12 +195,12 @@ function get_list_ajax() {
 }
 
 function get_np_ajax() {
-    var c = Crypt.get_userpass(chan.toLowerCase());
-    if(c == undefined) c = "";
+    /*var c = Crypt.get_userpass(chan.toLowerCase());
+    if(c == undefined) c = "";*/
     $.ajax({
         type: "POST",
         data: {
-            userpass: c,
+            userpass: "",
             fetch_song: true
         },
         url: "/api/list/" + chan.toLowerCase() + "/__np__",
@@ -223,15 +220,15 @@ function get_np_ajax() {
 }
 
 function del_ajax(id) {
-    var a = Crypt.get_pass(chan.toLowerCase());
+    /*var a = Crypt.get_pass(chan.toLowerCase());
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
-    if(u == undefined) u = "";
+    if(u == undefined) u = "";*/
     $.ajax({
         type: "DELETE",
         data: {
-            adminpass: a,
-            userpass: u
+            adminpass: "",
+            userpass: ""
         },
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
@@ -250,15 +247,15 @@ function del_ajax(id) {
 }
 
 function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
-    var a = Crypt.get_pass(chan.toLowerCase());
+    /*var a = Crypt.get_pass(chan.toLowerCase());
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
-    if(u == undefined) u = "";
+    if(u == undefined) u = "";*/
     $.ajax({
         type: "POST",
         data: {
-            adminpass: a,
-            userpass: u,
+            adminpass: "",
+            userpass: "",
             title: title,
             duration: duration,
             end_time: end,
@@ -281,15 +278,15 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
 }
 
 function vote_ajax(id) {
-    var a = Crypt.get_pass(chan.toLowerCase());
+    /*var a = Crypt.get_pass(chan.toLowerCase());
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
-    if(u == undefined) u = "";
+    if(u == undefined) u = "";*/
     $.ajax({
         type: "PUT",
         data: {
-            adminpass: a,
-            userpass: u
+            adminpass: "",
+            userpass: ""
         },
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
@@ -316,7 +313,7 @@ function setup_auth_listener() {
         if(msg.hasOwnProperty("value") && msg.value) {
             if(temp_user_pass != "") {
                 userpass = temp_user_pass;
-                Crypt.set_userpass(chan.toLowerCase(), userpass);
+                //Crypt.set_userpass(chan.toLowerCase(), userpass);
             }
         }
     });
@@ -347,11 +344,15 @@ function setup_youtube_listener(){
 function get_list_listener(){
     socket.on("get_list", function(){
         var add = "";
-        if(private_channel) add = Crypt.getCookie("_uI") + "_";
-        var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-        if(p == undefined) p = "";
-        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : p});
+        //if(private_channel) add = Crypt.getCookie("_uI") + "_";
+        /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+        if(p == undefined) p = "";*/
+        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
     });
+    socket.on("id_chromecast", function(msg) {
+        chromecast_specs_sent = true;
+        castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: msg, socketid: socket.id})
+    })
 }
 
 function setup_suggested_listener(){
@@ -538,10 +539,10 @@ function change_offline(enabled, already_offline){
         $("#controls").off("click", Channel.seekToClick);
         $("#seekToDuration").remove();
         if(window.location.pathname != "/"){
-            socket.emit("pos", {channel: chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+            socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
             if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
         }
     }
@@ -591,7 +592,7 @@ function toast(msg) {
         case "wrongpass":
             if(embed) return;
             msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
-            Crypt.remove_pass(chan.toLowerCase());
+            //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
@@ -638,7 +639,7 @@ function toast(msg) {
             }
             tried_again = false;
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
-            Crypt.remove_pass(chan.toLowerCase());
+            //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
