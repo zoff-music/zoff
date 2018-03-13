@@ -1,16 +1,18 @@
 var Admin = {
 
     beginning:true,
+    logged_in: false,
 
     pw: function(msg) {
+        Admin.logged_in = msg;
         if(!msg) return;
         w_p = false;
         if(adminpass == undefined || adminpass == "") {
-            adminpass = Crypt.get_pass(chan.toLowerCase());
+            //adminpass = Crypt.get_pass(chan.toLowerCase());
         }
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
-        Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
+        //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
             $("input[name="+names[i]+"]").attr("disabled", false);
@@ -57,11 +59,11 @@ var Admin = {
 
     conf: function(msg) {
         if(msg[0].adminpass == ""){
-            Crypt.remove_pass(chan.toLowerCase());
+            ////Crypt.remove_pass(chan.toLowerCase());
         }
         Admin.set_conf(msg[0]);
-        if(msg[0].adminpass !== "" && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Admin.beginning && Crypt.get_pass(chan.toLowerCase()) !== "")){
-            emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+        if(msg[0].adminpass !== "" && Admin.beginning){
+            //emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             Admin.beginning = false;
         }
     },
@@ -69,7 +71,7 @@ var Admin = {
     pass_save: function() {
         if(!w_p) {
             //emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
-            emit('password', {password: Crypt.crypt_pass(document.getElementById("password").value), channel: chan.toLowerCase(), oldpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase()))});
+            emit('password', {password: Crypt.crypt_pass(document.getElementById("password").value), channel: chan.toLowerCase()});
         } else {
             //emit('password', {password: Crypt.crypt_pass(CryptoJS.SHA256(document.getElementById("password").value).toString()), channel: chan.toLowerCase()});
             emit('password', {password: Crypt.crypt_pass(document.getElementById("password").value), channel: chan.toLowerCase()});
@@ -78,9 +80,11 @@ var Admin = {
 
     log_out: function() {
         before_toast();
-        if(Crypt.get_pass(chan.toLowerCase())) {
-            Crypt.remove_pass(chan.toLowerCase());
-            Admin.display_logged_out();
+        /*if(Crypt.get_pass(chan.toLowerCase())) {*/
+            //Crypt.remove_pass(chan.toLowerCase());
+        Admin.display_logged_out();
+        if(Admin.logged_in) {
+            socket.emit("logout");
             Materialize.toast("Logged out", 4000);
         } else {
             Materialize.toast("Not logged in", 4000);
@@ -92,7 +96,6 @@ var Admin = {
         adminpass = "";
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle"];
-
         document.getElementById("password").value = "";
         $("#thumbnail_form").css("display", "none");
         $("#description_form").css("display", "none");
@@ -152,21 +155,13 @@ var Admin = {
         "removeplay", "skip", "shuffle", "userpass"];
 
 
-        if(conf_array.adminpass === "" || !w_p){
-            hasadmin = false;
-            if(!Helper.mobilecheck()) {
-                //$(".playlist-tabs").removeClass("hide");
-                //$("#wrapper").toggleClass("tabs_height");
-            }
-        }
-        else hasadmin = true;
+        hasadmin = conf_array.adminpass != "";
 
         for (var i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
-            $("input[name="+names[i]+"]").attr("disabled", hasadmin);
+            $("input[name="+names[i]+"]").attr("disabled", !Admin.logged_in);
         }
-
-        if((hasadmin)) {
+        if((hasadmin) && !Admin.logged_in) {
             if($("#admin-lock").html() != "lock") Admin.display_logged_out();
         } else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined) {
             if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
@@ -182,7 +177,7 @@ var Admin = {
 
         if(!$(".password_protected").prop("checked") && !$(".change_user_pass").hasClass("hide")) {
             $(".change_user_pass").addClass("hide");
-            Crypt.remove_userpass(chan.toLowerCase());
+            //Crypt.remove_userpass(chan.toLowerCase());
         }
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != "") {
@@ -220,7 +215,7 @@ var Admin = {
             userpass_changed: userpass_changed
         };
         if(userpass_changed){
-            Crypt.set_userpass(chan.toLowerCase(), userpass);
+            //Crypt.set_userpass(chan.toLowerCase(), userpass);
         }
         emit("conf", configs);
     },
@@ -231,9 +226,9 @@ var Admin = {
 
     shuffle: function() {
         if(!offline) {
-            var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+            //var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
             if(u == undefined) u = "";
-            emit('shuffle', {adminpass: adminpass !== undefined ? Crypt.crypt_pass(adminpass) : "", channel: chan.toLowerCase(), pass: embed ? '' : u});
+            emit('shuffle', {channel: chan.toLowerCase()});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
                 var num = Math.floor(Math.random()*1000000);

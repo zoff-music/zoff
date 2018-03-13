@@ -195,7 +195,7 @@ function toast(msg) {
         case "wrongpass":
             if(embed) return;
             msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
-            Crypt.remove_pass(chan.toLowerCase());
+            //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
@@ -242,7 +242,7 @@ function toast(msg) {
             }
             tried_again = false;
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
-            Crypt.remove_pass(chan.toLowerCase());
+            //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");

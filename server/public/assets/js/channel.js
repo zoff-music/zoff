@@ -17,7 +17,7 @@ var Channel = {
             $(".pagination-results").addClass("client-pagination-height");
             $(".control-list").addClass("client-control-list");
         }
-        Admin.display_logged_out();
+        if(!Admin.logged_in) Admin.display_logged_out();
         number_suggested = 0;
         var no_socket = true;
 
@@ -532,7 +532,7 @@ var Channel = {
             var add = "";
             w_p = true;
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
         } else if(url_split[3] === "") {
             /*if(client) {
                 var host = window.location.hostname.split(".");
@@ -682,12 +682,12 @@ var Channel = {
 
 function get_history() {
     if(socket && socket.id) {
-        var p = Crypt.get_userpass();
+        /*var p = Crypt.get_userpass();
         if(p == undefined) p = "";
         var c = Crypt.crypt_pass(p, true);
-        if(c == undefined) c = "";
-        socket.emit("get_history", {channel: chan.toLowerCase(), all: false, pass: embed ? '' : c});
-        socket.emit("get_history", {channel: chan.toLowerCase(), all: true, pass: ""});
+        if(c == undefined) c = "";*/
+        socket.emit("get_history", {channel: chan.toLowerCase(), all: false});
+        socket.emit("get_history", {channel: chan.toLowerCase(), all: true});
     } else {
         setTimeout(function() {
             get_history();
