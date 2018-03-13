@@ -579,7 +579,7 @@ var Channel = {
             $('.tap-target-join').tapTarget('close');
             clearTimeout(tap_target_timeout);
             before_toast();
-            if(Helper.mobilecheck() || user_auth_avoid) {
+            if(Helper.mobilecheck() || user_auth_avoid || client) {
                 Helper.log(["Removing all listeners"]);
                 //socket.emit("change_channel");
                 //removeAllListeners();
