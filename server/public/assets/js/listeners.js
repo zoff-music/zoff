@@ -199,10 +199,8 @@ $().ready(function(){
             /*if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
                 emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             }*/
-            if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
-                setTimeout(function() {
-                    Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
-                }, 100); //to take height for delay on establishing connection
+            if(chan != undefined) {
+                Chat.namechange("", true, true);
             }
             $(".connect_error").fadeOut(function(){
                 $(".connect_error").remove();

@@ -131,6 +131,8 @@ var Channel = {
 
         Crypt.init();
 
+        Chat.namechange("", true, true);
+
         setup_auth_listener();
 
         if(Crypt.get_offline()){
