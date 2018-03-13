@@ -546,22 +546,23 @@ var Channel = {
                 });
                 socket.emit("change_channel");
                 chan = "";
+                socket.removeEventListener("np");
+                socket.removeEventListener("id");
+                socket.removeEventListener(id);
                 //socket.disconnect();
-            } else {
-                socket.removeEventListener("chat.all");
-                socket.removeEventListener("chat");
-                socket.removeEventListener("conf");
-                socket.removeEventListener("pw");
-                socket.removeEventListener("toast");
-                //socket.removeEventListener("id");
-                socket.removeEventListener("channel");
-                socket.removeEventListener("auth_required");
-                socket.removeEventListener("auth_accepted");
-                socket.removeEventListener("suggested");
-                socket.removeEventListener("color");
-                socket.removeEventListener("chat_history");
-                //socket.removeEventListener(id);
             }
+            socket.removeEventListener("chat.all");
+            socket.removeEventListener("chat");
+            socket.removeEventListener("conf");
+            socket.removeEventListener("pw");
+            socket.removeEventListener("toast");
+            //socket.removeEventListener("id");
+            socket.removeEventListener("channel");
+            socket.removeEventListener("auth_required");
+            socket.removeEventListener("auth_accepted");
+            socket.removeEventListener("suggested");
+            socket.removeEventListener("color");
+            socket.removeEventListener("chat_history");
             socket.removeEventListener("color");
             $.ajax({
                 url: "/",
