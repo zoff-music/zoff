@@ -2066,15 +2066,42 @@ nav ul li:hover, nav ul li.active {
     margin-right: 0 !important;
 }
 
+#context-menu-overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 99999999;
+}
+
 .context-menu-list {
-    z-index: 99999999 !important;
+    position: absolute;
+}
+
+.context-menu-list {
+    z-index: 999999999 !important;
     background: #2d2d2d;
     border: 1px solid #2d2d2d;
+    width: 200px;
+    border-radius: 3px;
+}
+
+.context-menu-separator {
+    background: white !important;
+    height: 1px;
+    padding: 0px !important;
 }
 
 .context-menu-item {
     color:white;
+    padding: 5px 15px;
     background: #2d2d2d;
+    cursor: pointer;
+}
+
+.context-menu-item:hover {
+    background: rgba(0,0,0,.5);
 }
 
 .context-menu-item.context-menu-hover {
@@ -2083,6 +2110,7 @@ nav ul li:hover, nav ul li.active {
 
 .context-menu-item.context-menu-disabled {
     background-color: #353535 !important;
+    cursor: auto;
 }
 
 .close-settings{

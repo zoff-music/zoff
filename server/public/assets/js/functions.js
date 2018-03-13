@@ -181,7 +181,6 @@ function get_list_ajax() {
             }
         },
         error: function(response) {
-            console.log(response);
             if(response.responseJSON.status == 403) {
                 start_auth();
             } else if(response.responseJSON.status == 429) {
@@ -192,6 +191,44 @@ function get_list_ajax() {
             $("#channel-load").remove();
             //List.populate_list(response.responseJSON.results);
         }
+    });
+}
+
+function contextListener(that, e) {
+    var parent = $(that).parent();
+    var suggested = false;
+    if(parent.attr("id").indexOf("suggested-") > -1) suggested = true;
+    $(".context-menu-root").attr("data-suggested", suggested);
+    $(".context-menu-root").attr("data-id", parent.attr("id").replace("suggested-", ""));
+    $("#context-menu-overlay").removeClass("hide");
+    var left = e.pageX - $(".context-menu-root").width() / 2;
+    var top = e.pageY;
+    if(left + $(".context-menu-root").width() > $(window).width()) {
+        left = $(window).width() - $(".context-menu-root").width() - 15;
+    } else if (left < 0) {
+        left = 11;
+    }
+    if(top + $(".context-menu-root").width() > $(window).height()) {
+        top = $(window).height() - $(".context-menu-root").height() - 15;
+    } else if(top < 0) {
+        top = 15;
+    }
+    $(".context-menu-root").css({left: left,top:top});
+    $(".context-menu-root").removeClass("hide");
+    if(!Helper.mobilecheck()) {
+        mouseContext(left, top);
+    }
+}
+
+function mouseContext(left, top) {
+    $(document).off("mousemove");
+    $(document).mousemove(function( event ) {
+       if(event.pageX < left - 60 || event.pageX > left + $(".context-menu-root").width() + 60 ||
+          event.pageY < top - 60 || event.pageY > top + $(".context-menu-root").height() + 60) {
+           $(".context-menu-root").addClass("hide");
+           $("#context-menu-overlay").addClass("hide");
+           $(document).off("mousemove");
+       }
     });
 }
 

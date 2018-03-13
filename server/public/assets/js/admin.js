@@ -10,6 +10,7 @@ var Admin = {
         if(adminpass == undefined || adminpass == "") {
             //adminpass = Crypt.get_pass(chan.toLowerCase());
         }
+        $(".delete-context-menu").removeClass("context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
@@ -144,6 +145,9 @@ var Admin = {
         }
         $("#admin-lock").removeClass("clickable");
         $("#password").attr("placeholder", "Enter admin password");
+        if(!$(".delete-context-menu").hasClass("context-menu-disabled")) {
+            $(".delete-context-menu").addClass("context-menu-disabled");
+        }
     },
 
     save: function(userpass) {
