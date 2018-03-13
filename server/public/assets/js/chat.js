@@ -4,7 +4,7 @@ var Chat = {
     all_received: 0,
     chat_help: ["/name <new name> <password> to register and save a password for a nickname", "/name <new name> <new_password> <old_password> to change the password on a nickname", "/removename to logout"],//, "There are no commands.. As of now!"],
 
-    namechange: function(data, first) {
+    namechange: function(data, first, initial) {
         var input = data.split(" ");
         if(input.length == 2) {
             var name = input[0];
@@ -17,14 +17,14 @@ var Chat = {
             var new_password = input[1];
             var old_password = input[2];
 
-            
+
 
             new_password = Crypt.crypt_chat_pass(new_password);
             old_password = Crypt.crypt_chat_pass(old_password);
 
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), new_password: new_password, old_password: old_password});
-        } else {
-
+        } else if(first) {
+            socket.emit("namechange", {channel: chan.toLowerCase(), initial: initial, first: true});
         }
     },
 

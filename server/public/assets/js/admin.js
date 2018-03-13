@@ -83,6 +83,7 @@ var Admin = {
         /*if(Crypt.get_pass(chan.toLowerCase())) {*/
             //Crypt.remove_pass(chan.toLowerCase());
         Admin.display_logged_out();
+        console.log(Admin.logged_in);
         if(Admin.logged_in) {
             socket.emit("logout");
             Materialize.toast("Logged out", 4000);

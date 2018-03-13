@@ -30,11 +30,6 @@ var Crypt = {
 
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
-            if(conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
-                setTimeout(function() {
-                    Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
-                }, 100); //to take height for delay on establishing connection
-            }
         }
     },
 

@@ -134,29 +134,32 @@ function all_chat(msg, guid, offline, socket) {
 }
 
 function namechange(data, guid, socket, tried) {
-    if(!data.hasOwnProperty("name") || data.name.length > 10 ||
-    !data.hasOwnProperty("channel") || typeof(data.name) != "string" ||
+    if(!data.hasOwnProperty("channel") ||
      typeof(data.channel) != "string") return;
     var pw = "";
     var new_password;
     var first = false;
     Functions.getSessionChatPass(Functions.getSession(socket), function(name, pass) {
-        var name = data.name;
-        if(data.hasOwnProperty("first")) {
-            first = data.first;
-        }
-        if(data.hasOwnProperty("password")) {
-            pw = data.password;
-            new_password = false;
-        } else if(data.hasOwnProperty("new_password") && data.hasOwnProperty("old_password")) {
-            pw = data.old_password;
-            new_password = Functions.decrypt_string(socket.zoff_id, data.new_password);
-        }
         if(data.hasOwnProperty("first") && data.first) {
             pw = pass;
             name = name;
+            data.name = name;
+            data.password = pass;
             new_password = false;
+        } else {
+            var name = data.name;
+            if(data.hasOwnProperty("first")) {
+                first = data.first;
+            }
+            if(data.hasOwnProperty("password")) {
+                pw = data.password;
+                new_password = false;
+            } else if(data.hasOwnProperty("new_password") && data.hasOwnProperty("old_password")) {
+                pw = data.old_password;
+                new_password = Functions.decrypt_string(socket.zoff_id, data.new_password);
+            }
         }
+
         var password = Functions.decrypt_string(socket.zoff_id, pw);
         db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
             var accepted_password = false;
@@ -177,6 +180,9 @@ function namechange(data, guid, socket, tried) {
                 if(new_password) {
                     Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.new_password, function() {
                         db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
+                    });
+                } else {
+                    Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.password, function() {
                     });
                 }
             }
@@ -204,7 +210,9 @@ function namechange(data, guid, socket, tried) {
                     }
                 });
             } else {
-                socket.emit('name', {type: "name", accepted: false});
+                Functions.removeSessionChatPass(Functions.getSession(socket), function() {
+                    socket.emit('name', {type: "name", accepted: false});
+                });
             }
         });
     });

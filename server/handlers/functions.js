@@ -206,7 +206,7 @@ function getSessionChatPass(id, callback) {
                 var pass = "";
                 if(d[0].name != undefined) name = d[0].name;
                 if(d[0].password != undefined) pass = d[0].password;
-                callback(name, password);
+                callback(name, pass);
                 return;
             } else {
                 callback("", "", false);
@@ -266,8 +266,21 @@ function removeSessionChatPass(id, callback) {
     });
 }
 
+
+function removeSessionAdminPass(id, channel, callback) {
+    if(id == "empty") {
+        callback();
+        return;
+    }
+    connected_db.collection(id).remove({_id: channel}, function() {
+        callback();
+        return;
+    });
+}
+
 module.exports.getSessionChatPass = getSessionChatPass;
 module.exports.setSessionChatPass = setSessionChatPass;
+module.exports.removeSessionAdminPass = removeSessionAdminPass;
 module.exports.removeSessionChatPass = removeSessionChatPass;
 module.exports.setSessionAdminPass = setSessionAdminPass;
 module.exports.setSessionUserPass = setSessionUserPass;

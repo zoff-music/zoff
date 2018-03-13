@@ -45,7 +45,7 @@ module.exports = function() {
         });
 
         socket.on("logout", function() {
-            Functions.setSessionAdminPass(Functions.getSession(socket), "", coll, function() {})
+            Functions.removeSessionAdminPass(Functions.getSession(socket), "", coll, function() {})
         });
 
         socket.on('chromecast', function(msg) {
