@@ -683,7 +683,9 @@ var Channel = {
 function get_history() {
     if(socket && socket.id) {
         var p = Crypt.get_userpass();
+        if(p == undefined) p = "";
         var c = Crypt.crypt_pass(p, true);
+        if(c == undefined) c = "";
         socket.emit("get_history", {channel: chan.toLowerCase(), all: false, pass: embed ? '' : c});
         socket.emit("get_history", {channel: chan.toLowerCase(), all: true, pass: ""});
     } else {

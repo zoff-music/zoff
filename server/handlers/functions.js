@@ -89,7 +89,7 @@ function rndName(seed, len) {
 
 function decrypt_string(socket_id, pw){
     try {
-        var input = pw.split("$");
+        /*var input = pw.split("$");
         pw = input[0];
         var testKey = ((new Buffer(socket_id).toString('base64')) + (new Buffer(socket_id).toString('base64'))).substring(0,32);
         var keyNew = (new Buffer(testKey)).toString('base64');
@@ -104,8 +104,10 @@ function decrypt_string(socket_id, pw){
                 padding: CryptoJS.pad.Pkcs7,
                 iv: iv,
             })
-        );
-        return decrypted;
+        );*/
+        //return atob(pw);
+        return Buffer.from(pw, 'base64').toString('ascii')
+        //return decrypted;
     } catch(e) {
         return "";
     }
@@ -132,7 +134,8 @@ function contains(a, obj) {
     }
 }
 
-function hash_pass(adminpass) {
+function hash_pass(adminpass, hex) {
+    if(hex) return crypto.createHash('sha256').update(adminpass).digest('hex');
     return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
 

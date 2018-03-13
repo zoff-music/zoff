@@ -6,19 +6,19 @@
 'end', {
     id: video_id,
     channel: channel_name,
-    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
+    pass: Base64(channel_pass)
 }
 
 // Asks server where in the song it should be
 'pos', {
     channel: channel_name,
-    pass: cAES-CBC-Pkcs7 with Base64 IV(hannel_pass)
+    pass: cBase64(hannel_pass)
 }
 
 // Tells the server the client wants the list
 'list', {
     channel: channel_name,
-    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass),
+    pass: Base64(channel_pass),
     version: system_version (can be checked in VERSION.js)
 }
 
@@ -26,13 +26,13 @@
 'add', {
     id: VIDEO_ID,
     title: VIDEO_TITLE,
-    adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
+    adminpass: Base64(PASSWORD),
     duration: VIDEO_DURATION,
     list: channel_name,
     playlist: true_if_importing_playlist,
     num: current_number_of_sending_songs,
     total: total_number_of_sending_songs,
-    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
+    pass: Base64(channel_pass)
 }
 
 // Tells the server to disconnect the user from the current channel, is used for remote controlling on the host side
@@ -50,7 +50,7 @@
 'chat',{
     channel: channel_name,
     data: input,
-    pass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
+    pass: Base64(channel_pass)
 }
 
 // Sends info about song the user wants to vote on. If VOTE_TYPE is del, its deleting the song, if its pos, its just voting
@@ -58,29 +58,29 @@
     channel: CHANNEL_NAME,
     id: VIDEO_ID,
     type: VOTE_TYPE,
-    adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD)
+    adminpass: Base64(PASSWORD)
 }
 
 // Sends shuffle to the server (Only works every 5 seconds per list)
 'shuffle', {
-    adminpass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
+    adminpass: Base64(PASSWORD),
     channel: CHANNELNAME,
-    pass: AES-CBC-Pkcs7 with Base64 IV(USER_PASSWORD)
+    pass: Base64(USER_PASSWORD)
 }
 
 // Sends skip message to server
 'skip', {
-    pass: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
+    pass: Base64(PASSWORD),
     id:video_id,
     channel: chan,
-    userpass: AES-CBC-Pkcs7 with Base64 IV(channel_pass)
+    userpass: Base64(channel_pass)
 }
 
 // Sends password for instant log in to server
 'password', {
-    password: AES-CBC-Pkcs7 with Base64 IV(PASSWORD),
+    password: Base64(PASSWORD),
     channel: CHANNEL_NAME,
-    oldpass: AES-CBC-Pkcs7 with Base64 IV(old_pass_if_changing_password)
+    oldpass: Base64(old_pass_if_changing_password)
 }
 
 // Sends message to the host channel for play
@@ -129,7 +129,7 @@
 'get_history', {
     channel: CHANNEL_NAME,
     all: BOOLEAN (if true, it requests  for all-chat),
-    pass: AES-CBC-Pkcs7 with Base64 IV(USERPASS)
+    pass: Base64(USERPASS)
 }
 ```
 

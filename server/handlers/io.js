@@ -181,6 +181,7 @@ module.exports = function() {
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
             !msg.hasOwnProperty("pass") || typeof(msg.pass) != "string" ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
+                console.log("here");
                 var result = {
                     all: {
                         expected: "boolean",

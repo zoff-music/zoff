@@ -30,13 +30,13 @@ function password(inp, coll, guid, offline, socket) {
         }
 
         uncrypted = pw;
-        pw = Functions.decrypt_string(socket.zoff_id, pw);
+        pw = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, pw), true);
         Functions.check_inlist(coll, guid, socket, offline);
         if(inp.oldpass)
         {
             opw = inp.oldpass;
         }
-        opw = Functions.decrypt_string(socket.zoff_id, opw);
+        opw = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, opw), true);
 
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs !== null && docs.length !== 0)
@@ -153,6 +153,7 @@ function conf_function(params, coll, guid, offline, socket) {
         var shuffling = params.shuffling;
         var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
 
+
         if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
             userpass = "";
         } else if(params.userpass_changed && userpass != "") {
@@ -161,9 +162,8 @@ function conf_function(params, coll, guid, offline, socket) {
         var description = "";
         var hash;
         if(params.description) description = params.description;
-
         if(adminpass !== "") {
-            hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass));
+            hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass), true));
         } else {
             hash = adminpass;
         }

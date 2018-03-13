@@ -151,8 +151,10 @@ function start_auth() {
 function emit_list() {
     var add = "";
     if(private_channel) add = Crypt.getCookie("_uI") + "_";
+    var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+    if(p == undefined) p = "";
     if(socket.id) {
-        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : p});
     } else {
         setTimeout(function(){
             emit_list();
@@ -346,7 +348,9 @@ function get_list_listener(){
     socket.on("get_list", function(){
         var add = "";
         if(private_channel) add = Crypt.getCookie("_uI") + "_";
-        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+        var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+        if(p == undefined) p = "";
+        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase(), pass: embed ? '' : p});
     });
 }
 
