@@ -557,9 +557,9 @@ var List = {
             return;
         }
         if(!offline || (vote == "del" && (hasadmin && (!w_p && adminpass != "")))){
-            var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-            if(u == undefined) u = "";
-            emit('vote', {channel: chan, id: id, type: vote, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : u});
+            /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+            if(u == undefined) u = "";*/
+            emit('vote', {channel: chan, id: id, type: vote});
         } else {
             if(vote == "pos"){
                 List.voted_song(id, (new Date()).getTime()/1000);
@@ -572,9 +572,9 @@ var List = {
 
     skip: function(way) {
         if(!offline){
-            var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-            if(u == undefined) u = "";
-            emit('skip', {pass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), id:video_id, channel: chan.toLowerCase(), userpass: embed ? '' : u});
+            /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
+            if(u == undefined) u = "";*/
+            emit('skip', {id:video_id, channel: chan.toLowerCase()});
         } else {
             if(way) {
                 Player.playNext();

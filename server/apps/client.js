@@ -1,4 +1,18 @@
 VERSION = require(pathThumbnails + '/VERSION.js');
+var secure = false;
+try {
+	var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
+	var fs = require('fs');
+	var privateKey  = fs.readFileSync(cert_config.privateKey).toString();
+	var certificate = fs.readFileSync(cert_config.certificate).toString();
+	var ca          = fs.readFileSync(cert_config.ca).toString();
+	var credentials = {
+		key: privateKey,
+		cert: certificate,
+		ca: ca
+	};
+	secure = true;
+} catch(err){}
 
 var add = "";
 var path = require('path');
@@ -20,7 +34,8 @@ app.enable('view cache');
 app.set('views', publicPath);
 
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
+var cookieParser = require("cookie-parser");
+var cookies = require("cookie");
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
@@ -70,8 +85,10 @@ app.get('/robots.txt', function (req, res) {
 app.use(function (req, res, next) {
 	var cookie = req.cookies._uI;
 	if (cookie === undefined) {
-		var user_name = Functions.rndName(uniqid.time(), 15);
-		res.cookie('_uI',user_name, { maxAge: 365 * 10000 * 3600000 });
+		var user_name = Functions.hash_pass(Functions.rndName(uniqid.time(), 15));
+		res.cookie('_uI', user_name, { maxAge: 365 * 10000 * 3600000, httpOnly: true, secure: secure });
+	} else {
+		res.cookie('_uI', cookie, { maxAge: 365 * 10000 * 3600000, httpOnly: true, secure: secure });
 	}
 	res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

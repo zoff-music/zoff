@@ -6,7 +6,7 @@ $(document).ready(function() {
     $("#contact-container").empty();
     $("#contact-container").html("Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
     $("#submit-contact-form").hide();
-    
+
     ga('send', 'pageview');
 
     if(!Helper.mobilecheck()) {
