@@ -6,6 +6,7 @@ var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
 var cookies = require("cookie");
+var cors = require('cors');
 
 var toShowChannel = {
     start: 1,
@@ -88,7 +89,7 @@ var error = {
     }
 }
 
-router.use(function(req, res, next) {
+router.use('/api/', cors(), function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 

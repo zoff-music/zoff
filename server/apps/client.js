@@ -19,6 +19,7 @@ var path = require('path');
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
+var cors = require('cors');
 
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/client/main',
@@ -101,7 +102,7 @@ app.use('/service-worker.js', function(req, res) {
 
 app.use('/', ico_router);
 app.use('/', api);
-app.use('/', router);
+app.use('/', cors(), router);
 
 app.use('/assets/js', function(req, res, next) {
     res.sendStatus(403);

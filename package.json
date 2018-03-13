@@ -34,6 +34,7 @@
     "color-thief-jimp": "^2.0.2",
     "cookie-parser": "^1.4.3",
     "cookies": "^0.7.1",
+    "cors": "^2.8.4",
     "emoji-strip": "^0.0.3",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
