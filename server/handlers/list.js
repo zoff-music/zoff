@@ -152,7 +152,7 @@ function skip(list, guid, coll, offline, socket) {
                 }
 
                 if(adminpass !== undefined && adminpass !== null && adminpass !== "")
-                hash = Functions.hash_pass(Functions.decrypt_string(socketid, adminpass));
+                hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, adminpass),true));
                 else
                 hash = "";
 

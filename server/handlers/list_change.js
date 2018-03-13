@@ -98,7 +98,7 @@ function add_function(arr, coll, guid, offline, socket) {
 
                 var id = arr.id;
                 var title = arr.title;
-                var hash = Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass));
+                var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
                 var duration = parseInt(arr.duration);
                 var full_list = arr.playlist;
                 var last = arr.num == arr.total - 1;
@@ -288,7 +288,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                     ListChange.del(msg, socket, socketid);
                 } else {
                     var id = msg.id;
-                    var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+                    var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass), true));
                     if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                     docs[0].vote === false)) {
                         ListChange.vote(coll, id, guid, socket, false, false);
@@ -324,7 +324,7 @@ function shuffle(msg, coll, guid, offline, socket) {
                     got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
                 },
                 adminpass: {
-                    expected: "adminpass",
+                    expected: "string",
                     got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
                 },
                 pass: {
@@ -362,7 +362,7 @@ function shuffle(msg, coll, guid, offline, socket) {
             Functions.check_inlist(coll, guid, socket, offline);
             var hash;
             if(msg.adminpass === "") hash = msg.adminpass;
-            else hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+            else hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass),true));
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
@@ -403,7 +403,7 @@ function del(params, socket, socketid) {
         coll = encodeURIComponent(coll).replace(/\W/g, '');
         coll = filter.clean(coll);
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.decrypt_string(socketid, params.adminpass)))
+            if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, params.adminpass),true)))
             {
                 db.collection(coll).find({id:params.id}, function(err, docs){
                     var dont_increment = false;
@@ -448,7 +448,7 @@ function delete_all(msg, coll, guid, offline, socket) {
                 return;
             }
 
-            var hash = Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass));
+            var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass),true));
             var hash_userpass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
         db.collection(coll + "_settings").find(function(err, conf) {
             if(conf.length == 1 && conf) {

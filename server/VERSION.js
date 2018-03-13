@@ -1,4 +1,4 @@
-VERSION = 4;
+VERSION = 5;
 
 try {
     module.exports = VERSION;
