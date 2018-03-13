@@ -42,7 +42,7 @@ function password(inp, coll, guid, offline, socket) {
                     {
                         Functions.setSessionAdminPass(sessionId, inp.password, coll, function() {
                             db.collection(coll + "_settings").update({ id: "config" }, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
-                                if(adminpass != pw) {
+                                if(adminpass != pw && adminpass != "") {
                                     socket.emit("toast", "changedpass");
                                 } else {
                                     socket.emit("toast", "correctpass");
