@@ -587,8 +587,9 @@ var Channel = {
                 socket.emit("left_channel", {
                     channel: channel_before_move
                 });
+                socket.emit("change_channel");
                 chan = "";
-                socket.disconnect();
+                //socket.disconnect();
             } else {
                 socket.removeEventListener("chat.all");
                 socket.removeEventListener("chat");
