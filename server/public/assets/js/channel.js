@@ -416,65 +416,22 @@ var Channel = {
     },
 
     add_context_menu: function() {
-        $.contextMenu({
-            selector: '.playlist-element',
-            reposition: true,
-            autoHide: true,
-            items: {
-                copy: {
-                    name: "Copy link",
-                    callback: function(key, opt){
-                        var this_id = $(this[0]).attr("data-video-id");
-                        var this_url = "https://www.youtube.com/watch?v=" + this_id;
-                        $(".copy_video_id").css("display", "block");
-                        $(".copy_video_id").text(this_url);
-                        var copyTextarea = document.querySelector('.copy_video_id');
-                        copyTextarea.select();
-                        var successful = document.execCommand('copy');
-                        if(successful) {
-                            Materialize.toast("Copied!", 2000, "green lighten");
-                        } else {
-                            Materialize.toast("Error copying..", 2000, "red lighten");
-                        }
-                        $(".copy_video_id").css("display", "none");
-                    }
-                },
-                similar: {
-                    name: "Find Similar",
-                    callback: function(key, opt) {
-                        var this_id = $(this[0]).attr("data-video-id");
-                        Search.search(this_id, false, true);
-                        if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
-                            Search.showSearch();
-                        }
-                    }
-                },
-                "sep1": "---------",
-                delete: {
-                    name: "Delete",
-                    callback: function(key, opt) {
-                        var this_id = $(this[0]).attr("data-video-id");
-                        var this_type = $(this[0]).attr("data-video-type");
+        $(document).on("contextmenu", ".vote-container", function(e) {
+            e.preventDefault();
+            var that = this;
+            contextListener(that, e);
+        });
 
-                        if(this_type == "suggested") {
-                            number_suggested = number_suggested - 1;
-                            if(number_suggested < 0) number_suggested = 0;
+        $(document).on("contextmenu", ".add-suggested", function(e) {
+            e.preventDefault();
+            var that = this;
+            contextListener(that, e);
+        });
 
-                            var to_display = number_suggested > 9 ? "9+" : number_suggested;
-                            if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-                                $(".suggested-link span.badge.new.white").addClass("hide");
-                            }
-
-                            $(".suggested-link span.badge.new.white").text(to_display);
-                        }
-
-                        List.vote(this_id, "del");
-                    },
-                    disabled: function(key, opt) {
-                        return w_p;
-                    }
-                }
-            }
+        $(document).on("click", ".list-remove", function(e) {
+            e.preventDefault();
+            var that = this;
+            contextListener(that, e);
         });
     },
 
@@ -543,7 +500,7 @@ var Channel = {
             var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
-            $.contextMenu( 'destroy', ".playlist-element" );
+            //$.contextMenu( 'destroy', ".playlist-element" );
             user_change_password = false;
             clearTimeout(width_timeout);
             if(fireplace_initiated){
@@ -659,7 +616,7 @@ var Channel = {
                     $(".page-footer").removeClass("padding-bottom-novideo");
                     $("#favicon").attr("href", "/assets/images/favicon-32x32.png");
 
-                    $(".context-menu-list").remove();
+                    //$(".context-menu-list").remove();
                     Helper.log(["Socket", socket]);
                     if($("#alreadyfp").length == 1){
                         Frontpage.init();

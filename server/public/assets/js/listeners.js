@@ -447,11 +447,6 @@ $(document).on("click", "#chat_submit", function(e){
     $("#chatForm").submit();
 });
 
-$(document).on("click", ".list-remove", function(e) {
-    e.preventDefault();
-    $('#' + $(this).parent().attr("id")).contextMenu();
-});
-
 $(document).on("mouseleave", ".card.sticky-action", function(e){
     var that = this;
     $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");
@@ -524,6 +519,76 @@ $(document).on("click", ".extra-button-delete", function(e){
     }
 });
 
+$(document).on("click", "#context-menu-overlay", function(e) {
+    $(".context-menu-root").addClass("hide");
+    $("#context-menu-overlay").addClass("hide");
+    $(".context-menu-root").attr("data-id", "");
+});
+
+$(document).on("click", ".copy-context-menu", function(e) {
+    e.preventDefault();
+    var that = this;
+    var parent = $(that).parent();
+    var id = parent.attr("data-id");
+    if(id != "") {
+        $(".copy_video_id").css("display", "block");
+        $(".copy_video_id").text("https://www.youtube.com/watch?v=" + id);
+        var copyTextarea = document.querySelector('.copy_video_id');
+        copyTextarea.select();
+        var successful = document.execCommand('copy');
+        if(successful) {
+            Materialize.toast("Copied!", 2000, "green lighten");
+        } else {
+            Materialize.toast("Error copying..", 2000, "red lighten");
+        }
+        $(".copy_video_id").css("display", "none");
+    }
+    $(".context-menu-root").addClass("hide");
+    $("#context-menu-overlay").addClass("hide");
+    $(".context-menu-root").attr("data-id", "");
+});
+
+$(document).on("click", ".find-context-menu", function(e) {
+    e.preventDefault();
+    var that = this;
+    var parent = $(that).parent();
+    var id = parent.attr("data-id");
+    Search.search(id, false, true);
+    if(Helper.contains($(".search-container").attr("class").split(" "), "hide")) {
+        Search.showSearch();
+    }
+    $(".context-menu-root").addClass("hide");
+    $("#context-menu-overlay").addClass("hide");
+    $(".context-menu-root").attr("data-id", "");
+});
+
+$(document).on("click", ".delete-context-menu", function(e) {
+    var that = this;
+    if($(that).hasClass("context-menu-disabled")) {
+        return;
+    }
+    var parent = $(that).parent();
+    var id = parent.attr("data-id");
+    var suggested = parent.attr("data-suggested");
+
+    if(suggested == "true") {
+        number_suggested = number_suggested - 1;
+        if(number_suggested < 0) number_suggested = 0;
+
+        var to_display = number_suggested > 9 ? "9+" : number_suggested;
+        if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
+            $(".suggested-link span.badge.new.white").addClass("hide");
+        }
+
+        $(".suggested-link span.badge.new.white").text(to_display);
+    }
+
+    List.vote(id, "del");
+    $(".context-menu-root").addClass("hide");
+    $("#context-menu-overlay").addClass("hide");
+    $(".context-menu-root").attr("data-id", "");
+})
+
 $(document).on("click", "#closePlayer", function(e){
     e.preventDefault();
     socket.emit("change_channel");
@@ -587,6 +652,10 @@ $(document).on("click", ".change_user_pass_btn", function(e) {
     user_change_password = true;
     $("#user_password").modal('open');
     $("#user-pass-input").focus();
+});
+
+$(document).on("contextmenu", "#context-menu-overlay", function(e) {
+    e.preventDefault();
 });
 
 $(document).on("click", ".submit-user-password", function(e) {
@@ -1199,7 +1268,7 @@ $(document).on( "click", ".add-suggested", function(e){
     var title 	= $(this).attr("data-video-title");
     var length 	= $(this).attr("data-video-length");
     var added_by = $(this).attr("data-added-by");
-    Search.submit(id, title, length, false, 0, 1, 0, length);
+    Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length));
     if(added_by == "user") {
         number_suggested = number_suggested - 1;
         if(number_suggested < 0) number_suggested = 0;
