@@ -9,6 +9,7 @@ num_processes = require('os').cpus().length;
 publicPath = path.join(__dirname, 'public');
 pathThumbnails = __dirname;
 
+
 try {
     var redis = require("redis");
     var client = redis.createClient({host: "localhost", port: 6379});

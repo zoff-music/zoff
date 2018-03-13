@@ -181,6 +181,7 @@ function get_list_ajax() {
             }
         },
         error: function(response) {
+            console.log(response);
             if(response.responseJSON.status == 403) {
                 start_auth();
             } else if(response.responseJSON.status == 429) {
