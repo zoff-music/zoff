@@ -561,7 +561,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                                 if(conf.length == 0) {
                                     res.status(404).send(JSON.stringify(error.not_found.list));
                                     return;
-                                } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
+                                } else if(conf[0].userpass != userpass && conf[0].userpass != "" && conf[0].userpass != undefined) {
                                     res.status(403).send(JSON.stringify(error.not_authenticated));
                                     return;
                                 }
@@ -1020,7 +1020,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                                 if(conf.length == 0) {
                                     res.status(404).send(JSON.stringify(error.not_found.list));
                                     return;
-                                } else if(conf[0].userpass != userpass && conf[0].userpass != "") {
+                                } else if(conf[0].userpass != userpass && conf[0].userpass != "" && conf[0].userpass != undefined) {
                                     res.status(403).send(JSON.stringify(error.not_authenticated));
                                     return;
                                 }
