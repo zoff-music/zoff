@@ -1,3 +1,13 @@
+var path = require('path');
+try {
+    var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+} catch(e) {
+    console.log("Error - missing file");
+    console.log("Seems you forgot to create the file mongo_config.js in /server/config/. Have a look at mongo_config.example.js.");
+    process.exit();
+}
+var mongojs = require('mongojs');
+var connected_db = mongojs('mongodb://' + mongo_config.host + '/user_credentials');
 
 function remove_unique_id(short_id) {
     db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
@@ -7,6 +17,17 @@ function remove_name_from_db(guid, name) {
     db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
         db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
     });
+}
+
+function getSession(socket) {
+    try {
+        var cookieParser = require("cookie-parser");
+        var cookie = require("cookie");
+    	var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
+        return parsedCookies["_uI"];
+    } catch(e) {
+        return "empty";
+    }
 }
 
 function remove_from_array(array, element){
@@ -139,6 +160,119 @@ function hash_pass(adminpass, hex) {
     return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
 
+function setSessionAdminPass(id, adminpass, list, callback) {
+    try {
+        if(id == "empty") {
+            callback();
+            return;
+        }
+
+        connected_db.collection(id).update({_id: list}, {$set: {adminpass: adminpass}}, {upsert: true}, function(e, d){
+            callback();
+            return;
+        });
+    } catch(e) {
+
+    }
+}
+
+function setSessionChatPass(id, name, pass, callback) {
+    try {
+        if(id == "empty") {
+            callback();
+            return;
+        }
+
+        connected_db.collection(id).update({_id: "_chat_"}, {$set: {password: pass, name: name}}, {upsert: true}, function(e) {
+            callback();
+            return;
+        })
+    } catch(e) {
+        callback();
+        return;
+    }
+}
+
+function getSessionChatPass(id, callback) {
+    try {
+        if(id == "empty") {
+            callback("", "", false);
+            return;
+        }
+
+        connected_db.collection(id).find({_id: "_chat_"}, function(e, d) {
+            if(d.length > 0) {
+                var name = "";
+                var pass = "";
+                if(d[0].name != undefined) name = d[0].name;
+                if(d[0].password != undefined) pass = d[0].password;
+                callback(name, password);
+                return;
+            } else {
+                callback("", "", false);
+                return;
+            }
+        })
+    } catch(e) {
+        callback();
+        return;
+    }
+}
+
+function setSessionUserPass(id, userpass, list, callback) {
+    try {
+        if(id == "empty") {
+            callback();
+            return;
+        }
+
+        connected_db.collection(id).update({_id: list}, {$set: {userpass: userpass}}, {upsert: true}, function(e, d){
+            callback();
+            return;
+        });
+    } catch(e) {
+        callback();
+    }
+}
+
+function getSessionAdminUser(id, list, callback) {
+    try {
+        if(id == "empty") {
+            callback("", "", false);
+            return;
+        }
+        connected_db.collection(id).find({_id: list}, function(e, d) {
+            var userpass = "";
+            var adminpass = "";
+            if(d.length > 0) {
+                    if(d[0].userpass != undefined) userpass = d[0].userpass;
+                    if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
+            }
+            callback(userpass, adminpass, true);
+        })
+    } catch(e) {
+        callback("", "", false);
+    }
+}
+
+function removeSessionChatPass(id, callback) {
+    if(id == "empty") {
+        callback();
+        return;
+    }
+    connected_db.collection(id).remove({_id: "_chat_"}, function() {
+        callback();
+        return;
+    });
+}
+
+module.exports.getSessionChatPass = getSessionChatPass;
+module.exports.setSessionChatPass = setSessionChatPass;
+module.exports.removeSessionChatPass = removeSessionChatPass;
+module.exports.setSessionAdminPass = setSessionAdminPass;
+module.exports.setSessionUserPass = setSessionUserPass;
+module.exports.getSessionAdminUser = getSessionAdminUser;
+module.exports.getSession = getSession;
 module.exports.generate_channel_name = generate_channel_name;
 module.exports.remove_unique_id = remove_unique_id;
 module.exports.remove_name_from_db = remove_name_from_db;

@@ -196,9 +196,9 @@ $().ready(function(){
             if(offline) {
                 socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
             }
-            if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
+            /*if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
                 emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
-            }
+            }*/
             if(chan != undefined && conf_arr.name !== undefined && conf_arr.name !== "" && conf_arr.chat_pass !== undefined && conf_arr.chat_pass !== ""){
                 setTimeout(function() {
                     Chat.namechange(conf_arr.name + " " + conf_arr.chat_pass, true);
@@ -212,7 +212,7 @@ $().ready(function(){
 
     });
 
-    socket.on("name", function(data) {
+    /*socket.on("name", function(data) {
         if(data.type == "name" && data.accepted) {
             Crypt.set_name(temp_name, temp_pass);
             temp_name = "";
@@ -221,7 +221,7 @@ $().ready(function(){
             temp_name = "";
             temp_pass = "";
         }
-    });
+    });*/
 
     socket.on("self_ping", function() {
         if(chan != undefined && chan.toLowerCase() != "") {
@@ -268,8 +268,7 @@ initializeCastApi = function() {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 
                 if(Helper.mobilecheck() && !chromecast_specs_sent) {
-                    chromecast_specs_sent = true;
-                    castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: guid, socketid: socket.id, adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), channel: chan.toLowerCase(), userpass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)})
+                    socket.emit("get_id");
                 }
                 hide_native(1);
                 if(Helper.mobilecheck()) {
@@ -382,7 +381,7 @@ $(document).on("click", ".pagination-results a", function(e) {
 
 $(document).on("click", ".accept-delete", function(e) {
     e.preventDefault();
-    emit("delete_all", {channel: chan.toLowerCase(), adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+    emit("delete_all", {channel: chan.toLowerCase()});
     $("#delete_song_alert").modal("close");
 });
 
@@ -475,13 +474,13 @@ $(document).on("click", "#offline-mode", function(e){
 
 $(document).on("submit", "#thumbnail_form", function(e){
     e.preventDefault();
-    emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+    emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val()});
     $("#chan_thumbnail").val("");
 });
 
 $(document).on("submit", "#description_form", function(e){
     e.preventDefault();
-    emit("suggest_description", {channel: chan, description: $("#chan_description").val(), adminpass: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), pass: embed ? '' : Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true)});
+    emit("suggest_description", {channel: chan, description: $("#chan_description").val()});
     $("#chan_description").val("");
 });
 
