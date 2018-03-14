@@ -118,7 +118,7 @@ var fromFront = false;
 var fromChannel = false;
 
 try{
-    if (navigator.serviceWorker && window.location.host != "zoff.dev") {
+    /*if (navigator.serviceWorker && window.location.host != "zoff.dev") {
         navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
         .then(function (registration) {
             Helper.log(registration);
@@ -128,13 +128,13 @@ try{
         });
     } else {
         Helper.log('Service Worker is not supported in this browser.');
-    }
+    }*/
 
-    /*navigator.serviceWorker.getRegistration('/').then(function(registration) {
+    navigator.serviceWorker.getRegistration('/').then(function(registration) {
         if(registration) {
             registration.unregister();
         }
-    });*/
+    });
 
 } catch(e) {}
 

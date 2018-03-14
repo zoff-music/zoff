@@ -21,10 +21,10 @@ function remove_name_from_db(guid, name) {
 
 function getSession(socket) {
     try {
-        /*var cookieParser = require("cookie-parser");
+        var cookieParser = require("cookie-parser");
         var cookie = require("cookie");
     	var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
-        return parsedCookies["_uI"];*/
+        return parsedCookies["_uI"];
         return socket.guid;
     } catch(e) {
         return "empty";
