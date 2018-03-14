@@ -23,26 +23,22 @@
         <meta property="og:type" content="website"/>
         <meta property="fb:app_id" content="1581693815380949" />
         <link rel="manifest" href="/assets/manifest.json">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
         {{#if embed}}
         {{else}}
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css" media="none" onload="if(media!='all')media='all'">
             <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
             <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
             <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/if}}
-        <link rel="stylesheet" href="/assets/css/jquery-ui.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default" />
+        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
-        <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
         {{#if embed}}
         {{else}}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
             <script async type="text/javascript">
                 if(window.location.hostname != "localhost") {
                     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -79,6 +75,9 @@
             {{> footer}}
             <textarea class="copy_video_id" style="display:none;"></textarea>
         {{/if}}
+        <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
         <script async type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
     </body>
 </html>
