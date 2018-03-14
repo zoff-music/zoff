@@ -233,7 +233,7 @@ var Admin = {
     shuffle: function() {
         if(!offline) {
             //var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
-            if(u == undefined) u = "";
+            //if(u == undefined) u = "";
             emit('shuffle', {channel: chan.toLowerCase()});
         } else {
             for(var x = 0; x < full_playlist.length; x++){
