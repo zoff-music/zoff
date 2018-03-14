@@ -37,6 +37,8 @@ app.set('views', publicPath);
 var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
 var cookies = require("cookie");
+var helmet = require('helmet')
+app.use(helmet())
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
@@ -87,9 +89,19 @@ app.use(function (req, res, next) {
 	var cookie = req.cookies._uI;
 	if (cookie === undefined) {
 		var user_name = Functions.hash_pass(Functions.rndName(uniqid.time(), 15));
-		res.cookie('_uI', user_name, { maxAge: 365 * 10000 * 3600000, httpOnly: true, secure: secure });
+		res.cookie('_uI', user_name, {
+            maxAge: 365 * 10000 * 3600000,
+            httpOnly: true,
+            secure: secure,
+            domain: "zoff.me"
+        });
 	} else {
-		res.cookie('_uI', cookie, { maxAge: 365 * 10000 * 3600000, httpOnly: true, secure: secure });
+		res.cookie('_uI', cookie, {
+            maxAge: 365 * 10000 * 3600000,
+            httpOnly: true,
+            secure: secure,
+            domain: "zoff.me"
+        });
 	}
 	res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
