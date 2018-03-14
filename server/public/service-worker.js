@@ -1,8 +1,8 @@
-var version = 'v3.9';
+var version = 'v5.0';
 var CACHE_FILES = [
     '/assets/html/offline.html',
     '/assets/manifest.json',
-    '/assets/images/favicon.png'
+    '/assets/images/favicon.ico'
 ];
 
 self.addEventListener("install", function(event) {
@@ -38,16 +38,16 @@ self.addEventListener('fetch', event => {
         (event.request.headers.get('accept').includes('text/html') ||
          event.request.headers.get('accept').includes('text/css') ||
             (event.request.headers.get('accept').includes('*/*') &&
-                (event.request.url.includes('localhost') || event.request.url.includes('zoff.no') || event.request.url.includes('zoff.me')))))) {
+                (event.request.url.includes('localhost') || event.request.url.includes('zoff.me')))))) {
     event.respondWith(
-      fetch(event.request.url, {redirect: 'manual'}).catch(error => {
+      fetch(event.request).catch(error => {
         if(event.request.url.includes('manifest.json')){
           return caches.open(version + "::zoff").then(function(cache) {
               return cache.match("/assets/manifest.json");
           });
         } else if (event.request.url.includes('favicon')) {
           return caches.open(version + "::zoff").then(function(cache) {
-              return cache.match("/assets/images/favicon.png");
+              return cache.match("/assets/images/favicon.ico");
           });
         } else if (event.request.url.includes('service-worker')) {
           return caches.open(version + "::zoff").then(function(cache) {
