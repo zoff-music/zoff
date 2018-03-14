@@ -146,6 +146,9 @@ function namechange(data, guid, socket, tried) {
             data.name = name;
             data.password = pass;
             new_password = false;
+            if(name == "" || pass == "") {
+                return;
+            }
         } else {
             var name = data.name;
             if(data.hasOwnProperty("first")) {
