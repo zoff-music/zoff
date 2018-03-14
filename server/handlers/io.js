@@ -4,7 +4,7 @@ module.exports = function() {
         socket.emit("get_list");
 
         var guid = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
-
+        socket.guid = guid;
         socket.on('close', function() {
         });
 
