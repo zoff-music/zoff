@@ -1,7 +1,8 @@
 VERSION = require(pathThumbnails + '/VERSION.js');
 var secure = false;
+var path = require('path');
 try {
-	var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
+	var cert_config = require(path.join(path.join(__dirname, '../config/'), 'cert_config.js'));
 	var fs = require('fs');
 	var privateKey  = fs.readFileSync(cert_config.privateKey).toString();
 	var certificate = fs.readFileSync(cert_config.certificate).toString();
@@ -15,7 +16,6 @@ try {
 } catch(err){}
 
 var add = "";
-var path = require('path');
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
