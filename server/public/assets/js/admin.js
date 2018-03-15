@@ -13,7 +13,9 @@ var Admin = {
             $("#description_form").css("display", "inline-block");
             $("#user_suggests").removeClass("hide");
             $("#user-suggest-html").removeClass("hide");
-            $(".suggested-badge").removeClass("hide")
+            if($(".suggested-badge").text() != "0") {
+                $(".suggested-badge").removeClass("hide");
+            }
         } else {
             Admin.hideUserSuggested();
         }
