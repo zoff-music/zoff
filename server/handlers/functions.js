@@ -163,7 +163,7 @@ function hash_pass(adminpass, hex) {
 
 function setSessionAdminPass(id, adminpass, list, callback) {
     try {
-        if(id == "empty") {
+        if(id == "empty" || id == undefined) {
             callback();
             return;
         }
@@ -179,7 +179,7 @@ function setSessionAdminPass(id, adminpass, list, callback) {
 
 function setSessionChatPass(id, name, pass, callback) {
     try {
-        if(id == "empty") {
+        if(id == "empty" || id == undefined) {
             callback();
             return;
         }
@@ -196,7 +196,7 @@ function setSessionChatPass(id, name, pass, callback) {
 
 function getSessionChatPass(id, callback) {
     try {
-        if(id == "empty") {
+        if(id == "empty" || id == undefined) {
             callback("", "", false);
             return;
         }
@@ -222,7 +222,7 @@ function getSessionChatPass(id, callback) {
 
 function setSessionUserPass(id, userpass, list, callback) {
     try {
-        if(id == "empty") {
+        if(id == "empty" || id == undefined) {
             callback();
             return;
         }
@@ -238,7 +238,7 @@ function setSessionUserPass(id, userpass, list, callback) {
 
 function getSessionAdminUser(id, list, callback) {
     try {
-        if(id == "empty") {
+        if(id == "empty" || id == undefined) {
             callback("", "", false);
             return;
         }
@@ -257,7 +257,7 @@ function getSessionAdminUser(id, list, callback) {
 }
 
 function removeSessionChatPass(id, callback) {
-    if(id == "empty") {
+    if(id == "empty" || id == undefined) {
         callback();
         return;
     }
@@ -269,7 +269,7 @@ function removeSessionChatPass(id, callback) {
 
 
 function removeSessionAdminPass(id, channel, callback) {
-    if(id == "empty") {
+    if(id == "empty" || id == undefined) {
         callback();
         return;
     }
