@@ -10,6 +10,10 @@ var Admin = {
         if(adminpass == undefined || adminpass == "") {
             //adminpass = Crypt.get_pass(chan.toLowerCase());
         }
+        if(Admin.logged_in) {
+            $("#thumbnail_form").css("display", "inline-block");
+            $("#description_form").css("display", "inline-block");
+        }
         $(".delete-context-menu").removeClass("context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
