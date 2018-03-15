@@ -1,5 +1,14 @@
+var cookieParser = require("cookie-parser");
+var cookie = require("cookie");
 module.exports = function() {
     io.on('connection', function(socket){
+        try {
+        	var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
+            socket.cookie_id = parsedCookies["_uI"];
+            //return socket.guid;
+        } catch(e) {
+            socket.cookie_id = "empty";
+        }
         socket.zoff_id = socket.id;
         socket.emit("get_list");
 
@@ -55,14 +64,7 @@ module.exports = function() {
                  typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
-                            var q = socket.handshake.headers.cookie.split(" ");
-                            for(var i = 0; i < q.length; i++) {
-                                if(q[i].substring(0,4) == "_uI=") {
-                                    q[i] = "_uI=rpmFLmS2QvgRavsU6uTNYLAOWjXj5UUi0a4P24eqbao%3D; ";
-                                    break;
-                                }
-                            }
-                            socket.handshake.headers.cookie = q.join(" ");
+                            socket.cookie_id = msg.guid;
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
