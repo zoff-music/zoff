@@ -22,12 +22,6 @@ var Crypt = {
         }
 
         if(window.location.pathname != "/") {
-            try {
-                //Crypt.conf_pass = Crypt.decrypt(Crypt.getCookie(chan.toLowerCase()), chan.toLowerCase());
-            } catch(err) {
-                //Crypt.conf_pass = Crypt.decrypt(Crypt.create_cookie(chan.toLowerCase()), chan.toLowerCase());
-            }
-
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
         }

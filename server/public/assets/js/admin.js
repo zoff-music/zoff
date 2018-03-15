@@ -7,9 +7,7 @@ var Admin = {
         Admin.logged_in = msg;
         if(!msg) return;
         w_p = false;
-        if(adminpass == undefined || adminpass == "") {
-            //adminpass = Crypt.get_pass(chan.toLowerCase());
-        }
+
         if(Admin.logged_in) {
             $("#thumbnail_form").css("display", "inline-block");
             $("#description_form").css("display", "inline-block");
@@ -224,9 +222,7 @@ var Admin = {
             userpass: Crypt.crypt_pass(pass_send),
             userpass_changed: userpass_changed
         };
-        if(userpass_changed){
-            //Crypt.set_userpass(chan.toLowerCase(), userpass);
-        }
+        
         emit("conf", configs);
     },
 
