@@ -26,8 +26,6 @@ var frontpage 		   	  		= 1;
 var empty_clear = false;
 var adminpass 		   	  		= "";
 var showDiscovery						= false;
-var temp_name = "";
-var temp_pass = "";
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
 var temp_user_pass 				= "";
@@ -199,15 +197,12 @@ $().ready(function(){
             /*if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
                 emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
             }*/
-            if(chan != undefined) {
-                Chat.namechange("", true, true);
-            }
             $(".connect_error").fadeOut(function(){
                 $(".connect_error").remove();
                 Materialize.toast("Connected!", 2000, "green lighten");
             });
         }
-
+        Chat.namechange("", true, true);
     });
 
     /*socket.on("name", function(data) {

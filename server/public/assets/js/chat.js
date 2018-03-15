@@ -24,7 +24,11 @@ var Chat = {
 
             socket.emit("namechange", {name: name, channel: chan.toLowerCase(), new_password: new_password, old_password: old_password});
         } else if(first) {
-            socket.emit("namechange", {channel: chan.toLowerCase(), initial: initial, first: true});
+            var to_send = {initial: initial, first: true};
+            if(chan != undefined && chan != "") {
+                to_send.channel = chan.toLowerCase();
+            }
+            socket.emit("namechange", to_send);
         }
     },
 
