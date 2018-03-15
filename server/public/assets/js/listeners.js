@@ -1271,6 +1271,8 @@ $(document).on( "click", ".add-suggested", function(e){
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
             $(".suggested-link span.badge.new.white").addClass("hide");
+            $("#user_suggests").addClass("hide");
+            $("#suggest_bar").addClass("hide");
         }
 
         $(".suggested-link span.badge.new.white").text(to_display);

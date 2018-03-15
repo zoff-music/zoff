@@ -44,7 +44,7 @@ var Channel = {
         if(Player !== undefined && !client) Player.stopInterval= false;
 
         if(!client) {
-            $('ul.playlist-tabs').tabs();
+            //$('ul.playlist-tabs').tabs();
             $('ul.playlist-tabs-loggedIn').tabs();
             $('ul.chatTabs').tabs();
         }
