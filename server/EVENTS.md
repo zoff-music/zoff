@@ -12,7 +12,7 @@
 // Asks server where in the song it should be
 'pos', {
     channel: channel_name,
-    pass: cBase64(hannel_pass)
+    pass: Base64(hannel_pass)
 }
 
 // Tells the server the client wants the list
