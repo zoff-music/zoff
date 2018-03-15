@@ -13,7 +13,7 @@ var Admin = {
             $("#description_form").css("display", "inline-block");
             $("#user_suggests").removeClass("hide");
             $("#user-suggest-html").removeClass("hide");
-            if($(".suggested-badge").text() != "0") {
+            if($(".suggested-badge").text() != "0" && $(".suggested-badge").text() != "") {
                 $(".suggested-badge").removeClass("hide");
             }
         } else {
