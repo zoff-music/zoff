@@ -11,6 +11,11 @@ var Admin = {
         if(Admin.logged_in) {
             $("#thumbnail_form").css("display", "inline-block");
             $("#description_form").css("display", "inline-block");
+            $("#user_suggests").removeClass("hide");
+            $("#user-suggest-html").removeClass("hide");
+            $(".suggested-badge").removeClass("hide")
+        } else {
+            Admin.hideUserSuggested();
         }
         $(".delete-context-menu").removeClass("context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
@@ -38,15 +43,7 @@ var Admin = {
         if($(".password_protected").prop("checked")) {
             $(".change_user_pass").removeClass("hide");
         }
-        if(!client) {
-            if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
-                $(".playlist-tabs-loggedIn").removeClass("hide");
-                $(".playlist-tabs").addClass("hide");
-            }
-            if($(".tabs").length > 0 && !changing_to_frontpage) {
-                $('ul.playlist-tabs-loggedIn').tabs('select_tab', $(".playlist-tabs li a.active").attr("href").substring(1));
-            }
-        }
+
         if($("#admin-lock").html() != "lock_open"){
             $("#admin-lock").addClass("clickable");
             $("#admin-lock").html("lock_open");
@@ -57,6 +54,18 @@ var Admin = {
                     tooltip: "Logout"
                 });
             }
+        }
+    },
+
+    hideUserSuggested: function() {
+        if(!$("#user_suggests").hasClass("hide")) {
+            $("#user_suggests").addClass("hide")
+        }
+        if(!$("#user-suggest-html").hasClass("hide")) {
+            $("#user-suggest-html").addClass("hide");
+        }
+        if(!$(".suggested-badge").hasClass("hide")) {
+            $(".suggested-badge").addClass("hide");
         }
     },
 
@@ -85,18 +94,17 @@ var Admin = {
         before_toast();
         /*if(Crypt.get_pass(chan.toLowerCase())) {*/
             //Crypt.remove_pass(chan.toLowerCase());
-        Admin.display_logged_out();
-
         if(Admin.logged_in) {
             socket.emit("logout");
             Materialize.toast("Logged out", 4000);
+            Admin.display_logged_out();
         } else {
             Materialize.toast("Not logged in", 4000);
         }
-        Admin.logged_in = false;
     },
 
     display_logged_out: function() {
+        Admin.logged_in = false;
         w_p       = true;
         adminpass = "";
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
@@ -131,20 +139,8 @@ var Admin = {
         if(!$(".change_user_pass").hasClass("hide")) {
             $(".change_user_pass").addClass("hide");
         }
-        if(!client) {
-            if(!Helper.contains($(".playlist-tabs-loggedIn").attr("class").split(" "), "hide")) {
-                $(".playlist-tabs-loggedIn").addClass("hide");
-                $(".playlist-tabs").removeClass("hide");
-            }
+        Admin.hideUserSuggested();
 
-            if($("ul.playlist-tabs-loggedIn .playlist-tab-links.active").attr("href") == "#suggestions" && $(".tabs").length > 0 && !changing_to_frontpage)
-            {
-                $('ul.playlist-tabs').tabs('select_tab', 'wrapper');
-                $('ul.playlist-tabs-loggedIn').tabs('select_tab', 'wrapper');
-            } else if($(".tabs").length > 0 && !changing_to_frontpage){
-                $('ul.playlist-tabs').tabs('select_tab', $(".playlist-tabs-loggedIn li a.active").attr("href").substring(1));
-            }
-        }
         $("#admin-lock").removeClass("clickable");
         $("#password").attr("placeholder", "Enter admin password");
         if(!$(".delete-context-menu").hasClass("context-menu-disabled")) {
@@ -164,18 +160,18 @@ var Admin = {
 
 
         hasadmin = conf_array.adminpass != "";
+        var show_disabled = true;
+        if(hasadmin && Admin.logged_in || !hasadmin) {
+            show_disabled = false;
+        }
 
         for (var i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
-            $("input[name="+names[i]+"]").attr("disabled", !Admin.logged_in);
+            $("input[name="+names[i]+"]").attr("disabled", show_disabled);
         }
         if((hasadmin) && !Admin.logged_in) {
             if($("#admin-lock").html() != "lock") Admin.display_logged_out();
-        } else if(!hasadmin && Crypt.get_pass(chan.toLowerCase()) === undefined) {
-            if(!Helper.contains($(".playlist-tabs").attr("class").split(" "), "hide")) {
-                $(".playlist-tabs-loggedIn").removeClass("hide");
-                $(".playlist-tabs").addClass("hide");
-            }
+        } else if(!hasadmin) {
             $("#password").attr("placeholder", "Create admin password");
         } else {
             if($(".password_protected").prop("checked")) {
@@ -222,7 +218,7 @@ var Admin = {
             userpass: Crypt.crypt_pass(pass_send),
             userpass_changed: userpass_changed
         };
-        
+
         emit("conf", configs);
     },
 

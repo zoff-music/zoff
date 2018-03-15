@@ -843,7 +843,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
                 conf.userpass = false;
             }
             var to_return = error.no_error;
-            to_return.results = conf;
+            to_return.results = [conf];
             res.status(200).send(JSON.stringify(to_return));
         } else if(docs.length > 0 && docs[0].userpass != "" && docs[0].userpass != undefined){
             res.status(403).send(JSON.stringify(error.not_authenticated));
@@ -926,7 +926,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                                 }
                                 updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                                     var to_return = error.no_error;
-                                    to_return.results = conf;
+                                    to_return.results = [conf];
                                     res.status(200).send(JSON.stringify(to_return));
                                 });
                             } else if(docs.length > 0 && docs[0].userpass != userpass) {

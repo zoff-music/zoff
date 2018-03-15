@@ -1,13 +1,9 @@
 <div id="playlist" class="col s12 m3">
     {{#if client}}
     {{else}}
-    <ul class="tabs playlist-tabs tabs-fixed-width" style="width:96%">
+    <ul class="tabs playlist-tabs-loggedIn tabs-fixed-width" style="width: 96%;">
         <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
-        <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
-    </ul>
-    <ul class="tabs playlist-tabs-loggedIn hide tabs-fixed-width" style="width: 96%;">
-        <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
-        <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span class="new badge white hide"></span></a></li>
+        <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span class="new badge white hide suggested-badge"></span></a></li>
         <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat">Chat<span class="new badge white hide"></span></a></li>
     </ul>
     {{/if}}

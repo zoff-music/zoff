@@ -12,7 +12,7 @@ var Suggestions = {
             }
         }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
-        if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0){
+        if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0 && Admin.logged_in){
             $(".suggested-link span.badge.new.white").removeClass("hide");
         }
         $(".suggested-link span.badge.new.white").text(to_display);
@@ -79,7 +79,7 @@ var Suggestions = {
         if(length === 0){
             if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
             $("#user_suggests").addClass("hide");
-        }else{
+        } else if(Admin.logged_in){
             $("#user_suggests").removeClass("hide");
         }
     },

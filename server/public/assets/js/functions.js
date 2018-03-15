@@ -203,13 +203,13 @@ function contextListener(that, e) {
     $("#context-menu-overlay").removeClass("hide");
     var left = e.pageX - $(".context-menu-root").width() / 2;
     var top = e.pageY;
-    if(left + $(".context-menu-root").width() > $(window).width()) {
-        left = $(window).width() - $(".context-menu-root").width() - 15;
+    if(left + 200 > $(window).width()) {
+        left = $(window).width() - 200 - 15;
     } else if (left < 0) {
         left = 11;
     }
-    if(top + $(".context-menu-root").width() > $(window).height()) {
-        top = $(window).height() - $(".context-menu-root").height() - 15;
+    if(top + 96 > $(window).height()) {
+        top = $(window).height() - 96 - 15;
     } else if(top < 0) {
         top = 15;
     }
