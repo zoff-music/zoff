@@ -172,11 +172,12 @@ function get_list_ajax() {
         url: "/api/list/" + chan.toLowerCase(),
         success: function(response) {
             if(response.results.length > 0) {
-                $("#channel-load").remove();
                 if(response.status == 403) {
                     start_auth();
                 }
-                $("#channel-load").remove();
+                if(client) {
+                    $("#channel-load").remove();
+                }
                 List.populate_list(response.results);
             }
         },
@@ -188,7 +189,9 @@ function get_list_ajax() {
                     get_list_ajax();
                 }, response.getResponseHeader("Retry-After") * 1000)
             }
-            $("#channel-load").remove();
+            if(client) {
+                $("#channel-load").remove();
+            }
             //List.populate_list(response.responseJSON.results);
         }
     });
