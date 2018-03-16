@@ -38,7 +38,9 @@ var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
 var cookies = require("cookie");
 var helmet = require('helmet')
-app.use(helmet())
+app.use(helmet({
+  frameguard: false
+}));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true

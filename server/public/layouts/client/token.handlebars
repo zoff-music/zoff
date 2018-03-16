@@ -12,20 +12,6 @@
         </div>
     </nav>
     {{> modal/about}}
-    <div id="donation" class="modal">
-        <div class="modal-content">
-            <h4>Thanks!</h4>
-            <p>Thanks for your donation, we love you &lt;3
-                <br><br>
-                We will use the money for something awesome, just you wait and see!
-                <br><br>
-                We might also add your name somewhere in the code as a sign of gratitude, see if you can find it! (Might take a day or two for us to see the donation and implement it..)
-            </p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">I'm awesome! (Close)</a>
-        </div>
-    </div>
 </header>
 <div id="main-container" class="token-container">
     <main class="center-align container">
@@ -41,6 +27,7 @@
                 <p>Apply for a API-token with your email here! You'll get an email on the specified address, with a link. Follow that link, and the token will be shown to you! Take good care of it, and don't lose it. It won't be shown to you again.</p>
                 <p>If you're wondering anything about how the api works, there is a guide on our GitHub. You can also click <a href="https://zoff.me/api/help">HERE</a> to be taken to the detailed README.</p>
                 <p>As of now, the tokens have a limit of 100 requests a second. If you need a higher limit, just contact the team and we'll set you up for as much as you need.</p>
+                <p>If you want to restrict the token for use on one domain only, you can change the Origin from * to the website of your choice (if you want for https://zoff.me, then you'd input <b>zoff.me</b>).</p>
             {{/if}}
         </div>
         {{#if activated}}
@@ -50,7 +37,11 @@
             <div class="row center">
               <div class="input-field col s6 offset-s3">
                   <label for="email_address" class="noselect">Email</label>
-                <input type="email" autocomplete="off" class="validate" id="email_address" />
+                  <input type="email" autocomplete="off" class="validate" id="email_address" />
+              </div>
+              <div class="input-field col s6 offset-s3">
+                  <label for="origin" class="noselect">Origin</label>
+                  <input type="text" autocomplete="off" id="origin" value="*" />
               </div>
             </div>
             <div class="col offset-m3">

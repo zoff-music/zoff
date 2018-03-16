@@ -75,7 +75,7 @@ var error = {
         results: [],
     },
     wrong_token: {
-        status: 403,
+        status: 400,
         error: "You're using a faulty token. Try getting a new token, or send the request without the token.",
         success: false,
         results: [],
@@ -185,14 +185,18 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "DELETE", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -336,14 +340,18 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "CONFIG", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -459,14 +467,18 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "PUT", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -549,14 +561,18 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -672,14 +688,18 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -897,14 +917,18 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
 
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -1016,14 +1040,18 @@ router.route('/api/list/:channel_name').post(function(req, res) {
 
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
-            if(token_docs.length == 1 && token_docs[0].token == token) {
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
                         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
-                            res.status(403).send(JSON.stringify(error.wrong_token));
+                            res.status(400).send(JSON.stringify(error.wrong_token));
                             return;
                         });
                     } else {
@@ -1092,6 +1120,8 @@ try {
             return;
         }
         if(req.recaptcha.error == null) {
+            var origin = "*";
+            if(req.body.origin != undefined && req.body.origin != "") origin = req.body.origin;
             var name = req.body.email;
             var id = crypto.createHash('sha256').update(uniqid()).digest('base64');
             var uniqid_link = crypto.createHash('sha256').update(uniqid()).digest('hex');
@@ -1102,7 +1132,7 @@ try {
                 }
                 token_db.collection("api_links").find({token: token}, function(e, d) {
                     if(results_find.length == 0 || (d.length == 0 && results_find.length > 0 && !results_find[0].active)) {
-                        token_db.collection("api_token").insert({name: name, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
+                        token_db.collection("api_token").insert({name: name, origin: origin, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
                            token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
                                let transporter = nodemailer.createTransport(mailconfig);
 
