@@ -117,7 +117,7 @@ var Channel = {
             maxWidth: $(window).width()-241
         });
 
-        if(socket === undefined || Helper.mobilecheck()){
+        if(socket === undefined){
             no_socket = false;
             socket = io.connect(''+add+':8080', connection_options);
             socket.on('update_required', function(msg) {
