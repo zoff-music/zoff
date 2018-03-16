@@ -189,7 +189,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -344,7 +344,7 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -471,7 +471,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -565,7 +565,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -692,7 +692,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -921,7 +921,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
@@ -1044,7 +1044,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
             try {
                 origin = req.headers.referer.split("/")[2];
             } catch(e) { origin = ""; }
-            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin == origin)) {
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || token_docs[0].origin.indexOf(origin) > -1)) {
                 authorized = true;
             }
             checkOveruseApiToken(authorized, token_docs, res, function() {
