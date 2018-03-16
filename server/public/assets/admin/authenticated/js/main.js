@@ -36,7 +36,8 @@ $(document).on("click", "#refresh_all", function(e){
 				to_add.find(".api_token_name").text(response[i].name);
                 to_add.find(".api_token_origin").text(response[i].origin);
 				to_add.find(".api_token_usage").text(response[i].usage);
-				to_add.find(".update_api_token").attr("id", response[i]._id + "-limit");
+				to_add.find(".update_api_token").attr("id", response[i]._id + "-update");
+				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
 				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
 				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
 				to_add.find(".update_api_token").attr("data-id", response[i]._id);
@@ -198,7 +199,8 @@ function loaded() {
 				to_add.find(".api_token_name").text(response[i].name);
 				to_add.find(".api_token_usage").text(response[i].usage);
                 to_add.find(".api_token_origin").text(response[i].origin);
-				to_add.find(".update_api_token").attr("id", response[i]._id + "-limit");
+				to_add.find(".update_api_token").attr("id", response[i]._id + "-update");
+				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
 				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
 				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
 				to_add.find(".update_api_token").attr("data-id", response[i]._id);
