@@ -29,7 +29,7 @@ var showDiscovery						= false;
 var player_ready 	   	  		= false;
 var viewers 			  		= 1;
 var temp_user_pass 				= "";
-var zoff_api_token = "AhmC4Yg2BhaWPZBXeoWK96DAiAVfbou8TUG2IXtD3ZQ=";
+var zoff_api_token = "DwpnKVkaMH2HdcpJT2YPy783SY33byF5/32rbs0+xdU=";
 var retry_frontpage;
 var chromecast_specs_sent = false;
 var dragging 					= false;
