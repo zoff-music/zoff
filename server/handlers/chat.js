@@ -162,6 +162,9 @@ function namechange(data, guid, socket, tried) {
                 new_password = Functions.decrypt_string(socket.zoff_id, data.new_password);
             }
         }
+        if(name == "") {
+            return;
+        }
         var password = Functions.decrypt_string(socket.zoff_id, pw);
         db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
             var accepted_password = false;
