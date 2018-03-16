@@ -168,6 +168,7 @@ function get_list_ajax() {
         type: "POST",
         data: {
             userpass: "",
+            token: zoff_api_token,
         },
         url: "/api/list/" + chan.toLowerCase(),
         success: function(response) {
@@ -242,7 +243,8 @@ function get_np_ajax() {
         type: "POST",
         data: {
             userpass: "",
-            fetch_song: true
+            fetch_song: true,
+            token: zoff_api_token
         },
         url: "/api/list/" + chan.toLowerCase() + "/__np__",
         success: function(response) {
@@ -269,7 +271,8 @@ function del_ajax(id) {
         type: "DELETE",
         data: {
             adminpass: "",
-            userpass: ""
+            userpass: "",
+            token: zoff_api_token
         },
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
@@ -301,6 +304,7 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
             duration: duration,
             end_time: end,
             start_time: start,
+            token: zoff_api_token
         },
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
@@ -327,7 +331,8 @@ function vote_ajax(id) {
         type: "PUT",
         data: {
             adminpass: "",
-            userpass: ""
+            userpass: "",
+            token: zoff_api_token
         },
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {

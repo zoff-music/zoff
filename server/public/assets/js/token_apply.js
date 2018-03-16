@@ -16,6 +16,8 @@ $(document).ready(function() {
     $(".token-form").on("submit", function(e) {
         e.preventDefault();
         var email = $("#email_address").val();
+        var origin = $("#origin").val();
+        $("#origin").attr("readonly", true);
         $("#email_address").attr("readonly", true);
         $(".submit").toggleClass("disabled");
         $(".full-form-token").removeClass("hide");
@@ -24,6 +26,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/api/apply",
             data: {
+                origin: origin,
                 email: email,
                 "g-recaptcha-response": captcha_response,
             },
@@ -34,6 +37,7 @@ $(document).ready(function() {
                 } else {
                     $("#email_address").attr("readonly", false);
                     $(".submit").toggleClass("disabled");
+                    $("#origin").attr("readonly", false);
                     grecaptcha.reset();
                     Materialize.toast("Something went wrong. Sure that email hasn't been used for another token?", 3000, "red lighten");
                 }
