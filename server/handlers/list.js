@@ -308,7 +308,13 @@ function change_song(coll, error, id, callback, socket) {
                         }
                     }
                 } else {
-                    return;
+                    if(now_playing_doc[0].now_playing == true && now_playing_doc.length > 1 && now_playing_doc[1].id == id) {
+                        db.collection(coll).update({id: now_playing_doc[0].id}, {$set: {now_playing: false}}, function(e, d) {
+                            change_song(coll, error, id, callback, socket);
+                        })
+                    } else {
+                        return;
+                    }
                 }
             });
         }
@@ -383,7 +389,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                 send_list(coll, socket, send, list_send, configs, shuffled);
             });
         } else {
-            db.collection(coll).find({views:{$exists:false}, type: {$ne: "suggested"}}, function(err, docs)
+            db.collection(coll).find({type: {$ne: "suggested"}}, function(err, docs)
             {
                 if(docs.length > 0) {
                     db.collection(coll).find({now_playing: true}, function(err, np_docs) {
@@ -428,6 +434,24 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                     });
                                 }
                             });
+                        } else if(np_docs.length > 1) {
+                            db.collection(coll).aggregate([{
+                                $match:{
+                                    now_playing: true
+                                }
+                            }, {
+                                $sort:{
+                                    now_playing: -1,
+                                    votes:-1,
+                                    added:1,
+                                    title: 1
+                                }
+                            }], function(e, docs) {
+                                var real_now_playing = docs[docs.length - 1];
+                                db.collection(coll).update({now_playing: true, id: {$ne: real_now_playing.id}}, {$set: {now_playing: false}}, {multi: true}, function(e, d) {
+                                    send_list(coll, socket, send, list_send, configs, shuffled);
+                                })
+                            })
                         } else {
                             if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
                                 List.change_song(coll, false, np_docs[0].id, function() {
