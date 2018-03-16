@@ -1470,6 +1470,8 @@ margin:-1px;
 .chatTabs{
     color:white !important;
     background-color:rgba(0,0,0,0);
+    height: 44px;
+    border-bottom: 1px solid white;
 }
 
 #text-chat-input{
@@ -1659,6 +1661,7 @@ nav .zbrand.channel-logo-container {
     z-index: 9;
     position: relative;
     height: calc(100vh - 64px) !important;
+    min-width: 338px;
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
