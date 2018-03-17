@@ -53,7 +53,6 @@
                     }
                 }
             </script>
-            <script async type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
         {{/if}}
     </head>
     <body class="noselect">
@@ -78,6 +77,9 @@
         <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-        <script async type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
+        <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
+        {{#unless embed}}
+            <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+        {{/unless}}
     </body>
 </html>
