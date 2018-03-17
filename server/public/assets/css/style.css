@@ -1742,7 +1742,7 @@ margin-right: 52%;
 
 .chan{
     padding-right:10px;
-    max-width:22vw;
+    /*max-width:22vw;*/
     text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
 }
 
@@ -2668,7 +2668,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .zbrand{
-        max-width: 35%;
+        /*max-width: 35%;*/
     }
 }
 
