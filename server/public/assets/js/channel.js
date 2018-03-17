@@ -368,7 +368,7 @@ var Channel = {
     },
 
     set_title_width: function(start){
-        if($(window).width() > 600){
+        if($(window).width() + 8 > 600){
             var add_width = $(".brand-logo").outerWidth()
             if(start){
                 add_width = $(window).width()*0.15;
