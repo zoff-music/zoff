@@ -796,7 +796,7 @@ nav .zbrand{
 
 .navbar-fixed {
     z-index: 999999;
-    height: 128px;
+    height: 64px;
 }
 
 .fullwidth{
@@ -1622,10 +1622,10 @@ nav .zbrand.channel-logo-container {
 }
 
 .title-container{
-    position: absolute;
-    display: block;
+    position: initial;
+    display: inline-block;
     overflow: hidden;
-    width: 100%;
+    width: auto;
     height: 100%;
     left: 0;
 }
@@ -3339,6 +3339,7 @@ nav ul li:hover, nav ul li.active {
 
     .title-container{
         top:64px;
+        top: 0px;
     }
 
 }

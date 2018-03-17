@@ -22,4 +22,18 @@ db.on('error',function(err) {
     console.log("\n" + new Date().toString() + "\n Database error: ", err);
 });
 
+
+db.on('error',function(err) {
+	console.log("\n" + new Date().toString() + "\n Database error: ", err);
+});
+
+/* Resetting usernames, and connected users */
+db.collection("unique_ids").update({"_id": "unique_ids"}, {$set: {unique_ids: []}}, {multi: true, upsert: true}, function(err, docs){});
+db.collection("user_names").remove({"guid": {$exists: true}}, {multi: true, upsert: true}, function(err, docs){});
+db.collection("user_names").update({"_id": "all_names"}, {$set: {names: []}}, {multi: true, upsert: true}, function(err, docs){});
+db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true, upsert: true}, function(err, docs){});
+db.collection("connected_users").update({"_id": "total_users"}, {$set: {total_users: []}}, {multi: true, upsert: true}, function(err, docs) {});
+db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true, upsert: true}, function(err, docs) {});
+
+
 module.exports = db;

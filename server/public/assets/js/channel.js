@@ -103,20 +103,6 @@ var Channel = {
         $(".not-imported-container").empty();
         $(".not-exported-container").empty();
 
-        $(".video-container").resizable({
-            start: function(event, ui) {
-                $('iframe').css('pointer-events','none');
-            },
-            stop: function(event, ui) {
-                $('iframe').css('pointer-events','auto');
-                Crypt.set_width($(this).width());
-                Channel.set_title_width();
-            },
-            handles: "e",
-            minWidth: 280,
-            maxWidth: $(window).width()-241
-        });
-
         if(socket === undefined){
             no_socket = false;
             socket = io.connect(''+add+':8080', connection_options);
@@ -382,7 +368,7 @@ var Channel = {
     },
 
     set_title_width: function(start){
-        if($(window).width() > 760){
+        if($(window).width() > 600){
             var add_width = $(".brand-logo").outerWidth()
             if(start){
                 add_width = $(window).width()*0.15;
@@ -580,9 +566,7 @@ var Channel = {
                     $("meta[name=theme-color]").attr("content", "#2D2D2D");
 
                     if(!Helper.mobilecheck() && !user_auth_avoid){
-                        $(".video-container").resizable("destroy");
                         $("#playbar").remove();
-                        $(".ui-resizable-handle").remove();
                         $("#main_components").remove();
                         $("#player").addClass("player_bottom");
                         $("#main-row").addClass("frontpage_modified_heights");
