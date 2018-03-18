@@ -1616,7 +1616,7 @@ nav .zbrand.channel-logo-container {
 }
 
 #nav {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #2d2d2d;
 }
 
 .control-list{
@@ -1758,6 +1758,8 @@ margin-right: 52%;
     min-width: 64px;
     float:right;
     text-align: center;
+    display: flex;
+    justify-content: center;
 }
 .nav-btn:hover{background-color:rgba(0,0,0,0.6);}
 .hover-text{display:none;}
@@ -2870,8 +2872,11 @@ nav ul li:hover, nav ul li.active {
     }
 
     #fp-nav{
-        position:initial;
-        width:initial;
+        width:100%;
+    }
+
+    #search-wrapper {
+        width: 100vw;
     }
 
     #toast-container{
@@ -3050,7 +3055,6 @@ nav ul li:hover, nav ul li.active {
 
     .mega {
         background: white;
-        margin-top: 0px;
     }
     #bar{
         background-color:rgba(0,0,0,1);
@@ -3126,7 +3130,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .navbar-fixed, #nav{
-        position: relative;
+        /*position: relative;*/
     }
 
     .navbar-fixed {
@@ -3205,7 +3209,9 @@ nav ul li:hover, nav ul li.active {
         transform: initial;
         display: flex;
         max-width: initial;
-        width: calc(100vw - 90px);
+        width: 100vw;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
     }
 
     #search_loader{
@@ -3221,9 +3227,10 @@ nav ul li:hover, nav ul li.active {
         background-color: rgba(0,0,0,0.1);
         display: inline-block;
         top:56px !important;
+        width: 100vw;
     }
     .title-container li {
-        width: 100%;
+        /*width: 100%;*/
     }
 
     #inner-results {
