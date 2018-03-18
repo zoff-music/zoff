@@ -29,7 +29,7 @@ function password(inp, coll, guid, offline, socket) {
         } catch(e) {
             return;
         }
-
+        coll = coll.replace(/ /g,'');
         uncrypted = pw;
         pw = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, pw), true);
         Functions.check_inlist(coll, guid, socket, offline);
@@ -84,7 +84,7 @@ function conf_function(params, coll, guid, offline, socket) {
     {
         if(coll !== undefined) {
             try {
-                coll = params.channel;
+                coll = params.channel.replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = emojiStrip(coll).toLowerCase();
                 coll = coll.replace("_", "");

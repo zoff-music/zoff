@@ -10,6 +10,7 @@ function get_history(channel, all, socket) {
             channel: channel,
         };
     }
+    channel = channel.replace(/ /g,'');
     var pass = "";
     if(!query.all) {
         Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
@@ -28,6 +29,7 @@ function get_history(channel, all, socket) {
 }
 
 function getAndSendLogs(channel, all, socket, pass, query) {
+    channel = channel.replace(/ /g,'');
     db.collection("chat_logs").find(query, {
         from: 1,
         createdAt: 1,
@@ -62,7 +64,7 @@ function chat(msg, guid, offline, socket) {
         socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel.toLowerCase();
+    var coll = msg.channel.toLowerCase().replace(/ /g,'');
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
         msg.pass = userpass;
         db.collection(coll + "_settings").find(function(err, docs){
@@ -110,7 +112,7 @@ function all_chat(msg, guid, offline, socket) {
         socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel.toLowerCase();
+    var coll = msg.channel.toLowerCase().replace(/ /g,'');
     var data = msg.data;
 
     Functions.check_inlist(coll, guid, socket, offline);
@@ -201,7 +203,7 @@ function namechange(data, guid, socket, tried) {
                                 //socket.emit('name', {type: "name", accepted: true});
                                 if(old_name != name && !first) {
                                     if(data.hasOwnProperty("channel") && typeof(data.channel) == "string") {
-                                        io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
+                                        io.to(data.channel.replace(/ /g,'')).emit('chat', {from: old_name, msg: " changed name to " + name});
                                         io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                                     }
                                 }
@@ -226,6 +228,7 @@ function namechange(data, guid, socket, tried) {
 }
 
 function removename(guid, coll, socket) {
+    coll = coll.replace(/ /g,'');
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 1) {
             var old_name = docs[0].name;

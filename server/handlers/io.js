@@ -35,6 +35,7 @@ module.exports = function() {
 
         socket.on('self_ping', function(msg) {
             var channel = msg.channel;
+            channel = channel.replace(/ /g,'');
             if(offline) {
                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs){});
             } else {
@@ -68,7 +69,7 @@ module.exports = function() {
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
-                            coll = msg.channel.toLowerCase();
+                            coll = msg.channel.toLowerCase().replace(/ /g,'');
                             in_list = true;
                             chromecast_object = true;
                             socket.join(coll);
@@ -86,7 +87,7 @@ module.exports = function() {
 
         socket.on("error_video", function(msg) {
            try {
-               var _list = msg.channel;
+               var _list = msg.channel.replace(/ /g,'');
                if(_list.length == 0) return;
                coll = emojiStrip(_list).toLowerCase();
                coll = coll.replace("_", "");
@@ -113,11 +114,11 @@ module.exports = function() {
         });
 
         socket.on('suggest_thumbnail', function(msg){
-            Suggestions.thumbnail(msg, coll, guid, offline, socket);
+            Suggestions.thumbnail(msg, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on('suggest_description', function(msg){
-            Suggestions.description(msg, coll, guid, offline, socket);
+            Suggestions.description(msg, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on("namechange", function(msg) {
@@ -155,7 +156,7 @@ module.exports = function() {
                 return;
             }
             var status = msg.status;
-            var channel = msg.channel;
+            var channel = msg.channel.replace(/ /g,'');
             if(status){
                 in_list = false;
                 offline = true;
@@ -215,7 +216,7 @@ module.exports = function() {
                socket.emit('update_required', result);
                 return;
             }
-            Chat.get_history(msg.channel, msg.all, socket);
+            Chat.get_history(msg.channel.replace(/ /g,''), msg.all, socket);
         });
 
         socket.on('chat', function (msg) {
@@ -246,7 +247,7 @@ module.exports = function() {
         socket.on('list', function(msg)
         {
             try {
-                var _list = msg.channel;
+                var _list = msg.channel.replace(/ /g,'');
                 if(_list.length == 0) return;
                 coll = emojiStrip(_list).toLowerCase();
                 coll = coll.replace("_", "");
@@ -267,7 +268,7 @@ module.exports = function() {
         {
             if(coll === undefined) {
                 try {
-                    coll = obj.channel.toLowerCase();
+                    coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -284,7 +285,7 @@ module.exports = function() {
         {
             if(coll !== undefined) {
                 try {
-                    coll = arr.list;
+                    coll = arr.list.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -300,7 +301,7 @@ module.exports = function() {
         socket.on('delete_all', function(msg) {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel.toLowerCase();
+                    coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -318,7 +319,7 @@ module.exports = function() {
         {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel.toLowerCase();
+                    coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -333,24 +334,24 @@ module.exports = function() {
 
         socket.on('password', function(inp)
         {
-            ListSettings.password(inp, coll, guid, offline, socket);
+            ListSettings.password(inp, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on('skip', function(list)
         {
-            List.skip(list, guid, coll, offline, socket);
+            List.skip(list, guid, coll.replace(/ /g,''), offline, socket);
         });
 
         socket.on('conf', function(params)
         {
-            ListSettings.conf_function(params, coll, guid, offline, socket);
+            ListSettings.conf_function(params, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on('shuffle', function(msg)
         {
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel.toLowerCase();
+                    coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -367,7 +368,7 @@ module.exports = function() {
         {
             if(coll === undefined && obj !== undefined && obj.channel !== undefined){
                 try {
-                    coll = obj.channel.toLowerCase();
+                    coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
@@ -393,7 +394,7 @@ module.exports = function() {
 
         socket.on("left_channel", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
-                coll = msg.channel;
+                coll = msg.channel.replace(/ /g,'');
                 List.left_channel(coll, guid, short_id, in_list, socket, false);
             }
         })
@@ -418,7 +419,7 @@ module.exports = function() {
             if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string")
             if(coll !== undefined) {
                 try {
-                    coll = obj.channel.toLowerCase();
+                    coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
                     coll = coll.replace("_", "");
