@@ -8,6 +8,11 @@
 3.3 Search
 */
 
+.material-icons {
+    display: none;
+    width: 24px;
+}
+
 html {
     background: #2d2d2d;
 }
