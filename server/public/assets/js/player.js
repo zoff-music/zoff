@@ -628,6 +628,8 @@ var Player = {
         var color = c.color;
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
+            $("#nav").css("background-color", Helper.rgbToHsl(color, true));
+            $(".title-container").css("background-color", Helper.rgbToHsl(color, true));
             $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
             if(!client) {
                 var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
