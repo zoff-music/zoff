@@ -89,6 +89,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
+        coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             arr.adminpass = adminpass;
             arr.userpass = userpass;
@@ -277,7 +278,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
-        coll = msg.channel.toLowerCase();;
+        coll = msg.channel.toLowerCase().replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             msg.adminpass = adminpass;
             msg.pass = userpass;
@@ -337,7 +338,7 @@ function shuffle(msg, coll, guid, offline, socket) {
             socket.emit('update_required', result);
             return;
         }
-    coll = msg.channel.toLowerCase();
+    coll = msg.channel.toLowerCase().replace(/ /g,'');
 
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
         msg.adminpass = adminpass;
@@ -405,7 +406,7 @@ function shuffle(msg, coll, guid, offline, socket) {
 function del(params, socket, socketid) {
     if(params.id){
         var coll = emojiStrip(params.channel).toLowerCase();
-        coll = coll.replace("_", "");
+        coll = coll.replace("_", "").replace(/ /g,'');
         coll = encodeURIComponent(coll).replace(/\W/g, '');
         coll = filter.clean(coll);
         db.collection(coll + "_settings").find(function(err, docs){
@@ -451,6 +452,7 @@ function delete_all(msg, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
+            coll = coll.replace(/ /g,'');
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
                 msg.adminpass = adminpass;
                 msg.pass = userpass;
@@ -484,6 +486,7 @@ function delete_all(msg, coll, guid, offline, socket) {
 }
 
 function vote(coll, id, guid, socket, full_list, last) {
+    coll = coll.replace(/ /g,'');
     db.collection(coll).find({id:id, now_playing: false, type:"video"}, function(err, docs){
         if(docs !== null && docs.length > 0 && !Functions.contains(docs[0].guids, guid))
         {

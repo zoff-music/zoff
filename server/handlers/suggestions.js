@@ -23,6 +23,7 @@ function thumbnail(msg, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
                 return;
             }
+            coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             msg.userpass = userpass;
             msg.adminpass = adminpass;
@@ -73,7 +74,7 @@ function description(msg, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
                 return;
             }
-
+            coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
             msg.userpass = userpass;
             msg.adminpass = adminpass;

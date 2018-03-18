@@ -18,6 +18,7 @@ function frontpage_lists(msg, socket) {
 }
 
 function update_frontpage(coll, id, title, callback) {
+    coll = coll.replace(/ /g,'');
     db.collection("frontpage_lists").update({_id: coll}, {$set: {
         id: id,
         title: title,
