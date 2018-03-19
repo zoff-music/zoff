@@ -1207,6 +1207,7 @@ margin:-1px;
     -o-transition: opacity 0.5s;
     transition: opacity 0.5s;
     overflow: visible;
+    padding-right: 0px;
 }
 
 .no-opacity{
@@ -1667,7 +1668,6 @@ nav .zbrand.channel-logo-container {
     position: relative;
     height: calc(100vh - 64px) !important;
     min-width: 338px;
-    padding-left: 0px;
     /*background-color:rgba(0,0,0,0.2);*/
 }
 
