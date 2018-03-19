@@ -2355,7 +2355,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 #viewers .material-icons{
-    padding-right: 5px;
+    margin-right: 5px;
 }
 
 #play, #pause, #volume-button, #fullscreen
