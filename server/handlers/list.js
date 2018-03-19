@@ -627,7 +627,9 @@ function send_play(coll, socket, broadcast) {
 }
 
 function sendColor(coll, socket, id) {
-    coll = coll.replace(/ /g,'');
+    if(coll != undefined) {
+        coll = coll.replace(/ /g,'');
+    }
     var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
     Jimp.read(url).then(function (image) {
 
