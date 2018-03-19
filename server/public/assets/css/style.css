@@ -1630,7 +1630,7 @@ nav .zbrand.channel-logo-container {
     position: initial;
     display: inline-block;
     overflow: hidden;
-    width: auto;
+    width: 40%;
     height: 100%;
     left: 0;
 }
