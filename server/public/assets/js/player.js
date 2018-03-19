@@ -630,7 +630,12 @@ var Player = {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
             $("#nav").css("background-color", Helper.rgbToHsl(color, true));
             $(".title-container").css("background-color", Helper.rgbToHsl(color, true));
-            $("meta[name=theme-color]").attr("content", Helper.rgbToHex(color[0], color[1], color[2]));
+            var hexHsl = Helper.rgbToHex(color[0], color[1], color[2]);
+            try {
+                var hsl = Helper.rgbToHsl(color, true).replace("hsl(", "").replace(")", "").replace("%", "").replace(/ /g,'').replace("%", "").split(",");
+                hexHsl = Helper.hslToHex(parseInt(hsl[0]), parseInt(hsl[1]), parseInt(hsl[2]));
+            } catch(e) {}
+            $("meta[name=theme-color]").attr("content", hexHsl);
             if(!client) {
                 var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
                 new_color = Helper.hexToComplimentary(new_color);
