@@ -334,7 +334,8 @@ module.exports = function() {
 
         socket.on('password', function(inp)
         {
-            ListSettings.password(inp, coll.replace(/ /g,''), guid, offline, socket);
+            if(coll != undefined) coll.replace(/ /g,'');
+            ListSettings.password(inp, coll, guid, offline, socket);
         });
 
         socket.on('skip', function(list)
