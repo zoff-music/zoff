@@ -80,9 +80,6 @@ function check_error_video(msg, channel) {
                  got: msg.hasOwnProperty("title") ? typeof(msg.title) : undefined,
              },
          };
-         if(socket) {
-             socket.emit("update_required", result);
-         }
         return;
     }
     channel = channel.replace(/ /g,'');
