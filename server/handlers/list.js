@@ -627,7 +627,7 @@ function send_play(coll, socket, broadcast) {
 }
 
 function sendColor(coll, socket, id) {
-    if(coll != undefined) {
+    if(coll != undefined && typeof(coll) == "string") {
         coll = coll.replace(/ /g,'');
     }
     var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
