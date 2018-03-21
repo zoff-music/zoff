@@ -1,5 +1,4 @@
-function addFromOtherList(arr, guid, socket) {
-    var MongoClient = require('mongodb').MongoClient;
+function addFromOtherList(arr, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) == "object") {
         if(!arr.hasOwnProperty("channel") || !arr.hasOwnProperty("new_channel")
@@ -25,9 +24,12 @@ function addFromOtherList(arr, guid, socket) {
                 return;
             }
 
-            Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
+            Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass, adminpass) {
                 if(userpass != "" || arr.userpass == undefined) {
                     arr.userpass = userpass;
+                }
+                if(adminpass != "" || arr.adminpass == undefined) {
+                    arr.adminpass = adminpass;
                 }
                 Functions.getSessionAdminUser(Functions.getSession(socket), new_channel, function(userpass) {
                     var otheruser = "";
@@ -48,11 +50,18 @@ function addFromOtherList(arr, guid, socket) {
                             "end": 1,
                             "type": 1
                         };
-                        if(np.length > 0) project_object.now_playing = { "$literal": false };
+                        var to_set_np = true;
+                        if(np.length > 0) {
+                            project_object.now_playing = { "$literal": false };
+                            to_set_np = false;
+                        }
                         db.collection(new_channel + "_settings").find({id: "config"}, function(e, new_conf) {
                             if(new_conf.length > 0 && (new_conf[0].userpass == "" || !new_conf[0].userpass || new_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, otheruser)).digest("base64"))) {
                                 db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
-                                    if(this_conf.userpass == "" || !this_conf.userpass || this_conf.userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) {
+                                    var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
+                                    if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) &&
+                                    ((this_conf[0].addsongs === true && (hash == this_conf[0].adminpass || this_conf[0].adminpass === "")) ||
+                                    this_conf[0].addsongs === false)) {
                                         db.collection(new_channel).aggregate([
                                             {
                                                 "$match": { type: "video" }
@@ -68,10 +77,31 @@ function addFromOtherList(arr, guid, socket) {
                                             MongoClient.connect(url, function(err, _db) {
                                                 var dbo = _db.db(mongo_config.config);
                                                 dbo.collection(channel).insertMany(docs, {ordered: false}, function(err, res) {
-                                                    List.send_list(channel, undefined, false, true, false);
-                                                    List.send_play(channel, undefined);
-                                                    socket.emit("toast", "addedplaylist");
-                                                    _db.close();
+                                                    if(to_set_np) {
+                                                        var to_change = {
+                                                            _id: channel,
+                                                            count: docs.length,
+                                                            frontpage: true,
+                                                            accessed: Functions.get_time(),
+                                                        }
+                                                        db.collection(channel).find({now_playing: true}, function(e, np_docs) {
+                                                            to_change.id = np_docs[0].id;
+                                                            to_change.title = np_docs[0].title;
+                                                            db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
+                                                                List.send_list(channel, undefined, false, true, false);
+                                                                List.send_play(channel, undefined);
+                                                                socket.emit("toast", "addedplaylist");
+                                                                _db.close();
+                                                            });
+                                                        });
+                                                    } else {
+                                                        db.collection("frontpage_lists").update({_id: channel}, {$inc: {count: res.nInserted != undefined ? res.nInserted : res.insertedCount}}, function(e, d) {
+                                                            List.send_list(channel, undefined, false, true, false);
+                                                            List.send_play(channel, undefined);
+                                                            socket.emit("toast", "addedplaylist");
+                                                            _db.close();
+                                                        })
+                                                    }
                                                 });
                                             });
                                         })
@@ -86,6 +116,92 @@ function addFromOtherList(arr, guid, socket) {
                             }
                         })
                     });
+                });
+            });
+        });
+    }
+}
+
+function addPlaylist(arr, guid, socket) {
+    var socketid = socket.zoff_id;
+    if(typeof(arr) == "object") {
+        if(!arr.hasOwnProperty("channel") || !arr.hasOwnProperty("new_channel")
+        || typeof(arr.channel) != "string" || typeof(arr.new_channel) != "string") {
+            var result = {
+                channel: {
+                    expected: "string",
+                    got: arr.hasOwnProperty("channel") ? typeof(arr.channel) : undefined
+                },
+                songs: {
+                    expected: "object",
+                    got: arr.hasOwnProperty("songs") ? typeof(arr.songs) : undefined
+                }
+            };
+            socket.emit('update_required', result);
+           return;
+        }
+        var channel = arr.channel.replace(/ /g,'').toLowerCase();
+        db.collection("frontpage_lists").find({_id: channel}, function(err, fp) {
+            if(fp.length == 0) {
+                socket.emit("toast", "nolist");
+                return;
+            }
+
+            Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass, adminpass) {
+                if(userpass != "" || arr.userpass == undefined) {
+                    arr.userpass = userpass;
+                }
+                if(adminpass != "" || arr.adminpass == undefined) {
+                    arr.adminpass = adminpass;
+                }
+                db.collection(channel).find({now_playing: true}, function(e, np) {
+                    var now_playing = false;
+                    if(np.length == 0) now_playing = true;
+                    db.collection(channel + "_settings").find({id: "config"}, function(e, conf) {
+                        if(conf.length > 0) {
+                            var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
+                            if((conf[0].userpass == "" || !conf[0].userpass || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) &&
+                            ((conf[0].addsongs === true && (hash == conf[0].adminpass || conf[0].adminpass === "")) ||
+                            conf[0].addsongs === false)) {
+                                var path = require('path');
+                                var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+                                var MongoClient = require('mongodb').MongoClient;
+                                var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
+                                MongoClient.connect(url, function(err, _db) {
+                                    var dbo = _db.db(mongo_config.config);
+                                    var number_elements = arr.songs.length + 1;
+                                    var time = Functions.get_time() - number_elements;
+                                    var bulk = dbo.collection(channel).initializeUnorderedBulkOp({useLegacyOps: true});
+                                    for(var i = 0; i < arr.songs.length; i++) {
+                                        var this_element = arr.songs[i];
+                                        this_element.added = time;
+                                        this_element.now_playing = now_playing;
+                                        this_element.votes = 0;
+                                        this_element.guids = [];
+                                        this_element.start = parseInt(this_element.start);
+                                        this_element.end = parseInt(this_element.end);
+                                        this_element.duration = parseInt(this_element.duration);
+                                        if(this_element.start > this_element.end) {
+                                            this_element.start = 0;
+                                        }
+                                        if(now_playing) {
+                                            now_playing = false;
+                                        }
+                                        bulk.insert(this_element);
+                                    }
+                                    bulk.execute(function(err, results) {
+                                        console.log(err, results);
+                                    });
+                                });
+                            } else {
+                                socket.emit("auth_required");
+                                return;
+                            }
+                        } else {
+                            socket.emit("toast", "nolist");
+                            return;
+                        }
+                    })
                 });
             });
         });

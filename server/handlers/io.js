@@ -234,7 +234,7 @@ module.exports = function() {
         });
 
         socket.on('import_zoff', function(msg) {
-            ListChange.addFromOtherList(msg, guid, socket);
+            ListChange.addFromOtherList(msg, guid, offline, socket);
         })
 
         socket.on('now_playing', function(list, fn)
