@@ -6,7 +6,8 @@ var settings = [];
 
 db.getCollectionNames(function(err, docs) {
     for(var i = 0; i < docs.length; i++) {
-        if(docs[i].indexOf("_settings") == -1) {
+        //console.log(docs[i] == "");
+        if(docs[i].indexOf("_settings") == -1 && docs[i].substring(0,1) != "." && docs[i].substring(docs[i].length - 1, docs[i].length) != ".") {
             t(docs[i]);
         }
     }
