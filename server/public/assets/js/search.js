@@ -282,10 +282,9 @@ var Search = {
             Search.submitArrayExpected -= 1;
         }
         if((Search.submitArray.length - 1) == Search.submitArrayExpected) {
-            console.log(Search.submitArray);
-            /*$.each(Search.submitArray, function(i, data){
+            $.each(Search.submitArray, function(i, data){
                 Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1, 0, data.duration);
-            });*/
+            });
             document.getElementById("import_spotify").disabled = false;
             $("#import_spotify").removeClass("hide");
             $("#playlist_loader_spotify").addClass("hide");
