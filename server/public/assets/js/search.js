@@ -282,9 +282,10 @@ var Search = {
             Search.submitArrayExpected -= 1;
         }
         if((Search.submitArray.length - 1) == Search.submitArrayExpected) {
-            $.each(Search.submitArray, function(i, data){
+            socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: Search.submitArray});
+            /*$.each(Search.submitArray, function(i, data){
                 Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1, 0, data.duration);
-            });
+            });*/
             document.getElementById("import_spotify").disabled = false;
             $("#import_spotify").removeClass("hide");
             $("#playlist_loader_spotify").addClass("hide");
@@ -424,13 +425,15 @@ var Search = {
                         enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
                         //Search.submit(song.id, enc_title, duration, playlist, i);
                         x += 1;
-                        to_add.push({id: song.id, enc_title: enc_title, duration: duration, playlist: playlist});
+                        to_add.push({id: song.id, title: enc_title, duration: duration, playlist: playlist});
                     }
                 });
+                socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: to_add});
+                /*
                 $.each(to_add, function(i, item){
                     Search.submit(item.id, item.enc_title, item.duration, item.playlist, i, x, 0, item.duration);
                 });
-
+                */
             }
         });
     },

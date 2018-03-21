@@ -285,6 +285,10 @@ module.exports = function() {
             List.end(obj, coll, guid, offline, socket);
         });
 
+        socket.on('addPlaylist', function(arr) {
+            ListChange.addPlaylist(arr, guid, offline, socket);
+        })
+
         socket.on('add', function(arr)
         {
             if(coll !== undefined) {
