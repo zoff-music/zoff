@@ -876,6 +876,22 @@ $(document).on("submit", "#listImport", function(e){
     document.getElementById("import").value = "";
 });
 
+$(document).on("submit", "#listImportZoff", function(e) {
+    e.preventDefault();
+    var new_channel = $("#import_zoff").val();
+    if(new_channel == "") {
+        Materialize.toast("It seems you've entered a invalid channel-name.", 4000);
+        return;
+    }
+    socket.emit("import_zoff", {channel: chan.toLowerCase(), new_channel: new_channel.toLowerCase()});
+});
+
+$(document).on("click", ".import-zoff", function(e) {
+    e.preventDefault();
+    $(".import-zoff-container").addClass("hide");
+    $(".zoff_add_field").removeClass("hide");
+});
+
 $(document).on("submit", "#listImportSpotify", function(e){
     e.preventDefault();
     if(spotify_authenticated && $("#import_spotify").val() !== ""){

@@ -227,7 +227,6 @@ function setSessionUserPass(id, userpass, list, callback) {
             callback();
             return;
         }
-
         connected_db.collection(id).update({_id: list}, {$set: {userpass: userpass}}, {upsert: true}, function(e, d){
             callback();
             return;

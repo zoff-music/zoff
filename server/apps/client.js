@@ -95,14 +95,12 @@ app.use(function (req, res, next) {
             maxAge: 365 * 10000 * 3600000,
             httpOnly: true,
             secure: secure,
-            domain: "zoff.me"
         });
 	} else {
 		res.cookie('_uI', cookie, {
             maxAge: 365 * 10000 * 3600000,
             httpOnly: true,
             secure: secure,
-            domain: "zoff.me"
         });
 	}
 	res.header("Access-Control-Allow-Origin", "*");

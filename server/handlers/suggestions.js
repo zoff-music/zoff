@@ -25,8 +25,12 @@ function thumbnail(msg, coll, guid, offline, socket) {
             }
             coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-            msg.userpass = userpass;
-            msg.adminpass = adminpass;
+            if(userpass != "" || msg.userpass == undefined) {
+                msg.userpass = userpass;
+            }
+            if(adminpass != "" || msg.adminpass == undefined) {
+                msg.adminpass = adminpass;
+            }
 
             msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
             if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
@@ -76,8 +80,12 @@ function description(msg, coll, guid, offline, socket) {
             }
             coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
-            msg.userpass = userpass;
-            msg.adminpass = adminpass;
+            if(userpass != "" || msg.userpass == undefined) {
+                msg.userpass = userpass;
+            }
+            if(adminpass != "" || msg.adminpass == undefined) {
+                msg.adminpass = adminpass;
+            }
             var channel = msg.channel.toLowerCase();
             var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){

@@ -596,6 +596,12 @@ function change_offline(enabled, already_offline){
 
 function toast(msg) {
     switch(msg) {
+        case "other_list_pass":
+            msg = "The other list has a pass, can't import the songs..";
+            break;
+        case "nolist":
+            msg = "There is no list with that name";
+            break;
         case "suggested_thumbnail":
             if(embed) return;
             msg = "The thumbnail has been suggested!";

@@ -334,7 +334,7 @@ li.disabled span {
     color: white !important;
 }
 
-.import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist{
+.import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist, .import-zoff{
     color:white !important;
     height:40px !important;
     line-height: 40px !important;
@@ -701,13 +701,17 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     background-color: #ff9800 !important;
 }
 
-#import, #import_spotify{
+#import, #import_spotify, #import_zoff{
     width: 65%;
     padding-left: 35px;
     color: rgb(68,68,68);
     border-bottom: 1px solid lightgrey;
     padding-bottom: 0px;
     height: 64px;
+}
+
+#import_zoff {
+    width: 100%;
 }
 
 #password{
@@ -1192,6 +1196,14 @@ margin:-1px;
     font-weight:300;
     position: relative;
     top:20px;
+}
+
+.zoff-image-import {
+    height: 36px;
+}
+
+.zoff-color {
+    background: #2d2d2d !important;
 }
 
 .side_away {

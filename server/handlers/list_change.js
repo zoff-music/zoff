@@ -1,3 +1,97 @@
+function addFromOtherList(arr, guid, socket) {
+    var MongoClient = require('mongodb').MongoClient;
+    var socketid = socket.zoff_id;
+    if(typeof(arr) == "object") {
+        if(!arr.hasOwnProperty("channel") || !arr.hasOwnProperty("new_channel")
+        || typeof(arr.channel) != "string" || typeof(arr.new_channel) != "string") {
+            var result = {
+                channel: {
+                    expected: "string",
+                    got: arr.hasOwnProperty("channel") ? typeof(arr.channel) : undefined
+                },
+                new_channel: {
+                    expected: "string",
+                    got: arr.hasOwnProperty("new_channel") ? typeof(arr.new_channel) : undefined
+                }
+            };
+            socket.emit('update_required', result);
+           return;
+        }
+        var channel = arr.channel.replace(/ /g,'').toLowerCase();
+        var new_channel = arr.new_channel.replace(/ /g, '').toLowerCase();
+        db.collection("frontpage_lists").find({_id: new_channel}, function(err, fp) {
+            if(fp.length == 0) {
+                socket.emit("toast", "nolist");
+                return;
+            }
+
+            Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
+                if(userpass != "" || arr.userpass == undefined) {
+                    arr.userpass = userpass;
+                }
+                Functions.getSessionAdminUser(Functions.getSession(socket), new_channel, function(userpass) {
+                    var otheruser = "";
+                    if(userpass != "") {
+                        otheruser = userpass;
+                    }
+                    db.collection(channel).find({now_playing: true}, function(e, np) {
+
+                        var project_object = {
+                            "id": 1,
+                            "added": 1,
+                            "guids": { "$literal": [] },
+                            "now_playing": 1,
+                            "title": 1,
+                            "votes": { "$literal": 0 },
+                            "start": 1,
+                            "duration": 1,
+                            "end": 1,
+                            "type": 1
+                        };
+                        if(np.length > 0) project_object.now_playing = { "$literal": false };
+                        db.collection(new_channel + "_settings").find({id: "config"}, function(e, new_conf) {
+                            if(new_conf.length > 0 && (new_conf[0].userpass == "" || !new_conf[0].userpass || new_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, otheruser)).digest("base64"))) {
+                                db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
+                                    if(this_conf.userpass == "" || !this_conf.userpass || this_conf.userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) {
+                                        db.collection(new_channel).aggregate([
+                                            {
+                                                "$match": { type: "video" }
+                                            },
+                                            {
+                                                "$project": project_object
+                                            }
+                                        ], function(e, docs) {
+                                            var path = require('path');
+                                            var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+                                            var MongoClient = require('mongodb').MongoClient;
+                                            var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
+                                            MongoClient.connect(url, function(err, _db) {
+                                                var dbo = _db.db(mongo_config.config);
+                                                dbo.collection(channel).insertMany(docs, {ordered: false}, function(err, res) {
+                                                    List.send_list(channel, undefined, false, true, false);
+                                                    List.send_play(channel, undefined);
+                                                    socket.emit("toast", "addedplaylist");
+                                                    _db.close();
+                                                });
+                                            });
+                                        })
+                                    } else {
+                                        socket.emit("auth_required");
+                                        return;
+                                    }
+                                })
+                            } else {
+                                socket.emit("toast", "other_list_pass");
+                                return;
+                            }
+                        })
+                    });
+                });
+            });
+        });
+    }
+}
+
 function add_function(arr, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
@@ -91,8 +185,12 @@ function add_function(arr, coll, guid, offline, socket) {
             }
         coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-            arr.adminpass = adminpass;
-            arr.userpass = userpass;
+            if(adminpass != "" || arr.adminpass == undefined) {
+                arr.adminpass = adminpass;
+            }
+            if(userpass != "" || arr.userpass == undefined) {
+                arr.userpass = userpass;
+            }
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.pass)).digest("base64")))) {
 
@@ -280,8 +378,12 @@ function voteUndecided(msg, coll, guid, offline, socket) {
             }
         coll = msg.channel.toLowerCase().replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-            msg.adminpass = adminpass;
-            msg.pass = userpass;
+            if(adminpass != "" || msg.adminpass == undefined) {
+                msg.adminpass = adminpass;
+            }
+            if(userpass != "" || msg.pass == undefined) {
+                msg.pass = userpass;
+            }
 
             db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
@@ -341,8 +443,12 @@ function shuffle(msg, coll, guid, offline, socket) {
     coll = msg.channel.toLowerCase().replace(/ /g,'');
 
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-        msg.adminpass = adminpass;
-        msg.pass = userpass;
+        if(adminpass != "" || msg.adminpass == undefined) {
+            msg.adminpass = adminpass;
+        }
+        if(userpass != "" || msg.pass == undefined) {
+            msg.pass = userpass;
+        }
         db.collection("timeout_api").find({
             type: "shuffle",
             guid: coll,
@@ -454,8 +560,12 @@ function delete_all(msg, coll, guid, offline, socket) {
             }
             coll = coll.replace(/ /g,'');
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
-                msg.adminpass = adminpass;
-                msg.pass = userpass;
+                if(adminpass != "" || msg.adminpass == undefined) {
+                    msg.adminpass = adminpass;
+                }
+                if(userpass != "" || msg.pass == undefined) {
+                    msg.pass = userpass;
+                }
                 var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass),true));
                 var hash_userpass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
                 db.collection(coll + "_settings").find(function(err, conf) {
@@ -505,6 +615,7 @@ function vote(coll, id, guid, socket, full_list, last) {
     });
 }
 
+module.exports.addFromOtherList = addFromOtherList;
 module.exports.add_function = add_function;
 module.exports.voteUndecided = voteUndecided;
 module.exports.shuffle = shuffle;

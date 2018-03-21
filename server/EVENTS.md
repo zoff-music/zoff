@@ -35,6 +35,14 @@
     pass: Base64(channel_pass)
 }
 
+// Imports songs from another zoff-channel
+'import_zoff', {
+    channel: CHANNELNAME,
+    new_channel: CHANNELNAME-TO-IMPORT-FROM,
+    adminpass: Base64(PASSWORD),
+    userpass: Bse64(CHANNEL_PASSWORD)
+}
+
 // Tells the server to disconnect the user from the current channel, is used for remote controlling on the host side
 'change_channel', {
     channel: channel_name

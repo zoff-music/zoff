@@ -233,6 +233,10 @@ module.exports = function() {
             Frontpage.frontpage_lists(msg, socket);
         });
 
+        socket.on('import_zoff', function(msg) {
+            ListChange.addFromOtherList(msg, guid, socket);
+        })
+
         socket.on('now_playing', function(list, fn)
         {
             List.now_playing(list, fn, socket);
@@ -448,7 +452,9 @@ module.exports = function() {
 
             db.collection(coll + "_settings").find(function(err, docs) {
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-                    obj.pass = userpass;
+                    if(userpass != "" || obj.pass == undefined) {
+                        obj.pass = userpass;
+                    }
                     if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
                         Functions.check_inlist(coll, guid, socket, offline);
                         List.send_play(coll, socket);

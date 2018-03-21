@@ -332,6 +332,24 @@
                             </form>
                         </div>
                     </li>
+                    <li class="white-bg">
+                        <div class="input-field field-settings import-buttons import-zoff-container">
+                            <a class="waves-effect zoff-color lighten btn import-zoff" title="Import Zoff playlist">
+                                <img src="/assets/images/z.svg" class="left zoff-logo zoff-image-import" alt="Zoff Logo" />Zoff
+                            </a>
+                        </div>
+                        <div class="input-field field-settings zoff_add_field hide">
+                            <form action="#" id="listImportZoff">
+                                <i class="material-icons import-icon">playlist_add</i>
+                                <input title="Input Zoff-playlist name here!" placeholder="Enter Zoff-list" id="import_zoff" type="text" class="validate" autocomplete="off" />
+                                <div id="playlist_loader_zoff" class="valign playlist_loader_padding hide">
+                                    <div class="preloader-wrapper small active">
+                                        {{> spinner}}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
                     <li class="not-imported white-bg hide">
                         <div class="center-align">Not imported</div>
                         <ul class="input-field field-settings not-imported-container">
