@@ -6,7 +6,7 @@ var settings = [];
 
 db.getCollectionNames(function(err, docs) {
     for(var i = 0; i < docs.length; i++) {
-        if(docs[i].indexOf("_settings")) {
+        if(docs[i].indexOf("_settings") == -1) {
             t(docs[i]);
         }
     }
@@ -26,10 +26,12 @@ db.getCollectionNames(function(err, docs) {
 })
 
 function t(docs) {
-    db.collection(docs).find({id: "config"}, function(e, _docs) {
-        if(_docs.length > 0 && _docs[0].userpass == undefined) {
-            console.log(docs);
-        })
+    db.collection(docs).find({id: {$exists: true}}, function(e, _docs) {
+        if(_docs.length > 0) {
+            db.collection(docs).createIndex({id: 1}, {unique: true}, function(e,d){
+                console.log(docs);
+            });
+        }
     })
 }
 

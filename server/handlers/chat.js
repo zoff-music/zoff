@@ -14,7 +14,9 @@ function get_history(channel, all, socket) {
     var pass = "";
     if(!query.all) {
         Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
-            pass = userpass;
+            if(userpass != "" || pass == undefined) {
+                pass = userpass;
+            }
             db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
                 if(conf.length > 0) {
                     if(conf[0].userpass == "" || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, pass)).digest('base64')) {
@@ -66,7 +68,9 @@ function chat(msg, guid, offline, socket) {
     }
     var coll = msg.channel.toLowerCase().replace(/ /g,'');
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
-        msg.pass = userpass;
+        if(userpass != "" || msg.pass == undefined) {
+            msg.pass = userpass;
+        }
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, msg.pass)).digest("base64")))) {
                 var data = msg.data;

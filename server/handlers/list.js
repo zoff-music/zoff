@@ -78,12 +78,14 @@ function list(msg, guid, coll, offline, socket) {
                     });
                 } else {
                     db.createCollection(coll, function(err, docs){
-                        var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
-                        db.collection(coll + "_settings").insert(configs, function(err, docs){
-                            socket.join(coll);
-                            List.send_list(coll, socket, true, false, true);
-                            db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
-                            Functions.check_inlist(coll, guid, socket, offline);
+                        db.collection(coll).createIndex({ id: 1}, {unique: true}, function(e, d) {
+                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
+                            db.collection(coll + "_settings").insert(configs, function(err, docs){
+                                socket.join(coll);
+                                List.send_list(coll, socket, true, false, true);
+                                db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
+                                Functions.check_inlist(coll, guid, socket, offline);
+                            });
                         });
                     });
                 }
@@ -142,8 +144,12 @@ function skip(list, guid, coll, offline, socket) {
                 return;
             }
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-            list.pass = adminpass;
-            list.userpass = userpass;
+            if(adminpass != "" || list.pass == undefined) {
+                list.pass = adminpass;
+            }
+            if(userpass != "" || list.userpass == undefined) {
+                list.userpass = userpass;
+            }
 
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, list.userpass)).digest("base64")))) {
@@ -539,7 +545,9 @@ function end(obj, coll, guid, offline, socket) {
         }
         coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
-            obj.pass = userpass;
+            if(userpass != "" || obj.pass == undefined) {
+                obj.pass = userpass;
+            }
 
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
