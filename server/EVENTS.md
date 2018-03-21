@@ -35,6 +35,19 @@
     pass: Base64(channel_pass)
 }
 
+'addPlaylist', {
+    channel: CHANNEL_NAME,
+    userpass: Base64(CHANNEL_PASSWORD),
+    adminpass: Base64(PASSWORD),
+    songs: [
+        {
+            id: song_id,
+            title: song_title,
+            duration: song_duration
+        }, ... { ... }
+    ]
+}
+
 // Imports songs from another zoff-channel
 'import_zoff', {
     channel: CHANNELNAME,

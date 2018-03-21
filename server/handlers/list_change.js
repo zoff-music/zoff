@@ -59,52 +59,58 @@ function addFromOtherList(arr, guid, offline, socket) {
                             if(new_conf.length > 0 && (new_conf[0].userpass == "" || !new_conf[0].userpass || new_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, otheruser)).digest("base64"))) {
                                 db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
                                     var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
-                                    if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) &&
-                                    ((this_conf[0].addsongs === true && (hash == this_conf[0].adminpass || this_conf[0].adminpass === "")) ||
-                                    this_conf[0].addsongs === false)) {
-                                        db.collection(new_channel).aggregate([
-                                            {
-                                                "$match": { type: "video" }
-                                            },
-                                            {
-                                                "$project": project_object
-                                            }
-                                        ], function(e, docs) {
-                                            var path = require('path');
-                                            var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
-                                            var MongoClient = require('mongodb').MongoClient;
-                                            var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
-                                            MongoClient.connect(url, function(err, _db) {
-                                                var dbo = _db.db(mongo_config.config);
-                                                dbo.collection(channel).insertMany(docs, {ordered: false}, function(err, res) {
-                                                    if(to_set_np) {
-                                                        var to_change = {
-                                                            _id: channel,
-                                                            count: docs.length,
-                                                            frontpage: true,
-                                                            accessed: Functions.get_time(),
-                                                        }
-                                                        db.collection(channel).find({now_playing: true}, function(e, np_docs) {
-                                                            to_change.id = np_docs[0].id;
-                                                            to_change.title = np_docs[0].title;
-                                                            db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
-                                                                List.send_list(channel, undefined, false, true, false);
-                                                                List.send_play(channel, undefined);
-                                                                socket.emit("toast", "addedplaylist");
-                                                                _db.close();
-                                                            });
+                                    if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64"))) {
+                                        if(((this_conf[0].addsongs === true && (hash == this_conf[0].adminpass || this_conf[0].adminpass === "")) ||
+                                        this_conf[0].addsongs === false)) {
+                                            db.collection(new_channel).aggregate([
+                                                {
+                                                    "$match": { type: "video" }
+                                                },
+                                                {
+                                                    "$project": project_object
+                                                }
+                                            ], function(e, docs) {
+                                                var path = require('path');
+                                                var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+                                                var MongoClient = require('mongodb').MongoClient;
+                                                var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
+                                                MongoClient.connect(url, function(err, _db) {
+                                                    var dbo = _db.db(mongo_config.config);
+                                                    dbo.collection(channel).insertMany(docs, {ordered: false}, function(err, res) {
+                                                        db.collection(channel + "_settings").update({id: "config"}, {$set: {startTime: Functions.get_time()}}, function(e,d) {
+                                                            if(to_set_np) {
+                                                                var to_change = {
+                                                                    _id: channel,
+                                                                    count: res.nInserted != undefined ? res.nInserted : res.insertedCount,
+                                                                    frontpage: true,
+                                                                    accessed: Functions.get_time(),
+                                                                }
+                                                                db.collection(channel).find({now_playing: true}, function(e, np_docs) {
+                                                                    to_change.id = np_docs[0].id;
+                                                                    to_change.title = np_docs[0].title;
+                                                                    db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
+                                                                        List.send_list(channel, undefined, false, true, false);
+                                                                        List.send_play(channel, undefined);
+                                                                        socket.emit("toast", "addedplaylist");
+                                                                        _db.close();
+                                                                    });
+                                                                });
+                                                            } else {
+                                                                db.collection("frontpage_lists").update({_id: channel}, {$inc: {count: res.nInserted != undefined ? res.nInserted : res.insertedCount}}, function(e, d) {
+                                                                    List.send_list(channel, undefined, false, true, false);
+                                                                    List.send_play(channel, undefined);
+                                                                    socket.emit("toast", "addedplaylist");
+                                                                    _db.close();
+                                                                })
+                                                            }
                                                         });
-                                                    } else {
-                                                        db.collection("frontpage_lists").update({_id: channel}, {$inc: {count: res.nInserted != undefined ? res.nInserted : res.insertedCount}}, function(e, d) {
-                                                            List.send_list(channel, undefined, false, true, false);
-                                                            List.send_play(channel, undefined);
-                                                            socket.emit("toast", "addedplaylist");
-                                                            _db.close();
-                                                        })
-                                                    }
+                                                    });
                                                 });
                                             });
-                                        })
+                                        } else {
+                                            socket.emit("toast", "listhaspass");
+                                            return;
+                                        }
                                     } else {
                                         socket.emit("auth_required");
                                         return;
@@ -122,11 +128,11 @@ function addFromOtherList(arr, guid, offline, socket) {
     }
 }
 
-function addPlaylist(arr, guid, socket) {
+function addPlaylist(arr, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) == "object") {
-        if(!arr.hasOwnProperty("channel") || !arr.hasOwnProperty("new_channel")
-        || typeof(arr.channel) != "string" || typeof(arr.new_channel) != "string") {
+        if(!arr.hasOwnProperty("channel") || !arr.hasOwnProperty("songs")
+        || typeof(arr.channel) != "string" || typeof(arr.songs) != "object") {
             var result = {
                 channel: {
                     expected: "string",
@@ -160,39 +166,75 @@ function addPlaylist(arr, guid, socket) {
                     db.collection(channel + "_settings").find({id: "config"}, function(e, conf) {
                         if(conf.length > 0) {
                             var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
-                            if((conf[0].userpass == "" || !conf[0].userpass || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64")) &&
-                            ((conf[0].addsongs === true && (hash == conf[0].adminpass || conf[0].adminpass === "")) ||
-                            conf[0].addsongs === false)) {
-                                var path = require('path');
-                                var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
-                                var MongoClient = require('mongodb').MongoClient;
-                                var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
-                                MongoClient.connect(url, function(err, _db) {
-                                    var dbo = _db.db(mongo_config.config);
-                                    var number_elements = arr.songs.length + 1;
-                                    var time = Functions.get_time() - number_elements;
-                                    var bulk = dbo.collection(channel).initializeUnorderedBulkOp({useLegacyOps: true});
-                                    for(var i = 0; i < arr.songs.length; i++) {
-                                        var this_element = arr.songs[i];
-                                        this_element.added = time;
-                                        this_element.now_playing = now_playing;
-                                        this_element.votes = 0;
-                                        this_element.guids = [];
-                                        this_element.start = parseInt(this_element.start);
-                                        this_element.end = parseInt(this_element.end);
-                                        this_element.duration = parseInt(this_element.duration);
-                                        if(this_element.start > this_element.end) {
-                                            this_element.start = 0;
+                            if((conf[0].userpass == "" || !conf[0].userpass || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64"))) {
+                                if(((conf[0].addsongs === true && (hash == conf[0].adminpass || conf[0].adminpass === "")) ||
+                                conf[0].addsongs === false)) {
+                                    var path = require('path');
+                                    var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
+                                    var MongoClient = require('mongodb').MongoClient;
+                                    var url = "mongodb://" + mongo_config.host + ":" + mongo_config.port + "/";
+                                    MongoClient.connect(url, function(err, _db) {
+                                        var dbo = _db.db(mongo_config.config);
+                                        var number_elements = arr.songs.length + 1;
+                                        var time = Functions.get_time() - number_elements;
+                                        var to_set_np = now_playing;
+                                        var bulk = dbo.collection(channel).initializeUnorderedBulkOp({useLegacyOps: true});
+                                        for(var i = 0; i < arr.songs.length; i++) {
+                                            var this_element = arr.songs[i];
+                                            if(!this_element.hasOwnProperty("duration") || !this_element.hasOwnProperty("id") || !this_element.hasOwnProperty("title")) {
+                                                continue;
+                                            }
+                                            this_element.added = time;
+                                            this_element.now_playing = now_playing;
+                                            this_element.votes = 0;
+                                            this_element.guids = [];
+                                            if(!this_element.hasOwnProperty("start")) this_element.start = 0;
+                                            if(!this_element.hasOwnProperty("end")) this_element.end = this_element.duration;
+                                            this_element.start = parseInt(this_element.start);
+                                            this_element.end = parseInt(this_element.end);
+                                            this_element.duration = parseInt(this_element.duration);
+                                            if(this_element.start > this_element.end) {
+                                                this_element.start = 0;
+                                            }
+                                            if(now_playing) {
+                                                now_playing = false;
+                                            }
+                                            bulk.insert(this_element);
                                         }
-                                        if(now_playing) {
-                                            now_playing = false;
-                                        }
-                                        bulk.insert(this_element);
-                                    }
-                                    bulk.execute(function(err, results) {
-                                        console.log(err, results);
+                                        bulk.execute(function(err, results) {
+                                            db.collection(channel + "_settings").update({id: "config"}, {$set: {startTime: Functions.get_time()}}, function(e,d) {
+                                                if(to_set_np) {
+                                                    var to_change = {
+                                                        _id: channel,
+                                                        count: results.nInserted,
+                                                        frontpage: true,
+                                                        accessed: Functions.get_time(),
+                                                    }
+                                                    db.collection(channel).find({now_playing: true}, function(e, np_docs) {
+                                                        to_change.id = np_docs[0].id;
+                                                        to_change.title = np_docs[0].title;
+                                                        db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
+                                                            List.send_list(channel, undefined, false, true, false);
+                                                            List.send_play(channel, undefined);
+                                                            socket.emit("toast", "addedplaylist");
+                                                            _db.close();
+                                                        });
+                                                    });
+                                                } else {
+                                                    db.collection("frontpage_lists").update({_id: channel}, {$inc: {count: results.nInserted != undefined ? results.nInserted : results.insertedCount}}, function(e, d) {
+                                                        List.send_list(channel, undefined, false, true, false);
+                                                        List.send_play(channel, undefined);
+                                                        socket.emit("toast", "addedplaylist");
+                                                        _db.close();
+                                                    })
+                                                }
+                                            });
+                                        });
                                     });
-                                });
+                                } else {
+                                    socket.emit("toast", "listhaspass");
+                                    return;
+                                }
                             } else {
                                 socket.emit("auth_required");
                                 return;
@@ -731,6 +773,7 @@ function vote(coll, id, guid, socket, full_list, last) {
     });
 }
 
+module.exports.addPlaylist = addPlaylist;
 module.exports.addFromOtherList = addFromOtherList;
 module.exports.add_function = add_function;
 module.exports.voteUndecided = voteUndecided;

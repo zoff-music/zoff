@@ -689,6 +689,8 @@ function toast(msg) {
                     return;
                 }
             }
+            document.getElementById("import_spotify").disabled = false;
+            document.getElementById("import").disabled = false;
             tried_again = false;
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
             //Crypt.remove_pass(chan.toLowerCase());
