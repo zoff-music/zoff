@@ -17,43 +17,43 @@ var List = {
         {
 
             case "list":
-            //if(full_playlist == undefined || !offline){
-            if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
-                prev_chan_list = chan;
-                List.populate_list(msg.playlist);
-                if(full_playlist.length > 0) {
-                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                //if(full_playlist == undefined || !offline){
+                if((!offline || (offline && !msg.shuffled)) && !(offline && prev_chan_list == chan)){
+                    prev_chan_list = chan;
+                    List.populate_list(msg.playlist);
+                    if(full_playlist.length > 0) {
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                } else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
+                    List.populate_list(full_playlist, true);
+                    if(full_playlist.length > 0) {
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
                 }
-            } else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
-                List.populate_list(full_playlist, true);
-                if(full_playlist.length > 0) {
-                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-                }
-            }
-            break;
+                break;
             case "added":
-            List.added_song(msg.value);
-            if(full_playlist.length > 0) {
-                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
-            }
-            found_array = [];
-            found_array_index = 0;
-            break;
-            case "deleted":
-            List.deleted_song(msg.value, msg.removed);
-            found_array = [];
-            found_array_index = 0;
-            break;
-            case "vote":
-            if(!offline){
-                List.voted_song(msg.value, msg.time);
+                List.added_song(msg.value);
                 if(full_playlist.length > 0) {
                     Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
                 }
-            }
-            found_array = [];
-            found_array_index = 0;
-            break;
+                found_array = [];
+                found_array_index = 0;
+                break;
+            case "deleted":
+                List.deleted_song(msg.value, msg.removed);
+                found_array = [];
+                found_array_index = 0;
+                break;
+            case "vote":
+                if(!offline){
+                    List.voted_song(msg.value, msg.time);
+                    if(full_playlist.length > 0) {
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    }
+                }
+                found_array = [];
+                found_array_index = 0;
+                break;
             case "song_change":
                 if((offline && msg.offline_change) || !offline) {
                     if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);

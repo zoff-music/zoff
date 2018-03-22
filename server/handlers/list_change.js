@@ -293,9 +293,7 @@ function add_function(arr, coll, guid, offline, socket) {
 
         if(typeof(arr.id) != "string" || typeof(arr.start) != "number" ||
             typeof(arr.end) != "number" || typeof(arr.title) != "string" ||
-            typeof(arr.list) != "string" || typeof(arr.duration) != "number" ||
-            typeof(arr.playlist) != "boolean" || typeof(arr.num) != "number" ||
-            typeof(arr.total) != "number") {
+            typeof(arr.list) != "string" || typeof(arr.duration) != "number") {
                 var result = {
                     start: {
                         expected: "number or string that can be cast to int",
@@ -316,18 +314,6 @@ function add_function(arr, coll, guid, offline, socket) {
                     duration: {
                         expected: "number or string that can be cast to int",
                         got: arr.hasOwnProperty("duration") ? typeof(arr.duration) : undefined
-                    },
-                    playlist: {
-                        expected: "boolean",
-                        got: arr.hasOwnProperty("playlist") ? typeof(arr.playlist) : undefined
-                    },
-                    num: {
-                        expected: "number or string that can be cast to int",
-                        got: arr.hasOwnProperty("num") ? typeof(arr.num) : undefined
-                    },
-                    total: {
-                        expected: "number or string that can be cast to int",
-                        got: arr.hasOwnProperty("total") ? typeof(arr.total) : undefined
                     },
                     pass: {
                         expected: "string",
@@ -358,64 +344,19 @@ function add_function(arr, coll, guid, offline, socket) {
                     var title = arr.title;
                     var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
                     var duration = parseInt(arr.duration);
-                    var full_list = arr.playlist;
-                    var last = arr.num == arr.total - 1;
-                    var num = arr.num;
-                    var total = arr.total;
                     /*db.collection(coll + "_settings").find(function(err, docs)
                     {*/
                         conf = docs;
                         if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
-                        docs[0].addsongs === false))
-                        {
+                        docs[0].addsongs === false)) {
                             db.collection(coll).find({id:id, type:{$ne:"suggested"}}, function(err, docs){
-                                if(docs !== null && docs.length === 0)
-                                {
-                                    var guids = full_list === true ? [] : [guid];
-                                    var votes;
-                                    var added;
-                                    if(full_list) {
-                                        var time = Functions.get_time()-total;
-                                        time = time.toString();
-                                        var total_len = total.toString().length;
-                                        var now_len = num.toString().length;
-                                        var to_add = num.toString();
-                                        while(now_len < total_len) {
-                                            to_add = "0" + to_add;
-                                            now_len = to_add.length;
-                                        }
-                                        time = time.substring(0, time.length - total_len);
-                                        time = time + to_add;
-                                        time = parseInt(time);
-                                        added = time;
-                                        votes = 0;
-                                    } else {
-                                        added = Functions.get_time();
-                                        votes = 1;
-                                    }
-
+                                if(docs !== null && docs.length === 0) {
+                                    var guids = [guid];
+                                    var added = Functions.get_time();
+                                    var votes = 1;
                                     db.collection(coll).find({now_playing:true}, function(err, docs){
                                         if((docs !== null && docs.length === 0)){
                                             np = true;
-                                            if(full_list && num === 0){
-                                                np = true;
-                                                time = time.toString();
-                                                total += 1;
-                                                var total_len = total.toString().length;
-                                                var now_len = total.toString().length;
-                                                var to_add = total.toString();
-                                                while(now_len < total_len) {
-                                                    to_add = "0" + to_add;
-                                                    now_len = to_add.length;
-                                                }
-                                                time = time.substring(0, time.length - total_len);
-                                                time = parseInt(time).toString() + to_add;
-                                                time = parseInt(time);
-                                                added = time;
-                                                votes = 0;
-                                            } else if(full_list) {
-                                                np = false;
-                                            }
                                         } else {
                                             np = false;
                                         }
@@ -427,30 +368,21 @@ function add_function(arr, coll, guid, offline, socket) {
                                                 db.collection(coll + "_settings").update({ id: "config" }, {$set:{startTime: Functions.get_time()}});
                                                 List.send_play(coll, undefined);
                                                 Frontpage.update_frontpage(coll, id, title);
-                                                if(!full_list) Search.get_correct_info(new_song, coll, false);
+                                                Search.get_correct_info(new_song, coll, false);
                                             } else {
                                                 io.to(coll).emit("channel", {type: "added", value: new_song});
-                                                if(!full_list) Search.get_correct_info(new_song, coll, true);
+                                                Search.get_correct_info(new_song, coll, true);
                                             }
                                             db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                             List.getNextSong(coll);
                                         });
-                                        if(!full_list) {
-                                            socket.emit("toast", "addedsong");
-                                        } else if(full_list && last) {
-                                            socket.emit("toast", "addedplaylist");
-                                        }
+                                        socket.emit("toast", "addedsong");
                                     });
-                                } else if(!full_list) {
-                                    ListChange.vote(coll, id, guid, socket, full_list, last);
-                                    if(full_list && last) {
-                                        socket.emit("toast", "addedplaylist");
-                                    }
-                                } else if(full_list && last) {
-                                    socket.emit("toast", "addedplaylist");
+                                } else {
+                                    ListChange.vote(coll, id, guid, socket);
                                 }
                             });
-                        } else if(!full_list) {
+                        } else {
                             db.collection(coll).find({id: id}, function(err, docs) {
                                 if(docs.length === 0) {
                                     db.collection(coll).update({id: id}, {$set:{
@@ -472,14 +404,10 @@ function add_function(arr, coll, guid, offline, socket) {
                                 } else if(docs[0].now_playing === true){
                                     socket.emit("toast", "alreadyplay");
                                 } else{
-                                    if(conf[0].vote === false) ListChange.vote(coll, id, guid, socket, full_list, last);
+                                    if(conf[0].vote === false) ListChange.vote(coll, id, guid, socket);
                                     else socket.emit("toast", "listhaspass");
                                 }
                             });
-                        } else if (full_list){
-                            if(arr.num == 0) {
-                                socket.emit("toast", "listhaspass");
-                            }
                         }
                     //});
                 } else {
@@ -555,7 +483,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                         var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, msg.adminpass), true));
                         if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                         docs[0].vote === false)) {
-                            ListChange.vote(coll, id, guid, socket, false, false);
+                            ListChange.vote(coll, id, guid, socket);
                         } else {
                             socket.emit("toast", "listhaspass");
                         }
@@ -753,14 +681,13 @@ function delete_all(msg, coll, guid, offline, socket) {
     }
 }
 
-function vote(coll, id, guid, socket, full_list, last) {
+function vote(coll, id, guid, socket) {
     coll = coll.replace(/ /g,'');
     db.collection(coll).find({id:id, now_playing: false, type:"video"}, function(err, docs){
         if(docs !== null && docs.length > 0 && !Functions.contains(docs[0].guids, guid))
         {
             db.collection(coll).update({id:id}, {$inc:{votes:1}, $set:{added:Functions.get_time()}, $push :{guids: guid}}, function(err, docs)
             {
-                if((full_list && last) || (!full_list))
                 socket.emit("toast", "voted");
                 io.to(coll).emit("channel", {type: "vote", value: id, time: Functions.get_time()});
 

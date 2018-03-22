@@ -29,9 +29,6 @@
     adminpass: Base64(PASSWORD),
     duration: VIDEO_DURATION,
     list: channel_name,
-    playlist: true_if_importing_playlist,
-    num: current_number_of_sending_songs,
-    total: total_number_of_sending_songs,
     pass: Base64(channel_pass)
 }
 
