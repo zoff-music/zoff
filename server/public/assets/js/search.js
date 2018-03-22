@@ -424,7 +424,6 @@ var Search = {
     addVideos: function(ids){
         var more = false;
         var next_ids = [];
-        var this_ids = [];
         var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=***REMOVED***&id=";
         for(var i = 0; i < ids.length; i++) {
             if(i > 48) {
@@ -433,7 +432,6 @@ var Search = {
                 break;
             }
             request_url += ids[i] + ",";
-            this_ids.push(ids[i]);
         }
 
         $.ajax({
