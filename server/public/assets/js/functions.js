@@ -142,6 +142,7 @@ function start_auth() {
         $("#player_overlay").removeClass("hide");
         $("#player_overlay").css("display", "block");
         $("#user_password").modal("open");
+        $("#user-pass-input").focus();
         //Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
         Materialize.toast("That is not the correct password, try again..", 4000);
@@ -632,6 +633,11 @@ function toast(msg) {
             break;
         case "addedplaylist":
             if(embed) return;
+            if(Search.submitYouTubeError) {
+                Materialize.toast("Added most of your playlist, but something was wrong. Check the playlist..", 4000, "red lighten connect_error");
+                Search.submitYouTubeError = false;
+                return;
+            }
             msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
             document.getElementById("import").disabled = false;
             $("#playlist_loader").addClass("hide");

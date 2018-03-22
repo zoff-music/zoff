@@ -2,6 +2,10 @@ var Search = {
 
     submitArray: [],
     submitArrayExpected: null,
+    submitYouTubeArrayIds: [],
+    submitYouTubeArray: [],
+    submitYouTubeExpected: 0,
+    submitYouTubeError: false,
 
     showSearch: function(){
         $("#search-wrapper").toggleClass("hide");
@@ -313,7 +317,7 @@ var Search = {
         if(pageToken !== undefined)
         token = "&pageToken="+pageToken;
         playlist_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key="+api_key+"&playlistId="+pId+token;
-        if(youtube_authenticated){
+        if(youtube_authenticated) {
             datatype = "html";
             headers = {
                 'Content-Type': 'application/json',
@@ -329,8 +333,7 @@ var Search = {
             dataType: datatype,
             //dataType:"jsonp",
             headers: headers,
-            success: function(response)
-            {
+            success: function(response) {
                 if(response.error){
                     if(response.error.errors[0].reason == "playlistItemsNotAccessible"){
                         var nonce = Helper.randomString(29);
@@ -365,15 +368,26 @@ var Search = {
 
                 }  else {
                     var ids="";
+                    var this_length = 0;
                     if(typeof(response) == "string") response = $.parseJSON(response);
                     //Search.addVideos(response.items[0].contentDetails.videoId);
                     //response.items.shift();
-                    $.each(response.items, function(i,data)
-                    {
+                    $.each(response.items, function(i,data) {
                         ids+=data.contentDetails.videoId+",";
+                        Search.submitYouTubeArrayIds.push(data.contentDetails.videoId);
+                        this_length += 1;
+                        Search.submitYouTubeExpected += 1;
                     });
-                    Search.addVideos(ids, true);
-                    if(response.nextPageToken) Search.importPlaylist(pId, response.nextPageToken);
+
+                    if(response.nextPageToken) {
+                        console.log(Search.submitYouTubeExpected);
+                        //Search.addVideos(ids, true, 0, false, this_length);
+                        Search.importPlaylist(pId, response.nextPageToken);
+                    } else {
+                        Search.addVideos(Search.submitYouTubeArrayIds);
+                        //Search.addVideos(ids, true, Search.submitYouTubeExpected, true, this_length);
+                        //Search.submitYouTubeExpected = 0;
+                    }
                     document.getElementById("import").value = "";
                 }
             }
@@ -407,9 +421,20 @@ var Search = {
         });
     },
 
-    addVideos: function(ids, playlist){
+    addVideos: function(ids){
+        var more = false;
+        var next_ids = [];
+        var this_ids = [];
         var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=***REMOVED***&id=";
-        request_url += ids;
+        for(var i = 0; i < ids.length; i++) {
+            if(i > 48) {
+                more = true;
+                next_ids = ids.slice(i, ids.length);
+                break;
+            }
+            request_url += ids[i] + ",";
+            this_ids.push(ids[i]);
+        }
 
         $.ajax({
             type: "POST",
@@ -417,23 +442,24 @@ var Search = {
             dataType:"jsonp",
             success: function(response){
                 var x = 0;
-                var to_add = [];
-                $.each(response.items, function(i,song)
-                {
+                if(response.error) {
+                    Search.submitYouTubeError = true;
+                }
+                $.each(response.items, function(i,song) {
                     var duration=Search.durationToSeconds(song.contentDetails.duration);
                     if(!longsongs || duration<720){
                         enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
                         //Search.submit(song.id, enc_title, duration, playlist, i);
                         x += 1;
-                        to_add.push({id: song.id, title: enc_title, duration: duration, playlist: playlist});
+                        Search.submitYouTubeArray.push({id: song.id, title: enc_title, duration: duration});
                     }
                 });
-                socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: to_add});
-                /*
-                $.each(to_add, function(i, item){
-                    Search.submit(item.id, item.enc_title, item.duration, item.playlist, i, x, 0, item.duration);
-                });
-                */
+                if(more) Search.addVideos(next_ids);
+                else {
+                    socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: Search.submitYouTubeArray});
+                    Search.submitYouTubeArray = [];
+                    Search.submitYouTubeExpected = 0;
+                }
             }
         });
     },
@@ -451,14 +477,14 @@ var Search = {
                 }
             });
             if(found_array.length == 0){
-                List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, playlist: false, now_playing: false, votes: 1}});
+                List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, now_playing: false, votes: 1}});
             } else {
                 List.vote(id, "pos");
             }
         } else {
             /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
             if(u == undefined) u = "";*/
-            emit("add", {id: id, start: start, end: end, title: title, list: chan.toLowerCase(), duration: duration, playlist: playlist, num: num, total: full_num});
+            emit("add", {id: id, start: start, end: end, title: title, list: chan.toLowerCase(), duration: duration});
         }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
     },
 
