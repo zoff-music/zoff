@@ -5,6 +5,7 @@ var song_title = "";
 var paused = false;
 var client = false;
 var startTime = 0;
+var socket_connected = false;
 var player_ready = false;
 var list_html = $("#list-song-html").html();
 var w_p		= true;
