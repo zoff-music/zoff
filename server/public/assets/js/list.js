@@ -548,6 +548,11 @@ var List = {
     },
 
     vote: function(id, vote) {
+        Helper.log([
+            "Voting on video",
+            "client " + client,
+            "socket_connected " + socket_connected
+        ]);
         if(client && !socket_connected) {
             if(vote != "del") {
                 vote_ajax(id);
