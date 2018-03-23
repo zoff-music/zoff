@@ -278,13 +278,14 @@ function del_ajax(id) {
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("deletesong");
+            get_list_ajax();
         },
         error: function(response) {
             if(response.responseJSON.status == 403) {
-                start_auth();
+                toast("listhaspass");
             } else if(response.responseJSON.status == 429) {
                 setTimeout(function() {
-                    vote_ajax(id);
+                    del_ajax(id);
                 }, response.getResponseHeader("Retry-After") * 1000);
             }
         }
@@ -310,9 +311,12 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("addedsong");
+            get_list_ajax();
         },
         error: function(response) {
-            if(response.responseJSON.status == 409) {
+            if(response.responseJSON.status == 403) {
+                toast("listhaspass");
+            } else if(response.responseJSON.status == 409) {
                 vote_ajax(id);
             } else if(response.responseJSON.status == 429) {
                 setTimeout(function() {
@@ -338,10 +342,11 @@ function vote_ajax(id) {
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("voted");
+            get_list_ajax();
         },
         error: function(response) {
             if(response.responseJSON.status == 403) {
-                start_auth();
+                toast("listhaspass");
             } else if(response.responseJSON.status == 429) {
                 setTimeout(function() {
                     vote_ajax(id);
@@ -391,6 +396,7 @@ function setup_youtube_listener(){
 function get_list_listener(){
     socket.on("get_list", function(){
         var add = "";
+        socket_connected = true;
         //if(private_channel) add = Crypt.getCookie("_uI") + "_";
         /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
         if(p == undefined) p = "";*/

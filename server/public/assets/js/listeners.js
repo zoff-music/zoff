@@ -5,6 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var socket_connected = false;
 var hasadmin			  		= 0;
 var list_html 			  		= $("#list-song-html").html();
 var unseen 			   	  		= false;
