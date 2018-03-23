@@ -421,7 +421,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-
+    console.log("here");
     try {
         if(!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
             !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id')) {
@@ -487,8 +487,8 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                                 res.status(404).send(JSON.stringify(error.not_found.list));
                                 return;
                             }
-                            db.collection(channel_name).find({id: video_id, now_playing: false, type:"video"}, function(err, song) {
-                                if(song.length == 0) {
+                            db.collection(channel_name).find({id: video_id, now_playing: false}, function(err, song) {
+                                if(song.length == 0 || (song.hasOwnProperty("type") && song.type == "suggested")) {
                                     res.status(404).send(JSON.stringify(error.not_found.local));
                                     return;
                                 } else if(song[0].guids.indexOf(guid) > -1) {

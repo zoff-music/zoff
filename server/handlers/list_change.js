@@ -192,6 +192,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                             if(!this_element.hasOwnProperty("end")) this_element.end = this_element.duration;
                                             this_element.start = parseInt(this_element.start);
                                             this_element.end = parseInt(this_element.end);
+                                            this_element.type = "video";
                                             this_element.duration = parseInt(this_element.duration);
                                             if(this_element.start > this_element.end) {
                                                 this_element.start = 0;
