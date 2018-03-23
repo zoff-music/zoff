@@ -548,7 +548,7 @@ var List = {
     },
 
     vote: function(id, vote) {
-        if(client && !socket.connected) {
+        if(client && !socket_connected) {
             if(vote != "del") {
                 vote_ajax(id);
             } else {
