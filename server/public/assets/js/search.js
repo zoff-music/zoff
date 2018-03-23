@@ -463,7 +463,7 @@ var Search = {
     },
 
     submit: function(id,title,duration, playlist, num, full_num, start, end){
-        if(client && !socket_connected) {
+        if((client || Helper.mobilecheck()) && !socket_connected) {
             add_ajax(id, title, duration, playlist, num, full_num, start, end);
             return;
         }
