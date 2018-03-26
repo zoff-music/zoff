@@ -49,8 +49,7 @@ function list(msg, guid, coll, offline, socket) {
             coll = msg.channel.toLowerCase().replace(/ /g,'');
             var pass = crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64");
             db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
-                if(frontpage_lists.length == 1)
-                {
+                if(frontpage_lists.length == 1) {
                     db.collection(coll + "_settings").find(function(err, docs) {
                         if(docs.length == 0 || (docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
                             if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
@@ -113,8 +112,8 @@ function skip(list, guid, coll, offline, socket) {
                 coll = list.channel.toLowerCase().replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = emojiStrip(coll).toLowerCase();
-                coll = coll.replace("_", "");
-                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = coll.replace(/_/g, "");
+
                 coll = filter.clean(coll);
             } catch(e) {
                 return;

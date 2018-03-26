@@ -90,8 +90,8 @@ module.exports = function() {
                var _list = msg.channel.replace(/ /g,'');
                if(_list.length == 0) return;
                coll = emojiStrip(_list).toLowerCase();
-               coll = coll.replace("_", "");
-               coll = encodeURIComponent(coll).replace(/\W/g, '');
+               coll = coll.replace(/_/g, "");
+
                coll = filter.clean(coll);
            } catch(e) {
                return;
@@ -254,8 +254,8 @@ module.exports = function() {
                 var _list = msg.channel.replace(/ /g,'');
                 if(_list.length == 0) return;
                 coll = emojiStrip(_list).toLowerCase();
-                coll = coll.replace("_", "");
-                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = coll.replace(/_/g, "");
+                //
                 coll = filter.clean(coll);
             } catch(e) {
                 return;
@@ -275,8 +275,8 @@ module.exports = function() {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -296,8 +296,8 @@ module.exports = function() {
                     coll = arr.list.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -312,8 +312,8 @@ module.exports = function() {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -330,8 +330,8 @@ module.exports = function() {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -363,8 +363,8 @@ module.exports = function() {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -380,8 +380,8 @@ module.exports = function() {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;
@@ -431,8 +431,8 @@ module.exports = function() {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace("_", "");
-                    coll = encodeURIComponent(coll).replace(/\W/g, '');
+                    coll = coll.replace(/_/g, "");
+
                     coll = filter.clean(coll);
                 } catch(e) {
                     return;

@@ -23,8 +23,8 @@ function password(inp, coll, guid, offline, socket) {
             coll = inp.channel;
             if(coll.length == 0) return;
             coll = emojiStrip(coll).toLowerCase();
-            coll = coll.replace("_", "");
-            coll = encodeURIComponent(coll).replace(/\W/g, '');
+            coll = coll.replace(/_/g, "");
+            
             coll = filter.clean(coll);
         } catch(e) {
             return;
@@ -87,8 +87,8 @@ function conf_function(params, coll, guid, offline, socket) {
                 coll = params.channel.replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = emojiStrip(coll).toLowerCase();
-                coll = coll.replace("_", "");
-                coll = encodeURIComponent(coll).replace(/\W/g, '');
+                coll = coll.replace(/_/g, "");
+                
                 coll = filter.clean(coll);
             } catch(e) {
                 return;

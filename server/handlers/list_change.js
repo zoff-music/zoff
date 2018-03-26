@@ -336,6 +336,7 @@ function add_function(arr, coll, guid, offline, socket) {
             if(userpass != "" || arr.userpass == undefined) {
                 arr.userpass = userpass;
             }
+
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.pass)).digest("base64")))) {
 
@@ -599,8 +600,8 @@ function shuffle(msg, coll, guid, offline, socket) {
 function del(params, socket, socketid) {
     if(params.id){
         var coll = emojiStrip(params.channel).toLowerCase();
-        coll = coll.replace("_", "").replace(/ /g,'');
-        coll = encodeURIComponent(coll).replace(/\W/g, '');
+        coll = coll.replace(/_/g, "").replace(/ /g,'');
+
         coll = filter.clean(coll);
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, params.adminpass),true)))
