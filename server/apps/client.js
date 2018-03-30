@@ -95,12 +95,14 @@ app.use(function (req, res, next) {
             maxAge: 365 * 10000 * 3600000,
             httpOnly: true,
             secure: secure,
+            sameSite: true,
         });
 	} else {
 		res.cookie('_uI', cookie, {
             maxAge: 365 * 10000 * 3600000,
             httpOnly: true,
             secure: secure,
+            sameSite: true,
         });
 	}
 	res.header("Access-Control-Allow-Origin", "*");
