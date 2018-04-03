@@ -1,35 +1,34 @@
-{{#if client}}
-{{else}}
-<div id="embed" class="modal">
-    <div class="modal-content">
-        <h4>Embed</h4>
-        <p>Copy the code in the textarea, and paste on your website.</p>
-        <p>
-            <input type="checkbox" id="autoplay" checked="checked" />
-            <label for="autoplay" class="padding_right_26">Autoplay</label>
-            <label for="width_embed" class="embed-label">Width</label>
-            <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
-            <label for="height_embed" class="padding_left_6 embed-label">Height</label>
-            <input type="number" value="300" id="height_embed" class="settings_embed" min="1" />
-            <label for="color_embed" class="padding_left_6 embed-label">Color</label>
-            <input type="text" id="color_embed" class="settings_embed" value="#808080" />
-            <input type="checkbox" id="videoonly" />
-            <label for="videoonly" class="padding_right_26">Video-only</label>
-        </p>
-        <textarea id="embed-area"></textarea>
+{{#unless client}}
+    <div id="embed" class="modal">
+        <div class="modal-content">
+            <h4>Embed</h4>
+            <p>Copy the code in the textarea, and paste on your website.</p>
+            <p>
+                <input type="checkbox" id="autoplay" checked="checked" />
+                <label for="autoplay" class="padding_right_26">Autoplay</label>
+                <label for="width_embed" class="embed-label">Width</label>
+                <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
+                <label for="height_embed" class="padding_left_6 embed-label">Height</label>
+                <input type="number" value="300" id="height_embed" class="settings_embed" min="1" />
+                <label for="color_embed" class="padding_left_6 embed-label">Color</label>
+                <input type="text" id="color_embed" class="settings_embed" value="#808080" />
+                <input type="checkbox" id="videoonly" />
+                <label for="videoonly" class="padding_right_26">Video-only</label>
+            </p>
+            <textarea id="embed-area"></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    <div id="channel-share-modal" class="modal">
+        <div class="modal-content">
+            <p>To join this channel, go to</p>
+            <p><span id="channel-name-join"></span></p>
+            <img id="share-join-qr" alt="QR code for joining" title="Link to join this Zoff channel" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
+        </div>
     </div>
-</div>
-<div id="channel-share-modal" class="modal">
-    <div class="modal-content">
-        <p>To join this channel, go to</p>
-        <p><span id="channel-name-join"></span></p>
-        <img id="share-join-qr" alt="QR code for joining" title="Link to join this Zoff channel" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
-    </div>
-</div>
-{{/if}}
+{{/unless}}
 <div id="help" class="modal modal-fixed-footer">
     <div class="modal-content">
         <h4>Help</h4>

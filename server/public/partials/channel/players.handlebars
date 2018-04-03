@@ -1,5 +1,7 @@
 <div id="video-container" class="col s12 m9 video-container no-opacity click-through">
-    <div id="fireplace_player" class="ytplayer"></div>
+    {{#unless embed}}
+        <div id="fireplace_player" class="ytplayer"></div>
+    {{/unless}}
     <div id="player" class="ytplayer"></div>
     <div id="main_components">
         <div id="player_overlay" class="hide valign-wrapper">

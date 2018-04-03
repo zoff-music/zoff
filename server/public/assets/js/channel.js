@@ -167,7 +167,7 @@ var Channel = {
             emit_list();
         }
 
-        if((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) {
+        if(((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) && !client) {
             $('.tap-target-join').tapTarget('open');
             tap_target_timeout = setTimeout(function() {
                 $('.tap-target-join').tapTarget('close');
