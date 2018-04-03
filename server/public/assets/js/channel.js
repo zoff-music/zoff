@@ -547,7 +547,6 @@ var Channel = {
             socket.removeEventListener("suggested");
             socket.removeEventListener("color");
             socket.removeEventListener("chat_history");
-            socket.removeEventListener("color");
             $.ajax({
                 url: "/",
                 success: function(e){

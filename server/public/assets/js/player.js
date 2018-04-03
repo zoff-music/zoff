@@ -405,7 +405,8 @@ var Player = {
             Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
         if(offline) {
-            socket.emit("color", {id: id});
+            getColor(id);
+            //socket.emit("color", {id: id});
         }
     },
 

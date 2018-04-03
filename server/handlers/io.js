@@ -48,12 +48,6 @@ module.exports = function() {
             }
         });
 
-        socket.on('color', function(msg) {
-            if(msg.hasOwnProperty("id")) {
-                List.sendColor(false, socket, msg.id);
-            }
-        });
-
         socket.on("logout", function() {
             Functions.removeSessionAdminPass(Functions.getSession(socket), coll, function() {})
         });

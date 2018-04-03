@@ -1093,6 +1093,20 @@ function incrementToken(token) {
     });
 }
 
+router.route('/api/color').post(function(req, res) {
+    var origin = req.get("origin").replace("https://", "").replace("http://", "");
+    var allowed = ["client.localhost", "localhost", "zoff.me", "client.zoff.me", "zoff.no", "client.zoff.no"];
+    if(allowed.indexOf(origin) < 0) {
+        res.sendStatus(403);
+        return;
+    }
+    if(!req.body.hasOwnProperty("id") || typeof(req.body.id) != "string") {
+        res.sendStatus(400);
+        return;
+    }
+    List.sendColor(false, undefined, req.body.id, true, res);
+});
+
 router.route('/api/imageblob').post(function(req, res) {
     var Jimp = require("jimp");
     var origin = req.get("origin").replace("https://", "").replace("http://", "");
