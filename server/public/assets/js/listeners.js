@@ -315,7 +315,7 @@ initializeCastApi = function() {
                 $(".volume-container").addClass("volume-container-cast");
             }
             cast_ready_connect = true;
-            if(!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") {
+            if((!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") && !client) {
                 $(".castButton").css("display", "block");
                 showDiscovery = true;
                 $('.tap-target').tapTarget('open');

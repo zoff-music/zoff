@@ -53,16 +53,18 @@
     <body class="noselect">
         {{{body}}}
         {{#unless embed}}
-            <div class="tap-target" data-activates="castButton">
-                <div class="tap-target-content">
-                    <h5>Chromecast</h5>
-                    <p>This site supports chromecasting!</p>
+            {{#unless client}}
+                <div class="tap-target" data-activates="castButton">
+                    <div class="tap-target-content">
+                        <h5>Chromecast</h5>
+                        <p>This site supports chromecasting!</p>
+                    </div>
                 </div>
-            </div>
-            <div class="tap-target-join" data-activates="chan">
-                <div class="tap-target-content">
+                <div class="tap-target-join" data-activates="chan">
+                    <div class="tap-target-content">
+                    </div>
                 </div>
-            </div>
+            {{/unless}}
             {{> contact}}
             {{> donate}}
             {{> footer}}
