@@ -221,6 +221,9 @@ var Frontpage = {
                             $("#mega-background").css("opacity", 1);
                             $(".autocomplete").attr("placeholder", list[i]._id);
                         },500);
+                    },
+                    error: function() {
+                        $(".autocomplete").attr("placeholder", list[i]._id);
                     }
                 });
             };
