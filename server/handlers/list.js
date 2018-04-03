@@ -633,7 +633,7 @@ function send_play(coll, socket, broadcast) {
     });
 }
 
-function sendColor(coll, socket, id) {
+function sendColor(coll, socket, id, ajax, res) {
     if(coll != undefined && typeof(coll) == "string") {
         coll = coll.replace(/ /g,'');
     }
@@ -641,10 +641,16 @@ function sendColor(coll, socket, id) {
     Jimp.read(url).then(function (image) {
 
         var c = ColorThief.getColor(image);
-        if(socket) {
-            socket.emit("color", {color: c, only: true});
+        if(ajax) {
+            res.header({"Content-Type": "application/json"});
+            res.status(200).send(c);
+            return;
         } else {
-            io.to(coll).emit("color", {color: c, only: false});
+            if(socket) {
+                socket.emit("color", {color: c, only: true});
+            } else {
+                io.to(coll).emit("color", {color: c, only: false});
+            }
         }
     });
 }

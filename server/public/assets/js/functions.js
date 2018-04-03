@@ -21,6 +21,22 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function getColor(id) {
+    $.ajax({
+        type: "POST",
+        url: "/api/color",
+        async: true,
+        data: {
+            id: id
+        },
+        success: function(c) {
+            if(typeof(c) == "object") {
+                Player.setBGimage({color:c, only:true});
+            }
+        },
+    });
+}
+
 function hide_native(way) {
     if(way == 1){
         if(!$('.castButton').hasClass('castButton-white-active')) {
@@ -453,9 +469,9 @@ function setup_chat_listener(){
 }
 
 function setup_list_listener(){
-    //if(!client) {
+    if(!offline) {
         socket.on("color", Player.setBGimage);
-    //}
+    }
     socket.on("channel", List.channel_function);
 }
 
@@ -524,6 +540,7 @@ function change_offline(enabled, already_offline){
         }
 
         if(window.location.pathname != "/"){
+            socket.removeEventListener("color");
             $("#controls").on("mouseenter", function(e){
                 if($("#seekToDuration").hasClass("hide")){
                     $("#seekToDuration").removeClass("hide");
@@ -592,6 +609,7 @@ function change_offline(enabled, already_offline){
         $("#controls").off("click", Channel.seekToClick);
         $("#seekToDuration").remove();
         if(window.location.pathname != "/"){
+            socket.on("color", Player.setBGimage);
             socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
