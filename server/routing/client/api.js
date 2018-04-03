@@ -1096,7 +1096,11 @@ function incrementToken(token) {
 router.route('/api/imageblob').post(function(req, res) {
     var Jimp = require("jimp");
     Jimp.read('https://img.youtube.com/vi/' + req.body.id + '/mqdefault.jpg', function (err, image) {
-        if (err) console.log(err);
+        if (err) {
+            console.log(err);
+            res.send(404);
+            return;
+        }
         image.blur(50)
         .write(path.join(pathThumbnails, '/public/assets/images/thumbnails/' + req.body.id + '.jpg'), function(e, r) {
             res.status(200).send(req.body.id + ".jpg");
