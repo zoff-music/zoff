@@ -301,17 +301,15 @@ module.exports = function() {
         });
 
         socket.on('delete_all', function(msg) {
-            if(coll !== undefined) {
-                try {
-                    coll = msg.channel.toLowerCase().replace(/ /g,'');
-                    if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+            try {
+                coll = msg.channel.toLowerCase().replace(/ /g,'');
+                if(coll.length == 0) return;
+                coll = emojiStrip(coll).toLowerCase();
+                coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
-                } catch(e) {
-                    return;
-                }
+                coll = filter.clean(coll);
+            } catch(e) {
+                return;
             }
 
             ListChange.delete_all(msg, coll, guid, offline, socket);
