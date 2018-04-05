@@ -164,6 +164,10 @@ function addPlaylist(arr, guid, offline, socket) {
                     var now_playing = false;
                     if(np.length == 0) now_playing = true;
                     db.collection(channel + "_settings").find({id: "config"}, function(e, conf) {
+                        if(arr.length == 0) {
+                            socket.emit("toast", "Empty list..");
+                            return;
+                        }
                         if(conf.length > 0) {
                             var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socketid, arr.adminpass), true));
                             if((conf[0].userpass == "" || !conf[0].userpass || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, arr.userpass)).digest("base64"))) {
