@@ -148,7 +148,7 @@ window.zoff = {
     disable_debug: disable_debug
 }
 
-if(!Helper.mobilecheck() && window.location.host != "localhost") {
+if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
     window.onerror = function(e, source, lineno, colno, error) {
         if(e == "Script error.") return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});

@@ -188,10 +188,9 @@ function channel(req, res, next) {
                     embed: false,
                     client:false,
                 }
-                if(subdomain == "client") {
+                if(subdomain[0] == "client") {
                     data.client = true;
                 }
-
                 if(req.params.channel_name == "404") {
                     res.status(404);
                 }
