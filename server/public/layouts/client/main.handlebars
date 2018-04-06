@@ -30,7 +30,7 @@
             <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/unless}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
         {{#unless embed}}
@@ -54,13 +54,13 @@
         {{{body}}}
         {{#unless embed}}
             {{#unless client}}
-                <div class="tap-target" data-activates="castButton">
+                <div class="tap-target" data-target="castButton">
                     <div class="tap-target-content">
                         <h5>Chromecast</h5>
                         <p>This site supports chromecasting!</p>
                     </div>
                 </div>
-                <div class="tap-target-join" data-activates="chan">
+                <div class="tap-target-join" data-target="chan">
                     <div class="tap-target-content">
                     </div>
                 </div>
@@ -85,7 +85,7 @@
             <div id="context-menu-overlay" class="hide"></div>
         {{/unless}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
         <script type="text/javascript" src="/assets/dist/lib/jquery-ui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
