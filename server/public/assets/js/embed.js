@@ -201,7 +201,7 @@ function toast(msg) {
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("remove");
+                $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
             break;
@@ -248,7 +248,7 @@ function toast(msg) {
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("remove");
+                $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
             if(!$("#playlist_loader").hasClass("hide")) {
@@ -296,7 +296,7 @@ function toast(msg) {
                 $('#chan_thumbnail').tooltip({
                     delay: 5,
                     position: "left",
-                    tooltip: "imgur link"
+                    html: "imgur link"
                 });
             }
             break;
@@ -314,7 +314,7 @@ function toast(msg) {
             break;
     }
     before_toast();
-    Materialize.toast(msg, 4000);
+    M.toast({html: msg, displayLength: 4000});
 }
 
 function emit() {
@@ -332,11 +332,12 @@ function emit() {
 }
 
 function before_toast(){
-    if($('.toast').length > 0) {
+    /*if($('.toast').length > 0) {
         var toastElement = $('.toast').first()[0];
         var toastInstance = toastElement.M_Toast;
         toastInstance.remove();
-    }
+    }*/
+    M.Toast.dismissAll();
     //Materialize.Toast.removeAll();
 }
 

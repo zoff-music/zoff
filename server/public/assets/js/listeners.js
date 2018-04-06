@@ -148,7 +148,7 @@ window.zoff = {
     disable_debug: disable_debug
 }
 
-if(!Helper.mobilecheck()) {
+if(!Helper.mobilecheck() && window.location.host != "localhost") {
     window.onerror = function(e, source, lineno, colno, error) {
         if(e == "Script error.") return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
@@ -202,7 +202,7 @@ $().ready(function(){
             }*/
             $(".connect_error").fadeOut(function(){
                 $(".connect_error").remove();
-                Materialize.toast("Connected!", 2000, "green lighten");
+                M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
             });
         }
         Chat.namechange("", true, true);
@@ -318,6 +318,7 @@ initializeCastApi = function() {
             if((!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") && !client) {
                 $(".castButton").css("display", "block");
                 showDiscovery = true;
+                $('.tap-target').tapTarget();
                 $('.tap-target').tapTarget('open');
                 tap_target_timeout = setTimeout(function() {
                     $('.tap-target').tapTarget('close');
@@ -349,9 +350,9 @@ $(document).on("click", "#bitcoin-address", function(e) {
     copyTextarea.select();
     var successful = document.execCommand('copy');
     if(successful) {
-        Materialize.toast("Copied!", 2000, "green lighten");
+        M.toast({html: "Copied!", displayLength: 2000, classes: "green lighten"});
     } else {
-        Materialize.toast("Error copying..", 2000, "red lighten");
+        M.toast({html: "Error copying..", displayLength: 2000, classes: "red lighten"});
     }
 });
 
@@ -360,9 +361,9 @@ $(document).on("click", "#ethereum-address", function(e) {
     copyTextarea.select();
     var successful = document.execCommand('copy');
     if(successful) {
-        Materialize.toast("Copied!", 2000, "green lighten");
+        M.toast({html: "Copied!", displayLength: 2000, classes: "green lighten"});
     } else {
-        Materialize.toast("Error copying..", 2000, "red lighten");
+        M.toast({html: "Error copying..",displayLength: 2000, classes: "red lighten"});
     }
 });
 
@@ -373,6 +374,15 @@ $(document).on("click", ".pagination-results a", function(e) {
     var searchInput = that.attr("data-original-search");
     $(".pagination-results a").addClass("disabled");
     Search.search(searchInput, false, false, pageToken);
+});
+
+$(document).on("click", "#settings", function(e) {
+    e.preventDefault();
+    if(!M.Sidenav.getInstance($(".sidenav")).isOpen) {
+        $(".sidenav").sidenav("open");
+    } else {
+        $(".sidenav").sidenav("close");
+    }
 });
 
 $(document).on("click", ".accept-delete", function(e) {
@@ -535,9 +545,9 @@ $(document).on("click", ".copy-context-menu", function(e) {
         copyTextarea.select();
         var successful = document.execCommand('copy');
         if(successful) {
-            Materialize.toast("Copied!", 2000, "green lighten");
+            M.toast({html: "Copied!", displayLength: 2000, classes: "green lighten"});
         } else {
-            Materialize.toast("Error copying..", 2000, "red lighten");
+            M.toast({html: "Error copying..", displayLength: 2000, classes: "red lighten"});
         }
         $(".copy_video_id").css("display", "none");
     }
@@ -676,12 +686,12 @@ $(document).on("click", ".close-user-password", function() {
         Player.stopInterval = true;
         user_auth_avoid = true;
         if(!Helper.mobilecheck()) {
-            $('.castButton').tooltip("remove");
-            $("#viewers").tooltip("remove");
-            //$('.castButton-unactive').tooltip("remove");
-            $("#offline-mode").tooltip("remove");
-            $('#chan_thumbnail').tooltip("remove");
-            $('#admin-lock').tooltip("remove");
+            $('.castButton').tooltip("destroy");
+            $("#viewers").tooltip("destroy");
+            //$('.castButton-unactive').tooltip("destroy");
+            $("#offline-mode").tooltip("destroy");
+            $('#chan_thumbnail').tooltip("destroy");
+            $('#admin-lock').tooltip("destroy");
         }
         window.history.pushState("to the frontpage!", "Title", "/");
         Channel.onepage_load();
@@ -873,7 +883,7 @@ $(document).on("submit", "#listImport", function(e){
         ga('send', 'event', "import", "youtube");
     } else {
         before_toast();
-        Materialize.toast("It seems you've entered a invalid url.", 4000);
+        M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
     }
     document.getElementById("import").value = "";
 });
@@ -882,7 +892,7 @@ $(document).on("submit", "#listImportZoff", function(e) {
     e.preventDefault();
     var new_channel = $("#import_zoff").val();
     if(new_channel == "") {
-        Materialize.toast("It seems you've entered a invalid channel-name.", 4000);
+        M.toast({html: "It seems you've entered a invalid channel-name.", displayLength: 4000});
         return;
     }
     socket.emit("import_zoff", {channel: chan.toLowerCase(), new_channel: new_channel.toLowerCase()});
@@ -913,7 +923,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
             Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
         } else {
             before_toast();
-            Materialize.toast("It seems you've entered a invalid url.", 4000);
+            M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
         }
     }
     document.getElementById("import_spotify").value = "";
@@ -1104,7 +1114,7 @@ $(document).on("click", "#shuffle", function(e)
 
 $(document).on("click", "#search-btn", function(e)
 {
-    e.preventDefault();
+    //e.preventDefault();
     Search.showSearch();
 });
 
@@ -1163,15 +1173,15 @@ $(document).on( "click", ".result-object", function(e){
             end = original_length;
         }
         if(start > end) {
-            Materialize.toast("Start can't be before the end..", 3000, "red lighten");
+            M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
         } else if(start < 0) {
-            Materialize.toast("Start can't be less than 0..", 3000, "red lighten");
+            M.toast({html: "Start can't be less than 0..", displayLength: 3000, classes: "red lighten"});
         } else {
             try {
                 var length = parseInt(end) - parseInt(start);
                 Search.submitAndClose(id, title, length, start, end);
             } catch(e) {
-                Materialize.toast("Only numbers are accepted as song start and end parameters..", 3000, "red lighten");
+                M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
         }
     }
@@ -1250,16 +1260,16 @@ $(document).on( "click", "#add-many", function(e){
         end = original_length;
     }
     if(start > end) {
-        Materialize.toast("Start can't be before the end..", 3000, "red lighten");
+        M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
     } else if(start < 0) {
-        Materialize.toast("Start can't be less than 0..", 3000, "red lighten");
+        M.toast({html: "Start can't be less than 0..", displayLength: 3000, classes: "red lighten"});
     } else {
         try {
             var length = parseInt(end) - parseInt(start);
             $(this).parent().parent().parent().remove();
             Search.submit(id, title, length, false, 0, 1, start, end);
         } catch(e) {
-            Materialize.toast("Only numbers are accepted as song start and end parameters..", 3000, "red lighten");
+            M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
     }
 

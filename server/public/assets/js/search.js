@@ -363,7 +363,7 @@ var Search = {
                         $("#playlist_loader").addClass("hide");
                         $("#import").removeClass("hide");
                         before_toast();
-                        Materialize.toast("It seems you've entered a invalid url.", 4000);
+                        M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
                     }
 
                 }  else {
@@ -380,7 +380,6 @@ var Search = {
                     });
 
                     if(response.nextPageToken) {
-                        console.log(Search.submitYouTubeExpected);
                         //Search.addVideos(ids, true, 0, false, this_length);
                         Search.importPlaylist(pId, response.nextPageToken);
                     } else {
@@ -416,7 +415,7 @@ var Search = {
                 $("#import_spotify").removeClass("hide");
                 $("#playlist_loader_spotify").addClass("hide");
                 before_toast();
-                Materialize.toast("It seems you've entered a invalid url.", 4000);
+                M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
             }
         });
     },
