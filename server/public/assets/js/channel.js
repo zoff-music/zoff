@@ -531,7 +531,9 @@ var Channel = {
             $("#seekToDuration").remove();
             $(".sidenav").sidenav("destroy");
             if(!client) {
-                $("#chan").tooltip("destroy");
+                if(!Helper.mobilecheck()) {
+                    $("#chan").tooltip("destroy");
+                }
                 if(M.TapTarget.getInstance($(".tap-target"))) {
                     $('.tap-target').tapTarget('close');
                 }
