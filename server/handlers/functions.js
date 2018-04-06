@@ -23,7 +23,7 @@ function getSession(socket) {
     try {
         /*var cookieParser = require("cookie-parser");
         var cookie = require("cookie");
-    	var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
+        var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
         return parsedCookies["_uI"];*/
         return socket.cookie_id;
     } catch(e) {
@@ -110,27 +110,15 @@ function rndName(seed, len) {
     return word;
 }
 
-function decrypt_string(socket_id, pw){
+function removeEmojis (string) {
+    //https://stackoverflow.com/a/41164278/4266467
+    var regex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+    return string.replace(regex, '');
+}
+
+function decrypt_string(pw){
     try {
-        /*var input = pw.split("$");
-        pw = input[0];
-        var testKey = ((new Buffer(socket_id).toString('base64')) + (new Buffer(socket_id).toString('base64'))).substring(0,32);
-        var keyNew = (new Buffer(testKey)).toString('base64');
-        var encrypted = CryptoJS.enc.Base64.parse(pw);
-        var key = CryptoJS.enc.Base64.parse(keyNew);
-        var iv = CryptoJS.enc.Base64.parse(input[1]);
-        var decrypted = CryptoJS.enc.Utf8.stringify(
-            CryptoJS.AES.decrypt({
-                ciphertext: encrypted
-            }, key, {
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.Pkcs7,
-                iv: iv,
-            })
-        );*/
-        //return atob(pw);
         return Buffer.from(pw, 'base64').toString('ascii')
-        //return decrypted;
     } catch(e) {
         return "";
     }
@@ -246,8 +234,8 @@ function getSessionAdminUser(id, list, callback) {
             var userpass = "";
             var adminpass = "";
             if(d.length > 0) {
-                    if(d[0].userpass != undefined) userpass = d[0].userpass;
-                    if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
+                if(d[0].userpass != undefined) userpass = d[0].userpass;
+                if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
             }
             callback(userpass, adminpass, true);
         })
@@ -279,6 +267,7 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+module.exports.removeEmojis = removeEmojis;
 module.exports.getSessionChatPass = getSessionChatPass;
 module.exports.setSessionChatPass = setSessionChatPass;
 module.exports.removeSessionAdminPass = removeSessionAdminPass;

@@ -35,9 +35,9 @@ function thumbnail(msg, coll, guid, offline, socket) {
             msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
             if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
             var channel = msg.channel.toLowerCase();
-            var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
+            var hash = Functions.hash_pass(Functions.decrypt_string(msg.adminpass));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
                         db.collection("suggested_thumbnails").update({channel: channel}, {$set:{thumbnail: msg.thumbnail}}, {upsert:true}, function(err, docs){
                             Notifications.requested_change("thumbnail", msg.thumbnail, channel);
@@ -87,9 +87,9 @@ function description(msg, coll, guid, offline, socket) {
                 msg.adminpass = adminpass;
             }
             var channel = msg.channel.toLowerCase();
-            var hash = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, msg.adminpass));
+            var hash = Functions.hash_pass(Functions.decrypt_string(msg.adminpass));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, msg.pass)).digest("base64")))) {
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
                         db.collection("suggested_descriptions").update({channel: channel}, {$set:{description: msg.description}}, {upsert:true}, function(err, docs){
                             Notifications.requested_change("description", msg.description, channel);

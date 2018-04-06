@@ -62,8 +62,6 @@ router.route('/api/apply/:id').get(function(req,res) {
                         correct: true,
                         stylesheet: "style.css",
                         embed: false,
-                        critical: "f",
-                        critical_enabled: true
                     }
                     res.render('layouts/client/token', data);
                 });
@@ -79,8 +77,6 @@ router.route('/api/apply/:id').get(function(req,res) {
                 correct: false,
                 stylesheet: "style.css",
                 embed: false,
-                critical: "f",
-                critical_enabled: true
             }
             res.render('layouts/client/token', data);
         }
@@ -99,8 +95,6 @@ router.route('/api/apply').get(function(req, res, next) {
         correct: false,
         stylesheet: "style.css",
         embed: false,
-        critical: "f",
-        critical_enabled: true
     }
     res.render('layouts/client/token', data);
 });
@@ -122,8 +116,6 @@ function root(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
-                critical: "f",
-                critical_enabled: true
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
@@ -137,8 +129,6 @@ function root(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
-                critical: "f",
-                critical_enabled: true
             }
             if(subdomain[0] == "client") {
                 data.client = true;
@@ -168,8 +158,6 @@ function channel(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
-                critical: "f",
-                critical_enabled: true
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
@@ -184,8 +172,6 @@ function channel(req, res, next) {
                     analytics: analytics,
                     stylesheet: "embed.css",
                     embed: true,
-                    critical: "e",
-                    critical_enabled: false
                 }
                 res.render('layouts/client/embed', data);
             } else if(req.params.channel_name == "o_callback") {
@@ -201,8 +187,6 @@ function channel(req, res, next) {
                     stylesheet: "style.css",
                     embed: false,
                     client:false,
-                    critical: "c",
-                    critical_enabled: false
                 }
                 if(subdomain == "client") {
                     data.client = true;

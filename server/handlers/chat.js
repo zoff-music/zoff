@@ -19,7 +19,7 @@ function get_history(channel, all, socket) {
             }
             db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
                 if(conf.length > 0) {
-                    if(conf[0].userpass == "" || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, pass)).digest('base64')) {
+                    if(conf[0].userpass == "" || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(pass)).digest('base64')) {
                         getAndSendLogs(channel, all, socket, pass, query);
                     }
                 }
@@ -72,7 +72,7 @@ function chat(msg, guid, offline, socket) {
             msg.pass = userpass;
         }
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socket.zoff_id, msg.pass)).digest("base64")))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                 var data = msg.data;
                 Functions.check_inlist(coll, guid, socket, offline);
                 if(data !== "" && data !== undefined && data !== null &&
@@ -165,13 +165,13 @@ function namechange(data, guid, socket, tried) {
                 new_password = false;
             } else if(data.hasOwnProperty("new_password") && data.hasOwnProperty("old_password")) {
                 pw = data.old_password;
-                new_password = Functions.decrypt_string(socket.zoff_id, data.new_password);
+                new_password = Functions.decrypt_string(data.new_password);
             }
         }
         if(name == "") {
             return;
         }
-        var password = Functions.decrypt_string(socket.zoff_id, pw);
+        var password = Functions.decrypt_string(pw);
         db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
             var accepted_password = false;
             var icon = false;

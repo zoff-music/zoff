@@ -31,7 +31,7 @@ function password(inp, coll, guid, offline, socket) {
         }
         coll = coll.replace(/ /g,'');
         uncrypted = pw;
-        pw = Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, pw), true);
+        pw = Functions.hash_pass(Functions.decrypt_string(pw), true);
         Functions.check_inlist(coll, guid, socket, offline);
         Functions.getSessionAdminUser(sessionId, coll, function(userpass, adminpass) {
 
@@ -50,7 +50,7 @@ function password(inp, coll, guid, offline, socket) {
                                 socket.emit("pw", true);
                             });
                         });
-                    } else if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass), true))) {
+                    } else if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(adminpass), true))) {
                         Functions.setSessionAdminPass(sessionId, inp.password, coll, function() {
                             db.collection(coll + "_settings").update({ id: "config" }, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
                                 if(adminpass != pw) {
@@ -169,7 +169,7 @@ function conf_function(params, coll, guid, offline, socket) {
             var adminpass = params.adminpass;
             var skipping = params.skipping;
             var shuffling = params.shuffling;
-            var userpass = Functions.decrypt_string(socket.zoff_id, params.userpass);
+            var userpass = Functions.decrypt_string(params.userpass);
 
 
             if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
@@ -181,7 +181,7 @@ function conf_function(params, coll, guid, offline, socket) {
             var hash;
             if(params.description) description = params.description;
             if(adminpass !== "") {
-                hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(socket.zoff_id, adminpass), true));
+                hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(adminpass), true));
             } else {
                 hash = adminpass;
             }
