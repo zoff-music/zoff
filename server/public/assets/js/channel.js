@@ -176,6 +176,12 @@ var Channel = {
         }
 
         if(!Helper.mobilecheck()) {
+            $("#chan").tooltip({
+                delay: 5,
+                position: "bottom",
+                tooltip: "Show join URL",
+            });
+
             $("#viewers").tooltip({
                 delay: 5,
                 position: "top",
@@ -503,6 +509,7 @@ var Channel = {
 
             $("#embed-button").css("display", "none");
             if(!Helper.mobilecheck()) {
+                $("#chan").tooltip("remove");
                 $('.castButton').tooltip("remove");
                 $("#viewers").tooltip("remove");
                 //$('.castButton-unactive').tooltip("remove");
