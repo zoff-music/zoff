@@ -36,7 +36,6 @@ app.set('views', publicPath);
 
 var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
-var cookies = require("cookie");
 var helmet = require('helmet')
 app.use(helmet({
   frameguard: false
@@ -72,9 +71,7 @@ Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 Notifications = require(pathThumbnails + '/handlers/notifications.js');
 Search = require(pathThumbnails + '/handlers/search.js');
 crypto = require('crypto');
-node_cryptojs = require('node-cryptojs-aes');
-CryptoJS = node_cryptojs.CryptoJS;
-emojiStrip = require('emoji-strip');
+emojiStrip = Functions.removeEmojis;
 Filter = require('bad-words');
 filter = new Filter({ placeHolder: 'x'});
 

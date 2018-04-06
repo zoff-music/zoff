@@ -5,7 +5,6 @@ var mongojs = require('mongojs');
 var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
-var cookies = require("cookie");
 
 var toShowChannel = {
     start: 1,

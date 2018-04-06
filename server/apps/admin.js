@@ -19,7 +19,6 @@ var mongojs = require('mongojs');
 var db = mongojs(mongo_db_cred.config);
 var token_db = mongojs("tokens");
 var bodyParser = require('body-parser');
-var Cookies = require('cookies');
 var session = require('express-session');
 var api = require(pathThumbnails + '/routing/admin/api.js');
 

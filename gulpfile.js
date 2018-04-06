@@ -2,76 +2,7 @@ var gulp    = require('gulp'),
 	gutil   = require('gulp-util'),
 	uglify  = require('gulp-uglifyjs'),
 	concat  = require('gulp-concat');
-/*
-var critical = require('critical');
 
-gulp.task('critical-frontpage', function (cb) {
-  critical.generate({
-    base: './server/public/',
-    src: './assets/html/frontpage.html',
-    css: ['./server/public/assets/css/style.css', './server/public/assets/css/materialize.min.css', './server/public/assets/css/jquery-ui.min.css'],
-    dimensions: [{
-      width: 320,
-      height: 480
-    },{
-      width: 768,
-      height: 1024
-    },{
-      width: 1280,
-      height: 960
-    }],
-    dest: './assets/css/f.c.min.css',
-    minify: true,
-    extract: false,
-    ignore: ['font-face']
-  });
-});
-
-gulp.task('critical-channel', function (cb) {
-  critical.generate({
-    base: './server/public/',
-    src: './assets/html/embed.html',
-    css: ['./server/public/assets/css/style.css', './server/public/assets/css/materialize.min.css', './server/public/assets/css/jquery-ui.min.css'],
-    dimensions: [{
-      width: 320,
-      height: 480
-    },{
-      width: 768,
-      height: 1024
-    },{
-      width: 1280,
-      height: 960
-    }],
-    dest: './assets/css/c.c.min.css',
-    minify: true,
-    extract: false,
-    ignore: ['font-face']
-  });
-});
-
-
-gulp.task('critical-embed', function (cb) {
-  critical.generate({
-    base: './server/public/',
-    src: './assets/html/embed.html',
-    css: ['./server/public/assets/css/embed.css', './server/public/assets/css/materialize.min.css', './server/public/assets/css/jquery-ui.min.css'],
-    dimensions: [{
-      width: 320,
-      height: 480
-    },{
-      width: 768,
-      height: 1024
-    },{
-      width: 1280,
-      height: 960
-    }],
-    dest: './assets/css/e.c.min.css',
-    minify: true,
-    extract: false,
-    ignore: ['font-face']
-  });
-});
-*/
 gulp.task('js', function () {
     gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/token*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
         .pipe(uglify({

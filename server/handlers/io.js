@@ -451,7 +451,7 @@ module.exports = function() {
                     if(userpass != "" || obj.pass == undefined) {
                         obj.pass = userpass;
                     }
-                    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(socketid, obj.pass)).digest("base64")))) {
+                    if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64")))) {
                         Functions.check_inlist(coll, guid, socket, offline);
                         List.send_play(coll, socket);
                     } else {
