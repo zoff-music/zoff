@@ -650,6 +650,9 @@ function delete_all(msg, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
+            if(coll == undefined) {
+                coll = msg.channel;
+            }
             coll = coll.replace(/ /g,'');
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
                 if(adminpass != "" || msg.adminpass == undefined) {
