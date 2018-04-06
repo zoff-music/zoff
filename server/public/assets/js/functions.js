@@ -425,6 +425,7 @@ function get_list_listener(){
 }
 
 function setup_suggested_listener(){
+    if(client) return;
     socket.on("suggested", function(params){
         var single = true;
         if(params.id === undefined)

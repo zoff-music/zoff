@@ -5,10 +5,9 @@
     </div>
     <main class="container center-align main">
         <div id="main-row" class="row">
-            {{#if client}}
-            {{else}}
+            {{#unless client}}
                 {{> channel/players}}
-            {{/if}}
+            {{/unless}}
             {{> channel/tabs}}
         </div>
     </main>

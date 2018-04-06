@@ -5,7 +5,7 @@ var Channel = {
             $("#wrapper").removeClass("tabs_height");
             $("#wrapper").addClass("client-wrapper");
             //$(".embed-button-footer").addClass("hide");
-            $(".skip_next_client").removeClass("hide");
+            //$(".skip_next_client").removeClass("hide");
             if(!Helper.mobilecheck()) {
                 $(".skip_next_client").tooltip({
                     delay: 5,
@@ -13,6 +13,7 @@ var Channel = {
                     html: "Skip"
                 });
             }
+            $("#chan").addClass("chan-client");
             $("#results").addClass("client-results-height");
             $(".pagination-results").addClass("client-pagination-height");
             $(".control-list").addClass("client-control-list");
@@ -177,11 +178,13 @@ var Channel = {
         }
 
         if(!Helper.mobilecheck()) {
-            $("#chan").tooltip({
-                delay: 5,
-                position: "bottom",
-                html: "Show join URL",
-            });
+            if(!client) {
+                $("#chan").tooltip({
+                    delay: 5,
+                    position: "bottom",
+                    html: "Show join URL",
+                });
+            }
 
             $("#viewers").tooltip({
                 delay: 5,
@@ -510,7 +513,6 @@ var Channel = {
 
             $("#embed-button").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $("#chan").tooltip("destroy");
                 $('.castButton').tooltip("destroy");
                 $("#viewers").tooltip("destroy");
                 //$('.castButton-unactive').tooltip("destroy");
@@ -528,11 +530,14 @@ var Channel = {
             }
             $("#seekToDuration").remove();
             $(".sidenav").sidenav("destroy");
-            if(M.TapTarget.getInstance($(".tap-target"))) {
-                $('.tap-target').tapTarget('close');
-            }
-            if(M.TapTarget.getInstance($(".tap-target-join"))) {
-                $('.tap-target-join').tapTarget('close');
+            if(!client) {
+                $("#chan").tooltip("destroy");
+                if(M.TapTarget.getInstance($(".tap-target"))) {
+                    $('.tap-target').tapTarget('close');
+                }
+                if(M.TapTarget.getInstance($(".tap-target-join"))) {
+                    $('.tap-target-join').tapTarget('close');
+                }
             }
             clearTimeout(tap_target_timeout);
             before_toast();

@@ -37,11 +37,13 @@
                             <i class="material-icons">search</i>
                         </div>
                     </li>
-                    <li class="skip_next_client hide">
-                        <div class="nav-btn skip">
-                            <i class="material-icons">skip_next</i>
-                        </div>
-                    </li>
+                    {{#if client}}
+                        <li class="skip_next_client">
+                            <div class="nav-btn skip">
+                                <i class="material-icons">skip_next</i>
+                            </div>
+                        </li>
+                    {{/if}}
                     <li class="shuffle-btn-container">
                         <div class="nav-btn" id="shuffle">
                             <i class="material-icons">shuffle</i>
