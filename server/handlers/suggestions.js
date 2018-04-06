@@ -35,7 +35,7 @@ function thumbnail(msg, coll, guid, offline, socket) {
             msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
             if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
             var channel = msg.channel.toLowerCase();
-            var hash = Functions.hash_pass(Functions.decrypt_string(msg.adminpass));
+            var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass),true));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
@@ -87,7 +87,7 @@ function description(msg, coll, guid, offline, socket) {
                 msg.adminpass = adminpass;
             }
             var channel = msg.channel.toLowerCase();
-            var hash = Functions.hash_pass(Functions.decrypt_string(msg.adminpass));
+            var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass), true));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                     if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){

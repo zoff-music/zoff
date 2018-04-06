@@ -13,7 +13,7 @@
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
-                        <input id="search" class="search_input" type="text" title="Search for songs..." placeholder="Find song on YouTube..." onsubmit="null;" autocomplete="off" />
+                        <input id="search" class="search_input white-text" type="text" title="Search for songs..." placeholder="Find song on YouTube..." onsubmit="null;" autocomplete="off" />
                     </li>
                 </ul>
                 <ul class="right control-list noselect">
@@ -32,20 +32,20 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <a class="nav-btn" href="#find" id="search-btn">
+                    <li class="search-btn-container">
+                        <div class="nav-btn" id="search-btn">
                             <i class="material-icons">search</i>
-                        </a>
+                        </div>
                     </li>
                     <li class="skip_next_client hide">
-                        <a href="#skip" class="nav-btn skip">
+                        <div class="nav-btn skip">
                             <i class="material-icons">skip_next</i>
-                        </a>
+                        </div>
                     </li>
-                    <li>
-                        <a class="nav-btn" href="#stir" id="shuffle">
+                    <li class="shuffle-btn-container">
+                        <div class="nav-btn" id="shuffle">
                             <i class="material-icons">shuffle</i>
-                        </a>
+                        </div>
                     </li>
                     <li class="settings-hamburger" data-activates="settings-bar" id="settings">
                         <div class="hamburger-sidenav">
@@ -55,7 +55,7 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="side-nav" id="settings-bar">
+                <ul class="sidenav" id="settings-bar">
                     {{> channel/panel}}
                 </ul>
                 {{> channel/search}}

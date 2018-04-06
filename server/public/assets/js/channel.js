@@ -10,7 +10,7 @@ var Channel = {
                 $(".skip_next_client").tooltip({
                     delay: 5,
                     position: "bottom",
-                    tooltip: "Skip"
+                    html: "Skip"
                 });
             }
             $("#results").addClass("client-results-height");
@@ -48,11 +48,11 @@ var Channel = {
             $('ul.playlist-tabs-loggedIn').tabs();
             $('ul.chatTabs').tabs();
         }
-        $("#settings").sideNav({
+        $(".sidenav").sidenav({
             menuWidth: 310,
             edge: side,
             closeOnClick: false,
-            onOpen: function(el) {
+            onOpenStart: function(el) {
                 if(!$(".hamburger-sidenav").hasClass("open")) {
                     $(".hamburger-sidenav").addClass("open");
                 }
@@ -62,7 +62,7 @@ var Channel = {
                     }
                 });
             },
-            onClose: function(el) {
+            onCloseStart: function(el) {
                 $(".hamburger-sidenav").removeClass("open");
                 $('*[id*=sidenav-overlay]:visible').each(function(i) {
                     if(i > 0) {
@@ -168,6 +168,7 @@ var Channel = {
         }
 
         if(((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) && !client) {
+            $('.tap-target-join').tapTarget();
             $('.tap-target-join').tapTarget('open');
             tap_target_timeout = setTimeout(function() {
                 $('.tap-target-join').tapTarget('close');
@@ -179,38 +180,38 @@ var Channel = {
             $("#chan").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Show join URL",
+                html: "Show join URL",
             });
 
             $("#viewers").tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Viewers"
+                html: "Viewers"
             });
 
             $("#fullscreen").tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Fullscreen"
+                html: "Fullscreen"
             });
 
-            $("#search-btn").tooltip({
+            $(".search-btn-container").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Search"
+                html: "Search"
             });
 
 
-            $("#shuffle").tooltip({
+            $(".shuffle-btn-container").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Shuffle",
+                html: "Shuffle",
             });
 
             $("#settings").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Settings",
+                html: "Settings",
             });
         }
 
@@ -253,7 +254,7 @@ var Channel = {
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Cast Zoff to TV"
+                html: "Cast Zoff to TV"
             });
 
             $("#color_embed").spectrum({
@@ -487,6 +488,7 @@ var Channel = {
                 var host = window.location.hostname.split(".");
                 window.location.hostname = host[host.length -1];
             }*/
+            //Admin.display_logged_out();
             var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
@@ -502,29 +504,36 @@ var Channel = {
             window.scrollTo(0, 0);
 
             Player.stopInterval = true;
-            Admin.display_logged_out();
             Admin.beginning 	 = true;
             began 				 = false;
             durationBegun  		 = false;
 
             $("#embed-button").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $("#chan").tooltip("remove");
-                $('.castButton').tooltip("remove");
-                $("#viewers").tooltip("remove");
-                //$('.castButton-unactive').tooltip("remove");
-                $("#offline-mode").tooltip("remove");
-                $('#chan_thumbnail').tooltip("remove");
-                $('#fullscreen').tooltip("remove");
-                $('#admin-lock').tooltip("remove");
-                $("#search-btn").tooltip("remove");
-                $("#shuffle").tooltip("remove");
-                $("#settings").tooltip("remove");
+                $("#chan").tooltip("destroy");
+                $('.castButton').tooltip("destroy");
+                $("#viewers").tooltip("destroy");
+                //$('.castButton-unactive').tooltip("destroy");
+                $("#offline-mode").tooltip("destroy");
+                if(M.Tooltip.getInstance($("#chan_thumbnail")) != undefined) {
+                    $('#chan_thumbnail').tooltip("destroy");
+                }
+                $('#fullscreen').tooltip("destroy");
+                if(M.Tooltip.getInstance($("#admin-lock")) != undefined) {
+                    $('#admin-lock').tooltip("destroy");
+                }
+                $(".search-btn-container").tooltip("destroy");
+                $(".shuffle-btn-container").tooltip("destroy");
+                $("#settings").tooltip("destroy");
             }
             $("#seekToDuration").remove();
-            $("#settings").sideNav("destroy");
-            $('.tap-target').tapTarget('close');
-            $('.tap-target-join').tapTarget('close');
+            $(".sidenav").sidenav("destroy");
+            if(M.TapTarget.getInstance($(".tap-target"))) {
+                $('.tap-target').tapTarget('close');
+            }
+            if(M.TapTarget.getInstance($(".tap-target-join"))) {
+                $('.tap-target-join').tapTarget('close');
+            }
             clearTimeout(tap_target_timeout);
             before_toast();
             if(Helper.mobilecheck() || user_auth_avoid || client) {

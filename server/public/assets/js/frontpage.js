@@ -1,5 +1,3 @@
-//script for frontpage
-
 var channel_list;
 var frontpage = true;
 var socket;
@@ -131,7 +129,7 @@ var Frontpage = {
             $($(".pin").parent().parent().parent()).tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Featured playlist"
+                html: "Featured playlist"
             });
         }
 
@@ -268,7 +266,7 @@ var Frontpage = {
                 Frontpage.frontpage_function(response.results);
             },
             error: function() {
-                Materialize.toast("Couldn't fetch lists, trying again in 3 seconds..", 3000, "red lighten connect_error");
+                M.toast({html: "Couldn't fetch lists, trying again in 3 seconds..", displayLength: 3000, classes: "red lighten connect_error"});
                 retry_frontpage = setTimeout(function(){
                     Frontpage.get_frontpage_lists();
                 }, 3000);
@@ -319,12 +317,12 @@ var Frontpage = {
         }
         $("#main-container").css("background-color", "#2d2d2d");
         if(!Helper.mobilecheck()) {
-            $("#frontpage-viewer-counter").tooltip("remove");
-            $(".generate-channel-name").tooltip("remove");
-            $("#offline-mode").tooltip("remove");
-            $("#client-mode-button").tooltip("remove");
+            $("#frontpage-viewer-counter").tooltip("destroy");
+            $(".generate-channel-name").tooltip("destroy");
+            $("#offline-mode").tooltip("destroy");
+            $("#client-mode-button").tooltip("destroy");
             if($(".pin").length == 1) {
-                $($(".pin").parent().parent().parent()).tooltip("remove");
+                $($(".pin").parent().parent().parent()).tooltip("destroy");
             }
         }
         currently_showing_channels = 1;
@@ -355,7 +353,7 @@ var Frontpage = {
 
                 var response = $("<div>" + e + "</div>");
 
-                $('select').material_select('destroy');
+                $('select').formSelect('destroy');
                 $(".mega").remove();
                 $(".mobile-search").remove();
                 $("main").attr("class", "container center-align main");
@@ -439,7 +437,7 @@ var Frontpage = {
         $("#about").modal();
         $("#help").modal();
         $("#contact").modal();
-        $('select').material_select();
+        $('select').formSelect();
 
         Helper.log([
             "Sending frontpage_lists",
@@ -454,7 +452,7 @@ var Frontpage = {
                 $("#offline-mode").tooltip({
                     delay: 5,
                     position: "bottom",
-                    tooltip: "Enable local mode"
+                    html: "Enable local mode"
                 });
             }
         }
@@ -462,17 +460,17 @@ var Frontpage = {
             $("#frontpage-viewer-counter").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Total Viewers"
+                html: "Total Viewers"
             });
             $("#client-mode-button").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Client mode"
+                html: "Client mode"
             });
             $(".generate-channel-name").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Generate name"
+                html: "Generate name"
             });
         }
         Frontpage.get_frontpage_lists();
@@ -487,7 +485,7 @@ var Frontpage = {
 
         if(!localStorage.ok_cookie){
             before_toast();
-            Materialize.toast("We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", 10000);
+            M.toast({html: "We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", displayLength: 10000});
         }
 
         var pad = 0;
