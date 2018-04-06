@@ -954,6 +954,7 @@ hide mdi-action-visibility mdi-action-visibility-off
     text-transform: capitalize;
     display: inline-block;
     width: 100%;
+    font-weight: 300;
 }
 
 #player_bottom_overlay::after {
