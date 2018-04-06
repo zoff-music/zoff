@@ -190,7 +190,7 @@ var List = {
             $.each(full_playlist, function(j, _current_song){
                 if(!_current_song.hasOwnProperty("start")) full_playlist[j].start = 0;
                 if(!_current_song.hasOwnProperty("end")) full_playlist[j].end = full_playlist[j].duration;
-                if(!_current_song.now_playing){ //check that the song isnt playing
+                if(!_current_song.now_playing && _current_song.type != "suggested"){ //check that the song isnt playing
                     var generated = List.generateSong(_current_song, false, lazy_load, true, false, "", true)
                     $("#wrapper").append(generated);
                 }
