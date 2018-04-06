@@ -1792,6 +1792,7 @@ margin-right: 52%;
     text-align: center;
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .settings-hamburger {
