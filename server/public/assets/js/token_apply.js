@@ -33,13 +33,13 @@ $(document).ready(function() {
             success: function(response) {
                 $(".full-form-token").addClass("hide");
                 if(response == "success") {
-                    Materialize.toast("Email sent!", 3000, "green lighten");
+                    M.toast({html: "Email sent!", displayLength: 3000, classes: "green lighten"});
                 } else {
                     $("#email_address").attr("readonly", false);
                     $(".submit").toggleClass("disabled");
                     $("#origin").attr("readonly", false);
                     grecaptcha.reset();
-                    Materialize.toast("Something went wrong. Sure that email hasn't been used for another token?", 3000, "red lighten");
+                    M.toast({html: "Something went wrong. Sure that email hasn't been used for another token?",displayLength: 3000, classes: "red lighten"});
                 }
             },
             error: function(response) {

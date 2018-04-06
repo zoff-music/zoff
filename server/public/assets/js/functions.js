@@ -47,7 +47,7 @@ function hide_native(way) {
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Stop casting"
+                html: "Stop casting"
             });
         }
         $("#duration").toggleClass("hide");
@@ -93,7 +93,7 @@ function hide_native(way) {
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
-                tooltip: "Cast Zoff to TV"
+                html: "Cast Zoff to TV"
             });
         }
         $('.castButton').removeClass('castButton-white-active');
@@ -161,7 +161,7 @@ function start_auth() {
         $("#user-pass-input").focus();
         //Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
-        Materialize.toast("That is not the correct password, try again..", 4000);
+        M.toast({html: "That is not the correct password, try again..", displayLength: 4000});
     }
 }
 
@@ -392,7 +392,7 @@ function setup_no_connection_listener(){
         Helper.log(['Connection Failed']);
         if(!connect_error){
             connect_error = true;
-            Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
+            M.toast({html: "Error connecting to server, please wait..", displayLength: 100000000, classes: "red lighten connect_error"});
         }
     });
 
@@ -400,7 +400,7 @@ function setup_no_connection_listener(){
         Helper.log(["Connection Failed."]);
         if(!connect_error){
             connect_error = true;
-            Materialize.toast("Error connecting to server, please wait..", 100000000, "red lighten connect_error");
+            M.toast({html: "Error connecting to server, please wait..", displayLength: 100000000, classes: "red lighten connect_error"});
         }
     });
 }
@@ -535,7 +535,7 @@ function change_offline(enabled, already_offline){
             $("#offline-mode").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Disable local mode"
+                html: "Disable local mode"
             });
         }
 
@@ -597,7 +597,7 @@ function change_offline(enabled, already_offline){
             $("#offline-mode").tooltip({
                 delay: 5,
                 position: "bottom",
-                tooltip: "Enable local mode"
+                html: "Enable local mode"
             });
         }
 
@@ -658,7 +658,7 @@ function toast(msg) {
         case "addedplaylist":
             if(embed) return;
             if(Search.submitYouTubeError) {
-                Materialize.toast("Added most of your playlist, but something was wrong. Check the playlist..", 4000, "red lighten connect_error");
+                M.toast({html: "Added most of your playlist, but something was wrong. Check the playlist..", displayLength: 4000, classes: "red lighten connect_error"});
                 Search.submitYouTubeError = false;
                 return;
             }
@@ -679,7 +679,7 @@ function toast(msg) {
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("remove");
+                $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
             break;
@@ -728,7 +728,7 @@ function toast(msg) {
             $("#thumbnail_form").css("display", "none");
             $("#description_form").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("remove");
+                $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
             if(!$("#playlist_loader").hasClass("hide")) {
@@ -772,13 +772,6 @@ function toast(msg) {
             msg="Correct password. You now have access to the sacred realm of The Admin.";
             $("#thumbnail_form").css("display", "inline-block");
             $("#description_form").css("display", "inline-block");
-            if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip({
-                    delay: 5,
-                    position: "left",
-                    tooltip: "imgur link"
-                });
-            }
             break;
         case "changedpass":
             if(embed) return;
@@ -794,7 +787,7 @@ function toast(msg) {
             break;
     }
     before_toast();
-    Materialize.toast(msg, 4000);
+    M.toast({ html: msg, displayLength: 4000});
 }
 
 function emit() {
@@ -812,11 +805,12 @@ function emit() {
 }
 
 function before_toast(){
-    if($('.toast').length > 0) {
+    /*if($('.toast').length > 0) {
         var toastElement = $('.toast').first()[0];
         var toastInstance = toastElement.M_Toast;
         toastInstance.remove();
-    }
+    }*/
+    M.Toast.dismissAll();
     //Materialize.Toast.removeAll();
 }
 

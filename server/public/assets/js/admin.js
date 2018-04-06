@@ -16,6 +16,13 @@ var Admin = {
             if($(".suggested-badge").text() != "0" && $(".suggested-badge").text() != "") {
                 $(".suggested-badge").removeClass("hide");
             }
+            if(!Helper.mobilecheck()) {
+                $('#chan_thumbnail').tooltip({
+                    delay: 5,
+                    position: "left",
+                    html: "imgur link"
+                });
+            }
         } else {
             Admin.hideUserSuggested();
         }
@@ -35,7 +42,7 @@ var Admin = {
             $('#admin-lock').tooltip({
                 delay: 5,
                 position: "left",
-                tooltip: "Logout"
+                html: "Logout"
             });
         }
         $("#password").val("");
@@ -53,7 +60,7 @@ var Admin = {
                 $('#admin-lock').tooltip({
                     delay: 5,
                     position: "left",
-                    tooltip: "Logout"
+                    html: "Logout"
                 });
             }
         }
@@ -98,10 +105,10 @@ var Admin = {
             //Crypt.remove_pass(chan.toLowerCase());
         if(Admin.logged_in) {
             socket.emit("logout");
-            Materialize.toast("Logged out", 4000);
+            M.toast({html: "Logged out", displayLength: 4000});
             Admin.display_logged_out();
         } else {
-            Materialize.toast("Not logged in", 4000);
+            M.toast({html: "Not logged in", displayLength: 4000});
         }
     },
 
@@ -119,11 +126,12 @@ var Admin = {
         }
 
         if($("#admin-lock").html() != "lock") {
+            if(!Helper.mobilecheck()) {
+                $('#admin-lock').tooltip("destroy");
+                //$('#admin-lock').tooltip('destroy');
+            }
             $("#admin-lock").removeClass("clickable");
             $("#admin-lock").html("lock");
-            if(!Helper.mobilecheck()) {
-                $('#admin-lock').tooltip('remove');
-            }
         }
 
         if(!$(".user-password-li").hasClass("hide")) {
@@ -225,7 +233,7 @@ var Admin = {
     },
 
     hide_settings: function() {
-        $('#settings').sideNav('hide');
+        $('.sidenav').sidenav('close');
     },
 
     shuffle: function() {

@@ -60,6 +60,7 @@ var Remotecontroller = {
             document.getElementById("remoteform").chan.value = "";
             start = false;
 
+            $(".volume-elements").css("display", "flex");
             $(".rc").css("display", "block");
 
             //document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
