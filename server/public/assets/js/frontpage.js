@@ -90,10 +90,11 @@ var Frontpage = {
                 if(song_count > 4) {
                     if(lists[x].pinned == 1) {
                         card.find(".pin").attr("style", "display:block;");
-                        card.find(".card").attr("title", "Pinned!");
+                        //card.find(".card").attr("title", "Featured list");
                     } else {
-                        card.find(".pin").attr("style", "display:none;");
-                        card.find(".card").attr("title", "");
+                        /*card.find(".pin").attr("style", "display:none;");
+                        card.find(".card").attr("title", "");*/
+                        card.find(".pin").remove();
                     }
                     card.find(".chan-name").text(chan);
                     card.find(".chan-name").attr("title", chan);
@@ -125,6 +126,13 @@ var Frontpage = {
         var data = {};
         for(var x in options_list) {
             data[options_list[x]._id] = null;
+        }
+        if($(".pin").length == 1 && !Helper.mobilecheck()) {
+            $($(".pin").parent().parent().parent()).tooltip({
+                delay: 5,
+                position: "top",
+                tooltip: "Featured playlist"
+            });
         }
 
         var to_autocomplete = "input.autocomplete";
@@ -315,6 +323,9 @@ var Frontpage = {
             $(".generate-channel-name").tooltip("remove");
             $("#offline-mode").tooltip("remove");
             $("#client-mode-button").tooltip("remove");
+            if($(".pin").length == 1) {
+                $($(".pin").parent().parent().parent()).tooltip("remove");
+            }
         }
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
