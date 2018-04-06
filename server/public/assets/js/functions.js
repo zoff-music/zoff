@@ -43,7 +43,7 @@ function hide_native(way) {
             $('.castButton').addClass('castButton-white-active');
         }
         if(!Helper.mobilecheck()) {
-            $('.castButton').tooltip('remove');
+            $('.castButton').tooltip('destroy');
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
@@ -89,7 +89,7 @@ function hide_native(way) {
         $("#player_overlay_text").toggleClass("hide");
     } else if(way == 0){
         if(!Helper.mobilecheck()) {
-            $('.castButton').tooltip('remove');
+            $('.castButton').tooltip('destroy');
             $('.castButton').tooltip({
                 delay: 5,
                 position: "top",
@@ -517,7 +517,7 @@ function change_offline(enabled, already_offline){
     ga('send', 'event', "button-click", "offline", "", offline ? 1 : 0);
     socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
     if(!Helper.mobilecheck()) {
-        $("#offline-mode").tooltip('remove');
+        $("#offline-mode").tooltip('destroy');
     }
     if(enabled){
         if(list_html){
