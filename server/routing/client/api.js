@@ -177,10 +177,10 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
 
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.adminpass == "") {
-            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string("", _a), 'utf8').digest("hex"));
+            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string(_a), 'utf8').digest("hex"));
         }
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
@@ -332,10 +332,10 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.adminpass == "") {
-            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string("", _a), 'utf8').digest("hex"));
+            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string(_a), 'utf8').digest("hex"));
         }
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
@@ -458,10 +458,10 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.adminpass == "") {
-            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string("", _a), 'utf8').digest("hex"));
+            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string(_a), 'utf8').digest("hex"));
         }
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
@@ -555,7 +555,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
@@ -679,10 +679,10 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.adminpass == "") {
-            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string("", _a), 'utf8').digest("hex"));
+            adminpass = Functions.hash_pass(crypto.createHash('sha256').update(Functions.decrypt_string(_a), 'utf8').digest("hex"));
         }
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
@@ -1033,7 +1033,8 @@ router.route('/api/list/:channel_name').post(function(req, res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string("", _u), 'utf8').digest("base64");
+            //userpass = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(_u)))
+            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
         }
 
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
