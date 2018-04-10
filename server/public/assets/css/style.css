@@ -1231,7 +1231,7 @@ margin:-1px;
     -o-transition: opacity 0.5s;
     transition: opacity 0.5s;
     overflow: visible;
-    /*padding-right: 0px !important;*/
+    padding-right: 0px !important;
 }
 
 .no-opacity{
@@ -2595,7 +2595,7 @@ nav ul li:hover, nav ul li.active {
 #main_components {
     position: absolute;
     top: calc(100% - 26px);
-    width: calc(100% - 1.5em);
+    width: 100%;
     z-index: 99;
 }
 
@@ -3436,7 +3436,8 @@ nav ul li:hover, nav ul li.active {
         height: 90%;
         height: calc(100% - 64px);
         overflow: hidden;
-        padding:0px 0px 0px 0px;
+        padding-right: 0px;
+        /*padding:0px 0px 0px 0px;*/
     }
 }
 
