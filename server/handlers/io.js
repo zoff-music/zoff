@@ -64,6 +64,8 @@ module.exports = function() {
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
                             coll = msg.channel.toLowerCase().replace(/ /g,'');
+                            coll = emojiStrip(coll).toLowerCase();
+                            coll = filter.clean(coll);
                             in_list = true;
                             chromecast_object = true;
                             socket.join(coll);
@@ -156,6 +158,8 @@ module.exports = function() {
                 offline = true;
                 if(channel != "") coll = channel;
                 if(coll !== undefined) {
+                    coll = emojiStrip(coll).toLowerCase();
+                    coll = filter.clean(coll);
 
                     db.collection("connected_users").findAndModify({
                         query: {"_id": coll},
@@ -254,7 +258,6 @@ module.exports = function() {
             } catch(e) {
                 return;
             }
-
             if(msg.hasOwnProperty("offline") && msg.offline) {
                 offline = true;
             }
@@ -396,6 +399,8 @@ module.exports = function() {
         socket.on("left_channel", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
                 coll = msg.channel.replace(/ /g,'');
+                coll = emojiStrip(coll).toLowerCase();
+                coll = filter.clean(coll);
                 List.left_channel(coll, guid, short_id, in_list, socket, false);
             }
         })
