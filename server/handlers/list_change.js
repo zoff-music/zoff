@@ -469,6 +469,8 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                 return;
             }
         coll = msg.channel.toLowerCase().replace(/ /g,'');
+        coll = emojiStrip(coll).toLowerCase();
+        coll = filter.clean(coll);
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || msg.adminpass == undefined) {
                 msg.adminpass = adminpass;
@@ -533,7 +535,8 @@ function shuffle(msg, coll, guid, offline, socket) {
             return;
         }
     coll = msg.channel.toLowerCase().replace(/ /g,'');
-
+    coll = emojiStrip(coll).toLowerCase();
+    coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
         if(adminpass != "" || msg.adminpass == undefined) {
             msg.adminpass = adminpass;
@@ -654,6 +657,8 @@ function delete_all(msg, coll, guid, offline, socket) {
                 coll = msg.channel;
             }
             coll = coll.replace(/ /g,'');
+            coll = emojiStrip(coll).toLowerCase();
+            coll = filter.clean(coll);
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
                 if(adminpass != "" || msg.adminpass == undefined) {
                     msg.adminpass = adminpass;

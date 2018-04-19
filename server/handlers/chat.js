@@ -67,6 +67,8 @@ function chat(msg, guid, offline, socket) {
         return;
     }
     var coll = msg.channel.toLowerCase().replace(/ /g,'');
+    coll = emojiStrip(coll).toLowerCase();
+    coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
         if(userpass != "" || msg.pass == undefined) {
             msg.pass = userpass;
@@ -118,7 +120,8 @@ function all_chat(msg, guid, offline, socket) {
     }
     var coll = msg.channel.toLowerCase().replace(/ /g,'');
     var data = msg.data;
-
+    coll = emojiStrip(coll).toLowerCase();
+    coll = filter.clean(coll);
     Functions.check_inlist(coll, guid, socket, offline);
     if(data !== "" && data !== undefined && data !== null &&
     data.length < 151 && data.replace(/\s/g, '').length){

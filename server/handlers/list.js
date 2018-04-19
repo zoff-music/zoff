@@ -47,6 +47,8 @@ function list(msg, guid, coll, offline, socket) {
                 return;
             }
             coll = msg.channel.toLowerCase().replace(/ /g,'');
+            coll = emojiStrip(coll).toLowerCase();
+            coll = filter.clean(coll);
             var pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
             db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
                 if(frontpage_lists.length == 1) {
@@ -119,6 +121,7 @@ function skip(list, guid, coll, offline, socket) {
                 return;
             }
         }
+
         if(!list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
             typeof(list.id) != "string" || typeof(list.channel) != "string") {
                 var result = {
