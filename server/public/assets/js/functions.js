@@ -67,7 +67,7 @@ function hide_native(way) {
                 $("#pause").toggleClass("hide");
             }
         } else {
-            $("#volume").slider("value", 100);
+            Playercontrols.visualVolume(100);
         }
         if(Helper.mobilecheck()) {
             if(!$("#player_overlay").hasClass("hide")) {
@@ -110,7 +110,7 @@ function hide_native(way) {
         Player.durationSetter();
         if(!Helper.mobilecheck()){
             Player.player.setVolume(Crypt.get_volume());
-            $("#volume").slider("value", Crypt.get_volume());
+            Playercontrols.visualVolume(Crypt.get_volume());
         }
         $("#player_overlay").addClass("hide");
         $("#player_overlay_text").toggleClass("hide");

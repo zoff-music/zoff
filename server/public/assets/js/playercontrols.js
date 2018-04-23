@@ -2,6 +2,7 @@ var Playercontrols = {
 
     stopInterval: false,
 
+
     initYoutubeControls: function() {
         Playercontrols.initControls();
     },
@@ -15,31 +16,149 @@ var Playercontrols = {
     },
 
     initSlider: function() {
+        window.visualVolume = Playercontrols.visualVolume;
         try {
-            vol = (Crypt.get_volume());
-            $("#volume").slider("destroy");
-        } catch(e){
 
+            vol = (Crypt.get_volume());
+            //$("#volume").slider("destroy");
+        } catch(e){
+            vol = 100;
         }
-        var slider_values = {
-            min: 0,
-            max: 100,
-            value: vol,
-            range: "min",
-            animate: true,
-            slide: function(event, ui) {
-                Playercontrols.setVolume(ui.value);
-                try{Crypt.set_volume(ui.value);}catch(e){}
+        try {
+            if(document.getElementsByClassName("volume-slid")) {
+                document.getElementById("volume").innerHTML = "";
             }
-        };
+        }catch(e){}
         if(Helper.mobilecheck() || slider_type == "vertical") {
             slider_values.orientation = "vertical";
             if(!$(".volume-container").hasClass("hide")) {
                 $(".volume-container").toggleClass("hide");
             }
         }
-        $("#volume").slider(slider_values);
+        $("#volume").append("<div class='volume-slid " + slider_type + "'></div>");
+        $("#volume").append("<div class='volume-handle " + slider_type + "'></div>");
+        window.player = Player.player;
+        if(slider_type != "vertical") {
+            if($("#volume").hasClass("vertical")) {
+                $("#volume").removeClass("vertical");
+            }
+            $(".volume-slid").css("width", vol + "%");
+            $(".volume-handle").css("left", "calc(" + vol + "% - 1px)");
+        } else {
+            if(!$("#volume").hasClass("vertical")) {
+                $("#volume").addClass("vertical");
+            }
+            $(".volume-slid").css("height", vol + "%");
+            $(".volume-handle").css("bottom", "calc(" + vol + "% - 1px)");
+
+        }
         Playercontrols.choose_button(vol, false);
+        //document.getElementsByClassName("volume-handle")[0].onmousedown = Playercontrols.dragMouseDown;
+        //Playercontrols.visualVolume(slider_values);
+        //document.getElementsByClassName("volume-slid")[0].onmousedown = Playercontrols.dragMouseDown;
+        document.getElementById("volume").onmousedown = function(e) {
+            Playercontrols.dragMouseDown(e, "player");
+        }
+        document.getElementById("volume").touchstart = function(e) {
+            e.preventDefault();
+            Playercontrols.dragMouseDown(e, "player");
+        }
+        document.getElementById("volume").onclick = function(e) {
+            Playercontrols.elementDrag(e, "player");
+            Playercontrols.closeDragElement("player");
+        }
+    },
+
+    dragMouseDown: function(e, element) {
+        e = e || window.event;
+        // get the mouse cursor position at startup:
+        document.onmouseup = function() {
+            Playercontrols.closeDragElement(element);
+        }
+        document.touchend = function() {
+            Playercontrols.closeDragElement(element);
+        }
+        // call a function whenever the cursor moves:
+        document.onmousemove = function(e) {
+            Playercontrols.elementDrag(e, element);
+        }
+        document.touchmove = function(e) {
+            Playercontrols.elementDrag(e, element);
+        }
+    },
+
+    elementDrag: function(e, element) {
+        var elmnt;
+        var cmp_elmnt;
+        var slid_elmnt;
+        if(element == "player") {
+            elmnt = document.getElementsByClassName("volume-handle")[0];
+            cmp_elmnt = document.getElementById("volume");
+            slid_elmnt = document.getElementsByClassName("volume-slid")[0];
+        } else {
+            elmnt = document.getElementsByClassName("volume-handle-remote")[0];
+            cmp_elmnt = document.getElementById("volume-control-remote");
+            slid_elmnt = document.getElementsByClassName("volume-slid-remote")[0];
+        }
+        e = e || window.event;
+
+        var pos3 = e.clientX;
+        var pos4 = e.clientY;
+        var volume = 0;
+        if(slider_type != "vertical" || element != "player") {
+            if(elmnt.className.indexOf("ui-state-active") == -1) {
+                elmnt.className += " ui-state-active";
+            }
+            var pos = pos3 - cmp_elmnt.offsetLeft;
+            if(pos > -1 && pos < cmp_elmnt.offsetWidth + 1) {
+                elmnt.style.left = pos + "px";
+                volume = pos / cmp_elmnt.offsetWidth;
+            } else if(pos < 1) {
+                elmnt.style.left = 0 + "px";
+                volume = 0;
+            } else {
+                elmnt.style.left = cmp_elmnt.offsetWidth + "px";
+                volume = 1;
+            }
+
+            slid_elmnt.style.width = volume * 100 + "%";
+            if(element == "player") Playercontrols.setVolume(volume * 100);
+            else socket.emit("id", {id: Mobile_remote.id, type: "volume", value: volume * 100});
+        } else {
+            var pos = pos4 - cmp_elmnt.offsetTop;
+            var pos0 = window.innerHeight - pos - 14;
+
+            if(pos0 > 64 && pos0 < 164) {
+                volume = (pos0 - 64) / 100;
+            } else if(pos0 < 65) {
+                volume = 0;
+            } else {
+                volume = 1;
+            }
+            slid_elmnt.style.height = volume * 100 + "%";
+            Playercontrols.setVolume(volume * 100);
+
+        }
+        try{Crypt.set_volume(volume * 100);}catch(e){
+        }
+    },
+
+    closeDragElement: function(element) {
+        /* stop moving when mouse button is released:*/
+        var elmnt;
+        if(element == "player") {
+            elmnt = document.getElementsByClassName("volume-handle")[0];
+        } else {
+            elmnt = document.getElementsByClassName("volume-handle-remote")[0];
+        }
+        if(elmnt.className.indexOf("ui-state-active") > -1) {
+            setTimeout(function(){
+                elmnt.classList.remove("ui-state-active");
+            }, 1);
+        }
+        document.onmouseup = null;
+        document.onmousemove = null;
+
     },
 
     fullscreen: function() {
@@ -216,15 +335,54 @@ var Playercontrols = {
         }
     },
 
+    visualVolume: function(val) {
+        var elmnt = document.getElementsByClassName("volume-handle")[0];
+        var cmp_elmnt = document.getElementById("volume");
+        var slid_elmnt = document.getElementsByClassName("volume-slid")[0];
+
+
+        if(slider_type != "vertical") {
+            var pos = (cmp_elmnt.offsetWidth / 100) * val;
+            var volume = 0;
+            //var pos = pos3 - cmp_elmnt.offsetLeft;
+            if(pos > -1 && pos < cmp_elmnt.offsetWidth + 1) {
+                elmnt.style.left = pos + "px";
+                volume = pos / cmp_elmnt.offsetWidth;
+            } else if(pos < 1) {
+                elmnt.style.left = 0 + "px";
+                volume = 0;
+            } else {
+                elmnt.style.left = cmp_elmnt.offsetWidth + "px";
+                volume = 1;
+            }
+
+            slid_elmnt.style.width = volume * 100 + "%";
+            Playercontrols.setVolume(volume * 100);
+        } else {
+            var pos = val;
+            var pos0 = window.innerHeight - pos - 14;
+            var volume = 0;
+            if(pos0 > 64 && pos0 < 164) {
+                volume = (pos0 - 64) / 100;
+            } else if(pos0 < 65) {
+                volume = 0;
+            } else {
+                volume = 1;
+            }
+            slid_elmnt.style.height = volume * 100 + "%";
+            Playercontrols.setVolume(volume * 100);
+        }
+    },
+
     volumeOptions: function() {
         if(!chromecastAvailable) {
             if(Player.player.isMuted()) {
                 Player.player.unMute();
                 vol = Player.player.getVolume();
-                $("#volume").slider("value", Player.player.getVolume());
+                Playercontrols.visualVolume(Player.player.getVolume());
             } else {
                 Player.player.mute();
-                $("#volume").slider("value", 0);
+                Playercontrols.visualVolume(0);
             }
         }
     },
