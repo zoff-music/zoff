@@ -22,7 +22,7 @@ $(document).ready(function() {
         $(".submit").toggleClass("disabled");
         $(".full-form-token").removeClass("hide");
         var captcha_response = grecaptcha.getResponse();
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: "/api/apply",
             data: {

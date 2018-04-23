@@ -141,9 +141,10 @@ try{
 
 } catch(e) {}
 
+/*
 $.ajaxPrefilter(function( options, original_Options, jqXHR ) {
     options.async = true;
-});
+});*/
 
 window.zoff = {
     enable_debug: enable_debug,
@@ -1226,7 +1227,7 @@ $(document).on('submit', "#error-report-form", function(e) {
     e.preventDefault();
     var captcha_response = grecaptcha.getResponse();
     $("#send-loader").removeClass("hide");
-    $.ajax({
+    Helper.ajax({
         type: "POST",
         data: {
             from: "no-reply@zoff.me",
@@ -1358,7 +1359,7 @@ $(document).on("click", "#player_bottom_overlay", function(e){
 
 $(document).on("click", ".generate-channel-name", function(e) {
     e.preventDefault();
-    $.ajax({
+    Helper.ajax({
         type: "GET",
         url: "/api/generate_name",
         success: function(response) {

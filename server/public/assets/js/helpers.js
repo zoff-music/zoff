@@ -18,6 +18,81 @@ var Helper = {
         return arr[Math.floor(Math.random() * arr.length)];
     },
 
+    css: function(element, attribute, value) {
+        try {
+            if(element.substring(0,1) == "#") {
+                document.getElementById(element.substring(1)).style[attribute] = value;
+            } else {
+                var elements = documents.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].style[attribute] = value;
+                }
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    removeClass: function(element, className) {
+        try {
+            if(element.substring(0,1) == "#") {
+                document.getElementById(element.substring(1)).classList.remove(className);
+            } else {
+                var elements = documents.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].classList.remove(className);
+                }
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    addClass: function(element, className) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            if(elem.className.indexOf(className) == -1) {
+                elem.className += " " + className;
+            }
+        } else {
+            var elements = documents.getElementsByClassName(element.substring(1));
+            for(var i = 0; i < elements.length; i++) {
+                if(elements[i].className.indexOf(className) == -1) {
+                    elements[i].className += " " + className;
+                }
+            }
+        }
+    },
+
+    ajax: function(obj) {
+        var _async = true;
+        if(obj.async) _async = obj.async;
+        if(obj.method == undefined) obj.method = "GET";
+        var xmlhttp = new XMLHttpRequest();
+        if(obj.headers) {
+            for(header in obj.headers) {
+                xmlhttp.setRequestHeader(header, obj.headers[header]);
+            }
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+               if (xmlhttp.status == 200) {
+                   obj.success(xmlhttp.responseText, xmlhttp);
+               }
+               else {
+                  obj.error(xmlhttp);
+               }
+            }
+        };
+
+        xmlhttp.open(obj.method, obj.url, _async);
+        if(obj.data) {
+            if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
+            xmlhttp.send(obj.data);
+        }
+        else xmlhttp.send();
+    },
+
     randomString: function(length){
         var text = "";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_";
@@ -262,12 +337,6 @@ var Helper = {
         return string.substring(0,1).toUpperCase()+string.substring(1).toLowerCase();
     },
 
-    addClass: function(object, toAdd){
-        if(!Helper.contains($(object).attr("class").split(" "), toAdd)){
-            $(object).addClass(toAdd);
-        }
-    },
-
     send_mail: function(from, message){
         if(from !== "" && message !== ""){
 
@@ -276,7 +345,7 @@ var Helper = {
             $("#contact-form-from").attr("disabled", "true");
             $("#contact-form-message").attr("disabled", "true");
             var captcha_response = grecaptcha.getResponse();
-            $.ajax({
+            Helper.ajax({
                 type: "POST",
                 data: {
                     from: from,

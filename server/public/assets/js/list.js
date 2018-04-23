@@ -187,14 +187,15 @@ var List = {
             full_playlist
         ]);
         if(full_playlist.length > 1){
-            $.each(full_playlist, function(j, _current_song){
+            for(var j = 0; j < full_playlist.length; j++) {
+                var _current_song = full_playlist[j];
                 if(!_current_song.hasOwnProperty("start")) full_playlist[j].start = 0;
                 if(!_current_song.hasOwnProperty("end")) full_playlist[j].end = full_playlist[j].duration;
                 if(!_current_song.now_playing && _current_song.type != "suggested"){ //check that the song isnt playing
                     var generated = List.generateSong(_current_song, false, lazy_load, true, false, "", true)
                     $("#wrapper").append(generated);
                 }
-            });
+            }
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
                 $(".prev_page").css("display", "none");
                 $(".first_page").css("display", "none");
@@ -593,17 +594,18 @@ var List = {
     exportToSpotify: function() {
         ga('send', 'event', "export", "spotify");
 
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: "https://api.spotify.com/v1/me",
             headers: {
                 'Authorization': 'Bearer ' + access_token_data.access_token
             },
             success: function(response){
+                response = JSON.parse(response);
                 var user_id = response.id;
                 $("#playlist_loader_export").removeClass("hide");
                 $(".exported-list-container").removeClass("hide");
-                $.ajax({
+                Helper.ajax({
                     type: "POST",
                     url: "https://api.spotify.com/v1/users/" + user_id + "/playlists",
                     headers: {
@@ -616,13 +618,14 @@ var List = {
                         public: true
                     }),
                     success: function(response){
+                        response = JSON.parse(response);
                         var playlist_id = response.id;
-                        $.ajax({
+                        Helper.ajax({
                             type: "GET",
                             url: window.location.protocol + "//" + window.location.hostname + "/assets/images/small-square.base64.txt",
                             success: function(base64image) {
                                 var image = base64image.substring(0, base64image.length - 1);
-                                $.ajax({
+                                Helper.ajax({
                                     type: "PUT",
                                     url: "https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/images",
                                     headers: {
@@ -656,7 +659,7 @@ var List = {
 
         $(".current_number").removeClass("hide");
         $(".current_number").text((current_element + 1) + " of " + (full_playlist.length));
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: "https://api.spotify.com/v1/search?q=" + track + "&type=track",
             headers: {
@@ -677,8 +680,10 @@ var List = {
                 }
             },
             success: function(response){
+                response = JSON.parse(response);
                 var found = false;
-                $.each(response.tracks.items, function(i, data){
+                for(var i = 0; i < response.tracks.items.length; i++) {
+                    var data = response.tracks.items[i];
                     data.name = Helper.replaceForFind(data.name);
                     data.artists[0].name = Helper.replaceForFind(data.artists[0].name);
                     if(data.name.substring(data.name.length-1) == " ") data.name = data.name.substring(0,data.name.length-1);
@@ -693,7 +698,7 @@ var List = {
                             track
                         ]);
                         //List.num_songs = List.num_songs + 1;
-                        return false;
+                        break;
                     } else if(decodeURIComponent(track).indexOf(data.artists[0].name.toLowerCase()) >= 0 && decodeURIComponent(track).indexOf(data.name.toLowerCase()) >= 0){
                         found = true;
                         List.uris.push(data.uri);
@@ -702,16 +707,19 @@ var List = {
                             track
                         ]);
                         //List.num_songs = List.num_songs + 1;
-                        return false;
+                        break;
                     } else {
                         var splitted = data.name.split(" ");
-                        for(var i = 0; i < splitted.length; i++){
+                        var toBreak = false;
+                        for(var i = 0; i < splitted.length; i++) {
                             if((splitted[i] == "and" && track.indexOf("&") >= 0) || (splitted[i] == "&" && track.indexOf("and") >= 0)){
                                 continue;
                             } else if(track.indexOf(splitted[i]) < 0){
-                                return true;
+                                toBreak = true;
+                                break;
                             }
                         }
+                        if(toBreak) break;
                         found = true;
                         List.uris.push(data.uri);
                         Helper.log([
@@ -719,9 +727,9 @@ var List = {
                             track
                         ]);
                         //List.num_songs = List.num_songs + 1;
-                        return false;
+                        break;
                     }
-                });
+                }
                 if(!found){
                     List.not_found.push(original_track);
                     List.num_songs = List.num_songs + 1;
@@ -745,12 +753,14 @@ var List = {
                     if($(".exported-spotify-list").length == 0) {
                         $(".exported-list").append("<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
                     }
-                    $.each(List.not_found, function(i, data){
+                    for(var i = 0; i < List.not_found.length; i++) {
+                        var data = List.not_found[i];
+
                         var not_added_song = $("<div>" + not_export_html + "</div>");
                         not_added_song.find(".extra-add-text").attr("value", data);
                         not_added_song.find(".extra-add-text").attr("title", data);
                         $(".not-exported-container").append(not_added_song.html());
-                    })
+                    }
                     $(".current_number").addClass("hide");
                     $(".not-exported").removeClass("hide");
                     $(".spotify_export_button").css("display", "block");
@@ -762,7 +772,7 @@ var List = {
     },
 
     addToSpotifyPlaylist: function(uris, playlist_id, user_id) {
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: "https://api.spotify.com/v1/users/" + user_id + "/playlists/" + playlist_id + "/tracks",
             headers: {
@@ -792,7 +802,7 @@ var List = {
         var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
         $(".exported-list-container").removeClass("hide");
         $("#playlist_loader_export").removeClass("hide");
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: request_url,
             headers: {
@@ -806,12 +816,14 @@ var List = {
                 }
             }),
             success: function(response){
+                response = JSON.parse(response);
                 var number_added = 0;
                 var playlist_id = response.id;
                 var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
                 List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
             },
             error: function(response){
+                response = response.responseText;
                 Helper.log([
                     "export to youtube response",
                     response
@@ -830,7 +842,7 @@ var List = {
                 }
             }
         });
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: request_url,
             headers: {
@@ -839,6 +851,7 @@ var List = {
             },
             data: _data,
             success: function(response){
+                response = JSON.parse(response);
                 Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
                 if(num == full_playlist.length - 1){
                     Helper.log(["All videoes added!"]);

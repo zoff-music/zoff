@@ -40,26 +40,29 @@ var Suggestions = {
         var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key;
         var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: get_url,
             dataType:"jsonp",
             success: function(response)
             {
-                $.each(response.items.slice(0,5), function(i,data){
+                response = JSON.parse(response);
+                var this_resp = response.items.slice(0,5);
+                for(var i = 0; i < this_resp.length; i++) {
+                    var data = this_resp[i];
                     video_urls += data.id.videoId+",";
-                });
+                }
 
-                $.ajax({
+                Helper.ajax({
                     type: "GET",
                     url: video_urls,
                     dataType: "jsonp",
                     success: function(response)
                     {
+                        response = JSON.parse(response);
                         $("#suggest-song-html").empty();
-
-                        $.each(response.items, function(i,song)
-                        {
+                        for(var i = 0; i < response.items.length; i++) {
+                            var song = response.items[i];
                             var duration 	= song.contentDetails.duration;
                             var length 		= Search.durationToSeconds(duration);
                             duration 		= Helper.secondsToOther(Search.durationToSeconds(duration));
@@ -67,7 +70,7 @@ var Suggestions = {
                             var video_title = song.snippet.title;
 
                             $("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
-                        });
+                        }
                     }
                 });
             }

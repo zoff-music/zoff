@@ -58,11 +58,12 @@ var Search = {
             if(Helper.contains($("#results").attr("class").split(" "), "hide"))
             $("#results").removeClass("hide");
 
-            $.ajax({
+            Helper.ajax({
                 type: "GET",
                 url: yt_url,
-                dataType:"jsonp",
+                dataType: "jsonp",
                 success: function(response){
+                    response = JSON.parse(response);
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
                     if(response.items.length === 0) {
@@ -73,23 +74,23 @@ var Search = {
                         $(".search_loader_spinner").removeClass("active");
 
                     } else if(response.items){
-                        $.each(response.items, function(i,data) {
-                            vid_url += data.id.videoId+",";
-                        });
+                        for(var i = 0; i < response.items.length; i++) {
+                            vid_url += response.items[i].id.videoId+",";
+                        }
 
-                        $.ajax({
+                        Helper.ajax({
                             type: "GET",
                             url: vid_url,
                             dataType:"jsonp",
                             success: function(response){
-
+                                response = JSON.parse(response);
                                 var output = "";
                                 var pre_result = $(result_html);
 
                                 //$("#results").append(result_html);
 
-                                $.each(response.items, function(i,song)
-                                {
+                                for(var i = 0; i < response.items.length; i++) {
+                                    var song = response.items[i];
                                     var duration=song.contentDetails.duration;
                                     secs=Search.durationToSeconds(duration);
                                     var _temp_duration = Helper.secondsToOther(secs);
@@ -121,7 +122,7 @@ var Search = {
                                             output += songs.html();
                                         }
                                     }
-                                });
+                                }
                                 var fresh = false;
                                 if($("#inner-results").length == 0) {
                                     fresh = true;
@@ -189,11 +190,12 @@ var Search = {
         artist = artist.split(" ");
         var temptitle = title.split("-");
         temptitle = temptitle.join(" ").split(" ");
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: yt_url,
             dataType:"jsonp",
             success: function(response){
+                response = JSON.parse(response);
                 //Helper.log(response);
                 if(response.items.length === 0){
                     Search.readySubmit(false, {totalLength: totalNumber - 1});
@@ -209,19 +211,21 @@ var Search = {
                     $(".not-imported-container").append(not_added_song.html());
                     $(".not-imported").removeClass("hide");
                 } else if(response.items.length > 0) {
-                    $.each(response.items, function(i,data)
-                    {
+                    for(var i = 0; i < response.items; i++) {
+                        var data = response.items[i];
                         vid_url += data.id.videoId+",";
-                    });
+                    }
 
-                    $.ajax({
+                    Helper.ajax({
                         type: "GET",
                         url: vid_url,
                         dataType:"jsonp",
                         success: function(response){
+                            response = JSON.parse(response);
                             if(response.items.length > 0) {
                                 var matched = false;
-                                $.each(response.items, function(i, data){
+                                for(var i = 0; i < response.items.length; i++) {
+                                    var data = response.items[i];
                                     //Helper.log(data);
                                     //var title = data.snippet.title;
                                     var duration = Search.durationToSeconds(data.contentDetails.duration);
@@ -229,7 +233,9 @@ var Search = {
                                     if(similarity(data.snippet.title, artist + " - " + title) > 0.75) {
                                         not_matched = false;
                                     } else {
-                                        $.each(temptitle, function(i, data_title){
+                                        for(var i = 0; i < temptitle.length; i++) {
+                                            var data_title = temptitle[i];
+
                                             if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 || !(
                                                 data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
                                                 title.toLowerCase().indexOf("cover") == -1 &&
@@ -243,16 +249,16 @@ var Search = {
                                             not_matched = true;
                                             else if(duration > 1800) not_matched = true;
 
-                                            return false;
-                                        });
+
+                                        }
                                     }
 
                                     if((!not_matched)){
                                         matched = true;
                                         Search.readySubmit(true, { id: data.id, title: data.snippet.title, duration: duration, totalLength: totalNumber - 1});
-                                        return false;
+                                        break;
                                     }
-                                });
+                                }
                                 if(!matched){
                                     Search.readySubmit(false, {totalLength: totalNumber - 1});
                                     Helper.log([
@@ -327,13 +333,14 @@ var Search = {
             headers = {};//'Content-Type': 'application/json'};
             datatype = "jsonp";
         }
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: playlist_url,
             dataType: datatype,
             //dataType:"jsonp",
             headers: headers,
             success: function(response) {
+                response = JSON.parse(response);
                 if(response.error){
                     if(response.error.errors[0].reason == "playlistItemsNotAccessible"){
                         var nonce = Helper.randomString(29);
@@ -372,12 +379,13 @@ var Search = {
                     if(typeof(response) == "string") response = $.parseJSON(response);
                     //Search.addVideos(response.items[0].contentDetails.videoId);
                     //response.items.shift();
-                    $.each(response.items, function(i,data) {
+                    for(var i = 0; i < response.items.length; i++) {
+                        var data = response.items[i];
                         ids+=data.contentDetails.videoId+",";
                         Search.submitYouTubeArrayIds.push(data.contentDetails.videoId);
                         this_length += 1;
                         Search.submitYouTubeExpected += 1;
-                    });
+                    }
 
                     if(response.nextPageToken) {
                         //Search.addVideos(ids, true, 0, false, this_length);
@@ -394,18 +402,19 @@ var Search = {
     },
 
     importSpotifyPlaylist: function(url){
-        $.ajax({
+        Helper.ajax({
             url: url,
             headers: {
                 'Authorization': 'Bearer ' + access_token_data.access_token
             },
             success: function(response) {
-                $.each(response.items, function(i,data)
-                {
+                response = JSON.parse(response);
+                for(var i = 0; i < response.items.length; i++) {
+                    var data = response.items[i];
                     //ids+=data.contentDetails.videoId+",";
                     Search.backgroundSearch(data.track.name, data.track.artists.map(function(elem){return elem.name;}).join(" "), Math.floor(data.track.duration_ms/1000), response.total, i + response.offset);
 
-                });
+                }
                 if(response.next){
                     Search.importSpotifyPlaylist(response.next);
                 }
@@ -433,16 +442,18 @@ var Search = {
             request_url += ids[i] + ",";
         }
 
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: request_url,
             dataType:"jsonp",
             success: function(response){
+                response = JSON.parse(response);
                 var x = 0;
                 if(response.error) {
                     Search.submitYouTubeError = true;
                 }
-                $.each(response.items, function(i,song) {
+                for(var i = 0; i < response.items.length; i++) {
+                    var song = response.items[i];
                     var duration=Search.durationToSeconds(song.contentDetails.duration);
                     if(!longsongs || duration<720){
                         enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
@@ -450,7 +461,7 @@ var Search = {
                         x += 1;
                         Search.submitYouTubeArray.push({id: song.id, title: enc_title, duration: duration});
                     }
-                });
+                }
                 if(more) Search.addVideos(next_ids);
                 else {
                     socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: Search.submitYouTubeArray});
