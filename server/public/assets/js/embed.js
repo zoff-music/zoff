@@ -147,7 +147,7 @@ function setup_list_listener() {
 }
 
 function setVolume(val) {
-    $("#volume").slider('value', val);
+    Playercontrols.visualVolume(val);
     Playercontrols.setVolume(val);
 }
 

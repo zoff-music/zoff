@@ -17,7 +17,7 @@ var end_programmatically = false;
 var music 			   	  		= 0;
 var was_stopped = false;
 var timed_remove_check;
-var slider_type = "horizontal";
+var slider_type = Helper.mobilecheck() ? "vertical" : "horizontal";
 var programscroll = false;
 var lastCommand;
 var tried_again = false;

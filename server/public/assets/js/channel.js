@@ -53,6 +53,7 @@ var Channel = {
             menuWidth: 310,
             edge: side,
             closeOnClick: false,
+            draggable: false,
             onOpenStart: function(el) {
                 if(!$(".hamburger-sidenav").hasClass("open")) {
                     $(".hamburger-sidenav").addClass("open");
@@ -229,7 +230,7 @@ var Channel = {
                 Mobile_remote.initiate_volume();
             }
             $(".close-settings").addClass("hide");
-        }	else {
+            }	else {
             $('input#chan_description').characterCounter();
             if(!client) {
                 Channel.window_width_volume_slider();
