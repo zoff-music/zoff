@@ -295,6 +295,8 @@ var Player = {
                         }*/
                     //}
                 }
+                $("#playpause").css("visibility", "visible");
+                $("#playpause").css("pointer-events", "all");
                 playing = true;
                 if(beginning && Helper.mobilecheck() && !chromecastAvailable){
                     //Player.pauseVideo();

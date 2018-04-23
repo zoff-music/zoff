@@ -9,8 +9,8 @@ var Admin = {
         w_p = false;
 
         if(Admin.logged_in) {
-            $("#thumbnail_form").css("display", "inline-block");
-            $("#description_form").css("display", "inline-block");
+            Helper.css("#thumbnail_form", "display", "inline-block");
+            Helper.css("#description_form", "display", "inline-block");
             $("#user_suggests").removeClass("hide");
             $("#user-suggest-html").removeClass("hide");
             if($(".suggested-badge").text() != "0" && $(".suggested-badge").text() != "") {

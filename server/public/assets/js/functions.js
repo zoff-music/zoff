@@ -22,7 +22,7 @@ function removeAllListeners() {
 }
 
 function getColor(id) {
-    $.ajax({
+    Helper.ajax({
         type: "POST",
         url: "/api/color",
         async: true,
@@ -30,6 +30,7 @@ function getColor(id) {
             id: id
         },
         success: function(c) {
+            c = JSON.parse(c);
             if(typeof(c) == "object") {
                 Player.setBGimage({color:c, only:true});
             }
@@ -185,7 +186,7 @@ function emit_list() {
 
 function get_list_ajax() {
     //var c = Crypt.get_userpass(chan.toLowerCase());
-    $.ajax({
+    Helper.ajax({
         type: "POST",
         data: {
             userpass: "",
@@ -193,6 +194,7 @@ function get_list_ajax() {
         },
         url: "/api/list/" + chan.toLowerCase(),
         success: function(response) {
+            response = JSON.parse(response);
             if(response.results.length > 0) {
                 if(response.status == 403) {
                     start_auth();
@@ -203,13 +205,14 @@ function get_list_ajax() {
                 List.populate_list(response.results);
             }
         },
-        error: function(response) {
-            if(response.responseJSON.status == 403) {
+        error: function(response, xmlhttp) {
+            response = JSON.parse(response);
+            if(response.status == 403) {
                 start_auth();
-            } else if(response.responseJSON.status == 429) {
+            } else if(response.status == 429) {
                 setTimeout(function() {
                     get_list_ajax();
-                }, response.getResponseHeader("Retry-After") * 1000)
+                }, xmlhttp.getResponseHeader("Retry-After") * 1000)
             }
             if(client) {
                 $("#channel-load").remove();
@@ -260,7 +263,7 @@ function mouseContext(left, top) {
 function get_np_ajax() {
     /*var c = Crypt.get_userpass(chan.toLowerCase());
     if(c == undefined) c = "";*/
-    $.ajax({
+    Helper.ajax({
         type: "POST",
         data: {
             userpass: "",
@@ -269,15 +272,17 @@ function get_np_ajax() {
         },
         url: "/api/list/" + chan.toLowerCase() + "/__np__",
         success: function(response) {
+            response = JSON.parse(response);
             Player.getTitle(response.results[0].title, 1);
         },
-        error: function(response) {
-            if(response.responseJSON.status == 403) {
+        error: function(response, xmlhttp) {
+            response = JSON.parse(response);
+            if(response.status == 403) {
                 start_auth();
-            } else if(response.responseJSON.status == 429) {
+            } else if(response.status == 429) {
                 setTimeout(function() {
                     get_np_ajax();
-                }, response.getResponseHeader("Retry-After") * 1000)
+                }, xmlhttp.getResponseHeader("Retry-After") * 1000)
             }
         }
     })
@@ -288,7 +293,7 @@ function del_ajax(id) {
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
     if(u == undefined) u = "";*/
-    $.ajax({
+    Helper.ajax({
         type: "DELETE",
         data: {
             adminpass: "",
@@ -300,13 +305,14 @@ function del_ajax(id) {
             toast("deletesong");
             get_list_ajax();
         },
-        error: function(response) {
-            if(response.responseJSON.status == 403) {
+        error: function(response, xmlhttp) {
+            response = JSON.parse(response);
+            if(response.status == 403) {
                 toast("listhaspass");
-            } else if(response.responseJSON.status == 429) {
+            } else if(response.status == 429) {
                 setTimeout(function() {
                     del_ajax(id);
-                }, response.getResponseHeader("Retry-After") * 1000);
+                }, xmlhttp.getResponseHeader("Retry-After") * 1000);
             }
         }
     })
@@ -317,7 +323,7 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
     if(u == undefined) u = "";*/
-    $.ajax({
+    Helper.ajax({
         type: "POST",
         data: {
             adminpass: "",
@@ -333,15 +339,16 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
             toast("addedsong");
             get_list_ajax();
         },
-        error: function(response) {
-            if(response.responseJSON.status == 403) {
+        error: function(response, xmlhttp) {
+            response = JSON.parse(response);
+            if(response.status == 403) {
                 toast("listhaspass");
-            } else if(response.responseJSON.status == 409) {
+            } else if(response.status == 409) {
                 vote_ajax(id);
-            } else if(response.responseJSON.status == 429) {
+            } else if(response.status == 429) {
                 setTimeout(function() {
                     add_ajax(id, title, duration, playlist, num, full_num, start, end);
-                }, response.getResponseHeader("Retry-After") * 1000);
+                }, xmlhttp.getResponseHeader("Retry-After") * 1000);
             }
         }
     });
@@ -352,7 +359,7 @@ function vote_ajax(id) {
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
     if(u == undefined) u = "";*/
-    $.ajax({
+    Helper.ajax({
         type: "PUT",
         data: {
             adminpass: "",
@@ -364,13 +371,14 @@ function vote_ajax(id) {
             toast("voted");
             get_list_ajax();
         },
-        error: function(response) {
-            if(response.responseJSON.status == 403) {
+        error: function(response, xmlhttp) {
+            response = JSON.parse(response);
+            if(response.status == 403) {
                 toast("listhaspass");
-            } else if(response.responseJSON.status == 429) {
+            } else if(response.status == 429) {
                 setTimeout(function() {
                     vote_ajax(id);
-                }, response.getResponseHeader("Retry-After") * 1000);
+                }, xmlhttp.getResponseHeader("Retry-After") * 1000);
             }
         }
     })

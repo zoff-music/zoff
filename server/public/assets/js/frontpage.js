@@ -215,7 +215,7 @@ var Frontpage = {
                 if(window.location.hostname == "fb.zoff.me") {
                     add = "https://zoff.me";
                 }
-                $.ajax({
+                Helper.ajax({
                     type: "POST",
                     data: {id:id},
                     url: add + "/api/imageblob",
@@ -259,10 +259,11 @@ var Frontpage = {
         if(window.location.hostname == "fb.zoff.me") {
             add = "https://zoff.me";
         }
-        $.ajax({
+        Helper.ajax({
             url: add + "/api/frontpages",
             method: "get",
             success: function(response){
+                response = JSON.parse(response);
                 Frontpage.frontpage_function(response.results);
             },
             error: function() {
@@ -327,7 +328,7 @@ var Frontpage = {
         }
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
-        $.ajax({
+        Helper.ajax({
             url: "/" + new_channel,
             method: "get",
             data: {channel: new_channel},
