@@ -2466,7 +2466,8 @@ nav ul li:hover, nav ul li.active {
     margin-left: -.6em;
 }
 
-#volume {
+#volume, #volume-control-remote {
+    border-radius: 10px;
     cursor:pointer;
     float:left;
     position: relative;
@@ -2481,37 +2482,68 @@ nav ul li:hover, nav ul li.active {
     /*border-radius: 2px;*/
 }
 
-#volume .ui-slider-range-min {
-    height:5px;
-    width: 75px;
-    position: absolute;
-    background-color:rgba(255, 255, 255, 0.8);
-    border: none;
-    outline: none;
-    border-radius: 2px;
+#volume.rc, #volume-control-remote {
+    width:100%;
+    margin-top: 30px;
+    background: darkgrey;
 }
 
-#volume .ui-slider-handle {
-    height: 14px;
-    width: 14px;
-    background: #fff 50% 50% repeat-x;
+#volume.vertical {
+    border-radius: 0px;
+}
+
+#volume .volume-slid, #volume-control-remote .volume-slid-remote {
+    border-radius: 10px;
+    background: white;
+    height: 5px;
+    width: 0%;
+}
+
+#volume.rc .volume-slid, #volume-control-remote .volume-slid-remote {
+    background: black;
+}
+
+#volume .volume-slid.vertical {
+    width: 100%;
+    height: 0%;
+    border-radius: 0px;
+    bottom: 0px;
     position: absolute;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    margin-left: -7.5px;
-    margin-top: 0px;
-    border-radius: 1000px;
+}
+
+#volume .volume-handle, #volume-control-remote .volume-handle-remote {
+    height: 15px;
+    width: 15px;
+    background: white;
+    border-radius: 15px;
+    border: 1px solid lightgrey;
+    margin-top: -9.75px;
+    position: absolute;
+    left: 0%;
+    margin-left: -5.75px;
     transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
-#volume .ui-state-active {
+#volume.rc .volume-handle, #volume-control-remote .volume-handle-remote {
+    background: black;
+}
+
+#volume .volume-handle.vertical {
+    bottom: 0%;
+    display: none;
+}
+
+#volume .volume-handle.ui-state-active, #volume .volume-handle-remote.ui-state-active {
     box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.01), 0 0 0 7px rgba(255,255,255,0.3);
     position: absolute;
     width: 14px;
     height: 14px;
     border-radius: 21px;
     background: #dadada;
+}
+
+#volume.rc .volume-handle.ui-state-active, #volume .volume-handle-remote.ui-state-active {
+    background: #2d2d2d;
 }
 
 #volume-control-remote .ui-state-active, #volume-control .ui-state-active {
@@ -2521,11 +2553,6 @@ nav ul li:hover, nav ul li.active {
     height: 14px;
     border-radius: 21px;
     background: #464646 !important;
-}
-
-.ui-slider-handle
-{
-    margin-top:-5px;
 }
 
 .play
@@ -3034,13 +3061,6 @@ nav ul li:hover, nav ul li.active {
         left: 0px;
     }
 
-    #volume .ui-slider-range-min {
-        width: 10px;
-    }
-
-    #volume .ui-slider-handle {
-        margin-left: 3px;
-    }
 
     .ui-widget-header {
         background: rgb(255,255,255);
@@ -3072,6 +3092,7 @@ nav ul li:hover, nav ul li.active {
         padding-left: 3px;
         height: 51px;
         padding-top: 0px;
+        width: 37px;
     }
 
     #fullscreen{
@@ -3743,7 +3764,7 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
 
 .select-all {
     -webkit-user-select: all !important;  /* Chrome 49+ */
-  -moz-user-select: all !important;     /* Firefox 43+ */
-  -ms-user-select: all !important;      /* No support yet */
-  user-select: all !important;          /* Likely future */
+    -moz-user-select: all !important;     /* Firefox 43+ */
+    -ms-user-select: all !important;      /* No support yet */
+    user-select: all !important;          /* Likely future */
 }

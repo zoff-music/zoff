@@ -39,16 +39,27 @@ var Mobile_remote = {
 	},
 
 	initiate_volume: function() {
-		$("#volume-control-remote").slider({
-			min: 0,
-			max: 100,
-			value: 100,
-			range: "min",
-			animate: true,
-			stop:function(event, ui) {
-				socket.emit("id", {id: Mobile_remote.id, type: "volume", value: ui.value});
-			}
-		});
+		var vol = 100;
+        $("#volume-control-remote").append("<div class='volume-slid-remote'></div>");
+        $("#volume-control-remote").append("<div class='volume-handle-remote'></div>");
+            $(".volume-slid-remote").css("width", vol + "%");
+            $(".volume-handle-remote").css("left", "calc(" + vol + "% - 1px)");
+        document.getElementById("volume-control-remote").onmousedown = function(e) {
+			e.preventDefault();
+			Playercontrols.dragMouseDown(e);
+		}
+        document.getElementById("volume-control-remote").touchstart = function(e) {
+			e.preventDefault();
+			Playercontrols.dragMouseDown(e);
+		}
+		document.getElementById("volume-control-remote").touchmove = function(e) {
+			e.preventDefault();
+			Playercontrols.dragMouseDown(e);
+		}
+        document.getElementById("volume-control-remote").onclick = function(e) {
+			Playercontrols.elementDrag(e);
+			Playercontrols.closeDragElement();
+		}
 	}
 
 };

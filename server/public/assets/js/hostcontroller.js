@@ -33,7 +33,7 @@ var Hostcontroller = {
     host_on_action: function(arr) {
         if(enabled){
             if(arr.type == "volume") {
-                $("#volume").slider("value", arr.value);
+                Playercontrols.visualVolume(arr.value);
                 Player.setVolume(arr.value);
                 localStorage.setItem("volume", arr.value);
                 Playercontrols.choose_button(arr.value, false);

@@ -69,20 +69,90 @@ var Remotecontroller = {
             document.getElementById("search").setAttribute("maxlength", "18");
             $("#forsearch").html("Type new channel name to change to");
 
-            $("#volume-control").slider({
-                min: 0,
-                max: 100,
-                value: 100,
-                range: "min",
-                animate: true,
-                stop:function(event, ui) {
-                    socket.emit("id", {id: id, type: "volume", value: ui.value});
-                }
-            });
+            //
+            /*$("#volume-control").slider({
+            min: 0,
+            max: 100,
+            value: 100,
+            range: "min",
+            animate: true,
+            stop:function(event, ui) {
+                socket.emit("id", {id: id, type: "volume", value: ui.value});
+            }
+            //});*/
+
+            $("#volume").append("<div class='volume-slid'></div>");
+            $("#volume").append("<div class='volume-handle'></div>");
+
+            $(".volume-slid").css("width", "100%");
+            $(".volume-handle").css("left", "calc(100% - 1px)");
+            //document.getElementsByClassName("volume-handle")[0].onmousedown = Remotecontroller.dragMouseDown;
+            //$("#volume").slider(slider_values);
+            //document.getElementsByClassName("volume-slid")[0].onmousedown = Remotecontroller.dragMouseDown;
+            document.getElementById("volume").onmousedown = Remotecontroller.dragMouseDown;
+            document.getElementById("volume").touchstart = function(e) {
+                e.preventDefault();
+                Remotecontroller.dragMouseDown(e);
+            }
+            document.getElementById("volume").onclick = function(e) {
+                Remotecontroller.elementDrag(e);
+                Remotecontroller.closeDragElement();
+            }
         } else {
             socket.emit("id", {id: id, type: "channel", value: $("#search").val().toLowerCase()});
             $("#search").val("");
         }
 
-    }
+    },
+
+
+    dragMouseDown: function(e) {
+        e = e || window.event;
+        // get the mouse cursor position at startup:
+        document.onmouseup = Remotecontroller.closeDragElement;
+        document.touchend = Remotecontroller.closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = Remotecontroller.elementDrag;
+        document.touchmove = Remotecontroller.elementDrag;
+    },
+
+    elementDrag: function(e) {
+        var elmnt = document.getElementsByClassName("volume-handle")[0];
+        e = e || window.event;
+
+        var pos3 = e.clientX;
+
+        if(elmnt.className.indexOf("ui-state-active") == -1) {
+            elmnt.className += " ui-state-active";
+        }
+        var pos = pos3 - document.getElementById("volume").offsetLeft;
+        if(pos > -1 && pos < document.getElementById("volume").offsetWidth + 1) {
+            elmnt.style.left = pos + "px";
+            var volume = pos / document.getElementById("volume").offsetWidth;
+            document.getElementsByClassName("volume-slid")[0].style.width = volume * 100 + "%";
+        } else if(pos < 0) {
+            var volume = 0;
+            document.getElementsByClassName("volume-slid")[0].style.width = volume * 100 + "%";
+        } else {
+            var volume = 1;
+            document.getElementsByClassName("volume-slid")[0].style.width = volume * 100 + "%";
+        }
+
+        socket.emit("id", {id: id, type: "volume", value: volume * 100});
+
+        try{Crypt.set_volume(volume * 100);}catch(e){}
+    },
+
+    closeDragElement: function() {
+        /* stop moving when mouse button is released:*/
+        var elmnt = document.getElementsByClassName("volume-handle")[0];
+        if(elmnt.className.indexOf("ui-state-active") > -1) {
+            setTimeout(function(){
+                elmnt.classList.remove("ui-state-active");
+            }, 1);
+        }
+        document.onmouseup = null;
+        document.onmousemove = null;
+
+    },
 };
