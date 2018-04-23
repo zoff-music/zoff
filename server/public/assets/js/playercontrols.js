@@ -16,7 +16,6 @@ var Playercontrols = {
     },
 
     initSlider: function() {
-        window.visualVolume = Playercontrols.visualVolume;
         try {
 
             vol = (Crypt.get_volume());
@@ -30,14 +29,13 @@ var Playercontrols = {
             }
         }catch(e){}
         if(Helper.mobilecheck() || slider_type == "vertical") {
-            slider_values.orientation = "vertical";
+            //slider_values.orientation = "vertical";
             if(!$(".volume-container").hasClass("hide")) {
                 $(".volume-container").toggleClass("hide");
             }
         }
         $("#volume").append("<div class='volume-slid " + slider_type + "'></div>");
         $("#volume").append("<div class='volume-handle " + slider_type + "'></div>");
-        window.player = Player.player;
         if(slider_type != "vertical") {
             if($("#volume").hasClass("vertical")) {
                 $("#volume").removeClass("vertical");
