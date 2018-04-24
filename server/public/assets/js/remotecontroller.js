@@ -90,10 +90,10 @@ var Remotecontroller = {
             //$("#volume").slider(slider_values);
             //document.getElementsByClassName("volume-slid")[0].onmousedown = Remotecontroller.dragMouseDown;
             document.getElementById("volume").onmousedown = Remotecontroller.dragMouseDown;
-            document.getElementById("volume").touchstart = function(e) {
+            document.getElementById("volume").addEventListener("touchstart", function(e) {
                 e.preventDefault();
                 Remotecontroller.dragMouseDown(e);
-            }
+            }, false);
             document.getElementById("volume").onclick = function(e) {
                 Remotecontroller.elementDrag(e);
                 Remotecontroller.closeDragElement();
@@ -110,10 +110,15 @@ var Remotecontroller = {
         e = e || window.event;
         // get the mouse cursor position at startup:
         document.onmouseup = Remotecontroller.closeDragElement;
-        document.touchend = Remotecontroller.closeDragElement;
         // call a function whenever the cursor moves:
         document.onmousemove = Remotecontroller.elementDrag;
-        document.touchmove = Remotecontroller.elementDrag;
+        document.getElementById("volume").addEventListener("touchend", function() {
+            Remotecontroller.closeDragElement();
+        }, false);
+        document.getElementById("volume").addEventListener("touchmove", function(e) {
+            e.preventDefault();
+            Remotecontroller.elementDrag(e);
+        }, false);
     },
 
     elementDrag: function(e) {
@@ -121,6 +126,9 @@ var Remotecontroller = {
         e = e || window.event;
 
         var pos3 = e.clientX;
+        if(pos3 == undefined) {
+            pos3 = e.touches[0].clientX;
+        }
 
         if(elmnt.className.indexOf("ui-state-active") == -1) {
             elmnt.className += " ui-state-active";
@@ -153,6 +161,14 @@ var Remotecontroller = {
         }
         document.onmouseup = null;
         document.onmousemove = null;
+
+        document.getElementById("volume").removeEventListener("touchmove", function(e) {
+            e.preventDefault();
+            Playercontrols.elementDrag(e);
+        });
+        document.getElementById("volume").removeEventListener("touchend", function() {
+            Playercontrols.closeDragElement();
+        }, false);
 
     },
 };
