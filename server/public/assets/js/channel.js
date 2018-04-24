@@ -4,8 +4,6 @@ var Channel = {
             Helper.addClass(".tabs", "hide");
             Helper.removeClass("#wrapper", "tabs_height");
             Helper.addClass("#wrapper", "client-wrapper");
-            //$(".embed-button-footer").addClass("hide");
-            //$(".skip_next_client").removeClass("hide");
             if(!Helper.mobilecheck()) {
                 Helper.tooltip(".skip_next_client", {
                     delay: 5,
@@ -69,9 +67,7 @@ var Channel = {
         if(!client) {
             M.Modal.init(document.getElementById("embed"));
         } else {
-            //$("#help").remove();
             Helper.removeElement("#embed");
-            //$(".help-button-footer").remove();
             Helper.removeElement(".embed-button-footer");
             Helper.removeElement(".tabs");
         }
@@ -87,13 +83,13 @@ var Channel = {
 
         Channel.spotify_is_authenticated(spotify_authenticated);
 
-        result_html 	   	  = $("#temp-results-container");
-        pagination_buttons_html = $("<div>").append($(".pagination-results").clone()).html();
+        result_html 	   	  = document.getElementById("temp-results-container");
+        pagination_buttons_html = "<div>" + document.getElementsByClassName("pagination-results")[0].cloneNode(true).innerHTML + "</div>";
         empty_results_html 	  = Helper.html("#empty-results-container");
         not_import_html       = Helper.html(".not-imported-container");
         not_export_html       = Helper.html(".not-exported-container");
-        $(".not-imported-container").empty();
-        $(".not-exported-container").empty();
+        Helper.setHtml(".not-imported-container", "");
+        Helper.setHtml(".not-exported-container", "");
 
         if(socket === undefined){
             no_socket = false;
@@ -123,10 +119,10 @@ var Channel = {
             setup_suggested_listener();
             setup_viewers_listener();
         } else {
-            $("#channel-load").css("display", "none");
-            $("#player").css("opacity", "1");
-            $("#controls").css("opacity", "1");
-            $(".playlist").css("opacity", "1");
+            Helper.css("#channel-load", "display", "none");
+            Helper.css("#player", "opacity", "1");
+            Helper.css("#controls", "opacity", "1");
+            Helper.css(".playlist", "opacity", "1");
             if(!client) {
                 Player.readyLooks();
                 Playercontrols.initYoutubeControls(Player.player);
@@ -136,17 +132,17 @@ var Channel = {
                 }
                 Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;
-                $("#code-text").text(id);
-                $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
-                $("#code-link").attr("href", codeURL);
+                Helper.setHtml("#code-text", id);
+                document.getElementById("code-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+                document.getElementById("code-link").setAttribute("href", codeURL);
             }
         }
 
 
         if(!client) {
             var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/"+chan.toLowerCase();
-            $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
-            $("#channel-name-join").text("client." + window.location.hostname + "/" + chan.toLowerCase());
+            document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
+            Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + chan.toLowerCase());
         } else {
             Helper.removeElement(".video-container");
             Helper.removeElement(".offline-panel");
@@ -160,10 +156,10 @@ var Channel = {
         }
 
         if(((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) && !client) {
-            $('.tap-target-join').tapTarget();
-            $('.tap-target-join').tapTarget('open');
+            var instance = M.TapTarget.init(document.getElementsByClassName('tap-target-join')[0]);
+            instance.open();
             tap_target_timeout = setTimeout(function() {
-                $('.tap-target-join').tapTarget('close');
+                instance.close();
             }, 4000);
             localStorage.setItem("_jSeen", "seen");
         }
@@ -221,7 +217,7 @@ var Channel = {
             }
                 Helper.addClass(".close-settings", "hide");
         } else {
-            $('input#chan_description').characterCounter();
+            //$('input#chan_description').characterCounter();
             if(!client) {
                 Channel.window_width_volume_slider();
             }
@@ -241,7 +237,7 @@ var Channel = {
 
         if(!Helper.msieversion() && !Helper.mobilecheck() && !client) Notification.requestPermission();
 
-        $(".search_input").focus();
+        document.getElementsByClassName("search_input")[0].focus();
 
         Helper.sample();
         if(!Helper.mobilecheck() && !client) {
@@ -275,10 +271,10 @@ var Channel = {
         });
 
         $("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
-        $("#search").focus();
-        $("#embed-button").css("display", "inline-block");
-        $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
-        $("#search").attr("placeholder", "Find song on YouTube...");
+        document.getElementById("search").focus();
+        Helper.css("#embed-button", "display", "inline-block");
+        document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
+        document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
 
         if(!client) {
             Helper.addClass("footer", "padding-bottom-novideo");
@@ -317,7 +313,7 @@ var Channel = {
     seekToClick: function(e){
         var acceptable = ["bar", "controls", "duration"];
 
-        if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
+        if(acceptable.indexOf(e.target.getAttribute("id")) >= 0) {
             var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
             total = total * e.clientX;
 
@@ -359,10 +355,10 @@ var Channel = {
             var _time = Helper.secondsToOther(total);
             var _minutes = Helper.pad(_time[0]);
             var _seconds = Helper.pad(Math.ceil(_time[1]));
-            $("#seekToDuration").text(_minutes + ":" + _seconds);
+            Helper.setHtml("#seekToDuration", _minutes + ":" + _seconds);
 
             var acceptable = ["bar", "controls", "duration"];
-            if(acceptable.indexOf($(e.target).attr("id")) >= 0 && dragging) {
+            if(acceptable.indexOf(e.target.getAttribute("id")) >= 0 && dragging) {
                 $("#bar").width(((100 / duration) * total) + "%");
             }
         } catch(e){}
@@ -391,30 +387,30 @@ var Channel = {
                 "expires_in: " + access_token_data.expires_in
             ]);
 
-            $(".spotify_authenticated").css("display", "block");
-            $(".spotify_unauthenticated").css("display", "none");
+            Helper.css(".spotify_authenticated", "display", "block");
+            Helper.css(".spotify_unauthenticated", "display", "none");
         } else {
             Helper.log(["Spotify is not authenticated"]);
-            $(".spotify_authenticated").css("display", "none");
-            $(".spotify_unauthenticated").css("display", "block");
+            Helper.css(".spotify_authenticated", "display", "none");
+            Helper.css(".spotify_unauthenticated", "display", "block");
         }
     },
 
     add_context_menu: function() {
-        $(document).on("contextmenu", ".vote-container", function(e) {
-            e.preventDefault();
+        addListener("contextmenu", ".vote-container", function(e) {
+            event.preventDefault();
             var that = this;
             contextListener(that, e);
         });
 
-        $(document).on("contextmenu", ".add-suggested", function(e) {
-            e.preventDefault();
+        addListener("contextmenu", ".add-suggested", function(e) {
+            event.preventDefault();
             var that = this;
             contextListener(that, e);
         });
 
-        $(document).on("click", ".list-remove", function(e) {
-            e.preventDefault();
+        addListener("click", ".list-remove", function(e) {
+            event.preventDefault();
             var that = this;
             contextListener(that, e);
         });

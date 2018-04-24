@@ -18,6 +18,49 @@ var Helper = {
         return arr[Math.floor(Math.random() * arr.length)];
     },
 
+    toggleClass: function(element, className) {
+        if(typeof(element) == "object") {
+            if(element.className.indexOf(className) == -1) {
+                Helper.addClass(element, className);
+            } else {
+                Helper.removeClass(element, className);
+            }
+        } else if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            if(elem.className.indexOf(className) == -1) {
+                Helper.addClass(elem, className);
+            } else {
+                Helper.removeClass(elem, className);
+            }
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                var testSplit = element.substring(1).split(" ");
+                if(testSplit.length > 1) {
+                    var insideElement = document.getElementsByClassName(testSplit[0]);
+                    elements = [];
+                    for(var i = 0; i < insideElement.length; i++) {
+                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                        for(var y = 0; y < innards.length; y++) {
+                            elements.push(innards[y]);
+                        }
+                    }
+                } else {
+                    elements = document.getElementsByClassName(element.substring(1));
+                }
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                if(elements[i].className.indexOf(className) == -1) {
+                    Helper.addClass(elements[i], className);
+                }  else {
+                    Helper.removeClass(element, className);
+                }
+            }
+        }
+    },
+
     css: function(element, attribute, value) {
         try {
             if(typeof(element) == "object") {
@@ -95,7 +138,9 @@ var Helper = {
     },
 
     setHtml: function(element, html) {
-        if(element.substring(0,1) == "#") {
+        if(typeof(element) == "object") {
+            element.innerHTML = html;
+        } else if(element.substring(0,1) == "#") {
             var elem = document.getElementById(element.substring(1));
             elem.innerHTML = html;
         } else {
