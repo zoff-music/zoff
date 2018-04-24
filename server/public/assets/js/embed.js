@@ -76,13 +76,12 @@ $(document).ready(function() {
     }
 
     if(hash.indexOf("videoonly") > -1) {
-        $("#playlist").addClass("hide");
-        $("#controls").addClass("hide");
-        $("#player").addClass("video_only");
-        $("#zoffbutton").css("bottom", "0px");
+        Helper.addClass("#playlist", "hide");
+        Helper.addClass("#controls", "hide");
+        Helper.addClass("#player", "video_only");
+        Helper.css("#zoffbutton", "bottom", "0px");
     }
-
-    $("#locked_channel").modal({
+    M.Modal.init(document.getElementById("locked_channel"), {
         dismissible: false
     });
     color = "#" + hash[1];
@@ -91,7 +90,7 @@ $(document).ready(function() {
     socket = io.connect(''+add+':8080', connection_options);
 
     socket.on('auth_required', function() {
-        $("#locked_channel").modal('open');
+        M.Modal.getInstance(document.getElementById("locked_channel")).open();
     });
 
     socket.on("get_list", function() {
@@ -198,10 +197,10 @@ function toast(msg) {
             msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
             break;
@@ -248,7 +247,7 @@ function toast(msg) {
             Helper.css("#thumbnail_form", "display", "none");
             Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
             Helper.addClass("#playlist_loader", "hide");
@@ -289,7 +288,7 @@ function toast(msg) {
             $("#thumbnail_form").css("display", "inline-block");
             $("#description_form").css("display", "inline-block");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip({
+                Helper.tooltip('#chan_thumbnail', {
                     delay: 5,
                     position: "left",
                     html: "imgur link"

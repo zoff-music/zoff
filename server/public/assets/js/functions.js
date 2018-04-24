@@ -47,7 +47,7 @@ function hide_native(way) {
             if(M.Tooltip.getInstance($(".castButton"))) {
                 $('.castButton').tooltip('destroy');
             }
-            $('.castButton').tooltip({
+            Helper.tooltip('.castButton', {
                 delay: 5,
                 position: "top",
                 html: "Stop casting"
@@ -93,7 +93,7 @@ function hide_native(way) {
             if(M.Tooltip.getInstance($(".castButton"))) {
                 $('.castButton').tooltip('destroy');
             }
-            $('.castButton').tooltip({
+            Helper.tooltip('.castButton', {
                 delay: 5,
                 position: "top",
                 html: "Cast Zoff to TV"
@@ -156,7 +156,7 @@ function start_auth() {
         user_auth_started = true;
         Helper.removeClass("#player_overlay", "hide");
         Helper.css("#player_overlay", "display", "block");
-        $("#user_password").modal("open");
+        M.Modal.getInstance(document.getElementById("user_password")).open();
         $("#user-pass-input").focus();
         //Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
@@ -194,7 +194,7 @@ function get_list_ajax() {
                     start_auth();
                 }
                 if(client) {
-                    $("#channel-load").remove();
+                    Helper.removeElement("#channel-load");
                 }
                 List.populate_list(response.results);
             }
@@ -209,7 +209,7 @@ function get_list_ajax() {
                 }, xmlhttp.getResponseHeader("Retry-After") * 1000)
             }
             if(client) {
-                $("#channel-load").remove();
+                Helper.removeElement("#channel-load");
             }
             //List.populate_list(response.responseJSON.results);
         }
@@ -235,8 +235,8 @@ function contextListener(that, e) {
     } else if(top < 0) {
         top = 15;
     }
-    Helper.css(".context-menu-root", "left", left);
-    Helper.css(".context-menu-root", "top", top);
+    Helper.css(".context-menu-root", "left", left + "px");
+    Helper.css(".context-menu-root", "top", top + "px");
     Helper.removeClass(".context-menu-root","hide");
     if(!Helper.mobilecheck()) {
         mouseContext(left, top);
@@ -542,7 +542,7 @@ function change_offline(enabled, already_offline){
         Helper.removeClass("#offline-mode", "waves-cyan");
         Helper.addClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
-            $("#offline-mode").tooltip({
+            Helper.tooltip("#offline-mode", {
                 delay: 5,
                 position: "bottom",
                 html: "Disable local mode"
@@ -600,7 +600,7 @@ function change_offline(enabled, already_offline){
         Helper.addClass("#offline-mode", "waves-cyan");
         Helper.removeClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
-            $("#offline-mode").tooltip({
+            Helper.tooltip("#offline-mode", {
                 delay: 5,
                 position: "bottom",
                 html: "Enable local mode"
@@ -613,7 +613,7 @@ function change_offline(enabled, already_offline){
         $("#controls").off("mouseup");
         $("#controls").off("mousemove", Channel.seekToMove);
         $("#controls").off("click", Channel.seekToClick);
-        $("#seekToDuration").remove();
+        Helper.removeElement("#seekToDuration");
         if(window.location.pathname != "/"){
             socket.on("color", Player.setBGimage);
             socket.emit("pos", {channel: chan.toLowerCase()});
@@ -623,6 +623,31 @@ function change_offline(enabled, already_offline){
             Helper.removeClass("#controls", "ewresize");
         }
     }
+}
+
+function handleEvent(e, target, tried) {
+    if(dynamicListeners["click"] && dynamicListeners["click"]["#" + target.id]) {
+        dynamicListeners["click"]["#" + target.id].call(target);
+        return;
+    } else {
+        for(var i = 0; i < target.classList.length; i++) {
+            if(dynamicListeners["click"] && dynamicListeners["click"]["." + target.classList[i]]) {
+                dynamicListeners["click"]["." + target.classList[i]].call(target);
+                return;
+            }
+        }
+    }if(!tried) {
+        handleEvent(e, e.target.parentElement, true);
+    }
+}
+
+function addListener(type, element, callback) {
+    if(dynamicListeners[type] == undefined) dynamicListeners[type] = {};
+    dynamicListeners[type][element] = callback;
+}
+
+function removeListener(type, element) {
+    delete dynamicListeners[type][element];
 }
 
 function toast(msg) {
@@ -685,7 +710,7 @@ function toast(msg) {
             Helper.css("#thumbnail_form", "display", "none");
             Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
             break;
@@ -734,7 +759,7 @@ function toast(msg) {
             Helper.css("#thumbnail_form", "display", "none");
             Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
             Helper.addClass("#playlist_loader", "hide");

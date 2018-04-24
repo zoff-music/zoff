@@ -149,7 +149,7 @@ var Search = {
                                         Helper.addClass(".prev-results-button", "disabled");
                                     }
 
-                                    $(".pagination-results a").attr("data-original-search", search_input);
+                                    Helper.attr(".pagination-results a", "data-original-search", search_input);
 
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 

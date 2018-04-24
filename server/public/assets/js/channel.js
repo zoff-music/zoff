@@ -7,7 +7,7 @@ var Channel = {
             //$(".embed-button-footer").addClass("hide");
             //$(".skip_next_client").removeClass("hide");
             if(!Helper.mobilecheck()) {
-                $(".skip_next_client").tooltip({
+                Helper.tooltip(".skip_next_client", {
                     delay: 5,
                     position: "bottom",
                     html: "Skip"
@@ -45,37 +45,29 @@ var Channel = {
         if(Player !== undefined && !client) Player.stopInterval= false;
 
         if(!client) {
-            //$('ul.playlist-tabs').tabs();
-            $('ul.playlist-tabs-loggedIn').tabs();
-            $('ul.chatTabs').tabs();
+            //Helper.tabs('.playlist-tabs');
+            Helper.tabs('.playlist-tabs-loggedIn');
+            Helper.tabs('.chatTabs');
         }
-        $(".sidenav").sidenav({
+        var sidenavElem = document.getElementsByClassName("sidenav")[0];
+        M.Sidenav.init(sidenavElem, {
             menuWidth: 310,
             edge: side,
             closeOnClick: false,
             draggable: false,
             onOpenStart: function(el) {
                 Helper.addClass(".hamburger-sidenav", "open");
-                $('*[id*=sidenav-overlay]:visible').each(function(i) {
-                    if(i > 0) {
-                        this.remove();
-                    }
-                });
             },
             onCloseStart: function(el) {
                 Helper.removeClass(".hamburger-sidenav", "open");
-                $('*[id*=sidenav-overlay]:visible').each(function(i) {
-                    if(i > 0) {
-                        this.remove();
-                    }
-                });
             },
         });
-        $('.collapsible').collapsible({
+        M.Collapsible.init(document.getElementsByClassName("settings-collapsible")[0], {
             accordion : true
         });
+
         if(!client) {
-            $("#embed").modal();
+            M.Modal.init(document.getElementById("embed"));
         } else {
             //$("#help").remove();
             Helper.removeElement("#embed");
@@ -83,13 +75,13 @@ var Channel = {
             Helper.removeElement(".embed-button-footer");
             Helper.removeElement(".tabs");
         }
-        $("#help").modal();
-        $("#contact").modal();
-        $("#channel-share-modal").modal();
-        $("#delete_song_alert").modal({
+        M.Modal.init(document.getElementById("help"));
+        M.Modal.init(document.getElementById("contact"));
+        M.Modal.init(document.getElementById("channel-share-modal"));
+        M.Modal.init(document.getElementById("delete_song_alert"), {
             dismissible: false
         });
-        $("#user_password").modal({
+        M.Modal.init(document.getElementById("user_password"), {
             dismissible: false
         });
 
@@ -156,12 +148,12 @@ var Channel = {
             $("#share-join-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
             $("#channel-name-join").text("client." + window.location.hostname + "/" + chan.toLowerCase());
         } else {
-            $(".video-container").remove();
-            $(".offline-panel").remove();
-            $(".remote-panel").remove();
-            $(".mobile-remote-panel").remove();
-            $(".import-panel").remove();
-            $(".export-panel").remove();
+            Helper.removeElement(".video-container");
+            Helper.removeElement(".offline-panel");
+            Helper.removeElement(".remote-panel");
+            Helper.removeElement(".mobile-remote-panel");
+            Helper.removeElement(".import-panel");
+            Helper.removeElement(".export-panel");
         }
         if(no_socket || Helper.mobilecheck()){
             emit_list();
@@ -178,39 +170,39 @@ var Channel = {
 
         if(!Helper.mobilecheck()) {
             if(!client) {
-                $("#chan").tooltip({
+                Helper.tooltip("#chan", {
                     delay: 5,
                     position: "bottom",
                     html: "Show join URL",
                 });
             }
 
-            $("#viewers").tooltip({
+            Helper.tooltip("#viewers", {
                 delay: 5,
                 position: "top",
                 html: "Viewers"
             });
 
-            $("#fullscreen").tooltip({
+            Helper.tooltip("#fullscreen", {
                 delay: 5,
                 position: "top",
                 html: "Fullscreen"
             });
 
-            $(".search-btn-container").tooltip({
+            Helper.tooltip(".search-btn-container", {
                 delay: 5,
                 position: "bottom",
                 html: "Search"
             });
 
 
-            $(".shuffle-btn-container").tooltip({
+            Helper.tooltip(".shuffle-btn-container", {
                 delay: 5,
                 position: "bottom",
                 html: "Shuffle",
             });
 
-            $("#settings").tooltip({
+            Helper.tooltip("#settings", {
                 delay: 5,
                 position: "bottom",
                 html: "Settings",
@@ -227,8 +219,8 @@ var Channel = {
             if(!client) {
                 Mobile_remote.initiate_volume();
             }
-            $(".close-settings").addClass("hide");
-            }	else {
+                Helper.addClass(".close-settings", "hide");
+        } else {
             $('input#chan_description').characterCounter();
             if(!client) {
                 Channel.window_width_volume_slider();
@@ -253,7 +245,7 @@ var Channel = {
 
         Helper.sample();
         if(!Helper.mobilecheck() && !client) {
-            $('.castButton').tooltip({
+            Helper.tooltip('.castButton', {
                 delay: 5,
                 position: "top",
                 html: "Cast Zoff to TV"
@@ -271,8 +263,8 @@ var Channel = {
                 },
             });
 
-            $(".sp-choose").addClass("hide");
-            $(".sp-cancel").addClass("btn-flat waves-effect waves-red");
+            Helper.addClass(".sp-choose", "hide");
+            Helper.addClass(".sp-cancel", "btn-flat waves-effect waves-red");
             Helper.removeClass(".sp-cancel", "sp-cancel");
             $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
         }
@@ -288,12 +280,12 @@ var Channel = {
         $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
         $("#search").attr("placeholder", "Find song on YouTube...");
 
-        if(!$("footer").hasClass("padding-bottom-novideo") && !client) {
-            $("footer").addClass("padding-bottom-novideo");
+        if(!client) {
+            Helper.addClass("footer", "padding-bottom-novideo");
         }
 
         if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck() && !client){
-            $(".castButton").css("display", "none");
+            Helper.css(".castButton", "display", "none");
         }
 
         Helper.log(["chromecastAvailable " + chromecastAvailable, "chromecastReady " + chromecastReady]);
@@ -512,26 +504,27 @@ var Channel = {
 
             $("#embed-button").css("display", "none");
             if(!Helper.mobilecheck()) {
-                $('.castButton').tooltip("destroy");
-                $("#viewers").tooltip("destroy");
+                Helper.tooltip('.castButton', "destroy");
+                Helper.tooltip("#viewers", "destroy");
                 //$('.castButton-unactive').tooltip("destroy");
-                $("#offline-mode").tooltip("destroy");
+                Helper.tooltip("#offline-mode", "destroy");
                 if(M.Tooltip.getInstance($("#chan_thumbnail")) != undefined) {
-                    $('#chan_thumbnail').tooltip("destroy");
+                    Helper.tooltip('#chan_thumbnail', "destroy");
                 }
-                $('#fullscreen').tooltip("destroy");
+                Helper.tooltip('#fullscreen', "destroy");
                 if(M.Tooltip.getInstance($("#admin-lock")) != undefined) {
-                    $('#admin-lock').tooltip("destroy");
+                    Helper.tooltip('#admin-lock', "destroy");
                 }
-                $(".search-btn-container").tooltip("destroy");
-                $(".shuffle-btn-container").tooltip("destroy");
-                $("#settings").tooltip("destroy");
+                Helper.tooltip(".search-btn-container", "destroy");
+                Helper.tooltip(".shuffle-btn-container", "destroy");
+                Helper.tooltip("#settings", "destroy");
             }
-            $("#seekToDuration").remove();
-            $(".sidenav").sidenav("destroy");
+            Helper.removeElement("#seekToDuration");
+
+            M.Sidenav.getInstance(document.getElementsByClassName("sidenav")[0]).destroy();
             if(!client) {
                 if(!Helper.mobilecheck()) {
-                    $("#chan").tooltip("destroy");
+                    Helper.tooltip("#chan", "destroy");
                 }
                 if(M.TapTarget.getInstance($(".tap-target"))) {
                     $('.tap-target').tapTarget('close');
@@ -588,15 +581,15 @@ var Channel = {
                     $("meta[name=theme-color]").attr("content", "#2D2D2D");
 
                     if(!Helper.mobilecheck() && !user_auth_avoid){
-                        $("#playbar").remove();
-                        $("#main_components").remove();
-                        $("#player").addClass("player_bottom");
-                        $("#main-row").addClass("frontpage_modified_heights");
-                        $("#player").css("opacity", "1");
+                        Helper.removeElement("#playbar");
+                        Helper.removeElement("#main_components");
+                        Helper.addClass("#player", "player_bottom");
+                        Helper.addClass("#main-row", "frontpage_modified_heights");
+                        Helper.css("#player", "opacity", "1");
                         Helper.removeClass("#video-container", "no-opacity");
                         $("#main-row").prepend("<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         $("#player_bottom_overlay").append("<a id='closePlayer' title='Close Player'>X</a>");
-                        $("#playlist").remove();
+                        Helper.removeElement("#playlist");
                     } else {
                         try{
                             Player.player.destroy();
@@ -608,10 +601,10 @@ var Channel = {
                     var response = $("<div>" + e + "</div>");
 
                     //$(".drag-target").remove();
-                    $("#sidenav-overlay").remove();
-                    $("main").attr("class", "center-align container");
+                    Helper.removeElement("#sidenav-overlay");
+                    document.getElementsByTagName("main")[0].className = "center-align container";
                     Helper.removeClass("#main-container", "channelpage");
-                    $("#main-container").attr("style", "");
+                    document.getElementById("main-container").setAttribute("style", "");
                     $("header").html($(response.find("header")).html());
                     $($(response.find(".section.mega"))).insertAfter("header");
                     $($(response.find(".section.mobile-search"))).insertAfter(".mega");
@@ -619,7 +612,7 @@ var Channel = {
                     else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
                     Helper.removeClass(".page-footer", "padding-bottom-extra");
                     Helper.removeClass(".page-footer", "padding-bottom-novideo");
-                    $("#favicon").attr("href", "/assets/images/favicon-32x32.png");
+                    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon-32x32.png");
 
                     //$(".context-menu-list").remove();
                     Helper.log(["Socket", socket]);
@@ -635,9 +628,9 @@ var Channel = {
                     if($("#alreadychannel").length === 0 && !user_auth_avoid){
                         $("head").append("<div id='alreadychannel'></div");
                     } else if(user_auth_avoid) {
-                        $("#alreadychannel").remove();
+                        Helper.removeElement("#alreadychannel");
                     }
-                    $("#channel-load").css("display", "none");
+                    Helper.css("#channel-load", "display", "none");
                     user_auth_avoid = false;
                 }
             });

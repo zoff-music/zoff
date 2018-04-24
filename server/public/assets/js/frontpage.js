@@ -307,6 +307,7 @@ var Frontpage = {
     },
 
     to_channel: function(new_channel, popstate) {
+        console.log(new_channel);
         $("#channel-load").css("display", "block");
         window.scrollTo(0, 0);
         frontpage = false;
@@ -318,10 +319,10 @@ var Frontpage = {
         }
         $("#main-container").css("background-color", "#2d2d2d");
         if(!Helper.mobilecheck()) {
-            $("#frontpage-viewer-counter").tooltip("destroy");
-            $(".generate-channel-name").tooltip("destroy");
-            $("#offline-mode").tooltip("destroy");
-            $("#client-mode-button").tooltip("destroy");
+            Helper.tooltip("#frontpage-viewer-counter", "destroy");
+            Helper.tooltip(".generate-channel-name", "destroy");
+            Helper.tooltip("#offline-mode", "destroy");
+            Helper.tooltip("#client-mode-button", "destroy");
             if($(".pin").length == 1) {
                 $($(".pin").parent().parent().parent()).tooltip("destroy");
             }
@@ -355,10 +356,10 @@ var Frontpage = {
                 var response = $("<div>" + e + "</div>");
 
                 $('select').formSelect('destroy');
-                $(".mega").remove();
-                $(".mobile-search").remove();
-                $("main").attr("class", "container center-align main");
-                $("#main-container").addClass("channelpage");
+                Helper.removeElement(".mega");
+                Helper.removeElement(".mobile-search");
+                document.getElementsByTagName("main")[0].className = "container center-align main";
+                Helper.addClass("#main-container", "channelpage");
                 //$("header").html($($(e)[63]).html());
                 $("header").html($(response.find("header")).html());
                 if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
@@ -373,8 +374,8 @@ var Frontpage = {
                     Helper.removeElement("#closePlayer");
                     Helper.removeElement("#player_bottom_overlay");
                 }
-                $("#search").attr("placeholder", "Find song on YouTube...");
-                $(".page-footer").addClass("padding-bottom-novideo");
+                document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
+                Helper.addClass(".page-footer", "padding-bottom-novideo");
                 from_frontpage = true;
                 if($("#alreadychannel").length == 1){
                     Channel.init();
@@ -411,7 +412,7 @@ var Frontpage = {
         };
 
         if(window.location.hostname == "fb.zoff.me") {
-            $("footer").addClass("hide");
+            Helper.addClass("footer", "hide");
         }
 
         channel_list = $("#channel-list-container").clone().html();
@@ -435,9 +436,9 @@ var Frontpage = {
             setup_playlist_listener();
         }
 
-        $("#about").modal();
-        $("#help").modal();
-        $("#contact").modal();
+        M.Modal.init(document.getElementById("about"));
+        M.Modal.init(document.getElementById("help"));
+        M.Modal.init(document.getElementById("contact"));
         $('select').formSelect();
 
         Helper.log([
@@ -450,7 +451,7 @@ var Frontpage = {
             change_offline(true, offline);
         } else {
             if(!Helper.mobilecheck()) {
-                $("#offline-mode").tooltip({
+                Helper.tooltip("#offline-mode", {
                     delay: 5,
                     position: "bottom",
                     html: "Enable local mode"
@@ -458,17 +459,17 @@ var Frontpage = {
             }
         }
         if(!Helper.mobilecheck()) {
-            $("#frontpage-viewer-counter").tooltip({
+            Helper.tooltip("#frontpage-viewer-counter", {
                 delay: 5,
                 position: "bottom",
                 html: "Total Viewers"
             });
-            $("#client-mode-button").tooltip({
+            Helper.tooltip("#client-mode-button", {
                 delay: 5,
                 position: "bottom",
                 html: "Client mode"
             });
-            $(".generate-channel-name").tooltip({
+            Helper.tooltip(".generate-channel-name", {
                 delay: 5,
                 position: "bottom",
                 html: "Generate name"
@@ -476,12 +477,12 @@ var Frontpage = {
         }
         Frontpage.get_frontpage_lists();
 
-        $("#channel-load").css("display", "none");
+        Helper.css("#channel-load", "display", "none");
         //Materialize.toast("<a href='/remote' style='color:white;'>Try out our new feature, remote!</a>", 8000)
         if(window.location.hash == "#donation") {
             window.location.hash = "#";
-            $('#donation').modal();
-            $('#donation').modal('open');
+            M.Modal.init(document.getElementById("donation"));;
+            M.Modal.getInstance(document.getElementById("donation")).open();
         }
 
         if(!localStorage.ok_cookie){
