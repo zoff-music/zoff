@@ -87,9 +87,7 @@ var Player = {
                 //$("#player_overlay").height($("#player").height());
 
                 if(!window.MSStream && !chromecastAvailable) {
-                    if($("#player_overlay").hasClass("hide")) {
-                        $("#player_overlay").removeClass("hide");
-                    }
+                    Helper.removeClass("#player_overlay", "hide");
                 }
                 try{
                     if(!chromecastAvailable) {
@@ -574,23 +572,23 @@ var Player = {
             player_ready = true;
             if(!window.MSStream) {
                 if(Helper.mobilecheck()){
-                    $("#playpause").css("visibility", "hidden");
-                    $("#playpause").css("pointer-events", "none");
-                    $("#player").css("opacity", "1");
+                    Helper.css("#playpause", "visibility", "hidden");
+                    Helper.css("#playpause", "pointer-events", "none");
+                    Helper.css("#player", "opacity", "1");
                     if(offline) {
                         setTimeout(function(){
-                            $("#channel-load").css("display", "none");
-                            $("#playpause").css("visibility", "visible");
-                            $("#playpause").css("pointer-events", "all");
+                            Helper.css("#channel-load", "display", "none");
+                            Helper.css("#playpause", "visibility", "visible");
+                            Helper.css("#playpause", "pointer-events", "all");
                         }, 1500);
                     }
                 } else {
                     //$("#channel-load").css("display", "none");
                 }
                 /*$("#player").css("opacity", "1");*/
-                $(".video-container").removeClass("no-opacity");
-                $("#controls").css("opacity", "1");
-                $(".playlist").css("opacity", "1");
+                Helper.removeClass(".video-container", "no-opacity");
+                Helper.css("#controls", "opacity", "1");
+                Helper.css(".playlist", "opacity", "1");
                 if(autoplay) {
                     Player.loadVideoById(video_id, duration);
                 } else {
@@ -631,8 +629,8 @@ var Player = {
         var color = c.color;
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
-            $("#nav").css("background-color", Helper.rgbToHsl(color, true));
-            $(".title-container").css("background-color", Helper.rgbToHsl(color, true));
+            Helper.css("#nav", "background-color", Helper.rgbToHsl(color, true));
+            helper.css(".title-container", "background-color", Helper.rgbToHsl(color, true));
             var hexHsl = Helper.rgbToHex(color[0], color[1], color[2]);
             try {
                 var hsl = Helper.rgbToHsl(color, true).replace("hsl(", "").replace(")", "").replace("%", "").replace(/ /g,'').replace("%", "").split(",");
@@ -644,7 +642,7 @@ var Player = {
                 new_color = Helper.hexToComplimentary(new_color);
                 new_color = Helper.hexToRgb(new_color);
                 new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
-                $("#controls").css("background", new_color);
+                Helper.css("#controls", "background", new_color);
             }
         }
     },

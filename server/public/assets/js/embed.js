@@ -186,8 +186,8 @@ function toast(msg) {
             if(embed) return;
             msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
             document.getElementById("import").disabled = false;
-            $("#playlist_loader").addClass("hide");
-            $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "savedsettings":
             if(embed) return;
@@ -245,20 +245,16 @@ function toast(msg) {
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
                 $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
-            if(!$("#playlist_loader").hasClass("hide")) {
-                $("#playlist_loader").addClass("hide");
-            }
-            if(!$("#playlist_loader_spotify").hasClass("hide")) {
-                $("#playlist_loader_spotify").addClass("hide");
-            }
-            $("#import_spotify").removeClass("hide");
-                    $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.addClass("#playlist_loader_spotify", "hide");
+            Helper.removeClass("#import_spotify", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "noskip":
             if(embed) return;

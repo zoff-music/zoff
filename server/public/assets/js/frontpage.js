@@ -367,11 +367,11 @@ var Frontpage = {
                     $("#main-row").append($(response.find("#playlist").wrap("<div>").parent().html()));
                     $("#video-container").append($(response.find("#main_components").wrap("<div>").parent().html()));
                     $("#main-row").append("<div id='playbar'></div>");
-                    $("#player").removeClass("player_bottom");
-                    $("#main-row").removeClass("frontpage_modified_heights");
-                    $("#main_section_frontpage").remove();
-                    $("#closePlayer").remove();
-                    $("#player_bottom_overlay").remove();
+                    Helper.removeClass("#player", "player_bottom");
+                    Helper.removeClass("#main-row", "frontpage_modified_heights");
+                    Helper.removeElement("#main_section_frontpage");
+                    Helper.removeElement("#closePlayer");
+                    Helper.removeElement("#player_bottom_overlay");
                 }
                 $("#search").attr("placeholder", "Find song on YouTube...");
                 $(".page-footer").addClass("padding-bottom-novideo");

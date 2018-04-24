@@ -3,8 +3,8 @@ $(document).ready(function() {
     $(".help-button-footer").hide();
     $("#contact").modal();
 
-    $("#contact-container").empty();
-    $("#contact-container").html("Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
+    Helper.setHtml("#contact-container", "");
+    Helper.setHtml("#contact-container", "Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
     $("#submit-contact-form").hide();
 
     ga('send', 'pageview');
@@ -20,7 +20,7 @@ $(document).ready(function() {
         $("#origin").attr("readonly", true);
         $("#email_address").attr("readonly", true);
         $(".submit").toggleClass("disabled");
-        $(".full-form-token").removeClass("hide");
+        Helper.removeClass(".full-form-token", "hide");
         var captcha_response = grecaptcha.getResponse();
         Helper.ajax({
             type: "POST",
@@ -31,7 +31,7 @@ $(document).ready(function() {
                 "g-recaptcha-response": captcha_response,
             },
             success: function(response) {
-                $(".full-form-token").addClass("hide");
+                Helper.addClass(".full-form-token", "hide");
                 if(response == "success") {
                     M.toast({html: "Email sent!", displayLength: 3000, classes: "green lighten"});
                 } else {
@@ -43,7 +43,7 @@ $(document).ready(function() {
                 }
             },
             error: function(response) {
-                $(".full-form-token").addClass("hide");
+                Helper.addClass(".full-form-token", "hide");
                 $("#email_address").attr("readonly", false);
                 $(".submit").toggleClass("disabled");
             }

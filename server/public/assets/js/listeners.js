@@ -313,13 +313,11 @@ initializeCastApi = function() {
             event.castState
         ]);
         if(event.castState == "NOT_CONNECTED"){
-            $(".castButton").css("display", "block");
-            if(!$(".volume-container").hasClass("volume-container-cast")) {
-                $(".volume-container").addClass("volume-container-cast");
-            }
+            Helper.css(".castButton", "display", "block");
+            Helper.addClass(".volume-container", "volume-container-cast");
             cast_ready_connect = true;
             if((!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") && !client) {
-                $(".castButton").css("display", "block");
+                Helper.css(".castButton", "display", "block");
                 showDiscovery = true;
                 $('.tap-target').tapTarget();
                 $('.tap-target').tapTarget('open');
@@ -327,17 +325,17 @@ initializeCastApi = function() {
                     $('.tap-target').tapTarget('close');
                 }, 4000);
                 localStorage.setItem("_chSeen", "seen");
-                $('.castButton').removeClass('castButton-white-active');
+                Helper.removeClass('.castButton', 'castButton-white-active');
             }
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
             cast_ready_connect = false;
-            $(".volume-container").removeClass("volume-container-cast");
+            Helper.removeClass(".volume-container", "volume-container-cast");
         }
     });
 
     if(context.getCastState() == "NOT_CONNECTED") {
-        $(".castButton").css("display", "block");
-        $('.castButton').removeClass('castButton-white-active');
+        Helper.css(".castButton", "display", "block");
+        Helper.removeClass('.castButton', 'castButton-white-active');
         cast_ready_connect = true;
     }
 };
@@ -409,7 +407,7 @@ $(document).keyup(function(event) {
                     $("#results").empty();
                 }
             });
-            $("body").attr("style", "overflow-y:auto")
+            document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
             $("#search-btn i").html("search");
             $(".search_input").val("");
         }
@@ -418,7 +416,7 @@ $(document).keyup(function(event) {
         }
     } else if(event.keyCode == 13 && $("#search").val() == "fireplace" && !$(".search-container").hasClass("hide") && window.location.pathname != "/") {
         clearTimeout(timeout_search);
-        $("#results").html("");
+        Helper.setHtml("#results", "");
         $("#search").val("");
         if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
         $("#search-wrapper").toggleClass("hide");
@@ -435,10 +433,10 @@ $(document).keyup(function(event) {
         if(fireplace_initiated) {
             fireplace_initiated = false;
             Player.fireplace.destroy();
-            $("#fireplace_player").css("display", "none");
+            Helper.css("#fireplace_player", "display", "none");
         } else {
             fireplace_initiated = true;
-            $("#fireplace_player").css("display", "block");
+            Helper.css("#fireplace_player", "display", "block");
             Player.createFireplacePlayer();
         }
     }
@@ -827,8 +825,8 @@ $(document).on("click", "#listExport", function(e){
             access_token_data_youtube = data;
             if(access_token_data_youtube.state == nonce){
                 youtube_authenticated = true;
-                $("#playlist_loader_export").removeClass("hide");
-                $(".youtube_export_button").addClass("hide");
+                Helper.removeClass("#playlist_loader_export", "hide");
+                Helper.addClass(".youtube_export_button", "hide");
                 setTimeout(function(){
                     youtube_authenticated = false;
                     access_token_data_youtube = {};
@@ -861,7 +859,7 @@ $(document).on("click", ".export-spotify-auth", function(e){
                 access_token_data = {};
                 Channel.spotify_is_authenticated(false);
             }, access_token_data.expires_in * 1000);
-            $(".spotify_export_button").css("display", "none");
+            Helper.css(".spotify_export_button", "display", "none");
             List.exportToSpotify();
         } else {
             access_token_data = {};
@@ -880,8 +878,8 @@ $(document).on("submit", "#listImport", function(e){
         Search.importPlaylist(url[1]);
         document.getElementById("import").value = "";
         document.getElementById("import").disabled = true;
-        $("#import").addClass("hide");
-        $("#playlist_loader").removeClass("hide");
+        Helper.addClass("#import", "hide");
+        Helper.removeClass("#playlist_loader", "hide");
 
         ga('send', 'event', "import", "youtube");
     } else {
@@ -903,8 +901,8 @@ $(document).on("submit", "#listImportZoff", function(e) {
 
 $(document).on("click", ".import-zoff", function(e) {
     e.preventDefault();
-    $(".import-zoff-container").addClass("hide");
-    $(".zoff_add_field").removeClass("hide");
+    Helper.addClass(".import-zoff-container", "hide");
+    Helper.removeClass(".zoff_add_field", "hide");
 });
 
 $(document).on("submit", "#listImportSpotify", function(e){
@@ -918,8 +916,8 @@ $(document).on("submit", "#listImportSpotify", function(e){
             playlist_id = playlist_id.split("?")[0];
 
             document.getElementById("import_spotify").disabled = true;
-            $("#import_spotify").addClass("hide");
-            $("#playlist_loader_spotify").removeClass("hide");
+            Helper.addClass("#import_spotify", "hide");
+            Helper.removeClass("#playlist_loader_spotify", "hide");
 
             ga('send', 'event', "import", "spotify");
 
@@ -933,7 +931,7 @@ $(document).on("submit", "#listImportSpotify", function(e){
 });
 
 $(window).focus(function(){
-    $("#favicon").attr("href", "/assets/images/favicon.png");
+    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
     unseen = false;
 });
 
@@ -978,11 +976,9 @@ $(document).on("click", ".chat-link", function(){
     $("#chat-btn i").css("opacity", 1);
     Chat.channel_received = 0;
     Chat.all_received = 0;
-    if(!$(".chat-link span.badge.new.white").hasClass("hide")){
-        $(".chat-link span.badge.new.white").addClass("hide");
-    }
+    Helper.addClass(".chat-link span badge new white", "hide");
     unseen = false;
-    $("#favicon").attr("href", "/assets/images/favicon.png");
+    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
 
     scrollChat();
 });
@@ -1047,30 +1043,30 @@ $(document).on("click", ".chat-link", function(e){
     chat_active = true;
     unseen = false;
     chat_unseen = false;
-    $(".chat-link").attr("style", "color: white !important;");
+    document.getElementsByClassName("chat-link")[0].setAttribute("style", "color: white !important;");
     blinking = false;
-    $("#favicon").attr("href", "/assets/images/favicon.png");
-    $("#chat-container").css("display", "block");
-    $("#wrapper").css("display", "none");
-    $("#suggestions").css("display", "none");
+    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
+    Helper.css("#chat-container", "display", "block");
+    Helper.css("#wrapper", "display", "none");
+    Helper.css("#suggestions", "display", "none");
     $("#text-chat-input").focus();
-    $("#pageButtons").css("display", "none");
+    Helper.css("#pageButtons", "display", "none");
 });
 
 $(document).on("click", ".playlist-link", function(e){
     chat_active = false;
-    $("#chat-container").css("display", "none");
-    $("#wrapper").css("display", "block");
-    $("#suggestions").css("display", "none");
-    $("#pageButtons").css("display", "flex");
+    Helper.css("#chat-container", "display", "none");
+    Helper.css("#wrapper", "display", "block");
+    Helper.css("#suggestions", "display", "none");
+    Helper.css("#pageButtons", "display", "flex");
 });
 
 $(document).on("click", ".suggested-link", function(e){
     chat_active = false;
-    $("#chat-container").css("display", "none");
-    $("#wrapper").css("display", "none");
-    $("#suggestions").css("display", "block");
-    $("#pageButtons").css("display", "none");
+    Helper.css("#chat-container", "display", "none");
+    Helper.css("#wrapper", "display", "none");
+    Helper.css("#suggestions", "display", "block");
+    Helper.css("#pageButtons", "display", "none");
 });
 
 $(document).on("click", ".import-spotify-auth", function(e){
@@ -1085,8 +1081,8 @@ $(document).on("click", ".import-spotify-auth", function(e){
                 spotify_authenticated = false;
                 access_token_data = {};
                 Channel.spotify_is_authenticated(false);
-                $(".spotify_authenticated").css("display", "none");
-                $(".spotify_unauthenticated").css("display", "block");
+                Helper.css(".spotify_authenticated", "display", "none");
+                Helper.css(".spotify_unauthenticated", "display", "block");
             }, access_token_data.expires_in * 1000);
         } else {
             access_token_data = {};
@@ -1100,8 +1096,8 @@ $(document).on("click", ".import-spotify-auth", function(e){
 
 $(document).on("click", ".import-youtube", function(e){
     e.preventDefault();
-    $(".youtube_unclicked").css("display", "none");
-    $(".youtube_clicked").css("display", "block");
+    Helper.css(".youtube_unclicked", "display", "none");
+    Helper.css(".youtube_clicked", "display", "block");
 });
 
 $(document).on("submit", "#chatForm", function(e){
@@ -1152,7 +1148,7 @@ $(window).resize(function(){
         }
         List.can_fit = temp_fit;
         List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
-        $(".list-song").css("height", List.element_height + "px");
+        Helper.css(".list-song", "height", List.element_height + "px");
         //$("#player_overlay").width($("#player").width()+1);
         Channel.set_title_width();
         if($("#controls").length > 0 && !Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
@@ -1226,7 +1222,7 @@ $(document).on('click', ".send-error-modal", function(e) {
 $(document).on('submit', "#error-report-form", function(e) {
     e.preventDefault();
     var captcha_response = grecaptcha.getResponse();
-    $("#send-loader").removeClass("hide");
+    Helper.removeClass("#send-loader", "hide");
     Helper.ajax({
         type: "POST",
         data: {
@@ -1237,16 +1233,16 @@ $(document).on('submit', "#error-report-form", function(e) {
         url: "/api/mail",
         success: function(data){
             if(data == "success"){
-                $(".send-error-modal").remove();
-                $("#error-report-form").remove();
-                $(".error-code-container").remove();
+                Helper.removeElement(".send-error-modal");
+                Helper.removeElement("#error-report-form");
+                Helper.removeElement(".error-code-container");
                 $(".error-report-success").text("Error report sent!");
-                $("#contact-container").html("Mail has been sent, we'll be back with you shortly.");
+                Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.");
                 window.location.reload(true);
             }else{
                 $(".error-report-success").text("Mail was not sent, try again");
             }
-            $("#send-loader").addClass("hide");
+            Helper.addClass("#send-loader", "hide");
         }
     });
 });
@@ -1302,32 +1298,32 @@ $(document).on( "click", ".add-suggested", function(e){
 
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-            $(".suggested-link span.badge.new.white").addClass("hide");
-            $("#user_suggests").addClass("hide");
-            $("#suggest_bar").addClass("hide");
+            Helper.addClass(".suggested-link span badge new white", "hide");
+            Helper.addClass("#user_suggests", "hide");
+            Helper.addClass("#suggest_bar", "hide");
         }
 
         $(".suggested-link span.badge.new.white").text(to_display);
     }
-    $("#suggested-" + id).remove();
+    Helper.removeElement("#suggested-" + id);
 });
 
 $(document).on( "click", ".del_suggested", function(e){
     var id = $(this).attr("data-video-id");
 
-    $("#suggested-" + id).remove();
+    Helper.removeElement("#suggested-" + id);
 });
 
 $(document).on( "click", ".del_user_suggested", function(e){
     var id = $(this).attr("data-video-id");
-    $("#suggested-" + id).remove();
+    Helper.removeElement("#suggested-" + id);
 
     number_suggested = number_suggested - 1;
     if(number_suggested < 0) number_suggested = 0;
 
     var to_display = number_suggested > 9 ? "9+" : number_suggested;
-    if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-        $(".suggested-link span.badge.new.white").addClass("hide");
+    if(to_display == 0){
+        Helper.addClass(".suggested-link span badge new white", "hide");
     }
 
     $(".suggested-link span.badge.new.white").text(to_display);
@@ -1387,7 +1383,7 @@ $(document).keydown(function(event) {
                 $("#find_div").toggleClass("hide");
                 $("#find_input").val("");
                 $("#find_input").blur();
-                $(".highlight").removeClass("highlight");
+                Helper.removeClass(".highlight", "highlight");
                 found_array = [];
                 found_array_index = 0;
                 find_word = "";
@@ -1426,7 +1422,7 @@ $(document).on("click", "#close_find_form_button", function(e) {
     $("#find_div").toggleClass("hide");
     $("#find_input").val("");
     $("#find_input").blur();
-    $(".highlight").removeClass("highlight");
+    Helper.removeClass(".highlight", "highlight");
     found_array = [];
     found_array_index = 0;
     find_word = "";
@@ -1464,12 +1460,12 @@ $(document).on("submit", "#find_form", function(e){
         $("#of_total_found").text(found_array.length);
     }
     if(found_array.length > 0 && found_array[found_array_index] != full_playlist.length - 1){
-        $(".highlight").removeClass("highlight");
+        Helper.removeClass(".highlight", "highlight");
         var jump_to_page = Math.floor(found_array[found_array_index] / List.can_fit);
         $($("#wrapper").children()[found_array[found_array_index]]).addClass("highlight");
         List.dynamicContentPageJumpTo(jump_to_page);
     } else {
-        $(".highlight").removeClass("highlight");
+        Helper.removeClass(".highlight", "highlight");
         Helper.log(["none found"]);
     }
 });
