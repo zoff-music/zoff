@@ -1,13 +1,13 @@
-
+<li class="no-padding">
     <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
         <i class="material-icons auto-margin">close</i>
     </div>
-    <ul class="collapsible collapsible-accordion settings-collapsible">
-        <li class="no-padding">
-            <div class="col s9 collapsible-header bold waves-effect admin-settings">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="col s9 collapsible-header bold waves-effect admin-settings">
                 Channel Settings
                 <i class="material-icons">tune</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <form action="#" id="adminForm" onsubmit="return false;">
                     <ul>
@@ -143,10 +143,14 @@
                 </form>
             </div>
         </li>
-        <li class="no-padding">
-            <div class="collapsible-header bold waves-effect">Channel Info
+    </ul>
+</li>
+<li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Channel Info
                 <i class="material-icons">info_outline</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul>
                     <li>
@@ -173,11 +177,15 @@
                 </ul>
             </div>
         </li>
-    {{#unless client}}
-        <li class="no-padding remote-panel hide-on-small-only">
-            <div class="collapsible-header bold waves-effect">Remote Control
+    </ul>
+</li>
+{{#unless client}}
+<li class="no-padding remote-panel hide-on-small-only">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Remote Control
                 <i class="material-icons">settings_remote</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul>
                     <li>
@@ -203,10 +211,14 @@
                 </ul>
             </div>
         </li>
-        <li class="no-padding offline-panel">
-            <div class="collapsible-header bold waves-effect">Local Mode
+    </ul>
+</li>
+<li class="no-padding offline-panel">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect">Local Mode
                 <i class="material-icons">visibility_off</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul>
                     <li>
@@ -227,11 +239,15 @@
                 </ul>
             </div>
         </li>
+    </ul>
+</li>
 
-        <li class="no-padding show-only-mobile mobile-remote-panel">
-            <div class="collapsible-header bold waves-effect import-a">Remote Controller
+<li class="no-padding show-only-mobile mobile-remote-panel">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect import-a">Remote Controller
                 <i class="material-icons">settings_remote</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul id="remote-mobile-container">
                     <li class="white-bg">
@@ -268,11 +284,15 @@
                 </ul>
             </div>
         </li>
+    </ul>
+</li>
 
-        <li class="no-padding import-panel">
-            <div class="collapsible-header bold waves-effect import-a">Import Playlist
+<li class="no-padding import-panel">
+    <ul class="collapsible collapsible-accordion">
+        <li>
+            <a class="collapsible-header bold waves-effect import-a">Import Playlist
                 <i class="material-icons">keyboard_arrow_down</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul>
                     <li class="white-bg">
@@ -344,11 +364,15 @@
                 </ul>
             </div>
         </li>
+    </ul>
+</li>
 
-        <li class="no-padding export-panel">
-            <div class="collapsible-header bold waves-effect export-a">Export Playlist
+<li class="no-padding export-panel">
+    <ul class="collapsible collapsible-accordion white-bg">
+        <li>
+            <a class="collapsible-header bold waves-effect export-a">Export Playlist
                 <i class="material-icons">keyboard_arrow_up</i>
-            </div>
+            </a>
             <div class="collapsible-body">
                 <ul>
                     <li class="white-bg">
@@ -397,4 +421,7 @@
                 </ul>
             </div>
         </li>
+    </ul>
+</li>
 {{/unless}}
+</ul>
