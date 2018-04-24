@@ -653,6 +653,15 @@ nav, .tabs .tab a,
     background-color: #2D2D2D;
 }
 
+.sidenav .collapsible-header, .sidenav.fixed .collapsible-header {
+    outline: none !important;
+}
+
+.sidenav .collapsible li, .sidenav.fixed .collapsible li {
+    color: #2d2d2d;
+}
+
+
 .tabs .tab a{
     padding: 0px;
 }
