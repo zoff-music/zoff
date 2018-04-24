@@ -2484,6 +2484,7 @@ nav ul li:hover, nav ul li.active {
 
 #volume.rc, #volume-control-remote {
     width:100%;
+    height: auto;
     margin-top: 30px;
     background: darkgrey;
 }
