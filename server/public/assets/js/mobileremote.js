@@ -44,22 +44,19 @@ var Mobile_remote = {
         $("#volume-control-remote").append("<div class='volume-handle-remote'></div>");
             $(".volume-slid-remote").css("width", vol + "%");
             $(".volume-handle-remote").css("left", "calc(" + vol + "% - 1px)");
-        document.getElementById("volume-control-remote").onmousedown = function(e) {
-			e.preventDefault();
-			Playercontrols.dragMouseDown(e);
-		}
-        document.getElementById("volume-control-remote").touchstart = function(e) {
-			e.preventDefault();
-			Playercontrols.dragMouseDown(e);
-		}
-		document.getElementById("volume-control-remote").touchmove = function(e) {
-			e.preventDefault();
-			Playercontrols.dragMouseDown(e);
-		}
-        document.getElementById("volume-control-remote").onclick = function(e) {
-			Playercontrols.elementDrag(e);
-			Playercontrols.closeDragElement();
-		}
+        document.getElementById("volume-control-remote").addEventListener("touchstart", function(e) {
+			console.log("start");
+            e.preventDefault();
+            Playercontrols.dragMouseDown(e);
+        }, false);
+
+        document.getElementById("volume-control-remote").addEventListener("touchmove", function(e) {
+			console.log("move");
+            e.preventDefault();
+            Playercontrols.elementDrag(e);
+        }, false);
+
+
 	}
 
 };

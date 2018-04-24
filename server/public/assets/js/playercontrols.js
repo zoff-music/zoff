@@ -57,14 +57,17 @@ var Playercontrols = {
         document.getElementById("volume").onmousedown = function(e) {
             Playercontrols.dragMouseDown(e, "player");
         }
-        document.getElementById("volume").touchstart = function(e) {
+        if(!Helper.mobilecheck()) {
+            document.getElementById("volume").onclick = function(e) {
+                Playercontrols.elementDrag(e, "player");
+                Playercontrols.closeDragElement("player");
+            }
+        }
+        document.getElementById("volume").addEventListener("touchstart", function(e) {
             e.preventDefault();
             Playercontrols.dragMouseDown(e, "player");
-        }
-        document.getElementById("volume").onclick = function(e) {
-            Playercontrols.elementDrag(e, "player");
-            Playercontrols.closeDragElement("player");
-        }
+        }, false);
+
     },
 
     dragMouseDown: function(e, element) {
@@ -73,16 +76,17 @@ var Playercontrols = {
         document.onmouseup = function() {
             Playercontrols.closeDragElement(element);
         }
-        document.touchend = function() {
+        document.getElementById("volume").addEventListener("touchend", function() {
             Playercontrols.closeDragElement(element);
-        }
+        }, false);
         // call a function whenever the cursor moves:
         document.onmousemove = function(e) {
             Playercontrols.elementDrag(e, element);
         }
-        document.touchmove = function(e) {
+        document.getElementById("volume").addEventListener("touchmove", function(e) {
+            e.preventDefault();
             Playercontrols.elementDrag(e, element);
-        }
+        }, false);
     },
 
     elementDrag: function(e, element) {
@@ -102,7 +106,14 @@ var Playercontrols = {
 
         var pos3 = e.clientX;
         var pos4 = e.clientY;
+        if(pos3 == undefined) {
+            pos3 = e.touches[0].clientX;
+        }
+        if(pos4 == undefined) {
+            pos4 = e.touches[0].clientY;
+        }
         var volume = 0;
+        console.log(slider_type, element, slider_type != "vertical" || element != "player");
         if(slider_type != "vertical" || element != "player") {
             if(elmnt.className.indexOf("ui-state-active") == -1) {
                 elmnt.className += " ui-state-active";
@@ -118,7 +129,7 @@ var Playercontrols = {
                 elmnt.style.left = cmp_elmnt.offsetWidth + "px";
                 volume = 1;
             }
-
+            console.log(volume);
             slid_elmnt.style.width = volume * 100 + "%";
             if(element == "player") Playercontrols.setVolume(volume * 100);
             else socket.emit("id", {id: Mobile_remote.id, type: "volume", value: volume * 100});
@@ -156,7 +167,23 @@ var Playercontrols = {
         }
         document.onmouseup = null;
         document.onmousemove = null;
-
+        if(element == "player") {
+            document.getElementById("volume").removeEventListener("touchmove", function(e) {
+                e.preventDefault();
+                Playercontrols.elementDrag(e, element);
+            }, false);
+            document.getElementById("volume").removeEventListener("touchend", function() {
+                Playercontrols.closeDragElement(element);
+            }, false);
+        } else {
+            document.getElementById("volume-control-remote").removeEventListener("touchmove", function(e) {
+                e.preventDefault();
+                Playercontrols.elementDrag(e);
+            }, false);
+            document.getElementById("volume-control-remote").removeEventListener("touchend", function() {
+                Playercontrols.closeDragElement();
+            }, false);
+        }
     },
 
     fullscreen: function() {
