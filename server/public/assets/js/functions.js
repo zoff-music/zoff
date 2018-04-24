@@ -44,8 +44,8 @@ function hide_native(way) {
             $('.castButton').addClass('castButton-white-active');
         }
         if(!Helper.mobilecheck()) {
-            if(M.Tooltip.getInstance($(".castButton"))) {
-                $('.castButton').tooltip('destroy');
+            if(M.Tooltip.getInstance(document.getElementsByClassName("castButton")[0])) {
+                Helper.tooltip('.castButton', 'destroy');
             }
             Helper.tooltip('.castButton', {
                 delay: 5,
@@ -90,8 +90,8 @@ function hide_native(way) {
         $("#player_overlay_text").toggleClass("hide");
     } else if(way == 0){
         if(!Helper.mobilecheck()) {
-            if(M.Tooltip.getInstance($(".castButton"))) {
-                $('.castButton').tooltip('destroy');
+            if(M.Tooltip.getInstance(document.getElementsByClassName("castButton")[0])) {
+                Helper.tooltip('.castButton', 'destroy');
             }
             Helper.tooltip('.castButton', {
                 delay: 5,
@@ -524,8 +524,8 @@ function change_offline(enabled, already_offline){
     ga('send', 'event', "button-click", "offline", "", offline ? 1 : 0);
     socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
     if(!Helper.mobilecheck()) {
-        if($("#offline-mode").length == 1 && M.Tooltip.getInstance($("#offline-mode"))) {
-            $("#offline-mode").tooltip('destroy');
+        if(document.querySelectorAll("#offline-mode").length == 1 && M.Tooltip.getInstance(document.getElementById("offline-mode"))) {
+            Helper.tooltip("#offline-mode", 'destroy');
         }
     }
     if(enabled){
@@ -625,19 +625,20 @@ function change_offline(enabled, already_offline){
     }
 }
 
-function handleEvent(e, target, tried) {
-    if(dynamicListeners["click"] && dynamicListeners["click"]["#" + target.id]) {
-        dynamicListeners["click"]["#" + target.id].call(target);
+function handleEvent(e, target, tried, type) {
+    if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+        dynamicListeners[type]["#" + target.id].call(target);
         return;
     } else {
         for(var i = 0; i < target.classList.length; i++) {
-            if(dynamicListeners["click"] && dynamicListeners["click"]["." + target.classList[i]]) {
-                dynamicListeners["click"]["." + target.classList[i]].call(target);
+            if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                dynamicListeners[type]["." + target.classList[i]].call(target);
                 return;
             }
         }
-    }if(!tried) {
-        handleEvent(e, e.target.parentElement, true);
+    }
+    if(!tried) {
+        handleEvent(e, e.target.parentElement, true, type);
     }
 }
 
@@ -842,7 +843,7 @@ function before_toast(){
 }
 
 function scrollChat() {
-    var current = $(".chat-tab.active").attr("href");
+    var current = $(".chat-tab active").attr("href");
     if(current == "#channelchat") {
         $('#chatchannel').scrollTop($('#chatchannel')[0].scrollHeight);
     } else if(current == "#all_chat") {

@@ -22,8 +22,8 @@ var Frontpage = {
         ]);
         Frontpage.all_channels = msg.channels;
         if(msg.channels.length == 0) {
-            $("#preloader").css("display", "none");
-            $("#channel-list-container").append("<p>No channels yet</p>");
+            Helper.css("#preloader", "display", "none");
+            document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
             Frontpage.populate_channels(msg.channels, true);
         }
@@ -31,7 +31,7 @@ var Frontpage = {
     },
 
     populate_channels: function(lists, popular) {
-        $("#channels").empty();
+        document.getElementById("channels").innerHTML = "";
 
         var num = 0;
 
@@ -64,7 +64,7 @@ var Frontpage = {
             Frontpage.add_backdrop(lists, 0);
         }
 
-        pre_card = $(channel_list);
+        pre_card = channel_list;
 
         Helper.log([
             "Pre_card: ",
@@ -83,37 +83,40 @@ var Frontpage = {
                 }
 
                 var song_count = lists[x].count;
-
-                var card = pre_card.clone();
+                var card = document.createElement("div");
+                card.innerHTML += pre_card;
+                //card.innerHTML = card.children[0];
                 if(song_count > 4) {
                     if(lists[x].pinned == 1) {
-                        card.find(".pin").attr("style", "display:block;");
+                        card.querySelector(".pin").setAttribute("style", "display:block;");
                         //card.find(".card").attr("title", "Featured list");
                     } else {
                         /*card.find(".pin").attr("style", "display:none;");
                         card.find(".card").attr("title", "");*/
-                        card.find(".pin").remove();
+                        card.querySelector(".pin").remove();
                     }
-                    card.find(".chan-name").text(chan);
-                    card.find(".chan-name").attr("title", chan);
-                    card.find(".chan-views").text(viewers);
-                    card.find(".chan-songs").text(song_count);
-                    card.find(".chan-bg").attr("style", img);
-                    card.find(".chan-link").attr("href", chan + "/");
+                    card.querySelector(".chan-name").innerText = chan;
+                    card.querySelector(".chan-name").setAttribute("title", chan);
+                    card.querySelector(".chan-views").innerText = viewers;
+                    card.querySelector(".chan-songs").innerText = song_count;
+                    card.querySelector(".chan-bg").setAttribute("style", img);
+                    card.querySelector(".chan-link").setAttribute("href", chan + "/");
 
                     if(description != "" && description != undefined && !Helper.mobilecheck()) {
-                        card.find(".card-title").text(chan);
-                        card.find(".description_text").text(description);
+                        card.querySelector(".card-title").innerText = chan;
+                        card.querySelector(".description_text").innerText = description;
                         description = "";
                     } else {
-                        card.find(".card-reveal").remove();
-                        card.find(".card").removeClass("sticky-action")
+                        card.querySelector(".card-reveal").remove();
+                        Helper.removeClass(card.querySelector(".card"), "sticky-action")
                     }
 
-                    $("#channels").append(card.html());
+                    document.getElementById("channels").insertAdjacentHTML("beforeend", card.children[0].innerHTML);
+                    //console.log(card.children[0].children[0]);
                 } else {
                     num--;
                 }
+
             }
             num++;
         }
@@ -125,18 +128,18 @@ var Frontpage = {
         for(var x in options_list) {
             data[options_list[x]._id] = null;
         }
-        if($(".pin").length == 1 && !Helper.mobilecheck()) {
-            $($(".pin").parent().parent().parent()).tooltip({
+        if(document.querySelectorAll(".pin").length == 1 && !Helper.mobilecheck()) {
+            Helper.tooltip(document.querySelectorAll(".pin")[0].parent().parent().parent(), {
                 delay: 5,
                 position: "top",
                 html: "Featured playlist"
             });
         }
 
-        var to_autocomplete = "input.autocomplete";
+        var to_autocomplete = document.querySelectorAll("input.autocomplete")[0];
         //if(Helper.mobilecheck()) to_autocomplete = "input.mobile-search";
 
-        $(to_autocomplete).autocomplete({
+        M.Autocomplete.init(to_autocomplete, {
             data: data,
             limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
             onAutocomplete: function(val) {
@@ -147,7 +150,7 @@ var Frontpage = {
         document.getElementById("preloader").style.display = "none";
         //Materialize.fadeInImage('#channels');
         $("#channels").fadeIn(800);
-        $("#searchFrontpage").focus();
+        document.getElementById("autocomplete-input").focus();
         num = 0;
     },
 
@@ -308,7 +311,7 @@ var Frontpage = {
 
     to_channel: function(new_channel, popstate) {
         console.log(new_channel);
-        $("#channel-load").css("display", "block");
+        Helper.css("#channel-load", "display", "block");
         window.scrollTo(0, 0);
         frontpage = false;
         new_channel = new_channel.toLowerCase();
@@ -317,14 +320,14 @@ var Frontpage = {
             Helper.log(["removing all listeners"]);
             removeAllListeners();
         }
-        $("#main-container").css("background-color", "#2d2d2d");
+        Helper.css("#main-container", "background-color", "#2d2d2d");
         if(!Helper.mobilecheck()) {
             Helper.tooltip("#frontpage-viewer-counter", "destroy");
             Helper.tooltip(".generate-channel-name", "destroy");
             Helper.tooltip("#offline-mode", "destroy");
             Helper.tooltip("#client-mode-button", "destroy");
-            if($(".pin").length == 1) {
-                $($(".pin").parent().parent().parent()).tooltip("destroy");
+            if(document.querySelectorAll(".pin").length == 1) {
+                Helper.tooltip(document.querySelectorAll(".pin")[0].parent().parent().parent(), "destroy");
             }
         }
         currently_showing_channels = 1;
@@ -339,7 +342,8 @@ var Frontpage = {
                     //Player.player.destroy();
                     socket.emit("change_channel", {channel: chan.toLowerCase()});
                 }
-                $("#frontpage_player").empty();
+                var _player = document.querySelectorAll("#frontpage_player");
+                if(_player.length > 0) _player[0].innerHTML = "";
                 if(Helper.mobilecheck()) {
                     //Helper.log("disconnecting");
                     //socket.disconnect();
@@ -353,21 +357,24 @@ var Frontpage = {
                     window.chan = new_channel;
                 }
 
-                var response = $("<div>" + e + "</div>");
+                var response = document.createElement("div");
+                response.innerHTML = e;
 
-                $('select').formSelect('destroy');
+                M.FormSelect.getInstance(document.querySelector("#view_channels_select")).destroy();
+                //$('select').formSelect('destroy');
                 Helper.removeElement(".mega");
                 Helper.removeElement(".mobile-search");
                 document.getElementsByTagName("main")[0].className = "container center-align main";
                 Helper.addClass("#main-container", "channelpage");
-                //$("header").html($($(e)[63]).html());
-                $("header").html($(response.find("header")).html());
-                if($("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
-                    $("main").html($(response.find("main")).html());
+
+                document.getElementsByTagName("header")[0].innerHTML = response.querySelectorAll("header")[0].innerHTML;
+
+                if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
+                    document.getElementsByTagName("main")[0].innerHTML = response.querySelectorAll("main")[0].innerHTML;
                 } else {
-                    $("#main-row").append($(response.find("#playlist").wrap("<div>").parent().html()));
-                    $("#video-container").append($(response.find("#main_components").wrap("<div>").parent().html()));
-                    $("#main-row").append("<div id='playbar'></div>");
+                    document.getElementById("main-row").insertAdjacentHTML("beforeend", response.querySelectorAll("#playlist")[0].outerHTML);
+                    document.getElementById("video-container").insertAdjacentHTML("beforeend", response.querySelectorAll("#main_components")[0].outerHTML);
+                    document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id='playbar'></div>");
                     Helper.removeClass("#player", "player_bottom");
                     Helper.removeClass("#main-row", "frontpage_modified_heights");
                     Helper.removeElement("#main_section_frontpage");
@@ -377,13 +384,13 @@ var Frontpage = {
                 document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
                 Helper.addClass(".page-footer", "padding-bottom-novideo");
                 from_frontpage = true;
-                if($("#alreadychannel").length == 1){
+                if(document.querySelectorAll("#alreadychannel").length == 1){
                     Channel.init();
                 }else{
                     fromFront = true;
                     Channel.init();
                 }
-                if($("#alreadyfp").length === 0) $("head").append("<div id='alreadyfp'></div>");
+                if(document.querySelectorAll("#alreadyfp").length === 0) document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<div id='alreadyfp'></div>");
 
             }
         });
@@ -394,8 +401,8 @@ var Frontpage = {
         var date = new Date();
         Frontpage.blob_list = [];
         if(date.getMonth() == 3 && date.getDate() == 1){
-            $(".mega").css("-webkit-transform", "rotate(180deg)");
-            $(".mega").css("-moz-transform", "rotate(180deg)");
+            Helper.css(".mega", "-webkit-transform", "rotate(180deg)");
+            Helper.css(".mega", "-moz-transform", "rotate(180deg)");
             //Materialize.toast('<p id="aprilfools">We suck at pranks..<a class="waves-effect waves-light btn light-green" style="pointer-events:none;">Agreed</a></p>', 100000);
         }
 
@@ -415,7 +422,7 @@ var Frontpage = {
             Helper.addClass("footer", "hide");
         }
 
-        channel_list = $("#channel-list-container").clone().html();
+        channel_list = document.getElementById("channel-list-container").cloneNode(true).innerHTML;
 
         if(window.location.hostname != "fb.zoff.me") Frontpage.share_link_modifier();
 
@@ -439,7 +446,8 @@ var Frontpage = {
         M.Modal.init(document.getElementById("about"));
         M.Modal.init(document.getElementById("help"));
         M.Modal.init(document.getElementById("contact"));
-        $('select').formSelect();
+        var elem = document.querySelector('select');
+        var instance = M.FormSelect.init(elem);
 
         Helper.log([
             "Sending frontpage_lists",
@@ -492,21 +500,21 @@ var Frontpage = {
 
         var pad = 0;
 
-        $(".zicon").on("click", function(e) {
+        /*$(".zicon").on("click", function(e) {
             e.preventDefault();
 
             pad += 10;
-            $(".zicon").css("padding-left", pad + "vh");
+            Helper.css(".zicon", "padding-left", pad + "vh");
             if(pad >= 80)
             window.location.href = 'http://etys.no';
-        });
+        });*/
 
         if(!Helper.mobilecheck() && Frontpage.winter) {
-            $(".mega").prepend('<div id="snow"></div>');
+            document.getElementsByClassName("mega")[0].insertAdjacentHTML("afterbegin", '<div id="snow"></div>');
         }
 
         if(Helper.mobilecheck()){
-            $('input#autocomplete-input').characterCounter();
+            //$('input#autocomplete-input').characterCounter();
         }
 
         window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
@@ -518,10 +526,10 @@ var Frontpage = {
     },
 
     share_link_modifier: function() {
-        $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
-        $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
-        $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
-        $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
+        document.getElementById("facebook-code-link").setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/");
+        document.getElementById("facebook-code-link").setAttribute("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/', 'Share Zoff','width=600,height=300'); return false;");
+        document.getElementById("twitter-code-link").setAttribute("href", "https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic");
+        document.getElementById("twitter-code-link").setAttribute("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/&amp;text=Check%20out%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
         //$("#qr-code-link").attr("href", "//chart.googleapis.com/chart?chs=500x500&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
         //$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/&choe=UTF-8&chld=L%7C1");
     }
