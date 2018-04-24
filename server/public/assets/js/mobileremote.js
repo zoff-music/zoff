@@ -45,13 +45,11 @@ var Mobile_remote = {
             $(".volume-slid-remote").css("width", vol + "%");
             $(".volume-handle-remote").css("left", "calc(" + vol + "% - 1px)");
         document.getElementById("volume-control-remote").addEventListener("touchstart", function(e) {
-			console.log("start");
             e.preventDefault();
             Playercontrols.dragMouseDown(e);
         }, false);
 
         document.getElementById("volume-control-remote").addEventListener("touchmove", function(e) {
-			console.log("move");
             e.preventDefault();
             Playercontrols.elementDrag(e);
         }, false);
