@@ -347,6 +347,8 @@ addListener("click", "#player_overlay", function(e) {
     }
 });
 
+
+
 addListener("click", "#bitcoin-address", function(e) {
     var copyTextarea = document.querySelector('#bitcoin-address');
     copyTextarea.select();
@@ -624,19 +626,19 @@ addListener("click", "#closePlayer", function(e){
 
 
 document.addEventListener("click", function(e) {
-    handleEvent(e, e.target, false);
+    handleEvent(e, e.target, false, "click");
 }, false);
 
 document.addEventListener("input", function(e) {
-    handleEvent(e, e.target, false);
+    handleEvent(e, e.target, false, "input");
 }, true);
 
 document.addEventListener("change", function(e) {
-    handleEvent(e, e.target, false);
+    handleEvent(e, e.target, false, "change");
 }, true);
 
 document.addEventListener("submit", function(e) {
-    handleEvent(e, e.target, false);
+    handleEvent(e, e.target, false, "submit");
 }, true);
 
 addListener("click", ".prev_page", function(e) {
@@ -767,8 +769,8 @@ addListener("click", "#aprilfools", function(){
 
 addListener("change", '#view_channels_select', function(e) {
     var that = this;
+    console.log("test", that.value)
     if(currently_showing_channels != parseInt(that.value)) {
-
         Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.value) == 1 ? true : false));
     }
     currently_showing_channels = parseInt(that.value);

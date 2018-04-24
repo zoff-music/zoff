@@ -84,7 +84,7 @@ var Channel = {
         Channel.spotify_is_authenticated(spotify_authenticated);
 
         result_html 	   	  = document.getElementById("temp-results-container");
-        pagination_buttons_html = "<div>" + document.getElementsByClassName("pagination-results")[0].cloneNode(true).innerHTML + "</div>";
+        pagination_buttons_html = "<div class='pagination-results'>" + document.getElementsByClassName("pagination-results")[0].cloneNode(true).innerHTML + "</div>";
         empty_results_html 	  = Helper.html("#empty-results-container");
         not_import_html       = Helper.html(".not-imported-container");
         not_export_html       = Helper.html(".not-exported-container");
@@ -111,9 +111,9 @@ var Channel = {
             document.getElementsByClassName("offline_switch_class")[0].checked = true;
             change_offline(true, offline);
         }
-        if(!Helper.mobilecheck() && ($("#alreadychannel").length === 0 || !Hostcontroller.old_id || $("#code-text").text().toUpperCase() == "ABBADUR")) setup_host_initialization();
+        if(!Helper.mobilecheck() && (document.querySelectorAll("#alreadychannel").length === 0 || !Hostcontroller.old_id || document.getElementById("code-text").innerText.toUpperCase() == "ABBADUR")) setup_host_initialization();
 
-        if($("#alreadychannel").length === 0 || Helper.mobilecheck()){
+        if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck()){
             setup_youtube_listener();
             get_list_listener();
             setup_suggested_listener();
@@ -217,7 +217,6 @@ var Channel = {
             }
                 Helper.addClass(".close-settings", "hide");
         } else {
-            //$('input#chan_description').characterCounter();
             if(!client) {
                 Channel.window_width_volume_slider();
             }
@@ -251,7 +250,7 @@ var Channel = {
                 color: "#808080",
                 change: function(c) {
                     color = c.toHexString().substring(1); // #ff0000
-                    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
+                    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
                 },
                 appendTo: "#embed",
                 containerClassName: 'polyfill-color z-depth-4',
@@ -262,15 +261,15 @@ var Channel = {
             Helper.addClass(".sp-choose", "hide");
             Helper.addClass(".sp-cancel", "btn-flat waves-effect waves-red");
             Helper.removeClass(".sp-cancel", "sp-cancel");
-            $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
+            document.getElementsByClassName("sp-button-container")[0].insertAdjacentHTML("beforeend", "<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
         }
 
-        $(".sp-choose-link").on("click", function(e) {
-            e.preventDefault();
-            $(".sp-choose").trigger("click");
+        addListener("click", ".sp-choose-link", function(e) {
+            event.preventDefault();
+            document.getElementsByClassName("sp-choose")[0].click();
         });
 
-        $("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
+        //$("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
         document.getElementById("search").focus();
         Helper.css("#embed-button", "display", "inline-block");
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
@@ -314,7 +313,7 @@ var Channel = {
         var acceptable = ["bar", "controls", "duration"];
 
         if(acceptable.indexOf(e.target.getAttribute("id")) >= 0) {
-            var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
+            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
             total = total * e.clientX;
 
             if(!chromecastAvailable){
@@ -335,7 +334,7 @@ var Channel = {
                 per = 100;
                 else if(duration === 0)
                 per = 0;
-                $("#bar").width(per+"%");
+                document.getElementById("bar").style.width = per + "%"
             } else {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "seekTo", seekTo: total});
             }
@@ -343,14 +342,14 @@ var Channel = {
     },
 
     seekToMove: function(e){
-        var pos_x = e.clientX - Math.ceil($("#seekToDuration").width() / 2) - 8;
+        var pos_x = e.clientX - Math.ceil(document.getElementById("seekToDuration").outerWidth / 2) - 8;
         if(pos_x < 0) pos_x = 0;
-        else if(pos_x + $("#seekToDuration").width() > $("#controls").width()) {
-            pos_x = $("#controls").width() - $("#seekToDuration").width();
+        else if(pos_x + document.getElementById("seekToDuration").outerWidth > document.getElementById("controls").outerWidth) {
+            pos_x = document.getElementById("controls").outerWidth - document.getElementById("seekToDuration").outerWidth;
         }
-        $("#seekToDuration").css("left", pos_x);
+        Helper.css("#seekToDuration", "left", pos_x);
         try{
-            var total = full_playlist[full_playlist.length - 1].duration / $("#controls").width();
+            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").outerWidth;
             total = total * e.clientX;
             var _time = Helper.secondsToOther(total);
             var _minutes = Helper.pad(_time[0]);
@@ -359,22 +358,22 @@ var Channel = {
 
             var acceptable = ["bar", "controls", "duration"];
             if(acceptable.indexOf(e.target.getAttribute("id")) >= 0 && dragging) {
-                $("#bar").width(((100 / duration) * total) + "%");
+                document.getElementById("bar").style.width(((100 / duration) * total) + "%");
             }
         } catch(e){}
     },
 
     set_title_width: function(start){
-        if($(window).width() + 8 > 600){
-            var add_width = $(".brand-logo").outerWidth()
+        if(window.innerWidth > 600){
+            var add_width = document.getElementsByClassName("brand-logo")[0].offsetWidth
             if(start){
-                add_width = $(window).width()*0.15;
+                add_width = window.innerWidth * 0.15;
             }
-            var test_against_width = $(window).width() - $(".control-list").width() - add_width - 33;
+            var test_against_width = window.innerWidth - document.getElementsByClassName("control-list")[0].offsetWidth - add_width - 33;
             title_width = test_against_width;
-            $(".title-container").width(title_width);
+            document.getElementsByClassName("title-container")[0].style.width = title_width + "px";
         } else {
-            $(".title-container").width("100%");
+            document.getElementsByClassName("title-container")[0].style.width = "100%";
         }
     },
 
@@ -417,11 +416,10 @@ var Channel = {
     },
 
     share_link_modifier: function(){
-        $("#facebook-code-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase());
-        $("#facebook-code-link").attr("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
-        $("#twitter-code-link").attr("href", "https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic");
-        $("#twitter-code-link").attr("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
-        //$("#qr-code-image-link").attr("src", "//chart.googleapis.com/chart?chs=150x150&cht=qr&chl=https://zoff.me/" + chan.toLowerCase() + "&choe=UTF-8&chld=L%7C1");
+        document.getElementById("facebook-code-link").setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase());
+        document.getElementById("facebook-code-link").setAttribute("onclick", "window.open('https://www.facebook.com/sharer/sharer.php?u=https://zoff.me/" + chan.toLowerCase() + "', 'Share Playlist','width=600,height=300'); return false;");
+        document.getElementById("twitter-code-link").setAttribute("href", "https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic");
+        document.getElementById("twitter-code-link").setAttribute("onclick", "window.open('https://twitter.com/intent/tweet?url=https://zoff.me/" + chan.toLowerCase() + "/&amp;text=Check%20out%20this%20playlist%20" + chan.toLowerCase() + "%20on%20Zoff!&amp;via=zoffmusic','Share Playlist','width=600,height=300'); return false;");
     },
 
     window_width_volume_slider: function() {
@@ -436,26 +434,28 @@ var Channel = {
     },
 
     listeners: function(on) {
+        var scrollListener = function(e) {
+            if(!programscroll) {
+                userscroll = true;
+                if(document.getElementById("chatchannel").scrollTop + document.getElementById("chatchannel").offsetHeight >= document.getElementById("chatchannel").scrollHeight) {
+                    userscroll = false;
+                }
+            }
+        }
+        var scrollAllListener = function(e) {
+            if(!programscroll) {
+                userscroll = true;
+                if(document.getElementById("chatall").scrollTop+ document.getElementById("chatall").offsetHeight >= document.getElementById("chatall").scrollHeight) {
+                    userscroll = false;
+                }
+            }
+        }
         if(on) {
-            $("#chatchannel").scroll(function(e) {
-                if(!programscroll) {
-                    userscroll = true;
-                    if($("#chatchannel").scrollTop() + $("#chatchannel").innerHeight() >= $("#chatchannel")[0].scrollHeight) {
-                        userscroll = false;
-                    }
-                }
-            });
-            $("#chatall").scroll(function(e) {
-                if(!programscroll) {
-                    userscroll = true;
-                    if($("#chatall").scrollTop() + $("#chatall").innerHeight() >= $("#chatall")[0].scrollHeight) {
-                        userscroll = false;
-                    }
-                }
-            })
+            document.getElementById("chatchannel").addEventListener("scroll", scrollListener);
+            document.getElementById("chatall").addEventListener("scroll", scrollListener);
         } else {
-            $("#chatchannel").off("scroll");
-            $("#chatall").off("scroll");
+            document.getElementById("chatchannel").removeEventListener("scroll", scrollListener);
+            document.getElementById("chatall").removeEventListener("scroll", scrollAllListener);
         }
     },
 
@@ -468,7 +468,7 @@ var Channel = {
             Admin.beginning = true;
 
             chan = url_split[3].replace("#", "");
-            $("#chan").html(Helper.upperFirst(chan));
+            document.getElementById("chan").innerHTML = Helper.upperFirst(chan);
             var add = "";
             w_p = true;
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
@@ -482,15 +482,14 @@ var Channel = {
             var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
-            //$.contextMenu( 'destroy', ".playlist-element" );
             user_change_password = false;
             clearTimeout(width_timeout);
             if(fireplace_initiated){
                 fireplace_initiated = false;
                 Player.fireplace.destroy();
-                $("#fireplace_player").css("display", "none");
+                Helper.css("#fireplace_player", "display", "none");
             }
-            $("#channel-load").css("display", "block");
+            Helper.css("#channel-load", "display", "block");
             window.scrollTo(0, 0);
 
             Player.stopInterval = true;
@@ -498,17 +497,16 @@ var Channel = {
             began 				 = false;
             durationBegun  		 = false;
 
-            $("#embed-button").css("display", "none");
+            Helper.css("#embed-button", "display", "none");
             if(!Helper.mobilecheck()) {
                 Helper.tooltip('.castButton', "destroy");
                 Helper.tooltip("#viewers", "destroy");
-                //$('.castButton-unactive').tooltip("destroy");
                 Helper.tooltip("#offline-mode", "destroy");
-                if(M.Tooltip.getInstance($("#chan_thumbnail")) != undefined) {
+                if(M.Tooltip.getInstance(document.getElementById("chan_thumbnail")) != undefined) {
                     Helper.tooltip('#chan_thumbnail', "destroy");
                 }
                 Helper.tooltip('#fullscreen', "destroy");
-                if(M.Tooltip.getInstance($("#admin-lock")) != undefined) {
+                if(M.Tooltip.getInstance(document.getElementById("admin-lock")) != undefined) {
                     Helper.tooltip('#admin-lock', "destroy");
                 }
                 Helper.tooltip(".search-btn-container", "destroy");
@@ -522,11 +520,13 @@ var Channel = {
                 if(!Helper.mobilecheck()) {
                     Helper.tooltip("#chan", "destroy");
                 }
-                if(M.TapTarget.getInstance($(".tap-target"))) {
-                    $('.tap-target').tapTarget('close');
+                var tap_1 = document.querySelectorAll(".tap-target")
+                if(tap_1.length > 0 && M.TapTarget.getInstance(tap_1[0])) {
+                    M.TapTarget.getInstance(tap_1[0]).close();
                 }
-                if(M.TapTarget.getInstance($(".tap-target-join"))) {
-                    $('.tap-target-join').tapTarget('close');
+                var tap_2 = document.querySelectorAll(".tap-target-join")
+                if(tap_2.length > 0 && M.TapTarget.getInstance(tap_2[0])) {
+                    M.TapTarget.getInstance(tap_2[0]).close();
                 }
             }
             clearTimeout(tap_target_timeout);
@@ -574,7 +574,7 @@ var Channel = {
                         song_title = "";
                     }
 
-                    $("meta[name=theme-color]").attr("content", "#2D2D2D");
+                    document.querySelectorAll("meta[name=theme-color]")[0].setAttribute("content", "#2D2D2D");
 
                     if(!Helper.mobilecheck() && !user_auth_avoid){
                         Helper.removeElement("#playbar");
@@ -583,8 +583,8 @@ var Channel = {
                         Helper.addClass("#main-row", "frontpage_modified_heights");
                         Helper.css("#player", "opacity", "1");
                         Helper.removeClass("#video-container", "no-opacity");
-                        $("#main-row").prepend("<div id='player_bottom_overlay' class='player player_bottom'></div>");
-                        $("#player_bottom_overlay").append("<a id='closePlayer' title='Close Player'>X</a>");
+                        document.getElementById("main-row").insertAdjacentHTML("afterbegin", "<div id='player_bottom_overlay' class='player player_bottom'></div>");
+                        document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'>X</a>");
                         Helper.removeElement("#playlist");
                     } else {
                         try{
@@ -594,25 +594,27 @@ var Channel = {
                         document.title = "Zoff";
                     }
 
-                    var response = $("<div>" + e + "</div>");
-
-                    //$(".drag-target").remove();
+                    var response = document.createElement("div");
+                    response.innerHTML = e;
                     Helper.removeElement("#sidenav-overlay");
                     document.getElementsByTagName("main")[0].className = "center-align container";
                     Helper.removeClass("#main-container", "channelpage");
                     document.getElementById("main-container").setAttribute("style", "");
-                    $("header").html($(response.find("header")).html());
-                    $($(response.find(".section.mega"))).insertAfter("header");
-                    $($(response.find(".section.mobile-search"))).insertAfter(".mega");
-                    if(Helper.mobilecheck() || user_auth_avoid) $("main").html($(response.find("main")).html());
-                    else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
+                    document.getElementsByTagName("header")[0].innerHTML = response.querySelectorAll("header")[0].outerHTML;
+
+                    document.getElementsByTagName("header")[0].insertAdjacentHTML("afterend", response.querySelectorAll(".section.mega")[0].outerHTML);
+                    //document.getElementsByTagName("header")[0].insertAdjacentHTML("afterend", response.querySelectorAll(".section.mobile-search")[0].innerHTML);
+                    if(Helper.mobilecheck() || user_auth_avoid) {
+                        document.getElementsByTagName("main")[0].innerHTML = response.querySelectorAll("main")[0].innerHTML;
+                    } else {
+                        document.getElementsByTagName("main")[0].insertAdjacentHTML("beforeend", response.querySelectorAll("#main_section_frontpage")[0].outerHTML);
+                    }
                     Helper.removeClass(".page-footer", "padding-bottom-extra");
                     Helper.removeClass(".page-footer", "padding-bottom-novideo");
                     document.getElementById("favicon").setAttribute("href", "/assets/images/favicon-32x32.png");
 
-                    //$(".context-menu-list").remove();
                     Helper.log(["Socket", socket]);
-                    if($("#alreadyfp").length == 1){
+                    if(document.querySelectorAll("#alreadyfp").length == 1){
                         Frontpage.init();
                     }else {
                         fromChannel = true;
@@ -621,8 +623,8 @@ var Channel = {
                     }
                     changing_to_frontpage = false;
 
-                    if($("#alreadychannel").length === 0 && !user_auth_avoid){
-                        $("head").append("<div id='alreadychannel'></div");
+                    if(document.querySelectorAll("#alreadychannel").length === 0 && !user_auth_avoid){
+                        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<div id='alreadychannel'></div");
                     } else if(user_auth_avoid) {
                         Helper.removeElement("#alreadychannel");
                     }
