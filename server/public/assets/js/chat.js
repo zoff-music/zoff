@@ -97,15 +97,13 @@ var Chat = {
             $("#favicon").attr("href", "/assets/images/highlogo.png");
             unseen = true;
             chat_unseen = true;
-            if($(".chat-link span.badge.new.white").hasClass("hide")){
-                $(".chat-link span.badge.new.white").removeClass("hide");
-            }
+            Helper.removeClass(".chat-link span badge new white", "hide");
             var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
-            $(".chat-link span.badge.new.white").html(to_display);
+            Helper.setHtml(".chat-link span badge new white", to_display);
         }
 
         if(document.hidden)	{
-            $("#favicon").attr("href", "/assets/images/highlogo.png");
+            document.getElementById("favicon").setAttribute("href", "/assets/images/highlogo.png");
         }
 
         if($("#chatall").children().length > 100) {
@@ -146,11 +144,9 @@ var Chat = {
             chat_unseen = true;
             Chat.channel_received += 1;
             //blink_interval = setTimeout(Chat.chat_blink, 1000);
-            if($(".chat-link span.badge.new.white").hasClass("hide")) {
-                $(".chat-link span.badge.new.white").removeClass("hide");
-            }
+            Helper.removeClass(".chat-link span badge new white", "hide");
             var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
-            $(".chat-link span.badge.new.white").html(to_display);
+            Helper.setHtml(".chat-link span badge new white", to_display);
         }
 
         if($("#chatchannel").children().length > 100) {

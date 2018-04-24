@@ -141,9 +141,9 @@ var List = {
             }
             if(transition){
                 setTimeout(function(){
-                    $(added).css("transform", "translateX(0%)");
+                    Helper.css(added, "transform", "translateX(0%)");
                     setTimeout(function() {
-                        $(added).removeClass("side_away");
+                        Helper.removeClass(added, "side_away");
                     }, 300);
                 },5);
             }
@@ -171,7 +171,7 @@ var List = {
             List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / 71);
             List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / List.can_fit)-5;
         }
-        if(list_html === undefined) list_html = $("#list-song-html").html();
+        if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
         if(offline && !no_reset){
             for(var x = 0; x < full_playlist.length; x++){
@@ -197,20 +197,20 @@ var List = {
                 }
             }
             if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
-                $(".prev_page").css("display", "none");
-                $(".first_page").css("display", "none");
-                $(".next_page_hide").css("display","none");
-                $(".last_page_hide").css("display","none");
+                Helper.css(".prev_page", "display", "none");
+                Helper.css(".first_page", "display", "none");
+                Helper.css(".next_page_hide", "display","none");
+                Helper.css(".last_page_hide", "display","none");
             } else if(!$("#pageButtons").length){
-                $(".prev_page").css("display", "none");
-                $(".next_page").css("display", "none");
-                $(".last_page").css("display", "none");
-                $(".first_page").css("display", "none");
-                $(".next_page_hide").css("display","inline-flex");
-                $(".prev_page_hide").css("display","inline-flex");
+                Helper.css(".prev_page", "display", "none");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page", "display", "none");
+                Helper.css(".first_page", "display", "none");
+                Helper.css(".next_page_hide", "display","inline-flex");
+                Helper.css(".prev_page_hide", "display","inline-flex");
             } else {
-                $(".next_page").css("display", "none");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page", "display", "none");
             }
 
             List.dynamicContentPage(-10);
@@ -218,19 +218,19 @@ var List = {
 
         } else {
             List.empty = true;
-            $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
-            $(".prev_page").css("display", "none");
-            $(".next_page").css("display", "none");
-            $(".last_page").css("display", "none");
-            $(".last_page_hide").css("display", "inline-flex");
-            $(".first_page").css("display", "none");
-            $(".next_page_hide").css("display","inline-flex");
-            $(".prev_page_hide").css("display","inline-flex");
+            Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
+            Helper.css(".prev_page","display", "none");
+            Helper.css(".next_page","display", "none");
+            Helper.css(".last_page","display", "none");
+            Helper.css(".last_page_hide","display", "inline-flex");
+            Helper.css(".first_page","display", "none");
+            Helper.css(".next_page_hide", "display","inline-flex");
+            Helper.css(".prev_page_hide","display","inline-flex");
         }
-        $("#settings").css("visibility", "visible");
-        $("#settings").css("opacity", "1");
-        $("#wrapper").css("opacity", "1");
-        $("#pageButtons").removeClass("hide");
+        Helper.css("#settings","visibility", "visible");
+        Helper.css("#settings","opacity", "1");
+        Helper.css("#wrapper","opacity", "1");
+        Helper.removeClass("#pageButtons", "hide");
 
         if(!embed) {
             Helper.log(["Starting empty-checker"]);
@@ -246,18 +246,21 @@ var List = {
     check_error_videos: function(i) {
         //Helper.log("Empty-checker at " + i);
         if(full_playlist.length == 0) return;
-        $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
+        Helper.ajax({
+            method: "get",
+            url: 'https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
                    + "&key=" + api_key + "&part=snippet",
-          function (data, status, xhr) {
-              //Helper.log("Empty-checker items " + data.items.length);
-            if (data.items.length == 0) {
-                Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
-                socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
+            success:  function (data) {
+                data = JSON.parse(data);
+                  //Helper.log("Empty-checker items " + data.items.length);
+                if (data.items.length == 0) {
+                    Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
+                }
+                if(full_playlist.length > i + 1 && window.location.pathname != "/") {
+                    List.check_error_videos(i + 1);
+                }
             }
-            if(full_playlist.length > i + 1 && window.location.pathname != "/") {
-                List.check_error_videos(i + 1);
-            }
-
         })
     },
 
@@ -268,20 +271,20 @@ var List = {
             List.page = page;
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
-                $(".prev_page").css("display", "inline-flex");
-                $(".prev_page_hide").css("display", "none");
-                $(".first_page").css("display", "inline-flex");
-                $(".first_page_hide").css("display", "none");
+                Helper.css(".prev_page", "display", "inline-flex");
+                Helper.css(".prev_page_hide", "display", "none");
+                Helper.css(".first_page", "display", "inline-flex");
+                Helper.css(".first_page_hide", "display", "none");
             }
 
             if(List.page + List.can_fit >= $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-flex");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page_hide", "display", "inline-flex");
+                Helper.css(".last_page", "display", "none");
             }
 
-            $("#pageNumber").html((List.page / List.can_fit) + 1);
+            Helper.setHtml("#pageNumber", (List.page / List.can_fit) + 1);
         }
     },
 
@@ -291,17 +294,17 @@ var List = {
             List.page = List.page + List.can_fit;
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
-                $(".prev_page").css("display", "inline-flex");
-                $(".prev_page_hide").css("display", "none");
-                $(".first_page").css("display", "inline-flex");
-                $(".first_page_hide").css("display", "none");
+                Helper.css(".prev_page", "display", "inline-flex");
+                Helper.css(".prev_page_hide", "display", "none");
+                Helper.css(".first_page", "display", "inline-flex");
+                Helper.css(".first_page_hide", "display", "none");
             }
 
             if(List.page + List.can_fit >= $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-flex");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page_hide", "display", "inline-flex");
+                Helper.css(".last_page", "display", "none");
             }
             //$("#wrapper").scrollTop(0);
         } else if(way == 10) {
@@ -310,61 +313,61 @@ var List = {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
 
             if(List.page > 0 && $(".prev_page").css("display") == "none"){
-                $(".prev_page").css("display", "inline-flex");
-                $(".prev_page_hide").css("display", "none");
-                $(".first_page").css("display", "inline-flex");
-                $(".first_page_hide").css("display", "none");
+                Helper.css(".prev_page", "display", "inline-flex");
+                Helper.css(".prev_page_hide", "display", "none");
+                Helper.css(".first_page", "display", "inline-flex");
+                Helper.css(".first_page_hide", "display", "none");
             }
             if(List.page + List.can_fit >= $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-flex");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page_hide", "display", "inline-flex");
+                Helper.css(".last_page", "display", "none");
             }
         } else if(way==-10) {
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = 0;
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
-                $(".prev_page").css("display", "none");
-                $(".prev_page_hide").css("display", "inline-flex");
-                $(".first_page").css("display", "none");
-                $(".first_page_hide").css("display", "inline-flex");
+                Helper.css(".prev_page", "display", "none");
+                Helper.css(".prev_page_hide", "display", "inline-flex");
+                Helper.css(".first_page", "display", "none");
+                Helper.css(".first_page_hide", "display", "inline-flex");
             } else if($(".prev_page").css("display") == "none"){
-                $(".prev_page_hide").css("display", "inline-flex");
-                $(".first_page_hide").css("display", "inline-flex");
+                Helper.css(".prev_page_hide", "display", "inline-flex");
+                Helper.css(".first_page_hide", "display", "inline-flex");
             } else {
-                $(".prev_page_hide").css("display", "none");
-                $(".first_page_hide").css("display", "none");
+                Helper.css(".prev_page_hide", "display", "none");
+                Helper.css(".first_page_hide", "display", "none");
             }
             if(List.page + List.can_fit < $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "none");
-                $(".next_page").css("display", "inline-flex");
-                $(".last_page_hide").css("display", "none");
-                $(".last_page").css("display", "inline-flex");
+                Helper.css(".next_page_hide", "display", "none");
+                Helper.css(".next_page", "display", "inline-flex");
+                Helper.css(".last_page_hide", "display", "none");
+                Helper.css(".last_page", "display", "inline-flex");
             }
         } else {
             $("#wrapper").children().slice(List.page - List.can_fit, List.page).css("display", "inline-flex");
             $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
             List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
             if(List.page == 0 && $(".prev_page").css("display") != "none"){
-                $(".prev_page").css("display", "none");
-                $(".prev_page_hide").css("display", "inline-flex");
-                $(".first_page").css("display", "none");
-                $(".first_page_hide").css("display", "inline-flex");
+                Helper.css(".prev_page", "display", "none");
+                Helper.css(".prev_page_hide", "display", "inline-flex");
+                Helper.css(".first_page", "display", "none");
+                Helper.css(".first_page_hide", "display", "inline-flex");
             } else if($(".prev_page").css("display") == "none"){
-                $(".prev_page_hide").css("display", "inline-flex");
-                $(".first_page_hide").css("display", "inline-flex");
+                Helper.css(".prev_page_hide", "display", "inline-flex");
+                Helper.css(".first_page_hide", "display", "inline-flex");
             } else {
-                $(".prev_page_hide").css("display", "none");
-                $(".first_page_hide").css("display", "none");
+                Helper.css(".prev_page_hide", "display", "none");
+                Helper.css(".first_page_hide", "display", "none");
             }
 
             if(List.page + List.can_fit < $("#wrapper").children().length){
-                $(".next_page_hide").css("display", "none");
-                $(".next_page").css("display", "inline-flex");
-                $(".last_page_hide").css("display", "none");
-                $(".last_page").css("display", "inline-flex");
+                Helper.css(".next_page_hide", "display", "none");
+                Helper.css(".next_page", "display", "inline-flex");
+                Helper.css(".last_page_hide", "display", "none");
+                Helper.css(".last_page", "display", "inline-flex");
             }
 
         }
@@ -388,14 +391,14 @@ var List = {
                 if(number_suggested < 0) number_suggested = 0;
 
                 var to_display = number_suggested > 9 ? "9+" : number_suggested;
-                if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-                    $(".suggested-link span.badge.new.white").addClass("hide");
+                if(to_display == 0){
+                    Helper.addClass(".suggested-link span badge new white", "hide");
                 }
 
                 $(".suggested-link span.badge.new.white").text(to_display);
             }
 
-            $("#suggested-"+added.id).remove();
+            Helper.removeElement("#suggested-"+added.id);
             if(List.empty){
                 List.empty = false;
             }
@@ -403,14 +406,14 @@ var List = {
             List.insertAtIndex(added, true);
             $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
             if($("#wrapper").children().length > List.page + List.can_fit){
-                $(".next_page_hide").css("display", "none");
-                $(".next_page").removeClass("hide");
-                $(".last_page_hide").css("display", "none");
-                $(".next_page").css("display", "inline-flex");
-                $(".last_page").css("display", "inline-flex");
+                Helper.css(".next_page_hide", "display", "none");
+                Helper.removeClass(".next_page", "hide");
+                Helper.css(".last_page_hide", "display", "none");
+                Helper.css(".next_page", "display", "inline-flex");
+                Helper.css(".last_page", "display", "inline-flex");
             } else {
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
             }
         }
     },
@@ -433,27 +436,27 @@ var List = {
 
             if(List.page >= $("#wrapper").children().length - 1){
                 List.dynamicContentPage(-1);
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-flex");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page_hide", "display", "inline-flex");
+                Helper.css(".last_page", "display", "none");
             } else if(List.page + List.can_fit + 1 >= $("#wrapper").children().length - 1){
-                $(".next_page_hide").css("display", "inline-flex");
-                $(".next_page").css("display", "none");
-                $(".last_page_hide").css("display", "inline-flex");
-                $(".last_page").css("display", "none");
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+                Helper.css(".last_page_hide", "display", "inline-flex");
+                Helper.css(".last_page", "display", "none");
             }
 
             if(List.page <= index && List.page - List.can_fit <= index) {
-                $("#" + deleted).addClass("side_away");
+                Helper.addClass("#" + deleted, "side_away");
                 $("#" + deleted).find(".mobile-delete").remove();
-                $("#" + deleted).css("transform", "translateX(-100%)");
+                Helper.css("#" + deleted, "transform", "translateX(-100%)");
                 setTimeout(function() {
-                    $("#" + deleted).remove();
+                    Helper.removeElement("#" + deleted);
 
                 }, 300);
             } else {
-                $("#"+deleted).remove();
+                Helper.removeElement("#"+deleted);
             }
             //$("#"+deleted).remove();
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
@@ -474,9 +477,9 @@ var List = {
         }
         if(full_playlist.length < 2){
             List.empty = true;
-            $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
+            Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
         }
-        $("#suggested-"+deleted).remove();
+        Helper.removeElement("#suggested-"+deleted);
         if(List.page + List.can_fit < $("#wrapper").children().length + 1){
             //$(".next_page_hide").css("display", "none");
             //$(".next_page").css("display", "flex");
@@ -495,7 +498,7 @@ var List = {
         full_playlist[index_of_song].added = time;
 
         List.sortList();
-        $("#"+voted).remove();
+        Helper.removeElement("#"+voted);
         List.insertAtIndex(song_voted_on, false);
     },
 
@@ -524,7 +527,7 @@ var List = {
             $("#wrapper").children()[0].remove();
             if(full_playlist.length <= 1) {
                 List.empty = true;
-                $("#wrapper").html("<span id='empty-channel-message'>The playlist is empty.</span>");
+                Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
             }
 
             full_playlist[0].now_playing        = true;
@@ -603,8 +606,8 @@ var List = {
             success: function(response){
                 response = JSON.parse(response);
                 var user_id = response.id;
-                $("#playlist_loader_export").removeClass("hide");
-                $(".exported-list-container").removeClass("hide");
+                Helper.removeClass("#playlist_loader_export", "hide");
+                Helper.removeClass(".exported-list-container", "hide");
                 Helper.ajax({
                     type: "POST",
                     url: "https://api.spotify.com/v1/users/" + user_id + "/playlists",
@@ -657,7 +660,7 @@ var List = {
         track = Helper.replaceForFind(track);
         track = encodeURIComponent(track);
 
-        $(".current_number").removeClass("hide");
+        Helper.removeClass(".current_number", "hide");
         $(".current_number").text((current_element + 1) + " of " + (full_playlist.length));
         Helper.ajax({
             type: "GET",
@@ -745,10 +748,10 @@ var List = {
                             List.uris = List.uris.slice(100, List.uris.length);
                         }
                         List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
-                        $("#playlist_loader_export").addClass("hide");
+                        Helper.addClass("#playlist_loader_export", "hide");
                     } else {
                         List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
-                        $("#playlist_loader_export").addClass("hide");
+                        Helper.addClass("#playlist_loader_export", "hide");
                     }
                     if($(".exported-spotify-list").length == 0) {
                         $(".exported-list").append("<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
@@ -761,9 +764,9 @@ var List = {
                         not_added_song.find(".extra-add-text").attr("title", data);
                         $(".not-exported-container").append(not_added_song.html());
                     }
-                    $(".current_number").addClass("hide");
-                    $(".not-exported").removeClass("hide");
-                    $(".spotify_export_button").css("display", "block");
+                    Helper.addClass(".current_number", "hide");
+                    Helper.removeClass(".not-exported", "hide");
+                    Helper.css(".spotify_export_button", "display", "block");
                 } else {
                     List.searchSpotify(full_playlist[current_element + 1], playlist_id, user_id, full_playlist, current_element + 1);
                 }
@@ -800,8 +803,8 @@ var List = {
         ga('send', 'event', "export", "youtube");
 
         var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
-        $(".exported-list-container").removeClass("hide");
-        $("#playlist_loader_export").removeClass("hide");
+        Helper.removeClass(".exported-list-container", "hide");
+        Helper.removeClass("#playlist_loader_export", "hide");
         Helper.ajax({
             type: "POST",
             url: request_url,
@@ -857,12 +860,12 @@ var List = {
                     Helper.log(["All videoes added!"]);
                     Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
                     $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                    $("#playlist_loader_export").addClass("hide");
-                    $(".current_number").addClass("hide");
+                    Helper.addClass("#playlist_loader_export", "hide");
+                    Helper.addClass(".current_number", "hide");
                     //$(".youtube_export_button").removeClass("hide");
                 } else {
                     //setTimeout(function(){
-                    $(".current_number").removeClass("hide");
+                    Helper.removeClass(".current_number", "hide");
                     $(".current_number").text((num + 1) + " of " + (full_playlist.length));
                     List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url)
                     //}, 50);
@@ -896,7 +899,7 @@ var List = {
     },
 
     generateSong: function(_song_info, transition, lazy, list, user, display, initial) {
-        if(list_html === undefined) list_html = $("#list-song-html").html();
+        if(list_html === undefined) list_html = Helper.html("#list-song-html");
         var video_id    = _song_info.id;
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;

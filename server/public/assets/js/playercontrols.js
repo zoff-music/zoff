@@ -37,17 +37,13 @@ var Playercontrols = {
         $("#volume").append("<div class='volume-slid " + slider_type + "'></div>");
         $("#volume").append("<div class='volume-handle " + slider_type + "'></div>");
         if(slider_type != "vertical") {
-            if($("#volume").hasClass("vertical")) {
-                $("#volume").removeClass("vertical");
-            }
-            $(".volume-slid").css("width", vol + "%");
-            $(".volume-handle").css("left", "calc(" + vol + "% - 1px)");
+            Helper.removeClass("#volume", "vertical");
+            Helper.css(".volume-slid", "width", vol + "%");
+            Helper.css(".volume-handle", "left", "calc(" + vol + "% - 1px)");
         } else {
-            if(!$("#volume").hasClass("vertical")) {
-                $("#volume").addClass("vertical");
-            }
-            $(".volume-slid").css("height", vol + "%");
-            $(".volume-handle").css("bottom", "calc(" + vol + "% - 1px)");
+            Helper.addClass("#volume", "vertical");
+            Helper.css(".volume-slid", "height", vol + "%");
+            Helper.css(".volume-handle", "bottom", "calc(" + vol + "% - 1px)");
 
         }
         Playercontrols.choose_button(vol, false);

@@ -71,21 +71,19 @@ function hide_native(way) {
             Playercontrols.visualVolume(100);
         }
         if(Helper.mobilecheck()) {
-            if(!$("#player_overlay").hasClass("hide")) {
-                $("#player_overlay").addClass("hide")
-            }
-            $("#player_overlay").css("display", "none");
-            $("#playing_on").css("display", "none");
+            Helper.addClass("#player_overlay", "hide")
+            Helper.css("#player_overlay", "display", "none");
+            Helper.css("#playing_on", "display", "none");
         } else {
-            $("#player_overlay").removeClass("hide");
-            $("#player_overlay").css("display", "block");
-            $("#player_overlay").css("background", "url(https://img.ytimg.com/vi/" + video_id + "/hqdefault.jpg)");
-            $("#player_overlay").css("background-position", "center");
-            $("#player_overlay").css("background-size", "100%");
-            $("#player_overlay").css("background-color", "black");
-            $("#player_overlay").css("background-repeat", "no-repeat");
-            $("#playing_on").css("display", "flex");
-            $("#chromecast_text").html("Playing on<br>" + castSession.La.friendlyName);
+            Helper.removeClass("#player_overlay", "hide");
+            Helper.css("#player_overlay", "display", "block");
+            Helper.css("#player_overlay", "background", "url(https://img.ytimg.com/vi/" + video_id + "/hqdefault.jpg)");
+            Helper.css("#player_overlay", "background-position", "center");
+            Helper.css("#player_overlay", "background-size", "100%");
+            Helper.css("#player_overlay", "background-color", "black");
+            Helper.css("#player_overlay", "background-repeat", "no-repeat");
+            Helper.css("#playing_on", "display", "flex");
+            Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.La.friendlyName);
         }
         Player.player.setVolume(100);
 
@@ -101,7 +99,7 @@ function hide_native(way) {
                 html: "Cast Zoff to TV"
             });
         }
-        $('.castButton').removeClass('castButton-white-active');
+        Helper.removeClass('.castButton', 'castButton-white-active');
 
         $("#duration").toggleClass("hide");
         $("#fullscreen").toggleClass("hide");
@@ -113,10 +111,10 @@ function hide_native(way) {
             Player.player.setVolume(Crypt.get_volume());
             Playercontrols.visualVolume(Crypt.get_volume());
         }
-        $("#player_overlay").addClass("hide");
+        Helper.addClass("#player_overlay", "hide");
         $("#player_overlay_text").toggleClass("hide");
-        $("#chromecast_text").html("");
-        $("#playing_on").css("display", "none");
+        Helper.setHtml("#chromecast_text", "");
+        Helper.css("#playing_on", "display", "none");
         if(!offline){
             socket.emit('pos', {channel: chan.toLowerCase()});
         } else {
@@ -143,16 +141,12 @@ function chromecastListener(evt, data) {
             }
             break;
         case 1:
-            if(!$("#play").hasClass("hide")) {
-                $("#play").addClass("hide");
-            }
-            $("#pause").removeClass("hide");
+            Helper.addClass("#play", "hide");
+            Helper.removeClass("#pause", "hide");
             break;
         case 2:
-            if(!$("#pause").hasClass("hide")) {
-                $("#pause").addClass("hide");
-            }
-            $("#play").removeClass("hide");
+            Helper.addClass("#pause", "hide");
+            Helper.removeClass("#play", "hide");
             break;
     }
 }
@@ -160,8 +154,8 @@ function chromecastListener(evt, data) {
 function start_auth() {
     if(!user_auth_started) {
         user_auth_started = true;
-        $("#player_overlay").removeClass("hide");
-        $("#player_overlay").css("display", "block");
+        Helper.removeClass("#player_overlay", "hide");
+        Helper.css("#player_overlay", "display", "block");
         $("#user_password").modal("open");
         $("#user-pass-input").focus();
         //Crypt.remove_userpass(chan.toLowerCase());
@@ -226,9 +220,9 @@ function contextListener(that, e) {
     var parent = $(that).parent();
     var suggested = false;
     if(parent.attr("id").indexOf("suggested-") > -1) suggested = true;
-    $(".context-menu-root").attr("data-suggested", suggested);
-    $(".context-menu-root").attr("data-id", parent.attr("id").replace("suggested-", ""));
-    $("#context-menu-overlay").removeClass("hide");
+    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-suggested", suggested);
+    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", parent.attr("id").replace("suggested-", ""));
+    Helper.removeClass("#context-menu-overlay", "hide");
     var left = e.pageX - $(".context-menu-root").width() / 2;
     var top = e.pageY;
     if(left + 200 > $(window).width()) {
@@ -241,8 +235,9 @@ function contextListener(that, e) {
     } else if(top < 0) {
         top = 15;
     }
-    $(".context-menu-root").css({left: left,top:top});
-    $(".context-menu-root").removeClass("hide");
+    Helper.css(".context-menu-root", "left", left);
+    Helper.css(".context-menu-root", "top", top);
+    Helper.removeClass(".context-menu-root","hide");
     if(!Helper.mobilecheck()) {
         mouseContext(left, top);
     }
@@ -253,8 +248,8 @@ function mouseContext(left, top) {
     $(document).mousemove(function( event ) {
        if(event.pageX < left - 60 || event.pageX > left + $(".context-menu-root").width() + 60 ||
           event.pageY < top - 60 || event.pageY > top + $(".context-menu-root").height() + 60) {
-           $(".context-menu-root").addClass("hide");
-           $("#context-menu-overlay").addClass("hide");
+           Helper.addClass(".context-menu-root", "hide");
+           Helper.addClass("#context-menu-overlay", "hide");
            $(document).off("mousemove");
        }
     });
@@ -540,12 +535,12 @@ function change_offline(enabled, already_offline){
             list_html = list_html.html();
         }
         //$(".list-remove").removeClass("hide");
-        $("#viewers").addClass("hide");
-        $(".margin-playbar").removeClass("margin-playbar");
-        $(".prev.playbar").addClass("margin-playbar");
-        $(".prev.playbar").removeClass("hide");
-        $("#offline-mode").removeClass("waves-cyan");
-        $("#offline-mode").addClass("cyan");
+        Helper.addClass("#viewers", "hide");
+        Helper.removeClass(".margin-playbar", "margin-playbar");
+        Helper.addClass(".prev.playbar", "margin-playbar");
+        Helper.removeClass(".prev.playbar", "hide");
+        Helper.removeClass("#offline-mode", "waves-cyan");
+        Helper.addClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
             $("#offline-mode").tooltip({
                 delay: 5,
@@ -557,16 +552,12 @@ function change_offline(enabled, already_offline){
         if(window.location.pathname != "/"){
             socket.removeEventListener("color");
             $("#controls").on("mouseenter", function(e){
-                if($("#seekToDuration").hasClass("hide")){
-                    $("#seekToDuration").removeClass("hide");
-                }
+                Helper.removeClass("#seekToDuration", "hide");
             });
 
             $("#controls").on("mouseleave", function(e){
                 dragging = false;
-                if(!$("#seekToDuration").hasClass("hide")){
-                    $("#seekToDuration").addClass("hide");
-                }
+                Helper.addClass("#seekToDuration", "hide");
             });
 
             $("#controls").on("mousedown", function(e) {
@@ -583,7 +574,7 @@ function change_offline(enabled, already_offline){
             $("#main_components").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
             if(!Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
             else if(Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 20);
-            if(!$("#controls").hasClass("ewresize")) $("#controls").addClass("ewresize");
+            Helper.addClass("#controls", "ewresize");
         } else {
             $("#controls").off("mouseenter");
             $("#controls").off("mouseleave");
@@ -602,12 +593,12 @@ function change_offline(enabled, already_offline){
             list_html = $("<div>" + list_html + "</div>");
             list_html = list_html.html();
         }
-        $(".margin-playbar").removeClass("margin-playbar");
-        $("#playpause").addClass("margin-playbar");
-        $("#viewers").removeClass("hide");
-        $(".prev.playbar").addClass("hide");
-        $("#offline-mode").addClass("waves-cyan");
-        $("#offline-mode").removeClass("cyan");
+        Helper.removeClass(".margin-playbar", "margin-playbar");
+        Helper.addClass("#playpause", "margin-playbar");
+        Helper.removeClass("#viewers", "hide");
+        Helper.addClass(".prev.playbar", "hide");
+        Helper.addClass("#offline-mode", "waves-cyan");
+        Helper.removeClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
             $("#offline-mode").tooltip({
                 delay: 5,
@@ -629,7 +620,7 @@ function change_offline(enabled, already_offline){
             var add = "";
             if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
-            if($("#controls").hasClass("ewresize")) $("#controls").removeClass("ewresize");
+            Helper.removeClass("#controls", "ewresize");
         }
     }
 }
@@ -679,8 +670,8 @@ function toast(msg) {
             }
             msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
             document.getElementById("import").disabled = false;
-            $("#playlist_loader").addClass("hide");
-            $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "savedsettings":
             if(embed) return;
@@ -691,8 +682,8 @@ function toast(msg) {
             msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
                 $('#chan_thumbnail').tooltip("destroy");
             }
@@ -740,20 +731,16 @@ function toast(msg) {
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
                 $('#chan_thumbnail').tooltip("destroy");
             }
             w_p = true;
-            if(!$("#playlist_loader").hasClass("hide")) {
-                $("#playlist_loader").addClass("hide");
-            }
-            if(!$("#playlist_loader_spotify").hasClass("hide")) {
-                $("#playlist_loader_spotify").addClass("hide");
-            }
-            $("#import_spotify").removeClass("hide");
-                    $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.addClass("#playlist_loader_spotify", "hide");
+            Helper.removeClass("#import_spotify", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "noskip":
             if(embed) return;
@@ -785,8 +772,8 @@ function toast(msg) {
             tried_again = false;
             adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
             msg="Correct password. You now have access to the sacred realm of The Admin.";
-            $("#thumbnail_form").css("display", "inline-block");
-            $("#description_form").css("display", "inline-block");
+            Helper.css("#thumbnail_form", "display", "inline-block");
+            Helper.css("#description_form", "display", "inline-block");
             break;
         case "changedpass":
             if(embed) return;

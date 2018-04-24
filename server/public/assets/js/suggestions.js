@@ -12,8 +12,8 @@ var Suggestions = {
             }
         }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
-        if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0 && Admin.logged_in){
-            $(".suggested-link span.badge.new.white").removeClass("hide");
+        if(number_suggested > 0 && Admin.logged_in){
+            Helper.removeClass(".suggested-link span badge new white", "hide");
         }
         $(".suggested-link span.badge.new.white").text(to_display);
         if(single){
@@ -81,9 +81,9 @@ var Suggestions = {
         var length = $("#user-suggest-html").children().length;
         if(length === 0){
             if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
-            $("#user_suggests").addClass("hide");
+            Helper.addClass("#user_suggests", "hide");
         } else if(Admin.logged_in){
-            $("#user_suggests").removeClass("hide");
+            Helper.removeClass("#user_suggests", "hide");
         }
     },
 };

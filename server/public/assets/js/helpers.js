@@ -33,6 +33,19 @@ var Helper = {
         }
     },
 
+    html: function(element) {
+        try {
+            if(element.substring(0,1) == "#") {
+                return document.getElementById(element.substring(1)).innerHTML;
+            } else {
+                var elements = documents.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    return elements[i].innerHTML;
+                }
+            }
+        } catch(e){}
+    },
+
     removeClass: function(element, className) {
         try {
             if(element.substring(0,1) == "#") {
@@ -48,6 +61,40 @@ var Helper = {
         }
     },
 
+    removeElement: function(element) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            elem.remove();
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                elements = documents.getElementsByClassName(element.substring(1));
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                elements[i].remove();
+            }
+        }
+    },
+
+    setHtml: function(element, html) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            elem.innerHTML = html;
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                elements = documents.getElementsByClassName(element.substring(1));
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                elements[i].innerHTML = html;
+            }
+        }
+    },
+
     addClass: function(element, className) {
         if(element.substring(0,1) == "#") {
             var elem = document.getElementById(element.substring(1));
@@ -55,7 +102,12 @@ var Helper = {
                 elem.className += " " + className;
             }
         } else {
-            var elements = documents.getElementsByClassName(element.substring(1));
+            var elements;
+            if(element.substring(0,1) == ".") {
+                elements = documents.getElementsByClassName(element.substring(1));
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
             for(var i = 0; i < elements.length; i++) {
                 if(elements[i].className.indexOf(className) == -1) {
                     elements[i].className += " " + className;
@@ -340,10 +392,10 @@ var Helper = {
     send_mail: function(from, message){
         if(from !== "" && message !== ""){
 
-            $("#submit-contact-form").addClass("hide");
-            $("#send-loader").removeClass("hide");
-            $("#contact-form-from").attr("disabled", "true");
-            $("#contact-form-message").attr("disabled", "true");
+            Helper.addClass("#submit-contact-form", "hide");
+            Helper.removeClass("#send-loader", "hide");
+            document.getElementById("contact-form-from").setAttribute("disabled", true);
+            document.getElementById("contact-form-message").setAttribute("disabled", true);
             var captcha_response = grecaptcha.getResponse();
             Helper.ajax({
                 type: "POST",
@@ -356,10 +408,10 @@ var Helper = {
                 success: function(data){
                     if(data == "success"){
                         $("#contact-container").empty();
-                        $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
+                        Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
                     }else{
                         $("#contact-container").empty();
-                        $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
+                        Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
                     }
                 }
             });

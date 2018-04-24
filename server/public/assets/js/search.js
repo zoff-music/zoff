@@ -34,10 +34,10 @@ var Search = {
     search: function(search_input, retried, related, pagination){
         if(result_html === undefined || empty_results_html === undefined) {
             result_html = $("#temp-results-container");
-            empty_results_html = $("#empty-results-container").html();
+            empty_results_html = Helper.html("#empty-results-container");
         }
         if(!pagination && $("#inner-results").length == 0) {
-            $(".search_results").html('');
+            Helper.setHtml(".search_results", '');
         }
         if(search_input !== ""){
             searching = true;
@@ -52,11 +52,9 @@ var Search = {
                 var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
             }
 
-            if(!Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
-            $(".search_loader_spinner").addClass("active");
 
-            if(Helper.contains($("#results").attr("class").split(" "), "hide"))
-            $("#results").removeClass("hide");
+            Helper.addClass(".search_loader_spinner", "active");
+            Helper.removeClass("#results", "hide");
 
             Helper.ajax({
                 type: "GET",
@@ -68,10 +66,10 @@ var Search = {
                     var prevPageToken = response.prevPageToken;
                     if(response.items.length === 0) {
                         $("#results").empty();
-                        $("#results").css("display", "block");
+                        Helper.css("#results", "display", "block");
                         $("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                         if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
-                        $(".search_loader_spinner").removeClass("active");
+                        Helper.removeClass(".search_loader_spinner", "active");
 
                     } else if(response.items){
                         for(var i = 0; i < response.items.length; i++) {
@@ -143,12 +141,12 @@ var Search = {
                                     if(nextPageToken) {
                                         $(".next-results-button").attr("data-pagination", nextPageToken);
                                     } else {
-                                        $(".next-results-button").addClass("disabled");
+                                        Helper.addClass(".next-results-button", "disabled");
                                     }
                                     if(prevPageToken) {
                                         $(".prev-results-button").attr("data-pagination", prevPageToken);
                                     } else {
-                                        $(".prev-results-button").addClass("disabled");
+                                        Helper.addClass(".prev-results-button", "disabled");
                                     }
 
                                     $(".pagination-results a").attr("data-original-search", search_input);
@@ -156,7 +154,7 @@ var Search = {
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
                                     if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
-                                    $(".search_loader_spinner").removeClass("active");
+                                    Helper.removeClass(".search_loader_spinner", "active");
 
                                     $(".add-many").click(function(e) {
                                         e.preventDefault();
@@ -168,7 +166,7 @@ var Search = {
                                 } else {
                                     $("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                                     if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
-                                    $(".search_loader_spinner").removeClass("active");
+                                    Helper.removeClass(".search_loader_spinner", "active");
                                 }
                             }
                         });
@@ -176,9 +174,9 @@ var Search = {
                 }
             });
         } else {
-            $(".main").removeClass("blurT");
-            $("#controls").removeClass("blurT");
-            $(".main").removeClass("clickthrough");
+            Helper.removeClass(".main", "blurT");
+            Helper.removeClass("#controls", "blurT");
+            Helper.removeClass(".main", "clickthrough");
         }
     },
 
@@ -209,7 +207,7 @@ var Search = {
                     not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
                     not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
                     $(".not-imported-container").append(not_added_song.html());
-                    $(".not-imported").removeClass("hide");
+                    Helper.removeClass(".not-imported", "hide");
                 } else if(response.items.length > 0) {
                     for(var i = 0; i < response.items; i++) {
                         var data = response.items[i];
@@ -271,7 +269,7 @@ var Search = {
                                     not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
                                     not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
                                     $(".not-imported-container").append(not_added_song.html());
-                                    $(".not-imported").removeClass("hide");
+                                    Helper.removeClass(".not-imported", "hide");
                                 }
                             }
                         }
@@ -297,8 +295,8 @@ var Search = {
                 Search.submit(data.id, data.title, data.duration, true, i, Search.submitArray.length - 1, 0, data.duration);
             });*/
             document.getElementById("import_spotify").disabled = false;
-            $("#import_spotify").removeClass("hide");
-            $("#playlist_loader_spotify").addClass("hide");
+            Helper.removeClass("#import_spotify", "hide");
+            Helper.addClass("#playlist_loader_spotify", "hide");
             Search.submitArray = [];
             Search.submitArrayExpected = null;
         }
@@ -306,14 +304,14 @@ var Search = {
 
     submitAndClose: function(id,title,duration, start, end){
         Search.submit(id,title, duration, false, 0, 1, start, end);
-        $("#results").html('');
+        Helper.setHtml("#results", '');
         Search.showSearch();
         document.getElementById("search").value = "";
-        $("body").attr("style", "overflow-y:auto")
-        $("#results").html = "";
-        $(".main").removeClass("blurT");
-        $("#controls").removeClass("blurT");
-        $(".main").removeClass("clickthrough");
+        document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
+        Helper.setHtml("#results","");
+        Helper.removeClass(".main", "blurT");
+        Helper.removeClass("#controls", "blurT");
+        Helper.removeClass(".main", "clickthrough");
     },
 
     importPlaylist: function(pId,pageToken){
@@ -367,8 +365,8 @@ var Search = {
                             response.error
                         ]);
                         document.getElementById("import").disabled = false;
-                        $("#playlist_loader").addClass("hide");
-                        $("#import").removeClass("hide");
+                        Helper.addClass("#playlist_loader", "hide");
+                        Helper.removeClass("#import", "hide");
                         before_toast();
                         M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
                     }
@@ -376,7 +374,7 @@ var Search = {
                 }  else {
                     var ids="";
                     var this_length = 0;
-                    if(typeof(response) == "string") response = $.parseJSON(response);
+                    if(typeof(response) == "string") response = JSON.parse(response);
                     //Search.addVideos(response.items[0].contentDetails.videoId);
                     //response.items.shift();
                     for(var i = 0; i < response.items.length; i++) {
@@ -421,8 +419,8 @@ var Search = {
             },
             error: function() {
                 document.getElementById("import_spotify").disabled = false;
-                $("#import_spotify").removeClass("hide");
-                $("#playlist_loader_spotify").addClass("hide");
+                Helper.removeClass("#import_spotify", "hide");
+                Helper.addClass("#playlist_loader_spotify", "hide");
                 before_toast();
                 M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
             }

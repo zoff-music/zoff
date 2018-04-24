@@ -1,9 +1,9 @@
 var Channel = {
     init: function() {
         if(client) {
-            $(".tabs").addClass("hide");
-            $("#wrapper").removeClass("tabs_height");
-            $("#wrapper").addClass("client-wrapper");
+            Helper.addClass(".tabs", "hide");
+            Helper.removeClass("#wrapper", "tabs_height");
+            Helper.addClass("#wrapper", "client-wrapper");
             //$(".embed-button-footer").addClass("hide");
             //$(".skip_next_client").removeClass("hide");
             if(!Helper.mobilecheck()) {
@@ -13,16 +13,16 @@ var Channel = {
                     html: "Skip"
                 });
             }
-            $("#chan").addClass("chan-client");
-            $("#results").addClass("client-results-height");
-            $(".pagination-results").addClass("client-pagination-height");
-            $(".control-list").addClass("client-control-list");
+            Helper.addClass("#chan", "chan-client");
+            Helper.addClass("#results", "client-results-height");
+            Helper.addClass(".pagination-results", "client-pagination-height");
+            Helper.addClass(".control-list", "client-control-list");
         }
         if(!Admin.logged_in) Admin.display_logged_out();
         number_suggested = 0;
         var no_socket = true;
 
-        chan = $("#chan").html();
+        chan = Helper.html("#chan");
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
 
@@ -35,7 +35,7 @@ var Channel = {
         };
 
         if(window.location.hostname == "fb.zoff.me") {
-            $("footer").addClass("hide");
+            Helper.addClass("footer", "hide");
         }
 
         if(window.location.hostname != "fb.zoff.me") Channel.share_link_modifier();
@@ -55,9 +55,7 @@ var Channel = {
             closeOnClick: false,
             draggable: false,
             onOpenStart: function(el) {
-                if(!$(".hamburger-sidenav").hasClass("open")) {
-                    $(".hamburger-sidenav").addClass("open");
-                }
+                Helper.addClass(".hamburger-sidenav", "open");
                 $('*[id*=sidenav-overlay]:visible').each(function(i) {
                     if(i > 0) {
                         this.remove();
@@ -65,7 +63,7 @@ var Channel = {
                 });
             },
             onCloseStart: function(el) {
-                $(".hamburger-sidenav").removeClass("open");
+                Helper.removeClass(".hamburger-sidenav", "open");
                 $('*[id*=sidenav-overlay]:visible').each(function(i) {
                     if(i > 0) {
                         this.remove();
@@ -80,10 +78,10 @@ var Channel = {
             $("#embed").modal();
         } else {
             //$("#help").remove();
-            $("#embed").remove();
+            Helper.removeElement("#embed");
             //$(".help-button-footer").remove();
-            $(".embed-button-footer").remove();
-            $(".tabs").remove();
+            Helper.removeElement(".embed-button-footer");
+            Helper.removeElement(".tabs");
         }
         $("#help").modal();
         $("#contact").modal();
@@ -99,9 +97,9 @@ var Channel = {
 
         result_html 	   	  = $("#temp-results-container");
         pagination_buttons_html = $("<div>").append($(".pagination-results").clone()).html();
-        empty_results_html 	  = $("#empty-results-container").html();
-        not_import_html       = $(".not-imported-container").html();
-        not_export_html       = $(".not-exported-container").html();
+        empty_results_html 	  = Helper.html("#empty-results-container");
+        not_import_html       = Helper.html(".not-imported-container");
+        not_export_html       = Helper.html(".not-exported-container");
         $(".not-imported-container").empty();
         $(".not-exported-container").empty();
 
@@ -122,7 +120,7 @@ var Channel = {
         setup_auth_listener();
 
         if(Crypt.get_offline()){
-            $(".offline_switch_class")[0].checked = true;
+            document.getElementsByClassName("offline_switch_class")[0].checked = true;
             change_offline(true, offline);
         }
         if(!Helper.mobilecheck() && ($("#alreadychannel").length === 0 || !Hostcontroller.old_id || $("#code-text").text().toUpperCase() == "ABBADUR")) setup_host_initialization();
@@ -144,7 +142,7 @@ var Channel = {
                 if(player_ready) {
                     Player.player.setVolume(Crypt.get_volume());
                 }
-                $(".video-container").removeClass("no-opacity");
+                Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;
                 $("#code-text").text(id);
                 $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
@@ -275,7 +273,7 @@ var Channel = {
 
             $(".sp-choose").addClass("hide");
             $(".sp-cancel").addClass("btn-flat waves-effect waves-red");
-            $(".sp-cancel").removeClass("sp-cancel");
+            Helper.removeClass(".sp-cancel", "sp-cancel");
             $(".sp-button-container").append("<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
         }
 
@@ -284,7 +282,7 @@ var Channel = {
             $(".sp-choose").trigger("click");
         });
 
-        $("#results" ).hover( function() { $("div.result").removeClass("hoverResults"); i = 0; }, function(){ });
+        $("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
         $("#search").focus();
         $("#embed-button").css("display", "inline-block");
         $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color));
@@ -445,7 +443,7 @@ var Channel = {
         } else if(window.innerWidth > 600 && slider_type == "vertical") {
             slider_type = "horizontal";
             Playercontrols.initSlider();
-            $(".volume-container").removeClass("hide");
+            Helper.removeClass(".volume-container", "hide");
         }
     },
 
@@ -595,7 +593,7 @@ var Channel = {
                         $("#player").addClass("player_bottom");
                         $("#main-row").addClass("frontpage_modified_heights");
                         $("#player").css("opacity", "1");
-                        $("#video-container").removeClass("no-opacity");
+                        Helper.removeClass("#video-container", "no-opacity");
                         $("#main-row").prepend("<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         $("#player_bottom_overlay").append("<a id='closePlayer' title='Close Player'>X</a>");
                         $("#playlist").remove();
@@ -612,15 +610,15 @@ var Channel = {
                     //$(".drag-target").remove();
                     $("#sidenav-overlay").remove();
                     $("main").attr("class", "center-align container");
-                    $("#main-container").removeClass("channelpage");
+                    Helper.removeClass("#main-container", "channelpage");
                     $("#main-container").attr("style", "");
                     $("header").html($(response.find("header")).html());
                     $($(response.find(".section.mega"))).insertAfter("header");
                     $($(response.find(".section.mobile-search"))).insertAfter(".mega");
                     if(Helper.mobilecheck() || user_auth_avoid) $("main").html($(response.find("main")).html());
                     else $("main").append($(response.find("#main_section_frontpage")).wrap("<div>").parent().html());
-                    $(".page-footer").removeClass("padding-bottom-extra");
-                    $(".page-footer").removeClass("padding-bottom-novideo");
+                    Helper.removeClass(".page-footer", "padding-bottom-extra");
+                    Helper.removeClass(".page-footer", "padding-bottom-novideo");
                     $("#favicon").attr("href", "/assets/images/favicon-32x32.png");
 
                     //$(".context-menu-list").remove();
