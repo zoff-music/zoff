@@ -113,7 +113,6 @@ var Playercontrols = {
             pos4 = e.touches[0].clientY;
         }
         var volume = 0;
-        console.log(slider_type, element, slider_type != "vertical" || element != "player");
         if(slider_type != "vertical" || element != "player") {
             if(elmnt.className.indexOf("ui-state-active") == -1) {
                 elmnt.className += " ui-state-active";
@@ -129,7 +128,6 @@ var Playercontrols = {
                 elmnt.style.left = cmp_elmnt.offsetWidth + "px";
                 volume = 1;
             }
-            console.log(volume);
             slid_elmnt.style.width = volume * 100 + "%";
             if(element == "player") Playercontrols.setVolume(volume * 100);
             else socket.emit("id", {id: Mobile_remote.id, type: "volume", value: volume * 100});
