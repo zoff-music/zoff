@@ -122,7 +122,6 @@ var Admin = {
         if(Helper.html("#admin-lock") != "lock") {
             if(!Helper.mobilecheck()) {
                 Helper.tooltip('#admin-lock', "destroy");
-                //$('#admin-lock').tooltip('destroy');
             }
             Helper.removeClass("#admin-lock", "clickable");
             document.getElementById("admin-lock").innerHTML = "lock";
