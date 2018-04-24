@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    $("#about").modal();
-    $(".help-button-footer").hide();
-    $("#contact").modal();
+    M.Modal.init(document.getElementById("about"));
+    M.Modal.init(document.getElementById("contact"));
+    Helper.addClass(".help-button-footer", "hide");
 
     Helper.setHtml("#contact-container", "");
     Helper.setHtml("#contact-container", "Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");

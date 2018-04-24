@@ -5,6 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var dynamicListeners = {};
 var socket_connected = false;
 var hasadmin			  		= 0;
 var list_html 			  		= $("#list-song-html").html();
@@ -167,10 +168,10 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
             <div class="error-code-container"> \
                 <code id="error-report-code"></code> \
             </div>');
-        $("#contact").modal();
-        $("#contact").modal("open");
+        M.Modal.init(document.getElementById("contact"));
+        M.Modal.getInstance(document.getElementById("contact")).open();
         /*$("#error-report-modal").modal();*/
-        $("#error-report-code").text(JSON.stringify(Helper.logs, undefined, 4));
+        Helper.setHtml("#error-report-code", JSON.stringify(Helper.logs, undefined, 4));
         //console.error(e.originalEvent.error);
         return true;
     };
@@ -192,7 +193,7 @@ $().ready(function(){
         });
     }
 
-    $("#donate").modal();
+    M.Modal.init(document.getElementById("donate"));
 
     socket.on("connect", function(){
         if(connect_error){
@@ -273,10 +274,10 @@ initializeCastApi = function() {
                 if(Helper.mobilecheck()) {
                     Player.playVideo();
                 }
-                $("#channel-load").css("display", "none");
-                $('.castButton').addClass('castButton-white-active');
-                $("#playpause").css("visibility", "visible");
-                $("#playpause").css("pointer-events", "all");
+                Helper.css("#channel-load", "display", "none");
+                Helper.addClass('.castButton', 'castButton-white-active');
+                Helper.css("#playpause", "visibility", "visible");
+                Helper.css("#playpause", "pointer-events", "all");
                 break;
             case cast.framework.SessionState.SESSION_RESUMED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
@@ -295,10 +296,10 @@ initializeCastApi = function() {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
                 hide_native(1);
-                $("#channel-load").css("display", "none");
-                $('.castButton').addClass('castButton-white-active');
-                $("#playpause").css("visibility", "visible");
-                $("#playpause").css("pointer-events", "all");
+                Helper.css("#channel-load", "display", "none");
+                Helper.addClass('.castButton', 'castButton-white-active');
+                Helper.css("#playpause", "visibility", "visible");
+                Helper.css("#playpause", "pointer-events", "all");
                 break;
             case cast.framework.SessionState.SESSION_ENDED:
                 chromecastAvailable = false;
@@ -340,13 +341,13 @@ initializeCastApi = function() {
     }
 };
 
-$(document).on("click", "#player_overlay", function(e) {
+addListener("click", "#player_overlay", function(e) {
     if(chromecastAvailable) {
         Player.playPauseVideo();
     }
 });
 
-$(document).on("click", "#bitcoin-address", function(e) {
+addListener("click", "#bitcoin-address", function(e) {
     var copyTextarea = document.querySelector('#bitcoin-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
@@ -357,7 +358,7 @@ $(document).on("click", "#bitcoin-address", function(e) {
     }
 });
 
-$(document).on("click", "#ethereum-address", function(e) {
+addListener("click", "#ethereum-address", function(e) {
     var copyTextarea = document.querySelector('#ethereum-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
@@ -368,28 +369,30 @@ $(document).on("click", "#ethereum-address", function(e) {
     }
 });
 
-$(document).on("click", ".pagination-results a", function(e) {
-    e.preventDefault();
+addListener("click", ".pagination-results a", function(e) {
+    event.preventDefault();
     var that = $(this);
     var pageToken = that.attr("data-pagination");
     var searchInput = that.attr("data-original-search");
-    $(".pagination-results a").addClass("disabled");
+
+    Helper.addClass(".pagination-results a", "disabled");
     Search.search(searchInput, false, false, pageToken);
 });
 
-$(document).on("click", "#settings", function(e) {
-    e.preventDefault();
+addListener("click", "#settings", function(e) {
+    event.preventDefault();
+    var sidenavElem = document.getElementsByClassName("sidenav")[0];
     if(!M.Sidenav.getInstance($(".sidenav")).isOpen) {
-        $(".sidenav").sidenav("open");
+        M.Sidenav.getInstance(sidenavElem).open();
     } else {
-        $(".sidenav").sidenav("close");
+        M.Sidenav.getInstance(sidenavElem).close();
     }
 });
 
-$(document).on("click", ".accept-delete", function(e) {
-    e.preventDefault();
+addListener("click", ".accept-delete", function(e) {
+    event.preventDefault();
     emit("delete_all", {channel: chan.toLowerCase()});
-    $("#delete_song_alert").modal("close");
+    M.Modal.getInstance(document.getElementById("delete_song_alert")).close();
 });
 
 $(document).keyup(function(event) {
@@ -451,8 +454,8 @@ $(document).on("mouseenter", ".card.sticky-action", function(e){
     }, 50);
 });
 
-$(document).on("click", "#chat_submit", function(e){
-    e.preventDefault();
+addListener("click", "#chat_submit", function(e){
+    event.preventDefault();
     $("#chatForm").submit();
 });
 
@@ -465,8 +468,8 @@ $(document).on("mouseleave", ".card.sticky-action", function(e){
     }, 100);
 });
 
-$(document).on("click", "#offline-mode", function(e){
-    e.preventDefault();
+addListener("click", "#offline-mode", function(e){
+    event.preventDefault();
     if(!Crypt.get_offline()){
         change_offline(true, offline);
     } else{
@@ -474,19 +477,19 @@ $(document).on("click", "#offline-mode", function(e){
     }
 });
 
-$(document).on("submit", "#thumbnail_form", function(e){
-    e.preventDefault();
+addListener("submit", "#thumbnail_form", function(e){
+    event.preventDefault();
     emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val()});
     $("#chan_thumbnail").val("");
 });
 
-$(document).on("submit", "#description_form", function(e){
-    e.preventDefault();
+addListener("submit", "#description_form", function(e){
+    event.preventDefault();
     emit("suggest_description", {channel: chan, description: $("#chan_description").val()});
     $("#chan_description").val("");
 });
 
-$(document).on("click", "#playpause-overlay", function(){
+addListener("click", "#playpause-overlay", function(){
     if($("#play-overlay").hasClass("hide")){
         Player.pauseVideo();
         $("#play-overlay").toggleClass("hide");
@@ -498,44 +501,44 @@ $(document).on("click", "#playpause-overlay", function(){
     }
 });
 
-$(document).on('click', '#cookieok', function(e) {
-    e.preventDefault();
+addListener("click", '#cookieok', function(e) {
+    event.preventDefault();
     $(this).fadeOut(function(){
         $(this).remove();
         localStorage.ok_cookie = true;
     });
 });
 
-$(document).on("click", ".connect_error", function(e){
-    e.preventDefault();
+addListener("click", ".connect_error", function(e){
+    event.preventDefault();
     $(this).fadeOut(function(){
         $(this).remove();
         connect_error = false;
     });
 });
 
-$(document).on("click", ".extra-button-search", function(e){
-    e.preventDefault();
+addListener("click", ".extra-button-search", function(e){
+    event.preventDefault();
     $("#search").val($(this).attr("data-text"));
     Search.search($(this).attr("data-text"));
 });
 
-$(document).on("click", ".extra-button-delete", function(e){
-    e.preventDefault();
+addListener("click", ".extra-button-delete", function(e){
+    event.preventDefault();
     $(this).parent().remove();
     if($(".not-imported-container").children().length === 0){
         $(".not-imported").toggleClass("hide");
     }
 });
 
-$(document).on("click", "#context-menu-overlay", function(e) {
+addListener("click", "#context-menu-overlay", function(e) {
     $(".context-menu-root").addClass("hide");
     $("#context-menu-overlay").addClass("hide");
     $(".context-menu-root").attr("data-id", "");
 });
 
-$(document).on("click", ".copy-context-menu", function(e) {
-    e.preventDefault();
+addListener("click", ".copy-context-menu", function(e) {
+    event.preventDefault();
     var that = this;
     var parent = $(that).parent();
     var id = parent.attr("data-id");
@@ -557,8 +560,8 @@ $(document).on("click", ".copy-context-menu", function(e) {
     $(".context-menu-root").attr("data-id", "");
 });
 
-$(document).on("click", ".find-context-menu", function(e) {
-    e.preventDefault();
+addListener("click", ".find-context-menu", function(e) {
+    event.preventDefault();
     var that = this;
     var parent = $(that).parent();
     var id = parent.attr("data-id");
@@ -571,7 +574,7 @@ $(document).on("click", ".find-context-menu", function(e) {
     $(".context-menu-root").attr("data-id", "");
 });
 
-$(document).on("click", ".delete-context-menu", function(e) {
+addListener("click", ".delete-context-menu", function(e) {
     var that = this;
     if($(that).hasClass("context-menu-disabled")) {
         return;
@@ -598,8 +601,8 @@ $(document).on("click", ".delete-context-menu", function(e) {
     $(".context-menu-root").attr("data-id", "");
 })
 
-$(document).on("click", "#closePlayer", function(e){
-    e.preventDefault();
+addListener("click", "#closePlayer", function(e){
+    event.preventDefault();
     socket.emit("change_channel");
     try{
         if(chromecastAvailable){
@@ -619,19 +622,37 @@ $(document).on("click", "#closePlayer", function(e){
     $("#closePlayer").remove();
 });
 
-$(document).on("click", ".prev_page", function(e){
-    e.preventDefault();
+
+document.addEventListener("click", function(e) {
+    handleEvent(e, e.target, false);
+}, false);
+
+document.addEventListener("input", function(e) {
+    handleEvent(e, e.target, false);
+}, true);
+
+document.addEventListener("change", function(e) {
+    handleEvent(e, e.target, false);
+}, true);
+
+document.addEventListener("submit", function(e) {
+    handleEvent(e, e.target, false);
+}, true);
+
+addListener("click", ".prev_page", function(e) {
+//addListener("click", ".prev_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(-1);
 });
 
-$(document).on("click", ".modal-close", function(e){
-    e.preventDefault();
+addListener("click", ".modal-close", function(e){
+    event.preventDefault();
 });
 
-$(document).on("change", ".password_protected", function(e) {
-    e.preventDefault();
+addListener("change", ".password_protected", function(e) {
+    event.preventDefault();
     if(this.checked) {
-        $("#user_password").modal('open');
+        M.Modal.getInstance(document.getElementById("user_password")).open();
         $("#user-pass-input").focus();
     } else {
         userpass = "";
@@ -640,15 +661,15 @@ $(document).on("change", ".password_protected", function(e) {
     }
 });
 
-$(document).on("submit", "#user-password-channel-form", function(e) {
-    e.preventDefault();
+addListener("submit", "#user-password-channel-form", function(e) {
+    event.preventDefault();
     if(user_auth_started) {
         temp_user_pass = $("#user-pass-input").val();
 
         $("#user-pass-input").val("");
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
     } else {
-        $("#user_password").modal('close');
+        M.Modal.getInstance(document.getElementById("user_password")).close();
         userpass = $("#user-pass-input").val();
         user_change_password = false;
         $("#user-pass-input").val("");
@@ -656,25 +677,25 @@ $(document).on("submit", "#user-password-channel-form", function(e) {
     }
 });
 
-$(document).on("click", ".change_user_pass_btn", function(e) {
-    e.preventDefault();
+addListener("click", ".change_user_pass_btn", function(e) {
+    event.preventDefault();
     user_change_password = true;
-    $("#user_password").modal('open');
+    M.Modal.getInstance(document.getElementById("user_password")).open();
     $("#user-pass-input").focus();
 });
 
-$(document).on("contextmenu", "#context-menu-overlay", function(e) {
-    e.preventDefault();
+addListener("contextmenu", "#context-menu-overlay", function(e) {
+    event.preventDefault();
 });
 
-$(document).on("click", ".submit-user-password", function(e) {
-    e.preventDefault();
+addListener("click", ".submit-user-password", function(e) {
+    event.preventDefault();
     if(user_auth_started) {
         temp_user_pass = $("#user-pass-input").val();
         $("#user-pass-input").val("");
         socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
     } else {
-        $("#user_password").modal('close');
+        M.Modal.getInstance(document.getElementById("user_password")).close();
         userpass = $("#user-pass-input").val();
         user_change_password = false;
         $("#user-pass-input").val("");
@@ -682,17 +703,17 @@ $(document).on("click", ".submit-user-password", function(e) {
     }
 });
 
-$(document).on("click", ".close-user-password", function() {
+addListener("click", ".close-user-password", function() {
     if(user_auth_started) {
         Player.stopInterval = true;
         user_auth_avoid = true;
         if(!Helper.mobilecheck()) {
-            $('.castButton').tooltip("destroy");
-            $("#viewers").tooltip("destroy");
+            Helper.tooltip('.castButton', "destroy");
+            Helper.tooltip("#viewers", "destroy");
             //$('.castButton-unactive').tooltip("destroy");
-            $("#offline-mode").tooltip("destroy");
-            $('#chan_thumbnail').tooltip("destroy");
-            $('#admin-lock').tooltip("destroy");
+            Helper.tooltip("#offline-mode", "destroy");
+            Helper.tooltip('#chan_thumbnail', "destroy");
+            Helper.tooltip('#admin-lock', "destroy");
         }
         window.history.pushState("to the frontpage!", "Title", "/");
         Channel.onepage_load();
@@ -705,47 +726,46 @@ $(document).on("click", ".close-user-password", function() {
     }
 });
 
-$(document).on("click", ".delete-all-songs", function(e){
-    e.preventDefault();
-    $("#delete_song_alert").modal("open");
+addListener("click", ".delete-all-songs", function(e){
+    event.preventDefault();
+    M.Modal.getInstance(document.getElementById("delete_song_alert")).open();
 });
 
-$(document).on("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
+addListener("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
     this.select();
 });
 
-$(document).on("click", ".next_page", function(e){
-    e.preventDefault();
+addListener("click", ".next_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(1);
 });
 
-$(document).on("click", ".last_page", function(e){
-    e.preventDefault();
+addListener("click", ".last_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(10);
 });
 
-$(document).on("click", ".first_page", function(e){
-    e.preventDefault();
+addListener("click", ".first_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(-10);
 });
 
-$(document).on("click", ".donate-button", function(e) {
-    e.preventDefault();
+addListener("click", ".donate-button", function(e) {
+    event.preventDefault();
     ga('send', 'event', "button-click", "donate");
-
-    $("#donate").modal("open");
+    M.Modal.getInstance(document.getElementById("donate")).open();
 });
 
-$(document).on('click', '#toast-container', function(){
+addListener("click", '#toast-container', function(){
     before_toast();
 });
 
-$(document).on('click', "#aprilfools", function(){
+addListener("click", "#aprilfools", function(){
     $(".mega").css("-webkit-transform", "rotate(0deg)");
     $(".mega").css("-moz-transform", "rotate(0deg)");
 });
 
-$(document).on('change', '#view_channels_select', function(e) {
+addListener("change", '#view_channels_select', function(e) {
     var that = this;
     if(currently_showing_channels != parseInt(that.value)) {
 
@@ -766,49 +786,51 @@ $(document).on('keyup mouseup', '#height_embed', function(){
     $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
-$(document).on('input', '#color_embed', function(){
+addListener("input", '#color_embed', function(){
     var that = $(this);
     color = that.val().substring(1);
     $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
-$(document).on('click', ".chan-link", function(e){
-    e.preventDefault();
-    Frontpage.to_channel($(this).attr("href"), false);
+addListener("click", ".chan-link", function(e){
+    event.preventDefault();
+    var href = this.href.replace(window.location.protocol + "//" +  window.location.hostname + "/", "");
+    console.log(href, e);
+    Frontpage.to_channel(href, false);
 });
 
-$(document).on("click", ".listen-button", function(e){
+addListener("click", ".listen-button", function(e){
     if($(".room-namer").val() === ""){
-        e.preventDefault();
+        event.preventDefault();
         Frontpage.to_channel($(".room-namer").attr("placeholder"));
     }
 });
 
-$(document).on("submit", ".channel-finder", function(e){
-    e.preventDefault();
+addListener("submit", ".channel-finder", function(e){
+    event.preventDefault();
     Frontpage.to_channel($(".room-namer").val());
     return false;
 });
 
-$(document).on("submit", ".channel-finder-mobile", function(e){
-    e.preventDefault();
+addListener("submit", ".channel-finder-mobile", function(e){
+    event.preventDefault();
     Frontpage.to_channel($("#searchFrontpage").val());
     return false;
 });
 
-$(document).on("change", 'input[class=remote_switch_class]', function()
+addListener("change", 'input[class=remote_switch_class]', function()
 {
     Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
     Crypt.set_remote(enabled);
 });
 
-$(document).on("change", 'input[class=offline_switch_class]', function()
+addListener("change", 'input[class=offline_switch_class]', function()
 {
     offline = document.getElementsByName("offline_switch")[0].checked;
     change_offline(offline, !offline);
 });
 
-$(document).on("change", 'input[class=conf]', function()
+addListener("change", 'input[class=conf]', function()
 {
     Admin.save(false);
 });
@@ -817,8 +839,8 @@ $("#clickme").click(function(){
     Player.playVideo();
 });
 
-$(document).on("click", "#listExport", function(e){
-    e.preventDefault();
+addListener("click", "#listExport", function(e){
+    event.preventDefault();
     if(!youtube_authenticated){
         var nonce = Helper.randomString(29);
         window.callback = function(data) {
@@ -846,8 +868,8 @@ $(document).on("click", "#listExport", function(e){
     }
 });
 
-$(document).on("click", ".export-spotify-auth", function(e){
-    e.preventDefault();
+addListener("click", ".export-spotify-auth", function(e){
+    event.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
         access_token_data = data;
@@ -871,8 +893,8 @@ $(document).on("click", ".export-spotify-auth", function(e){
     spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
-$(document).on("submit", "#listImport", function(e){
-    e.preventDefault();
+addListener("submit", "#listImport", function(e){
+    event.preventDefault();
     var url = $("#import").val().split("https://www.youtube.com/playlist?list=");
     if($("#import").val() !== "" && url.length == 2){
         Search.importPlaylist(url[1]);
@@ -889,8 +911,8 @@ $(document).on("submit", "#listImport", function(e){
     document.getElementById("import").value = "";
 });
 
-$(document).on("submit", "#listImportZoff", function(e) {
-    e.preventDefault();
+addListener("submit", "#listImportZoff", function(e) {
+    event.preventDefault();
     var new_channel = $("#import_zoff").val();
     if(new_channel == "") {
         M.toast({html: "It seems you've entered a invalid channel-name.", displayLength: 4000});
@@ -899,14 +921,14 @@ $(document).on("submit", "#listImportZoff", function(e) {
     socket.emit("import_zoff", {channel: chan.toLowerCase(), new_channel: new_channel.toLowerCase()});
 });
 
-$(document).on("click", ".import-zoff", function(e) {
-    e.preventDefault();
+addListener("click", ".import-zoff", function(e) {
+    event.preventDefault();
     Helper.addClass(".import-zoff-container", "hide");
     Helper.removeClass(".zoff_add_field", "hide");
 });
 
-$(document).on("submit", "#listImportSpotify", function(e){
-    e.preventDefault();
+addListener("submit", "#listImportSpotify", function(e){
+    event.preventDefault();
     if(spotify_authenticated && $("#import_spotify").val() !== ""){
         var url = $("#import_spotify").val().split("https://open.spotify.com/user/");
         if(url.length == 2) {
@@ -935,43 +957,43 @@ $(window).focus(function(){
     unseen = false;
 });
 
-$(document).on("change", "#autoplay", function() {
+addListener("change", "#autoplay", function() {
     if(this.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
     $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
-$(document).on("change", "#videoonly", function() {
+addListener("change", "#videoonly", function() {
     if(this.checked) embed_videoonly = "&videoonly";
     else embed_videoonly = "";
     $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
 });
 
-$(document).on("click", "#playbutton_remote", function(e) {
-    e.preventDefault();
+addListener("click", "#playbutton_remote", function(e) {
+    event.preventDefault();
     Mobile_remote.play_remote();
 });
 
-$(document).on("click", "#pausebutton_remote", function(e) {
-    e.preventDefault();
+addListener("click", "#pausebutton_remote", function(e) {
+    event.preventDefault();
     Mobile_remote.pause_remote();
 });
 
-$(document).on("click", "#skipbutton_remote", function(e) {
-    e.preventDefault();
+addListener("click", "#skipbutton_remote", function(e) {
+    event.preventDefault();
     Mobile_remote.skip_remote();
 });
 
-$(document).on("click", ".skip_next_client", function(e) {
-    e.preventDefault();
+addListener("click", ".skip_next_client", function(e) {
+    event.preventDefault();
 });
 
-$(document).on("submit", "#remoteform", function(e) {
-    e.preventDefault();
+addListener("submit", "#remoteform", function(e) {
+    event.preventDefault();
     Mobile_remote.get_input($("#remote_channel").val());
 });
 
-$(document).on("click", ".chat-link", function(){
+addListener("click", ".chat-link", function(){
     $("#text-chat-input").focus();
     $("#chat-btn i").css("opacity", 1);
     Chat.channel_received = 0;
@@ -983,7 +1005,7 @@ $(document).on("click", ".chat-link", function(){
     scrollChat();
 });
 
-$(document).on("click", ".chat-tab-li", function() {
+addListener("click", ".chat-tab-li", function() {
     scrollChat();
 });
 
@@ -991,55 +1013,55 @@ $(document).on('keyup', ".search_input", function(event) {
     searchTimeout(event);
 });
 
-$(document).on("click", ".chat-tab", function(){
+addListener("click", ".chat-tab", function(){
     $("#text-chat-input").focus();
 });
 
-$(document).on("click", ".prev", function(e){
-    e.preventDefault();
+addListener("click", ".prev", function(e){
+    event.preventDefault();
     List.skip(false);
 });
 
-$(document).on("click", ".skip", function(e){
-    e.preventDefault();
+addListener("click", ".skip", function(e){
+    event.preventDefault();
     List.skip(true);
 });
 
-$(document).on("click", "#chan", function(e){
-    e.preventDefault();
+addListener("click", "#chan", function(e){
+    event.preventDefault();
     List.show();
 });
 
-$(document).on("submit", "#adminForm", function(e){
-    e.preventDefault();
+addListener("submit", "#adminForm", function(e){
+    event.preventDefault();
     Admin.pass_save();
 });
 
-$(document).on("click", "#channel-share-modal", function(){
-	$("#channel-share-modal").modal("close")
+addListener("click", "#channel-share-modal", function(){
+    M.Modal.getInstance(document.getElementById("channel-share-modal")).close();
 });
 
-$(document).on("click", ".shareface", function(e) {
+addListener("click", ".shareface", function(e) {
     ga('send', 'event', "button-click", "share-facebook");
 });
 
-$(document).on("click", ".android-image-link", function() {
+addListener("click", ".android-image-link", function() {
     ga('send', 'event', "button-click", "android-playstore-link");
 });
 
-$(document).on("click", "#twitter-code-link", function() {
+addListener("click", "#twitter-code-link", function() {
     ga('send', 'event', "button-click", "share-twitter");
 });
 
-$(document).on("click", ".help-button-footer", function() {
+addListener("click", ".help-button-footer", function() {
     ga('send', 'event', "button-click", "help-footer");
 });
 
-$(document).on("click", "#embed-button", function() {
+addListener("click", "#embed-button", function() {
     ga('send', 'event', "button-click", "embed-channel", "channel-name", chan.toLowerCase());
 })
 
-$(document).on("click", ".chat-link", function(e){
+addListener("click", ".chat-link", function(e){
     chat_active = true;
     unseen = false;
     chat_unseen = false;
@@ -1053,7 +1075,7 @@ $(document).on("click", ".chat-link", function(e){
     Helper.css("#pageButtons", "display", "none");
 });
 
-$(document).on("click", ".playlist-link", function(e){
+addListener("click", ".playlist-link", function(e){
     chat_active = false;
     Helper.css("#chat-container", "display", "none");
     Helper.css("#wrapper", "display", "block");
@@ -1061,7 +1083,7 @@ $(document).on("click", ".playlist-link", function(e){
     Helper.css("#pageButtons", "display", "flex");
 });
 
-$(document).on("click", ".suggested-link", function(e){
+addListener("click", ".suggested-link", function(e){
     chat_active = false;
     Helper.css("#chat-container", "display", "none");
     Helper.css("#wrapper", "display", "none");
@@ -1069,8 +1091,8 @@ $(document).on("click", ".suggested-link", function(e){
     Helper.css("#pageButtons", "display", "none");
 });
 
-$(document).on("click", ".import-spotify-auth", function(e){
-    e.preventDefault();
+addListener("click", ".import-spotify-auth", function(e){
+    event.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
         access_token_data = data;
@@ -1094,44 +1116,44 @@ $(document).on("click", ".import-spotify-auth", function(e){
     spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
-$(document).on("click", ".import-youtube", function(e){
-    e.preventDefault();
+addListener("click", ".import-youtube", function(e){
+    event.preventDefault();
     Helper.css(".youtube_unclicked", "display", "none");
     Helper.css(".youtube_clicked", "display", "block");
 });
 
-$(document).on("submit", "#chatForm", function(e){
-    e.preventDefault();
+addListener("submit", "#chatForm", function(e){
+    event.preventDefault();
     Chat.chat(document.getElementById("chatForm").input);
 });
 
-$(document).on("click", "#shuffle", function(e)
+addListener("click", "#shuffle", function(e)
 {
-    e.preventDefault();
+    event.preventDefault();
     Admin.shuffle();
 });
 
-$(document).on("click", "#search-btn", function(e)
+addListener("click", "#search-btn", function(e)
 {
-    //e.preventDefault();
+    //event.preventDefault();
     Search.showSearch();
 });
 
-$(document).on("click", "#song-title", function(e)
+addListener("click", "#song-title", function(e)
 {
-    e.preventDefault();
+    event.preventDefault();
     Search.showSearch();
 });
 
-$(document).on("click", "#admin-lock", function(e)
+addListener("click", "#admin-lock", function(e)
 {
-    e.preventDefault();
+    event.preventDefault();
     Admin.log_out();
 });
 
-$(document).on("click", "#closeSettings", function(e)
+addListener("click", "#closeSettings", function(e)
 {
-    e.preventDefault();
+    event.preventDefault();
     Admin.hide_settings();
 });
 
@@ -1186,8 +1208,8 @@ $(document).on( "click", ".result-object", function(e){
     }
 });
 
-$(document).on("click", ".result-get-more-info", function(e) {
-    e.preventDefault();
+addListener("click", ".result-get-more-info", function(e) {
+    event.preventDefault();
     var that = $(this);
     var parent = that.parent().parent().parent().parent();
 
@@ -1201,26 +1223,26 @@ $(document).on("click", ".result-get-more-info", function(e) {
     }
 })
 
-$(document).on('click', '#submit-contact-form', function(e) {
-    e.preventDefault();
+addListener("click", '#submit-contact-form', function(e) {
+    event.preventDefault();
     $("#contact-form").submit();
 });
 
-$(document).on('submit', '#contact-form', function(e){
-    e.preventDefault();
+addListener("submit", '#contact-form', function(e){
+    event.preventDefault();
     var message = $("#contact-form-message").val();
     var from    = $("#contact-form-from").val();
 
     Helper.send_mail(from, message);
 });
 
-$(document).on('click', ".send-error-modal", function(e) {
-    e.preventDefault();
+addListener("click", ".send-error-modal", function(e) {
+    event.preventDefault();
     $("#error-report-form").submit();
 })
 
-$(document).on('submit', "#error-report-form", function(e) {
-    e.preventDefault();
+addListener("submit", "#error-report-form", function(e) {
+    event.preventDefault();
     var captcha_response = grecaptcha.getResponse();
     Helper.removeClass("#send-loader", "hide");
     Helper.ajax({
@@ -1331,30 +1353,30 @@ $(document).on( "click", ".del_user_suggested", function(e){
     List.vote(id, "del");
 });
 
-$(document).on('click', '#toast-container', function(){
+addListener("click", '#toast-container', function(){
     $(this).fadeOut(function(){
         $(this).remove();
     });
 });
 
-$(document).on("click", "#embed-area", function(){
+addListener("click", "#embed-area", function(){
     this.select();
 });
 
-$(document).on("click", ".brand-logo-navigate", function(e){
-    e.preventDefault();
+addListener("click", ".brand-logo-navigate", function(e){
+    event.preventDefault();
 
     window.history.pushState("to the frontpage!", "Title", "/");
     Channel.onepage_load();
 });
 
-$(document).on("click", "#player_bottom_overlay", function(e){
+addListener("click", "#player_bottom_overlay", function(e){
     if($(e.target).attr("id") == "closePlayer") return;
     Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
-$(document).on("click", ".generate-channel-name", function(e) {
-    e.preventDefault();
+addListener("click", ".generate-channel-name", function(e) {
+    event.preventDefault();
     Helper.ajax({
         type: "GET",
         url: "/api/generate_name",
@@ -1415,8 +1437,8 @@ $(document).keydown(function(event) {
     }
 });
 
-$(document).on("click", "#close_find_form_button", function(e) {
-    e.preventDefault();
+addListener("click", "#close_find_form_button", function(e) {
+    event.preventDefault();
     find_start = false;
     find_started = false;
     $("#find_div").toggleClass("hide");
@@ -1434,8 +1456,8 @@ $(document).keyup(function(event){
     }
 });
 
-$(document).on("submit", "#find_form", function(e){
-    e.preventDefault();
+addListener("submit", "#find_form", function(e){
+    event.preventDefault();
     if(this.find_value.value != find_word) {
         find_word = this.find_value.value;
         found_array = [];

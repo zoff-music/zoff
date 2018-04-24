@@ -20,16 +20,17 @@ var Helper = {
 
     css: function(element, attribute, value) {
         try {
-            if(element.substring(0,1) == "#") {
+            if(typeof(element) == "object") {
+                element.style[attribute] = value;
+            } else if(element.substring(0,1) == "#") {
                 document.getElementById(element.substring(1)).style[attribute] = value;
             } else {
-                var elements = documents.getElementsByClassName(element.substring(1));
+                var elements = document.getElementsByClassName(element.substring(1));
                 for(var i = 0; i < elements.length; i++) {
                     elements[i].style[attribute] = value;
                 }
             }
         } catch(e) {
-            console.log(e);
         }
     },
 
@@ -38,7 +39,7 @@ var Helper = {
             if(element.substring(0,1) == "#") {
                 return document.getElementById(element.substring(1)).innerHTML;
             } else {
-                var elements = documents.getElementsByClassName(element.substring(1));
+                var elements = document.getElementsByClassName(element.substring(1));
                 for(var i = 0; i < elements.length; i++) {
                     return elements[i].innerHTML;
                 }
@@ -48,34 +49,49 @@ var Helper = {
 
     removeClass: function(element, className) {
         try {
-            if(element.substring(0,1) == "#") {
+            if(typeof(element) == "object") {
+                element.classList.remove(className);
+            } else if(element.substring(0,1) == "#") {
                 document.getElementById(element.substring(1)).classList.remove(className);
             } else {
-                var elements = documents.getElementsByClassName(element.substring(1));
+                var elements = document.getElementsByClassName(element.substring(1));
                 for(var i = 0; i < elements.length; i++) {
                     elements[i].classList.remove(className);
                 }
             }
         } catch(e) {
-            console.log(e);
         }
     },
 
     removeElement: function(element) {
-        if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            elem.remove();
-        } else {
-            var elements;
-            if(element.substring(0,1) == ".") {
-                elements = documents.getElementsByClassName(element.substring(1));
+        try {
+            if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                elem.remove();
             } else {
-                elements = document.getElementsByTagName(element);
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    var testSplit = element.substring(1).split(" ");
+                    if(testSplit.length > 1) {
+                        var insideElement = document.getElementsByClassName(testSplit[0]);
+                        elements = [];
+                        for(var i = 0; i < insideElement.length; i++) {
+                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                            for(var y = 0; y < innards.length; y++) {
+                                elements.push(innards[y]);
+                            }
+                        }
+                    } else {
+                        elements = document.getElementsByClassName(element.substring(1));
+                    }
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].remove();
+                }
             }
-            for(var i = 0; i < elements.length; i++) {
-                elements[i].remove();
-            }
-        }
+        } catch(e) {}
     },
 
     setHtml: function(element, html) {
@@ -85,7 +101,7 @@ var Helper = {
         } else {
             var elements;
             if(element.substring(0,1) == ".") {
-                elements = documents.getElementsByClassName(element.substring(1));
+                elements = document.getElementsByClassName(element.substring(1));
             } else {
                 elements = document.getElementsByTagName(element);
             }
@@ -95,8 +111,87 @@ var Helper = {
         }
     },
 
-    addClass: function(element, className) {
+    attr: function(element, attr, value) {
         if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            elem.setAttribute(attr, value);
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                var testSplit = element.substring(1).split(" ");
+                if(testSplit.length > 1) {
+                    var insideElement = document.getElementsByClassName(testSplit[0]);
+                    elements = [];
+                    for(var i = 0; i < insideElement.length; i++) {
+                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                        for(var y = 0; y < innards.length; y++) {
+                            elements.push(innards[y]);
+                        }
+                    }
+                } else {
+                    elements = document.getElementsByClassName(element.substring(1));
+                }
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                elements[i].setAttribute(attr, value);
+            }
+        }
+    },
+
+    tabs: function(element, options) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            if(options == "destroy") {
+                var this_element = M.Tabs.getInstance(elem);
+                if(this_element != undefined) this_element.destroy();
+            } else {
+                M.Tabs.init(elem, options);
+            }
+        } else {
+            var elements = document.getElementsByClassName(element.substring(1));
+            for(var i = 0; i < elements.length; i++) {
+                if(options == "destroy") {
+                    var this_element = M.Tabs.getInstance(elem);
+                    if(this_element != undefined) this_element.destroy();
+                } else {
+                    M.Tabs.init(elements[i], options);
+                }
+            }
+        }
+    },
+
+    tooltip: function(element, options) {
+        try {
+            if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(options == "destroy") {
+                    var this_element = M.Tooltip.getInstance(elem);
+                    if(this_element != undefined) this_element.destroy();
+                } else {
+                    M.Tooltip.init(elem, options);
+                }
+            } else {
+                var elements = document.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    if(options == "destroy") {
+                        var this_element = M.Tooltip.getInstance(elem);
+                        if(this_element != undefined) this_element.destroy();
+                    } else {
+                        M.Tooltip.init(elements[i], options);
+                    }
+                }
+            }
+        } catch(e) {}
+    },
+
+    addClass: function(element, className) {
+        if(typeof(element) == "object") {
+            if(element.className.indexOf(className) == -1) {
+                element.className += " " + className;
+            }
+        } else if(element.substring(0,1) == "#") {
             var elem = document.getElementById(element.substring(1));
             if(elem.className.indexOf(className) == -1) {
                 elem.className += " " + className;
@@ -104,7 +199,19 @@ var Helper = {
         } else {
             var elements;
             if(element.substring(0,1) == ".") {
-                elements = documents.getElementsByClassName(element.substring(1));
+                var testSplit = element.substring(1).split(" ");
+                if(testSplit.length > 1) {
+                    var insideElement = document.getElementsByClassName(testSplit[0]);
+                    elements = [];
+                    for(var i = 0; i < insideElement.length; i++) {
+                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                        for(var y = 0; y < innards.length; y++) {
+                            elements.push(innards[y]);
+                        }
+                    }
+                } else {
+                    elements = document.getElementsByClassName(element.substring(1));
+                }
             } else {
                 elements = document.getElementsByTagName(element);
             }

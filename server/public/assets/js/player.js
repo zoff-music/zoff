@@ -630,7 +630,7 @@ var Player = {
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
             Helper.css("#nav", "background-color", Helper.rgbToHsl(color, true));
-            helper.css(".title-container", "background-color", Helper.rgbToHsl(color, true));
+            Helper.css(".title-container", "background-color", Helper.rgbToHsl(color, true));
             var hexHsl = Helper.rgbToHex(color[0], color[1], color[2]);
             try {
                 var hsl = Helper.rgbToHsl(color, true).replace("hsl(", "").replace(")", "").replace("%", "").replace(/ /g,'').replace("%", "").split(",");

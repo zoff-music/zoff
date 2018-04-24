@@ -17,7 +17,7 @@ var Admin = {
                 Helper.removeClass(".suggested-badge", "hide");
             }
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip({
+                Helper.tooltip('#chan_thumbnail', {
                     delay: 5,
                     position: "left",
                     html: "imgur link"
@@ -39,7 +39,7 @@ var Admin = {
         Helper.addClass("#admin-lock", "clickable");
         document.getElementById("admin-lock").innerHTML = "lock_open";
         if(!Helper.mobilecheck()){
-            $('#admin-lock').tooltip({
+            Helper.tooltip('#admin-lock', {
                 delay: 5,
                 position: "left",
                 html: "Logout"
@@ -57,7 +57,7 @@ var Admin = {
             Helper.addClass("#admin-lock", "clickable");
             document.getElementById("admin-lock").innerHTML = "lock_open";
             if(!Helper.mobilecheck()){
-                $('#admin-lock').tooltip({
+                Helper.tooltip('#admin-lock', {
                     delay: 5,
                     position: "left",
                     html: "Logout"
@@ -121,7 +121,7 @@ var Admin = {
 
         if(Helper.html("#admin-lock") != "lock") {
             if(!Helper.mobilecheck()) {
-                $('#admin-lock').tooltip("destroy");
+                Helper.tooltip('#admin-lock', "destroy");
                 //$('#admin-lock').tooltip('destroy');
             }
             Helper.removeClass("#admin-lock", "clickable");
@@ -219,7 +219,8 @@ var Admin = {
     },
 
     hide_settings: function() {
-        $('.sidenav').sidenav('close');
+        var sidenavElem = document.getElementsByClassName("sidenav")[0];
+        M.Sidenav.getInstance(sidenavElem).close();
     },
 
     shuffle: function() {

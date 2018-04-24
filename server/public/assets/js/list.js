@@ -11,7 +11,7 @@ var List = {
     channel_function: function(msg) {
         if(user_auth_started) {
             user_auth_started = false;
-            $("#user_password").modal("close");
+            M.Modal.getInstance(document.getElementById("user_password")).close();
         }
         switch(msg.type)
         {
@@ -128,7 +128,7 @@ var List = {
                 $("#wrapper > div:nth-child(" + (i) + ")").after(add);
             }
             var added = $("#wrapper").children()[i];
-            $(added).css("display", display);
+            Helper.css(added, "display", display);
             if(display == "inline-flex" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
                 $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
             } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
@@ -889,9 +889,8 @@ var List = {
     },
 
     show: function() {
-        if(!Helper.mobilecheck() && !chromecastAvailable)
-        {
-            $("#channel-share-modal").modal("open");
+        if(!Helper.mobilecheck() && !chromecastAvailable) {
+            M.Modal.getInstance(document.getElementById("channel-share-modal")).open();
         }
         if(chromecastAvailable) {
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "showJoinInfo"});
