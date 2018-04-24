@@ -11,10 +11,10 @@ var Admin = {
         if(Admin.logged_in) {
             Helper.css("#thumbnail_form", "display", "inline-block");
             Helper.css("#description_form", "display", "inline-block");
-            $("#user_suggests").removeClass("hide");
-            $("#user-suggest-html").removeClass("hide");
+            Helper.removeClass("#user_suggests", "hide");
+            Helper.removeClass("#user-suggest-html", "hide");
             if($(".suggested-badge").text() != "0" && $(".suggested-badge").text() != "") {
-                $(".suggested-badge").removeClass("hide");
+                Helper.removeClass(".suggested-badge", "hide");
             }
             if(!Helper.mobilecheck()) {
                 $('#chan_thumbnail').tooltip({
@@ -26,7 +26,7 @@ var Admin = {
         } else {
             Admin.hideUserSuggested();
         }
-        $(".delete-context-menu").removeClass("context-menu-disabled");
+        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
