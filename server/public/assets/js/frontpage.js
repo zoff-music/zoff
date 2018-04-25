@@ -327,7 +327,7 @@ var Frontpage = {
             Helper.tooltip("#offline-mode", "destroy");
             Helper.tooltip("#client-mode-button", "destroy");
             if(document.querySelectorAll(".pin").length == 1) {
-                Helper.tooltip(document.querySelectorAll(".pin")[0].parent().parent().parent(), "destroy");
+                Helper.tooltip(document.querySelectorAll(".pin")[0].parentElement.parentElement.parentElement, "destroy");
             }
         }
         currently_showing_channels = 1;
