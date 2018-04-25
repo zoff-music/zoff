@@ -11,13 +11,13 @@ var Mobile_remote = {
 
 	set_id: function(id) {
 		Mobile_remote.id = id;
-		document.getElementById("#pausebutton_remote").removeAttribute("disabled");
-		document.getElementById("#skipbutton_remote").removeAttribute("disabled", false);
-		document.getElementById("#playbutton_remote").removeAttribute("disabled", false);
-		document.getElementById("#skipbutton_remote").removeAttribute("disabled", false);
-		document.getElementById("#remote_channel").value = "";
-		document.getElementById("#remote_channel").setAttribute("placeholder", "Change channel");
-		document.getElementById("#remote_header").innerText = "Controlling " + id;
+		document.getElementById("pausebutton_remote").removeAttribute("disabled");
+		document.getElementById("skipbutton_remote").removeAttribute("disabled", false);
+		document.getElementById("playbutton_remote").removeAttribute("disabled", false);
+		document.getElementById("skipbutton_remote").removeAttribute("disabled", false);
+		document.getElementById("remote_channel").value = "";
+		document.getElementById("remote_channel").setAttribute("placeholder", "Change channel");
+		document.getElementById("remote_header").innerText = "Controlling " + id;
 		Helper.css("#volume-control-remote", "display", "inline-block");
 		document.querySelector(".slider-vol-mobile").setAttribute("style", "display: inline-block !important");
 	},
@@ -40,8 +40,8 @@ var Mobile_remote = {
 
 	initiate_volume: function() {
 		var vol = 100;
-        document.getElementById("#volume-control-remote").insertAdjacentHTML("beforeend", "<div class='volume-slid-remote'></div>");
-        document.getElementById("#volume-control-remote").insertAdjacentHTML("beforeend", "<div class='volume-handle-remote'></div>");
+        document.getElementById("volume-control-remote").insertAdjacentHTML("beforeend", "<div class='volume-slid-remote'></div>");
+        document.getElementById("volume-control-remote").insertAdjacentHTML("beforeend", "<div class='volume-handle-remote'></div>");
             Helper.css(".volume-slid-remote", "width", vol + "%");
             Helper.css(".volume-handle-remote", "left", "calc(" + vol + "% - 1px)");
         document.getElementById("volume-control-remote").addEventListener("touchstart", function(e) {

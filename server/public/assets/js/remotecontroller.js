@@ -1,4 +1,5 @@
 var start = true;
+var dynamicListeners = {};
 
 mobilecheck = function() {
     var check = false;

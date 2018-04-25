@@ -753,7 +753,7 @@ var Player = {
                 }
 
                 if(!dragging) {
-                    $("#bar").width(per+"%");
+                    document.getElementById("bar").style.width = per+"%";
                 }
 
                 if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {

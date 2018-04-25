@@ -1476,7 +1476,7 @@ margin:-1px;
 }
 
 #inner-results {
-    height: calc(100vh - 64px - 76px);
+    height: calc(100vh - 64px);
     overflow-y: scroll;
     overflow-x: hidden;
 }
