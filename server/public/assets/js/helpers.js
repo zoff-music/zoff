@@ -2,11 +2,11 @@ var Helper = {
     logs: [],
     log: function(to_log) {
         if(localStorage.debug === "true") {
-            console.log("------------ " + new Date() + " ------------");
+            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
             for(var i = 0; i < to_log.length; i++) {
-                console.log(to_log[i]);
+                console.log(to_log[i]);/*RemoveLogging:skip*/
             }
-            console.log("------------ " + new Date() + " ------------");
+            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
         }
         Helper.logs.unshift({log: to_log, date: new Date()});
         if(Helper.logs.length > 10) {
@@ -19,46 +19,48 @@ var Helper = {
     },
 
     toggleClass: function(element, className) {
-        if(typeof(element) == "object") {
-            if(element.className.indexOf(className) == -1) {
-                Helper.addClass(element, className);
-            } else {
-                Helper.removeClass(element, className);
-            }
-        } else if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            if(elem.className.indexOf(className) == -1) {
-                Helper.addClass(elem, className);
-            } else {
-                Helper.removeClass(elem, className);
-            }
-        } else {
-            var elements;
-            if(element.substring(0,1) == ".") {
-                var testSplit = element.substring(1).split(" ");
-                if(testSplit.length > 1) {
-                    var insideElement = document.getElementsByClassName(testSplit[0]);
-                    elements = [];
-                    for(var i = 0; i < insideElement.length; i++) {
-                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
-                        for(var y = 0; y < innards.length; y++) {
-                            elements.push(innards[y]);
-                        }
-                    }
+        try {
+            if(typeof(element) == "object") {
+                if(element.className.indexOf(className) == -1) {
+                    Helper.addClass(element, className);
                 } else {
-                    elements = document.getElementsByClassName(element.substring(1));
-                }
-            } else {
-                elements = document.getElementsByTagName(element);
-            }
-            for(var i = 0; i < elements.length; i++) {
-                if(elements[i].className.indexOf(className) == -1) {
-                    Helper.addClass(elements[i], className);
-                }  else {
                     Helper.removeClass(element, className);
                 }
+            } else if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(elem.className.indexOf(className) == -1) {
+                    Helper.addClass(elem, className);
+                } else {
+                    Helper.removeClass(elem, className);
+                }
+            } else {
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    var testSplit = element.substring(1).split(" ");
+                    if(testSplit.length > 1) {
+                        var insideElement = document.getElementsByClassName(testSplit[0]);
+                        elements = [];
+                        for(var i = 0; i < insideElement.length; i++) {
+                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                            for(var y = 0; y < innards.length; y++) {
+                                elements.push(innards[y]);
+                            }
+                        }
+                    } else {
+                        elements = document.getElementsByClassName(element.substring(1));
+                    }
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    if(elements[i].className.indexOf(className) == -1) {
+                        Helper.addClass(elements[i], className);
+                    }  else {
+                        Helper.removeClass(element, className);
+                    }
+                }
             }
-        }
+        }catch(e) {}
     },
 
     css: function(element, attribute, value) {
@@ -260,7 +262,6 @@ var Helper = {
                         }
                     }
                 } catch(e) {
-                    console.log(element);
                     if(element.className.indexOf(className) == -1) {
                         element.className += " " + className;
                     }
@@ -294,7 +295,7 @@ var Helper = {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-               if (xmlhttp.status == 200) {
+               if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
                    obj.success(xmlhttp.responseText, xmlhttp);
                }
                else if(obj.hasOwnProperty("error")){
@@ -310,12 +311,6 @@ var Helper = {
             }
         }
         if(obj.data) {
-            var sendRequest = "";
-            if(typeof(obj.data) == "string") JSON.parse(obj.data);
-            for(key in obj.data) {
-                sendRequest += key + "=" + obj.data[key] + "&";
-            }
-            sendRequest = sendRequest.substring(0, sendRequest.length - 1);
             if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
             //xmlhttp.send(sendRequest);
             xmlhttp.send(obj.data);

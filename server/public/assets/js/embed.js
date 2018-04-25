@@ -66,9 +66,9 @@ function receiveMessage(event) {
 }
 
 window.addEventListener("message", receiveMessage, false);
-
-window.addEventListener("load", function() {
-
+console.log("qq");
+window.addEventListener("DOMContentLoaded", function() {
+    console.log("ads");
     if(hash.length >= 3 && hash[2] == "autoplay"){
         autoplay = true;
         Helper.css("#player", "visibility", "hidden");
@@ -374,21 +374,21 @@ addListener("click", ".vote-container", function(e) {
 });
 
 addListener("click", ".prev_page", function(e) {
-    e.preventDefault();
+    event.preventDefault();
     List.dynamicContentPage(-1);
 });
 
 addListener("click", ".next_page", function(e) {
-    e.preventDefault();
+    event.preventDefault();
     List.dynamicContentPage(1);
 });
 
 addListener("click", ".last_page", function(e){
-    e.preventDefault();
+    event.preventDefault();
     List.dynamicContentPage(10);
 });
 
 addListener("click", ".first_page", function(e){
-    e.preventDefault();
+    event.preventDefault();
     List.dynamicContentPage(-10);
 });

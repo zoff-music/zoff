@@ -69,7 +69,7 @@ var Search = {
                         document.getElementById("results").innerHTML = "";
                         Helper.css("#results", "display", "block");
                         //$("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-                        document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>");
+                        document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);' class='empty-inner-results'>"+empty_results_html+"</div>");
                         Helper.removeClass(".search_loader_spinner", "active");
 
                     } else if(response.items){
@@ -84,7 +84,6 @@ var Search = {
                             success: function(response){
                                 response = JSON.parse(response);
                                 var output = "";
-                                console.log(result_html);
                                 var pre_result = document.createElement("div");
                                 pre_result.innerHTML = result_html.outerHTML;
 
@@ -104,7 +103,6 @@ var Search = {
 
                                         //$("#results").append(result_html);
                                         var songs = pre_result.cloneNode(true);
-                                        console.log(songs);
                                         songs.querySelector(".search-title").innerText = title;
                                         songs.querySelector(".result_info").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
                                         songs.querySelector(".thumb").setAttribute("src", thumb);
@@ -154,7 +152,7 @@ var Search = {
                                         Helper.addClass(".prev-results-button", "disabled");
                                     }
 
-                                    Helper.attr(".pagination-results a", "data-original-search", search_input);
+                                    document.querySelector(".pagination-results a").setAttribute("data-original-search", search_input);
 
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
@@ -165,7 +163,7 @@ var Search = {
                                     Search.search(search_input, true);
                                 } else {
                                     //$("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-                                    document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results'>"+empty_results_html+"</div>");
+                                    document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);'>"+empty_results_html+"</div>");
                                     Helper.css("#results", "display", "block");
                                     Helper.removeClass(".search_loader_spinner", "active");
                                 }
@@ -212,7 +210,7 @@ var Search = {
                     document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                     Helper.removeClass(".not-imported", "hide");
                 } else if(response.items.length > 0) {
-                    for(var i = 0; i < response.items; i++) {
+                    for(var i = 0; i < response.items.length; i++) {
                         var data = response.items[i];
                         vid_url += data.id.videoId+",";
                     }
@@ -225,8 +223,8 @@ var Search = {
                             response = JSON.parse(response);
                             if(response.items.length > 0) {
                                 var matched = false;
-                                for(var i = 0; i < response.items.length; i++) {
-                                    var data = response.items[i];
+                                for(var y = 0; y < response.items.length; y++) {
+                                    var data = response.items[y];
                                     //Helper.log(data);
                                     //var title = data.snippet.title;
                                     var duration = Search.durationToSeconds(data.contentDetails.duration);
@@ -276,10 +274,15 @@ var Search = {
                                     Helper.removeClass(".not-imported", "hide");
                                 }
                             }
+                        },
+                        error: function(e) {
+                            console.log(e);
                         }
                     });
 
                 }
+            }, error: function(e) {
+                console.log(e);
             }
         });
     },
@@ -399,12 +402,45 @@ var Search = {
                     }
                     document.getElementById("import").value = "";
                 }
+            },
+            error: function(e) {
+                if(e.status == 403){
+                    var nonce = Helper.randomString(29);
+                    window.callback = function(data) {
+                        access_token_data_youtube = data;
+                        if(access_token_data_youtube.state == nonce){
+                            youtube_authenticated = true;
+                            setTimeout(function(){
+                                youtube_authenticated = false;
+                                access_token_data_youtube = {};
+                            }, access_token_data_youtube.expires_in * 1000);
+                            Search.importPlaylist(pId, pageToken);
+                        } else {
+                            access_token_data_youtube = "";
+                            console.error("Nonce doesn't match");
+                        }
+                        youtube_window.close();
+                        window.callback = "";
+                    };
+                    youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+                } else {
+                    Helper.log([
+                        "import list error: ",
+                        response.error
+                    ]);
+                    document.getElementById("import").disabled = false;
+                    Helper.addClass("#playlist_loader", "hide");
+                    Helper.removeClass("#import", "hide");
+                    before_toast();
+                    M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
+                }
             }
         });
     },
 
     importSpotifyPlaylist: function(url){
         Helper.ajax({
+            method: "get",
             url: url,
             headers: {
                 'Authorization': 'Bearer ' + access_token_data.access_token
@@ -421,7 +457,7 @@ var Search = {
                     Search.importSpotifyPlaylist(response.next);
                 }
             },
-            error: function() {
+            error: function(e) {
                 document.getElementById("import_spotify").disabled = false;
                 Helper.removeClass("#import_spotify", "hide");
                 Helper.addClass("#playlist_loader_spotify", "hide");
@@ -434,7 +470,7 @@ var Search = {
     addVideos: function(ids){
         var more = false;
         var next_ids = [];
-        var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=AIzaSyBSxgDrvIaKR2c_MK5fk6S01Oe7bd_qGd8&id=";
+        var request_url="https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=" + api_key + "&id=";
         for(var i = 0; i < ids.length; i++) {
             if(i > 48) {
                 more = true;
@@ -443,11 +479,9 @@ var Search = {
             }
             request_url += ids[i] + ",";
         }
-
         Helper.ajax({
-            type: "POST",
+            type: "GET",
             url: request_url,
-            dataType:"jsonp",
             success: function(response){
                 response = JSON.parse(response);
                 var x = 0;
@@ -470,6 +504,9 @@ var Search = {
                     Search.submitYouTubeArray = [];
                     Search.submitYouTubeExpected = 0;
                 }
+            },
+            error: function(e) {
+                console.log(e);
             }
         });
     },

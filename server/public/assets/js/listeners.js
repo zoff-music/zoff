@@ -367,15 +367,8 @@ addListener("click", "#ethereum-address", function(e) {
     }
 });
 
-addListener("click", ".pagination-results a", function(e) {
-    event.preventDefault();
-    var that = this;
-    var pageToken = that.getAttribute("data-pagination");
-    var searchInput = that.getAttribute("data-original-search");
-
-    Helper.addClass(".pagination-results a", "disabled");
-    Search.search(searchInput, false, false, pageToken);
-});
+addListener("click", ".prev-results-button", pagination_results);
+addListener("click", ".next-results-button", pagination_results);
 
 addListener("click", "#settings", function(e) {
     event.preventDefault();
@@ -395,7 +388,6 @@ addListener("click", ".accept-delete", function(e) {
 
 
 addListener("click", "#chat_submit", function(e){
-    console.log(event);
     event.preventDefault();
     event.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
@@ -472,7 +464,7 @@ addListener("click", ".copy-context-menu", function(e) {
     event.preventDefault();
     var that = this;
     var parent = that.parentElement;
-    var id = parent.attr("data-id");
+    var id = parent.getAttribute("data-id");
     if(id != "") {
         Helper.css(".copy_video_id", "display", "block");
         Helper.setHtml(".copy_video_id", "https://www.youtube.com/watch?v=" + id);
@@ -495,9 +487,9 @@ addListener("click", ".find-context-menu", function(e) {
     event.preventDefault();
     var that = this;
     var parent = that.parentElement;
-    var id = parent.attr("data-id");
+    var id = parent.getAttribute("data-id");
     Search.search(id, false, true);
-    if(Helper.contains(document.getElementsByClassName(".search-container")[0].getAttribute("class").split(" "), "hide")) {
+    if(Helper.contains(document.getElementsByClassName("search-container")[0].getAttribute("class").split(" "), "hide")) {
         Search.showSearch();
     }
     Helper.addClass(".context-menu-root", "hide");
@@ -654,9 +646,7 @@ document.addEventListener("keyup", function(e) {
     } else if((event.keyCode == 91 || event.keyCode == 17) && !find_started){
         find_start = false;
     }
-    console.log("target = ", event.target);
     if(event.target.classList.contains("search_input")) {
-        console.log("To search");
         searchTimeout(event);
     }
 }, false);
@@ -696,7 +686,6 @@ document.addEventListener("input", function(e) {
 }, true);
 
 document.addEventListener("change", function(e) {
-    console.log(e);
     handleEvent(e, e.target, false, "change");
 }, true);
 
@@ -726,6 +715,7 @@ addListener("click", ".modal-close", function(e){
     event.preventDefault();
 });
 
+/*
 addListener("change", ".password_protected", function(e) {
     event.preventDefault();
     if(this.checked) {
@@ -736,7 +726,7 @@ addListener("change", ".password_protected", function(e) {
         Helper.addClass(".change_user_pass", "hide");
         Admin.save(true);
     }
-});
+});*/
 
 addListener("submit", "#user-password-channel-form", function(e) {
     event.preventDefault();
@@ -808,7 +798,7 @@ addListener("click", ".delete-all-songs", function(e){
     M.Modal.getInstance(document.getElementById("delete_song_alert")).open();
 });
 
-addListener("click", ".not-exported-container .not-exported-element #extra-export-container-text .extra-add-text", function(){
+addListener("click", ".extra-add-text", function(){
     this.select();
 });
 
@@ -889,7 +879,19 @@ addListener("change", '.offline_switch_class', function()
 
 addListener("change", '.conf', function()
 {
-    Admin.save(false);
+    event.preventDefault();
+    if(this.classList.contains("password_protected")) {
+        if(this.checked) {
+            M.Modal.getInstance(document.getElementById("user_password")).open();
+            document.getElementById("user-pass-input").focus();
+        } else {
+            userpass = "";
+            Helper.addClass(".change_user_pass", "hide");
+            Admin.save(true);
+        }
+    } else {
+        Admin.save(false);
+    }
 });
 
 addListener("click", "#clickme", function(){
@@ -971,6 +973,7 @@ addListener("submit", "#listImport", function(e){
 addListener("submit", "#listImportZoff", function(e) {
     event.preventDefault();
     var new_channel = document.getElementById("import_zoff").value;
+    document.getElementById("import_zoff").value = "";
     if(new_channel == "") {
         M.toast({html: "It seems you've entered a invalid channel-name.", displayLength: 4000});
         return;
@@ -1410,7 +1413,6 @@ addListener("click", ".del_user_suggested", function(e){
 });
 
 addListener("click", '#toast-container', function(){
-    console.log(this);
     var toastElement = document.querySelector('.toast');
      var toastInstance = M.Toast.getInstance(toastElement);
      toastInstance.dismiss();
@@ -1439,8 +1441,8 @@ addListener("click", ".generate-channel-name", function(e) {
         type: "GET",
         url: "/api/generate_name",
         success: function(response) {
-            document.getElementsByClassName(".room_namer")[0].value = "";
-            document.getElementsByClassName(".room_namer")[0].value = response;
+            document.getElementsByClassName("room-namer")[0].value = "";
+            document.getElementsByClassName("room-namer")[0].value = response;
         }
     });
 

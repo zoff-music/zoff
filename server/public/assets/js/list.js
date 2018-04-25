@@ -2,8 +2,8 @@ var List = {
 
     empty: false,
     page: 0,
-    can_fit: document.querySelectorAll("#wrapper").length > 0 ? Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71) : 0,
-    element_height: document.querySelectorAll("#wrapper").length > 0 ? ((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71)) - 25 : 0,
+    can_fit: document.querySelectorAll("#wrapper").length > 0 ? Math.round(parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / 71) : 0,
+    element_height: document.querySelectorAll("#wrapper").length > 0 ? (parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / Math.round(parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / 71)) - 25 : 0,
     uris: [],
     not_found: [],
     num_songs: 0,
@@ -159,17 +159,17 @@ var List = {
             List.can_fit = Math.round((document.querySelector("#wrapper").offsetHeight) / 91) + 1;
             List.element_height = ((document.querySelector("#wrapper").offsetHeight) / List.can_fit)-4;
         } else if(!client){
-            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / 71)+1;
-            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / 71)+1;
+            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / List.can_fit)-5;
         } else {
-            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector(".pageButtons"), null).getPropertyValue("height")) / 80)+1;
-            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector(".pageButtons"), null).getPropertyValue("height")) / List.can_fit) - 8;
+            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", ""))) / 80)+1;
+            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", ""))) / List.can_fit) - 8;
         }
         if(List.element_height < 55.2 && !client){
             List.can_fit = List.can_fit - 1;
             List.element_height = 55.2;
-            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / 71);
-            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / List.can_fit)-5;
         }
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
@@ -316,7 +316,6 @@ var List = {
             if(way==-10) {
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
                 List.page = 0;
-                //console.log(List.page, List.can_fit, wrapperChildren.slice(List.page, List.page + List.can_fit));
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
             } else {
                 Helper.css(wrapperChildren.slice(List.page - List.can_fit, List.page), "display", "inline-flex");
@@ -407,7 +406,6 @@ var List = {
                 //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "display", "inline-flex");
                 //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", List.element_height + "px");
             }
-            console.log(List.element_height);
             if(List.page >= document.querySelector("#wrapper").children.length - 1){
                 List.dynamicContentPage(-1);
                 Helper.css(".next_page_hide", "display", "inline-flex");
@@ -641,10 +639,13 @@ var List = {
                             }
                         });
                         var i = 0;
-                            List.searchSpotify(full_playlist[i], playlist_id, user_id, full_playlist, i);
+                        List.searchSpotify(full_playlist[i], playlist_id, user_id, full_playlist, i);
                         //});
+                    }, error: function(e) {
                     }
                 });
+            }, error: function(e) {
+                console.log(e);
             }
         })
     },
@@ -748,7 +749,7 @@ var List = {
                         List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
                         Helper.addClass("#playlist_loader_export", "hide");
                     }
-                    if(document.querySelector(".exported-spotify-list").length == 0) {
+                    if(document.querySelectorAll(".exported-spotify-list").length == 0) {
                         document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
                     }
                     for(var i = 0; i < List.not_found.length; i++) {
@@ -854,7 +855,7 @@ var List = {
                 if(num == full_playlist.length - 1){
                     Helper.log(["All videoes added!"]);
                     Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                    document.querySelector(".exported-list").insertAtBeginning("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".current_number", "hide");
                     //$(".youtube_export_button").removeClass("hide");
@@ -967,8 +968,9 @@ var List = {
             list_image.className += " list-suggested-image";
             //song.querySelector(".list-image").setAttribute("class", song.querySelector(".list-image").getAttribute("class").replace("list-image", "list-suggested-image"));
         }
-
-        song.querySelector(".mobile-delete").remove();
+        if(!embed) {
+            song.querySelector(".mobile-delete").remove();
+        }
         song.querySelector(".list-title").innerText = video_title;
         song.querySelector(".list-title").setAttribute("title", video_title);
         song.querySelector(attr).setAttribute("data-video-id", video_id);
@@ -976,7 +978,6 @@ var List = {
         if(song.querySelectorAll(".list-suggested-image").length > 0) {
             song.querySelector(".list-suggested-image").setAttribute(image_attr,video_thumb);
         }
-        //console.log(del_attr, song.querySelector("."+del_attr));
         //song.querySelector("."+del_attr).setAttribute("data-video-id", video_id);
         return song.innerHTML;
     },
