@@ -117,7 +117,9 @@ var Channel = {
             setup_youtube_listener();
             get_list_listener();
             setup_suggested_listener();
-            setup_viewers_listener();
+            if(!client) {
+                setup_viewers_listener();
+            }
         } else {
             Helper.css("#channel-load", "display", "none");
             Helper.css("#player", "opacity", "1");
@@ -273,11 +275,11 @@ var Channel = {
         //$("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
         document.getElementById("search").focus();
         Helper.css("#embed-button", "display", "inline-block");
-        document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
         document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
 
         if(!client) {
             Helper.addClass("footer", "padding-bottom-novideo");
+            document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
         }
 
         if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck() && !client){
@@ -451,12 +453,14 @@ var Channel = {
                 }
             }
         }
-        if(on) {
-            document.getElementById("chatchannel").addEventListener("scroll", scrollListener);
-            document.getElementById("chatall").addEventListener("scroll", scrollListener);
-        } else {
-            document.getElementById("chatchannel").removeEventListener("scroll", scrollListener);
-            document.getElementById("chatall").removeEventListener("scroll", scrollAllListener);
+        if(!client) {
+            if(on) {
+                document.getElementById("chatchannel").addEventListener("scroll", scrollListener);
+                document.getElementById("chatall").addEventListener("scroll", scrollListener);
+            } else {
+                document.getElementById("chatchannel").removeEventListener("scroll", scrollListener);
+                document.getElementById("chatall").removeEventListener("scroll", scrollAllListener);
+            }
         }
     },
 

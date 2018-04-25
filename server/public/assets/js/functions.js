@@ -216,7 +216,6 @@ function get_list_ajax() {
 }
 
 function contextListener(that, e) {
-    console.log("here");
     var parent = that.parentElement;
     var suggested = false;
     if(parent.id.indexOf("suggested-") > -1) suggested = true;
@@ -235,7 +234,6 @@ function contextListener(that, e) {
     } else if(top < 0) {
         top = 15;
     }
-    console.log(event.pageX);
     Helper.css(".context-menu-root", "left", left + "px");
     Helper.css(".context-menu-root", "top", top + "px");
     Helper.removeClass(".context-menu-root","hide");
@@ -642,21 +640,27 @@ function change_offline(enabled, already_offline){
     }
 }
 
+function pagination_results(e) {
+    event.preventDefault();
+    var that = this;
+    var pageToken = that.getAttribute("data-pagination");
+    var searchInput = that.getAttribute("data-original-search");
+
+    Helper.addClass(".next-results-button", "disabled");
+    Helper.addClass(".prev-results-button", "disabled");
+    Search.search(searchInput, false, false, pageToken);
+}
+
 function handleEvent(e, target, tried, type) {
-    //console.log(target, dynamicListeners);
-    //console.log(e.path, target);
-    console.log(target);
     for(var y = 0; y < e.path.length; y++) {
         var target = e.path[y];
         if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-            //console.log(target.id);
             dynamicListeners[type]["#" + target.id].call(target);
             return;
         } else {
             if(target.classList == undefined) return;
             for(var i = 0; i < target.classList.length; i++) {
                 if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                    //console.log(target.id);
                     dynamicListeners[type]["." + target.classList[i]].call(target);
                     return;
                 }

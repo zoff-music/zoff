@@ -164,7 +164,7 @@ var Player = {
                     if(full_playlist[0].id == video_id && !mobile_beginning){
                         List.song_change(full_playlist[0].added);
                     }
-                    Suggestions.fetchYoutubeSuggests(video_id);
+                    if(!client) Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
 
                 Player.getTitle(song_title, viewers);
@@ -533,7 +533,7 @@ var Player = {
             //var getTitleViews = document.getElementById('viewers');
 
             document.getElementById("song-title").innerText = title;
-            document.getElementById("viewers").innerHtml = outPutWord + " " + v;
+            if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
             document.getElementById("song-title").setAttribute("title", title);
             //elem.title        = title;
             if(chromecastAvailable){
@@ -624,7 +624,6 @@ var Player = {
     },
 
     setBGimage: function(c){
-        console.log(c);
         var color = c.color;
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);

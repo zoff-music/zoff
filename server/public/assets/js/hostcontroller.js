@@ -5,6 +5,7 @@ var Hostcontroller = {
     old_id: null,
 
     host_listener: function(id) {
+        if(client) return;
         Helper.log([
             "Host-listener triggered",
             "Host-listener id:" + id
@@ -15,15 +16,16 @@ var Hostcontroller = {
             began = false;
             Hostcontroller.old_id = id;
         }
+        var codeURL = window.location.protocol + "//remote."+window.location.hostname+"/"+id;
         if(embed) {
             if(window.parentWindow && window.parentOrigin) {
                 window.parentWindow.postMessage({type: "controller", id: id}, window.parentOrigin);
             }
+        } else if(!embed) {
+            document.querySelector("#code-text").innerText = id;
+            document.querySelector("#code-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+            document.querySelector("#code-link").setAttribute("href", codeURL);
         }
-        var codeURL = window.location.protocol + "//remote."+window.location.hostname+"/"+id;
-        document.querySelector("#code-text").innerText = id;
-        document.querySelector("#code-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
-        document.querySelector("#code-link").setAttribute("href", codeURL);
         if(!began) {
             began = true;
             setup_host_listener(id);
@@ -31,6 +33,7 @@ var Hostcontroller = {
     },
 
     host_on_action: function(arr) {
+        if(client) return;
         if(enabled){
             if(arr.type == "volume") {
                 Playercontrols.visualVolume(arr.value);
@@ -61,7 +64,10 @@ var Hostcontroller = {
     },
 
     change_enabled:function(val){
+        if(client) return;
         enabled = val;
-        document.querySelector(".remote_switch_class").checked = enabled;
+        try {
+            document.querySelector(".remote_switch_class").checked = enabled;
+        }catch(e) {}
     }
 };

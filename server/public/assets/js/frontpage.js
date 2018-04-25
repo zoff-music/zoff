@@ -112,7 +112,6 @@ var Frontpage = {
                     }
 
                     document.getElementById("channels").insertAdjacentHTML("beforeend", card.children[0].innerHTML);
-                    //console.log(card.children[0].children[0]);
                 } else {
                     num--;
                 }
@@ -312,7 +311,6 @@ var Frontpage = {
     },
 
     to_channel: function(new_channel, popstate) {
-        console.log(new_channel);
         Helper.css("#channel-load", "display", "block");
         window.scrollTo(0, 0);
         frontpage = false;
@@ -375,7 +373,7 @@ var Frontpage = {
                     document.getElementsByTagName("main")[0].innerHTML = response.querySelectorAll("main")[0].innerHTML;
                 } else {
                     document.getElementById("main-row").insertAdjacentHTML("beforeend", response.querySelectorAll("#playlist")[0].outerHTML);
-                    document.getElementById("video-container").insertAdjacentHTML("beforeend", response.querySelectorAll("#main_components")[0].outerHTML);
+                    if(!client) document.getElementById("video-container").insertAdjacentHTML("beforeend", response.querySelectorAll("#main_components")[0].outerHTML);
                     document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id='playbar'></div>");
                     Helper.removeClass("#player", "player_bottom");
                     Helper.removeClass("#main-row", "frontpage_modified_heights");

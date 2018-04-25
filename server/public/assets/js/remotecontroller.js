@@ -35,19 +35,15 @@ window.addEventListener("DOMContentLoaded", function (){
 
 
 function handleEvent(e, target, tried, type) {
-    //console.log(target, dynamicListeners);
-    //console.log(e.path, target);
     for(var y = 0; y < e.path.length; y++) {
         var target = e.path[y];
         if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-            //console.log(target.id);
             dynamicListeners[type]["#" + target.id].call(target);
             return;
         } else {
             if(target.classList == undefined) return;
             for(var i = 0; i < target.classList.length; i++) {
                 if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                    //console.log(target.id);
                     dynamicListeners[type]["." + target.classList[i]].call(target);
                     return;
                 }
