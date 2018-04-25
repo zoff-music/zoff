@@ -146,7 +146,7 @@ window.zoff = {
     enable_debug: enable_debug,
     disable_debug: disable_debug
 }
-
+/*
 if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
     window.onerror = function(e, source, lineno, colno, error) {
         if(e == "Script error.") return true;
@@ -170,6 +170,7 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         return true;
     };
 }
+*/
 
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
