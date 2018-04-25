@@ -7,15 +7,15 @@ var Suggestions = {
             number_suggested = number_suggested + params.length;
         }
         for(var i = 0; i < params.length; i++) {
-            if($("#suggested-" + params[i].id).length > 0) {
+            if(document.querySelectorAll("#suggested-" + params[i].id).length > 0) {
                 number_suggested -= 1;
             }
         }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(number_suggested > 0 && Admin.logged_in){
-            Helper.removeClass(".suggested-link span badge new white", "hide");
+            Helper.removeClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
         }
-        $(".suggested-link span.badge.new.white").text(to_display);
+        document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
         if(single){
             Suggestions.createSuggested(params);
         }else{
@@ -31,8 +31,8 @@ var Suggestions = {
         var video_id 	= params.id;
         var video_title = params.title;
         var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
-        if($("#" + $(song).attr("id")).length == 0) {
-            $("#user-suggest-html").append(song);
+        if(document.querySelectorAll("#" + song.getAttribute("id")).length == 0) {
+            document.getElementById("user-suggest-html").insertAdjacentHTML("beforeend", song);
         }
     },
 
@@ -60,7 +60,7 @@ var Suggestions = {
                     success: function(response)
                     {
                         response = JSON.parse(response);
-                        $("#suggest-song-html").empty();
+                        Helper.setHtml("#suggest-song-html", "");
                         for(var i = 0; i < response.items.length; i++) {
                             var song = response.items[i];
                             var duration 	= song.contentDetails.duration;
@@ -69,7 +69,7 @@ var Suggestions = {
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
 
-                            $("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
+                            document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
                         }
                     }
                 });
@@ -78,9 +78,8 @@ var Suggestions = {
     },
 
     checkUserEmpty: function(){
-        var length = $("#user-suggest-html").children().length;
+        var length = document.getElementById("user-suggest-html").children.length;
         if(length === 0){
-            if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
             Helper.addClass("#user_suggests", "hide");
         } else if(Admin.logged_in){
             Helper.removeClass("#user_suggests", "hide");

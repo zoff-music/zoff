@@ -8,18 +8,18 @@ var Playercontrols = {
     },
 
     initControls: function() {
-        $("#volume-button").on("click", Playercontrols.mute_video);
-        $("#playpause").on("click", Playercontrols.play_pause);
-        $("#volume-button-overlay").on("click", Playercontrols.mute_video);
-        $("#playpause-overlay").on("click", Playercontrols.play_pause);
-        $("#fullscreen").on("click", Playercontrols.fullscreen);
+        document.getElementById("volume-button").addEventListener("click", Playercontrols.mute_video);
+        document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
+        document.getElementById("volume-button-overlay").addEventListener("click", Playercontrols.mute_video);
+        document.getElementById("playpause-overlay").addEventListener("click", Playercontrols.play_pause);
+        document.getElementById("fullscreen").addEventListener("click", Playercontrols.fullscreen);
     },
 
     initSlider: function() {
         try {
 
             vol = (Crypt.get_volume());
-            //$("#volume").slider("destroy");
+
         } catch(e){
             vol = 100;
         }
@@ -30,12 +30,12 @@ var Playercontrols = {
         }catch(e){}
         if(Helper.mobilecheck() || slider_type == "vertical") {
             //slider_values.orientation = "vertical";
-            if(!$(".volume-container").hasClass("hide")) {
-                $(".volume-container").toggleClass("hide");
+            if(!document.querySelector(".volume-container").classList.contains("hide")) {
+                Helper.toggleClass(".volume-container", "hide");
             }
         }
-        $("#volume").append("<div class='volume-slid " + slider_type + "'></div>");
-        $("#volume").append("<div class='volume-handle " + slider_type + "'></div>");
+        document.getElementById("volume").insertAdjacentHTML("beforeend", "<div class='volume-slid " + slider_type + "'></div>");
+        document.getElementById("volume").insertAdjacentHTML("beforeend", "<div class='volume-handle " + slider_type + "'></div>");
         if(slider_type != "vertical") {
             Helper.removeClass("#volume", "vertical");
             Helper.css(".volume-slid", "width", vol + "%");
@@ -181,7 +181,7 @@ var Playercontrols = {
     },
 
     fullscreen: function() {
-        var playerElement = $("#player").get(0);
+        var playerElement = document.getElementById("player");
         var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
         if (requestFullScreen) {
             requestFullScreen.bind(playerElement)();
@@ -196,18 +196,18 @@ var Playercontrols = {
                 if(Helper.mobilecheck() && !window.MSStream){
                     //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                     //document.getElementById("player").style.display = "none";
-                    $("#player").css("display", "none");
-                    $(".video-container").toggleClass("click-through");
-                    $(".page-footer").toggleClass("padding-bottom-extra");
+                    Helper.css("#player", "display", "none");
+                    Helper.toggleClass(".video-container", "click-through");
+                    Helper.toggleClass(".page-footer", "padding-bottom-extra");
                 }
             } else if(Player.player.getPlayerState() == YT.PlayerState.PAUSED || Player.player.getPlayerState() === YT.PlayerState.ENDED || (Player.player.getPlayerState() === YT.PlayerState.CUED)){
                 Player.playVideo();
                 //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                 if(Helper.mobilecheck() && !window.MSStream){
                     //document.getElementById("player").style.display = "block";
-                    $("#player").css("display", "block");
-                    $(".video-container").toggleClass("click-through");
-                    $(".page-footer").toggleClass("padding-bottom-extra");
+                    Helper.css("#player", "display", "block");
+                    Helper.toggleClass(".video-container", "click-through");
+                    Helper.toggleClass(".page-footer", "padding-bottom-extra");
                 }
             }
         } else {
@@ -217,26 +217,26 @@ var Playercontrols = {
 
     play_pause_show: function() {
         if(chromecastAvailable){
-            if($("#play").hasClass("hide")){
+            if(document.getElementById("play").classList.contains("hide")){
                 Player.pauseVideo();
-            } else if($("#pause").hasClass("hide")){
+            } else if(document.getElementById("pause").classList.contains("hide")){
                 Player.playVideo();
             }
         } else {
 
-            if(!$("#pause").hasClass("hide")) {
-                $("#pause").toggleClass("hide");
-                $("#pause-overlay").toggleClass("hide");
+            if(!document.getElementById("pause").classList.contains("hide")) {
+                Helper.toggleClass("#pause", "hide");
+                Helper.toggleClass("#pause-overlay", "hide");
             }
-            if($("#play").hasClass("hide")) {
-                $("#play").toggleClass("hide");
-                $("#play-overlay").toggleClass("hide");
+            if(document.getElementById("play").classList.contains("hide")) {
+                Helper.toggleClass("#play", "hide");
+                Helper.toggleClass("#play-overlay", "hide");
             }
         }
     },
 
     settings: function() {
-        $("#qS").toggleClass("hide");
+        Helper.toggleClass("#qS", "hide");
     },
 
     changeQuality: function(wantedQ) {
@@ -244,12 +244,12 @@ var Playercontrols = {
             Player.player.setPlaybackQuality(wantedQ);
             Player.player.getPlaybackQuality();
         }
-        $("#qS").toggleClass("hide");
+        Helper.toggleClass("#qS", "hide");
     },
 
     mute_video: function() {
         if(Helper.mobilecheck() || slider_type == "vertical") {
-            $(".volume-container").toggleClass("hide");
+            Helper.toggleClass(".volume-container", "hide");
         } else {
             if(!Player.player.isMuted()) {
                 if(chromecastAvailable) castSession.sendMessage("urn:x-cast:zoff.me", {type: "mute"});
@@ -273,73 +273,73 @@ var Playercontrols = {
     choose_button: function(vol, mute) {
         if(!mute){
             if(vol >= 0 && vol <= 33) {
-                if(!$("#v-full").hasClass("hide")) {
-                    $("#v-full").toggleClass("hide");
-                    $("#v-full-overlay").toggleClass("hide");
+                if(!document.getElementById("v-full").classList.contains("hide")) {
+                    Helper.toggleClass("#v-full", "hide");
+                    Helper.toggleClass("#v-full-overlay", "hide");
                 }
-                if(!$("#v-medium").hasClass("hide")) {
-                    $("#v-medium").toggleClass("hide");
-                    $("#v-medium-overlay").toggleClass("hide");
+                if(!document.getElementById("v-medium").classList.contains("hide")) {
+                    Helper.toggleClass("#v-medium", "hide");
+                    Helper.toggleClass("#v-medium-overlay", "hide");
                 }
-                if($("#v-low").hasClass("hide")) {
-                    $("#v-low").toggleClass("hide");
-                    $("#v-low-overlay").toggleClass("hide");
+                if(document.getElementById("v-low").classList.contains("hide")) {
+                    Helper.toggleClass("#v-low", "hide");
+                    Helper.toggleClass("#v-low-overlay", "hide");
                 }
-                if(!$("#v-mute").hasClass("hide")) {
-                    $("#v-mute").toggleClass("hide");
-                    $("#v-mute-overlay").toggleClass("hide");
+                if(!document.getElementById("v-mute").classList.contains("hide")) {
+                    Helper.toggleClass("#v-mute", "hide");
+                    Helper.toggleClass("#v-mute-overlay", "hide");
                 }
             } else if(vol >= 34 && vol <= 66) {
-                if(!$("#v-full").hasClass("hide")) {
-                    $("#v-full").toggleClass("hide");
-                    $("#v-full-overlay").toggleClass("hide");
+                if(!document.getElementById("v-full").classList.contains("hide")) {
+                    Helper.toggleClass("#v-full", "hide");
+                    Helper.toggleClass("#v-full-overlay", "hide");
                 }
-                if($("#v-medium").hasClass("hide")) {
-                    $("#v-medium").toggleClass("hide");
-                    $("#v-medium-overlay").toggleClass("hide");
+                if(document.getElementById("v-medium").classList.contains("hide")) {
+                    Helper.toggleClass("#v-medium", "hide");
+                    Helper.toggleClass("#v-medium-overlay", "hide");
                 }
-                if(!$("#v-low").hasClass("hide")) {
-                    $("#v-low").toggleClass("hide");
-                    $("#v-low-overlay").toggleClass("hide");
+                if(!document.getElementById("v-low").classList.contains("hide")) {
+                    Helper.toggleClass("#v-low", "hide");
+                    Helper.toggleClass("#v-low-overlay", "hide");
                 }
-                if(!$("#v-mute").hasClass("hide")) {
-                    $("#v-mute").toggleClass("hide");
-                    $("#v-mute-overlay").toggleClass("hide");
+                if(!document.getElementById("v-mute").classList.contains("hide")) {
+                    Helper.toggleClass("#v-mute", "hide");
+                    Helper.toggleClass("#v-mute-overlay", "hide");
                 }
             } else if(vol >= 67 && vol <= 100) {
-                if($("#v-full").hasClass("hide")) {
-                    $("#v-full").toggleClass("hide");
-                    $("#v-full-overlay").toggleClass("hide");
+                if(document.getElementById("v-full").classList.contains("hide")) {
+                    Helper.toggleClass("#v-full", "hide");
+                    Helper.toggleClass("#v-full-overlay", "hide");
                 }
-                if(!$("#v-medium").hasClass("hide")) {
-                    $("#v-medium").toggleClass("hide");
-                    $("#v-medium-overlay").toggleClass("hide");
+                if(!document.getElementById("v-medium").classList.contains("hide")) {
+                    Helper.toggleClass("#v-medium", "hide");
+                    Helper.toggleClass("#v-medium-overlay", "hide");
                 }
-                if(!$("#v-low").hasClass("hide")) {
-                    $("#v-low").toggleClass("hide");
-                    $("#v-low-overlay").toggleClass("hide");
+                if(!document.getElementById("v-low").classList.contains("hide")) {
+                    Helper.toggleClass("#v-low", "hide");
+                    Helper.toggleClass("#v-low-overlay", "hide");
                 }
-                if(!$("#v-mute").hasClass("hide")) {
-                    $("#v-mute").toggleClass("hide");
-                    $("#v-mute-overlay").toggleClass("hide");
+                if(!document.getElementById("v-mute").classList.contains("hide")) {
+                    Helper.toggleClass("#v-mute", "hide");
+                    Helper.toggleClass("#v-mute-overlay", "hide");
                 }
             }
         } else {
-            if(!$("#v-full").hasClass("hide")) {
-                $("#v-full").toggleClass("hide");
-                $("#v-full-overlay").toggleClass("hide");
+            if(!document.getElementById("v-full").classList.contains("hide")) {
+                Helper.toggleClass("#v-full", "hide");
+                Helper.toggleClass("#v-full-overlay", "hide");
             }
-            if(!$("#v-medium").hasClass("hide")) {
-                $("#v-medium").toggleClass("hide");
-                $("#v-medium-overlay").toggleClass("hide");
+            if(!document.getElementById("v-medium").classList.contains("hide")) {
+                Helper.toggleClass("#v-medium", "hide");
+                Helper.toggleClass("#v-medium-overlay", "hide");
             }
-            if(!$("#v-low").hasClass("hide")) {
-                $("#v-low").toggleClass("hide");
-                $("#v-low-overlay").toggleClass("hide");
+            if(!document.getElementById("v-low").classList.contains("hide")) {
+                Helper.toggleClass("#v-low", "hide");
+                Helper.toggleClass("#v-low-overlay", "hide");
             }
-            if($("#v-mute").hasClass("hide")) {
-                $("#v-mute").toggleClass("hide");
-                $("#v-mute-overlay").toggleClass("hide");
+            if(document.getElementById("v-mute").classList.contains("hide")) {
+                Helper.toggleClass("#v-mute", "hide");
+                Helper.toggleClass("#v-mute-overlay", "hide");
             }
         }
     },

@@ -6,8 +6,9 @@ var paused = false;
 var client = false;
 var startTime = 0;
 var socket_connected = false;
+var dynamicListeners = {};
 var player_ready = false;
-var list_html = $("#list-song-html").html();
+var list_html = document.getElementById("list-song-html").innerHTML;
 var w_p		= true;
 var lazy_load	= false;
 var end_programmatically = false;
@@ -66,11 +67,11 @@ function receiveMessage(event) {
 
 window.addEventListener("message", receiveMessage, false);
 
-$(document).ready(function() {
+window.addEventListener("load", function() {
 
     if(hash.length >= 3 && hash[2] == "autoplay"){
         autoplay = true;
-        $("#player").css("visibility", "hidden");
+        Helper.css("#player", "visibility", "hidden");
     } else {
         paused = true;
     }
@@ -120,8 +121,8 @@ $(document).ready(function() {
 
     Playercontrols.initSlider();
     window.setVolume = setVolume;
-    $("#controls").css("background-color", color);
-    $("#playlist").css("background-color", color);
+    Helper.css("#controls", "background-color", color);
+    Helper.css("#playlist", "background-color", color);
     if(hash.indexOf("controll") > -1) {
         Hostcontroller.change_enabled(true);
     } else {
@@ -285,8 +286,8 @@ function toast(msg) {
             tried_again = false;
             adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
             msg="Correct password. You now have access to the sacred realm of The Admin.";
-            $("#thumbnail_form").css("display", "inline-block");
-            $("#description_form").css("display", "inline-block");
+            Helper.css("#thumbnail_form", "display", "inline-block");
+            Helper.css("#description_form", "display", "inline-block");
             if(!Helper.mobilecheck()) {
                 Helper.tooltip('#chan_thumbnail', {
                     delay: 5,
@@ -326,6 +327,28 @@ function emit() {
     }
 }
 
+function handleEvent(e, target, tried, type) {
+    if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+        dynamicListeners[type]["#" + target.id].call(target);
+        return;
+    } else {
+        for(var i = 0; i < target.classList.length; i++) {
+            if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                dynamicListeners[type]["." + target.classList[i]].call(target);
+                return;
+            }
+        }
+    }
+    if(!tried) {
+        handleEvent(e, e.target.parentElement, true, type);
+    }
+}
+
+function addListener(type, element, callback) {
+    if(dynamicListeners[type] == undefined) dynamicListeners[type] = {};
+    dynamicListeners[type][element] = callback;
+}
+
 function before_toast(){
     /*if($('.toast').length > 0) {
         var toastElement = $('.toast').first()[0];
@@ -336,32 +359,36 @@ function before_toast(){
     //Materialize.Toast.removeAll();
 }
 
-$(document).on( "click", "#zoffbutton", function(e) {
+document.addEventListener("click", function(e) {
+    handleEvent(e, e.target, false, "click");
+}, false);
+
+addListener("click", "#zoffbutton", function(e) {
     Player.pauseVideo();
     window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });
 
-$(document).on( "click", ".vote-container", function(e) {
-    var id = $(this).attr("data-video-id");
+addListener("click", ".vote-container", function(e) {
+    var id = this.getAttribute("data-video-id");
     List.vote(id, "pos");
 });
 
-$(document).on("click", ".prev_page", function(e) {
+addListener("click", ".prev_page", function(e) {
     e.preventDefault();
     List.dynamicContentPage(-1);
 });
 
-$(document).on("click", ".next_page", function(e) {
+addListener("click", ".next_page", function(e) {
     e.preventDefault();
     List.dynamicContentPage(1);
 });
 
-$(document).on("click", ".last_page", function(e){
+addListener("click", ".last_page", function(e){
     e.preventDefault();
     List.dynamicContentPage(10);
 });
 
-$(document).on("click", ".first_page", function(e){
+addListener("click", ".first_page", function(e){
     e.preventDefault();
     List.dynamicContentPage(-10);
 });

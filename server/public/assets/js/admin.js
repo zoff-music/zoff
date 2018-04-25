@@ -32,7 +32,7 @@ var Admin = {
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
-            document.getElementsByName(names[i])[0].setAttribute("disabled", false);
+            document.getElementsByName(names[i])[0].removeAttribute("disabled");
         }
 
         Helper.removeClass(".card-action", "hide");
@@ -162,7 +162,11 @@ var Admin = {
 
         for (var i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
-            document.getElementsByName(names[i])[0].setAttribute("disabled", show_disabled);
+            if(show_disabled) {
+                document.getElementsByName(names[i])[0].setAttribute("disabled", show_disabled);
+            } else {
+                document.getElementsByName(names[i])[0].removeAttribute("disabled");
+            }
         }
         if((hasadmin) && !Admin.logged_in) {
             if(Helper.html("#admin-lock") != "lock") Admin.display_logged_out();

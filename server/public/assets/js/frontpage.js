@@ -148,8 +148,9 @@ var Frontpage = {
         });
 
         document.getElementById("preloader").style.display = "none";
+        document.getElementById("channels").style.display = "block";
         //Materialize.fadeInImage('#channels');
-        $("#channels").fadeIn(800);
+        //$("#channels").fadeIn(800);
         document.getElementById("autocomplete-input").focus();
         num = 0;
     },
@@ -201,11 +202,11 @@ var Frontpage = {
             //$(".room-namer").css("opacity", 0);
             setTimeout(function(){
                 if(frontpage){
-                    $("#mega-background").css("background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
-                    $("#mega-background").css("background-size" , "cover");
-                    $("#mega-background").css("background-repeat" , "no-repeat");
-                    $("#mega-background").css("opacity", 1);
-                    $(".autocomplete").attr("placeholder", list[i]._id);
+                    Helper.css("#mega-background","background", "url(data:image/png;base64,"+Frontpage.blob_list[i]+")");
+                    Helper.css("#mega-background","background-size" , "cover");
+                    Helper.css("#mega-background","background-repeat" , "no-repeat");
+                    Helper.css("#mega-background","opacity", 1);
+                    document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
                     //$(".room-namer").css("opacity", 1);
                 }
             },500);
@@ -222,26 +223,27 @@ var Frontpage = {
                     type: "POST",
                     data: {id:id},
                     url: add + "/api/imageblob",
+                    headers: {"Content-Type": "application/json;charset=UTF-8"},
                     success: function(data){
                         setTimeout(function(){
-                            $("#mega-background").css("background", "url(/assets/images/thumbnails/"+data+")");
-                            $("#mega-background").css("background-size" , "cover");
-                            $("#mega-background").css("background-repeat" , "no-repeat");
-                            $("#mega-background").css("opacity", 1);
-                            $(".autocomplete").attr("placeholder", list[i]._id);
+                            Helper.css("#mega-background", "background", "url(/assets/images/thumbnails/"+data+")");
+                            Helper.css("#mega-background", "background-size" , "cover");
+                            Helper.css("#mega-background", "background-repeat" , "no-repeat");
+                            Helper.css("#mega-background", "opacity", 1);
+                            document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
                         },500);
                     },
                     error: function() {
-                        $(".autocomplete").attr("placeholder", list[i]._id);
+                        document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
                     }
                 });
             };
             img.onload = function(){ // Loaded successfully
-                $("#mega-background").css("background", "url("+img.src+")");
-                $("#mega-background").css("background-size" , "cover");
-                $("#mega-background").css("background-repeat" , "no-repeat");
-                $("#mega-background").css("opacity", 1);
-                $(".autocomplete").attr("placeholder", list[i]._id);
+                Helper.css("#mega-background", "background", "url("+img.src+")");
+                Helper.css("#mega-background", "background-size" , "cover");
+                Helper.css("#mega-background", "background-repeat" , "no-repeat");
+                Helper.css("#mega-background", "opacity", 1);
+                document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
             };
 
         }
@@ -306,7 +308,7 @@ var Frontpage = {
     },
 
     set_viewers: function(viewers) {
-        $("#frontpage-viewer-counter").html("<i class='material-icons frontpage-viewers'>visibility</i>" + viewers);
+        document.querySelector("#frontpage-viewer-counter").innerHTML = "<i class='material-icons frontpage-viewers'>visibility</i>" + viewers;
     },
 
     to_channel: function(new_channel, popstate) {
@@ -439,7 +441,7 @@ var Frontpage = {
                 window.location.reload(true);
             });
         }
-        if($("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists || user_auth_avoid){
+        if(document.querySelectorAll("#alreadyfp").length === 0 || Helper.mobilecheck() || !socket._callbacks.$playlists || user_auth_avoid){
             setup_playlist_listener();
         }
 

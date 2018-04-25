@@ -2308,6 +2308,7 @@ nav ul li:hover, nav ul li.active {
 
 #controls
 {
+    overflow: hidden;
     z-index: 99999999999;
     opacity:0;
     height:32px;
