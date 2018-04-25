@@ -128,7 +128,7 @@ var Frontpage = {
             data[options_list[x]._id] = null;
         }
         if(document.querySelectorAll(".pin").length == 1 && !Helper.mobilecheck()) {
-            Helper.tooltip(document.querySelectorAll(".pin")[0].parent().parent().parent(), {
+            Helper.tooltip(document.querySelectorAll(".pin")[0].parentElement.parentElement.parentElement, {
                 delay: 5,
                 position: "top",
                 html: "Featured playlist"
