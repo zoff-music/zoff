@@ -21,9 +21,9 @@ var Hostcontroller = {
             }
         }
         var codeURL = window.location.protocol + "//remote."+window.location.hostname+"/"+id;
-        $("#code-text").text(id);
-        $("#code-qr").attr("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
-        $("#code-link").attr("href", codeURL);
+        document.querySelector("#code-text").innerText = id;
+        document.querySelector("#code-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
+        document.querySelector("#code-link").setAttribute("href", codeURL);
         if(!began) {
             began = true;
             setup_host_listener(id);
@@ -42,7 +42,7 @@ var Hostcontroller = {
                 Admin.beginning = true;
 
                 chan = arr.value.toLowerCase();
-                $("#chan").html(Helper.upperFirst(chan));
+                Helper.setHtml("#chan", Helper.upperFirst(chan));
 
                 w_p = true;
                 var add = "";
@@ -62,6 +62,6 @@ var Hostcontroller = {
 
     change_enabled:function(val){
         enabled = val;
-        $(".remote_switch_class").prop("checked", enabled);
+        document.querySelector(".remote_switch_class").checked = enabled;
     }
 };

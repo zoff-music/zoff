@@ -2,8 +2,8 @@ var List = {
 
     empty: false,
     page: 0,
-    can_fit: Math.round(($("#wrapper").height()) / 71),
-    element_height: (($("#wrapper").height()) / Math.round(($("#wrapper").height()) / 71)) - 25,
+    can_fit: document.querySelectorAll("#wrapper").length > 0 ? Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71) : 0,
+    element_height: document.querySelectorAll("#wrapper").length > 0 ? ((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71)) - 25 : 0,
     uris: [],
     not_found: [],
     num_songs: 0,
@@ -83,13 +83,13 @@ var List = {
 
     changedValues: function(song) {
         if(song.type == "suggested") {
-            $("#suggested-" + song.id).find(".vote-container").attr("title", song.title);
-            $("#suggested-" + song.id).find(".list-title").attr("title", song.title);
-            $("#suggested-" + song.id).find(".list-title").text(song.title);
+            document.querySelector("#suggested-" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
+            document.querySelector("#suggested-" + song.id).querySelector(".list-title").setAttribute("title", song.title);
+            document.querySelector("#suggested-" + song.id).querySelector(".list-title").innerText =  song.title;
             var _temp_duration = Helper.secondsToOther(song.duration);
-            $("#suggested-" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
-            $("#suggested-" + song.id).find(".list-image").attr("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
-            $("#suggested-" + song.id).attr("id", song.new_id);
+            document.querySelector("#suggested-" + song.id).querySelector(".card-duration").innerText =  Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
+            document.querySelector("#suggested-" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+            document.querySelector("#suggested-" + song.id).setAttribute("id", song.new_id);
             return;
         }
         var i = List.getIndexOfSong(song.id);
@@ -100,20 +100,20 @@ var List = {
             full_playlist[i].end = song.end;
             full_playlist[i].id = song.new_id;
 
-            $("#" + song.id).find(".vote-container").attr("title", song.title);
-            $("#" + song.id).find(".list-title").attr("title", song.title);
-            $("#" + song.id).find(".list-title").text(song.title);
+            document.querySelector("#" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
+            document.querySelector("#" + song.id).querySelector(".list-title").setAttribute("title", song.title);
+            document.querySelector("#" + song.id).querySelector(".list-title").innerText = song.title;
             var _temp_duration = Helper.secondsToOther(song.duration);
-            $("#" + song.id).find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
-            $("#" + song.id).find(".list-image").attr("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
-            $("#" + song.id).attr("id", song.new_id);
+            document.querySelector("#" + song.id).querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
+            document.querySelector("#" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+            document.querySelector("#" + song.id).setAttribute("id", song.new_id);
         }
     },
 
     insertAtBeginning: function(song_info, transition) {
         var display = List.page == 0 ? "" : "none";
         var add = List.generateSong(song_info, transition, false, true, false, display, false);
-        $("#wrapper").append(add);
+        document.querySelector("#wrapper").insertAdjacentHTML("beforeend", add);
     },
 
     insertAtIndex: function(song_info, transition, change) {
@@ -123,21 +123,21 @@ var List = {
             if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-flex"
             var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
-                $("#wrapper").prepend(add);
+                document.querySelector("#wrapper").insertAdjacentHTML("afterbegin", add);
             } else {
-                $("#wrapper > div:nth-child(" + (i) + ")").after(add);
+                document.querySelector("#wrapper > div:nth-child(" + (i) + ")").insertAdjacentHTML("afterend", add);
             }
-            var added = $("#wrapper").children()[i];
+            var added = document.querySelector("#wrapper").children[i];
             Helper.css(added, "display", display);
-            if(display == "inline-flex" && $("#wrapper").children().length >= List.page + List.can_fit + 1){
-                $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
-            } else if(i < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-                $($("#wrapper").children()[List.page]).css("display", "inline-flex");
-            } else if($("#wrapper").children().length > List.page + List.can_fit){
-                $($("#wrapper").children()[List.page + List.can_fit - 1]).css("display", "inline-flex");
+            if(display == "inline-flex" && document.querySelector("#wrapper").children.length >= List.page + List.can_fit + 1){
+                Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
+            } else if(i < List.page && document.querySelector("#wrapper").children.length - (List.page + 1) >= 0){
+                Helper.css(document.querySelector("#wrapper").children[List.page], "display", "inline-flex");
+            } else if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
+                Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit - 1], "display", "inline-flex");
             }
             if(change && List.page > 0){
-                $($("#wrapper").children()[List.page - 1]).css("display", "none");
+                Helper.css(document.querySelector("#wrapper").children[List.page - 1], "display", "none");
             }
             if(transition){
                 setTimeout(function(){
@@ -153,23 +153,23 @@ var List = {
     populate_list: function(msg, no_reset) {
         // This math is fucked and I don't know how it works. Should be fixed sometime
         if(!Helper.mobilecheck() && !embed && !client){
-            List.can_fit = Math.round(($("#wrapper").height()) / 71)+1;
-            List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
+            List.can_fit = Math.round((document.querySelector("#wrapper").offsetHeight) / 71);
+            List.element_height = ((document.querySelector("#wrapper").offsetHeight) / List.can_fit)-5.3;
         } else if(embed) {
-            List.can_fit = Math.round(($("#wrapper").height()) / 91) + 1;
-            List.element_height = (($("#wrapper").height()) / List.can_fit)-4;
+            List.can_fit = Math.round((document.querySelector("#wrapper").offsetHeight) / 91) + 1;
+            List.element_height = ((document.querySelector("#wrapper").offsetHeight) / List.can_fit)-4;
         } else if(!client){
-            List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / 71)+1;
-            List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / 71)+1;
+            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / List.can_fit)-5;
         } else {
-            List.can_fit = Math.round(($(window).height() - $("header").height() - $("#pageButtons").height()) / 80)+1;
-            List.element_height = (($(window).height() - $("header").height() - $("#pageButtons").height()) / List.can_fit) - 8;
+            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector(".pageButtons"), null).getPropertyValue("height")) / 80)+1;
+            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector(".pageButtons"), null).getPropertyValue("height")) / List.can_fit) - 8;
         }
         if(List.element_height < 55.2 && !client){
             List.can_fit = List.can_fit - 1;
             List.element_height = 55.2;
-            List.can_fit = Math.round(($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / 71);
-            List.element_height = (($(window).height() - $(".tabs").height() - $("header").height() - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height") - window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height") - 64 - 40) / List.can_fit)-5;
         }
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
@@ -180,7 +180,7 @@ var List = {
         }
         List.sortList();
 
-        $("#wrapper").empty();
+        Helper.setHtml("#wrapper", "");
 
         Helper.log([
             "FULL PLAYLIST",
@@ -192,16 +192,16 @@ var List = {
                 if(!_current_song.hasOwnProperty("start")) full_playlist[j].start = 0;
                 if(!_current_song.hasOwnProperty("end")) full_playlist[j].end = full_playlist[j].duration;
                 if(!_current_song.now_playing && _current_song.type != "suggested"){ //check that the song isnt playing
-                    var generated = List.generateSong(_current_song, false, lazy_load, true, false, "", true)
-                    $("#wrapper").append(generated);
+                    var generated = List.generateSong(_current_song, false, lazy_load, true, false, "inline-flex", true)
+                    document.querySelector("#wrapper").insertAdjacentHTML("beforeend", generated);
                 }
             }
-            if($("#wrapper").children().length > List.can_fit && !$("#pageButtons").length){
+            if(document.querySelector("#wrapper").children.length > List.can_fit && !document.querySelectorAll("#pageButtons").length){
                 Helper.css(".prev_page", "display", "none");
                 Helper.css(".first_page", "display", "none");
                 Helper.css(".next_page_hide", "display","none");
                 Helper.css(".last_page_hide", "display","none");
-            } else if(!$("#pageButtons").length){
+            } else if(!document.querySelectorAll("#pageButtons").length){
                 Helper.css(".prev_page", "display", "none");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page", "display", "none");
@@ -267,17 +267,17 @@ var List = {
     dynamicContentPageJumpTo: function(page) {
         page = page * List.can_fit;
         if(page > List.page || page < List.page){
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
+            Helper.css(document.querySelector("#wrapper").children.slice(List.page, List.page + List.can_fit), "display", "none");
             List.page = page;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
-            if(List.page > 0 && $(".prev_page").css("display") == "none"){
+            Helper.css(document.querySelector("#wrapper").children.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
+            if(List.page > 0 && document.querySelector(".prev_page").style.display == "none"){
                 Helper.css(".prev_page", "display", "inline-flex");
                 Helper.css(".prev_page_hide", "display", "none");
                 Helper.css(".first_page", "display", "inline-flex");
                 Helper.css(".first_page_hide", "display", "none");
             }
 
-            if(List.page + List.can_fit >= $("#wrapper").children().length){
+            if(List.page + List.can_fit >= document.querySelector("#wrapper").children.length){
                 Helper.css(".next_page_hide", "display", "inline-flex");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page_hide", "display", "inline-flex");
@@ -289,89 +289,60 @@ var List = {
     },
 
     dynamicContentPage: function(way) {
-        if(way == 1){
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
-            List.page = List.page + List.can_fit;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
-            if(List.page > 0 && $(".prev_page").css("display") == "none"){
+        var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+        if(way == 1 || way == 10) {
+            Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
+            if(way == 1){
+                List.page = List.page + List.can_fit;
+            } else if(way == 10) {
+                List.page = (Math.floor((document.querySelector("#wrapper").children.length - 1)/ List.can_fit) * List.can_fit);
+
+            }
+            Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
+
+            if(List.page > 0 && document.querySelector(".prev_page").style.display  == "none"){
                 Helper.css(".prev_page", "display", "inline-flex");
                 Helper.css(".prev_page_hide", "display", "none");
                 Helper.css(".first_page", "display", "inline-flex");
                 Helper.css(".first_page_hide", "display", "none");
             }
-
-            if(List.page + List.can_fit >= $("#wrapper").children().length){
+            if(List.page + List.can_fit >= document.querySelector("#wrapper").children.length){
                 Helper.css(".next_page_hide", "display", "inline-flex");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page_hide", "display", "inline-flex");
                 Helper.css(".last_page", "display", "none");
-            }
-            //$("#wrapper").scrollTop(0);
-        } else if(way == 10) {
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
-            List.page = (Math.floor(($("#wrapper").children().length - 1)/ List.can_fit) * List.can_fit);
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
-
-            if(List.page > 0 && $(".prev_page").css("display") == "none"){
-                Helper.css(".prev_page", "display", "inline-flex");
-                Helper.css(".prev_page_hide", "display", "none");
-                Helper.css(".first_page", "display", "inline-flex");
-                Helper.css(".first_page_hide", "display", "none");
-            }
-            if(List.page + List.can_fit >= $("#wrapper").children().length){
-                Helper.css(".next_page_hide", "display", "inline-flex");
-                Helper.css(".next_page", "display", "none");
-                Helper.css(".last_page_hide", "display", "inline-flex");
-                Helper.css(".last_page", "display", "none");
-            }
-        } else if(way==-10) {
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
-            List.page = 0;
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).css("display", "inline-flex");
-            if(List.page == 0 && $(".prev_page").css("display") != "none"){
-                Helper.css(".prev_page", "display", "none");
-                Helper.css(".prev_page_hide", "display", "inline-flex");
-                Helper.css(".first_page", "display", "none");
-                Helper.css(".first_page_hide", "display", "inline-flex");
-            } else if($(".prev_page").css("display") == "none"){
-                Helper.css(".prev_page_hide", "display", "inline-flex");
-                Helper.css(".first_page_hide", "display", "inline-flex");
-            } else {
-                Helper.css(".prev_page_hide", "display", "none");
-                Helper.css(".first_page_hide", "display", "none");
-            }
-            if(List.page + List.can_fit < $("#wrapper").children().length){
-                Helper.css(".next_page_hide", "display", "none");
-                Helper.css(".next_page", "display", "inline-flex");
-                Helper.css(".last_page_hide", "display", "none");
-                Helper.css(".last_page", "display", "inline-flex");
             }
         } else {
-            $("#wrapper").children().slice(List.page - List.can_fit, List.page).css("display", "inline-flex");
-            $("#wrapper").children().slice(List.page, List.page + List.can_fit).hide();
-            List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
-            if(List.page == 0 && $(".prev_page").css("display") != "none"){
+            if(way==-10) {
+                Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
+                List.page = 0;
+                //console.log(List.page, List.can_fit, wrapperChildren.slice(List.page, List.page + List.can_fit));
+                Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
+            } else {
+                Helper.css(wrapperChildren.slice(List.page - List.can_fit, List.page), "display", "inline-flex");
+                Helper.addClass(wrapperChildren.slice(List.page, List.page + List.can_fit), "hide");
+                List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
+            }
+            if(List.page == 0 && document.querySelector(".prev_page").style.display  != "none"){
                 Helper.css(".prev_page", "display", "none");
                 Helper.css(".prev_page_hide", "display", "inline-flex");
                 Helper.css(".first_page", "display", "none");
                 Helper.css(".first_page_hide", "display", "inline-flex");
-            } else if($(".prev_page").css("display") == "none"){
+            } else if(document.querySelector(".prev_page").style.display == "none"){
                 Helper.css(".prev_page_hide", "display", "inline-flex");
                 Helper.css(".first_page_hide", "display", "inline-flex");
             } else {
                 Helper.css(".prev_page_hide", "display", "none");
                 Helper.css(".first_page_hide", "display", "none");
             }
-
-            if(List.page + List.can_fit < $("#wrapper").children().length){
+            if(List.page + List.can_fit < document.querySelector("#wrapper").children.length){
                 Helper.css(".next_page_hide", "display", "none");
                 Helper.css(".next_page", "display", "inline-flex");
                 Helper.css(".last_page_hide", "display", "none");
                 Helper.css(".last_page", "display", "inline-flex");
             }
-
         }
-        $("#pageNumber").html((List.page / List.can_fit) + 1);
+        document.querySelector("#pageNumber").innerText = (List.page / List.can_fit) + 1;
     },
 
     added_song: function(added) {
@@ -386,26 +357,28 @@ var List = {
                 full_playlist.push(now_playing);
             }
 
-            if($("#suggested-"+added.id).length > 0) {
+            if(document.querySelectorAll("#suggested-"+added.id).length > 0) {
                 number_suggested = number_suggested - 1;
                 if(number_suggested < 0) number_suggested = 0;
 
                 var to_display = number_suggested > 9 ? "9+" : number_suggested;
                 if(to_display == 0){
-                    Helper.addClass(".suggested-link span badge new white", "hide");
+                    Helper.addClass(document.querySelector(".suggested-link span.badge.new.white"), "hide");
                 }
 
-                $(".suggested-link span.badge.new.white").text(to_display);
+                document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
             }
 
             Helper.removeElement("#suggested-"+added.id);
             if(List.empty){
                 List.empty = false;
             }
-            $("#empty-channel-message").remove();
+            if(document.querySelectorAll("#empty-channel-message").length > 0) {
+                document.querySelector("#empty-channel-message").remove();
+            }
             List.insertAtIndex(added, true);
-            $($("#wrapper").children()[List.page + List.can_fit]).css("display", "none");
-            if($("#wrapper").children().length > List.page + List.can_fit){
+            Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
+            if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
                 Helper.css(".next_page_hide", "display", "none");
                 Helper.removeClass(".next_page", "hide");
                 Helper.css(".last_page_hide", "display", "none");
@@ -421,26 +394,27 @@ var List = {
     deleted_song: function(deleted, removed) {
         try{
             var index              = List.getIndexOfSong(deleted);
-            //var to_delete          = $("#wrapper").children()[index];
             //if(!removed) to_delete.style.height = 0;
-
-            if(index < List.page && $("#wrapper").children().length - (List.page + 2) >= 0){
-                $($("#wrapper").children()[List.page]).css("height", 0);
-                $($("#wrapper").children()[List.page]).css("display", "inline-flex");
-                $($("#wrapper").children()[List.page]).css("height", List.element_height);
-            } else if($("#wrapper").children().length > List.page + (List.can_fit)){
-                $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", 0);
-                $($("#wrapper").children()[List.page + (List.can_fit)]).css("display", "inline-flex");
-                $($("#wrapper").children()[List.page + (List.can_fit)]).css("height", List.element_height);
+            var nextToChange;
+            if(index < List.page && document.querySelector("#wrapper").children.length - (List.page + 2) >= 0){
+                //Helper.css(document.querySelector("#wrapper").children[List.page], "height", 0 + "px");
+                nextToChange = document.querySelector("#wrapper").children[List.page];
+                //Helper.css(document.querySelector("#wrapper").children[List.page], "display", "inline-flex");
+                //Helper.css(document.querySelector("#wrapper").children[List.page], "height", List.element_height + "px");
+            } else if(document.querySelector("#wrapper").children.length > List.page + (List.can_fit)){
+                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", 0 + "px");
+                nextToChange = document.querySelector("#wrapper").children[List.page + (List.can_fit)];
+                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "display", "inline-flex");
+                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", List.element_height + "px");
             }
-
-            if(List.page >= $("#wrapper").children().length - 1){
+            console.log(List.element_height);
+            if(List.page >= document.querySelector("#wrapper").children.length - 1){
                 List.dynamicContentPage(-1);
                 Helper.css(".next_page_hide", "display", "inline-flex");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page_hide", "display", "inline-flex");
                 Helper.css(".last_page", "display", "none");
-            } else if(List.page + List.can_fit + 1 >= $("#wrapper").children().length - 1){
+            } else if(List.page + List.can_fit + 1 >= document.querySelector("#wrapper").children.length - 1){
                 Helper.css(".next_page_hide", "display", "inline-flex");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page_hide", "display", "inline-flex");
@@ -449,16 +423,27 @@ var List = {
 
             if(List.page <= index && List.page - List.can_fit <= index) {
                 Helper.addClass("#" + deleted, "side_away");
-                $("#" + deleted).find(".mobile-delete").remove();
+
+                //document.getElementById(deleted).querySelector(".mobile-delete").remove();
                 Helper.css("#" + deleted, "transform", "translateX(-100%)");
                 setTimeout(function() {
                     Helper.removeElement("#" + deleted);
-
+                    /*var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+                    if(wrapperChildren.length > List.can_fit) {
+                        Helper.css(wrapperChildren[List.can_fit], "display", "inline-flex");
+                    }*/
+                    if(nextToChange != undefined) {
+                        Helper.css(nextToChange, "display", "inline-flex");
+                        Helper.css(nextToChange, "height", List.element_height + "px");
+                    }
                 }, 300);
             } else {
                 Helper.removeElement("#"+deleted);
+                if(nextToChange != undefined) {
+                    Helper.css(nextToChange, "display", "inline-flex");
+                    Helper.css(nextToChange, "height", List.element_height + "px");
+                }
             }
-            //$("#"+deleted).remove();
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
             Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             //}
@@ -466,11 +451,17 @@ var List = {
         } catch(err) {
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
             if(!List.empty){
-                $("#"+deleted).remove();
-                if(index < List.page && $("#wrapper").children().length - (List.page + 1) >= 0){
-                    $($("#wrapper").children()[List.page - 1]).css("display", "inline-flex");
-                } else if($("#wrapper").children().length > List.page + List.can_fit){
-                    $($("#wrapper").children()[List.page + (List.can_fit - 1)]).css("display", "inline-flex");
+                try {
+                    document.getElementById(deleted).remove();
+                }catch(e){}
+                if(index < List.page && document.querySelector("#wrapper").children.length - (List.page + 1) >= 0){
+                    //Helper.css(document.querySelector("#wrapper").children[List.page - 1], "display", "inline-flex");
+                } else if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
+                    //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit - 1)], "display", "inline-flex");
+                }
+                if(nextToChange != undefined) {
+                    Helper.css(nextToChange, "display", "inline-flex");
+                    Helper.css(nextToChange, "height", List.element_height + "px");
                 }
                 Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             }
@@ -480,11 +471,11 @@ var List = {
             Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
         }
         Helper.removeElement("#suggested-"+deleted);
-        if(List.page + List.can_fit < $("#wrapper").children().length + 1){
+        if(List.page + List.can_fit < document.querySelector("#wrapper").children.length + 1){
             //$(".next_page_hide").css("display", "none");
             //$(".next_page").css("display", "flex");
         }
-        if(List.page >= $("#wrapper").children().length){
+        if(List.page >= document.querySelector("#wrapper").children.length){
             List.dynamicContentPage(-1);
         }
         Suggestions.checkUserEmpty();
@@ -511,7 +502,7 @@ var List = {
         full_playlist.unshift(full_playlist.pop());
 
         full_playlist[full_playlist.length - 1].now_playing = true;
-        $("#wrapper").children()[$("#wrapper").children().length - 1].remove();
+        document.querySelector("#wrapper").children[document.querySelector("#wrapper").children.length - 1].remove();
 
         var length = full_playlist.length - 2;
         if(length < 0) {
@@ -524,7 +515,7 @@ var List = {
     song_change: function(time, remove) {
         try{
             var length = full_playlist.length - 1;
-            $("#wrapper").children()[0].remove();
+            document.querySelector("#wrapper").children[0].remove();
             if(full_playlist.length <= 1) {
                 List.empty = true;
                 Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
@@ -543,11 +534,15 @@ var List = {
                 "SONG ON FIRST INDEX",
                 full_playlist[0]
             ]);
+
             full_playlist.push(full_playlist.shift());
             if(!remove){
-                List.insertAtIndex(full_playlist[$("#wrapper").children().length], false, true);
+                List.insertAtIndex(full_playlist[document.querySelector("#wrapper").children.length], false, true);
             }
-
+            /*var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+            if(wrapperChildren.length > List.can_fit) {
+                //Helper.css(wrapperChildren[List.can_fit], "display", "inline-flex");
+            }*/
         } catch(e) {}
     },
 
@@ -661,7 +656,7 @@ var List = {
         track = encodeURIComponent(track);
 
         Helper.removeClass(".current_number", "hide");
-        $(".current_number").text((current_element + 1) + " of " + (full_playlist.length));
+        document.querySelector(".current_number").innerText = (current_element + 1) + " of " + (full_playlist.length);
         Helper.ajax({
             type: "GET",
             url: "https://api.spotify.com/v1/search?q=" + track + "&type=track",
@@ -753,16 +748,16 @@ var List = {
                         List.addToSpotifyPlaylist(List.uris, playlist_id, user_id);
                         Helper.addClass("#playlist_loader_export", "hide");
                     }
-                    if($(".exported-spotify-list").length == 0) {
-                        $(".exported-list").append("<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+                    if(document.querySelector(".exported-spotify-list").length == 0) {
+                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
                     }
                     for(var i = 0; i < List.not_found.length; i++) {
                         var data = List.not_found[i];
-
-                        var not_added_song = $("<div>" + not_export_html + "</div>");
-                        not_added_song.find(".extra-add-text").attr("value", data);
-                        not_added_song.find(".extra-add-text").attr("title", data);
-                        $(".not-exported-container").append(not_added_song.html());
+                        var not_added_song = document.createElement("div");
+                        not_added_song.innerHTML = not_export_html;
+                        not_added_song.querySelector(".extra-add-text").setAttribute("value", data);
+                        not_added_song.querySelector(".extra-add-text").setAttribute("title", data);
+                        document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                     }
                     Helper.addClass(".current_number", "hide");
                     Helper.removeClass(".not-exported", "hide");
@@ -859,14 +854,14 @@ var List = {
                 if(num == full_playlist.length - 1){
                     Helper.log(["All videoes added!"]);
                     Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                    $(".exported-list").append("<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    document.querySelector(".exported-list").insertAtBeginning("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".current_number", "hide");
                     //$(".youtube_export_button").removeClass("hide");
                 } else {
                     //setTimeout(function(){
                     Helper.removeClass(".current_number", "hide");
-                    $(".current_number").text((num + 1) + " of " + (full_playlist.length));
+                    document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
                     List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url)
                     //}, 50);
                 }
@@ -904,7 +899,9 @@ var List = {
         var video_votes = _song_info.votes;
         var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
         var video_thumb = "background-image:url('" + video_thumb_url + "');";
-        var song        = $("<div>"+list_html+"</div>");
+        var song = document.createElement("div");
+        song.innerHTML = list_html;
+        song = song.cloneNode(true);
         var image_attr  = "style";
         if(_song_info.hasOwnProperty("start") && _song_info.hasOwnProperty("end")) {
             _song_info.duration = _song_info.end - _song_info.start;
@@ -913,37 +910,40 @@ var List = {
         var del_attr;
         //song.find(".list-song");
         if(transition) {
-            song.find(".list-song").css("transform", "translateX(100%)");
-            song.find(".list-song").addClass("side_away");
+            Helper.css(song.querySelector(".list-song"), "transform", "translateX(100%)");
+            Helper.addClass(song.querySelector(".list-song"), "side_away");
         }
-        song.find(".list-song").css("height", List.element_height);
-        if(!w_p) song.find(".card-action").removeClass("hide");
-        if(video_votes == 1)song.find(".vote-text").text("vote");
+        Helper.css(song.querySelector(".list-song"), "height", List.element_height + "px");
+        if(!w_p) Helper.removeClass(song.querySelector(".card-action"), "hide");
+        if(video_votes == 1)song.querySelector(".vote-text").innerText = "vote";
         if(lazy){
             video_thumb = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
             image_attr  = "data-original";
         }
+
+        song.querySelector(".list-image").setAttribute(image_attr,video_thumb);
         if(list){
-            song.find(".list-votes").text(video_votes);
-            song.find("#list-song").attr("data-video-id", video_id);
-            song.find("#list-song").attr("data-video-type", "song");
-            song.find("#list-song").attr("id", video_id);
-            song.find(".vote-container").attr("title", video_title);
-            if((($("#wrapper").children().length >= List.can_fit) && initial) || display == "none"){
-                song.find(".card").css("display", "none");
+            song.querySelector(".list-votes").innerText = video_votes;
+            song.querySelector("#list-song").setAttribute("data-video-id", video_id);
+            song.querySelector("#list-song").setAttribute("data-video-type", "song");
+            song.querySelector("#list-song").setAttribute("id", video_id);
+            song.classList.remove("hide");
+            song.querySelector(".vote-container").setAttribute("title", video_title);
+            if(((document.querySelector("#wrapper").children.length >= List.can_fit) && initial) || display == "none"){
+                Helper.css(song.querySelector(".card"), "display", "none");
             }
             attr     = ".vote-container";
             del_attr = "delete_button";
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
-            song.find(".card-duration").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
+            song.querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
         }else if(!list){
-            //song.find(".card-duration").remove();
-            //song.find(".list-song").removeClass("playlist-element");
-            //song.find(".more_button").addClass("hide");
-            song.find(".suggested_remove").removeClass("hide");
-            song.find(".vote-text").text("");
-            song.find(".card-duration").text(Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]));
+            //song.querySelector(".card-duration").remove();
+            //song.querySelector(".list-song").removeClass("playlist-element");
+            //song.querySelector(".more_button").addClass("hide");
+            Helper.removeClass(song.querySelector(".suggested_remove"), "hide");
+            song.querySelector(".vote-text").innerText = "";
+            song.querySelector(".card-duration").innerText = Helper.pad(_song_info.duration[0]) + ":" + Helper.pad(_song_info.duration[1]);
             var added_by = "user";
             attr     = ".add-suggested";
             if(user){
@@ -952,48 +952,49 @@ var List = {
                 del_attr = "del_suggested";
                 added_by = "system";
             }
-            song.find(".vote-container").attr("class", "clickable add-suggested");
-            song.find(".add-suggested").attr("title", video_title);
-            song.find(".delete_button").addClass(del_attr);
-            song.find(attr).attr("data-video-title", video_title);
-            song.find(attr).attr("data-video-length", _song_info.length);
-            song.find(attr).attr("data-added-by", added_by);
-            song.find("#list-song").attr("data-video-type", "suggested");
-            song.find("#list-song").attr("data-video-id", video_id);
-            song.find("#list-song").css("display", "inline-flex");
-            song.find("#list-song").attr("id", "suggested-" + video_id);
-            song.find(".list-image").attr("class", song.find(".list-image").attr("class").replace("list-image", "list-suggested-image"));
-
+            song.querySelector(".vote-container").setAttribute("class", "clickable add-suggested");
+            song.querySelector(".add-suggested").setAttribute("title", video_title);
+            //Helper.addClass(song.querySelector(".delete_button"), del_attr);
+            song.querySelector(attr).setAttribute("data-video-title", video_title);
+            song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
+            song.querySelector(attr).setAttribute("data-added-by", added_by);
+            song.querySelector("#list-song").setAttribute("data-video-type", "suggested");
+            song.querySelector("#list-song").setAttribute("data-video-id", video_id);
+            Helper.css(song.querySelector("#list-song"), "display", "inline-flex");
+            song.querySelector("#list-song").setAttribute("id", "suggested-" + video_id);
+            var list_image = song.querySelector(".list-image");
+            list_image.classList.remove("list-image");
+            list_image.className += " list-suggested-image";
+            //song.querySelector(".list-image").setAttribute("class", song.querySelector(".list-image").getAttribute("class").replace("list-image", "list-suggested-image"));
         }
 
-        song.find(".mobile-delete").remove();
-        song.find(".list-title").text(video_title);
-        song.find(".list-title").attr("title", video_title);
-        song.find(attr).attr("data-video-id", video_id);
-        song.find(".list-image").attr(image_attr,video_thumb);
-        song.find(".list-image-placeholder").attr("src", video_thumb_url);
-        song.find(".list-suggested-image").attr(image_attr,video_thumb);
-        song.find("."+del_attr).attr("data-video-id", video_id);
-        return song.html();
+        song.querySelector(".mobile-delete").remove();
+        song.querySelector(".list-title").innerText = video_title;
+        song.querySelector(".list-title").setAttribute("title", video_title);
+        song.querySelector(attr).setAttribute("data-video-id", video_id);
+        //song.querySelector(".list-image-placeholder").setAttribute("src", video_thumb_url);
+        if(song.querySelectorAll(".list-suggested-image").length > 0) {
+            song.querySelector(".list-suggested-image").setAttribute(image_attr,video_thumb);
+        }
+        //console.log(del_attr, song.querySelector("."+del_attr));
+        //song.querySelector("."+del_attr).setAttribute("data-video-id", video_id);
+        return song.innerHTML;
     },
 
     getIndexOfSong: function(id) {
         try {
-            indexes = $.map(full_playlist, function(obj, index) {
-                if(obj.id == id) {
-                    return index;
-                }
-            });
+            for(var i = 0; i < full_playlist.length; i++) {
+                if(full_playlist[i].id == id) return i;
+            }
 
-            return indexes[0];
         } catch(e) {}
     },
 
     scrollTop: function() {
-        $("#wrapper").scrollTop(0);
+        document.querySelector("#wrapper").scrollTop(0);
     },
 
     scrollBottom: function(){
-        $("#wrapper").scrollTop($("#wrapper")[0].scrollHeight);
+        document.querySelector("#wrapper").scrollTop(document.querySelector("#wrapper").scrollHeight);
     }
 };

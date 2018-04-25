@@ -23,12 +23,12 @@ function removeAllListeners() {
 
 function getColor(id) {
     Helper.ajax({
-        type: "POST",
+        method: "POST",
         url: "/api/color",
-        async: true,
-        data: {
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
+        data: JSON.stringify({
             id: id
-        },
+        }),
         success: function(c) {
             c = JSON.parse(c);
             if(typeof(c) == "object") {
@@ -40,9 +40,7 @@ function getColor(id) {
 
 function hide_native(way) {
     if(way == 1){
-        if(!$('.castButton').hasClass('castButton-white-active')) {
-            $('.castButton').addClass('castButton-white-active');
-        }
+        Helper.addClass('.castButton', 'castButton-white-active');
         if(!Helper.mobilecheck()) {
             if(M.Tooltip.getInstance(document.getElementsByClassName("castButton")[0])) {
                 Helper.tooltip('.castButton', 'destroy');
@@ -53,19 +51,19 @@ function hide_native(way) {
                 html: "Stop casting"
             });
         }
-        $("#duration").toggleClass("hide");
-        $("#fullscreen").toggleClass("hide");
+        Helper.toggleClass("#duration", "hide");
+        Helper.toggleClass("#fullscreen", "hide");
         try{
             Player.player.stopVideo();
         } catch(e){}
         Player.stopInterval = true;
         if(Helper.mobilecheck()){
-            if($("#pause").hasClass("hide")){
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
-            } else if($("#play").hasClass("hide")){
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
+            if(document.querySelector("#pause").classList.contains("hide")){
+                Helper.toggleClass("#play", "hide");
+                Helper.toggleClass("#pause", "hide");
+            } else if(document.querySelector("#play").classList.contains("hide")){
+                Helper.toggleClass("#play", "hide");
+                Helper.toggleClass("#pause", "hide");
             }
         } else {
             Playercontrols.visualVolume(100);
@@ -87,7 +85,7 @@ function hide_native(way) {
         }
         Player.player.setVolume(100);
 
-        $("#player_overlay_text").toggleClass("hide");
+        Helper.toggleClass("#player_overlay_text", "hide");
     } else if(way == 0){
         if(!Helper.mobilecheck()) {
             if(M.Tooltip.getInstance(document.getElementsByClassName("castButton")[0])) {
@@ -101,8 +99,8 @@ function hide_native(way) {
         }
         Helper.removeClass('.castButton', 'castButton-white-active');
 
-        $("#duration").toggleClass("hide");
-        $("#fullscreen").toggleClass("hide");
+        Helper.toggleClass("#duration", "hide");
+        Helper.toggleClass("#fullscreen", "hide");
         Player.player.playVideo();
         Player.stopInterval = false;
         duration = Player.player.getDuration();
@@ -112,7 +110,7 @@ function hide_native(way) {
             Playercontrols.visualVolume(Crypt.get_volume());
         }
         Helper.addClass("#player_overlay", "hide");
-        $("#player_overlay_text").toggleClass("hide");
+        Helper.toggleClass("#player_overlay_text", "hide");
         Helper.setHtml("#chromecast_text", "");
         Helper.css("#playing_on", "display", "none");
         if(!offline){
@@ -157,7 +155,7 @@ function start_auth() {
         Helper.removeClass("#player_overlay", "hide");
         Helper.css("#player_overlay", "display", "block");
         M.Modal.getInstance(document.getElementById("user_password")).open();
-        $("#user-pass-input").focus();
+        document.querySelector("#user-pass-input").focus();
         //Crypt.remove_userpass(chan.toLowerCase());
         before_toast();
         M.toast({html: "That is not the correct password, try again..", displayLength: 4000});
@@ -186,6 +184,7 @@ function get_list_ajax() {
             userpass: "",
             token: zoff_api_token,
         },
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
         url: "/api/list/" + chan.toLowerCase(),
         success: function(response) {
             response = JSON.parse(response);
@@ -217,24 +216,26 @@ function get_list_ajax() {
 }
 
 function contextListener(that, e) {
-    var parent = $(that).parent();
+    console.log("here");
+    var parent = that.parentElement;
     var suggested = false;
-    if(parent.attr("id").indexOf("suggested-") > -1) suggested = true;
+    if(parent.id.indexOf("suggested-") > -1) suggested = true;
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-suggested", suggested);
-    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", parent.attr("id").replace("suggested-", ""));
+    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", parent.getAttribute("id").replace("suggested-", ""));
     Helper.removeClass("#context-menu-overlay", "hide");
-    var left = e.pageX - $(".context-menu-root").width() / 2;
-    var top = e.pageY;
-    if(left + 200 > $(window).width()) {
-        left = $(window).width() - 200 - 15;
+    var left = event.pageX - document.querySelector(".context-menu-root").offsetWidth / 2;
+    var top = event.pageY;
+    if(left + 200 > window.innerWidth) {
+        left = window.innerWidth - 200 - 15;
     } else if (left < 0) {
         left = 11;
     }
-    if(top + 96 > $(window).height()) {
-        top = $(window).height() - 96 - 15;
+    if(top + 96 > window.innerHeight) {
+        top = window.innerHeight - 96 - 15;
     } else if(top < 0) {
         top = 15;
     }
+    console.log(event.pageX);
     Helper.css(".context-menu-root", "left", left + "px");
     Helper.css(".context-menu-root", "top", top + "px");
     Helper.removeClass(".context-menu-root","hide");
@@ -244,15 +245,18 @@ function contextListener(that, e) {
 }
 
 function mouseContext(left, top) {
-    $(document).off("mousemove");
-    $(document).mousemove(function( event ) {
-       if(event.pageX < left - 60 || event.pageX > left + $(".context-menu-root").width() + 60 ||
-          event.pageY < top - 60 || event.pageY > top + $(".context-menu-root").height() + 60) {
+    var moveFunction = function( event ) {
+       if(event.pageX < left - 60 || event.pageX > left + document.querySelector(".context-menu-root").offsetWidth + 60 ||
+          event.pageY < top - 60 || event.pageY > top + document.querySelector(".context-menu-root").offsetHeight + 60) {
            Helper.addClass(".context-menu-root", "hide");
            Helper.addClass("#context-menu-overlay", "hide");
-           $(document).off("mousemove");
+           document.removeEventListener("mousemove", moveFunction);
        }
-    });
+    };
+    try {
+        document.removeEventListener("mousemove", moveFunction);
+    } catch(e) {}
+    document.addEventListener("mousemove", moveFunction, false);
 }
 
 function get_np_ajax() {
@@ -265,6 +269,7 @@ function get_np_ajax() {
             fetch_song: true,
             token: zoff_api_token
         },
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
         url: "/api/list/" + chan.toLowerCase() + "/__np__",
         success: function(response) {
             response = JSON.parse(response);
@@ -295,6 +300,7 @@ function del_ajax(id) {
             userpass: "",
             token: zoff_api_token
         },
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("deletesong");
@@ -329,6 +335,7 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
             start_time: start,
             token: zoff_api_token
         },
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("addedsong");
@@ -361,6 +368,7 @@ function vote_ajax(id) {
             userpass: "",
             token: zoff_api_token
         },
+        headers: {"Content-Type": "application/json;charset=UTF-8"},
         url: "/api/list/" + chan.toLowerCase() + "/" + id,
         success: function(response) {
             toast("voted");
@@ -446,7 +454,7 @@ function setup_viewers_listener(){
         viewers = view;
         var outPutWord    = "<i class='material-icons'>visibility</i>"//v > 1 ? "viewers" : "viewer";
 
-        $("#viewers").html(outPutWord + " " + view);
+        Helper.setHtml("#viewers", outPutWord + " " + view);
 
         if(song_title !== undefined)
         Player.getTitle(song_title, viewers);
@@ -528,19 +536,42 @@ function change_offline(enabled, already_offline){
             Helper.tooltip("#offline-mode", 'destroy');
         }
     }
-    if(enabled){
-        if(list_html){
-            list_html = $("<div>" + list_html + "</div>");
-            //list_html.find(".list-remove").removeClass("hide");
-            list_html = list_html.html();
+
+    var mouseEnter = function(e){
+        Helper.removeClass("#seekToDuration", "hide");
+    };
+
+    var mouseLeave = function(e){
+        dragging = false;
+        Helper.addClass("#seekToDuration", "hide");
+    };
+
+    var mouseDown = function(e) {
+        var acceptable = ["bar", "controls", "duration"];
+        if(acceptable.indexOf(e.target.id) >= 0) {
+            dragging = true;
         }
+    };
+
+    var mouseUp = function(e) {
+        dragging = false;
+    };
+
+    if(enabled){
+        /*if(list_html == undefined){
+            var tempOuter = document.createElement("div");
+            list_html.innerHTML = list_html;
+            //list_html.find(".list-remove").removeClass("hide");
+            list_html = list_html.innerHTML;
+        }*/
         //$(".list-remove").removeClass("hide");
         Helper.addClass("#viewers", "hide");
         Helper.removeClass(".margin-playbar", "margin-playbar");
-        Helper.addClass(".prev.playbar", "margin-playbar");
-        Helper.removeClass(".prev.playbar", "hide");
+        Helper.addClass(".prev playbar", "margin-playbar");
+        Helper.removeClass(".prev playbar", "hide");
         Helper.removeClass("#offline-mode", "waves-cyan");
         Helper.addClass("#offline-mode", "cyan");
+        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
         if(!Helper.mobilecheck()) {
             Helper.tooltip("#offline-mode", {
                 delay: 5,
@@ -551,35 +582,18 @@ function change_offline(enabled, already_offline){
 
         if(window.location.pathname != "/"){
             socket.removeEventListener("color");
-            $("#controls").on("mouseenter", function(e){
-                Helper.removeClass("#seekToDuration", "hide");
-            });
+            document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
+            document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
+            document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
+            document.getElementById("controls").addEventListener("mouseup", mouseUp, false);
+            document.getElementById("controls").addEventListener("mousemove", Channel.seekToMove);
+            document.getElementById("controls").addEventListener("click", Channel.seekToClick);
 
-            $("#controls").on("mouseleave", function(e){
-                dragging = false;
-                Helper.addClass("#seekToDuration", "hide");
-            });
-
-            $("#controls").on("mousedown", function(e) {
-                var acceptable = ["bar", "controls", "duration"];
-                if(acceptable.indexOf($(e.target).attr("id")) >= 0) {
-                    dragging = true;
-                }
-            });
-            $("#controls").on("mouseup", function(e) {
-                dragging = false;
-            });
-            $("#controls").on("mousemove", Channel.seekToMove);
-            $("#controls").on("click", Channel.seekToClick);
-            $("#main_components").append("<div id='seekToDuration' class='hide'>00:00/01:00</div>");
-            if(!Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
-            else if(Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 20);
+            document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
+            var controlElement = document.querySelector("#controls");
+            if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", controlElement.offsetHeight - parseInt(controlElement.style.height) - 55);
+            else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", controlElement.offsetHeight - parseInt(controlElement.style.height) - 20);
             Helper.addClass("#controls", "ewresize");
-        } else {
-            $("#controls").off("mouseenter");
-            $("#controls").off("mouseleave");
-            $("#controls").off("mousemove");
-            $("#controls").off("click");
         }
         if(full_playlist != undefined && !already_offline){
             for(var x = 0; x < full_playlist.length; x++){
@@ -589,14 +603,17 @@ function change_offline(enabled, already_offline){
             List.populate_list(full_playlist);
         }
     } else {
-        if(list_html){
-            list_html = $("<div>" + list_html + "</div>");
-            list_html = list_html.html();
-        }
+        /*if(list_html == undefined){
+            var tempOuter = document.createElement("div");
+            list_html.innerHTML = list_html;
+            //list_html.find(".list-remove").removeClass("hide");
+            list_html = list_html.innerHTML;
+        }*/
+        if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
         Helper.removeClass(".margin-playbar", "margin-playbar");
         Helper.addClass("#playpause", "margin-playbar");
         Helper.removeClass("#viewers", "hide");
-        Helper.addClass(".prev.playbar", "hide");
+        Helper.addClass(".prev playbar", "hide");
         Helper.addClass("#offline-mode", "waves-cyan");
         Helper.removeClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
@@ -607,14 +624,14 @@ function change_offline(enabled, already_offline){
             });
         }
 
-        $("#controls").off("mouseleave");
-        $("#controls").off("mouseenter");
-        $("#controls").off("mousedown");
-        $("#controls").off("mouseup");
-        $("#controls").off("mousemove", Channel.seekToMove);
-        $("#controls").off("click", Channel.seekToClick);
-        Helper.removeElement("#seekToDuration");
         if(window.location.pathname != "/"){
+            document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
+            document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
+            document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
+            document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
+            document.getElementById("controls").removeEventListener("mousemove", Channel.seekToMove);
+            document.getElementById("controls").removeEventListener("click", Channel.seekToClick);
+            Helper.removeElement("#seekToDuration");
             socket.on("color", Player.setBGimage);
             socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
@@ -626,20 +643,27 @@ function change_offline(enabled, already_offline){
 }
 
 function handleEvent(e, target, tried, type) {
-    if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-        dynamicListeners[type]["#" + target.id].call(target);
-        return;
-    } else {
-        for(var i = 0; i < target.classList.length; i++) {
-            if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                dynamicListeners[type]["." + target.classList[i]].call(target);
-                return;
+    //console.log(target, dynamicListeners);
+    //console.log(e.path, target);
+    console.log(target);
+    for(var y = 0; y < e.path.length; y++) {
+        var target = e.path[y];
+        if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+            //console.log(target.id);
+            dynamicListeners[type]["#" + target.id].call(target);
+            return;
+        } else {
+            if(target.classList == undefined) return;
+            for(var i = 0; i < target.classList.length; i++) {
+                if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                    //console.log(target.id);
+                    dynamicListeners[type]["." + target.classList[i]].call(target);
+                    return;
+                }
             }
         }
     }
-    if(!tried) {
-        handleEvent(e, e.target.parentElement, true, type);
-    }
+
 }
 
 function addListener(type, element, callback) {
@@ -843,25 +867,25 @@ function before_toast(){
 }
 
 function scrollChat() {
-    var current = $(".chat-tab active").attr("href");
+    var current = document.querySelector(".chat-tab active").getAttribute("href");
     if(current == "#channelchat") {
-        $('#chatchannel').scrollTop($('#chatchannel')[0].scrollHeight);
+        document.querySelector('#chatchannel').scrollTop(document.querySelector('#chatchannel').scrollHeight);
     } else if(current == "#all_chat") {
-        $('#chatall').scrollTop($('#chatall')[0].scrollHeight);
+        document.querySelector('#chatall').scrollTop(document.querySelector('#chatall').scrollHeight);
     }
 }
 
 function searchTimeout(event) {
-    search_input = $(".search_input").val();
+    search_input = document.getElementsByClassName("search_input")[0].value;
 
     code = event.keyCode || event.which;
 
     if (code != 40 && code != 38 && code != 13 && code != 39 && code != 37 && code != 17 && code != 16 && code != 225 && code != 18 && code != 27) {
         clearTimeout(timeout_search);
         if(search_input.length < 3){
-            $("#results").html("");
+            document.querySelector("#results").innerHTML = "";
             if(search_input.length == 0) {
-                $("body").attr("style", "overflow-y: auto");
+                document.querySelector("body").setAttribute("style", "overflow-y: auto");
             }
         }
         if(code == 13){

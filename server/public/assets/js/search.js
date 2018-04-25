@@ -8,35 +8,36 @@ var Search = {
     submitYouTubeError: false,
 
     showSearch: function(){
-        $("#search-wrapper").toggleClass("hide");
+        Helper.toggleClass("#search-wrapper", "hide");
         if(Helper.mobilecheck())
         {
-            $(".search_input").focus();
+            document.querySelector(".search_input").focus();
         }
-        $("#song-title").toggleClass("hide");
+        Helper.toggleClass("#song-title", "hide");
         //$("#results").empty();
-        if($("#search-btn i").html() == "close") {
-            $("body").attr("style", "overflow-y:auto")
-            $("#results").slideUp({
+        if(document.querySelector("#search-btn i").innerText == "close") {
+            document.querySelector("body").setAttribute("style", "overflow-y:auto")
+            /*$("#results").slideUp({
                 complete: function() {
                     $("#results").empty();
                 }
-            });
-            $(".search_input").val("");
-            $("#search-btn i").html("search");
+            });*/
+            document.getElementById("results").innerHTML = "";
+            document.querySelector(".search_input").value =  "";
+            document.querySelector("#search-btn i").innerText = "search";
         } else {
-            $("#search-btn i").html("close");
+            document.querySelector("#search-btn i").innerText = "close";
         }
-        $("#search").focus();
+        document.querySelector("#search").focus();
 
     },
 
     search: function(search_input, retried, related, pagination){
         if(result_html === undefined || empty_results_html === undefined) {
-            result_html = $("#temp-results-container");
+            result_html = document.getElementById("#temp-results-container");
             empty_results_html = Helper.html("#empty-results-container");
         }
-        if(!pagination && $("#inner-results").length == 0) {
+        if(!pagination && document.querySelectorAll("#inner-results").length == 0) {
             Helper.setHtml(".search_results", '');
         }
         if(search_input !== ""){
@@ -65,10 +66,10 @@ var Search = {
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
                     if(response.items.length === 0) {
-                        $("#results").empty();
+                        document.getElementById("results").innerHTML = "";
                         Helper.css("#results", "display", "block");
-                        $("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-                        if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+                        //$("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+                        document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>");
                         Helper.removeClass(".search_loader_spinner", "active");
 
                     } else if(response.items){
@@ -83,7 +84,9 @@ var Search = {
                             success: function(response){
                                 response = JSON.parse(response);
                                 var output = "";
-                                var pre_result = $(result_html);
+
+                                var pre_result = document.createElement("div");
+                                pre_result.innerHTML = result_html;
 
                                 //$("#results").append(result_html);
 
@@ -100,51 +103,52 @@ var Search = {
                                         thumb=song.snippet.thumbnails.medium.url;
 
                                         //$("#results").append(result_html);
-                                        var songs = pre_result;
-                                        songs.find(".search-title").text(title);
-                                        songs.find(".result_info").text(Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]));
-                                        songs.find(".thumb").attr("src", thumb);
-                                        //songs.find(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
-                                        songs.find("#add-many").attr("data-video-id", id);
-                                        songs.find("#add-many").attr("data-video-title", enc_title);
-                                        songs.find("#add-many").attr("data-video-length", secs);
-                                        //$($(songs).find("div")[0]).attr("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-                                        songs.find("#temp-results").attr("data-video-id", id);
-                                        songs.find("#temp-results").attr("data-video-title", enc_title);
-                                        songs.find("#temp-results").attr("data-video-length", secs);
-                                        songs.find(".open-externally").attr("href", "https://www.youtube.com/watch?v=" + id);
-                                        $(songs.find(".result-end")).attr("value", secs);
-                                        //$($(songs).find("div")[0]).attr("id", id)
+                                        var songs = pre_result.cloneNode(true);
+                                        songs.querySelector(".search-title").innerText = title;
+                                        songs.querySelector(".result_info").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
+                                        songs.querySelector(".thumb").setAttribute("src", thumb);
+                                        //songs.querySelector(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
+                                        songs.querySelector("#add-many").setAttribute("data-video-id", id);
+                                        songs.querySelector("#add-many").setAttribute("data-video-title", enc_title);
+                                        songs.querySelector("#add-many").setAttribute("data-video-length", secs);
+                                        //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+                                        songs.querySelector("#temp-results").setAttribute("data-video-id", id);
+                                        songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
+                                        songs.querySelector("#temp-results").setAttribute("data-video-length", secs);
+                                        songs.querySelector(".open-externally").setAttribute("href", "https://www.youtube.com/watch?v=" + id);
+                                        songs.querySelector(".result-end").setAttribute("value", secs);
+                                        //$($(songs).querySelector("div")[0]).setAttribute("id", id)
                                         //output += undefined;
-                                        if(songs.html() != undefined) {
-                                            output += songs.html();
+                                        if(songs.innerHTML != undefined && songs.innerHTML != "") {
+                                            output += songs.innerHTML;
                                         }
                                     }
                                 }
                                 var fresh = false;
-                                if($("#inner-results").length == 0) {
+                                if(document.querySelectorAll("#inner-results").length == 0) {
                                     fresh = true;
                                 }
-                                $(".search_results").empty();
+                                document.getElementsByClassName("search_results")[0].innerHTML = "";
                                 if(output.length > 0) {
                                     //$(window).scrollTop(0);
                                     if(!pagination && fresh) {
-                                        $(".search_results").css("display", "none");
+                                        Helper.css(".search_results", "display", "none");
                                     }
-                                    $("#results").append(pagination_buttons_html);
-                                    $("<div id='inner-results'>"+output+"</div>").prependTo($("#results"));
+                                    document.getElementById("results").insertAdjacentHTML("beforeend", pagination_buttons_html);
+                                    //$("<div id='inner-results'>"+output+"</div>").prependTo($("#results"));
+                                    document.getElementById("results").insertAdjacentHTML("afterbegin", "<div id='inner-results'>"+output+"</div>");
                                     if(!pagination && fresh) {
-                                        $(".search_results").slideDown();
+                                        //$(".search_results").slideDown();
                                     }
-                                    $("body").attr("style", "overflow-y:hidden !important")
+                                    document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:hidden !important")
 
                                     if(nextPageToken) {
-                                        $(".next-results-button").attr("data-pagination", nextPageToken);
+                                        document.querySelector(".next-results-button").setAttribute("data-pagination", nextPageToken);
                                     } else {
                                         Helper.addClass(".next-results-button", "disabled");
                                     }
                                     if(prevPageToken) {
-                                        $(".prev-results-button").attr("data-pagination", prevPageToken);
+                                        document.querySelector(".prev-results-button").setAttribute("data-pagination", prevPageToken);
                                     } else {
                                         Helper.addClass(".prev-results-button", "disabled");
                                     }
@@ -153,19 +157,14 @@ var Search = {
 
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
-                                    if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
                                     Helper.removeClass(".search_loader_spinner", "active");
 
-                                    $(".add-many").click(function(e) {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        return false;
-                                    });
+
                                 } else if(!retried){
                                     Search.search(search_input, true);
                                 } else {
-                                    $("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-                                    if(Helper.contains($(".search_loader_spinner").attr("class").split(" "), "active"))
+                                    //$("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
+                                    document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>");
                                     Helper.removeClass(".search_loader_spinner", "active");
                                 }
                             }
@@ -202,11 +201,13 @@ var Search = {
                         "Spotify title: " + title + " " + artist.join(" "),
                         "Spotify length: " + length
                     ]);
-                    var not_added_song = $("<div>" + not_import_html + "</div>");
-                    not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
-                    not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
-                    not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
-                    $(".not-imported-container").append(not_added_song.html());
+                    var not_added_song = document.createElement("div");
+                    not_added_song.innerHTML = not_import_html;
+
+                    not_added_song.querySelector(".extra-add-text").innerText = title + " - " + artist.join(" ");
+                    not_added_song.querySelector(".extra-add-text").setAttribute("title", title + " - " + artist.join(" "));
+                    not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title + " - " + artist.join(" "));
+                    document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                     Helper.removeClass(".not-imported", "hide");
                 } else if(response.items.length > 0) {
                     for(var i = 0; i < response.items; i++) {
@@ -264,11 +265,12 @@ var Search = {
                                         "Spotify title: " + title + " " + artist.join(" "),
                                         "Spotify length: " + length
                                     ]);
-                                    var not_added_song = $("<div>" + not_import_html + "</div>");
-                                    not_added_song.find(".extra-add-text").text(title + " - " + artist.join(" "));
-                                    not_added_song.find(".extra-add-text").attr("title", title + " - " + artist.join(" "));
-                                    not_added_song.find(".extra-button-search").attr("data-text", title + " - " + artist.join(" "));
-                                    $(".not-imported-container").append(not_added_song.html());
+                                    var not_added_song = document.createElement("div");
+                                    not_added_song.innerHTML = not_import_html;
+                                    not_added_song.querySelector(".extra-add-text").innerText = title + " - " + artist.join(" ");
+                                    not_added_song.querySelector(".extra-add-text").setAttribute("title", title + " - " + artist.join(" "));
+                                    not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title + " - " + artist.join(" "));
+                                    document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                                     Helper.removeClass(".not-imported", "hide");
                                 }
                             }
@@ -477,11 +479,9 @@ var Search = {
         }
         if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
             var found_array = [];
-            found_array = $.map(full_playlist, function(obj, index) {
-                if(obj.id == id) {
-                    return index;
-                }
-            });
+            for(var i = 0; i < full_playlist.length; i++) {
+                if(full_playlist[i].id == id) found_array.push(i);
+            }
             if(found_array.length == 0){
                 List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, now_playing: false, votes: 1}});
             } else {

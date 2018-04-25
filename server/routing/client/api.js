@@ -1095,6 +1095,7 @@ function incrementToken(token) {
 router.route('/api/color').post(function(req, res) {
     var origin = req.get("origin").replace("https://", "").replace("http://", "");
     var allowed = ["client.localhost", "localhost", "zoff.me", "client.zoff.me", "zoff.no", "client.zoff.no"];
+    console.log(req.body);
     if(allowed.indexOf(origin) < 0) {
         res.sendStatus(403);
         return;
@@ -1114,6 +1115,7 @@ router.route('/api/imageblob').post(function(req, res) {
         res.sendStatus(403);
         return;
     }
+
     Jimp.read('https://img.youtube.com/vi/' + req.body.id + '/mqdefault.jpg', function (err, image) {
         if (err) {
             console.log(err);

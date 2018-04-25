@@ -64,6 +64,19 @@ var Helper = {
     css: function(element, attribute, value) {
         try {
             if(typeof(element) == "object") {
+                try {
+                    if(element.length > 0) {
+                        for(var i = 0; i < element.length; i++) {
+                            element[i].style[attribute] = value;
+                        }
+                    } else {
+                        element.style[attribute] = value;
+                    }
+                } catch(e) {
+                    element.style[attribute] = value;
+                }
+            }
+            if(typeof(element) == "object") {
                 element.style[attribute] = value;
             } else if(element.substring(0,1) == "#") {
                 document.getElementById(element.substring(1)).style[attribute] = value;
@@ -232,66 +245,79 @@ var Helper = {
     },
 
     addClass: function(element, className) {
-        if(typeof(element) == "object") {
-            if(element.className.indexOf(className) == -1) {
-                element.className += " " + className;
-            }
-        } else if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            if(elem.className.indexOf(className) == -1) {
-                elem.className += " " + className;
-            }
-        } else {
-            var elements;
-            if(element.substring(0,1) == ".") {
-                var testSplit = element.substring(1).split(" ");
-                if(testSplit.length > 1) {
-                    var insideElement = document.getElementsByClassName(testSplit[0]);
-                    elements = [];
-                    for(var i = 0; i < insideElement.length; i++) {
-                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
-                        for(var y = 0; y < innards.length; y++) {
-                            elements.push(innards[y]);
+        try {
+            if(typeof(element) == "object") {
+                try {
+                    if(element.length > 0) {
+                        for(var i = 0; i < element.length; i++) {
+                            if(element[i].className.indexOf(className) == -1) {
+                                element[i].className += " " + className;
+                            }
+                        }
+                    } else {
+                        if(element.className.indexOf(className) == -1) {
+                            element.className += " " + className;
                         }
                     }
-                } else {
-                    elements = document.getElementsByClassName(element.substring(1));
+                } catch(e) {
+                    console.log(element);
+                    if(element.className.indexOf(className) == -1) {
+                        element.className += " " + className;
+                    }
+                }
+            } else if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(elem.className.indexOf(className) == -1) {
+                    elem.className += " " + className;
                 }
             } else {
-                elements = document.getElementsByTagName(element);
-            }
-            for(var i = 0; i < elements.length; i++) {
-                if(elements[i].className.indexOf(className) == -1) {
-                    elements[i].className += " " + className;
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    elements = document.getElementsByClassName(element.substring(1));
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    if(elements[i].className.indexOf(className) == -1) {
+                        elements[i].className += " " + className;
+                    }
                 }
             }
-        }
+        }catch(e) {}
     },
 
     ajax: function(obj) {
         var _async = true;
         if(obj.async) _async = obj.async;
+        if(obj.method == undefined && obj.type != undefined) obj.method = obj.type;
         if(obj.method == undefined) obj.method = "GET";
         var xmlhttp = new XMLHttpRequest();
-        if(obj.headers) {
-            for(header in obj.headers) {
-                xmlhttp.setRequestHeader(header, obj.headers[header]);
-            }
-        }
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                if (xmlhttp.status == 200) {
                    obj.success(xmlhttp.responseText, xmlhttp);
                }
-               else {
+               else if(obj.hasOwnProperty("error")){
                   obj.error(xmlhttp);
                }
             }
         };
 
         xmlhttp.open(obj.method, obj.url, _async);
+        if(obj.headers) {
+            for(header in obj.headers) {
+                xmlhttp.setRequestHeader(header, obj.headers[header]);
+            }
+        }
         if(obj.data) {
+            var sendRequest = "";
+            if(typeof(obj.data) == "string") JSON.parse(obj.data);
+            for(key in obj.data) {
+                sendRequest += key + "=" + obj.data[key] + "&";
+            }
+            sendRequest = sendRequest.substring(0, sendRequest.length - 1);
             if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
+            //xmlhttp.send(sendRequest);
             xmlhttp.send(obj.data);
         }
         else xmlhttp.send();
@@ -559,10 +585,10 @@ var Helper = {
                 url: "/api/mail",
                 success: function(data){
                     if(data == "success"){
-                        $("#contact-container").empty();
+                        Helper.setHtml("#contact-container", "");
                         Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
                     }else{
-                        $("#contact-container").empty();
+                        Helper.setHtml("#contact-container", "");
                         Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
                     }
                 }

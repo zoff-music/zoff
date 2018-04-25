@@ -1,5 +1,5 @@
-var chan 				  		= window.chan === undefined ? $("#chan").html() : window.chan;
-var w_p 				  		= true;
+var chan = window.chan === undefined && document.querySelectorAll("#chan").length > 0 ? document.querySelector("#chan").innerText : window.chan;
+var w_p = true;
 var domain = window.location.host.split(".");
 var client = false;
 if(domain.length > 0 && domain[0] == "client") {
@@ -7,8 +7,8 @@ if(domain.length > 0 && domain[0] == "client") {
 }
 var dynamicListeners = {};
 var socket_connected = false;
-var hasadmin			  		= 0;
-var list_html 			  		= $("#list-song-html").html();
+var hasadmin = 0;
+var list_html = document.querySelectorAll("#list-song-html").length > 0 ? document.querySelector("#list-song-html").innerHTML : undefined;
 var unseen 			   	  		= false;
 var searching 		   	  		= false;
 var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
@@ -52,7 +52,7 @@ var userpass              		= "";
 var i 					  		= -1;
 var lazy_load    		  		= false;
 var embed				  		= false;
-var autoplay			  		= true;
+var autoplay			  		= Helper.mobilecheck() ? false : true;
 var durationBegun 	      		= false;
 var chat_active 		  		= false;
 var chat_unseen 		  		= false;
@@ -133,19 +133,14 @@ try{
     } else {
         Helper.log('Service Worker is not supported in this browser.');
     }
-/*
+    /*
     navigator.serviceWorker.getRegistration('/').then(function(registration) {
-        if(registration) {
-            registration.unregister();
-        }
-    });*/
+    if(registration) {
+    registration.unregister();
+}
+});*/
 
 } catch(e) {}
-
-/*
-$.ajaxPrefilter(function( options, original_Options, jqXHR ) {
-    options.async = true;
-});*/
 
 window.zoff = {
     enable_debug: enable_debug,
@@ -157,27 +152,26 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         if(e == "Script error.") return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
         Helper.logs.unshift({log: chan != "" && chan != undefined ? chan.toLowerCase() : "frontpage", date: new Date()});
-        $(".contact-form-content").remove();
-        $("#submit-contact-form").remove();
-        $(".contact-modal-header").text("An error occurred");
-        $(".contact-container-info").remove();
-        $(".contact-modal-footer").prepend('<a href="#!" class="waves-effect waves-green btn-flat send-error-modal">Send</a>');
-        $("#contact-form").attr("id", "error-report-form");
-        $("#contact-container").prepend('<p>Do you want to send an error-report?</p> \
-            <p class="error-report-success"></p> \
-            <div class="error-code-container"> \
-                <code id="error-report-code"></code> \
-            </div>');
+        document.querySelector(".contact-form-content").remove();
+        document.querySelector("#submit-contact-form").remove();
+        document.querySelector(".contact-modal-header").innerText = "An error occurred";
+        document.querySelector(".contact-container-info").remove();
+        document.querySelector(".contact-modal-footer").insertAdjacentHTML("beforeend", '<a href="#!" class="waves-effect waves-green btn-flat send-error-modal">Send</a>');
+        document.querySelector("#contact-form").setAttribute("id", "error-report-form");
+        document.querySelector("#contact-container").insertAdjacentHTML("afterbegin", '<p>Do you want to send an error-report?</p> \
+        <p class="error-report-success"></p> \
+        <div class="error-code-container"> \
+        <code id="error-report-code"></code> \
+        </div>');
         M.Modal.init(document.getElementById("contact"));
         M.Modal.getInstance(document.getElementById("contact")).open();
-        /*$("#error-report-modal").modal();*/
         Helper.setHtml("#error-report-code", JSON.stringify(Helper.logs, undefined, 4));
         //console.error(e.originalEvent.error);
         return true;
     };
 }
 
-$().ready(function(){
+window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
     }
@@ -202,35 +196,36 @@ $().ready(function(){
                 socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
             }
             /*if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
-                emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
-            }*/
-            $(".connect_error").fadeOut(function(){
-                $(".connect_error").remove();
-                M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
-            });
-        }
-        Chat.namechange("", true, true);
-    });
-
-    /*socket.on("name", function(data) {
-        if(data.type == "name" && data.accepted) {
-            Crypt.set_name(temp_name, temp_pass);
-            temp_name = "";
-            temp_pass = "";
-        } else {
-            temp_name = "";
-            temp_pass = "";
-        }
+            emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
+        }*/
+        /*$(".connect_error").fadeOut(function(){
+        $(".connect_error").remove();
+        M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
     });*/
-
-    socket.on("self_ping", function() {
-        if(chan != undefined && chan.toLowerCase() != "") {
-            socket.emit("self_ping", {channel: chan.toLowerCase()});
-        }
-    });
-
-    setup_no_connection_listener();
+        before_toast();
+    }
+    Chat.namechange("", true, true);
 });
+
+/*socket.on("name", function(data) {
+if(data.type == "name" && data.accepted) {
+Crypt.set_name(temp_name, temp_pass);
+temp_name = "";
+temp_pass = "";
+} else {
+temp_name = "";
+temp_pass = "";
+}
+});*/
+
+socket.on("self_ping", function() {
+    if(chan != undefined && chan.toLowerCase() != "") {
+        socket.emit("self_ping", {channel: chan.toLowerCase()});
+    }
+});
+
+setup_no_connection_listener();
+}, false);
 
 initializeCastApi = function() {
     try {
@@ -251,60 +246,60 @@ initializeCastApi = function() {
         ]);
         switch (event.sessionState) {
             case cast.framework.SessionState.SESSION_STARTED:
-                castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
-                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
-                //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-                chromecastAvailable = true;
-                paused = false;
-                mobile_beginning = false;
-                var _seekTo;
-                try{
-                    _seekTo = Player.player.getCurrentTime();
-                } catch(e){
-                    _seekTo = seekTo;
-                }
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+            castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+            //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+            chromecastAvailable = true;
+            paused = false;
+            mobile_beginning = false;
+            var _seekTo;
+            try{
+                _seekTo = Player.player.getCurrentTime();
+            } catch(e){
+                _seekTo = seekTo;
+            }
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
 
-                if(Helper.mobilecheck() && !chromecast_specs_sent) {
-                    socket.emit("get_id");
-                }
-                hide_native(1);
-                if(Helper.mobilecheck()) {
-                    Player.playVideo();
-                }
-                Helper.css("#channel-load", "display", "none");
-                Helper.addClass('.castButton', 'castButton-white-active');
-                Helper.css("#playpause", "visibility", "visible");
-                Helper.css("#playpause", "pointer-events", "all");
-                break;
+            if(Helper.mobilecheck() && !chromecast_specs_sent) {
+                socket.emit("get_id");
+            }
+            hide_native(1);
+            if(Helper.mobilecheck()) {
+                Player.playVideo();
+            }
+            Helper.css("#channel-load", "display", "none");
+            Helper.addClass('.castButton', 'castButton-white-active');
+            Helper.css("#playpause", "visibility", "visible");
+            Helper.css("#playpause", "pointer-events", "all");
+            break;
             case cast.framework.SessionState.SESSION_RESUMED:
-                castSession = cast.framework.CastContext.getInstance().getCurrentSession();
-                castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
-                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
-                //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-                chromecastAvailable = true;
-                paused = false;
-                mobile_beginning = false;
-                var _seekTo;
-                try{
-                    _seekTo = Player.player.getCurrentTime();
-                } catch(e){
-                    _seekTo = seekTo;
-                }
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
-                hide_native(1);
-                Helper.css("#channel-load", "display", "none");
-                Helper.addClass('.castButton', 'castButton-white-active');
-                Helper.css("#playpause", "visibility", "visible");
-                Helper.css("#playpause", "pointer-events", "all");
-                break;
+            castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+            castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
+            chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+            //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
+            chromecastAvailable = true;
+            paused = false;
+            mobile_beginning = false;
+            var _seekTo;
+            try{
+                _seekTo = Player.player.getCurrentTime();
+            } catch(e){
+                _seekTo = seekTo;
+            }
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            hide_native(1);
+            Helper.css("#channel-load", "display", "none");
+            Helper.addClass('.castButton', 'castButton-white-active');
+            Helper.css("#playpause", "visibility", "visible");
+            Helper.css("#playpause", "pointer-events", "all");
+            break;
             case cast.framework.SessionState.SESSION_ENDED:
-                chromecastAvailable = false;
-                hide_native(0);
-                break;
+            chromecastAvailable = false;
+            hide_native(0);
+            break;
         }
     });
 
@@ -320,10 +315,11 @@ initializeCastApi = function() {
             if((!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") && !client) {
                 Helper.css(".castButton", "display", "block");
                 showDiscovery = true;
-                $('.tap-target').tapTarget();
-                $('.tap-target').tapTarget('open');
+                var elem = document.querySelector('.tap-target');
+                var instance = M.TapTarget.init(elem);
+                instance.open();
                 tap_target_timeout = setTimeout(function() {
-                    $('.tap-target').tapTarget('close');
+                    instance.close();
                 }, 4000);
                 localStorage.setItem("_chSeen", "seen");
                 Helper.removeClass('.castButton', 'castButton-white-active');
@@ -373,9 +369,9 @@ addListener("click", "#ethereum-address", function(e) {
 
 addListener("click", ".pagination-results a", function(e) {
     event.preventDefault();
-    var that = $(this);
-    var pageToken = that.attr("data-pagination");
-    var searchInput = that.attr("data-original-search");
+    var that = this;
+    var pageToken = that.getAttribute("data-pagination");
+    var searchInput = that.getAttribute("data-original-search");
 
     Helper.addClass(".pagination-results a", "disabled");
     Search.search(searchInput, false, false, pageToken);
@@ -384,7 +380,7 @@ addListener("click", ".pagination-results a", function(e) {
 addListener("click", "#settings", function(e) {
     event.preventDefault();
     var sidenavElem = document.getElementsByClassName("sidenav")[0];
-    if(!M.Sidenav.getInstance($(".sidenav")).isOpen) {
+    if(!M.Sidenav.getInstance(document.querySelector(".sidenav")).isOpen) {
         M.Sidenav.getInstance(sidenavElem).open();
     } else {
         M.Sidenav.getInstance(sidenavElem).close();
@@ -397,77 +393,15 @@ addListener("click", ".accept-delete", function(e) {
     M.Modal.getInstance(document.getElementById("delete_song_alert")).close();
 });
 
-$(document).keyup(function(event) {
-    if(event.keyCode == 27){
-        //$("#results").html("");
-        if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
-        $("#search-wrapper").toggleClass("hide");
-        if($("#song-title").length != 0 && Helper.contains($("#song-title").attr("class").split(" "), "hide"))
-        $("#song-title").toggleClass("hide");
-
-        if($("#search-btn i").html() == "close")
-        {
-            $("#results").slideUp({
-                complete: function() {
-                    $("#results").empty();
-                }
-            });
-            document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
-            $("#search-btn i").html("search");
-            $(".search_input").val("");
-        }
-        if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
-            $("#results").toggleClass("hide");
-        }
-    } else if(event.keyCode == 13 && $("#search").val() == "fireplace" && !$(".search-container").hasClass("hide") && window.location.pathname != "/") {
-        clearTimeout(timeout_search);
-        Helper.setHtml("#results", "");
-        $("#search").val("");
-        if($("#search-wrapper").length != 0 && !Helper.contains($("#search-wrapper").attr("class").split(" "), "hide"))
-        $("#search-wrapper").toggleClass("hide");
-        if($("#song-title").length != 0 && Helper.contains($("#song-title").attr("class").split(" "), "hide"))
-        $("#song-title").toggleClass("hide");
-
-        if($("#search-btn i").html() == "close")
-        {
-            $("#search-btn i").html("search");
-        }
-        if($(".search-container").length != 0 && !Helper.contains($(".search-container").attr("class").split(" "), "hide")){
-            $("#results").toggleClass("hide");
-        }
-        if(fireplace_initiated) {
-            fireplace_initiated = false;
-            Player.fireplace.destroy();
-            Helper.css("#fireplace_player", "display", "none");
-        } else {
-            fireplace_initiated = true;
-            Helper.css("#fireplace_player", "display", "block");
-            Player.createFireplacePlayer();
-        }
-    }
-});
-
-$(document).on("mouseenter", ".card.sticky-action", function(e){
-    var that = this;
-    $(that).find(".card-reveal").attr("style", "display: block;");
-    clearTimeout(image_timeout);
-    image_timeout = setTimeout(function(){
-        $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(-100%);");
-    }, 50);
-});
 
 addListener("click", "#chat_submit", function(e){
+    console.log(event);
     event.preventDefault();
-    $("#chatForm").submit();
-});
-
-$(document).on("mouseleave", ".card.sticky-action", function(e){
-    var that = this;
-    $(that).find(".card-reveal").attr("style", "display: block;transform: translateY(0%);");
-    clearTimeout(image_timeout);
-    image_timeout = setTimeout(function(){
-        $(that).find(".card-reveal").attr("style", "display: none;");
-    }, 100);
+    event.stopPropagation();
+    Chat.chat(document.getElementById("chatForm").input);
+    document.getElementById("chat_submit").focus();
+    //return true;
+    //document.getElementById("chatForm").submit();
 });
 
 addListener("click", "#offline-mode", function(e){
@@ -481,42 +415,37 @@ addListener("click", "#offline-mode", function(e){
 
 addListener("submit", "#thumbnail_form", function(e){
     event.preventDefault();
-    emit("suggest_thumbnail", {channel: chan, thumbnail: $("#chan_thumbnail").val()});
-    $("#chan_thumbnail").val("");
+    emit("suggest_thumbnail", {channel: chan, thumbnail: document.getElementById("chan_thumbnail").value});
+    document.getElementById("chan_thumbnail").value = "";
 });
 
 addListener("submit", "#description_form", function(e){
     event.preventDefault();
-    emit("suggest_description", {channel: chan, description: $("#chan_description").val()});
-    $("#chan_description").val("");
+    emit("suggest_description", {channel: chan, description: document.getElementById("chan_description").value});
+    document.getElementById("chan_description").value = "";
 });
 
 addListener("click", "#playpause-overlay", function(){
-    if($("#play-overlay").hasClass("hide")){
+    if(document.getElementById("play-overlay").classList.contains("hide")){
         Player.pauseVideo();
-        $("#play-overlay").toggleClass("hide");
-        $("#pause-overlay").toggleClass("hide");
-    } else if($("#pause-overlay").hasClass("hide")){
+        Helper.toggleClass("#play-overlay", "hide");
+        Helper.toggleClass("#pause-overlay", "hide");
+    } else if(document.getElementById("pause-overlay").classList.contains("hide")){
         Player.playVideo();
-        $("#play-overlay").toggleClass("hide");
-        $("#pause-overlay").toggleClass("hide");
+        Helper.toggleClass("#play-overlay", "hide");
+        Helper.toggleClass("#pause-overlay", "hide");
     }
 });
 
 addListener("click", '#cookieok', function(e) {
     event.preventDefault();
-    $(this).fadeOut(function(){
-        $(this).remove();
-        localStorage.ok_cookie = true;
-    });
+    M.Toast.getInstance(this.parentElement).dismiss();
+    localStorage.ok_cookie = true;
 });
 
 addListener("click", ".connect_error", function(e){
     event.preventDefault();
-    $(this).fadeOut(function(){
-        $(this).remove();
-        connect_error = false;
-    });
+    M.Toast.getInstance(this.parentElement).dismiss();
 });
 
 addListener("click", ".extra-button-search", function(e){
@@ -528,8 +457,8 @@ addListener("click", ".extra-button-search", function(e){
 addListener("click", ".extra-button-delete", function(e){
     event.preventDefault();
     this.parentElement.remove();
-    if($(".not-imported-container").children().length === 0){
-        $(".not-imported").toggleClass("hide");
+    if(document.querySelector(".not-imported-container").children.length === 0){
+        Helper.toggleClass(".not-imported", "hide");
     }
 });
 
@@ -578,7 +507,7 @@ addListener("click", ".find-context-menu", function(e) {
 
 addListener("click", ".delete-context-menu", function(e) {
     var that = this;
-    if(that.classList.indexOf("context-menu-disabled") > -1) {
+    if(that.classList.contains("context-menu-disabled")) {
         return;
     }
     var parent = that.parentElement;
@@ -591,16 +520,16 @@ addListener("click", ".delete-context-menu", function(e) {
 
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(to_display == 0){
-            Helper.addClass(".suggested-link span badge new white", "hide");
+            Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
         }
 
-        Helper.setHtml(".suggested-link span badge new white", to_display);
+        Helper.setHtml(document.querySelector(".chat-link span.badge.new.white"), to_display);
     }
 
     List.vote(id, "del");
     Helper.addClass(".context-menu-root", "hide");
     Helper.addClass("#context-menu-overlay", "hide");
-    document.getElementsByClassName("context-menu-root").setAttribute("data-id", "");
+    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 })
 
 addListener("click", "#closePlayer", function(e){
@@ -624,16 +553,150 @@ addListener("click", "#closePlayer", function(e){
     Helper.removeElement("#closePlayer");
 });
 
+document.addEventListener("keydown", function(e) {
+    if(window.location.pathname != "/"){
+        if(event.keyCode == 91 || event.keyCode == 17){
+            find_start = true;
+        } else if(find_start && event.keyCode == 70){
+            find_start = false;
+            find_started = !find_started;
+            event.preventDefault();
+            if(find_started){
+                Helper.toggleClass("#find_div", "hide");
+                document.getElementById("find_input").focus();
+                find_word = "";
+            } else {
+                Helper.toggleClass("#find_div", "hide");
+                document.getElementById("find_input").value = "";
+                document.getElementById("find_input").blur();
+                Helper.removeClass(".highlight", "highlight");
+                found_array = [];
+                found_array_index = 0;
+                find_word = "";
+            }
+        } else if(event.keyCode == 32 && document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/" &&
+        document.querySelector("#text-chat-input") === document.activeElement &&
+        document.querySelector("#password") === document.activeElement &&
+        document.querySelector("#user-pass-input") === document.activeElement &&
+        document.querySelector("#chan_thumbnail") === document.activeElement &&
+        document.querySelector("#chan_description") === document.activeElement &&
+        document.querySelector("#contact-form-from") === document.activeElement &&
+        document.querySelector("#contact-form-message") === document.activeElement &&
+        document.querySelector("#remote_channel") === document.activeElement &&
+        document.querySelector("#import") === document.activeElement &&
+        document.querySelector("#find_input") === document.activeElement &&
+        document.querySelector("#import_spotify") === document.activeElement) {
+            if(Player.player.getPlayerState() == 1) {
+                event.preventDefault();
+                Player.player.pauseVideo();
+                return false;
+            } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
+                event.preventDefault();
+                Player.player.playVideo();
+                return false;
+            }
+        } else {
+            find_start = false;
+        }
+    }
+}, false);
+
+document.addEventListener("keyup", function(e) {
+    if(event.keyCode == 27 && window.location.path != "/"){
+        //$("#results").html("");
+        if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
+            Helper.toggleClass("#search-wrapper", "hide");
+        }
+        if(document.querySelectorAll("#song-title").length != 0 && !document.querySelector("#song-title").classList.contains("hide")){
+            Helper.toggleClass("#song-title", "hide");
+        }
+        if(document.querySelector("#search-btn i").innerText == "close")
+        {
+            /*$("#results").slideUp({
+                complete: function() {
+                    $("#results").empty();
+                }
+            });*/
+            document.querySelector("#results").innerHTML = "";
+            document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
+            document.querySelector("#search-btn i").innerText = "search";
+            document.querySelector(".search_input").value  = "";
+        }
+        if(document.querySelectorAll(".search-container").length != 0 && !document.querySelector(".search-container").classList.contains("hide")){
+            Helper.toggleClass("#results", "hide");
+        }
+    } else if(event.keyCode == 13 && window.location.path != "/" && document.querySelector("#search").value == "fireplace" && !document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/") {
+        clearTimeout(timeout_search);
+        Helper.setHtml("#results", "");
+        document.querySelector("#search").value = "";
+        if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
+            Helper.toggleClass("#search-wrapper", "hide");
+        }
+        if(document.querySelectorAll("#song-title").length != 0 && !document.querySelector("#song-title").classList.contains("hide")) {
+            Helper.toggleClass("#song-title", "hide");
+        }
+        if(document.querySelector("#search-btn i").innerText == "close")
+        {
+            document.querySelector("#search-btn i").innerText == "search";
+        }
+        if(document.querySelectorAll(".search-container").length != 0 && !document.querySelector(".search-container").classList.contains("hide")){
+            Helper.toggleClass("#results", "hide");
+        }
+        if(fireplace_initiated) {
+            fireplace_initiated = false;
+            Player.fireplace.destroy();
+            Helper.css("#fireplace_player", "display", "none");
+        } else {
+            fireplace_initiated = true;
+            Helper.css("#fireplace_player", "display", "block");
+            Player.createFireplacePlayer();
+        }
+    } else if((event.keyCode == 91 || event.keyCode == 17) && !find_started){
+        find_start = false;
+    }
+    console.log("target = ", event.target);
+    if(event.target.classList.contains("search_input")) {
+        console.log("To search");
+        searchTimeout(event);
+    }
+}, false);
 
 document.addEventListener("click", function(e) {
     handleEvent(e, e.target, false, "click");
-}, false);
+}, true);
+
+document.addEventListener("mouseleave", function(e) {
+    if(event.target.className == "card sticky-action") {
+        var that = event.target;
+        that.querySelector(".card-reveal").setAttribute("style", "display: block;transform: translateY(0%);");
+        clearTimeout(image_timeout);
+        image_timeout = setTimeout(function(){
+            that.querySelector(".card-reveal").setAttribute("style", "display: none;");
+        }, 100);
+    }
+}, true);
+
+document.addEventListener("mouseenter", function(e) {
+    if(event.target.className == "card sticky-action") {
+        var that = event.target;
+        that.querySelector(".card-reveal").setAttribute("style", "display: block;");
+        clearTimeout(image_timeout);
+        image_timeout = setTimeout(function(){
+            that.querySelector(".card-reveal").setAttribute("style", "display: block;transform: translateY(-100%);");
+        }, 50);
+    }
+}, true);
+
+document.addEventListener("contextmenu", function(e) {
+    handleEvent(e, e.target, false, "contextmenu");
+}, true);
 
 document.addEventListener("input", function(e) {
     handleEvent(e, e.target, false, "input");
 }, true);
 
 document.addEventListener("change", function(e) {
+    console.log(e);
     handleEvent(e, e.target, false, "change");
 }, true);
 
@@ -641,8 +704,20 @@ document.addEventListener("submit", function(e) {
     handleEvent(e, e.target, false, "submit");
 }, true);
 
+addListener("change", "#width_embed", function() {
+    var that = event.target;
+    embed_width = that.value;
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+});
+
+addListener("change", "#height_embed", function() {
+    var that = event.target;
+    embed_height = that.value;
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+});
+
 addListener("click", ".prev_page", function(e) {
-//addListener("click", ".prev_page", function(e){
+    //addListener("click", ".prev_page", function(e){
     event.preventDefault();
     List.dynamicContentPage(-1);
 });
@@ -769,75 +844,55 @@ addListener("click", "#aprilfools", function(){
 
 addListener("change", '#view_channels_select', function(e) {
     var that = this;
-    console.log("test", that.value)
     if(currently_showing_channels != parseInt(that.value)) {
         Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.value) == 1 ? true : false));
     }
     currently_showing_channels = parseInt(that.value);
 });
 
-$(document).on('keyup mouseup', '#width_embed', function(){
-    var that = $(this);
-    embed_width = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
-});
-
-$(document).on('keyup mouseup', '#height_embed', function(){
-    var that = $(this);
-    embed_height = that.val();
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
-});
-
 addListener("input", '#color_embed', function(){
-    var that = $(this);
-    color = that.val().substring(1);
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
+    var that = this;
+    color = that.value.substring(1);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("click", ".chan-link", function(e){
     event.preventDefault();
     var href = this.href.replace(window.location.protocol + "//" +  window.location.hostname + "/", "");
-    console.log(href, e);
     Frontpage.to_channel(href, false);
 });
 
 addListener("click", ".listen-button", function(e){
-    if($(".room-namer").val() === ""){
+    if(document.querySelector(".room-namer").value === ""){
         event.preventDefault();
-        Frontpage.to_channel($(".room-namer").attr("placeholder"));
+        Frontpage.to_channel(document.querySelector(".room-namer").getAttribute("placeholder"));
     }
 });
 
 addListener("submit", ".channel-finder", function(e){
     event.preventDefault();
-    Frontpage.to_channel($(".room-namer").val());
+    Frontpage.to_channel(document.querySelector(".room-namer").value);
     return false;
 });
 
-addListener("submit", ".channel-finder-mobile", function(e){
-    event.preventDefault();
-    Frontpage.to_channel($("#searchFrontpage").val());
-    return false;
-});
-
-addListener("change", 'input[class=remote_switch_class]', function()
+addListener("change", '.remote_switch_class', function()
 {
     Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
     Crypt.set_remote(enabled);
 });
 
-addListener("change", 'input[class=offline_switch_class]', function()
+addListener("change", '.offline_switch_class', function()
 {
     offline = document.getElementsByName("offline_switch")[0].checked;
     change_offline(offline, !offline);
 });
 
-addListener("change", 'input[class=conf]', function()
+addListener("change", '.conf', function()
 {
     Admin.save(false);
 });
 
-$("#clickme").click(function(){
+addListener("click", "#clickme", function(){
     Player.playVideo();
 });
 
@@ -897,8 +952,8 @@ addListener("click", ".export-spotify-auth", function(e){
 
 addListener("submit", "#listImport", function(e){
     event.preventDefault();
-    var url = $("#import").val().split("https://www.youtube.com/playlist?list=");
-    if($("#import").val() !== "" && url.length == 2){
+    var url = document.getElementById("import").value.split("https://www.youtube.com/playlist?list=");
+    if(document.getElementById("import").value !== "" && url.length == 2){
         Search.importPlaylist(url[1]);
         document.getElementById("import").value = "";
         document.getElementById("import").disabled = true;
@@ -915,7 +970,7 @@ addListener("submit", "#listImport", function(e){
 
 addListener("submit", "#listImportZoff", function(e) {
     event.preventDefault();
-    var new_channel = $("#import_zoff").val();
+    var new_channel = document.getElementById("import_zoff").value;
     if(new_channel == "") {
         M.toast({html: "It seems you've entered a invalid channel-name.", displayLength: 4000});
         return;
@@ -931,8 +986,8 @@ addListener("click", ".import-zoff", function(e) {
 
 addListener("submit", "#listImportSpotify", function(e){
     event.preventDefault();
-    if(spotify_authenticated && $("#import_spotify").val() !== ""){
-        var url = $("#import_spotify").val().split("https://open.spotify.com/user/");
+    if(spotify_authenticated && document.getElementById("import_spotify").value !== ""){
+        var url = document.getElementById("import_spotify").value.split("https://open.spotify.com/user/");
         if(url.length == 2) {
             url = url[1].split("/");
             var user = url[0];
@@ -954,21 +1009,16 @@ addListener("submit", "#listImportSpotify", function(e){
     document.getElementById("import_spotify").value = "";
 });
 
-$(window).focus(function(){
-    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
-    unseen = false;
-});
-
 addListener("change", "#autoplay", function() {
     if(this.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("change", "#videoonly", function() {
     if(this.checked) embed_videoonly = "&videoonly";
     else embed_videoonly = "";
-    $("#embed-area").val(embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly));
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("click", "#playbutton_remote", function(e) {
@@ -992,15 +1042,15 @@ addListener("click", ".skip_next_client", function(e) {
 
 addListener("submit", "#remoteform", function(e) {
     event.preventDefault();
-    Mobile_remote.get_input($("#remote_channel").val());
+    Mobile_remote.get_input(document.getElementById("remote_channel").value);
 });
 
 addListener("click", ".chat-link", function(){
-    $("#text-chat-input").focus();
-    $("#chat-btn i").css("opacity", 1);
+    document.getElementById("text-chat-input").focus();
+    Helper.css(document.querySelector("#chat-btn i"), "opacity", 1);
     Chat.channel_received = 0;
     Chat.all_received = 0;
-    Helper.addClass(".chat-link span badge new white", "hide");
+    Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
     unseen = false;
     document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
 
@@ -1011,12 +1061,8 @@ addListener("click", ".chat-tab-li", function() {
     scrollChat();
 });
 
-$(document).on('keyup', ".search_input", function(event) {
-    searchTimeout(event);
-});
-
 addListener("click", ".chat-tab", function(){
-    $("#text-chat-input").focus();
+    document.getElementById("text-chat-input").focus();
 });
 
 addListener("click", ".prev", function(e){
@@ -1073,7 +1119,7 @@ addListener("click", ".chat-link", function(e){
     Helper.css("#chat-container", "display", "block");
     Helper.css("#wrapper", "display", "none");
     Helper.css("#suggestions", "display", "none");
-    $("#text-chat-input").focus();
+    document.getElementById("text-chat-input").focus();
     Helper.css("#pageButtons", "display", "none");
 });
 
@@ -1126,7 +1172,9 @@ addListener("click", ".import-youtube", function(e){
 
 addListener("submit", "#chatForm", function(e){
     event.preventDefault();
+    event.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
+    return false;
 });
 
 addListener("click", "#shuffle", function(e)
@@ -1159,39 +1207,45 @@ addListener("click", "#closeSettings", function(e)
     Admin.hide_settings();
 });
 
-$(window).resize(function(){
+window.addEventListener("focus", function(event) {
+    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
+    unseen = false;
+});
+
+window.addEventListener("resize", function(){
     if(chan && !Helper.mobilecheck()){
-        var temp_fit = Math.round(($("#wrapper").height()) / 71)+1;
+        var temp_fit = Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
         if(List.can_fit < temp_fit){
-            $($("#wrapper").children()[List.page + temp_fit - 1]).css("display", "inline-flex");
+            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit - 1], "display", "inline-flex");
         } else if(List.can_fit > temp_fit){
-            $($("#wrapper").children()[List.page + temp_fit]).css("display", "none");
+            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
         }
         List.can_fit = temp_fit;
-        List.element_height = (($("#wrapper").height()) / List.can_fit)-5.3;
+        List.element_height = ((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
-        //$("#player_overlay").width($("#player").width()+1);
         Channel.set_title_width();
-        if($("#controls").length > 0 && !Helper.mobilecheck()) $("#seekToDuration").css("top", $("#controls").position().top - 55);
-        else if($("#controls").length > 0) $("#seekToDuration").css("top", $("#controls").position().top - 20);
-
+        var controlsPosition = document.querySelector("#controls").offsetHeight - window.getComputedStyle(document.querySelector("#controls"), null).getPropertyValue("height");
+        if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
+            Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
+        } else if(document.querySelectorAll("#controls").length > 0) {
+            Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
+        }
         Channel.window_width_volume_slider();
     }
 });
 
 addListener("click", ".result-object", function(e){
-    var $html  = $(e.target);
-
-    var substr = $html.prop('outerHTML').substring(0,4);
-    if(substr != "<i c" && $html.prop('class').indexOf("waves-effect") == -1 && $html.attr("class") != "result-start" && $html.attr("class") != "result-end" && $html.attr("class") != "result-get-more-info"){
+    var html  = event.target;
+    var substr = event.target.outerHTML.substring(0,4);
+    if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
         var id 		= this.getAttribute("data-video-id");
         var title 	= this.getAttribute("data-video-title");
-        var original_length 	= this.getAttribute("data-video-length");
-        var start   = parseInt($(this).find(".result-start").val());
-        var end     = parseInt($(this).find(".result-end").val());
+        var original_length = this.getAttribute("data-video-length");
+        var start   = parseInt(this.querySelector(".result-start").value);
+        var end     = parseInt(this.querySelector(".result-end").value);
         if(end > original_length) {
             end = original_length;
         }
@@ -1272,10 +1326,11 @@ addListener("submit", "#error-report-form", function(e) {
 });
 
 addListener("click", "#add-many", function(e){
+    event.preventDefault();
+    event.stopPropagation();
     var id 		= this.getAttribute("data-video-id");
     var title 	= this.getAttribute("data-video-title");
     var original_length = this.getAttribute("data-video-length");
-    console.log(id, title, original_length);
     var parent = this.parentElement.parentElement;
 
     var start   = parseInt(parent.querySelectorAll(".result-start")[0].value);
@@ -1291,7 +1346,7 @@ addListener("click", "#add-many", function(e){
         try {
             var length = parseInt(end) - parseInt(start);
             this.parentElement.parentElement.parentElement.remove();
-            //Search.submit(id, title, length, false, 0, 1, start, end);
+            Search.submit(id, title, length, false, 0, 1, start, end);
         } catch(e) {
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
@@ -1300,10 +1355,8 @@ addListener("click", "#add-many", function(e){
 });
 
 addListener("click", ".vote-container", function(e){
-    if(this.parentElement.classList.indexOf("side_away") == -1) {
-        var id = this.getAttribute("data-video-id");
-        List.vote(id, "pos");
-    }
+    var id = this.getAttribute("data-video-id");
+    List.vote(id, "pos");
 });
 
 addListener("click", ".delete_button", function(e){
@@ -1322,13 +1375,13 @@ addListener("click", ".add-suggested", function(e){
         if(number_suggested < 0) number_suggested = 0;
 
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
-        if(!$(".suggested-link span.badge.new.white").hasClass("hide") && to_display == 0){
-            Helper.addClass(".suggested-link span badge new white", "hide");
+        if(!document.querySelector(".suggested-link span.badge.new.white").classList.contains("hide") && to_display == 0){
+            Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
             Helper.addClass("#user_suggests", "hide");
             Helper.addClass("#suggest_bar", "hide");
         }
 
-        $(".suggested-link span.badge.new.white").text(to_display);
+        document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
     }
     Helper.removeElement("#suggested-" + id);
 });
@@ -1348,18 +1401,17 @@ addListener("click", ".del_user_suggested", function(e){
 
     var to_display = number_suggested > 9 ? "9+" : number_suggested;
     if(to_display == 0){
-        Helper.addClass(".suggested-link span badge new white", "hide");
+        Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
     }
 
-    $(".suggested-link span.badge.new.white").text(to_display);
+    docu.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
 
     List.vote(id, "del");
 });
 
 addListener("click", '#toast-container', function(){
-    $(this).fadeOut(function(){
-        $(this).remove();
-    });
+    var toastInstance = M.Toast.getInstance(this);
+    toastInstance.dismiss();
 });
 
 addListener("click", "#embed-area", function(){
@@ -1384,79 +1436,25 @@ addListener("click", ".generate-channel-name", function(e) {
         type: "GET",
         url: "/api/generate_name",
         success: function(response) {
-            $(".room_namer").val("");
-            $(".room-namer").val(response);
+            document.getElementsByClassName(".room_namer")[0].value = "";
+            document.getElementsByClassName(".room_namer")[0].value = response;
         }
     });
 
     ga('send', 'event', "button-click", "generate-channel");
 });
 
-$(document).keydown(function(event) {
-    if(window.location.pathname != "/"){
-        if(event.keyCode == 91 || event.keyCode == 17){
-            find_start = true;
-        } else if(find_start && event.keyCode == 70){
-            find_start = false;
-            find_started = !find_started;
-            event.preventDefault();
-            if(find_started){
-                $("#find_div").toggleClass("hide");
-                $("#find_input").focus();
-                find_word = "";
-            } else {
-                $("#find_div").toggleClass("hide");
-                $("#find_input").val("");
-                $("#find_input").blur();
-                Helper.removeClass(".highlight", "highlight");
-                found_array = [];
-                found_array_index = 0;
-                find_word = "";
-            }
-        } else if(event.keyCode == 32 && $(".search-container").hasClass("hide") && window.location.pathname != "/" &&
-        !$("#text-chat-input").is(":focus") &&
-        !$("#password").is(":focus") &&
-        !$("#user-pass-input").is(":focus") &&
-        !$("#chan_thumbnail").is(":focus") &&
-        !$("#chan_description").is(":focus") &&
-        !$("#contact-form-from").is(":focus") &&
-        !$("#contact-form-message").is(":focus") &&
-        !$("#remote_channel").is(":focus") &&
-        !$("#import").is(":focus") &&
-        !$("#find_input").is(":focus") &&
-        !$("#import_spotify").is(":focus")) {
-            if(Player.player.getPlayerState() == 1) {
-                event.preventDefault();
-                Player.player.pauseVideo();
-                return false;
-            } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
-                event.preventDefault();
-                Player.player.playVideo();
-                return false;
-            }
-        } else {
-            find_start = false;
-        }
-    }
-});
-
 addListener("click", "#close_find_form_button", function(e) {
     event.preventDefault();
     find_start = false;
     find_started = false;
-    $("#find_div").toggleClass("hide");
-    $("#find_input").val("");
-    $("#find_input").blur();
+    Helper.toggleClass("#find_div", "hide");
+    document.getElementById("find_input").value = "";
+    document.getElementById("find_input").blur();
     Helper.removeClass(".highlight", "highlight");
     found_array = [];
     found_array_index = 0;
     find_word = "";
-});
-
-$(document).keyup(function(event){
-    if((event.keyCode == 91 || event.keyCode == 17) && !find_started){
-        find_start = false;
-    }
 });
 
 addListener("submit", "#find_form", function(e){
@@ -1469,25 +1467,27 @@ addListener("submit", "#find_form", function(e){
     if(found_array.length == 0){
         var that = this;
         found_array_index = 0;
-        found_array = $.map(full_playlist, function(obj, index) {
-            if(obj.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0 && index != full_playlist.length-1) {
-                return index;
+        found_array = [];
+        for(var i = 0; i < full_playlist.length; i++) {
+            var obj = full_playlist[i];
+            if(obj.title.toLowerCase().indexOf(that.find_value.value.toLowerCase()) >= 0 && i != full_playlist.length-1) {
+                found_array.push(i);
             }
-        });
-        $("#num_found").text(found_array_index + 1);
-        $("#of_total_found").text(found_array.length);
+        }
+
     } else {
         found_array_index = found_array_index + 1;
         if(found_array.length - 1 < found_array_index){
             found_array_index = 0;
         }
-        $("#num_found").text(found_array_index + 1);
-        $("#of_total_found").text(found_array.length);
+
     }
+    document.getElementById("num_found").innerText = found_array_index + 1;
+    document.getElementById("of_total_found").innerText = found_array.length;
     if(found_array.length > 0 && found_array[found_array_index] != full_playlist.length - 1){
         Helper.removeClass(".highlight", "highlight");
         var jump_to_page = Math.floor(found_array[found_array_index] / List.can_fit);
-        $($("#wrapper").children()[found_array[found_array_index]]).addClass("highlight");
+        Helper.addClass(document.querySelector("#wrapper").children[found_array[found_array_index]], "highlight");
         List.dynamicContentPageJumpTo(jump_to_page);
     } else {
         Helper.removeClass(".highlight", "highlight");

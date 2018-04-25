@@ -52,7 +52,7 @@ gulp.task('build', function() {
 })
 
 gulp.task('remotecontroller', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/remotecontroller.js'])
+    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/remotecontroller.js', 'server/public/assets/js/helpers.js'])
         .pipe(uglify({
             mangle: true,
             compress: true,

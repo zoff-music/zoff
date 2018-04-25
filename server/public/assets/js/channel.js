@@ -246,7 +246,7 @@ var Channel = {
                 html: "Cast Zoff to TV"
             });
 
-            $("#color_embed").spectrum({
+            /*$("#color_embed").spectrum({
                 color: "#808080",
                 change: function(c) {
                     color = c.toHexString().substring(1); // #ff0000
@@ -256,12 +256,13 @@ var Channel = {
                 containerClassName: 'polyfill-color z-depth-4',
                 show: function(color) {
                 },
-            });
+            });*/
 
-            Helper.addClass(".sp-choose", "hide");
+            /*Helper.addClass(".sp-choose", "hide");
             Helper.addClass(".sp-cancel", "btn-flat waves-effect waves-red");
             Helper.removeClass(".sp-cancel", "sp-cancel");
             document.getElementsByClassName("sp-button-container")[0].insertAdjacentHTML("beforeend", "<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
+            */
         }
 
         addListener("click", ".sp-choose-link", function(e) {

@@ -6,9 +6,9 @@ mobilecheck = function() {
     return check;
 };
 
-$(document).ready(function (){
+window.addEventListener("DOMContentLoaded", function (){
     document.title = "Zoff Remote";
-    setTimeout(function(){$("#search").focus();},500);
+    setTimeout(function(){document.getElementById("search").focus();},500);
     var connection_options = {
         'sync disconnect on unload':true,
         'secure': true
@@ -30,22 +30,57 @@ $(document).ready(function (){
         id = id.toLowerCase();
         Remotecontroller.control();
     }
-});
+}, false);
 
-$(document).on("click", "#playbutton", function() {
+
+function handleEvent(e, target, tried, type) {
+    //console.log(target, dynamicListeners);
+    //console.log(e.path, target);
+    for(var y = 0; y < e.path.length; y++) {
+        var target = e.path[y];
+        if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+            //console.log(target.id);
+            dynamicListeners[type]["#" + target.id].call(target);
+            return;
+        } else {
+            if(target.classList == undefined) return;
+            for(var i = 0; i < target.classList.length; i++) {
+                if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                    //console.log(target.id);
+                    dynamicListeners[type]["." + target.classList[i]].call(target);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+function addListener(type, element, callback) {
+    if(dynamicListeners[type] == undefined) dynamicListeners[type] = {};
+    dynamicListeners[type][element] = callback;
+}
+
+document.addEventListener("click", function(e) {
+    handleEvent(e, e.target, false, "click");
+}, true);
+document.addEventListener("submit", function(e) {
+    handleEvent(e, e.target, false, "submit");
+}, true);
+
+addListener("click", "#playbutton", function() {
     socket.emit("id", {id: id, type: "play", value: "mock"});
 });
 
-$(document).on("click", "#pausebutton", function() {
+addListener("click", "#pausebutton", function() {
     socket.emit("id", {id: id, type: "pause", value: "mock"});
 });
 
-$(document).on("click", "#skipbutton", function() {
+addListener("click", "#skipbutton", function() {
     socket.emit("id", {id: id, type: "skip", value: "mock"});
 });
 
-$(document).on("submit", "#remoteform", function(e) {
-    e.preventDefault();
+addListener("submit", "#remoteform", function(e) {
+    event.preventDefault();
     Remotecontroller.control();
 });
 
@@ -60,14 +95,14 @@ var Remotecontroller = {
             document.getElementById("remoteform").chan.value = "";
             start = false;
 
-            $(".volume-elements").css("display", "flex");
-            $(".rc").css("display", "block");
+            Helper.css(".volume-elements", "display", "flex");
+            Helper.css(".rc", "display", "block");
 
             //document.getElementById("base").setAttribute("onsubmit", "control(); return false;");
-            $("#remote-text").text("Controlling "+ id.toUpperCase());
+            document.getElementById("remote-text").innerText = "Controlling "+ id.toUpperCase();
             document.getElementById("search").setAttribute("length", "18");
             document.getElementById("search").setAttribute("maxlength", "18");
-            $("#forsearch").html("Type new channel name to change to");
+            document.getElementById("forsearch").innerText = "Type new channel name to change to";
 
             //
             /*$("#volume-control").slider({
@@ -81,11 +116,11 @@ var Remotecontroller = {
             }
             //});*/
 
-            $("#volume").append("<div class='volume-slid'></div>");
-            $("#volume").append("<div class='volume-handle'></div>");
+            document.getElementById("volume").insertAdjacentHTML("beforeend", "<div class='volume-slid'></div>");
+            document.getElementById("volume").insertAdjacentHTML("beforeend", "<div class='volume-handle'></div>");
 
-            $(".volume-slid").css("width", "100%");
-            $(".volume-handle").css("left", "calc(100% - 1px)");
+            Helper.css(".volume-slid", "width", "100%");
+            Helper.css(".volume-handle", "left", "calc(100% - 1px)");
             //document.getElementsByClassName("volume-handle")[0].onmousedown = Remotecontroller.dragMouseDown;
             //$("#volume").slider(slider_values);
             //document.getElementsByClassName("volume-slid")[0].onmousedown = Remotecontroller.dragMouseDown;
@@ -99,8 +134,8 @@ var Remotecontroller = {
                 Remotecontroller.closeDragElement();
             }
         } else {
-            socket.emit("id", {id: id, type: "channel", value: $("#search").val().toLowerCase()});
-            $("#search").val("");
+            socket.emit("id", {id: id, type: "channel", value: document.getElementById("search").value.toLowerCase()});
+            document.getElementById("search").value = "";
         }
 
     },
