@@ -2,11 +2,11 @@ var Helper = {
     logs: [],
     log: function(to_log) {
         if(localStorage.debug === "true") {
-            console.log("------------ " + new Date() + " ------------");
+            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
             for(var i = 0; i < to_log.length; i++) {
-                console.log(to_log[i]);
+                console.log(to_log[i]);/*RemoveLogging:skip*/
             }
-            console.log("------------ " + new Date() + " ------------");
+            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
         }
         Helper.logs.unshift({log: to_log, date: new Date()});
         if(Helper.logs.length > 10) {
@@ -16,6 +16,306 @@ var Helper = {
 
     rnd: function(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
+    },
+
+    toggleClass: function(element, className) {
+        try {
+            if(typeof(element) == "object") {
+                if(element.className.indexOf(className) == -1) {
+                    Helper.addClass(element, className);
+                } else {
+                    Helper.removeClass(element, className);
+                }
+            } else if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(elem.className.indexOf(className) == -1) {
+                    Helper.addClass(elem, className);
+                } else {
+                    Helper.removeClass(elem, className);
+                }
+            } else {
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    var testSplit = element.substring(1).split(" ");
+                    if(testSplit.length > 1) {
+                        var insideElement = document.getElementsByClassName(testSplit[0]);
+                        elements = [];
+                        for(var i = 0; i < insideElement.length; i++) {
+                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                            for(var y = 0; y < innards.length; y++) {
+                                elements.push(innards[y]);
+                            }
+                        }
+                    } else {
+                        elements = document.getElementsByClassName(element.substring(1));
+                    }
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    if(elements[i].className.indexOf(className) == -1) {
+                        Helper.addClass(elements[i], className);
+                    }  else {
+                        Helper.removeClass(element, className);
+                    }
+                }
+            }
+        }catch(e) {}
+    },
+
+    css: function(element, attribute, value) {
+        try {
+            if(typeof(element) == "object") {
+                try {
+                    if(element.length > 0) {
+                        for(var i = 0; i < element.length; i++) {
+                            element[i].style[attribute] = value;
+                        }
+                    } else {
+                        element.style[attribute] = value;
+                    }
+                } catch(e) {
+                    element.style[attribute] = value;
+                }
+            }
+            if(typeof(element) == "object") {
+                element.style[attribute] = value;
+            } else if(element.substring(0,1) == "#") {
+                document.getElementById(element.substring(1)).style[attribute] = value;
+            } else {
+                var elements = document.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].style[attribute] = value;
+                }
+            }
+        } catch(e) {
+        }
+    },
+
+    html: function(element) {
+        try {
+            if(element.substring(0,1) == "#") {
+                return document.getElementById(element.substring(1)).innerHTML;
+            } else {
+                var elements = document.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    return elements[i].innerHTML;
+                }
+            }
+        } catch(e){}
+    },
+
+    removeClass: function(element, className) {
+        try {
+            if(typeof(element) == "object") {
+                element.classList.remove(className);
+            } else if(element.substring(0,1) == "#") {
+                document.getElementById(element.substring(1)).classList.remove(className);
+            } else {
+                var elements = document.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].classList.remove(className);
+                }
+            }
+        } catch(e) {
+        }
+    },
+
+    removeElement: function(element) {
+        try {
+            if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                elem.remove();
+            } else {
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    var testSplit = element.substring(1).split(" ");
+                    if(testSplit.length > 1) {
+                        var insideElement = document.getElementsByClassName(testSplit[0]);
+                        elements = [];
+                        for(var i = 0; i < insideElement.length; i++) {
+                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                            for(var y = 0; y < innards.length; y++) {
+                                elements.push(innards[y]);
+                            }
+                        }
+                    } else {
+                        elements = document.getElementsByClassName(element.substring(1));
+                    }
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].remove();
+                }
+            }
+        } catch(e) {}
+    },
+
+    setHtml: function(element, html) {
+        if(typeof(element) == "object") {
+            element.innerHTML = html;
+        } else if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            elem.innerHTML = html;
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                elements = document.getElementsByClassName(element.substring(1));
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                elements[i].innerHTML = html;
+            }
+        }
+    },
+
+    attr: function(element, attr, value) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            elem.setAttribute(attr, value);
+        } else {
+            var elements;
+            if(element.substring(0,1) == ".") {
+                var testSplit = element.substring(1).split(" ");
+                if(testSplit.length > 1) {
+                    var insideElement = document.getElementsByClassName(testSplit[0]);
+                    elements = [];
+                    for(var i = 0; i < insideElement.length; i++) {
+                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
+                        for(var y = 0; y < innards.length; y++) {
+                            elements.push(innards[y]);
+                        }
+                    }
+                } else {
+                    elements = document.getElementsByClassName(element.substring(1));
+                }
+            } else {
+                elements = document.getElementsByTagName(element);
+            }
+            for(var i = 0; i < elements.length; i++) {
+                elements[i].setAttribute(attr, value);
+            }
+        }
+    },
+
+    tabs: function(element, options) {
+        if(element.substring(0,1) == "#") {
+            var elem = document.getElementById(element.substring(1));
+            if(options == "destroy") {
+                var this_element = M.Tabs.getInstance(elem);
+                if(this_element != undefined) this_element.destroy();
+            } else {
+                M.Tabs.init(elem, options);
+            }
+        } else {
+            var elements = document.getElementsByClassName(element.substring(1));
+            for(var i = 0; i < elements.length; i++) {
+                if(options == "destroy") {
+                    var this_element = M.Tabs.getInstance(elem);
+                    if(this_element != undefined) this_element.destroy();
+                } else {
+                    M.Tabs.init(elements[i], options);
+                }
+            }
+        }
+    },
+
+    tooltip: function(element, options) {
+        try {
+            if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(options == "destroy") {
+                    var this_element = M.Tooltip.getInstance(elem);
+                    if(this_element != undefined) this_element.destroy();
+                } else {
+                    M.Tooltip.init(elem, options);
+                }
+            } else {
+                var elements = document.getElementsByClassName(element.substring(1));
+                for(var i = 0; i < elements.length; i++) {
+                    if(options == "destroy") {
+                        var this_element = M.Tooltip.getInstance(elem);
+                        if(this_element != undefined) this_element.destroy();
+                    } else {
+                        M.Tooltip.init(elements[i], options);
+                    }
+                }
+            }
+        } catch(e) {}
+    },
+
+    addClass: function(element, className) {
+        try {
+            if(typeof(element) == "object") {
+                try {
+                    if(element.length > 0) {
+                        for(var i = 0; i < element.length; i++) {
+                            if(element[i].className.indexOf(className) == -1) {
+                                element[i].className += " " + className;
+                            }
+                        }
+                    } else {
+                        if(element.className.indexOf(className) == -1) {
+                            element.className += " " + className;
+                        }
+                    }
+                } catch(e) {
+                    if(element.className.indexOf(className) == -1) {
+                        element.className += " " + className;
+                    }
+                }
+            } else if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                if(elem.className.indexOf(className) == -1) {
+                    elem.className += " " + className;
+                }
+            } else {
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    elements = document.getElementsByClassName(element.substring(1));
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    if(elements[i].className.indexOf(className) == -1) {
+                        elements[i].className += " " + className;
+                    }
+                }
+            }
+        }catch(e) {}
+    },
+
+    ajax: function(obj) {
+        var _async = true;
+        if(obj.async) _async = obj.async;
+        if(obj.method == undefined && obj.type != undefined) obj.method = obj.type;
+        if(obj.method == undefined) obj.method = "GET";
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+               if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
+                   obj.success(xmlhttp.responseText, xmlhttp);
+               }
+               else if(obj.hasOwnProperty("error")){
+                  obj.error(xmlhttp);
+               }
+            }
+        };
+
+        xmlhttp.open(obj.method, obj.url, _async);
+        if(obj.headers) {
+            for(header in obj.headers) {
+                xmlhttp.setRequestHeader(header, obj.headers[header]);
+            }
+        }
+        if(obj.data) {
+            if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
+            //xmlhttp.send(sendRequest);
+            xmlhttp.send(obj.data);
+        }
+        else xmlhttp.send();
     },
 
     randomString: function(length){
@@ -262,21 +562,15 @@ var Helper = {
         return string.substring(0,1).toUpperCase()+string.substring(1).toLowerCase();
     },
 
-    addClass: function(object, toAdd){
-        if(!Helper.contains($(object).attr("class").split(" "), toAdd)){
-            $(object).addClass(toAdd);
-        }
-    },
-
     send_mail: function(from, message){
         if(from !== "" && message !== ""){
 
-            $("#submit-contact-form").addClass("hide");
-            $("#send-loader").removeClass("hide");
-            $("#contact-form-from").attr("disabled", "true");
-            $("#contact-form-message").attr("disabled", "true");
+            Helper.addClass("#submit-contact-form", "hide");
+            Helper.removeClass("#send-loader", "hide");
+            document.getElementById("contact-form-from").setAttribute("disabled", true);
+            document.getElementById("contact-form-message").setAttribute("disabled", true);
             var captcha_response = grecaptcha.getResponse();
-            $.ajax({
+            Helper.ajax({
                 type: "POST",
                 data: {
                     from: from,
@@ -286,11 +580,11 @@ var Helper = {
                 url: "/api/mail",
                 success: function(data){
                     if(data == "success"){
-                        $("#contact-container").empty();
-                        $("#contact-container").html("Mail has been sent, we'll be back with you shortly.")
+                        Helper.setHtml("#contact-container", "");
+                        Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
                     }else{
-                        $("#contact-container").empty();
-                        $("#contact-container").html("Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
+                        Helper.setHtml("#contact-container", "");
+                        Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
                     }
                 }
             });

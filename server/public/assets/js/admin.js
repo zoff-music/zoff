@@ -9,15 +9,15 @@ var Admin = {
         w_p = false;
 
         if(Admin.logged_in) {
-            $("#thumbnail_form").css("display", "inline-block");
-            $("#description_form").css("display", "inline-block");
-            $("#user_suggests").removeClass("hide");
-            $("#user-suggest-html").removeClass("hide");
-            if($(".suggested-badge").text() != "0" && $(".suggested-badge").text() != "") {
-                $(".suggested-badge").removeClass("hide");
+            Helper.css("#thumbnail_form", "display", "inline-block");
+            Helper.css("#description_form", "display", "inline-block");
+            Helper.removeClass("#user_suggests", "hide");
+            Helper.removeClass("#user-suggest-html", "hide");
+            if(Helper.html(".suggested-badge") != "0" && Helper.html(".suggested-badge") != "") {
+                Helper.removeClass(".suggested-badge", "hide");
             }
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip({
+                Helper.tooltip('#chan_thumbnail', {
                     delay: 5,
                     position: "left",
                     html: "imgur link"
@@ -26,38 +26,38 @@ var Admin = {
         } else {
             Admin.hideUserSuggested();
         }
-        $(".delete-context-menu").removeClass("context-menu-disabled");
+        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "userpass"];
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
-            $("input[name="+names[i]+"]").attr("disabled", false);
+            document.getElementsByName(names[i])[0].removeAttribute("disabled");
         }
 
-        $(".card-action").removeClass("hide");
-        $("#admin-lock").addClass("clickable");
-        $("#admin-lock").html("lock_open");
+        Helper.removeClass(".card-action", "hide");
+        Helper.addClass("#admin-lock", "clickable");
+        document.getElementById("admin-lock").innerHTML = "lock_open";
         if(!Helper.mobilecheck()){
-            $('#admin-lock').tooltip({
+            Helper.tooltip('#admin-lock', {
                 delay: 5,
                 position: "left",
                 html: "Logout"
             });
         }
-        $("#password").val("");
-        $("#password").attr("placeholder", "Change admin password");
-        $(".user-password-li").removeClass("hide");
-        $(".delete-all").removeClass("hide");
-        if($(".password_protected").prop("checked")) {
-            $(".change_user_pass").removeClass("hide");
+        document.getElementById("password").value = "";
+        document.getElementById("password").setAttribute("placeholder", "Change admin password");
+        Helper.removeClass(".user-password-li", "hide");
+        Helper.removeClass(".delete-all", "hide");
+        if(document.getElementsByClassName("password_protected")[0].checked) {
+            Helper.removeClass(".change_user_pass", "hide");
         }
 
-        if($("#admin-lock").html() != "lock_open"){
-            $("#admin-lock").addClass("clickable");
-            $("#admin-lock").html("lock_open");
+        if(Helper.html("#admin-lock") != "lock_open"){
+            Helper.addClass("#admin-lock", "clickable");
+            document.getElementById("admin-lock").innerHTML = "lock_open";
             if(!Helper.mobilecheck()){
-                $('#admin-lock').tooltip({
+                Helper.tooltip('#admin-lock', {
                     delay: 5,
                     position: "left",
                     html: "Logout"
@@ -67,15 +67,9 @@ var Admin = {
     },
 
     hideUserSuggested: function() {
-        if(!$("#user_suggests").hasClass("hide")) {
-            $("#user_suggests").addClass("hide")
-        }
-        if(!$("#user-suggest-html").hasClass("hide")) {
-            $("#user-suggest-html").addClass("hide");
-        }
-        if(!$(".suggested-badge").hasClass("hide")) {
-            $(".suggested-badge").addClass("hide");
-        }
+        Helper.addClass("#user_suggests", "hide")
+        Helper.addClass("#user-suggest-html", "hide");
+        Helper.addClass(".suggested-badge", "hide");
     },
 
     conf: function(msg) {
@@ -119,43 +113,34 @@ var Admin = {
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle"];
         document.getElementById("password").value = "";
-        $("#thumbnail_form").css("display", "none");
-        $("#description_form").css("display", "none");
+        Helper.css("#thumbnail_form", "display", "none");
+        Helper.css("#description_form", "display", "none");
         for (i = 0; i < names.length; i++) {
-            $("input[name="+names[i]+"]").attr("disabled", true);
+            document.getElementsByName(names[i])[0].setAttribute("disabled", true);
         }
 
-        if($("#admin-lock").html() != "lock") {
+        if(Helper.html("#admin-lock") != "lock") {
             if(!Helper.mobilecheck()) {
-                $('#admin-lock').tooltip("destroy");
-                //$('#admin-lock').tooltip('destroy');
+                Helper.tooltip('#admin-lock', "destroy");
             }
-            $("#admin-lock").removeClass("clickable");
-            $("#admin-lock").html("lock");
+            Helper.removeClass("#admin-lock", "clickable");
+            document.getElementById("admin-lock").innerHTML = "lock";
         }
 
-        if(!$(".user-password-li").hasClass("hide")) {
-            $(".user-password-li").addClass("hide")
+
+        Helper.addClass(".user-password-li", "hide");
+        Helper.addClass(".delete-all", "hide");
+
+        if(document.getElementsByClassName("password_protected")[0].checked) {
+            Helper.removeClass(".change_user_pass", "hide");
         }
 
-        if(!$(".delete-all").hasClass("hide")) {
-          $(".delete-all").addClass("hide");
-        }
-
-        if($(".password_protected").prop("checked")) {
-            $(".change_user_pass").removeClass("hide");
-        }
-
-        if(!$(".change_user_pass").hasClass("hide")) {
-            $(".change_user_pass").addClass("hide");
-        }
+        Helper.addClass(".change_user_pass", "hide");
         Admin.hideUserSuggested();
 
-        $("#admin-lock").removeClass("clickable");
-        $("#password").attr("placeholder", "Enter admin password");
-        if(!$(".delete-context-menu").hasClass("context-menu-disabled")) {
-            $(".delete-context-menu").addClass("context-menu-disabled");
-        }
+        Helper.removeClass("#admin-lock", "clickable");
+        document.getElementById("password").setAttribute("placeholder", "Enter admin password");
+        Helper.addClass(".delete-context-menu", "context-menu-disabled");
     },
 
     save: function(userpass) {
@@ -177,29 +162,33 @@ var Admin = {
 
         for (var i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].checked = (conf_array[names[i]] === true);
-            $("input[name="+names[i]+"]").attr("disabled", show_disabled);
+            if(show_disabled) {
+                document.getElementsByName(names[i])[0].setAttribute("disabled", show_disabled);
+            } else {
+                document.getElementsByName(names[i])[0].removeAttribute("disabled");
+            }
         }
         if((hasadmin) && !Admin.logged_in) {
-            if($("#admin-lock").html() != "lock") Admin.display_logged_out();
+            if(Helper.html("#admin-lock") != "lock") Admin.display_logged_out();
         } else if(!hasadmin) {
-            $("#password").attr("placeholder", "Create admin password");
+            document.getElementById("password").setAttribute("placeholder", "Create admin password");
         } else {
-            if($(".password_protected").prop("checked")) {
-                $(".change_user_pass").removeClass("hide");
+            if(document.getElementsByClassName("password_protected")[0].checked) {
+                Helper.removeClass(".change_user_pass", "hide");
             }
         }
 
-        if(!$(".password_protected").prop("checked") && !$(".change_user_pass").hasClass("hide")) {
-            $(".change_user_pass").addClass("hide");
+        if(!document.getElementsByClassName("password_protected")[0].checked) {
+            Helper.addClass(".change_user_pass", "hide");
             //Crypt.remove_userpass(chan.toLowerCase());
         }
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != "") {
-            $("#thumbnail_image").html("<img id='thumbnail_image_channel' src='" + conf_array.thumbnail + "' alt='thumbnail' />");
+            document.getElementById("thumbnail_image").innerHTML = "<img id='thumbnail_image_channel' src='" + conf_array.thumbnail + "' alt='thumbnail' />";
         }
 
         if(conf_array.description != undefined && conf_array.description != "") {
-            $("#description_area").html(conf_array.description);
+            document.getElementById("description_area").innerHTML = conf_array.description;
         }
 
     },
@@ -233,7 +222,8 @@ var Admin = {
     },
 
     hide_settings: function() {
-        $('.sidenav').sidenav('close');
+        var sidenavElem = document.getElementsByClassName("sidenav")[0];
+        M.Sidenav.getInstance(sidenavElem).close();
     },
 
     shuffle: function() {

@@ -6,8 +6,9 @@ var paused = false;
 var client = false;
 var startTime = 0;
 var socket_connected = false;
+var dynamicListeners = {};
 var player_ready = false;
-var list_html = $("#list-song-html").html();
+var list_html = document.getElementById("list-song-html").innerHTML;
 var w_p		= true;
 var lazy_load	= false;
 var end_programmatically = false;
@@ -65,24 +66,23 @@ function receiveMessage(event) {
 }
 
 window.addEventListener("message", receiveMessage, false);
-
-$(document).ready(function() {
-
+console.log("qq");
+window.addEventListener("DOMContentLoaded", function() {
+    console.log("ads");
     if(hash.length >= 3 && hash[2] == "autoplay"){
         autoplay = true;
-        $("#player").css("visibility", "hidden");
+        Helper.css("#player", "visibility", "hidden");
     } else {
         paused = true;
     }
 
     if(hash.indexOf("videoonly") > -1) {
-        $("#playlist").addClass("hide");
-        $("#controls").addClass("hide");
-        $("#player").addClass("video_only");
-        $("#zoffbutton").css("bottom", "0px");
+        Helper.addClass("#playlist", "hide");
+        Helper.addClass("#controls", "hide");
+        Helper.addClass("#player", "video_only");
+        Helper.css("#zoffbutton", "bottom", "0px");
     }
-
-    $("#locked_channel").modal({
+    M.Modal.init(document.getElementById("locked_channel"), {
         dismissible: false
     });
     color = "#" + hash[1];
@@ -91,7 +91,7 @@ $(document).ready(function() {
     socket = io.connect(''+add+':8080', connection_options);
 
     socket.on('auth_required', function() {
-        $("#locked_channel").modal('open');
+        M.Modal.getInstance(document.getElementById("locked_channel")).open();
     });
 
     socket.on("get_list", function() {
@@ -121,8 +121,8 @@ $(document).ready(function() {
 
     Playercontrols.initSlider();
     window.setVolume = setVolume;
-    $("#controls").css("background-color", color);
-    $("#playlist").css("background-color", color);
+    Helper.css("#controls", "background-color", color);
+    Helper.css("#playlist", "background-color", color);
     if(hash.indexOf("controll") > -1) {
         Hostcontroller.change_enabled(true);
     } else {
@@ -186,8 +186,8 @@ function toast(msg) {
             if(embed) return;
             msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
             document.getElementById("import").disabled = false;
-            $("#playlist_loader").addClass("hide");
-            $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "savedsettings":
             if(embed) return;
@@ -198,10 +198,10 @@ function toast(msg) {
             msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
             break;
@@ -245,20 +245,16 @@ function toast(msg) {
             msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
             //Crypt.remove_pass(chan.toLowerCase());
             Admin.display_logged_out();
-            $("#thumbnail_form").css("display", "none");
-            $("#description_form").css("display", "none");
+            Helper.css("#thumbnail_form", "display", "none");
+            Helper.css("#description_form", "display", "none");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip("destroy");
+                Helper.tooltip('#chan_thumbnail', "destroy");
             }
             w_p = true;
-            if(!$("#playlist_loader").hasClass("hide")) {
-                $("#playlist_loader").addClass("hide");
-            }
-            if(!$("#playlist_loader_spotify").hasClass("hide")) {
-                $("#playlist_loader_spotify").addClass("hide");
-            }
-            $("#import_spotify").removeClass("hide");
-                    $("#import").removeClass("hide");
+            Helper.addClass("#playlist_loader", "hide");
+            Helper.addClass("#playlist_loader_spotify", "hide");
+            Helper.removeClass("#import_spotify", "hide");
+            Helper.removeClass("#import", "hide");
             break;
         case "noskip":
             if(embed) return;
@@ -290,10 +286,10 @@ function toast(msg) {
             tried_again = false;
             adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
             msg="Correct password. You now have access to the sacred realm of The Admin.";
-            $("#thumbnail_form").css("display", "inline-block");
-            $("#description_form").css("display", "inline-block");
+            Helper.css("#thumbnail_form", "display", "inline-block");
+            Helper.css("#description_form", "display", "inline-block");
             if(!Helper.mobilecheck()) {
-                $('#chan_thumbnail').tooltip({
+                Helper.tooltip('#chan_thumbnail', {
                     delay: 5,
                     position: "left",
                     html: "imgur link"
@@ -331,6 +327,28 @@ function emit() {
     }
 }
 
+function handleEvent(e, target, tried, type) {
+    if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+        dynamicListeners[type]["#" + target.id].call(target);
+        return;
+    } else {
+        for(var i = 0; i < target.classList.length; i++) {
+            if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                dynamicListeners[type]["." + target.classList[i]].call(target);
+                return;
+            }
+        }
+    }
+    if(!tried) {
+        handleEvent(e, e.target.parentElement, true, type);
+    }
+}
+
+function addListener(type, element, callback) {
+    if(dynamicListeners[type] == undefined) dynamicListeners[type] = {};
+    dynamicListeners[type][element] = callback;
+}
+
 function before_toast(){
     /*if($('.toast').length > 0) {
         var toastElement = $('.toast').first()[0];
@@ -341,32 +359,36 @@ function before_toast(){
     //Materialize.Toast.removeAll();
 }
 
-$(document).on( "click", "#zoffbutton", function(e) {
+document.addEventListener("click", function(e) {
+    handleEvent(e, e.target, false, "click");
+}, false);
+
+addListener("click", "#zoffbutton", function(e) {
     Player.pauseVideo();
     window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });
 
-$(document).on( "click", ".vote-container", function(e) {
-    var id = $(this).attr("data-video-id");
+addListener("click", ".vote-container", function(e) {
+    var id = this.getAttribute("data-video-id");
     List.vote(id, "pos");
 });
 
-$(document).on("click", ".prev_page", function(e) {
-    e.preventDefault();
+addListener("click", ".prev_page", function(e) {
+    event.preventDefault();
     List.dynamicContentPage(-1);
 });
 
-$(document).on("click", ".next_page", function(e) {
-    e.preventDefault();
+addListener("click", ".next_page", function(e) {
+    event.preventDefault();
     List.dynamicContentPage(1);
 });
 
-$(document).on("click", ".last_page", function(e){
-    e.preventDefault();
+addListener("click", ".last_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(10);
 });
 
-$(document).on("click", ".first_page", function(e){
-    e.preventDefault();
+addListener("click", ".first_page", function(e){
+    event.preventDefault();
     List.dynamicContentPage(-10);
 });

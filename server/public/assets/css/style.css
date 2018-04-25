@@ -1481,9 +1481,13 @@ margin:-1px;
     overflow-x: hidden;
 }
 
+.empty-inner-results {
+    height: calc(100vh - 64px) !important;
+}
+
 #empty-results {
     text-align:center;
-    height:100px;
+    height:calc(100vh - 64px);
     cursor: default;
 }
 
