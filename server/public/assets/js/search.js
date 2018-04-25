@@ -34,7 +34,7 @@ var Search = {
 
     search: function(search_input, retried, related, pagination){
         if(result_html === undefined || empty_results_html === undefined) {
-            result_html = document.getElementById("#temp-results-container");
+            result_html = document.getElementById("temp-results-container");
             empty_results_html = Helper.html("#empty-results-container");
         }
         if(!pagination && document.querySelectorAll("#inner-results").length == 0) {
@@ -84,9 +84,9 @@ var Search = {
                             success: function(response){
                                 response = JSON.parse(response);
                                 var output = "";
-
+                                console.log(result_html);
                                 var pre_result = document.createElement("div");
-                                pre_result.innerHTML = result_html;
+                                pre_result.innerHTML = result_html.outerHTML;
 
                                 //$("#results").append(result_html);
 
@@ -104,6 +104,7 @@ var Search = {
 
                                         //$("#results").append(result_html);
                                         var songs = pre_result.cloneNode(true);
+                                        console.log(songs);
                                         songs.querySelector(".search-title").innerText = title;
                                         songs.querySelector(".result_info").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
                                         songs.querySelector(".thumb").setAttribute("src", thumb);
@@ -158,13 +159,14 @@ var Search = {
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
                                     Helper.removeClass(".search_loader_spinner", "active");
-
+                                    Helper.css(".search_results", "display", "block");
 
                                 } else if(!retried){
                                     Search.search(search_input, true);
                                 } else {
                                     //$("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
-                                    document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>");
+                                    document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results'>"+empty_results_html+"</div>");
+                                    Helper.css("#results", "display", "block");
                                     Helper.removeClass(".search_loader_spinner", "active");
                                 }
                             }

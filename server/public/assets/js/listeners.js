@@ -1410,8 +1410,11 @@ addListener("click", ".del_user_suggested", function(e){
 });
 
 addListener("click", '#toast-container', function(){
-    var toastInstance = M.Toast.getInstance(this);
-    toastInstance.dismiss();
+    console.log(this);
+    var toastElement = document.querySelector('.toast');
+     var toastInstance = M.Toast.getInstance(toastElement);
+     toastInstance.dismiss();
+
 });
 
 addListener("click", "#embed-area", function(){
