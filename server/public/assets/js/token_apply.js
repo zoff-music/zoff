@@ -1,28 +1,28 @@
-$(document).ready(function() {
-    $("#about").modal();
-    $(".help-button-footer").hide();
-    $("#contact").modal();
+window.addEventListener("DOMContentLoaded", function(e) {
+    M.Modal.init(document.getElementById("about"));
+    M.Modal.init(document.getElementById("contact"));
+    Helper.addClass(".help-button-footer", "hide");
 
-    $("#contact-container").empty();
-    $("#contact-container").html("Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
-    $("#submit-contact-form").hide();
+    Helper.setHtml("#contact-container", "");
+    Helper.setHtml("#contact-container", "Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
+    Helper.css("#submit-contact-form", "display", "none");
 
     ga('send', 'pageview');
 
     if(!Helper.mobilecheck()) {
-        $("#iframe-container").append('<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
+        document.getElementById("iframe-container").insertAdjacentHTML("beforeend", '<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
     }
 
-    $(".token-form").on("submit", function(e) {
+    document.getElementsByClassName("token-form")[0].addEventListener("submit", function(e) {
         e.preventDefault();
-        var email = $("#email_address").val();
-        var origin = $("#origin").val();
-        $("#origin").attr("readonly", true);
-        $("#email_address").attr("readonly", true);
-        $(".submit").toggleClass("disabled");
-        $(".full-form-token").removeClass("hide");
+        var email = document.getElementById("email_address").value;
+        var origin = document.getElementById("origin").value;
+        document.getElementById("origin").setAttribute("readonly", true);
+        document.getElementById("email_address").setAttribute("readonly", true);
+        Helper.toggleClass(".submit", "disabled");
+        Helper.removeClass(".full-form-token", "hide");
         var captcha_response = grecaptcha.getResponse();
-        $.ajax({
+        Helper.ajax({
             type: "POST",
             url: "/api/apply",
             data: {
@@ -31,27 +31,27 @@ $(document).ready(function() {
                 "g-recaptcha-response": captcha_response,
             },
             success: function(response) {
-                $(".full-form-token").addClass("hide");
+                Helper.addClass(".full-form-token", "hide");
                 if(response == "success") {
                     M.toast({html: "Email sent!", displayLength: 3000, classes: "green lighten"});
                 } else {
-                    $("#email_address").attr("readonly", false);
-                    $(".submit").toggleClass("disabled");
-                    $("#origin").attr("readonly", false);
+                    document.getElementById("email_address").setAttribute("readonly", false);
+                    Helper.toggleClass(".submit", "disabled");
+                    document.getElementById("origin").setAttribute("readonly", false);
                     grecaptcha.reset();
                     M.toast({html: "Something went wrong. Sure that email hasn't been used for another token?",displayLength: 3000, classes: "red lighten"});
                 }
             },
             error: function(response) {
-                $(".full-form-token").addClass("hide");
-                $("#email_address").attr("readonly", false);
-                $(".submit").toggleClass("disabled");
+                Helper.addClass(".full-form-token", "hide");
+                document.getElementById("email_address").setAttribute("readonly", false);
+                Helper.toggleClass(".submit", "disabled");
             }
         });
     });
 
-    $('#submit-contact-form').on('click', function(e) {
+    document.getElementById('submit-contact-form').addEventListener('click', function(e) {
         e.preventDefault();
-        $("#contact-form").submit();
+        document.getElementById("contact-form").submit();
     });
 });

@@ -42,9 +42,9 @@ var Chat = {
         if(data.value.startsWith("/name ")){
             Chat.namechange(data.value.substring(6), false);
         } else if(data.value.startsWith("/help")) {
-            if($(".chat-tab-li a.active").attr("href") == "#all_chat"){
-                if($("#chatall").children().length > 100) {
-                    $("#chatall").children()[0].remove()
+            if(document.querySelector(".chat-tab-li a.active").getAttribute("href") == "#all_chat"){
+                if(document.querySelector("#chatall").children.length > 100) {
+                    document.querySelector("#chatall").children[0].remove()
                 }
                 for(var x = 0; x < Chat.chat_help.length; x++) {
                     var color = Helper.intToARGB(Helper.hashCode("System"));
@@ -55,14 +55,14 @@ var Chat = {
                     }
                     color = Helper.hexToRgb(color.substring(0,6));
                     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-                    $("#chatall").append("<li title='Zoff''><span style='color:"+color_temp+";'>System</span>: </li>");
+                    document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='Zoff''><span style='color:"+color_temp+";'>System</span>: </li>");
                     var in_text = document.createTextNode(Chat.chat_help[x]);
-                    $("#chatall li:last")[0].appendChild(in_text);
+                    document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
                     document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
                 }
             } else {
-                if($("#chatchannel").children().length > 100) {
-                    $("#chatchannel").children()[0].remove()
+                if(document.querySelector("#chatchannel").children.length > 100) {
+                    document.querySelector("#chatchannel").children[0].remove()
                 }
                 for(var x = 0; x < Chat.chat_help.length; x++) {
 
@@ -74,15 +74,14 @@ var Chat = {
                     }
                     color = Helper.hexToRgb(color.substring(0,6));
                     var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-                    $("#chatchannel").append("<li><span style='color:"+color_temp+";'>System</span>: </li>");
+                    document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span style='color:"+color_temp+";'>System</span>: </li>");
                     var in_text = document.createTextNode(Chat.chat_help[x]);
-                    $("#chatchannel li:last")[0].appendChild(in_text);
                     document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
                 }
             }
         } else if(data.value.startsWith("/removename")) {
             Chat.removename();
-        } else if($(".chat-tab-li a.active").attr("href") == "#all_chat") {
+        } else if(document.querySelector(".chat-tab-li a.active").getAttribute("href") == "#all_chat") {
             socket.emit("all,chat", {channel: chan.toLowerCase(), data: data.value});
         } else {
             socket.emit("chat", {channel: chan.toLowerCase(), data: data.value});
@@ -94,22 +93,20 @@ var Chat = {
     allchat: function(inp, time_sent, disable_blink) {
         if(inp.msg.substring(0,1) == ":" && !chat_active && !disable_blink) {
             Chat.all_received += 1;
-            $("#favicon").attr("href", "/assets/images/highlogo.png");
+            document.querySelector("#favicon").getAttribute("href", "/assets/images/highlogo.png");
             unseen = true;
             chat_unseen = true;
-            if($(".chat-link span.badge.new.white").hasClass("hide")){
-                $(".chat-link span.badge.new.white").removeClass("hide");
-            }
+            Helper.removeClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
             var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
-            $(".chat-link span.badge.new.white").html(to_display);
+            Helper.setHtml(document.querySelector(".chat-link span.badge.new.white"), to_display);
         }
 
         if(document.hidden)	{
-            $("#favicon").attr("href", "/assets/images/highlogo.png");
+            document.getElementById("favicon").setAttribute("href", "/assets/images/highlogo.png");
         }
 
-        if($("#chatall").children().length > 100) {
-            $("#chatall").children()[0].remove()
+        if(document.querySelector("#chatall").children.length > 100) {
+            document.querySelector("#chatall").children[0].remove()
         }
         var color = Helper.intToARGB(Helper.hashCode(inp.from));
         if(color.length < 6) {
@@ -129,9 +126,9 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        $("#chatall").append("<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
+        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
         var in_text = document.createTextNode(inp.msg);
-        $("#chatall li:last")[0].appendChild(in_text);
+        document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
         if(!userscroll) {
             programscroll = true;
             document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
@@ -141,20 +138,18 @@ var Chat = {
 
     channelchat: function(data, time_sent, disable_blink) {
         if(data.msg.substring(0,1) == ":" && !chat_active && !disable_blink) {
-            $("#favicon").attr("href", "/assets/images/highlogo.png");
+            document.querySelector("#favicon").setAttribute("href", "/assets/images/highlogo.png");
             unseen = true;
             chat_unseen = true;
             Chat.channel_received += 1;
             //blink_interval = setTimeout(Chat.chat_blink, 1000);
-            if($(".chat-link span.badge.new.white").hasClass("hide")) {
-                $(".chat-link span.badge.new.white").removeClass("hide");
-            }
+            Helper.removeClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
             var to_display = Chat.channel_received + Chat.all_received > 9 ? "9+" : Chat.channel_received + Chat.all_received;
-            $(".chat-link span.badge.new.white").html(to_display);
+            Helper.setHtml(document.querySelector(".chat-link span.badge.new.white"), to_display);
         }
 
-        if($("#chatchannel").children().length > 100) {
-            $("#chatchannel").children()[0].remove()
+        if(document.querySelector("#chatchannel").children.length > 100) {
+            document.querySelector("#chatchannel").children[0].remove()
         }
 
         var icon_add = "";
@@ -175,9 +170,9 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        $("#chatchannel").append("<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
+        document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span> </li>");
         var in_text = document.createTextNode(data.msg);
-        $("#chatchannel li:last")[0].appendChild(in_text);
+        document.querySelector("#chatchannel").children[document.querySelector("#chatchannel").children.length - 1].appendChild(in_text);
         if(!userscroll) {
             programscroll = true;
             document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
@@ -187,9 +182,9 @@ var Chat = {
 
     chat_blink: function() {
         blinking = true;
-        $(".chat-link").attr("style", "color: grey !important;");
+        document.querySelector(".chat-link").setAttribute("style", "color: grey !important;");
         setTimeout(function () {
-            $(".chat-link").attr("style", "color: white !important;");
+            document.querySelector(".chat-link").setAttribute("style", "color: white !important;");
             setTimeout(function() {
                 if(blinking) Chat.chat_blink();
             }, 1000);

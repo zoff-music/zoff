@@ -7,15 +7,15 @@ var Suggestions = {
             number_suggested = number_suggested + params.length;
         }
         for(var i = 0; i < params.length; i++) {
-            if($("#suggested-" + params[i].id).length > 0) {
+            if(document.querySelectorAll("#suggested-" + params[i].id).length > 0) {
                 number_suggested -= 1;
             }
         }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
-        if($(".suggested-link span.badge.new.white").hasClass("hide") && number_suggested > 0 && Admin.logged_in){
-            $(".suggested-link span.badge.new.white").removeClass("hide");
+        if(number_suggested > 0 && Admin.logged_in){
+            Helper.removeClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
         }
-        $(".suggested-link span.badge.new.white").text(to_display);
+        document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
         if(single){
             Suggestions.createSuggested(params);
         }else{
@@ -31,8 +31,8 @@ var Suggestions = {
         var video_id 	= params.id;
         var video_title = params.title;
         var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
-        if($("#" + $(song).attr("id")).length == 0) {
-            $("#user-suggest-html").append(song);
+        if(document.querySelectorAll("#" + song.getAttribute("id")).length == 0) {
+            document.getElementById("user-suggest-html").insertAdjacentHTML("beforeend", song);
         }
     },
 
@@ -40,34 +40,37 @@ var Suggestions = {
         var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key;
         var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
-        $.ajax({
+        Helper.ajax({
             type: "GET",
             url: get_url,
             dataType:"jsonp",
             success: function(response)
             {
-                $.each(response.items.slice(0,5), function(i,data){
+                response = JSON.parse(response);
+                var this_resp = response.items.slice(0,5);
+                for(var i = 0; i < this_resp.length; i++) {
+                    var data = this_resp[i];
                     video_urls += data.id.videoId+",";
-                });
+                }
 
-                $.ajax({
+                Helper.ajax({
                     type: "GET",
                     url: video_urls,
                     dataType: "jsonp",
                     success: function(response)
                     {
-                        $("#suggest-song-html").empty();
-
-                        $.each(response.items, function(i,song)
-                        {
+                        response = JSON.parse(response);
+                        Helper.setHtml("#suggest-song-html", "");
+                        for(var i = 0; i < response.items.length; i++) {
+                            var song = response.items[i];
                             var duration 	= song.contentDetails.duration;
                             var length 		= Search.durationToSeconds(duration);
                             duration 		= Helper.secondsToOther(Search.durationToSeconds(duration));
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
 
-                            $("#suggest-song-html").append(List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
-                        });
+                            document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
+                        }
                     }
                 });
             }
@@ -75,12 +78,11 @@ var Suggestions = {
     },
 
     checkUserEmpty: function(){
-        var length = $("#user-suggest-html").children().length;
+        var length = document.getElementById("user-suggest-html").children.length;
         if(length === 0){
-            if(!Helper.contains($("#user_suggests").attr("class").split(" "), "hide"))
-            $("#user_suggests").addClass("hide");
+            Helper.addClass("#user_suggests", "hide");
         } else if(Admin.logged_in){
-            $("#user_suggests").removeClass("hide");
+            Helper.removeClass("#user_suggests", "hide");
         }
     },
 };

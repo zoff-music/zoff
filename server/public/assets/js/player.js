@@ -81,15 +81,12 @@ var Player = {
             } catch(e){}
             Helper.log(["video_id variable: " + video_id]);
             if(!obj.np){
-                $('#song-title').html("Empty channel. Add some songs!");
+                document.getElementById('song-title').innerText = "Empty channel. Add some songs!";
                 document.title = "Zoff - the shared YouTube based radio";
-                $("#channel-load").css("display", "none");
-                //$("#player_overlay").height($("#player").height());
+                Helper.css("#channel-load", "display", "none");
 
                 if(!window.MSStream && !chromecastAvailable) {
-                    if($("#player_overlay").hasClass("hide")) {
-                        $("#player_overlay").removeClass("hide");
-                    }
+                    Helper.removeClass("#player_overlay", "hide");
                 }
                 try{
                     if(!chromecastAvailable) {
@@ -167,7 +164,7 @@ var Player = {
                     if(full_playlist[0].id == video_id && !mobile_beginning){
                         List.song_change(full_playlist[0].added);
                     }
-                    Suggestions.fetchYoutubeSuggests(video_id);
+                    if(!client) Suggestions.fetchYoutubeSuggests(video_id);
                 }catch(e){}
 
                 Player.getTitle(song_title, viewers);
@@ -283,18 +280,18 @@ var Player = {
                 break;
             case YT.PlayerState.PLAYING:
                 if(embed) {
-                    $("#player").css("visibility", "visible");
+                    Helper.css("#player", "visibility", "visible");
                 }
                 if(embed && !autoplay) autoplay = true;
                 if(!window.MSStream) {
-                    $("#player").css("opacity", "1");
+                    Helper.css("#player", "opacity", "1");
                     //if(!Helper.mobilecheck()) {
-                        $("#channel-load").css("display", "none");
-                        /*if(Frontpage.winter && $("#snow").length == 0) {
-                            $("#video-container").prepend('<div id="snow" class="snow-channel"></div>');
-                        }*/
+                        Helper.css("#channel-load", "display", "none");
+
                     //}
                 }
+                Helper.css("#playpause", "visibility", "visible");
+                Helper.css("#playpause", "pointer-events", "all");
                 playing = true;
                 if(beginning && Helper.mobilecheck() && !chromecastAvailable){
                     //Player.pauseVideo();
@@ -305,9 +302,9 @@ var Player = {
                 if(!embed && window.location.pathname != "/" && !chromecastAvailable) Helper.addClass("#player_overlay", "hide");
                 if(window.location.pathname != "/"){
                     if(document.getElementById("play").className.split(" ").length == 1)
-                        $("#play").toggleClass("hide");
+                        Helper.toggleClass("#play", "hide");
                     if(document.getElementById("pause").className.split(" ").length == 2)
-                        $("#pause").toggleClass("hide");
+                        Helper.toggleClass("#pause", "hide");
                 }
                 if((paused || was_stopped) && !offline) {
                     /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
@@ -325,9 +322,9 @@ var Player = {
                 } else {
                     if(!chromecastAvailable){
                         if(beginning && mobile_beginning) {
-                            $("#playpause").css("visibility", "visible");
-                            $("#playpause").css("pointer-events", "all");
-                            $("#channel-load").css("display", "none");
+                            Helper.css("#playpause", "visibility", "visible");
+                            Helper.css("#playpause", "pointer-events", "all");
+                            Helper.css("#channel-load", "display", "none");
                         }
                         if(!empty_clear && !gotten_np) {
                             paused = true;
@@ -355,9 +352,9 @@ var Player = {
             //socket.emit('pos', {channel: chan.toLowerCase()});
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
-            if($("#pause").hasClass("hide")){
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
+            if(document.getElementById("pause").classList.contains("hide")){
+                Helper.toggleClass("#play", "hide");
+                Helper.toggleClass("#pause", "hide");
             }
             //Playercontrols.play_pause();
         } else {
@@ -368,9 +365,9 @@ var Player = {
     pauseVideo: function(){
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "pauseVideo"});
-            if($("#play").hasClass("hide")){
-                $("#play").toggleClass("hide");
-                $("#pause").toggleClass("hide");
+            if(document.getElementById("play").classList.contains("hide")){
+                Helper.toggleClass("#play", "hide");
+                Helper.toggleClass("#pause", "hide");
             }
             //Playercontrols.play_pause();
         } else {
@@ -535,16 +532,16 @@ var Player = {
             //var elem          = document.getElementById('song-title');
             //var getTitleViews = document.getElementById('viewers');
 
-            $("#song-title").text(title);
-            $("#viewers").html(outPutWord + " " + v);
-            $("#song-title").attr("title", title);
+            document.getElementById("song-title").innerText = title;
+            if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
+            document.getElementById("song-title").setAttribute("title", title);
             //elem.title        = title;
             if(chromecastAvailable){
-                $("#player_overlay").css("background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
-                $("#player_overlay").css("background-position", "center");
-                $("#player_overlay").css("background-size", "100%");
-                $("#player_overlay").css("background-color", "black");
-                $("#player_overlay").css("background-repeat", "no-repeat");
+                Helper.css("#player_overlay", "background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+                Helper.css("#player_overlay", "background-position", "center");
+                Helper.css("#player_overlay", "background-size", "100%");
+                Helper.css("#player_overlay", "background-color", "black");
+                Helper.css("#player_overlay", "background-repeat", "no-repeat");
                 //$("#player_overlay").css("height", "calc(100% - 32px)");
             }
         }
@@ -572,23 +569,23 @@ var Player = {
             player_ready = true;
             if(!window.MSStream) {
                 if(Helper.mobilecheck()){
-                    $("#playpause").css("visibility", "hidden");
-                    $("#playpause").css("pointer-events", "none");
-                    $("#player").css("opacity", "1");
+                    Helper.css("#playpause", "visibility", "hidden");
+                    Helper.css("#playpause", "pointer-events", "none");
+                    Helper.css("#player", "opacity", "1");
                     if(offline) {
                         setTimeout(function(){
-                            $("#channel-load").css("display", "none");
-                            $("#playpause").css("visibility", "visible");
-                            $("#playpause").css("pointer-events", "all");
+                            Helper.css("#channel-load", "display", "none");
+                            Helper.css("#playpause", "visibility", "visible");
+                            Helper.css("#playpause", "pointer-events", "all");
                         }, 1500);
                     }
                 } else {
                     //$("#channel-load").css("display", "none");
                 }
                 /*$("#player").css("opacity", "1");*/
-                $(".video-container").removeClass("no-opacity");
-                $("#controls").css("opacity", "1");
-                $(".playlist").css("opacity", "1");
+                Helper.removeClass(".video-container", "no-opacity");
+                Helper.css("#controls", "opacity", "1");
+                Helper.css(".playlist", "opacity", "1");
                 if(autoplay) {
                     Player.loadVideoById(video_id, duration);
                 } else {
@@ -615,6 +612,7 @@ var Player = {
             }
             Player.readyLooks();
             Playercontrols.initYoutubeControls(Player.player);
+            Player.player.setVolume(Crypt.get_volume());
             Playercontrols.initSlider();
             Player.player.setVolume(Crypt.get_volume());
         }catch(e){
@@ -629,33 +627,33 @@ var Player = {
         var color = c.color;
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
-            $("#nav").css("background-color", Helper.rgbToHsl(color, true));
-            $(".title-container").css("background-color", Helper.rgbToHsl(color, true));
+            Helper.css("#nav", "background-color", Helper.rgbToHsl(color, true));
+            Helper.css(".title-container", "background-color", Helper.rgbToHsl(color, true));
             var hexHsl = Helper.rgbToHex(color[0], color[1], color[2]);
             try {
                 var hsl = Helper.rgbToHsl(color, true).replace("hsl(", "").replace(")", "").replace("%", "").replace(/ /g,'').replace("%", "").split(",");
                 hexHsl = Helper.hslToHex(parseInt(hsl[0]), parseInt(hsl[1]), parseInt(hsl[2]));
             } catch(e) {}
-            $("meta[name=theme-color]").attr("content", hexHsl);
+            document.querySelector("meta[name=theme-color]").setAttribute("content", hexHsl);
             if(!client) {
                 var new_color =  Helper.rgbToHex(color[0], color[1], color[2]);
                 new_color = Helper.hexToComplimentary(new_color);
                 new_color = Helper.hexToRgb(new_color);
                 new_color = Helper.rgbToHsl([new_color.r, new_color.g, new_color.b], true);
-                $("#controls").css("background", new_color);
+                Helper.css("#controls", "background", new_color);
             }
         }
     },
 
     set_width: function(val){
-        $(".video-container").width(val);
+        document.getElementsByClassName("video-container")[0].style.width = val + "px";
         if(!Helper.mobilecheck()) {
-            if($(window).width() > 769) {
-                var test_against_width = $(window).width() - $(".control-list").width() - $(".zbrand").outerWidth() - $(".brand-logo-navigate").outerWidth() - 66;
+            if(window.innerWidth > 769) {
+                var test_against_width = window.innerWidth - window.getComputedStyle(document.querySelector(".control-list"), null).getPropertyValue("width") - document.querySelector(".zbrand").offsetWidth - document.querySelector(".brand-logo-navigate").offsetWidth - 66;
                 title_width = test_against_width;
-                $(".title-container").width(title_width);
+                document.querySelector(".title-container").style.width = title_width + "px";
             } else {
-                $(".title-container").width("100%");
+                document.querySelector(".title-container").style.width = "100%";
             }
 
         }
@@ -738,7 +736,7 @@ var Player = {
                 minutes = Math.floor(currDurr / 60);
                 seconds = currDurr - (minutes * 60);
                 if(!isNaN(minutes) && !isNaN(seconds) && !isNaN(dMinutes) && !isNaN(dSeconds)) {
-                    $("#duration").html(Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds));
+                    Helper.setHtml("#duration", Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds));
                 }
                 per = (100 / duration) * currDurr;
                 if(per >= 100) {
@@ -754,7 +752,7 @@ var Player = {
                 }
 
                 if(!dragging) {
-                    $("#bar").width(per+"%");
+                    document.getElementById("bar").style.width = per+"%";
                 }
 
                 if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {
@@ -777,7 +775,7 @@ var Player = {
     },
 
     loadPlayer: function() {
-        if($("script[src='https://www.youtube.com/iframe_api']").length == 1){
+        if(document.querySelectorAll("script[src='https://www.youtube.com/iframe_api']").length == 1){
             try{
                 Player.onYouTubeIframeAPIReady();
             } catch(error){

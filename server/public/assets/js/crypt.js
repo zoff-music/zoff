@@ -43,7 +43,7 @@ var Crypt = {
         );*/
 
         //return $.parseJSON(decrypted.toString(CryptoJS.enc.Utf8));
-        return $.parseJSON(atob(cookie));
+        return JSON.parse(atob(cookie));
     },
 
     decrypt_pass: function(pass) {
