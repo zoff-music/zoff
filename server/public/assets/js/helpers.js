@@ -153,22 +153,24 @@ var Helper = {
     },
 
     setHtml: function(element, html) {
-        if(typeof(element) == "object") {
-            element.innerHTML = html;
-        } else if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            elem.innerHTML = html;
-        } else {
-            var elements;
-            if(element.substring(0,1) == ".") {
-                elements = document.getElementsByClassName(element.substring(1));
+        try {
+            if(typeof(element) == "object") {
+                element.innerHTML = html;
+            } else if(element.substring(0,1) == "#") {
+                var elem = document.getElementById(element.substring(1));
+                elem.innerHTML = html;
             } else {
-                elements = document.getElementsByTagName(element);
+                var elements;
+                if(element.substring(0,1) == ".") {
+                    elements = document.getElementsByClassName(element.substring(1));
+                } else {
+                    elements = document.getElementsByTagName(element);
+                }
+                for(var i = 0; i < elements.length; i++) {
+                    elements[i].innerHTML = html;
+                }
             }
-            for(var i = 0; i < elements.length; i++) {
-                elements[i].innerHTML = html;
-            }
-        }
+        } catch(e) {}
     },
 
     attr: function(element, attr, value) {
