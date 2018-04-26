@@ -589,8 +589,8 @@ function change_offline(enabled, already_offline){
 
             document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
             var controlElement = document.querySelector("#controls");
-            if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", controlElement.offsetHeight - parseInt(controlElement.style.height) - 55);
-            else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", controlElement.offsetHeight - parseInt(controlElement.style.height) - 20);
+            if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
+            else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
             Helper.addClass("#controls", "ewresize");
         }
         if(full_playlist != undefined && !already_offline){
