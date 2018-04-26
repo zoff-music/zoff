@@ -18,6 +18,14 @@ var Helper = {
         return arr[Math.floor(Math.random() * arr.length)];
     },
 
+    computedStyle: function(element, type) {
+        try {
+            return parseInt(window.getComputedStyle(document.querySelector(element), null).getPropertyValue(type).replace("px", ""))
+        } catch(e) {
+            return 0;
+        }
+    },
+
     toggleClass: function(element, className) {
         try {
             if(typeof(element) == "object") {
@@ -60,7 +68,9 @@ var Helper = {
                     }
                 }
             }
-        }catch(e) {}
+        }catch(e) {
+            //console.log(e);
+        }
     },
 
     css: function(element, attribute, value) {
@@ -89,6 +99,7 @@ var Helper = {
                 }
             }
         } catch(e) {
+            //console.log(e);
         }
     },
 
@@ -102,7 +113,9 @@ var Helper = {
                     return elements[i].innerHTML;
                 }
             }
-        } catch(e){}
+        } catch(e){
+            //console.log(e);
+        }
     },
 
     removeClass: function(element, className) {
@@ -118,6 +131,7 @@ var Helper = {
                 }
             }
         } catch(e) {
+            //console.log(e);
         }
     },
 
@@ -149,7 +163,9 @@ var Helper = {
                     elements[i].remove();
                 }
             }
-        } catch(e) {}
+        } catch(e) {
+            //console.log(e);
+        }
     },
 
     setHtml: function(element, html) {
@@ -170,7 +186,9 @@ var Helper = {
                     elements[i].innerHTML = html;
                 }
             }
-        } catch(e) {}
+        } catch(e) {
+            //console.log(e);
+        }
     },
 
     attr: function(element, attr, value) {

@@ -649,7 +649,7 @@ var Player = {
         document.getElementsByClassName("video-container")[0].style.width = val + "px";
         if(!Helper.mobilecheck()) {
             if(window.innerWidth > 769) {
-                var test_against_width = window.innerWidth - window.getComputedStyle(document.querySelector(".control-list"), null).getPropertyValue("width") - document.querySelector(".zbrand").offsetWidth - document.querySelector(".brand-logo-navigate").offsetWidth - 66;
+                var test_against_width = window.innerWidth - Helper.computedStyle(".control-list", "width") - document.querySelector(".zbrand").offsetWidth - document.querySelector(".brand-logo-navigate").offsetWidth - 66;
                 title_width = test_against_width;
                 document.querySelector(".title-container").style.width = title_width + "px";
             } else {

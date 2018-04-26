@@ -1218,7 +1218,7 @@ window.addEventListener("focus", function(event) {
 
 window.addEventListener("resize", function(){
     if(chan && !Helper.mobilecheck()){
-        var temp_fit = Math.round((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / 71)+1;
+        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
@@ -1228,10 +1228,10 @@ window.addEventListener("resize", function(){
             Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
         }
         List.can_fit = temp_fit;
-        List.element_height = ((window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height")) / List.can_fit)-5.3;
+        List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
-        var controlsPosition = document.querySelector("#controls").offsetHeight - window.getComputedStyle(document.querySelector("#controls"), null).getPropertyValue("height");
+        var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
         if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
             Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
         } else if(document.querySelectorAll("#controls").length > 0) {
