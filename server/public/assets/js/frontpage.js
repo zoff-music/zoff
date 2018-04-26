@@ -376,7 +376,7 @@ var Frontpage = {
                 if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck() || Player.player === undefined){
                     document.getElementsByTagName("main")[0].innerHTML = response.querySelectorAll("main")[0].innerHTML;
                 } else {
-                    document.getElementById("main-row").insertAdjacentHTML("beforeend", response.querySelectorAll("#wrapper")[0].outerHTML);
+                    document.getElementById("main-row").insertAdjacentHTML("beforeend", response.querySelectorAll("#playlist")[0].outerHTML);
                     if(!client) document.getElementById("video-container").insertAdjacentHTML("beforeend", response.querySelectorAll("#main_components")[0].outerHTML);
                     document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id='playbar'></div>");
                     Helper.removeClass("#player", "player_bottom");

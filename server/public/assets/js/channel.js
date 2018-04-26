@@ -608,7 +608,7 @@ var Channel = {
                         Helper.removeClass("#video-container", "no-opacity");
                         document.getElementById("main-row").insertAdjacentHTML("afterbegin", "<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'>X</a>");
-                        Helper.removeElement("#wrapper");
+                        Helper.removeElement("#playlist");
                     } else {
                         try{
                             Player.player.destroy();
@@ -644,6 +644,7 @@ var Channel = {
                         frontpage 	= true;
                         Frontpage.init();
                     }
+
                     changing_to_frontpage = false;
 
                     if(document.querySelectorAll("#alreadychannel").length === 0 && !user_auth_avoid){
