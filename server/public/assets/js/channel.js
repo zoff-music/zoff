@@ -157,15 +157,6 @@ var Channel = {
             emit_list();
         }
 
-        if(((!localStorage.getItem("_jSeen") || localStorage.getItem("_jSeen") != "seen") && !Helper.mobilecheck()) && !client) {
-            var instance = M.TapTarget.init(document.getElementsByClassName('tap-target-join')[0]);
-            instance.open();
-            tap_target_timeout = setTimeout(function() {
-                instance.close();
-            }, 4000);
-            localStorage.setItem("_jSeen", "seen");
-        }
-
         if(!Helper.mobilecheck()) {
             if(!client) {
                 Helper.tooltip("#chan", {
@@ -528,10 +519,6 @@ var Channel = {
                 var tap_1 = document.querySelectorAll(".tap-target")
                 if(tap_1.length > 0 && M.TapTarget.getInstance(tap_1[0])) {
                     M.TapTarget.getInstance(tap_1[0]).close();
-                }
-                var tap_2 = document.querySelectorAll(".tap-target-join")
-                if(tap_2.length > 0 && M.TapTarget.getInstance(tap_2[0])) {
-                    M.TapTarget.getInstance(tap_2[0]).close();
                 }
             }
             clearTimeout(tap_target_timeout);
