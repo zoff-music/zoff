@@ -592,6 +592,9 @@ var Helper = {
             var captcha_response = grecaptcha.getResponse();
             Helper.ajax({
                 type: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 data: {
                     from: from,
                     message: message,
@@ -599,6 +602,14 @@ var Helper = {
                 },
                 url: "/api/mail",
                 success: function(data){
+                    if(data == "success"){
+                        Helper.setHtml("#contact-container", "");
+                        Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
+                    }else{
+                        Helper.setHtml("#contact-container", "");
+                        Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
+                    }
+                }, error: function(data) {
                     if(data == "success"){
                         Helper.setHtml("#contact-container", "");
                         Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")

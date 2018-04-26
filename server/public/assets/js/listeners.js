@@ -381,15 +381,15 @@ addListener("click", "#settings", function(event) {
 });
 
 addListener("click", ".accept-delete", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     emit("delete_all", {channel: chan.toLowerCase()});
     M.Modal.getInstance(document.getElementById("delete_song_alert")).close();
 });
 
 
 addListener("click", "#chat_submit", function(event){
-    event.preventDefault();
-    event.stopPropagation();
+    this.preventDefault();
+    this.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
     document.getElementById("chat_submit").focus();
     //return true;
@@ -397,7 +397,7 @@ addListener("click", "#chat_submit", function(event){
 });
 
 addListener("click", "#offline-mode", function(event){
-    event.preventDefault();
+    this.preventDefault();
     if(!Crypt.get_offline()){
         change_offline(true, offline);
     } else{
@@ -406,13 +406,13 @@ addListener("click", "#offline-mode", function(event){
 });
 
 addListener("submit", "#thumbnail_form", function(event){
-    event.preventDefault();
+    this.preventDefault();
     emit("suggest_thumbnail", {channel: chan, thumbnail: document.getElementById("chan_thumbnail").value});
     document.getElementById("chan_thumbnail").value = "";
 });
 
 addListener("submit", "#description_form", function(event){
-    event.preventDefault();
+    this.preventDefault();
     emit("suggest_description", {channel: chan, description: document.getElementById("chan_description").value});
     document.getElementById("chan_description").value = "";
 });
@@ -429,26 +429,26 @@ addListener("click", "#playpause-overlay", function(){
     }
 });
 
-addListener("click", '#cookieok', function(event) {
-    event.preventDefault();
-    M.Toast.getInstance(this.parentElement).dismiss();
+addListener("click", '#cookieok', function(e) {
+    this.preventDefault();
+    M.Toast.getInstance(e.parentElement).dismiss();
     localStorage.ok_cookie = true;
 });
 
 addListener("click", ".connect_error", function(event){
-    event.preventDefault();
+    this.preventDefault();
     M.Toast.getInstance(this.parentElement).dismiss();
 });
 
-addListener("click", ".extra-button-search", function(event){
-    event.preventDefault();
-    document.getElementById("search").value = this.getAttribute("data-text");
-    Search.search(this.getAttribute("data-text"));
+addListener("click", ".extra-button-search", function(e){
+    this.preventDefault();
+    document.getElementById("search").value = e.getAttribute("data-text");
+    Search.search(e.getAttribute("data-text"));
 });
 
-addListener("click", ".extra-button-delete", function(event){
-    event.preventDefault();
-    this.parentElement.remove();
+addListener("click", ".extra-button-delete", function(e){
+    this.preventDefault();
+    e.parentElement.remove();
     if(document.querySelector(".not-imported-container").children.length === 0){
         Helper.toggleClass(".not-imported", "hide");
     }
@@ -460,9 +460,9 @@ addListener("click", "#context-menu-overlay", function(event) {
     Helper.addClass(".context-menu-root", "data-id", "");
 });
 
-addListener("click", ".copy-context-menu", function(event) {
-    event.preventDefault();
-    var that = this;
+addListener("click", ".copy-context-menu", function(e) {
+    this.preventDefault();
+    var that = e;
     var parent = that.parentElement;
     var id = parent.getAttribute("data-id");
     if(id != "") {
@@ -483,9 +483,9 @@ addListener("click", ".copy-context-menu", function(event) {
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 });
 
-addListener("click", ".find-context-menu", function(event) {
-    event.preventDefault();
-    var that = this;
+addListener("click", ".find-context-menu", function(e) {
+    this.preventDefault();
+    var that = e;
     var parent = that.parentElement;
     var id = parent.getAttribute("data-id");
     Search.search(id, false, true);
@@ -497,8 +497,8 @@ addListener("click", ".find-context-menu", function(event) {
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 });
 
-addListener("click", ".delete-context-menu", function(event) {
-    var that = this;
+addListener("click", ".delete-context-menu", function(e) {
+    var that = e;
     if(that.classList.contains("context-menu-disabled")) {
         return;
     }
@@ -525,7 +525,7 @@ addListener("click", ".delete-context-menu", function(event) {
 })
 
 addListener("click", "#closePlayer", function(event){
-    event.preventDefault();
+    this.preventDefault();
     socket.emit("change_channel");
     try{
         if(chromecastAvailable){
@@ -552,7 +552,7 @@ document.addEventListener("keydown", function(event) {
         } else if(find_start && event.keyCode == 70){
             find_start = false;
             find_started = !find_started;
-            event.preventDefault();
+            this.preventDefault();
             if(find_started){
                 Helper.toggleClass("#find_div", "hide");
                 document.getElementById("find_input").focus();
@@ -579,11 +579,11 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
             if(Player.player.getPlayerState() == 1) {
-                event.preventDefault();
+                this.preventDefault();
                 Player.player.pauseVideo();
                 return false;
             } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
-                event.preventDefault();
+                this.preventDefault();
                 Player.player.playVideo();
                 return false;
             }
@@ -617,7 +617,7 @@ document.addEventListener("keyup", function(event) {
         if(document.querySelectorAll(".search-container").length != 0 && !document.querySelector(".search-container").classList.contains("hide")){
             Helper.toggleClass("#results", "hide");
         }
-    } else if(event.keyCode == 13 && window.location.path != "/" && document.querySelector("#search").value == "fireplace" && !document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/") {
+    } else if(event.keyCode == 13 && window.location.path != "/" && document.querySelectorAll("#search").length > 0 && document.querySelector("#search").value == "fireplace" && !document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/") {
         clearTimeout(timeout_search);
         Helper.setHtml("#results", "");
         document.querySelector("#search").value = "";
@@ -694,30 +694,30 @@ document.addEventListener("submit", function(event) {
 }, true);
 
 addListener("change", "#width_embed", function(event) {
-    var that = event.target;
+    var that = this.target;
     embed_width = that.value;
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("change", "#height_embed", function(event) {
-    var that = event.target;
+    var that = this.target;
     embed_height = that.value;
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("click", ".prev_page", function(event) {
     //addListener("click", ".prev_page", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.dynamicContentPage(-1);
 });
 
 addListener("click", ".modal-close", function(event){
-    event.preventDefault();
+    this.preventDefault();
 });
 
 /*
 addListener("change", ".password_protected", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     if(this.checked) {
         M.Modal.getInstance(document.getElementById("user_password")).open();
         document.getElementById("user-pass-input").focus();
@@ -729,7 +729,7 @@ addListener("change", ".password_protected", function(event) {
 });*/
 
 addListener("submit", "#user-password-channel-form", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     if(user_auth_started) {
         temp_user_pass = document.getElementById("user-pass-input").value;
 
@@ -745,18 +745,18 @@ addListener("submit", "#user-password-channel-form", function(event) {
 });
 
 addListener("click", ".change_user_pass_btn", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     user_change_password = true;
     M.Modal.getInstance(document.getElementById("user_password")).open();
     document.getElementById("user-pass-input").focus();
 });
 
 addListener("contextmenu", "#context-menu-overlay", function(event) {
-    event.preventDefault();
+    this.preventDefault();
 });
 
 addListener("click", ".submit-user-password", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     if(user_auth_started) {
         temp_user_pass = document.getElementById("user-pass-input").value;
         document.getElementById("user-pass-input").value = "";
@@ -794,31 +794,31 @@ addListener("click", ".close-user-password", function() {
 });
 
 addListener("click", ".delete-all-songs", function(event){
-    event.preventDefault();
+    this.preventDefault();
     M.Modal.getInstance(document.getElementById("delete_song_alert")).open();
 });
 
-addListener("click", ".extra-add-text", function(){
-    this.select();
+addListener("click", ".extra-add-text", function(e){
+    e.select();
 });
 
 addListener("click", ".next_page", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.dynamicContentPage(1);
 });
 
 addListener("click", ".last_page", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.dynamicContentPage(10);
 });
 
 addListener("click", ".first_page", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.dynamicContentPage(-10);
 });
 
 addListener("click", ".donate-button", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     ga('send', 'event', "button-click", "donate");
     M.Modal.getInstance(document.getElementById("donate")).open();
 });
@@ -840,27 +840,27 @@ addListener("change", '#view_channels_select', function(event) {
     currently_showing_channels = parseInt(that.value);
 });
 
-addListener("input", '#color_embed', function(){
-    var that = this;
+addListener("input", '#color_embed', function(e){
+    var that = e;
     color = that.value.substring(1);
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("click", ".chan-link", function(event){
-    event.preventDefault();
-    var href = this.href.replace(window.location.protocol + "//" +  window.location.hostname + "/", "");
+addListener("click", ".chan-link", function(e){
+    this.preventDefault();
+    var href = e.href.replace(window.location.protocol + "//" +  window.location.hostname + "/", "");
     Frontpage.to_channel(href, false);
 });
 
 addListener("click", ".listen-button", function(event){
     if(document.querySelector(".room-namer").value === ""){
-        event.preventDefault();
+        this.preventDefault();
         Frontpage.to_channel(document.querySelector(".room-namer").getAttribute("placeholder"));
     }
 });
 
 addListener("submit", ".channel-finder", function(event){
-    event.preventDefault();
+    this.preventDefault();
     Frontpage.to_channel(document.querySelector(".room-namer").value);
     return false;
 });
@@ -877,11 +877,11 @@ addListener("change", '.offline_switch_class', function()
     change_offline(offline, !offline);
 });
 
-addListener("change", '.conf', function()
+addListener("change", '.conf', function(e)
 {
-    event.preventDefault();
-    if(this.classList.contains("password_protected")) {
-        if(this.checked) {
+    this.preventDefault();
+    if(e.classList.contains("password_protected")) {
+        if(e.checked) {
             M.Modal.getInstance(document.getElementById("user_password")).open();
             document.getElementById("user-pass-input").focus();
         } else {
@@ -899,7 +899,7 @@ addListener("click", "#clickme", function(){
 });
 
 addListener("click", "#listExport", function(event){
-    event.preventDefault();
+    this.preventDefault();
     if(!youtube_authenticated){
         var nonce = Helper.randomString(29);
         window.callback = function(data) {
@@ -928,7 +928,7 @@ addListener("click", "#listExport", function(event){
 });
 
 addListener("click", ".export-spotify-auth", function(event){
-    event.preventDefault();
+    this.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
         access_token_data = data;
@@ -953,7 +953,7 @@ addListener("click", ".export-spotify-auth", function(event){
 });
 
 addListener("submit", "#listImport", function(event){
-    event.preventDefault();
+    this.preventDefault();
     var url = document.getElementById("import").value.split("https://www.youtube.com/playlist?list=");
     if(document.getElementById("import").value !== "" && url.length == 2){
         Search.importPlaylist(url[1]);
@@ -971,7 +971,7 @@ addListener("submit", "#listImport", function(event){
 });
 
 addListener("submit", "#listImportZoff", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     var new_channel = document.getElementById("import_zoff").value;
     document.getElementById("import_zoff").value = "";
     if(new_channel == "") {
@@ -982,13 +982,13 @@ addListener("submit", "#listImportZoff", function(event) {
 });
 
 addListener("click", ".import-zoff", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Helper.addClass(".import-zoff-container", "hide");
     Helper.removeClass(".zoff_add_field", "hide");
 });
 
 addListener("submit", "#listImportSpotify", function(event){
-    event.preventDefault();
+    this.preventDefault();
     if(spotify_authenticated && document.getElementById("import_spotify").value !== ""){
         var url = document.getElementById("import_spotify").value.split("https://open.spotify.com/user/");
         if(url.length == 2) {
@@ -1012,39 +1012,39 @@ addListener("submit", "#listImportSpotify", function(event){
     document.getElementById("import_spotify").value = "";
 });
 
-addListener("change", "#autoplay", function() {
-    if(this.checked) embed_autoplay = "&autoplay";
+addListener("change", "#autoplay", function(e) {
+    if(e.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("change", "#videoonly", function() {
-    if(this.checked) embed_videoonly = "&videoonly";
+addListener("change", "#videoonly", function(e) {
+    if(e.checked) embed_videoonly = "&videoonly";
     else embed_videoonly = "";
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
 addListener("click", "#playbutton_remote", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Mobile_remote.play_remote();
 });
 
 addListener("click", "#pausebutton_remote", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Mobile_remote.pause_remote();
 });
 
 addListener("click", "#skipbutton_remote", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Mobile_remote.skip_remote();
 });
 
 addListener("click", ".skip_next_client", function(event) {
-    event.preventDefault();
+    this.preventDefault();
 });
 
 addListener("submit", "#remoteform", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Mobile_remote.get_input(document.getElementById("remote_channel").value);
 });
 
@@ -1057,22 +1057,22 @@ addListener("click", ".chat-tab", function(){
 });
 
 addListener("click", ".prev", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.skip(false);
 });
 
 addListener("click", ".skip", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.skip(true);
 });
 
 addListener("click", "#chan", function(event){
-    event.preventDefault();
+    this.preventDefault();
     List.show();
 });
 
 addListener("submit", "#adminForm", function(event){
-    event.preventDefault();
+    this.preventDefault();
     Admin.pass_save();
 });
 
@@ -1119,7 +1119,7 @@ addListener("click", ".suggested-link", function(event){
 });
 
 addListener("click", ".import-spotify-auth", function(event){
-    event.preventDefault();
+    this.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
         access_token_data = data;
@@ -1144,45 +1144,45 @@ addListener("click", ".import-spotify-auth", function(event){
 });
 
 addListener("click", ".import-youtube", function(event){
-    event.preventDefault();
+    this.preventDefault();
     Helper.css(".youtube_unclicked", "display", "none");
     Helper.css(".youtube_clicked", "display", "block");
 });
 
 addListener("submit", "#chatForm", function(event){
-    event.preventDefault();
-    event.stopPropagation();
+    this.preventDefault();
+    this.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
     return false;
 });
 
 addListener("click", "#shuffle", function(event)
 {
-    event.preventDefault();
+    this.preventDefault();
     Admin.shuffle();
 });
 
 addListener("click", "#search-btn", function(event)
 {
-    //event.preventDefault();
+    this.preventDefault();
     Search.showSearch();
 });
 
 addListener("click", "#song-title", function(event)
 {
-    event.preventDefault();
+    this.preventDefault();
     Search.showSearch();
 });
 
 addListener("click", "#admin-lock", function(event)
 {
-    event.preventDefault();
+    this.preventDefault();
     Admin.log_out();
 });
 
 addListener("click", "#closeSettings", function(event)
 {
-    //event.preventDefault();
+    //this.preventDefault();
     Admin.hide_settings();
 });
 
@@ -1216,15 +1216,15 @@ window.addEventListener("resize", function(){
     }
 });
 
-addListener("click", ".result-object", function(event){
-    var html  = event.target;
-    var substr = event.target.outerHTML.substring(0,4);
+addListener("click", ".result-object", function(e){
+    var html  = this.target;
+    var substr = this.target.outerHTML.substring(0,4);
     if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
-        var id 		= this.getAttribute("data-video-id");
-        var title 	= this.getAttribute("data-video-title");
-        var original_length = this.getAttribute("data-video-length");
-        var start   = parseInt(this.querySelector(".result-start").value);
-        var end     = parseInt(this.querySelector(".result-end").value);
+        var id 		= e.getAttribute("data-video-id");
+        var title 	= e.getAttribute("data-video-title");
+        var original_length = e.getAttribute("data-video-length");
+        var start   = parseInt(e.querySelector(".result-start").value);
+        var end     = parseInt(e.querySelector(".result-end").value);
         if(end > original_length) {
             end = original_length;
         }
@@ -1236,7 +1236,7 @@ addListener("click", ".result-object", function(event){
             try {
                 var length = parseInt(end) - parseInt(start);
                 Search.submitAndClose(id, title, length, start, end);
-            } catch(event) {
+            } catch(err) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
         }
@@ -1244,7 +1244,7 @@ addListener("click", ".result-object", function(event){
 });
 
 addListener("click", ".result-get-more-info", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     var that = this;
     var parent = that.parentElement.parentElement.parentElement.parentElement;
     var videoId = parent.getAttribute("data-video-id");
@@ -1259,12 +1259,15 @@ addListener("click", ".result-get-more-info", function(event) {
 })
 
 addListener("click", '#submit-contact-form', function(event) {
-    event.preventDefault();
-    document.getElementById("contact-form").submit();
+    this.preventDefault();
+    var message = document.getElementById("contact-form-message").value;
+    var from    = document.getElementById("contact-form-from").value;
+    Helper.send_mail(from, message);
+    //document.getElementById("contact-form").submit();
 });
 
 addListener("submit", '#contact-form', function(event){
-    event.preventDefault();
+    this.preventDefault();
     var message = document.getElementById("contact-form-message").value;
     var from    = document.getElementById("contact-form-from").value;
 
@@ -1272,12 +1275,12 @@ addListener("submit", '#contact-form', function(event){
 });
 
 addListener("click", ".send-error-modal", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     document.getElementById("error-report-form").submit();
 })
 
 addListener("submit", "#error-report-form", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     var captcha_response = grecaptcha.getResponse();
     Helper.removeClass("#send-loader", "hide");
     Helper.ajax({
@@ -1304,13 +1307,13 @@ addListener("submit", "#error-report-form", function(event) {
     });
 });
 
-addListener("click", "#add-many", function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    var id 		= this.getAttribute("data-video-id");
-    var title 	= this.getAttribute("data-video-title");
-    var original_length = this.getAttribute("data-video-length");
-    var parent = this.parentElement.parentElement;
+addListener("click", "#add-many", function(e){
+    this.preventDefault();
+    this.stopPropagation();
+    var id 		= e.getAttribute("data-video-id");
+    var title 	= e.getAttribute("data-video-title");
+    var original_length = e.getAttribute("data-video-length");
+    var parent = e.parentElement.parentElement;
 
     var start   = parseInt(parent.querySelectorAll(".result-start")[0].value);
     var end     = parseInt(parent.querySelectorAll(".result-end")[0].value);
@@ -1324,7 +1327,7 @@ addListener("click", "#add-many", function(event){
     } else {
         try {
             var length = parseInt(end) - parseInt(start);
-            this.parentElement.parentElement.parentElement.remove();
+            e.parentElement.parentElement.parentElement.remove();
             Search.submit(id, title, length, false, 0, 1, start, end);
         } catch(event) {
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
@@ -1333,22 +1336,21 @@ addListener("click", "#add-many", function(event){
 
 });
 
-addListener("click", ".vote-container", function(event, target){
-    console.log(this, target, event);
-    var id = event.getAttribute("data-video-id");
+addListener("click", ".vote-container", function(e, target){
+    var id = e.getAttribute("data-video-id");
     List.vote(id, "pos");
 });
 
-addListener("click", ".delete_button", function(event){
-    var id = this.getAttribute("data-video-id");
+addListener("click", ".delete_button", function(e){
+    var id = e.getAttribute("data-video-id");
     List.vote(id, "del");
 });
 
-addListener("click", ".add-suggested", function(event){
-    var id 		= this.getAttribute("data-video-id");
-    var title 	= this.getAttribute("data-video-title");
-    var length 	= this.getAttribute("data-video-length");
-    var added_by = this.getAttribute("data-added-by");
+addListener("click", ".add-suggested", function(e){
+    var id 		= e.getAttribute("data-video-id");
+    var title 	= e.getAttribute("data-video-title");
+    var length 	= e.getAttribute("data-video-length");
+    var added_by = e.getAttribute("data-added-by");
     Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length));
     if(added_by == "user") {
         number_suggested = number_suggested - 1;
@@ -1366,14 +1368,14 @@ addListener("click", ".add-suggested", function(event){
     Helper.removeElement("#suggested-" + id);
 });
 
-addListener("click", ".del_suggested", function(event){
-    var id = this.getAttribute("data-video-id");
+addListener("click", ".del_suggested", function(e){
+    var id = e.getAttribute("data-video-id");
 
     Helper.removeElement("#suggested-" + id);
 });
 
-addListener("click", ".del_user_suggested", function(event){
-    var id = this.getAttribute("data-video-id");
+addListener("click", ".del_user_suggested", function(e){
+    var id = e.getAttribute("data-video-id");
     Helper.removeElement("#suggested-" + id);
 
     number_suggested = number_suggested - 1;
@@ -1396,24 +1398,24 @@ addListener("click", '#toast-container', function(){
 
 });
 
-addListener("click", "#embed-area", function(){
-    this.select();
+addListener("click", "#embed-area", function(e){
+    e.select();
 });
 
 addListener("click", ".brand-logo-navigate", function(event){
-    event.preventDefault();
+    this.preventDefault();
 
     window.history.pushState("to the frontpage!", "Title", "/");
     Channel.onepage_load();
 });
 
 addListener("click", "#player_bottom_overlay", function(event){
-    if(event.target.id == "closePlayer") return;
+    if(this.target.id == "closePlayer") return;
     Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
 addListener("click", ".generate-channel-name", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     Helper.ajax({
         type: "GET",
         url: "/api/generate_name",
@@ -1427,7 +1429,7 @@ addListener("click", ".generate-channel-name", function(event) {
 });
 
 addListener("click", "#close_find_form_button", function(event) {
-    event.preventDefault();
+    this.preventDefault();
     find_start = false;
     find_started = false;
     Helper.toggleClass("#find_div", "hide");
@@ -1440,7 +1442,7 @@ addListener("click", "#close_find_form_button", function(event) {
 });
 
 addListener("submit", "#find_form", function(event){
-    event.preventDefault();
+    this.preventDefault();
     if(this.find_value.value != find_word) {
         find_word = this.find_value.value;
         found_array = [];
