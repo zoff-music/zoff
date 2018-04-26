@@ -216,7 +216,6 @@ function get_list_ajax() {
 }
 
 function contextListener(that, event) {
-    console.log(that, event, this);
     var parent = that.parentElement;
     var suggested = false;
     if(parent.id.indexOf("suggested-") > -1) suggested = true;
@@ -642,8 +641,8 @@ function change_offline(enabled, already_offline){
 }
 
 function pagination_results(e) {
-    event.preventDefault();
-    var that = this;
+    this.preventDefault();
+    var that = e;
     var pageToken = that.getAttribute("data-pagination");
     var searchInput = that.getAttribute("data-original-search");
 
@@ -653,9 +652,10 @@ function pagination_results(e) {
 }
 
 function handleEvent(e, target, tried, type) {
-    if(e.path) {
-        for(var y = 0; y < e.path.length; y++) {
-            var target = e.path[y];
+    var path = e.path || (e.composedPath && e.composedPath());
+    if(path) {
+        for(var y = 0; y < path.length; y++) {
+            var target = path[y];
             if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
                 dynamicListeners[type]["#" + target.id].call(e, target);
                 return;
@@ -669,24 +669,7 @@ function handleEvent(e, target, tried, type) {
                 }
             }
         }
-    } else {
-        if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-            dynamicListeners[type]["#" + target.id].call(e, target);
-            return;
-        } else {
-            if(target.classList == undefined) return;
-            for(var i = 0; i < target.classList.length; i++) {
-                if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                    dynamicListeners[type]["." + target.classList[i]].call(e, target);
-                    return;
-                }
-            }
-        }
-        if(target.parentElement != undefined && target.parentElement.classList != undefined) {
-            handleEvent(e, target.parentElement, false, type);
-        }
     }
-
 }
 
 function addListener(type, element, callback) {
