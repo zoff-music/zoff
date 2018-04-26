@@ -367,22 +367,22 @@ var Channel = {
     },
 
     seekToMove: function(e){
-        var pos_x = e.clientX - Math.ceil(document.getElementById("seekToDuration").outerWidth / 2) - 8;
+        var pos_x = event.clientX - Math.ceil(document.getElementById("seekToDuration").offsetWidth / 2);
         if(pos_x < 0) pos_x = 0;
-        else if(pos_x + document.getElementById("seekToDuration").outerWidth > document.getElementById("controls").outerWidth) {
-            pos_x = document.getElementById("controls").outerWidth - document.getElementById("seekToDuration").outerWidth;
+        else if(pos_x + document.getElementById("seekToDuration").offsetWidth > document.getElementById("controls").offsetWidth) {
+            pos_x = document.getElementById("controls").offsetWidth - document.getElementById("seekToDuration").offsetWidth;
         }
-        Helper.css("#seekToDuration", "left", pos_x);
+        Helper.css("#seekToDuration", "left", pos_x + "px");
         try{
-            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").outerWidth;
-            total = total * e.clientX;
+            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
+            total = total * event.clientX;
             var _time = Helper.secondsToOther(total);
             var _minutes = Helper.pad(_time[0]);
             var _seconds = Helper.pad(Math.ceil(_time[1]));
             Helper.setHtml("#seekToDuration", _minutes + ":" + _seconds);
 
             var acceptable = ["bar", "controls", "duration"];
-            if(acceptable.indexOf(e.target.getAttribute("id")) >= 0 && dragging) {
+            if(acceptable.indexOf(event.target.getAttribute("id")) >= 0 && dragging) {
                 document.getElementById("bar").style.width(((100 / duration) * total) + "%");
             }
         } catch(e){}
