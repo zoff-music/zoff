@@ -2,8 +2,8 @@ var List = {
 
     empty: false,
     page: 0,
-    can_fit: document.querySelectorAll("#wrapper").length > 0 ? Math.round(parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / 71) : 0,
-    element_height: document.querySelectorAll("#wrapper").length > 0 ? (parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / Math.round(parseInt(window.getComputedStyle(document.querySelector("#wrapper"), null).getPropertyValue("height").replace("px", "")) / 71)) - 25 : 0,
+    can_fit: document.querySelectorAll("#wrapper").length > 0 ? Math.round(Helper.computedStyle("#wrapper", "height") / 71) : 0,
+    element_height: document.querySelectorAll("#wrapper").length > 0 ? (Helper.computedStyle("#wrapper", "height") / Math.round(Helper.computedStyle("#wrapper", "height") / 71)) - 25 : 0,
     uris: [],
     not_found: [],
     num_songs: 0,
@@ -153,24 +153,25 @@ var List = {
     populate_list: function(msg, no_reset) {
         // This math is fucked and I don't know how it works. Should be fixed sometime
         if(!Helper.mobilecheck() && !embed && !client){
-            List.can_fit = Math.round((document.querySelector("#wrapper").offsetHeight) / 71);
-            List.element_height = ((document.querySelector("#wrapper").offsetHeight) / List.can_fit)-5.3;
+            List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         } else if(embed) {
-            List.can_fit = Math.round((document.querySelector("#wrapper").offsetHeight) / 91) + 1;
-            List.element_height = ((document.querySelector("#wrapper").offsetHeight) / List.can_fit)-4;
+            List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-4;
         } else if(!client){
-            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / 71)+1;
-            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71)+1;
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
         } else {
-            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", ""))) / 80)+1;
-            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", ""))) / List.can_fit) - 8;
+            List.can_fit = Math.round(window.innerHeight - Helper.computedStyle("header", "height") / 80)+1;
+            List.element_height = (window.innerHeight - Helper.computedStyle("header", "height") / List.can_fit) - 8;
         }
         if(List.element_height < 55.2 && !client){
             List.can_fit = List.can_fit - 1;
             List.element_height = 55.2;
-            List.can_fit = Math.round((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / 71);
-            List.element_height = ((window.innerHeight - parseInt(window.getComputedStyle(document.querySelector(".tabs"), null).getPropertyValue("height").replace("px", "")) - parseInt(window.getComputedStyle(document.querySelector("header"), null).getPropertyValue("height").replace("px", "")) - 64 - 40) / List.can_fit)-5;
+            List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
         }
+        console.log(List.can_fit, List.element_height, List.page);
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
         if(offline && !no_reset){
@@ -314,6 +315,7 @@ var List = {
             }
         } else {
             if(way==-10) {
+                console.log(wrapperChildren, List.page, List.can_fit);
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
                 List.page = 0;
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
