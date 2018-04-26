@@ -178,16 +178,5 @@ var Chat = {
             document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
             programscroll = false;
         }
-    },
-
-    chat_blink: function() {
-        blinking = true;
-        document.querySelector(".chat-link").setAttribute("style", "color: grey !important;");
-        setTimeout(function () {
-            document.querySelector(".chat-link").setAttribute("style", "color: white !important;");
-            setTimeout(function() {
-                if(blinking) Chat.chat_blink();
-            }, 1000);
-        }, 1000);
     }
 };

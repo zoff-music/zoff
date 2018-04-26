@@ -513,10 +513,10 @@ addListener("click", ".delete-context-menu", function(e) {
 
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(to_display == 0){
-            Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
+            Helper.addClass(document.querySelector(".suggested-link span.badge.new.white"), "hide");
         }
 
-        Helper.setHtml(document.querySelector(".chat-link span.badge.new.white"), to_display);
+        Helper.setHtml(document.querySelector(".suggested-link span.badge.new.white"), to_display);
     }
 
     List.vote(id, "del");
@@ -1049,17 +1049,7 @@ addListener("submit", "#remoteform", function(e) {
     Mobile_remote.get_input(document.getElementById("remote_channel").value);
 });
 
-addListener("click", ".chat-link", function(){
-    document.getElementById("text-chat-input").focus();
-    Helper.css(document.querySelector("#chat-btn i"), "opacity", 1);
-    Chat.channel_received = 0;
-    Chat.all_received = 0;
-    Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
-    unseen = false;
-    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
 
-    scrollChat();
-});
 
 addListener("click", ".chat-tab-li", function() {
     scrollChat();
@@ -1113,19 +1103,7 @@ addListener("click", "#embed-button", function() {
     ga('send', 'event', "button-click", "embed-channel", "channel-name", chan.toLowerCase());
 })
 
-addListener("click", ".chat-link", function(e){
-    chat_active = true;
-    unseen = false;
-    chat_unseen = false;
-    document.getElementsByClassName("chat-link")[0].setAttribute("style", "color: white !important;");
-    blinking = false;
-    document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
-    Helper.css("#chat-container", "display", "block");
-    Helper.css("#wrapper", "display", "none");
-    Helper.css("#suggestions", "display", "none");
-    document.getElementById("text-chat-input").focus();
-    Helper.css("#pageButtons", "display", "none");
-});
+
 
 addListener("click", ".playlist-link", function(e){
     chat_active = false;
@@ -1380,7 +1358,7 @@ addListener("click", ".add-suggested", function(e){
 
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(!document.querySelector(".suggested-link span.badge.new.white").classList.contains("hide") && to_display == 0){
-            Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
+            Helper.addClass(document.querySelector(".suggested-link span.badge.new.white"), "hide");
             Helper.addClass("#user_suggests", "hide");
             Helper.addClass("#suggest_bar", "hide");
         }
@@ -1405,7 +1383,7 @@ addListener("click", ".del_user_suggested", function(e){
 
     var to_display = number_suggested > 9 ? "9+" : number_suggested;
     if(to_display == 0){
-        Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
+        Helper.addClass(document.querySelector(".suggested-link span.badge.new.white"), "hide");
     }
 
     docu.querySelector(".suggested-link span.badge.new.white").innerText = to_display;

@@ -871,11 +871,11 @@ function before_toast(){
 }
 
 function scrollChat() {
-    var current = document.querySelector(".chat-tab active").getAttribute("href");
+    var current = document.querySelector(".chatTabs .active").getAttribute("href");
     if(current == "#channelchat") {
-        document.querySelector('#chatchannel').scrollTop(document.querySelector('#chatchannel').scrollHeight);
+        document.querySelector('#chatchannel').scrollTop = document.querySelector('#chatchannel').scrollHeight;
     } else if(current == "#all_chat") {
-        document.querySelector('#chatall').scrollTop(document.querySelector('#chatall').scrollHeight);
+        document.querySelector('#chatall').scrollTop = document.querySelector('#chatall').scrollHeight;
     }
 }
 

@@ -171,7 +171,6 @@ var List = {
             List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
             List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
         }
-        console.log(List.can_fit, List.element_height, List.page);
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
         if(offline && !no_reset){
@@ -315,7 +314,6 @@ var List = {
             }
         } else {
             if(way==-10) {
-                console.log(wrapperChildren, List.page, List.can_fit);
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
                 List.page = 0;
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
@@ -991,13 +989,5 @@ var List = {
             }
 
         } catch(e) {}
-    },
-
-    scrollTop: function() {
-        document.querySelector("#wrapper").scrollTop(0);
-    },
-
-    scrollBottom: function(){
-        document.querySelector("#wrapper").scrollTop(document.querySelector("#wrapper").scrollHeight);
     }
 };

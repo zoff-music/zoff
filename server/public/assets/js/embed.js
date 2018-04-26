@@ -66,9 +66,7 @@ function receiveMessage(event) {
 }
 
 window.addEventListener("message", receiveMessage, false);
-console.log("qq");
 window.addEventListener("DOMContentLoaded", function() {
-    console.log("ads");
     if(hash.length >= 3 && hash[2] == "autoplay"){
         autoplay = true;
         Helper.css("#player", "visibility", "hidden");
@@ -77,7 +75,7 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     if(hash.indexOf("videoonly") > -1) {
-        Helper.addClass("#playlist", "hide");
+        Helper.addClass("#wrapper", "hide");
         Helper.addClass("#controls", "hide");
         Helper.addClass("#player", "video_only");
         Helper.css("#zoffbutton", "bottom", "0px");
@@ -122,7 +120,7 @@ window.addEventListener("DOMContentLoaded", function() {
     Playercontrols.initSlider();
     window.setVolume = setVolume;
     Helper.css("#controls", "background-color", color);
-    Helper.css("#playlist", "background-color", color);
+    Helper.css("#wrapper", "background-color", color);
     if(hash.indexOf("controll") > -1) {
         Hostcontroller.change_enabled(true);
     } else {
