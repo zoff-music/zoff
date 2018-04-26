@@ -127,8 +127,8 @@ try{
         .then(function (registration) {
             Helper.log(registration);
         })
-        .catch(function (e) {
-            console.error(e);
+        .catch(function (event) {
+            console.error(event);
         });
     } else {
         Helper.log('Service Worker is not supported in this browser.');
@@ -140,7 +140,7 @@ try{
 }
 });*/
 
-} catch(e) {}
+} catch(event) {}
 
 window.zoff = {
     enable_debug: enable_debug,
@@ -231,7 +231,7 @@ setup_no_connection_listener();
 initializeCastApi = function() {
     try {
         if(cast == undefined) return;
-    } catch(e) {
+    } catch(event) {
         return;
     }
     cast.framework.CastContext.getInstance().setOptions({
@@ -257,7 +257,7 @@ initializeCastApi = function() {
             var _seekTo;
             try{
                 _seekTo = Player.player.getCurrentTime();
-            } catch(e){
+            } catch(event){
                 _seekTo = seekTo;
             }
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
@@ -286,7 +286,7 @@ initializeCastApi = function() {
             var _seekTo;
             try{
                 _seekTo = Player.player.getCurrentTime();
-            } catch(e){
+            } catch(event){
                 _seekTo = seekTo;
             }
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
@@ -338,7 +338,7 @@ initializeCastApi = function() {
     }
 };
 
-addListener("click", "#player_overlay", function(e) {
+addListener("click", "#player_overlay", function(event) {
     if(chromecastAvailable) {
         Player.playPauseVideo();
     }
@@ -346,7 +346,7 @@ addListener("click", "#player_overlay", function(e) {
 
 
 
-addListener("click", "#bitcoin-address", function(e) {
+addListener("click", "#bitcoin-address", function(event) {
     var copyTextarea = document.querySelector('#bitcoin-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
@@ -357,7 +357,7 @@ addListener("click", "#bitcoin-address", function(e) {
     }
 });
 
-addListener("click", "#ethereum-address", function(e) {
+addListener("click", "#ethereum-address", function(event) {
     var copyTextarea = document.querySelector('#ethereum-address');
     copyTextarea.select();
     var successful = document.execCommand('copy');
@@ -371,8 +371,7 @@ addListener("click", "#ethereum-address", function(e) {
 addListener("click", ".prev-results-button", pagination_results);
 addListener("click", ".next-results-button", pagination_results);
 
-addListener("click", "#settings", function(e) {
-    event.preventDefault();
+addListener("click", "#settings", function(event) {
     var sidenavElem = document.getElementsByClassName("sidenav")[0];
     if(!M.Sidenav.getInstance(document.querySelector(".sidenav")).isOpen) {
         M.Sidenav.getInstance(sidenavElem).open();
@@ -381,14 +380,14 @@ addListener("click", "#settings", function(e) {
     }
 });
 
-addListener("click", ".accept-delete", function(e) {
+addListener("click", ".accept-delete", function(event) {
     event.preventDefault();
     emit("delete_all", {channel: chan.toLowerCase()});
     M.Modal.getInstance(document.getElementById("delete_song_alert")).close();
 });
 
 
-addListener("click", "#chat_submit", function(e){
+addListener("click", "#chat_submit", function(event){
     event.preventDefault();
     event.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
@@ -397,7 +396,7 @@ addListener("click", "#chat_submit", function(e){
     //document.getElementById("chatForm").submit();
 });
 
-addListener("click", "#offline-mode", function(e){
+addListener("click", "#offline-mode", function(event){
     event.preventDefault();
     if(!Crypt.get_offline()){
         change_offline(true, offline);
@@ -406,13 +405,13 @@ addListener("click", "#offline-mode", function(e){
     }
 });
 
-addListener("submit", "#thumbnail_form", function(e){
+addListener("submit", "#thumbnail_form", function(event){
     event.preventDefault();
     emit("suggest_thumbnail", {channel: chan, thumbnail: document.getElementById("chan_thumbnail").value});
     document.getElementById("chan_thumbnail").value = "";
 });
 
-addListener("submit", "#description_form", function(e){
+addListener("submit", "#description_form", function(event){
     event.preventDefault();
     emit("suggest_description", {channel: chan, description: document.getElementById("chan_description").value});
     document.getElementById("chan_description").value = "";
@@ -430,24 +429,24 @@ addListener("click", "#playpause-overlay", function(){
     }
 });
 
-addListener("click", '#cookieok', function(e) {
+addListener("click", '#cookieok', function(event) {
     event.preventDefault();
     M.Toast.getInstance(this.parentElement).dismiss();
     localStorage.ok_cookie = true;
 });
 
-addListener("click", ".connect_error", function(e){
+addListener("click", ".connect_error", function(event){
     event.preventDefault();
     M.Toast.getInstance(this.parentElement).dismiss();
 });
 
-addListener("click", ".extra-button-search", function(e){
+addListener("click", ".extra-button-search", function(event){
     event.preventDefault();
     document.getElementById("search").value = this.getAttribute("data-text");
     Search.search(this.getAttribute("data-text"));
 });
 
-addListener("click", ".extra-button-delete", function(e){
+addListener("click", ".extra-button-delete", function(event){
     event.preventDefault();
     this.parentElement.remove();
     if(document.querySelector(".not-imported-container").children.length === 0){
@@ -455,13 +454,13 @@ addListener("click", ".extra-button-delete", function(e){
     }
 });
 
-addListener("click", "#context-menu-overlay", function(e) {
+addListener("click", "#context-menu-overlay", function(event) {
     Helper.addClass(".context-menu-root", "hide");
     Helper.addClass("#context-menu-overlay", "hide");
     Helper.addClass(".context-menu-root", "data-id", "");
 });
 
-addListener("click", ".copy-context-menu", function(e) {
+addListener("click", ".copy-context-menu", function(event) {
     event.preventDefault();
     var that = this;
     var parent = that.parentElement;
@@ -484,7 +483,7 @@ addListener("click", ".copy-context-menu", function(e) {
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 });
 
-addListener("click", ".find-context-menu", function(e) {
+addListener("click", ".find-context-menu", function(event) {
     event.preventDefault();
     var that = this;
     var parent = that.parentElement;
@@ -498,7 +497,7 @@ addListener("click", ".find-context-menu", function(e) {
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 });
 
-addListener("click", ".delete-context-menu", function(e) {
+addListener("click", ".delete-context-menu", function(event) {
     var that = this;
     if(that.classList.contains("context-menu-disabled")) {
         return;
@@ -525,7 +524,7 @@ addListener("click", ".delete-context-menu", function(e) {
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
 })
 
-addListener("click", "#closePlayer", function(e){
+addListener("click", "#closePlayer", function(event){
     event.preventDefault();
     socket.emit("change_channel");
     try{
@@ -546,7 +545,7 @@ addListener("click", "#closePlayer", function(e){
     Helper.removeElement("#closePlayer");
 });
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function(event) {
     if(window.location.pathname != "/"){
         if(event.keyCode == 91 || event.keyCode == 17){
             find_start = true;
@@ -594,7 +593,7 @@ document.addEventListener("keydown", function(e) {
     }
 }, false);
 
-document.addEventListener("keyup", function(e) {
+document.addEventListener("keyup", function(event) {
     if(event.keyCode == 27 && window.location.path != "/"){
         //$("#results").html("");
         if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
@@ -652,11 +651,11 @@ document.addEventListener("keyup", function(e) {
     }
 }, false);
 
-document.addEventListener("click", function(e) {
-    handleEvent(e, e.target, false, "click");
+document.addEventListener("click", function(event) {
+    handleEvent(event, event.target, false, "click");
 }, true);
 
-document.addEventListener("mouseleave", function(e) {
+document.addEventListener("mouseleave", function(event) {
     if(event.target.className == "card sticky-action") {
         var that = event.target;
         that.querySelector(".card-reveal").setAttribute("style", "display: block;transform: translateY(0%);");
@@ -667,7 +666,7 @@ document.addEventListener("mouseleave", function(e) {
     }
 }, true);
 
-document.addEventListener("mouseenter", function(e) {
+document.addEventListener("mouseenter", function(event) {
     if(event.target.className == "card sticky-action") {
         var that = event.target;
         that.querySelector(".card-reveal").setAttribute("style", "display: block;");
@@ -678,46 +677,46 @@ document.addEventListener("mouseenter", function(e) {
     }
 }, true);
 
-document.addEventListener("contextmenu", function(e) {
-    handleEvent(e, e.target, false, "contextmenu");
+document.addEventListener("contextmenu", function(event) {
+    handleEvent(event, event.target, false, "contextmenu");
 }, true);
 
-document.addEventListener("input", function(e) {
-    handleEvent(e, e.target, false, "input");
+document.addEventListener("input", function(event) {
+    handleEvent(event, event.target, false, "input");
 }, true);
 
-document.addEventListener("change", function(e) {
-    handleEvent(e, e.target, false, "change");
+document.addEventListener("change", function(event) {
+    handleEvent(event, event.target, false, "change");
 }, true);
 
-document.addEventListener("submit", function(e) {
-    handleEvent(e, e.target, false, "submit");
+document.addEventListener("submit", function(event) {
+    handleEvent(event, event.target, false, "submit");
 }, true);
 
-addListener("change", "#width_embed", function() {
+addListener("change", "#width_embed", function(event) {
     var that = event.target;
     embed_width = that.value;
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("change", "#height_embed", function() {
+addListener("change", "#height_embed", function(event) {
     var that = event.target;
     embed_height = that.value;
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("click", ".prev_page", function(e) {
-    //addListener("click", ".prev_page", function(e){
+addListener("click", ".prev_page", function(event) {
+    //addListener("click", ".prev_page", function(event){
     event.preventDefault();
     List.dynamicContentPage(-1);
 });
 
-addListener("click", ".modal-close", function(e){
+addListener("click", ".modal-close", function(event){
     event.preventDefault();
 });
 
 /*
-addListener("change", ".password_protected", function(e) {
+addListener("change", ".password_protected", function(event) {
     event.preventDefault();
     if(this.checked) {
         M.Modal.getInstance(document.getElementById("user_password")).open();
@@ -729,7 +728,7 @@ addListener("change", ".password_protected", function(e) {
     }
 });*/
 
-addListener("submit", "#user-password-channel-form", function(e) {
+addListener("submit", "#user-password-channel-form", function(event) {
     event.preventDefault();
     if(user_auth_started) {
         temp_user_pass = document.getElementById("user-pass-input").value;
@@ -745,18 +744,18 @@ addListener("submit", "#user-password-channel-form", function(e) {
     }
 });
 
-addListener("click", ".change_user_pass_btn", function(e) {
+addListener("click", ".change_user_pass_btn", function(event) {
     event.preventDefault();
     user_change_password = true;
     M.Modal.getInstance(document.getElementById("user_password")).open();
     document.getElementById("user-pass-input").focus();
 });
 
-addListener("contextmenu", "#context-menu-overlay", function(e) {
+addListener("contextmenu", "#context-menu-overlay", function(event) {
     event.preventDefault();
 });
 
-addListener("click", ".submit-user-password", function(e) {
+addListener("click", ".submit-user-password", function(event) {
     event.preventDefault();
     if(user_auth_started) {
         temp_user_pass = document.getElementById("user-pass-input").value;
@@ -794,7 +793,7 @@ addListener("click", ".close-user-password", function() {
     }
 });
 
-addListener("click", ".delete-all-songs", function(e){
+addListener("click", ".delete-all-songs", function(event){
     event.preventDefault();
     M.Modal.getInstance(document.getElementById("delete_song_alert")).open();
 });
@@ -803,22 +802,22 @@ addListener("click", ".extra-add-text", function(){
     this.select();
 });
 
-addListener("click", ".next_page", function(e){
+addListener("click", ".next_page", function(event){
     event.preventDefault();
     List.dynamicContentPage(1);
 });
 
-addListener("click", ".last_page", function(e){
+addListener("click", ".last_page", function(event){
     event.preventDefault();
     List.dynamicContentPage(10);
 });
 
-addListener("click", ".first_page", function(e){
+addListener("click", ".first_page", function(event){
     event.preventDefault();
     List.dynamicContentPage(-10);
 });
 
-addListener("click", ".donate-button", function(e) {
+addListener("click", ".donate-button", function(event) {
     event.preventDefault();
     ga('send', 'event', "button-click", "donate");
     M.Modal.getInstance(document.getElementById("donate")).open();
@@ -833,7 +832,7 @@ addListener("click", "#aprilfools", function(){
     Helper.css(".mega", "-moz-transform", "rotate(0deg)");
 });
 
-addListener("change", '#view_channels_select', function(e) {
+addListener("change", '#view_channels_select', function(event) {
     var that = this;
     if(currently_showing_channels != parseInt(that.value)) {
         Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.value) == 1 ? true : false));
@@ -847,20 +846,20 @@ addListener("input", '#color_embed', function(){
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("click", ".chan-link", function(e){
+addListener("click", ".chan-link", function(event){
     event.preventDefault();
     var href = this.href.replace(window.location.protocol + "//" +  window.location.hostname + "/", "");
     Frontpage.to_channel(href, false);
 });
 
-addListener("click", ".listen-button", function(e){
+addListener("click", ".listen-button", function(event){
     if(document.querySelector(".room-namer").value === ""){
         event.preventDefault();
         Frontpage.to_channel(document.querySelector(".room-namer").getAttribute("placeholder"));
     }
 });
 
-addListener("submit", ".channel-finder", function(e){
+addListener("submit", ".channel-finder", function(event){
     event.preventDefault();
     Frontpage.to_channel(document.querySelector(".room-namer").value);
     return false;
@@ -899,7 +898,7 @@ addListener("click", "#clickme", function(){
     Player.playVideo();
 });
 
-addListener("click", "#listExport", function(e){
+addListener("click", "#listExport", function(event){
     event.preventDefault();
     if(!youtube_authenticated){
         var nonce = Helper.randomString(29);
@@ -928,7 +927,7 @@ addListener("click", "#listExport", function(e){
     }
 });
 
-addListener("click", ".export-spotify-auth", function(e){
+addListener("click", ".export-spotify-auth", function(event){
     event.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
@@ -953,7 +952,7 @@ addListener("click", ".export-spotify-auth", function(e){
     spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
-addListener("submit", "#listImport", function(e){
+addListener("submit", "#listImport", function(event){
     event.preventDefault();
     var url = document.getElementById("import").value.split("https://www.youtube.com/playlist?list=");
     if(document.getElementById("import").value !== "" && url.length == 2){
@@ -971,7 +970,7 @@ addListener("submit", "#listImport", function(e){
     document.getElementById("import").value = "";
 });
 
-addListener("submit", "#listImportZoff", function(e) {
+addListener("submit", "#listImportZoff", function(event) {
     event.preventDefault();
     var new_channel = document.getElementById("import_zoff").value;
     document.getElementById("import_zoff").value = "";
@@ -982,13 +981,13 @@ addListener("submit", "#listImportZoff", function(e) {
     socket.emit("import_zoff", {channel: chan.toLowerCase(), new_channel: new_channel.toLowerCase()});
 });
 
-addListener("click", ".import-zoff", function(e) {
+addListener("click", ".import-zoff", function(event) {
     event.preventDefault();
     Helper.addClass(".import-zoff-container", "hide");
     Helper.removeClass(".zoff_add_field", "hide");
 });
 
-addListener("submit", "#listImportSpotify", function(e){
+addListener("submit", "#listImportSpotify", function(event){
     event.preventDefault();
     if(spotify_authenticated && document.getElementById("import_spotify").value !== ""){
         var url = document.getElementById("import_spotify").value.split("https://open.spotify.com/user/");
@@ -1025,26 +1024,26 @@ addListener("change", "#videoonly", function() {
     document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
 });
 
-addListener("click", "#playbutton_remote", function(e) {
+addListener("click", "#playbutton_remote", function(event) {
     event.preventDefault();
     Mobile_remote.play_remote();
 });
 
-addListener("click", "#pausebutton_remote", function(e) {
+addListener("click", "#pausebutton_remote", function(event) {
     event.preventDefault();
     Mobile_remote.pause_remote();
 });
 
-addListener("click", "#skipbutton_remote", function(e) {
+addListener("click", "#skipbutton_remote", function(event) {
     event.preventDefault();
     Mobile_remote.skip_remote();
 });
 
-addListener("click", ".skip_next_client", function(e) {
+addListener("click", ".skip_next_client", function(event) {
     event.preventDefault();
 });
 
-addListener("submit", "#remoteform", function(e) {
+addListener("submit", "#remoteform", function(event) {
     event.preventDefault();
     Mobile_remote.get_input(document.getElementById("remote_channel").value);
 });
@@ -1057,22 +1056,22 @@ addListener("click", ".chat-tab", function(){
     document.getElementById("text-chat-input").focus();
 });
 
-addListener("click", ".prev", function(e){
+addListener("click", ".prev", function(event){
     event.preventDefault();
     List.skip(false);
 });
 
-addListener("click", ".skip", function(e){
+addListener("click", ".skip", function(event){
     event.preventDefault();
     List.skip(true);
 });
 
-addListener("click", "#chan", function(e){
+addListener("click", "#chan", function(event){
     event.preventDefault();
     List.show();
 });
 
-addListener("submit", "#adminForm", function(e){
+addListener("submit", "#adminForm", function(event){
     event.preventDefault();
     Admin.pass_save();
 });
@@ -1081,7 +1080,7 @@ addListener("click", "#channel-share-modal", function(){
     M.Modal.getInstance(document.getElementById("channel-share-modal")).close();
 });
 
-addListener("click", ".shareface", function(e) {
+addListener("click", ".shareface", function(event) {
     ga('send', 'event', "button-click", "share-facebook");
 });
 
@@ -1103,7 +1102,7 @@ addListener("click", "#embed-button", function() {
 
 
 
-addListener("click", ".playlist-link", function(e){
+addListener("click", ".playlist-link", function(event){
     chat_active = false;
     Helper.css("#chat-container", "display", "none");
     Helper.css("#wrapper", "display", "block");
@@ -1111,7 +1110,7 @@ addListener("click", ".playlist-link", function(e){
     Helper.css("#pageButtons", "display", "flex");
 });
 
-addListener("click", ".suggested-link", function(e){
+addListener("click", ".suggested-link", function(event){
     chat_active = false;
     Helper.css("#chat-container", "display", "none");
     Helper.css("#wrapper", "display", "none");
@@ -1119,7 +1118,7 @@ addListener("click", ".suggested-link", function(e){
     Helper.css("#pageButtons", "display", "none");
 });
 
-addListener("click", ".import-spotify-auth", function(e){
+addListener("click", ".import-spotify-auth", function(event){
     event.preventDefault();
     var nonce = Helper.randomString(29);
     window.callback = function(data) {
@@ -1144,46 +1143,46 @@ addListener("click", ".import-spotify-auth", function(e){
     spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
 });
 
-addListener("click", ".import-youtube", function(e){
+addListener("click", ".import-youtube", function(event){
     event.preventDefault();
     Helper.css(".youtube_unclicked", "display", "none");
     Helper.css(".youtube_clicked", "display", "block");
 });
 
-addListener("submit", "#chatForm", function(e){
+addListener("submit", "#chatForm", function(event){
     event.preventDefault();
     event.stopPropagation();
     Chat.chat(document.getElementById("chatForm").input);
     return false;
 });
 
-addListener("click", "#shuffle", function(e)
+addListener("click", "#shuffle", function(event)
 {
     event.preventDefault();
     Admin.shuffle();
 });
 
-addListener("click", "#search-btn", function(e)
+addListener("click", "#search-btn", function(event)
 {
     //event.preventDefault();
     Search.showSearch();
 });
 
-addListener("click", "#song-title", function(e)
+addListener("click", "#song-title", function(event)
 {
     event.preventDefault();
     Search.showSearch();
 });
 
-addListener("click", "#admin-lock", function(e)
+addListener("click", "#admin-lock", function(event)
 {
     event.preventDefault();
     Admin.log_out();
 });
 
-addListener("click", "#closeSettings", function(e)
+addListener("click", "#closeSettings", function(event)
 {
-    event.preventDefault();
+    //event.preventDefault();
     Admin.hide_settings();
 });
 
@@ -1217,7 +1216,7 @@ window.addEventListener("resize", function(){
     }
 });
 
-addListener("click", ".result-object", function(e){
+addListener("click", ".result-object", function(event){
     var html  = event.target;
     var substr = event.target.outerHTML.substring(0,4);
     if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
@@ -1237,14 +1236,14 @@ addListener("click", ".result-object", function(e){
             try {
                 var length = parseInt(end) - parseInt(start);
                 Search.submitAndClose(id, title, length, start, end);
-            } catch(e) {
+            } catch(event) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
         }
     }
 });
 
-addListener("click", ".result-get-more-info", function(e) {
+addListener("click", ".result-get-more-info", function(event) {
     event.preventDefault();
     var that = this;
     var parent = that.parentElement.parentElement.parentElement.parentElement;
@@ -1259,12 +1258,12 @@ addListener("click", ".result-get-more-info", function(e) {
     }
 })
 
-addListener("click", '#submit-contact-form', function(e) {
+addListener("click", '#submit-contact-form', function(event) {
     event.preventDefault();
     document.getElementById("contact-form").submit();
 });
 
-addListener("submit", '#contact-form', function(e){
+addListener("submit", '#contact-form', function(event){
     event.preventDefault();
     var message = document.getElementById("contact-form-message").value;
     var from    = document.getElementById("contact-form-from").value;
@@ -1272,12 +1271,12 @@ addListener("submit", '#contact-form', function(e){
     Helper.send_mail(from, message);
 });
 
-addListener("click", ".send-error-modal", function(e) {
+addListener("click", ".send-error-modal", function(event) {
     event.preventDefault();
     document.getElementById("error-report-form").submit();
 })
 
-addListener("submit", "#error-report-form", function(e) {
+addListener("submit", "#error-report-form", function(event) {
     event.preventDefault();
     var captcha_response = grecaptcha.getResponse();
     Helper.removeClass("#send-loader", "hide");
@@ -1305,7 +1304,7 @@ addListener("submit", "#error-report-form", function(e) {
     });
 });
 
-addListener("click", "#add-many", function(e){
+addListener("click", "#add-many", function(event){
     event.preventDefault();
     event.stopPropagation();
     var id 		= this.getAttribute("data-video-id");
@@ -1327,24 +1326,25 @@ addListener("click", "#add-many", function(e){
             var length = parseInt(end) - parseInt(start);
             this.parentElement.parentElement.parentElement.remove();
             Search.submit(id, title, length, false, 0, 1, start, end);
-        } catch(e) {
+        } catch(event) {
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
     }
 
 });
 
-addListener("click", ".vote-container", function(e){
-    var id = this.getAttribute("data-video-id");
+addListener("click", ".vote-container", function(event, target){
+    console.log(this, target, event);
+    var id = event.getAttribute("data-video-id");
     List.vote(id, "pos");
 });
 
-addListener("click", ".delete_button", function(e){
+addListener("click", ".delete_button", function(event){
     var id = this.getAttribute("data-video-id");
     List.vote(id, "del");
 });
 
-addListener("click", ".add-suggested", function(e){
+addListener("click", ".add-suggested", function(event){
     var id 		= this.getAttribute("data-video-id");
     var title 	= this.getAttribute("data-video-title");
     var length 	= this.getAttribute("data-video-length");
@@ -1366,13 +1366,13 @@ addListener("click", ".add-suggested", function(e){
     Helper.removeElement("#suggested-" + id);
 });
 
-addListener("click", ".del_suggested", function(e){
+addListener("click", ".del_suggested", function(event){
     var id = this.getAttribute("data-video-id");
 
     Helper.removeElement("#suggested-" + id);
 });
 
-addListener("click", ".del_user_suggested", function(e){
+addListener("click", ".del_user_suggested", function(event){
     var id = this.getAttribute("data-video-id");
     Helper.removeElement("#suggested-" + id);
 
@@ -1400,19 +1400,19 @@ addListener("click", "#embed-area", function(){
     this.select();
 });
 
-addListener("click", ".brand-logo-navigate", function(e){
+addListener("click", ".brand-logo-navigate", function(event){
     event.preventDefault();
 
     window.history.pushState("to the frontpage!", "Title", "/");
     Channel.onepage_load();
 });
 
-addListener("click", "#player_bottom_overlay", function(e){
+addListener("click", "#player_bottom_overlay", function(event){
     if(event.target.id == "closePlayer") return;
     Frontpage.to_channel(chan.toLowerCase(), false);
 });
 
-addListener("click", ".generate-channel-name", function(e) {
+addListener("click", ".generate-channel-name", function(event) {
     event.preventDefault();
     Helper.ajax({
         type: "GET",
@@ -1426,7 +1426,7 @@ addListener("click", ".generate-channel-name", function(e) {
     ga('send', 'event', "button-click", "generate-channel");
 });
 
-addListener("click", "#close_find_form_button", function(e) {
+addListener("click", "#close_find_form_button", function(event) {
     event.preventDefault();
     find_start = false;
     find_started = false;
@@ -1439,7 +1439,7 @@ addListener("click", "#close_find_form_button", function(e) {
     find_word = "";
 });
 
-addListener("submit", "#find_form", function(e){
+addListener("submit", "#find_form", function(event){
     event.preventDefault();
     if(this.find_value.value != find_word) {
         find_word = this.find_value.value;
