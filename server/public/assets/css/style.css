@@ -3014,6 +3014,7 @@ nav ul li:hover, nav ul li.active {
 
     #controls{
         /*opacity: 1;*/
+        overflow: initial;
         background-color: rgb(70, 70, 70);
         height: 50px;
         margin-top: inherit;
@@ -3063,7 +3064,7 @@ nav ul li:hover, nav ul li.active {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: #1c1c1c;
+        background: inherit;
     }
 
     .volume-container-cast {
