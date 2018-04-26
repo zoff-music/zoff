@@ -421,24 +421,23 @@ var Channel = {
     },
 
     add_context_menu: function() {
-        addListener("contextmenu", ".vote-container", function(event) {
-            //event.preventDefault();
+        addListener("contextmenu", ".vote-container", function(e) {
+            this.preventDefault();
             this.preventDefault();
             var that = this;
-            contextListener(event, that);
+            contextListener(e, that);
         });
 
-        addListener("contextmenu", ".add-suggested", function(event) {
-            //event.preventDefault();
+        addListener("contextmenu", ".add-suggested", function(e) {
+            this.preventDefault();
             var that = this;
-            contextListener(event, that);
+            contextListener(e, that);
         });
 
-        addListener("click", ".list-remove", function(event) {
-            //event.preventDefault();
+        addListener("click", ".list-remove", function(e) {
+            this.preventDefault();
             var that = this;
-            console.log(that, event);
-            contextListener(event, that);
+            contextListener(e, that);
         });
     },
 
