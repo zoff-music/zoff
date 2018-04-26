@@ -44,7 +44,38 @@ var Channel = {
 
         if(!client) {
             //Helper.tabs('.playlist-tabs');
-            Helper.tabs('.playlist-tabs-loggedIn');
+            Helper.tabs('.playlist-tabs-loggedIn', {
+                onShow: function(e) {
+                    if(this.index == 2) {
+                        document.getElementById("text-chat-input").focus();
+                        Chat.channel_received = 0;
+                        Chat.all_received = 0;
+                        Helper.addClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
+                        document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
+
+                        chat_active = true;
+                        unseen = false;
+                        chat_unseen = false;
+                        document.getElementsByClassName("chat-link")[0].setAttribute("style", "color: white !important;");
+                        blinking = false;
+                        //Helper.css("#chat-container", "display", "block");
+                        //Helper.css("#wrapper", "display", "none");
+                        //Helper.css("#suggestions", "display", "none");
+                        document.getElementById("text-chat-input").focus();
+                        Helper.css("#pageButtons", "display", "none");
+                        scrollChat();
+                    }
+                }
+            });
+
+            if(window.location.hash == "#chat-container") {
+                M.Tabs.getInstance(document.querySelector('.playlist-tabs-loggedIn')).select("chat-container");
+            } else if(window.location.hash == "#suggestions") {
+                M.Tabs.getInstance(document.querySelector('.playlist-tabs-loggedIn')).select("suggestions");
+            } else if(window.location.hash == "#wrapper") {
+                M.Tabs.getInstance(document.querySelector('.playlist-tabs-loggedIn')).select("wrapper");
+            }
+
             Helper.tabs('.chatTabs');
         }
         var sidenavElem = document.getElementsByClassName("sidenav")[0];
@@ -577,7 +608,7 @@ var Channel = {
                         Helper.removeClass("#video-container", "no-opacity");
                         document.getElementById("main-row").insertAdjacentHTML("afterbegin", "<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'>X</a>");
-                        Helper.removeElement("#playlist");
+                        Helper.removeElement("#wrapper");
                     } else {
                         try{
                             Player.player.destroy();

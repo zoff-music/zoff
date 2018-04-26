@@ -13,7 +13,7 @@ var Suggestions = {
         }
         var to_display = number_suggested > 9 ? "9+" : number_suggested;
         if(number_suggested > 0 && Admin.logged_in){
-            Helper.removeClass(document.querySelector(".chat-link span.badge.new.white"), "hide");
+            Helper.removeClass(document.querySelector(".suggested-link span.badge.new.white"), "hide");
         }
         document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
         if(single){
@@ -31,7 +31,7 @@ var Suggestions = {
         var video_id 	= params.id;
         var video_title = params.title;
         var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
-        if(document.querySelectorAll("#" + song.getAttribute("id")).length == 0) {
+        if(document.querySelectorAll("#" + video_id).length == 0) {
             document.getElementById("user-suggest-html").insertAdjacentHTML("beforeend", song);
         }
     },
