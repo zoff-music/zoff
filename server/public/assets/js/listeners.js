@@ -568,17 +568,17 @@ document.addEventListener("keydown", function(e) {
                 find_word = "";
             }
         } else if(event.keyCode == 32 && document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/" &&
-        document.querySelector("#text-chat-input") === document.activeElement &&
-        document.querySelector("#password") === document.activeElement &&
-        document.querySelector("#user-pass-input") === document.activeElement &&
-        document.querySelector("#chan_thumbnail") === document.activeElement &&
-        document.querySelector("#chan_description") === document.activeElement &&
-        document.querySelector("#contact-form-from") === document.activeElement &&
-        document.querySelector("#contact-form-message") === document.activeElement &&
-        document.querySelector("#remote_channel") === document.activeElement &&
-        document.querySelector("#import") === document.activeElement &&
-        document.querySelector("#find_input") === document.activeElement &&
-        document.querySelector("#import_spotify") === document.activeElement) {
+        document.querySelector("#text-chat-input") != document.activeElement &&
+        document.querySelector("#password") != document.activeElement &&
+        document.querySelector("#user-pass-input") != document.activeElement &&
+        document.querySelector("#chan_thumbnail") != document.activeElement &&
+        document.querySelector("#chan_description") != document.activeElement &&
+        document.querySelector("#contact-form-from") != document.activeElement &&
+        document.querySelector("#contact-form-message") != document.activeElement &&
+        document.querySelector("#remote_channel") != document.activeElement &&
+        document.querySelector("#import") != document.activeElement &&
+        document.querySelector("#find_input") != document.activeElement &&
+        document.querySelector("#import_spotify") != document.activeElement) {
             if(Player.player.getPlayerState() == 1) {
                 event.preventDefault();
                 Player.player.pauseVideo();
@@ -1048,8 +1048,6 @@ addListener("submit", "#remoteform", function(e) {
     event.preventDefault();
     Mobile_remote.get_input(document.getElementById("remote_channel").value);
 });
-
-
 
 addListener("click", ".chat-tab-li", function() {
     scrollChat();
