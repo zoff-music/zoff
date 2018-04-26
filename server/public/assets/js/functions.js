@@ -215,7 +215,8 @@ function get_list_ajax() {
     });
 }
 
-function contextListener(that, e) {
+function contextListener(that, event) {
+    console.log(that, event, this);
     var parent = that.parentElement;
     var suggested = false;
     if(parent.id.indexOf("suggested-") > -1) suggested = true;
@@ -652,19 +653,37 @@ function pagination_results(e) {
 }
 
 function handleEvent(e, target, tried, type) {
-    for(var y = 0; y < e.path.length; y++) {
-        var target = e.path[y];
+    if(e.path) {
+        for(var y = 0; y < e.path.length; y++) {
+            var target = e.path[y];
+            if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+                dynamicListeners[type]["#" + target.id].call(e, target);
+                return;
+            } else {
+                if(target.classList == undefined) return;
+                for(var i = 0; i < target.classList.length; i++) {
+                    if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                        dynamicListeners[type]["." + target.classList[i]].call(e, target);
+                        return;
+                    }
+                }
+            }
+        }
+    } else {
         if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-            dynamicListeners[type]["#" + target.id].call(target);
+            dynamicListeners[type]["#" + target.id].call(e, target);
             return;
         } else {
             if(target.classList == undefined) return;
             for(var i = 0; i < target.classList.length; i++) {
                 if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                    dynamicListeners[type]["." + target.classList[i]].call(target);
+                    dynamicListeners[type]["." + target.classList[i]].call(e, target);
                     return;
                 }
             }
+        }
+        if(target.parentElement != undefined && target.parentElement.classList != undefined) {
+            handleEvent(e, target.parentElement, false, type);
         }
     }
 
