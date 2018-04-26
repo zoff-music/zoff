@@ -69,7 +69,9 @@ var Suggestions = {
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
 
-                            document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
+                            try {
+                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration}, false, false, false));
+                            } catch(e) {}
                         }
                     }
                 });
