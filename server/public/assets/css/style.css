@@ -1784,7 +1784,7 @@ margin-right: 52%;
 
 #fireplace_player{
     z-index: 999;
-    width: calc(100% - .75rem);
+    /*width: calc(100% - .75rem);*/
     height: calc(100% - 32px);
     position: absolute;
     display:none;
