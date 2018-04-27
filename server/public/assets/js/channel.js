@@ -422,21 +422,22 @@ var Channel = {
 
     add_context_menu: function() {
         addListener("contextmenu", ".vote-container", function(e) {
-            event.preventDefault();
+            this.preventDefault();
+            this.preventDefault();
             var that = this;
-            contextListener(that, e);
+            contextListener(e, that);
         });
 
         addListener("contextmenu", ".add-suggested", function(e) {
-            event.preventDefault();
+            this.preventDefault();
             var that = this;
-            contextListener(that, e);
+            contextListener(e, that);
         });
 
         addListener("click", ".list-remove", function(e) {
-            event.preventDefault();
+            this.preventDefault();
             var that = this;
-            contextListener(that, e);
+            contextListener(e, that);
         });
     },
 
