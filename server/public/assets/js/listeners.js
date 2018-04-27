@@ -601,10 +601,10 @@ document.addEventListener("keyup", function(event) {
     if(_kWay.substring(0, _kT.length) == _kT) {
         if(_kWay == _kT && !_kDone) {
             _kDone = true;
-            document.getElementById("main-container").style.filter = "invert(100%)";
-            document.getElementById("main-container").style.transition = "transform .5s";
+            document.getElementById("main-container").style.transition = "transform .5s, filter .5s";
             setTimeout(function() {
                 document.getElementById("main-container").style.transform = "rotate(180deg)";
+                document.getElementById("main-container").style.filter = "invert(100%)";
             }, 10);
             _kT = "";
             for(var i = 0; i < 20; i++) {
