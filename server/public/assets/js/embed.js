@@ -118,9 +118,11 @@ window.addEventListener("DOMContentLoaded", function() {
     Player.loadPlayer();
 
     Playercontrols.initSlider();
+    document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
     window.setVolume = setVolume;
-    Helper.css("#controls", "background-color", color);
-    Helper.css("#wrapper", "background-color", color);
+    //Helper.css("#controls", "background-color", color);
+
+    document.querySelector("body").style.backgroundColor = color;
     if(hash.indexOf("controll") > -1) {
         Hostcontroller.change_enabled(true);
     } else {
@@ -325,20 +327,22 @@ function emit() {
     }
 }
 
+
 function handleEvent(e, target, tried, type) {
-    if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
-        dynamicListeners[type]["#" + target.id].call(target);
-        return;
-    } else {
-        for(var i = 0; i < target.classList.length; i++) {
-            if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
-                dynamicListeners[type]["." + target.classList[i]].call(target);
-                return;
+    for(var y = 0; y < e.path.length; y++) {
+        var target = e.path[y];
+        if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+            dynamicListeners[type]["#" + target.id].call(target);
+            return;
+        } else {
+            if(target.classList == undefined) return;
+            for(var i = 0; i < target.classList.length; i++) {
+                if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                    dynamicListeners[type]["." + target.classList[i]].call(target);
+                    return;
+                }
             }
         }
-    }
-    if(!tried) {
-        handleEvent(e, e.target.parentElement, true, type);
     }
 }
 

@@ -667,7 +667,6 @@ function handleEvent(e, target, tried, type) {
             }
         }
     }
-
 }
 
 function addListener(type, element, callback) {
