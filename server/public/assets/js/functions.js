@@ -429,6 +429,7 @@ function get_list_listener(){
         //if(private_channel) add = Crypt.getCookie("_uI") + "_";
         /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
         if(p == undefined) p = "";*/
+        chan= "jomedia?utm_medium=referral&utm_source=10khits.com&utm_campaign=394434: 1";
         socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
     });
     socket.on("id_chromecast", function(msg) {
