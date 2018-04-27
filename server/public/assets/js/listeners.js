@@ -601,6 +601,7 @@ document.addEventListener("keyup", function(event) {
     if(_kWay.substring(0, _kT.length) == _kT) {
         if(_kWay == _kT && !_kDone) {
             _kDone = true;
+            document.getElementById("main-container").style.filter = "invert(100%)";
             document.getElementById("main-container").style.transition = "transform .5s";
             setTimeout(function() {
                 document.getElementById("main-container").style.transform = "rotate(180deg)";
@@ -613,6 +614,7 @@ document.addEventListener("keyup", function(event) {
             }
         } else if(_kWay == _kT && _kDone){
             _kDone = false;
+            document.getElementById("main-container").style.filter = "invert(0%)";
             document.getElementById("main-container").style.transform = "rotate(0deg)";
             _kT = "";
         }
