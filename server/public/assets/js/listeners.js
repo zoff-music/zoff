@@ -610,7 +610,7 @@ document.addEventListener("keyup", function(event) {
             for(var i = 0; i < 20; i++) {
                 var c = "green";
                 if(i%2 == 0) c = "red"
-                M.toast({ html: "<span style='transform:rotate(180deg);'>Congratulations!</span>", displayLength: 4000, classes: c});
+                M.toast({ html: "Congratulations!", displayLength: 4000, classes: c});
             }
         } else if(_kWay == _kT && _kDone){
             _kDone = false;
