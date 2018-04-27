@@ -15,6 +15,9 @@ var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*
 var conf 			   	  		= [];
 var private_channel 			= false;
 var end_programmatically = false;
+var _kWay = "38384040373937396665";
+var _kT = "";
+var _kDone = false;
 var music 			   	  		= 0;
 var was_stopped = false;
 var timed_remove_check;
@@ -594,6 +597,28 @@ document.addEventListener("keydown", function(event) {
 }, false);
 
 document.addEventListener("keyup", function(event) {
+    _kT += event.keyCode;
+    if(_kWay.substring(0, _kT.length) == _kT) {
+        if(_kWay == _kT && !_kDone) {
+            _kDone = true;
+            document.getElementsByTagName("body")[0].style.transition = "transform .5s";
+            setTimeout(function() {
+                document.getElementsByTagName("body")[0].style.transform = "rotate(180deg)";
+            }, 10);
+            _kT = "";
+            for(var i = 0; i < 20; i++) {
+                var c = "green";
+                if(i%2 == 0) c = "red"
+                M.toast({ html: "<span style='transform:rotate(180deg);'>Congratulations!</span>", displayLength: 4000, classes: c});
+            }
+        } else if(_kWay == _kT && _kDone){
+            _kDone = false;
+            document.getElementsByTagName("body")[0].style.transform = "rotate(0deg)";
+            _kT = "";
+        }
+    } else {
+        _kT = "";
+    }
     if(event.keyCode == 27 && window.location.path != "/"){
         //$("#results").html("");
         if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
