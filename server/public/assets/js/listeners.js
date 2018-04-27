@@ -552,7 +552,7 @@ document.addEventListener("keydown", function(event) {
         } else if(find_start && event.keyCode == 70){
             find_start = false;
             find_started = !find_started;
-            this.preventDefault();
+            event.preventDefault();
             if(find_started){
                 Helper.toggleClass("#find_div", "hide");
                 document.getElementById("find_input").focus();
@@ -579,11 +579,11 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
             if(Player.player.getPlayerState() == 1) {
-                this.preventDefault();
+                event.preventDefault();
                 Player.player.pauseVideo();
                 return false;
             } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
-                this.preventDefault();
+                event.preventDefault();
                 Player.player.playVideo();
                 return false;
             }
