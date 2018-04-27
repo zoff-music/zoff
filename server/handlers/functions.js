@@ -59,6 +59,7 @@ function get_short_id(socket) {
 
 function check_inlist(coll, guid, socket, offline)
 {
+
     if(coll == undefined) return;
     coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
@@ -78,6 +79,10 @@ function check_inlist(coll, guid, socket, offline)
                         });
                         db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){});
                     });
+                });
+            } else {
+                db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
+                    io.to(coll).emit("viewers", new_doc[0].users.length);
                 });
             }
         });
