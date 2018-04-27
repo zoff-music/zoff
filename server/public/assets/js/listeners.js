@@ -601,9 +601,9 @@ document.addEventListener("keyup", function(event) {
     if(_kWay.substring(0, _kT.length) == _kT) {
         if(_kWay == _kT && !_kDone) {
             _kDone = true;
-            document.getElementsByTagName("body")[0].style.transition = "transform .5s";
+            document.getElementById("main-container").style.transition = "transform .5s";
             setTimeout(function() {
-                document.getElementsByTagName("body")[0].style.transform = "rotate(180deg)";
+                document.getElementById("main-container").style.transform = "rotate(180deg)";
             }, 10);
             _kT = "";
             for(var i = 0; i < 20; i++) {
@@ -613,7 +613,7 @@ document.addEventListener("keyup", function(event) {
             }
         } else if(_kWay == _kT && _kDone){
             _kDone = false;
-            document.getElementsByTagName("body")[0].style.transform = "rotate(0deg)";
+            document.getElementById("main-container").style.transform = "rotate(0deg)";
             _kT = "";
         }
     } else {
