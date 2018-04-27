@@ -319,7 +319,7 @@ var List = {
                 Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
             } else {
                 Helper.css(wrapperChildren.slice(List.page - List.can_fit, List.page), "display", "inline-flex");
-                Helper.addClass(wrapperChildren.slice(List.page, List.page + List.can_fit), "hide");
+                Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
                 List.page = List.page - List.can_fit < 0 ? 0 : List.page - List.can_fit;
             }
             if(List.page == 0 && document.querySelector(".prev_page").style.display  != "none"){
