@@ -3,6 +3,7 @@ var Admin = {
     beginning:true,
     logged_in: false,
 
+
     pw: function(msg) {
         Admin.logged_in = msg;
         if(!msg) return;
@@ -15,13 +16,6 @@ var Admin = {
             Helper.removeClass("#user-suggest-html", "hide");
             if(Helper.html(".suggested-badge") != "0" && Helper.html(".suggested-badge") != "") {
                 Helper.removeClass(".suggested-badge", "hide");
-            }
-            if(!Helper.mobilecheck()) {
-                Helper.tooltip('#chan_thumbnail', {
-                    delay: 5,
-                    position: "left",
-                    html: "imgur link"
-                });
             }
         } else {
             Admin.hideUserSuggested();
@@ -148,6 +142,7 @@ var Admin = {
     },
 
     set_conf: function(conf_array) {
+        conf = conf_array;
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",

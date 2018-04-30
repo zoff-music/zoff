@@ -740,9 +740,6 @@ function toast(msg) {
             Admin.display_logged_out();
             Helper.css("#thumbnail_form", "display", "none");
             Helper.css("#description_form", "display", "none");
-            if(!Helper.mobilecheck()) {
-                Helper.tooltip('#chan_thumbnail', "destroy");
-            }
             w_p = true;
             break;
         case "deleted_songs":
@@ -789,9 +786,6 @@ function toast(msg) {
             Admin.display_logged_out();
             Helper.css("#thumbnail_form", "display", "none");
             Helper.css("#description_form", "display", "none");
-            if(!Helper.mobilecheck()) {
-                Helper.tooltip('#chan_thumbnail', "destroy");
-            }
             w_p = true;
             Helper.addClass("#playlist_loader", "hide");
             Helper.addClass("#playlist_loader_spotify", "hide");
@@ -868,7 +862,17 @@ function before_toast(){
         var toastInstance = toastElement.M_Toast;
         toastInstance.remove();
     }*/
-    M.Toast.dismissAll();
+    var toasts = document.querySelectorAll(".toast");
+    for(var i = 0; i < toasts.length; i++) {
+        var instance = M.Toast.getInstance(toasts[i]);
+        try {
+            if(instance.timeRemaining > 10) {
+                instance.dismiss();
+            }
+        } catch(e) {
+        }
+    }
+    //M.Toast.dismissAll();
     //Materialize.Toast.removeAll();
 }
 

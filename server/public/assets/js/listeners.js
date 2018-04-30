@@ -12,7 +12,6 @@ var list_html = document.querySelectorAll("#list-song-html").length > 0 ? docume
 var unseen 			   	  		= false;
 var searching 		   	  		= false;
 var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
-var conf 			   	  		= [];
 var private_channel 			= false;
 var end_programmatically = false;
 var _kWay = "38384040373937396665";
@@ -797,7 +796,8 @@ addListener("click", ".submit-user-password", function(event) {
     }
 });
 
-addListener("click", ".close-user-password", function() {
+addListener("click", "#abort-channel-login", function(event) {
+    this.preventDefault();
     if(user_auth_started) {
         Player.stopInterval = true;
         user_auth_avoid = true;
@@ -806,11 +806,11 @@ addListener("click", ".close-user-password", function() {
             Helper.tooltip("#viewers", "destroy");
             //$('.castButton-unactive').tooltip("destroy");
             Helper.tooltip("#offline-mode", "destroy");
-            Helper.tooltip('#chan_thumbnail', "destroy");
             Helper.tooltip('#admin-lock', "destroy");
         }
         window.history.pushState("to the frontpage!", "Title", "/");
         Channel.onepage_load();
+        user_auth_started = false;
     } else {
         document.getElementById("user-pass-input").value = "";
         if(!user_change_password) {
@@ -1438,7 +1438,7 @@ addListener("click", ".brand-logo-navigate", function(event){
 
 addListener("click", "#player_bottom_overlay", function(event){
     if(this.target.id == "closePlayer") return;
-    Frontpage.to_channel(chan.toLowerCase(), false);
+    Frontpage.to_channel(this.target.getAttribute("data-channel"), false);
 });
 
 addListener("click", ".generate-channel-name", function(event) {

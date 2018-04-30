@@ -126,6 +126,7 @@ var Player = {
                 startTime = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
+                Player.setThumbnail(conf, video_id);
                 Player.cueVideoById(video_id, duration);
                 //Player.setBGimage(video_id);
             } else if(!paused){
@@ -155,7 +156,7 @@ var Player = {
                 startTime = time - conf.startTime;
                 song_title = obj.np[0].title;
                 duration   = obj.np[0].duration;
-
+                Player.setThumbnail(conf, video_id);
                 if(mobile_beginning && Helper.mobilecheck() && seekTo === 0 && !chromecastAvailable) {
                     seekTo = 1 + Player.np.start;
                 }
@@ -244,6 +245,12 @@ var Player = {
             empty_clear = true;
         } else {
             empty_clear = false;
+        }
+    },
+
+    setThumbnail: function(conf, video_id) {
+        if(!conf.hasOwnProperty("thumbnail") || conf.thumbnail == "") {
+            document.getElementById("thumbnail_image").innerHTML = "<img id='thumbnail_image_channel' src='https://img.youtube.com/vi/"+video_id+"/mqdefault.jpg' alt='thumbnail' />";
         }
     },
 

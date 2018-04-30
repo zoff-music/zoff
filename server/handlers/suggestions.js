@@ -1,5 +1,5 @@
 function thumbnail(msg, coll, guid, offline, socket) {
-    if(msg.thumbnail && msg.channel && msg.thumbnail.indexOf("i.imgur.com") > -1){
+    if(msg.thumbnail != undefined && msg.channel && msg.channel != undefined){
         if(typeof(msg.channel) != "string" || typeof(msg.thumbnail) != "string")
              {
                 var result = {
@@ -31,9 +31,10 @@ function thumbnail(msg, coll, guid, offline, socket) {
             if(adminpass != "" || msg.adminpass == undefined) {
                 msg.adminpass = adminpass;
             }
-
-            msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
-            if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
+            if(msg.thumbnail != "") {
+                msg.thumbnail = msg.thumbnail.replace(/^https?\:\/\//i, "");
+                if(msg.thumbnail.substring(0,2) != "//") msg.thumbnail = "//" + msg.thumbnail;
+            }
             var channel = msg.channel.toLowerCase();
             var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass),true));
             db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
