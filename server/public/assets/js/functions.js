@@ -198,7 +198,8 @@ function get_list_ajax() {
                 List.populate_list(response.results);
             }
         },
-        error: function(response, xmlhttp) {
+        error: function(response) {
+            console.log(response);
             response = JSON.parse(response);
             if(response.status == 403) {
                 start_auth();
