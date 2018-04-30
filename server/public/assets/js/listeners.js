@@ -1233,13 +1233,15 @@ window.addEventListener("resize", function(){
         List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
-        var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
-        if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
-            Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
-        } else if(document.querySelectorAll("#controls").length > 0) {
-            Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
+        if(!client) {
+            var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
+            if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
+            } else if(document.querySelectorAll("#controls").length > 0) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
+            }
+            Channel.window_width_volume_slider();
         }
-        Channel.window_width_volume_slider();
     }
 });
 
