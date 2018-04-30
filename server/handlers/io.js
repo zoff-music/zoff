@@ -438,13 +438,13 @@ module.exports = function() {
             List.skip(list, guid, coll.replace(/ /g,''), offline, socket);
         });
 
-        socket.on('conf', function(params)
+        socket.on('conf', function(conf)
         {
             if(conf.hasOwnProperty("channel") && conf.channel.indexOf("?") > -1){
                  var _list = conf.channel.substring(0, conf.channel.indexOf("?"));
                  conf.channel = _list;
              }
-            ListSettings.conf_function(params, coll.replace(/ /g,''), guid, offline, socket);
+            ListSettings.conf_function(conf, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on('shuffle', function(msg)
@@ -470,10 +470,12 @@ module.exports = function() {
 
         socket.on('change_channel', function(obj)
         {
-            if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
+            if(obj == undefined && coll != undefined) {
+                obj.channel = coll;
+            } else if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                  var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                  obj.channel = _list;
-             }
+            }
             if(coll === undefined && obj !== undefined && obj.channel !== undefined){
                 try {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');

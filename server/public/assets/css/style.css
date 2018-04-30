@@ -2117,6 +2117,11 @@ nav ul li:hover, nav ul li.active {
 
 /** settings **/
 
+.admin-information {
+    padding-right: 1em;
+    margin-left: 2em;
+}
+
 .switch-text{
     font-size: 13px !important;
     padding: 0 !important;

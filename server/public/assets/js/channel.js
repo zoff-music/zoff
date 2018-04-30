@@ -109,7 +109,7 @@ var Channel = {
             dismissible: false
         });
         M.Modal.init(document.getElementById("user_password"), {
-            dismissible: false
+            dismissible: false,
         });
 
         Channel.spotify_is_authenticated(spotify_authenticated);
@@ -489,10 +489,22 @@ var Channel = {
 
     onepage_load: function(){
         if(changing_to_frontpage) return;
+        if(user_auth_started) {
+            Player.stopInterval = true;
+            user_auth_avoid = true;
+            if(!Helper.mobilecheck()) {
+                Helper.tooltip('.castButton', "destroy");
+                Helper.tooltip("#viewers", "destroy");
+                //$('.castButton-unactive').tooltip("destroy");
+                Helper.tooltip("#offline-mode", "destroy");
+                Helper.tooltip('#admin-lock', "destroy");
+            }
+        }
         var url_split = window.location.href.split("/");
         if(url_split[3].substr(0,1) != "#!" && url_split[3] !== "" && !(url_split.length == 5 && url_split[4].substr(0,1) == "#")){
-
-            socket.emit("change_channel");
+            socket.emit("change_channel", {
+                channel: channel_before_move
+            });
             Admin.beginning = true;
 
             chan = url_split[3].replace("#", "");
@@ -530,9 +542,6 @@ var Channel = {
                 Helper.tooltip('.castButton', "destroy");
                 Helper.tooltip("#viewers", "destroy");
                 Helper.tooltip("#offline-mode", "destroy");
-                if(M.Tooltip.getInstance(document.getElementById("chan_thumbnail")) != undefined) {
-                    Helper.tooltip('#chan_thumbnail', "destroy");
-                }
                 Helper.tooltip('#fullscreen', "destroy");
                 if(M.Tooltip.getInstance(document.getElementById("admin-lock")) != undefined) {
                     Helper.tooltip('#admin-lock', "destroy");
@@ -554,7 +563,7 @@ var Channel = {
                 }
             }
             clearTimeout(tap_target_timeout);
-            before_toast();
+            //before_toast();
             if(Helper.mobilecheck() || user_auth_avoid || client) {
                 Helper.log(["Removing all listeners"]);
                 //socket.emit("change_channel");
@@ -563,7 +572,9 @@ var Channel = {
                 socket.emit("left_channel", {
                     channel: channel_before_move
                 });
-                socket.emit("change_channel");
+                socket.emit("change_channel", {
+                    channel: channel_before_move
+                });
                 chan = "";
                 socket.removeEventListener("np");
                 socket.removeEventListener("id");
@@ -609,6 +620,7 @@ var Channel = {
                         Helper.removeClass("#video-container", "no-opacity");
                         document.getElementById("main-row").insertAdjacentHTML("afterbegin", "<div id='player_bottom_overlay' class='player player_bottom'></div>");
                         document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'>X</a>");
+                        document.getElementById("player_bottom_overlay").setAttribute("data-channel", channel_before_move.toLowerCase());
                         Helper.removeElement("#playlist");
                     } else {
                         try{
