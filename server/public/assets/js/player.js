@@ -249,6 +249,7 @@ var Player = {
     },
 
     setThumbnail: function(conf, video_id) {
+        if(embed) return;
         if(!conf.hasOwnProperty("thumbnail") || conf.thumbnail == "") {
             document.getElementById("thumbnail_image").innerHTML = "<img id='thumbnail_image_channel' src='https://img.youtube.com/vi/"+video_id+"/mqdefault.jpg' alt='thumbnail' />";
         }
