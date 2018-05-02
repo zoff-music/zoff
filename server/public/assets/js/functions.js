@@ -708,7 +708,7 @@ function toast(msg) {
             break;
         case "thumbnail_denied":
             if(embed) return;
-            msg = "The thumbnail will be denied";
+            msg = "The thumbnail is not an url..";
             break;
         case "description_denied":
             if(embed) return;
