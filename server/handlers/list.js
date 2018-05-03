@@ -382,7 +382,7 @@ function change_song_post(coll, next_song, callback, socket) {
                             List.send_play(coll, socket, true);
                             callback();
                         }
-                        Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
+                        Frontpage.update_frontpage(coll, docs[0].id, docs[0].title, docs[0].thumbnail);
                     });
                 });
             });
@@ -440,7 +440,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                                 skips:[]
                                             }
                                         }, function(err, returnDocs){
-                                            Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
+                                            Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title, now_playing_doc[0].thumbnail);
                                             List.send_list(coll, socket, send, list_send, configs, shuffled);
                                         });
                                     });

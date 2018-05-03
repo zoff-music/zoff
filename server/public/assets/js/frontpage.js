@@ -80,7 +80,7 @@ var Frontpage = {
                 var description = lists[x].description;
                 var img;
                 if(id.indexOf("soundcloud.com") > -1) {
-                    img = "background-image:url('http://icons.iconarchive.com/icons/uiconstock/socialmedia/128/Soundcloud-icon.png');";
+                    img = "background-image:url('" + lists[x].thumbnail + "');";
                 } else {
                     img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
                     if(lists[x].thumbnail) {

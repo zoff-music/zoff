@@ -8,6 +8,7 @@ var startTime = 0;
 var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
+var soundcloud_loading = false;
 var firstLoad = "";
 var list_html = document.getElementById("list-song-html").innerHTML;
 var w_p		= true;
