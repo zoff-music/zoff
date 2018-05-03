@@ -1631,7 +1631,7 @@ ul #chat-log{
 }
 
 #results_soundcloud #inner-results {
-    height: calc(100vh - 64px - 76px);
+    height: calc(100vh - 64px - 64px);
 }
 
 #search_loader_inner{

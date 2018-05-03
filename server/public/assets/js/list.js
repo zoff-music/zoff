@@ -356,6 +356,7 @@ var List = {
                 full_playlist.push(now_playing);
             }
 
+            console.log(added.source);
             if(added.source != "soundcloud" && document.querySelectorAll("#suggested-"+added.id).length > 0) {
                 number_suggested = number_suggested - 1;
                 if(number_suggested < 0) number_suggested = 0;

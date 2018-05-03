@@ -21,13 +21,13 @@ var Search = {
             document.getElementById("results").innerHTML = "";
             document.getElementById("results_soundcloud").innerHTML = "";
             Helper.css(".search_results", "display", "none");
-            Helper.css(".results-tabs", "display", "none");
+            //Helper.css(".results-tabs", "display", "none");
             document.querySelector(".search_input").value =  "";
             document.querySelector("#search-btn i").innerText = "search";
-            Helper.css(document.querySelector(".search_results .col.s12"), "display", "none");
+            //Helper.css(document.querySelector(".search_results .col.s12"), "display", "none");
         } else {
             document.querySelector("#search-btn i").innerText = "close";
-            Helper.css(".search_results", "display", "block");
+            //Helper.css(".search_results", "display", "block");
         }
         document.querySelector("#search").focus();
 
@@ -57,8 +57,8 @@ var Search = {
 
 
             Helper.addClass(".search_loader_spinner", "active");
-            Helper.removeClass(".search_results", "hide");
-            Helper.css(".results-tabs", "display", "none");
+            //Helper.removeClass(".search_results", "hide");
+            //Helper.css(".results-tabs", "display", "none");
 
             Helper.ajax({
                 type: "GET",
@@ -69,11 +69,11 @@ var Search = {
                     var output = "";
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
-                    Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
+                    //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
                     if(response.items.length === 0) {
                         document.getElementById("results").innerHTML = "";
                         Helper.css("#results", "display", "block");
-                        Helper.css(".results-tabs", "display", "block");
+                        //Helper.css(".results-tabs", "display", "block");
                         //$("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                         document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);' class='empty-inner-results'>"+empty_results_html+"</div>");
                         Helper.removeClass(".search_loader_spinner", "active");
@@ -162,7 +162,9 @@ var Search = {
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
                                     Helper.removeClass(".search_loader_spinner", "active");
-                                    Helper.css(".search_results", "display", "block");
+                                    if(document.querySelector("#results_soundcloud").innerHTML.length > 0) {
+                                        Helper.css(".search_results", "display", "block");
+                                    }
                                     Helper.css(".results-tabs", "display", "block");
 
                                 } else if(!retried){
@@ -171,6 +173,9 @@ var Search = {
                                     //$("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                                     document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);'>"+empty_results_html+"</div>");
                                     Helper.css("#results", "display", "block");
+                                    if(document.querySelector("#results_soundcloud").innerHTML.length > 0) {
+                                        Helper.css(".search_results", "display", "block");
+                                    }
                                     Helper.removeClass(".search_loader_spinner", "active");
                                 }
                             }
@@ -194,6 +199,7 @@ var Search = {
             pre_result.innerHTML = result_html.outerHTML;
 
             //$("#results").append(result_html);
+            //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
             var output = "";
             for(var i = 0; i < tracks.length; i++) {
                 var song = tracks[i];
@@ -207,8 +213,8 @@ var Search = {
                     var enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
                     var id=song.permalink_url;
                     //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
-                    //thumb=song.artwork_url;
-                    var thumb = null;
+                    var thumb=song.artwork_url;
+                    //var thumb = null;
                     if(thumb == null) thumb = song.waveform_url;
                     console.log(song);
                     //$("#results").append(result_html);
@@ -217,6 +223,8 @@ var Search = {
                     songs.querySelector(".result_info").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
                     songs.querySelector(".thumb").setAttribute("src", thumb);
                     //songs.querySelector(".add-many").attr("onclick", "submit('"+id+"','"+enc_title+"',"+secs+");");
+                    songs.querySelector("#add-many").setAttribute("data-type-source", "soundcloud");
+                    songs.querySelector("#add-many").setAttribute("data-type-thumbnail", thumb);
                     songs.querySelector("#add-many").setAttribute("data-video-id", id);
                     songs.querySelector("#add-many").setAttribute("data-video-title", enc_title);
                     songs.querySelector("#add-many").setAttribute("data-video-length", secs);
@@ -242,6 +250,9 @@ var Search = {
             document.getElementById("results_soundcloud").innerHTML = "";
             //console.log(output);
             if(output.length > 0) {
+                if(document.querySelector("#results").innerHTML.length > 0) {
+                    Helper.css(".search_results", "display", "block");
+                }
                 //$(window).scrollTop(0);
                 /*if(!pagination && fresh) {
                     //Helper.css(".search_results", "display", "none");
@@ -618,6 +629,7 @@ addVideos: function(ids){
 },
 
 submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail){
+    console.log(id,title,duration, playlist, num, full_num, start, end, source, thumbnail);
     if((client || Helper.mobilecheck()) && !socket_connected) {
         add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail);
         return;
