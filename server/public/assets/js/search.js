@@ -24,6 +24,7 @@ var Search = {
             Helper.css(".results-tabs", "display", "none");
             document.querySelector(".search_input").value =  "";
             document.querySelector("#search-btn i").innerText = "search";
+            Helper.css(document.querySelector(".search_results .col.s12"), "display", "none");
         } else {
             document.querySelector("#search-btn i").innerText = "close";
             Helper.css(".search_results", "display", "block");
@@ -68,6 +69,7 @@ var Search = {
                     var output = "";
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
+                    Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
                     if(response.items.length === 0) {
                         document.getElementById("results").innerHTML = "";
                         Helper.css("#results", "display", "block");
