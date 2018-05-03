@@ -471,6 +471,7 @@ module.exports = function() {
         socket.on('change_channel', function(obj)
         {
             if(obj == undefined && coll != undefined) {
+                obj = {};
                 obj.channel = coll;
             } else if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                  var _list = obj.channel.substring(0, obj.channel.indexOf("?"));

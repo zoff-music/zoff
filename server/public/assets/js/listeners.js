@@ -12,6 +12,7 @@ var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
 var hasadmin = 0;
+var soundcloud_loading = false;
 var list_html = document.querySelectorAll("#list-song-html").length > 0 ? document.querySelector("#list-song-html").innerHTML : undefined;
 var unseen 			   	  		= false;
 var searching 		   	  		= false;
