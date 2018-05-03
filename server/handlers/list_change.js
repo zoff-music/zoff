@@ -88,6 +88,7 @@ function addFromOtherList(arr, guid, offline, socket) {
                                                                 db.collection(channel).find({now_playing: true}, function(e, np_docs) {
                                                                     to_change.id = np_docs[0].id;
                                                                     to_change.title = np_docs[0].title;
+                                                                    to_change.thumbnail = np_docs[0].thumbnail;
                                                                     db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
                                                                         List.send_list(channel, undefined, false, true, false);
                                                                         List.send_play(channel, undefined);
@@ -218,6 +219,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                     db.collection(channel).find({now_playing: true}, function(e, np_docs) {
                                                         to_change.id = np_docs[0].id;
                                                         to_change.title = np_docs[0].title;
+                                                        to_change.thumbnail = np_docs[0].thumbnail;
                                                         db.collection("frontpage_lists").update({_id: channel}, {$set: to_change}, function(e, d) {
                                                             List.send_list(channel, undefined, false, true, false);
                                                             List.send_play(channel, undefined);
@@ -387,7 +389,8 @@ function add_function(arr, coll, guid, offline, socket) {
                                                 List.send_list(coll, undefined, false, true, false);
                                                 db.collection(coll + "_settings").update({ id: "config" }, {$set:{startTime: Functions.get_time()}});
                                                 List.send_play(coll, undefined);
-                                                Frontpage.update_frontpage(coll, id, title);
+                                                var thumbnail = arr.thumbnail != undefined ? arr.thumbnail : undefined;
+                                                Frontpage.update_frontpage(coll, id, title, thumbnail);
                                                 if(source != "soundcloud") Search.get_correct_info(new_song, coll, false);
                                             } else {
                                                 io.to(coll).emit("channel", {type: "added", value: new_song});

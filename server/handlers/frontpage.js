@@ -17,11 +17,12 @@ function frontpage_lists(msg, socket) {
     });
 }
 
-function update_frontpage(coll, id, title, callback) {
+function update_frontpage(coll, id, title, thumbnail, callback) {
     coll = coll.replace(/ /g,'');
     db.collection("frontpage_lists").update({_id: coll}, {$set: {
         id: id,
         title: title,
+        thumbnail: thumbnail,
         accessed: Functions.get_time()}
     },{upsert: true}, function(err, returnDocs){
         if(typeof(callback) == "function") callback();

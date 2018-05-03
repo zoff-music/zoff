@@ -446,34 +446,35 @@ var Player = {
                 console.log(Player.soundcloud_player.src.indexOf(id), seekTo);
                 Player.stopVideo();
                 Helper.removeClass(document.getElementById("player_overlay"), "hide");
+                document.getElementById("player_overlay_text").innerText = "Loading SoundCloud";
                 Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
                 if(Player.soundcloud_player.src.indexOf(id) > -1) {
                     console.log("seekto " + seekTo + " start " + start);
                     if(start == undefined) start = 0;
                     if(seekTo == undefined) seekTo = 0;
-                    SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
+                    SC.Widget(Player.soundcloud_player).seekTo((seekTo) * 1000);
                 } else {
-                    SC.Widget(Player.soundcloud_player).load(id, {
-                        auto_play: true,
-                        buying:false,
-                        sharing:false,
-                        download:false,
-                        show_user:false,
-                        callback: function() {
-                            Player.stopVideo();
-                            SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
-                            console.log(start, seekTo);
-                            if(start == undefined) start = 0;
-                            if(seekTo == undefined) seekTo = 0;
-                            SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
-                            Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
-                            Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
-                            Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
-                            Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
-                            Helper.addClass("#player_overlay_text", "hide");
-                        }
-                    });
+                    console.log("loaded here");
+                    document.querySelector("#soundcloud_container").innerHTML = '<iframe width="100%" id="soundcloud_player" height="166" scrolling="no" frameborder="no" style="visibility: hidden;z-index: -999;" \
+                      src="https://w.soundcloud.com/player/?url=' + id + '&auto_play=true&buying=false&sharing=false&download=false&show_user=false"> \
+                    </iframe>';
+                    Player.soundcloud_player = document.querySelector("#soundcloud_player");
+                    soundcloud_loading = true;
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.FINISH, Player.soundcloudFinish);
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.PAUSE, Player.soundcloudPause);
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.PLAY, Player.soundcloudPlay);
+                    SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
+                    console.log(start, seekTo);
+                    if(start == undefined) start = 0;
+                    if(seekTo == undefined) seekTo = 0;
+
+                    SC.Widget(Player.soundcloud_player).seekTo((seekTo) * 1000);
                 }
+                Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+                Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
+                Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
+                Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
+                Helper.addClass("#player_overlay_text", "hide");
                 //SC.Widget(Player.soundcloud_player).play();
             } else {
             //window.player = Player.player;
@@ -498,27 +499,46 @@ var Player = {
         else e = Player.np.end;
 
         if(videoSource == "soundcloud") {
-            Helper.removeClass(document.getElementById("player_overlay"), "hide");
-            Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
-            SC.Widget(Player.soundcloud_player).load(id, {
-                auto_play: false,
-                buying:false,
-                sharing:false,
-                download:false,
-                show_user:false,
-                callback: function() {
+            if(videoSource == "soundcloud") {
+                console.log(Player.soundcloud_player.src.indexOf(id), seekTo);
+                Player.stopVideo();
+                Helper.removeClass(document.getElementById("player_overlay"), "hide");
+                document.getElementById("player_overlay_text").innerText = "Loading SoundCloud";
+                Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
+                if(Player.soundcloud_player.src.indexOf(id) > -1) {
+                    console.log("seekto " + seekTo + " start " + start);
+                    if(start == undefined) start = 0;
+                    if(seekTo == undefined) seekTo = 0;
+                    SC.Widget(Player.soundcloud_player).seekTo((seekTo) * 1000);
+                } else {
+                    console.log("loaded here");
+                    document.querySelector("#soundcloud_container").innerHTML = '<iframe width="100%" id="soundcloud_player" height="166" scrolling="no" frameborder="no" style="visibility: hidden;z-index: -999;" \
+                      src="https://w.soundcloud.com/player/?url=' + id + '&auto_play=false&buying=false&sharing=false&download=false&show_user=false"> \
+                    </iframe>';
+                    Player.soundcloud_player = document.querySelector("#soundcloud_player");
+                    soundcloud_loading = true;
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.FINISH, Player.soundcloudFinish);
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.PAUSE, Player.soundcloudPause);
+                    SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.PLAY, Player.soundcloudPlay);
                     SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
                     console.log(start, seekTo);
                     if(start == undefined) start = 0;
                     if(seekTo == undefined) seekTo = 0;
-                    SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
-                    Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
-                    Helper.css(document.getElementById("player_overlay"), "background-size", "cover");
-                    Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
-                    Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
-                    Helper.addClass("#player_overlay_text", "hide");
+                    SC.Widget(Player.soundcloud_player).seekTo((seekTo) * 1000);
                 }
-            });
+                Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+                Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
+                Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
+                Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
+                Helper.addClass("#player_overlay_text", "hide");
+                //SC.Widget(Player.soundcloud_player).play();
+            } else {
+            //window.player = Player.player;
+                Helper.addClass(document.getElementById("player_overlay"), "hide");
+                Helper.css(document.getElementById("player_overlay"), "background",  "none");
+                Helper.removeClass("#player_overlay_text", "hide");
+                Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
+            }
         } else {
             Player.player.cueVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
         }
@@ -708,8 +728,13 @@ var Player = {
 
     soundcloudPlay: function() {
         console.log("playing");
+        console.log(videoSource, soundcloud_loading);
         if(videoSource == "youtube") {
             SC.Widget(Player.soundcloud_player).pause();
+        } else if(soundcloud_loading){
+            SC.Widget(Player.soundcloud_player).seekTo((seekTo) * 1000);
+            console.log("We need to skip !", Player.np.start, seekTo)
+            soundcloud_loading = false;
         }
         if(embed) {
             Helper.css("#player", "visibility", "visible");
@@ -931,6 +956,7 @@ var Player = {
                 } else {
                     currDurr = Player.player.getCurrentTime() !== undefined ? Math.floor(Player.player.getCurrentTime()) : seekTo;
                 }
+                console.log(Player.np.start, currDurr, Player.np.end);
                 if(currDurr - Player.np.start > duration && !offline) {
                     currDurr = duration - Player.np.start;
                 }
