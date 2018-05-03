@@ -37,6 +37,7 @@ var Suggestions = {
     },
 
     fetchYoutubeSuggests: function(id){
+        if(videoSource == "soundcloud") return;
         var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key;
         var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 

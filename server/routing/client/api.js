@@ -622,7 +622,8 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
         if(!fetch_only && (!req.body.hasOwnProperty('adminpass') || !req.body.hasOwnProperty('userpass') ||
             !req.params.hasOwnProperty('channel_name') || !req.params.hasOwnProperty('video_id') ||
             !req.body.hasOwnProperty('duration') || !req.body.hasOwnProperty('start_time') ||
-            !req.body.hasOwnProperty('end_time') || !req.body.hasOwnProperty('title'))) {
+            !req.body.hasOwnProperty('end_time') || !req.body.hasOwnProperty('title') ||
+            !req.body.hasOwnProperty('source'))) {
             throw "Wrong format";
         }
 
@@ -637,6 +638,8 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             var duration = parseInt(req.body.duration);
             var start_time = parseInt(req.body.start_time);
             var end_time = parseInt(req.body.end_time);
+            var source = req.body.source;
+            if(source == "soundcloud" && !req.body.hasOwnProperty("thumbnail")) throw "Wrong format";
             if(duration != end_time - start_time) duration = end_time - start_time;
             var title = req.body.title;
             if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
@@ -715,7 +718,8 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         if(now_playing.length == 0 && authenticated) {
                                             set_np = true;
                                         }
-                                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type};
+                                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
+                                        if(source == "soundcloud") new_song.thumbnail = req.body.thumbnail;
                                         Search.get_correct_info(new_song, channel_name, false, function(element, found) {
                                             if(!found) {
                                                 res.status(404).send(JSON.stringify(error.not_found.youtube));

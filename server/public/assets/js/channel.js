@@ -77,6 +77,7 @@ var Channel = {
             }
 
             Helper.tabs('.chatTabs');
+            Helper.tabs('.results-tabs');
         }
         var sidenavElem = document.getElementsByClassName("sidenav")[0];
         M.Sidenav.init(sidenavElem, {
@@ -165,6 +166,7 @@ var Channel = {
                 Playercontrols.initSlider();
                 if(player_ready) {
                     Player.player.setVolume(Crypt.get_volume());
+                    SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
                 }
                 Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;

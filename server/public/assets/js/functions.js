@@ -84,6 +84,7 @@ function hide_native(way) {
             Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.La.friendlyName);
         }
         Player.player.setVolume(100);
+        SC.Widget(Player.soundcloud_player).setVolume(100);
 
         Helper.toggleClass("#player_overlay_text", "hide");
     } else if(way == 0){
@@ -108,6 +109,7 @@ function hide_native(way) {
         if(!Helper.mobilecheck()){
             Player.player.setVolume(Crypt.get_volume());
             Playercontrols.visualVolume(Crypt.get_volume());
+            SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
         }
         Helper.addClass("#player_overlay", "hide");
         Helper.toggleClass("#player_overlay_text", "hide");
@@ -235,6 +237,11 @@ function contextListener(that, event) {
     } else if(top < 0) {
         top = 15;
     }
+    if(parent.getAttribute("data-video-source") == "soundcloud") {
+        Helper.addClass(".find-context-menu", "context-menu-disabled");
+    } else {
+        Helper.removeClass(".find-context-menu", "context-menu-disabled");
+    }
     Helper.css(".context-menu-root", "left", left + "px");
     Helper.css(".context-menu-root", "top", top + "px");
     Helper.removeClass(".context-menu-root","hide");
@@ -318,7 +325,7 @@ function del_ajax(id) {
     })
 }
 
-function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
+function add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail) {
     /*var a = Crypt.get_pass(chan.toLowerCase());
     var u = Crypt.get_userpass(chan.toLowerCase());
     if(a == undefined) a = "";
@@ -332,6 +339,8 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end) {
             duration: duration,
             end_time: end,
             start_time: start,
+            thumbnail: thumbnail,
+            source: source,
             token: zoff_api_token
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
@@ -901,9 +910,11 @@ function searchTimeout(event) {
         }
         if(code == 13){
             Search.search(search_input);
+            Search.soundcloudSearch(search_input);
         }else{
             timeout_search = setTimeout(function(){
                 Search.search(search_input);
+                Search.soundcloudSearch(search_input);
             }, 1000);
         }
     }
