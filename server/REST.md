@@ -26,6 +26,8 @@ POST /api/list/:channel_name/:video_id
         "start_time": START_TIME,
         "adminpass": PASSWORD, (leave this blank if there is no password/you don't know the password)
         "userpass": USER_PASSWORD
+        "source": Either "youtube" or "soundcloud"
+        ("thumbnail": thumbnail url for soundcloud elements (only used when source == "soundcloud"))
     }
 
 Returns 400 for bad request
