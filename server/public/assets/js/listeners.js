@@ -5,6 +5,10 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var _SC1;
+var _SC2;
+var firstLoad = "";
+var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
 var hasadmin = 0;
@@ -420,6 +424,7 @@ addListener("submit", "#description_form", function(event){
 });
 
 addListener("click", "#playpause-overlay", function(){
+    console.log("playpause");
     if(document.getElementById("play-overlay").classList.contains("hide")){
         Player.pauseVideo();
         Helper.toggleClass("#play-overlay", "hide");
@@ -488,6 +493,9 @@ addListener("click", ".copy-context-menu", function(e) {
 addListener("click", ".find-context-menu", function(e) {
     this.preventDefault();
     var that = e;
+    if(that.classList.contains("context-menu-disabled")) {
+        return;
+    }
     var parent = that.parentElement;
     var id = parent.getAttribute("data-id");
     Search.search(id, false, true);
@@ -580,6 +588,12 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#import") != document.activeElement &&
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
+            console.log("play pause space", videoSource);
+            if(videoSource == "soundcloud") {
+                event.preventDefault();
+                Playercontrols.play_pause();
+                return false;
+            }
             if(Player.player.getPlayerState() == 1) {
                 event.preventDefault();
                 Player.player.pauseVideo();
@@ -739,6 +753,10 @@ addListener("click", ".prev_page", function(event) {
 
 addListener("click", ".modal-close", function(event){
     this.preventDefault();
+});
+
+addListener("click", "#player_overlay", function(event) {
+    if(videoSource == "soundcloud") Playercontrols.play_pause();
 });
 
 /*
@@ -1254,9 +1272,16 @@ addListener("click", ".result-object", function(e){
         var original_length = e.getAttribute("data-video-length");
         var start   = parseInt(e.querySelector(".result-start").value);
         var end     = parseInt(e.querySelector(".result-end").value);
+        var source = "youtube";
+        var thumbnail;
+        if(e.getAttribute("data-type-source") != undefined) {
+            source = "soundcloud";
+            thumbnail = e.getAttribute("data-type-thumbnail");
+        }
         if(end > original_length) {
             end = original_length;
         }
+        console.log(source);
         if(start > end) {
             M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
         } else if(start < 0) {
@@ -1264,7 +1289,7 @@ addListener("click", ".result-object", function(e){
         } else {
             try {
                 var length = parseInt(end) - parseInt(start);
-                Search.submitAndClose(id, title, length, start, end);
+                Search.submitAndClose(id, title, length, start, end, source, thumbnail);
             } catch(err) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
@@ -1349,6 +1374,12 @@ addListener("click", "#add-many", function(e){
     if(end > original_length) {
         end = original_length;
     }
+    var source = "youtube";
+    if(e.getAttribute("data-type-source") != undefined) {
+        source = "soundcloud";
+        thumbnail = e.getAttribute("data-type-thumbnail");
+    }
+    console.log(source);
     if(start > end) {
         M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
     } else if(start < 0) {
@@ -1357,7 +1388,7 @@ addListener("click", "#add-many", function(e){
         try {
             var length = parseInt(end) - parseInt(start);
             e.parentElement.parentElement.parentElement.remove();
-            Search.submit(id, title, length, false, 0, 1, start, end);
+            Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
         } catch(event) {
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
@@ -1380,7 +1411,7 @@ addListener("click", ".add-suggested", function(e){
     var title 	= e.getAttribute("data-video-title");
     var length 	= e.getAttribute("data-video-length");
     var added_by = e.getAttribute("data-added-by");
-    Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length));
+    Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), "youtube");
     if(added_by == "user") {
         number_suggested = number_suggested - 1;
         if(number_suggested < 0) number_suggested = 0;

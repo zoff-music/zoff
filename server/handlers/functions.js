@@ -19,6 +19,24 @@ function remove_name_from_db(guid, name) {
     });
 }
 
+function isUrl(str) {
+ 	var pattern = new RegExp("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
+    	"(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
+    	"|mil|biz|info|mobi|name|aero|jobs|museum" +
+    	"|travel|[a-z]{2}))(:[\\d]{1,5})?" +
+		"(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
+		"((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
+		"(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
+		"(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
+  	if(!pattern.test(str)) {
+    	return false;
+  	} else {
+    	return true;
+  	}
+}
+
 function getSession(socket) {
     try {
         /*var cookieParser = require("cookie-parser");
@@ -273,6 +291,7 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+module.exports.isUrl = isUrl;
 module.exports.removeEmojis = removeEmojis;
 module.exports.getSessionChatPass = getSessionChatPass;
 module.exports.setSessionChatPass = setSessionChatPass;

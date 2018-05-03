@@ -82,6 +82,7 @@ function check_error_video(msg, channel) {
          };
         return;
     }
+    if(msg.source == "soundcloud") return;
     channel = channel.replace(/ /g,'');
     request({
             type: "GET",
