@@ -187,6 +187,57 @@ window.addEventListener("DOMContentLoaded", function() {
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
+    console.log(window.location.pathname);
+    if(window.location.pathname == "/" && !client) {
+        console.log("time to load");
+        tag            = document.createElement('script');
+        tag.src        = "https://www.youtube.com/iframe_api";
+        firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        tag.onload = function() {
+            console.log("loaded script")
+            if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
+                SC.Widget(Player.soundcloud_player);
+            } else {
+                tagS            = document.createElement('script');
+                tagS.src        = "https://w.soundcloud.com/player/api.js";
+                firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tagS, firstScriptTag);
+                tagS.setAttribute("async", true);
+
+
+                tagS.onload = function() {
+                    if(firstLoad == "") {
+                        firstLoad = "widget";
+                        _SC1 = SC;
+                    }
+
+                    tagSearch            = document.createElement('script');
+                    tagSearch.setAttribute("async", true);
+                    tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
+                    firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
+
+                    tagSearch.onload = function() {
+                        if(firstLoad == "") {
+                            firstLoad = "search";
+                            _SC2 = SC;
+                        } else {
+                            _SC2 = SC;
+                            SC = _SC1;
+                            _SC1 = _SC2;
+                        }
+                        console.log("loaded1")
+                        window._SC1 = _SC1;
+                        _SC1.initialize({
+                          client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+                        });
+                    }
+                }
+            }
+        }
+    }
 
     if(Helper.mobilecheck()) {
         socket.on("guid", function(msg) {
@@ -1231,6 +1282,7 @@ addListener("click", "#closeSettings", function(event)
     //this.preventDefault();
     Admin.hide_settings();
 });
+
 
 window.addEventListener("focus", function(event) {
     document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
