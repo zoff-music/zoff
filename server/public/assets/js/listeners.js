@@ -601,6 +601,7 @@ addListener("click", "#closePlayer", function(event){
     socket.removeEventListener("np");
     socket.removeEventListener("id");
     socket.removeEventListener(id);
+    Helper.removeElement("#soundcloud_container");
     Helper.removeElement("#alreadychannel");
     Player.player = "";
     document.title = "Zoff - the shared YouTube based radio";
