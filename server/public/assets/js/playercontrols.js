@@ -278,7 +278,6 @@ var Playercontrols = {
 
     setVolume: function(vol) {
         Player.setVolume(vol);
-        console.log(vol);
         SC.Widget(Player.soundcloud_player).setVolume(vol);
         Playercontrols.choose_button(vol, false);
         if(Player.player.isMuted())
