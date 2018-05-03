@@ -650,6 +650,7 @@ document.addEventListener("keyup", function(event) {
                 }
             });*/
             document.querySelector("#results").innerHTML = "";
+            document.querySelector("#results_soundcloud").innerHTML = "";
             document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
             document.querySelector("#search-btn i").innerText = "search";
             document.querySelector(".search_input").value  = "";
@@ -1375,10 +1376,13 @@ addListener("click", "#add-many", function(e){
         end = original_length;
     }
     var source = "youtube";
+    var thumbnail;
     if(e.getAttribute("data-type-source") != undefined) {
+
         source = "soundcloud";
         thumbnail = e.getAttribute("data-type-thumbnail");
     }
+    console.log(start, end);
     console.log(source);
     if(start > end) {
         M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
@@ -1387,9 +1391,11 @@ addListener("click", "#add-many", function(e){
     } else {
         try {
             var length = parseInt(end) - parseInt(start);
+
             e.parentElement.parentElement.parentElement.remove();
             Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
         } catch(event) {
+            console.log(event);
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
     }
