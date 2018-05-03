@@ -26,6 +26,7 @@ var Frontpage = {
             document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
             Frontpage.populate_channels(msg.channels, true);
+            console.log(msg.channels);
         }
         Frontpage.set_viewers(msg.viewers);
     },
@@ -77,9 +78,14 @@ var Frontpage = {
                 var id = lists[x].id;
                 var viewers = lists[x].viewers;
                 var description = lists[x].description;
-                var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-                if(lists[x].thumbnail) {
-                    img = "background-image:url('" + lists[x].thumbnail + "');";
+                var img;
+                if(id.indexOf("soundcloud.com") > -1) {
+                    img = "background-image:url('http://icons.iconarchive.com/icons/uiconstock/socialmedia/128/Soundcloud-icon.png');";
+                } else {
+                    img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+                    if(lists[x].thumbnail) {
+                        img = "background-image:url('" + lists[x].thumbnail + "');";
+                    }
                 }
 
                 var song_count = lists[x].count;

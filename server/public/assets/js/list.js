@@ -245,7 +245,7 @@ var List = {
 
     check_error_videos: function(i) {
         //Helper.log("Empty-checker at " + i);
-        if(full_playlist.length == 0) return;
+        if(full_playlist.length == 0 || full_playlist[i].source == "soundcloud") return;
         Helper.ajax({
             method: "get",
             url: 'https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
@@ -255,7 +255,7 @@ var List = {
                   //Helper.log("Empty-checker items " + data.items.length);
                 if (data.items.length == 0) {
                     Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
-                    socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title});
+                    socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title, source: full_playlist[i].source});
                 }
                 if(full_playlist.length > i + 1 && window.location.pathname != "/") {
                     List.check_error_videos(i + 1);
@@ -356,7 +356,7 @@ var List = {
                 full_playlist.push(now_playing);
             }
 
-            if(document.querySelectorAll("#suggested-"+added.id).length > 0) {
+            if(added.source != "soundcloud" && document.querySelectorAll("#suggested-"+added.id).length > 0) {
                 number_suggested = number_suggested - 1;
                 if(number_suggested < 0) number_suggested = 0;
 
@@ -366,9 +366,9 @@ var List = {
                 }
 
                 document.querySelector(".suggested-link span.badge.new.white").innerText = to_display;
+                Helper.removeElement("#suggested-"+added.id);
             }
 
-            Helper.removeElement("#suggested-"+added.id);
             if(List.empty){
                 List.empty = false;
             }
@@ -832,43 +832,60 @@ var List = {
     },
 
     addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url) {
-        var _data = JSON.stringify({
-            'snippet': {
-                'playlistId': playlist_id,
-                'resourceId': {
-                    'kind': 'youtube#video',
-                    'videoId': full_playlist[num].id
+        if(full_playlist[num].source != "soundcloud") {
+            var _data = JSON.stringify({
+                'snippet': {
+                    'playlistId': playlist_id,
+                    'resourceId': {
+                        'kind': 'youtube#video',
+                        'videoId': full_playlist[num].id
+                    }
                 }
-            }
-        });
-        Helper.ajax({
-            type: "POST",
-            url: request_url,
-            headers: {
-                'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
-                'Content-Type': 'application/json'
-            },
-            data: _data,
-            success: function(response){
-                response = JSON.parse(response);
-                Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
-                if(num == full_playlist.length - 1){
-                    Helper.log(["All videoes added!"]);
-                    Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                    Helper.addClass("#playlist_loader_export", "hide");
-                    Helper.addClass(".current_number", "hide");
-                    //$(".youtube_export_button").removeClass("hide");
-                } else {
-                    //setTimeout(function(){
-                    Helper.removeClass(".current_number", "hide");
-                    document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
-                    List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url)
-                    //}, 50);
+            });
+            Helper.ajax({
+                type: "POST",
+                url: request_url,
+                headers: {
+                    'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
+                    'Content-Type': 'application/json'
+                },
+                data: _data,
+                success: function(response){
+                    response = JSON.parse(response);
+                    Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
+                    if(num == full_playlist.length - 1){
+                        Helper.log(["All videoes added!"]);
+                        Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                        Helper.addClass("#playlist_loader_export", "hide");
+                        Helper.addClass(".current_number", "hide");
+                        //$(".youtube_export_button").removeClass("hide");
+                    } else {
+                        //setTimeout(function(){
+                        Helper.removeClass(".current_number", "hide");
+                        document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
+                        List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
+                        //}, 50);
+                    }
                 }
-            }
 
-        });
+            });
+        } else {
+            if(num == full_playlist.length - 1){
+                Helper.log(["All videoes added!"]);
+                Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+                document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.addClass(".current_number", "hide");
+                //$(".youtube_export_button").removeClass("hide");
+            } else {
+                //setTimeout(function(){
+                Helper.removeClass(".current_number", "hide");
+                document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
+                List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
+                //}, 50);
+            }
+        }
     },
 
     sortList: function() {
@@ -899,6 +916,9 @@ var List = {
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;
         var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
+        if(_song_info.source == "soundcloud") {
+            video_thumb_url = _song_info.thumbnail;
+        }
         var video_thumb = "background-image:url('" + video_thumb_url + "');";
         var song = document.createElement("div");
         song.innerHTML = list_html;
@@ -924,9 +944,11 @@ var List = {
 
         song.querySelector(".list-image").setAttribute(image_attr,video_thumb);
         if(list){
+            song.querySelector("#list-song")
             song.querySelector(".list-votes").innerText = video_votes;
             song.querySelector("#list-song").setAttribute("data-video-id", video_id);
             song.querySelector("#list-song").setAttribute("data-video-type", "song");
+            song.querySelector("#list-song").setAttribute("data-video-source", _song_info.source);
             song.querySelector("#list-song").setAttribute("id", video_id);
             song.classList.remove("hide");
             song.querySelector(".vote-container").setAttribute("title", video_title);

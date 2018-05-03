@@ -1480,7 +1480,7 @@ margin:-1px;
 }
 
 #inner-results {
-    height: calc(100vh - 64px - 76px);
+    height: calc(100vh - 64px - 76px - 64px);
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -1600,6 +1600,38 @@ ul #chat-log{
     /* padding: 15px 15px; */
     /* margin-top: 15px; */
     align-items: center;
+}
+
+.search_results {
+
+    background: black;
+    position: absolute;
+    width: 100vw;
+    top: 64px;
+    /* height: 100vh; */
+
+}
+
+.results-tabs li {
+    width: 50%;
+    text-align: center;
+}
+
+.results-tabs .indicator {
+    height: 2px;
+    z-index: 9;
+    position: absolute;
+    margin-left: -16px;
+    margin-top: 64px;
+    width: 50%;
+}
+
+#results_soundcloud {
+    padding: 0;
+}
+
+#results_soundcloud #inner-results {
+    height: calc(100vh - 64px - 76px);
 }
 
 #search_loader_inner{
@@ -2011,10 +2043,14 @@ nav ul li:hover, nav ul li.active {
     position: absolute;
     width: 100%;
     top: 64px;
-    max-height: calc(100vh - 64px);
+    max-height: calc(100vh - 128px);
     overflow: overlay;
     overflow-x: hidden;
     /* z-index: 99999999; */
+}
+
+#results_soundcloud {
+    max-height: calc(100vh - 64px - 64px);
 }
 .result:hover, .hoverResults {
     background-color: rgba(0,0,0,0.4);

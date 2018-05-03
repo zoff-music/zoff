@@ -298,7 +298,9 @@ function add_function(arr, coll, guid, offline, socket) {
 
         if(typeof(arr.id) != "string" || typeof(arr.start) != "number" ||
             typeof(arr.end) != "number" || typeof(arr.title) != "string" ||
-            typeof(arr.list) != "string" || typeof(arr.duration) != "number") {
+            typeof(arr.list) != "string" || typeof(arr.duration) != "number" ||
+            typeof(arr.source) != "string" ||
+            (arr.source == "soundcloud" && (!arr.hasOwnProperty("thumbnail") || !Functions.isUrl(arr.thumbnail)))) {
                 var result = {
                     start: {
                         expected: "number or string that can be cast to int",
@@ -327,6 +329,14 @@ function add_function(arr, coll, guid, offline, socket) {
                     adminpass: {
                         expected: "string",
                         got: arr.hasOwnProperty("adminpass") ? typeof(arr.adminpass) : undefined
+                    },
+                    source: {
+                        expected: "string (youtube or soundcloud)",
+                        got: arr.hasOwnProperty("source") ? typeof(arr.source) : undefined
+                    },
+                    thumbnail: {
+                        expected: "url if source == soundcloud",
+                        got: arr.hasOwnProperty("thumbnail") ? typeof(arr.thumbnail) : undefined
                     }
                 };
                 socket.emit('update_required', result);
@@ -350,6 +360,7 @@ function add_function(arr, coll, guid, offline, socket) {
                     var title = arr.title;
                     var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(arr.adminpass), true));
                     var duration = parseInt(arr.duration);
+                    var source = arr.source;
                     /*db.collection(coll + "_settings").find(function(err, docs)
                     {*/
                         conf = docs;
@@ -366,7 +377,10 @@ function add_function(arr, coll, guid, offline, socket) {
                                         } else {
                                             np = false;
                                         }
-                                        var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video"};
+                                        var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
+                                        if(source == "soundcloud") new_song.thumbnail = arr.thumbnail;
+                                        console.log(new_song);
+                                        //return;
                                         db.collection(coll).update({id: id}, new_song, {upsert: true}, function(err, docs){
                                             new_song._id = "asd";
                                             if(np) {
@@ -374,10 +388,10 @@ function add_function(arr, coll, guid, offline, socket) {
                                                 db.collection(coll + "_settings").update({ id: "config" }, {$set:{startTime: Functions.get_time()}});
                                                 List.send_play(coll, undefined);
                                                 Frontpage.update_frontpage(coll, id, title);
-                                                Search.get_correct_info(new_song, coll, false);
+                                                if(source != "soundcloud") Search.get_correct_info(new_song, coll, false);
                                             } else {
                                                 io.to(coll).emit("channel", {type: "added", value: new_song});
-                                                Search.get_correct_info(new_song, coll, true);
+                                                if(source != "soundcloud") Search.get_correct_info(new_song, coll, true);
                                             }
                                             db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                             List.getNextSong(coll);

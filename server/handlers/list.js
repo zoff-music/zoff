@@ -84,7 +84,9 @@ function list(msg, guid, coll, offline, socket) {
                             db.collection(coll + "_settings").insert(configs, function(err, docs){
                                 socket.join(coll);
                                 List.send_list(coll, socket, true, false, true);
-                                db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
+                                db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(e,d){
+                                    console.log("added new channel", coll);
+                                });
                                 Functions.check_inlist(coll, guid, socket, offline);
                             });
                         });

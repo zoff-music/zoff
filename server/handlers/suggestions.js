@@ -1,23 +1,7 @@
-function isUrl(str) {
- 	var pattern = new RegExp("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
-    	"(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
-    	"|mil|biz|info|mobi|name|aero|jobs|museum" +
-    	"|travel|[a-z]{2}))(:[\\d]{1,5})?" +
-		"(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
-		"((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
-		"(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
-		"(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
-  	if(!pattern.test(str)) {
-    	return false;
-  	} else {
-    	return true;
-  	}
-}
+
 
 function thumbnail(msg, coll, guid, offline, socket) {
-    if(msg.thumbnail != undefined && msg.channel && msg.channel != undefined && isUrl(msg.thumbnail)){
+    if(msg.thumbnail != undefined && msg.channel && msg.channel != undefined && Functions.isUrl(msg.thumbnail)){
         if(typeof(msg.channel) != "string" || typeof(msg.thumbnail) != "string")
              {
                 var result = {
