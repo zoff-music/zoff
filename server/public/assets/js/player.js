@@ -430,6 +430,7 @@ var Player = {
     },
 
     loadVideoById: function(id, this_duration, start, end){
+        console.log("load video now");
         var s;
         var e;
         if(start) s = start;
@@ -442,29 +443,37 @@ var Player = {
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
             if(videoSource == "soundcloud") {
+                console.log(Player.soundcloud_player.src.indexOf(id), seekTo);
                 Player.stopVideo();
                 Helper.removeClass(document.getElementById("player_overlay"), "hide");
                 Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
-                SC.Widget(Player.soundcloud_player).load(id, {
-                    auto_play: true,
-                    buying:false,
-                    sharing:false,
-                    download:false,
-                    show_user:false,
-                    callback: function() {
-                        Player.stopVideo();
-                        SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
-                        console.log(start, seekTo);
-                        if(start == undefined) start = 0;
-                        if(seekTo == undefined) seekTo = 0;
-                        SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
-                        Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
-                        Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
-                        Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
-                        Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
-                        Helper.addClass("#player_overlay_text", "hide");
-                    }
-                });
+                if(Player.soundcloud_player.src.indexOf(id) > -1) {
+                    console.log("seekto " + seekTo + " start " + start);
+                    if(start == undefined) start = 0;
+                    if(seekTo == undefined) seekTo = 0;
+                    SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
+                } else {
+                    SC.Widget(Player.soundcloud_player).load(id, {
+                        auto_play: true,
+                        buying:false,
+                        sharing:false,
+                        download:false,
+                        show_user:false,
+                        callback: function() {
+                            Player.stopVideo();
+                            SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
+                            console.log(start, seekTo);
+                            if(start == undefined) start = 0;
+                            if(seekTo == undefined) seekTo = 0;
+                            SC.Widget(Player.soundcloud_player).seekTo((start + seekTo) * 1000);
+                            Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+                            Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
+                            Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
+                            Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
+                            Helper.addClass("#player_overlay_text", "hide");
+                        }
+                    });
+                }
                 //SC.Widget(Player.soundcloud_player).play();
             } else {
             //window.player = Player.player;
@@ -698,6 +707,7 @@ var Player = {
     },
 
     soundcloudPlay: function() {
+        console.log("playing");
         if(videoSource == "youtube") {
             SC.Widget(Player.soundcloud_player).pause();
         }
@@ -988,6 +998,8 @@ var Player = {
         if(document.querySelectorAll("script[src='https://www.youtube.com/iframe_api']").length == 1){
             try{
                 Player.onYouTubeIframeAPIReady();
+                SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.READY, Player.soundcloudReady);
+                Player.soundcloudReady();
             } catch(error){
                 console.error("Seems YouTube iFrame script isn't correctly loaded. Please reload the page.");
             }
