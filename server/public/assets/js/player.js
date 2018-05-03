@@ -251,7 +251,7 @@ var Player = {
             empty_clear = false;
         }
         try {
-            document.getElementById("play").focus();
+            //document.getElementById("play").focus();
             console.log("focused");
             if(videoSource == "soundcloud") {
                 Player.player.stopVideo();
@@ -453,7 +453,7 @@ var Player = {
                     show_user:false,
                     callback: function() {
                         Player.stopVideo();
-                        SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
+                        SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
                         console.log(start, seekTo);
                         if(start == undefined) start = 0;
                         if(seekTo == undefined) seekTo = 0;
@@ -498,7 +498,7 @@ var Player = {
                 download:false,
                 show_user:false,
                 callback: function() {
-                    SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
+                    SC.Widget(Player.soundcloud_player).setVolume(embed ? 100 : Crypt.get_volume());
                     console.log(start, seekTo);
                     if(start == undefined) start = 0;
                     if(seekTo == undefined) seekTo = 0;
@@ -946,7 +946,7 @@ var Player = {
                     document.getElementById("bar").style.width = per+"%";
                 }
                 if(videoSource == "soundcloud") {
-                    
+
                     SC.Widget(Player.soundcloud_player).isPaused(function(paused) {
                         if(currDurr > Player.np.end && !paused) {
                             end_programmatically = true;

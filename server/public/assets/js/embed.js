@@ -8,6 +8,7 @@ var startTime = 0;
 var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
+var firstLoad = "";
 var list_html = document.getElementById("list-song-html").innerHTML;
 var w_p		= true;
 var lazy_load	= false;
@@ -85,6 +86,7 @@ window.addEventListener("DOMContentLoaded", function() {
     });
     color = "#" + hash[1];
     add = "https://zoff.me";
+    if(window.location.hostname == "localhost") add = "localhost";
     //add = "localhost";
     socket = io.connect(''+add+':8080', connection_options);
 
@@ -297,6 +299,10 @@ addListener("click", ".vote-container", function(e) {
 addListener("click", ".prev_page", function(e) {
     event.preventDefault();
     List.dynamicContentPage(-1);
+});
+
+addListener("click", "#player_overlay", function(event) {
+    if(videoSource == "soundcloud") Playercontrols.play_pause();
 });
 
 addListener("click", ".next_page", function(e) {
