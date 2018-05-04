@@ -194,7 +194,6 @@ var Search = {
         SC.get('/tracks', {
             q: keyword
         }).then(function(tracks) {
-
             var pre_result = document.createElement("div");
             pre_result.innerHTML = result_html.outerHTML;
 
@@ -203,7 +202,7 @@ var Search = {
             var output = "";
             for(var i = 0; i < tracks.length; i++) {
                 var song = tracks[i];
-
+                if(!song.streamable) continue;
                 var duration=Math.floor(song.duration / 1000);
                 //var secs=Search.durationToSeconds(duration);
                 var secs = duration;
@@ -391,13 +390,13 @@ var Search = {
                             }
                         },
                         error: function(e) {
-                            console.log(e);
+                            console.error(e);
                         }
                     });
 
                 }
             }, error: function(e) {
-                console.log(e);
+                console.error(e);
             }
         });
     },
@@ -623,7 +622,7 @@ addVideos: function(ids){
             }
         },
         error: function(e) {
-            console.log(e);
+            console.error(e);
         }
     });
 },

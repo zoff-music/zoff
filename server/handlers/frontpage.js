@@ -19,13 +19,21 @@ function frontpage_lists(msg, socket) {
 
 function update_frontpage(coll, id, title, thumbnail, callback) {
     coll = coll.replace(/ /g,'');
-    db.collection("frontpage_lists").update({_id: coll}, {$set: {
-        id: id,
-        title: title,
-        thumbnail: thumbnail,
-        accessed: Functions.get_time()}
-    },{upsert: true}, function(err, returnDocs){
-        if(typeof(callback) == "function") callback();
+    db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
+        var updateObject = {
+            id: id,
+            title: title,
+            accessed: Functions.get_time()
+        };
+        if(doc.length > 0 && (doc[0].thumbnail == "" || doc[0].thumbnail == undefined || doc[0].thumbnail.indexOf("ttps://i1.sndcdn.com") > -1)) {
+            updateObject.thumbnail = thumbnail;
+            if(thumbnail == undefined) updateObject.thumbnail = "";
+        }
+
+        db.collection("frontpage_lists").update({_id: coll}, {$set: updateObject
+        },{upsert: true}, function(err, returnDocs){
+            if(typeof(callback) == "function") callback();
+        });
     });
 }
 
