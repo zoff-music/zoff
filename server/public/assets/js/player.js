@@ -866,27 +866,6 @@ var Player = {
             tag.src        = "https://www.youtube.com/iframe_api";
             firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-            tag.onload = function() {
-                if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
-                    //SC.Widget(Player.soundcloud_player);
-                    //SC.Widget(Player.soundcloud_player).bind(SC.Widget.Events.READY, Player.soundcloudReady);
-                } else {
-
-                    tagSearch            = document.createElement('script');
-                    tagSearch.setAttribute("async", true);
-                    tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
-                    firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
-
-                    tagSearch.onload = function() {
-                        SC.initialize({
-                          client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
-                      }, function() {
-                      });
-                    }
-                }
-            }
         }
     }
 

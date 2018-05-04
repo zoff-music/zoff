@@ -32,7 +32,6 @@ var tried_again = false;
 var userscroll = false;
 var gotten_np   = false;
 var frontpage 		   	  		= 1;
-var empty_clear = false;
 var adminpass 		   	  		= "";
 var showDiscovery						= false;
 var player_ready 	   	  		= false;
@@ -46,6 +45,7 @@ var retry_frontpage;
 var chromecast_specs_sent = false;
 var dragging 					= false;
 var user_auth_started 			= false;
+var beginning = false;
 var user_auth_avoid 			= false;
 var user_change_password 		= false;
 var paused 				  		= false;
@@ -178,7 +178,10 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
     };
 }
 */
-
+SC.initialize({
+  client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+}, function() {
+});
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
@@ -203,13 +206,6 @@ window.addEventListener("DOMContentLoaded", function() {
                 tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
                 firstScriptTag = document.getElementsByTagName('script')[0];
                 firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
-
-                tagSearch.onload = function() {
-                    SC.initialize({
-                      client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
-                  }, function() {
-                  });
-                }
             }
         }
     }
