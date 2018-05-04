@@ -31,7 +31,6 @@ var Channel = {
         }
 
         window.onpopstate = function(e){
-            console.log(e)
             Channel.onepage_load();
         };
 

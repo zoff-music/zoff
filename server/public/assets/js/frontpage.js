@@ -26,7 +26,6 @@ var Frontpage = {
             document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
             Frontpage.populate_channels(msg.channels, true);
-            console.log(msg.channels);
         }
         Frontpage.set_viewers(msg.viewers);
     },
