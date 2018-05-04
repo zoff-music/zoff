@@ -309,6 +309,7 @@ var Player = {
         else s = Player.np.start;
         if(end) e = end;
         else e = Player.np.end;
+        Suggestions.fetchYoutubeSuggests(id);
         if(chromecastAvailable){
             castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource});
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
@@ -358,7 +359,7 @@ var Player = {
         else s = Player.np.start;
         if(end) e = end;
         else e = Player.np.end;
-
+        Suggestions.fetchYoutubeSuggests(id);
         if(videoSource == "soundcloud") {
             try {
                 Player.player.stopVideo();
