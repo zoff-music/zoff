@@ -191,7 +191,7 @@ var Search = {
     },
 
     soundcloudSearch: function(keyword) {
-        _SC1.get('/tracks', {
+        SC.get('/tracks', {
             q: keyword
         }).then(function(tracks) {
 
@@ -214,11 +214,12 @@ var Search = {
                         title = song.user.username +  " - " + title;
                     }
                     var enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
-                    var id=song.permalink_url;
+                    var id=song.id;
                     //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
                     var thumb=song.artwork_url;
                     //var thumb = null;
                     if(thumb == null) thumb = song.waveform_url;
+                    else thumb = thumb.replace("-large.jpg", "-t500x500.jpg");
                     console.log(song);
                     //$("#results").append(result_html);
                     var songs = pre_result.cloneNode(true);
@@ -365,8 +366,6 @@ var Search = {
                                             ))
                                             not_matched = true;
                                             else if(duration > 1800) not_matched = true;
-
-
                                         }
                                     }
 
