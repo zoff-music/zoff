@@ -381,8 +381,6 @@ function add_function(arr, coll, guid, offline, socket) {
                                         }
                                         var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
                                         if(source == "soundcloud") new_song.thumbnail = arr.thumbnail;
-                                        console.log(new_song);
-                                        //return;
                                         db.collection(coll).update({id: id}, new_song, {upsert: true}, function(err, docs){
                                             new_song._id = "asd";
                                             if(np) {

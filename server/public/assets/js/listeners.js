@@ -188,16 +188,13 @@ window.addEventListener("DOMContentLoaded", function() {
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
-    console.log(window.location.pathname);
     if(window.location.pathname == "/" && !client) {
-        console.log("time to load");
         tag            = document.createElement('script');
         tag.src        = "https://www.youtube.com/iframe_api";
         firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         tag.onload = function() {
-            console.log("loaded script")
             if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
 
             } else {
@@ -211,7 +208,6 @@ window.addEventListener("DOMContentLoaded", function() {
                     SC.initialize({
                       client_id: '***REMOVED***'
                   }, function() {
-                      console.log("Loaded streamer");
                   });
                 }
             }
@@ -454,7 +450,6 @@ addListener("submit", "#description_form", function(event){
 });
 
 addListener("click", "#playpause-overlay", function(){
-    console.log("playpause");
     if(document.getElementById("play-overlay").classList.contains("hide")){
         Player.pauseVideo();
         Helper.toggleClass("#play-overlay", "hide");
@@ -619,7 +614,6 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#import") != document.activeElement &&
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
-            console.log("play pause space", videoSource);
             if(videoSource == "soundcloud") {
                 event.preventDefault();
                 Playercontrols.play_pause();
@@ -1314,7 +1308,6 @@ addListener("click", ".result-object", function(e){
         if(end > original_length) {
             end = original_length;
         }
-        console.log(source);
         if(start > end) {
             M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
         } else if(start < 0) {
@@ -1414,8 +1407,6 @@ addListener("click", "#add-many", function(e){
         source = "soundcloud";
         thumbnail = e.getAttribute("data-type-thumbnail");
     }
-    console.log(start, end);
-    console.log(source);
     if(start > end) {
         M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
     } else if(start < 0) {
@@ -1427,7 +1418,6 @@ addListener("click", "#add-many", function(e){
             e.parentElement.parentElement.parentElement.remove();
             Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
         } catch(event) {
-            console.log(event);
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
     }
