@@ -18,6 +18,8 @@ var toShowChannel = {
     _id: 0,
     now_playing: 1,
     type: 1,
+    source: 1,
+    thumbnail: 1,
 };
 var toShowConfig = {
     addsongs: 1,
@@ -639,11 +641,14 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             var start_time = parseInt(req.body.start_time);
             var end_time = parseInt(req.body.end_time);
             var source = req.body.source;
-            if(source == "soundcloud" && !req.body.hasOwnProperty("thumbnail")) throw "Wrong format";
+            if(source == "soundcloud" && !req.body.hasOwnProperty("thumbnail")) {
+                throw "Wrong format";
+            }
             if(duration != end_time - start_time) duration = end_time - start_time;
             var title = req.body.title;
             if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
                 typeof(title) != "string" || isNaN(duration) || isNaN(start_time) || isNaN(end_time)) {
+                    console.log("this place crash");
                     throw "Wrong format";
                 }
         }
@@ -707,6 +712,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                         var type = fetch_only ? "fetch_song" : "add";
                         validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
                             db.collection(channel_name).find({id: video_id}, function(err, result) {
+                                console.log(result);
                                 if(result.length == 0 || result[0].type == "suggested") {
                                     var song_type = authenticated ? "video" : "suggested";
                                     if(fetch_only && result.length == 0) {
@@ -719,8 +725,14 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                             set_np = true;
                                         }
                                         var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
-                                        if(source == "soundcloud") new_song.thumbnail = req.body.thumbnail;
-                                        Search.get_correct_info(new_song, channel_name, false, function(element, found) {
+                                        var runFunction = Search.get_correct_info;
+                                        if(source == "soundcloud") {
+                                            new_song.thumbnail = req.body.thumbnail;
+                                            runFunction = function(new_song, foo_2, foo_3, callback) {
+                                                callback(new_song, true);
+                                            }
+                                        }
+                                        runFunction(new_song, channel_name, false, function(element, found) {
                                             if(!found) {
                                                 res.status(404).send(JSON.stringify(error.not_found.youtube));
                                                 return;
