@@ -126,10 +126,15 @@ a {
 .soundcloud_info_container {
     position: absolute;
     bottom: 20px;
-    left: 20px;
+    right: 0px;
+    padding-left: 20px;
     display: flex;
-    width: 35%;
-    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,.7);
+}
+
+.soundcloud_info_container a {
+    margin: 0 10px;
 }
 
 #player_loader_container {

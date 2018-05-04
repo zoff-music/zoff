@@ -5,7 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
-var _SC1;
+var SC;
 var _SC2;
 var firstLoad = "";
 var videoSource;
@@ -211,7 +211,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 tagS.onload = function() {
                     if(firstLoad == "") {
                         firstLoad = "widget";
-                        _SC1 = SC;
+                        SC = SC;
                     }
 
                     tagSearch            = document.createElement('script');
@@ -226,12 +226,12 @@ window.addEventListener("DOMContentLoaded", function() {
                             _SC2 = SC;
                         } else {
                             _SC2 = SC;
-                            SC = _SC1;
-                            _SC1 = _SC2;
+                            SC = SC;
+                            SC = _SC2;
                         }
                         console.log("loaded1")
-                        window._SC1 = _SC1;
-                        _SC1.initialize({
+                        window.SC = SC;
+                        SC.initialize({
                           client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
                         });
                     }

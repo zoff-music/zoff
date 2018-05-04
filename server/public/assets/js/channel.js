@@ -16,7 +16,7 @@ var Channel = {
             Helper.addClass(".pagination-results", "client-pagination-height");
             Helper.addClass(".control-list", "client-control-list");
         } else {
-            Player.soundcloud_player = document.querySelector("#soundcloud_player");
+            //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         if(!Admin.logged_in) Admin.display_logged_out();
         number_suggested = 0;
