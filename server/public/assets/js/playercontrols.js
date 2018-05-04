@@ -193,13 +193,11 @@ var Playercontrols = {
         console.log("play pause here");
         if(!chromecastAvailable){
             if(videoSource == "soundcloud") {
-                SC.Widget(Player.soundcloud_player).isPaused(function(paused) {
-                    if(paused) {
-                        Player.playVideo();
-                    } else {
-                        Player.pauseVideo();
-                    }
-                });
+                if(!Player.soundcloud_player.isPlaying()) {
+                    Player.playVideo();
+                } else {
+                    Player.pauseVideo();
+                }
             } else {
                 if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
                 {
@@ -278,7 +276,7 @@ var Playercontrols = {
 
     setVolume: function(vol) {
         Player.setVolume(vol);
-        SC.Widget(Player.soundcloud_player).setVolume(vol);
+        Player.soundcloud_player.setVolume(vol / 1000);
         Playercontrols.choose_button(vol, false);
         if(Player.player.isMuted())
         Player.player.unMute();
@@ -362,18 +360,15 @@ var Playercontrols = {
         console.log("playpause", videoSource);
         if(videoSource == "soundcloud") {
             console.log("hello");
-            SC.Widget(Player.soundcloud_player).isPaused(function(paused) {
-                console.log(paused);
-                if(paused) {
-                    Helper.addClass("#play", "hide");
-                    Helper.removeClass("#pause", "hide");
-                    SC.Widget(Player.soundcloud_player).play();
-                } else {
-                    Helper.removeClass("#play", "hide");
-                    Helper.addClass("#pause", "hide");
-                    SC.Widget(Player.soundcloud_player).pause();
-                }
-            })
+            if(!Player.soundcloud_player.isPlaying()) {
+                Helper.addClass("#play", "hide");
+                Helper.removeClass("#pause", "hide");
+                Player.soundcloud_player.play();
+            } else {
+                Helper.removeClass("#play", "hide");
+                Helper.addClass("#pause", "hide");
+                Player.soundcloud_player.pause();
+            }
         } else {
             state = Player.player.getPlayerState();
             button = document.getElementById("playpause");

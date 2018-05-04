@@ -169,7 +169,7 @@ var Channel = {
                 Playercontrols.initSlider();
                 if(player_ready) {
                     Player.player.setVolume(Crypt.get_volume());
-                    SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
+                    Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
                 }
                 Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;

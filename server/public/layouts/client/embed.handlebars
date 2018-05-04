@@ -11,11 +11,18 @@
     <div id="player-container">
         <div id="player"></div>
         <div id="player_overlay" class="hide valign-wrapper">
-        </div>
-        <div id="soundcloud_container">
-            <iframe width="100%" id="soundcloud_player" height="166" scrolling="no" frameborder="no" style="top: 0px; left:0px; visibility: hidden;z-index: -999;position: absolute;pointer-events: none;"
-              src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/undefined&amp;{ auto_play: false, buying:false, sharing:false, download:false, show_user:false, }">
-            </iframe>
+            <div class="soundcloud_info_container hide">
+                <a href="#!" id="soundcloud_listen_link" target="_blank">
+                    <img src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
+                </a>
+                <a href="#!" class="btn green waves-effect waves-light" target="_blank">Buy</a>
+                <a href="#!" class="btn red waves-effect waves-light" target="_blank">Artist</a>
+            </div>
+                <div id="player_loader_container" class="hide valign-wrapper">
+                <div id="player_loader" class="preloader-wrapper large active valign">
+                    {{> spinner}}
+                </div>
+            </div>
         </div>
         <div id="zoffbutton" title="Visit the channel!"></div>
         <div id="controls" class="noselect">
