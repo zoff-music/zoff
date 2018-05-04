@@ -99,7 +99,7 @@ var Search = {
                                     var duration=song.contentDetails.duration;
                                     var secs=Search.durationToSeconds(duration);
                                     var _temp_duration = Helper.secondsToOther(secs);
-                                    if(!longsongs || secs<720){
+                                    if((longsongs != undefined && !longsongs) || secs<720){
                                         var title=song.snippet.title;
                                         var enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
                                         var id=song.id;
@@ -208,8 +208,11 @@ var Search = {
                 //var secs=Search.durationToSeconds(duration);
                 var secs = duration;
                 var _temp_duration = Helper.secondsToOther(secs);
-                if(!longsongs || secs<720){
+                if((longsongs != undefined && !longsongs) || secs<720){
                     var title=song.title;
+                    if(title.indexOf(song.user.username) == -1) {
+                        title = song.user.username +  " - " + title;
+                    }
                     var enc_title=title;//encodeURIComponent(title).replace(/'/g, "\\\'");
                     var id=song.permalink_url;
                     //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
@@ -608,7 +611,7 @@ addVideos: function(ids){
             for(var i = 0; i < response.items.length; i++) {
                 var song = response.items[i];
                 var duration=Search.durationToSeconds(song.contentDetails.duration);
-                if(!longsongs || duration<720){
+                if((longsongs != undefined && !longsongs) || duration<720){
                     enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
                     //Search.submit(song.id, enc_title, duration, playlist, i);
                     x += 1;
