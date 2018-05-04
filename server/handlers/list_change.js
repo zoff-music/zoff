@@ -416,7 +416,7 @@ function add_function(arr, coll, guid, offline, socket) {
                         } else {
                             db.collection(coll).find({id: id}, function(err, docs) {
                                 if(docs.length === 0) {
-                                    db.collection(coll).update({id: id}, {$set:{
+                                    var suggestedAdd = {
                                         "added":Functions.get_time(),
                                         "guids": [guid],
                                         "id":id,
@@ -426,11 +426,21 @@ function add_function(arr, coll, guid, offline, socket) {
                                         "duration":duration,
                                         "start": start,
                                         "end": end,
-                                        "type":"suggested"}
-                                    },
+                                        "type":"suggested"
+                                    };
+                                    var source = arr.source;
+                                    if(source == "soundcloud") {
+                                        suggestedAdd.thumbnail = arr.thumbnail;
+                                        suggestedAdd.source = source;
+                                    } else {
+                                        suggestedAdd.source = "youtube";
+                                    }
+                                    db.collection(coll).update({id: id}, {$set: suggestedAdd},
                                     {upsert:true}, function(err, docs){
                                         socket.emit("toast", "suggested");
-                                        io.to(coll).emit("suggested", {id: id, title: title, duration: duration});
+                                        var toSend = {id: id, title: title, duration: duration, source: suggestedAdd.source};
+                                        if(source == "soundcloud") toSend.thumbnail = arr.thumbnail;
+                                        io.to(coll).emit("suggested", toSend);
                                     });
                                 } else if(docs[0].now_playing === true){
                                     socket.emit("toast", "alreadyplay");
