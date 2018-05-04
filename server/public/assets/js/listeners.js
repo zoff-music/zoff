@@ -199,7 +199,7 @@ window.addEventListener("DOMContentLoaded", function() {
         tag.onload = function() {
             console.log("loaded script")
             if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
-                
+
             } else {
                 tagSearch            = document.createElement('script');
                 tagSearch.setAttribute("async", true);
@@ -296,8 +296,8 @@ initializeCastApi = function() {
             } catch(event){
                 _seekTo = seekTo;
             }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source})
 
             if(Helper.mobilecheck() && !chromecast_specs_sent) {
                 socket.emit("get_id");
@@ -325,8 +325,8 @@ initializeCastApi = function() {
             } catch(event){
                 _seekTo = seekTo;
             }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source})
             hide_native(1);
             Helper.css("#channel-load", "display", "none");
             Helper.addClass('.castButton', 'castButton-white-active');
