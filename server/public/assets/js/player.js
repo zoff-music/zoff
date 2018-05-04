@@ -294,7 +294,11 @@ var Player = {
         if(seekTo == undefined) seekTo = 0;
 
         if(_autoplay) was_stopped = false;
-        Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+        try {
+            Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+        } catch(e) {
+            console.log("Woops this seems to be the first song in the channel. This will be fixed.. soon.. we think..");
+        }
         Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
         Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
         Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
