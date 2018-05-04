@@ -220,7 +220,6 @@ var Search = {
                     //var thumb = null;
                     if(thumb == null) thumb = song.waveform_url;
                     else thumb = thumb.replace("-large.jpg", "-t500x500.jpg");
-                    console.log(song);
                     //$("#results").append(result_html);
                     var songs = pre_result.cloneNode(true);
                     songs.querySelector(".search-title").innerText = title;
@@ -252,7 +251,6 @@ var Search = {
                 fresh = true;
             }
             document.getElementById("results_soundcloud").innerHTML = "";
-            //console.log(output);
             if(output.length > 0) {
                 if(document.querySelector("#results").innerHTML.length > 0) {
                     Helper.css(".search_results", "display", "block");
@@ -631,7 +629,6 @@ addVideos: function(ids){
 },
 
 submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail){
-    console.log(id,title,duration, playlist, num, full_num, start, end, source, thumbnail);
     if((client || Helper.mobilecheck()) && !socket_connected) {
         add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail);
         return;

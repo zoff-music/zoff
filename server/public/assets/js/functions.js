@@ -201,7 +201,6 @@ function get_list_ajax() {
             }
         },
         error: function(response) {
-            console.log(response);
             response = JSON.parse(response);
             if(response.status == 403) {
                 start_auth();

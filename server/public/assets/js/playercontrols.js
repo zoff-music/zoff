@@ -8,7 +8,6 @@ var Playercontrols = {
     },
 
     initControls: function() {
-        console.log("init controls");
         document.getElementById("volume-button").addEventListener("click", Playercontrols.mute_video);
         document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
         document.getElementById("volume-button-overlay").addEventListener("click", Playercontrols.mute_video);
@@ -190,7 +189,6 @@ var Playercontrols = {
     },
 
     play_pause: function() {
-        console.log("play pause here");
         if(!chromecastAvailable){
             if(videoSource == "soundcloud") {
                 if(!Player.soundcloud_player.isPlaying()) {
@@ -226,7 +224,6 @@ var Playercontrols = {
     },
 
     play_pause_show: function() {
-        console.log("pause2");
         if(chromecastAvailable){
             if(document.getElementById("play").classList.contains("hide")){
                 Player.pauseVideo();
@@ -357,9 +354,7 @@ var Playercontrols = {
     },
 
     playPause: function() {
-        console.log("playpause", videoSource);
         if(videoSource == "soundcloud") {
-            console.log("hello");
             if(!Player.soundcloud_player.isPlaying()) {
                 Helper.addClass("#play", "hide");
                 Helper.removeClass("#pause", "hide");
