@@ -190,24 +190,32 @@ var Playercontrols = {
 
     play_pause: function() {
         if(!chromecastAvailable){
-            if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
-            {
-                Player.pauseVideo();
-                if(Helper.mobilecheck() && !window.MSStream){
-                    //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-                    //document.getElementById("player").style.display = "none";
-                    Helper.css("#player", "display", "none");
-                    Helper.toggleClass(".video-container", "click-through");
-                    Helper.toggleClass(".page-footer", "padding-bottom-extra");
+            if(videoSource == "soundcloud") {
+                if(!Player.soundcloud_player.isPlaying()) {
+                    Player.playVideo();
+                } else {
+                    Player.pauseVideo();
                 }
-            } else if(Player.player.getPlayerState() == YT.PlayerState.PAUSED || Player.player.getPlayerState() === YT.PlayerState.ENDED || (Player.player.getPlayerState() === YT.PlayerState.CUED)){
-                Player.playVideo();
-                //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-                if(Helper.mobilecheck() && !window.MSStream){
-                    //document.getElementById("player").style.display = "block";
-                    Helper.css("#player", "display", "block");
-                    Helper.toggleClass(".video-container", "click-through");
-                    Helper.toggleClass(".page-footer", "padding-bottom-extra");
+            } else {
+                if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
+                {
+                    Player.pauseVideo();
+                    if(Helper.mobilecheck() && !window.MSStream){
+                        //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                        //document.getElementById("player").style.display = "none";
+                        Helper.css("#player", "display", "none");
+                        Helper.toggleClass(".video-container", "click-through");
+                        Helper.toggleClass(".page-footer", "padding-bottom-extra");
+                    }
+                } else if(Player.player.getPlayerState() == YT.PlayerState.PAUSED || Player.player.getPlayerState() === YT.PlayerState.ENDED || (Player.player.getPlayerState() === YT.PlayerState.CUED)){
+                    Player.playVideo();
+                    //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+                    if(Helper.mobilecheck() && !window.MSStream){
+                        //document.getElementById("player").style.display = "block";
+                        Helper.css("#player", "display", "block");
+                        Helper.toggleClass(".video-container", "click-through");
+                        Helper.toggleClass(".page-footer", "padding-bottom-extra");
+                    }
                 }
             }
         } else {
@@ -265,6 +273,7 @@ var Playercontrols = {
 
     setVolume: function(vol) {
         Player.setVolume(vol);
+        Player.soundcloud_player.setVolume(vol / 1000);
         Playercontrols.choose_button(vol, false);
         if(Player.player.isMuted())
         Player.player.unMute();
@@ -345,12 +354,24 @@ var Playercontrols = {
     },
 
     playPause: function() {
-        state = Player.player.getPlayerState();
-        button = document.getElementById("playpause");
-        if(state == YT.PlayerState.PLAYING) {
-            Player.pauseVideo();
-        } else if(state == YT.PlayerState.PAUSED) {
-            Player.playVideo();
+        if(videoSource == "soundcloud") {
+            if(!Player.soundcloud_player.isPlaying()) {
+                Helper.addClass("#play", "hide");
+                Helper.removeClass("#pause", "hide");
+                Player.soundcloud_player.play();
+            } else {
+                Helper.removeClass("#play", "hide");
+                Helper.addClass("#pause", "hide");
+                Player.soundcloud_player.pause();
+            }
+        } else {
+            state = Player.player.getPlayerState();
+            button = document.getElementById("playpause");
+            if(state == YT.PlayerState.PLAYING) {
+                Player.pauseVideo();
+            } else if(state == YT.PlayerState.PAUSED) {
+                Player.playVideo();
+            }
         }
     },
 

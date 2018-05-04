@@ -3,6 +3,7 @@
         <div id="fireplace_player" class="ytplayer"></div>
     {{/unless}}
     <div id="player" class="ytplayer"></div>
+
     <div id="main_components">
         <div id="player_overlay" class="hide valign-wrapper">
             <div id="playing_on">
@@ -11,8 +12,19 @@
                 </div>
                 <div id="chromecast_text"></div>
             </div>
+            <div class="soundcloud_info_container hide">
+                <a href="#!" id="soundcloud_listen_link" target="_blank">
+                    <img src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
+                </a>
+                <a href="#!" class="btn green waves-effect waves-light" target="_blank">Artist</a>
+            </div>
             <div id="player_overlay_text" class="valign center-align">
                 Waiting for Video
+            </div>
+            <div id="player_loader_container" class="hide valign-wrapper">
+                <div id="player_loader" class="preloader-wrapper large active valign">
+                    {{> spinner}}
+                </div>
             </div>
             <div id="player_overlay_controls" class="hide valign-wrapper">
                 <div id="playpause-overlay" class="valign center-align">
