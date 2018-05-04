@@ -84,7 +84,7 @@ function hide_native(way) {
             Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.La.friendlyName);
         }
         Player.player.setVolume(100);
-        SC.Widget(Player.soundcloud_player).setVolume(100);
+        Player.soundcloud_player.setVolume(1);
 
         Helper.toggleClass("#player_overlay_text", "hide");
     } else if(way == 0){
@@ -109,7 +109,7 @@ function hide_native(way) {
         if(!Helper.mobilecheck()){
             Player.player.setVolume(Crypt.get_volume());
             Playercontrols.visualVolume(Crypt.get_volume());
-            SC.Widget(Player.soundcloud_player).setVolume(Crypt.get_volume());
+            Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
         }
         Helper.addClass("#player_overlay", "hide");
         Helper.toggleClass("#player_overlay_text", "hide");
