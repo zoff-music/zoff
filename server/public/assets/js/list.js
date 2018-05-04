@@ -799,7 +799,7 @@ var List = {
     exportToYoutube: function() {
         ga('send', 'event', "export", "youtube");
 
-        var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet";
+        var request_url = "https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=" + api_key;
         Helper.removeClass(".exported-list-container", "hide");
         Helper.removeClass("#playlist_loader_export", "hide");
         Helper.ajax({
@@ -819,10 +819,11 @@ var List = {
                 response = JSON.parse(response);
                 var number_added = 0;
                 var playlist_id = response.id;
-                var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet";
+                var request_url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=" + api_key;
                 List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
             },
             error: function(response){
+                console.log(response);
                 response = response.responseText;
                 Helper.log([
                     "export to youtube response",
@@ -832,60 +833,191 @@ var List = {
         });
     },
 
-    addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url) {
-        if(full_playlist[num].source != "soundcloud") {
-            var _data = JSON.stringify({
-                'snippet': {
-                    'playlistId': playlist_id,
-                    'resourceId': {
-                        'kind': 'youtube#video',
-                        'videoId': full_playlist[num].id
-                    }
+    insertInYouTubePlaylist: function(playlist_id, _videoId, num, request_url) {
+        var _data = JSON.stringify({
+            'snippet': {
+                'playlistId': playlist_id,
+                'resourceId': {
+                    'kind': 'youtube#video',
+                    'videoId': _videoId
                 }
-            });
+            }
+        });
+        Helper.ajax({
+            type: "POST",
+            url: request_url,
+            headers: {
+                'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
+                'Content-Type': 'application/json'
+            },
+            data: _data,
+            success: function(response){
+                response = JSON.parse(response);
+                Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
+                if(num == full_playlist.length - 1){
+                    Helper.log(["All videoes added!"]);
+                    Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    Helper.addClass("#playlist_loader_export", "hide");
+                    Helper.addClass(".current_number", "hide");
+                    //$(".youtube_export_button").removeClass("hide");
+                } else {
+                    //setTimeout(function(){
+                    Helper.removeClass(".current_number", "hide");
+                    document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
+                    List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
+                    //}, 50);
+                }
+            }, error: function(response) {
+                console.log(response);
+            }
+
+        });
+    },
+
+    addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url) {
+        console.log(full_playlist[num], num);
+        if(num == full_playlist.length - 1){
+            Helper.log(["All videoes added!"]);
+            Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+            document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+            Helper.addClass("#playlist_loader_export", "hide");
+            Helper.addClass(".current_number", "hide");
+            return;
+            //$(".youtube_export_button").removeClass("hide");
+        }
+        if(full_playlist[num].hasOwnProperty("source") && full_playlist[num].source != "soundcloud") {
+            List.insertInYouTubePlaylist(playlist_id, full_playlist[num].id, num, request_url)
+        } else {
+            var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+api_key+"&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10&videoCategoryId=10";
+            yt_url+="&q="+full_playlist[num].title;
+            var title = full_playlist[num].title;
+            var temptitle = title.split("-");
+            temptitle = temptitle.join(" ").split(" ");
+            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
             Helper.ajax({
-                type: "POST",
-                url: request_url,
-                headers: {
-                    'Authorization': 'Bearer ' + access_token_data_youtube.access_token,
-                    'Content-Type': 'application/json'
-                },
-                data: _data,
+                type: "GET",
+                url: yt_url,
+                dataType:"jsonp",
                 success: function(response){
                     response = JSON.parse(response);
-                    Helper.log(["Added video: " + full_playlist[num].id + " to playlist id " + playlist_id]);
-                    if(num == full_playlist.length - 1){
-                        Helper.log(["All videoes added!"]);
-                        Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                        Helper.addClass("#playlist_loader_export", "hide");
-                        Helper.addClass(".current_number", "hide");
-                        //$(".youtube_export_button").removeClass("hide");
-                    } else {
-                        //setTimeout(function(){
-                        Helper.removeClass(".current_number", "hide");
-                        document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
-                        List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
-                        //}, 50);
-                    }
-                }
+                    //Helper.log(response);
+                    if(response.items.length === 0){
+                        Helper.log([
+                            "NO MATCH FOR:",
+                            "Spotify title: " + title,
+                            "Spotify length: " + length
+                        ]);
+                        var not_added_song = document.createElement("div");
+                        not_added_song.innerHTML = not_export_html;
 
+                        not_added_song.querySelector(".extra-add-text").innerText = title;
+                        not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
+                        not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
+                        document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                        Helper.removeClass(".not-exported", "hide");
+                        if(num == full_playlist.length - 1){
+                            Helper.log(["All videoes added!"]);
+                            Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+                            document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                            Helper.addClass("#playlist_loader_export", "hide");
+                            Helper.addClass(".current_number", "hide");
+                            //$(".youtube_export_button").removeClass("hide");
+                        } else {
+                            //setTimeout(function(){
+                            Helper.removeClass(".current_number", "hide");
+                            document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
+                            List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
+                            //}, 50);
+                        }
+                    } else if(response.items.length > 0) {
+                        for(var i = 0; i < response.items.length; i++) {
+                            var data = response.items[i];
+                            vid_url += data.id.videoId+",";
+                        }
+
+                        Helper.ajax({
+                            type: "GET",
+                            url: vid_url,
+                            dataType:"jsonp",
+                            success: function(response){
+                                response = JSON.parse(response);
+                                if(response.items.length > 0) {
+                                    var matched = false;
+                                    for(var y = 0; y < response.items.length; y++) {
+                                        var data = response.items[y];
+                                        //Helper.log(data);
+                                        //var title = data.snippet.title;
+                                        var duration = Search.durationToSeconds(data.contentDetails.duration);
+                                        var not_matched = false;
+                                        if(similarity(data.snippet.title,title) > 0.75) {
+                                            not_matched = false;
+                                        } else {
+                                            for(var i = 0; i < temptitle.length; i++) {
+                                                var data_title = temptitle[i];
+
+                                                if(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 || !(
+                                                    data.snippet.title.toLowerCase().indexOf("cover") == -1 &&
+                                                    title.toLowerCase().indexOf("cover") == -1 &&
+                                                    ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
+                                                    title.toLowerCase().indexOf("remix") == -1) ||
+                                                    (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
+                                                    title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                                    data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
+                                                )
+                                                not_matched = true;
+                                                else if(duration > 1800) not_matched = true;
+                                            }
+                                        }
+
+                                        if((!not_matched)){
+                                            matched = true;
+                                            List.insertInYouTubePlaylist(playlist_id, data.id, num, request_url);
+                                            break;
+                                        }
+                                    }
+                                    if(!matched){
+                                        if(num == full_playlist.length - 1){
+                                            Helper.log(["All videoes added!"]);
+                                            Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
+                                            document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                                            Helper.addClass("#playlist_loader_export", "hide");
+                                            Helper.addClass(".current_number", "hide");
+                                            //$(".youtube_export_button").removeClass("hide");
+                                        } else {
+                                            //setTimeout(function(){
+                                            Helper.removeClass(".current_number", "hide");
+                                            document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
+                                            //}, 50);
+                                        }
+                                        Helper.log([
+                                            "NO MATCH FOR:",
+                                            "Spotify title: " + title,
+                                            "Spotify length: " + length
+                                        ]);
+                                        var not_added_song = document.createElement("div");
+                                        not_added_song.innerHTML = not_export_html;
+                                        not_added_song.querySelector(".extra-add-text").innerText = title;
+                                        not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
+                                        not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
+                                        document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                                        Helper.removeClass(".not-exported", "hide");
+                                        List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
+
+                                    }
+                                }
+                            },
+                            error: function(e) {
+                                console.log(e);
+                            }
+                        });
+
+                    }
+                }, error: function(e) {
+                    console.log(e);
+                }
             });
-        } else {
-            if(num == full_playlist.length - 1){
-                Helper.log(["All videoes added!"]);
-                Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
-                Helper.addClass("#playlist_loader_export", "hide");
-                Helper.addClass(".current_number", "hide");
-                //$(".youtube_export_button").removeClass("hide");
-            } else {
-                //setTimeout(function(){
-                Helper.removeClass(".current_number", "hide");
-                document.querySelector(".current_number").innerText = (num + 1) + " of " + (full_playlist.length);
-                List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
-                //}, 50);
-            }
+
         }
     },
 
