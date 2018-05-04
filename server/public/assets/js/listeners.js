@@ -5,8 +5,6 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
-var SC;
-var _SC2;
 var firstLoad = "";
 var videoSource;
 var dynamicListeners = {};
