@@ -38,6 +38,7 @@ var Hostcontroller = {
             if(arr.type == "volume") {
                 Playercontrols.visualVolume(arr.value);
                 Player.setVolume(arr.value);
+                Player.soundcloud_player.setVolume(arr.value / 100);
                 localStorage.setItem("volume", arr.value);
                 Playercontrols.choose_button(arr.value, false);
             } else if(arr.type == "channel") {

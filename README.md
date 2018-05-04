@@ -1,7 +1,7 @@
 Zoff
 ====
 
-Zoff (pronounced __søff__) is a shared (free) YouTube based radio service, built upon the YouTube API, with integrated casting with Chromecast.
+Zoff (pronounced __søff__) is a shared (free) YouTube and SoundCloud based radio service, built upon the YouTube API, and SoundCloud API, with integrated casting with Chromecast.
 
 ## Install
 

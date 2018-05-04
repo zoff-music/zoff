@@ -15,6 +15,8 @@ var Channel = {
             Helper.addClass("#results", "client-results-height");
             Helper.addClass(".pagination-results", "client-pagination-height");
             Helper.addClass(".control-list", "client-control-list");
+        } else {
+            //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         if(!Admin.logged_in) Admin.display_logged_out();
         number_suggested = 0;
@@ -77,6 +79,7 @@ var Channel = {
             }
 
             Helper.tabs('.chatTabs');
+            Helper.tabs('.results-tabs');
         }
         var sidenavElem = document.getElementsByClassName("sidenav")[0];
         M.Sidenav.init(sidenavElem, {
@@ -165,6 +168,7 @@ var Channel = {
                 Playercontrols.initSlider();
                 if(player_ready) {
                     Player.player.setVolume(Crypt.get_volume());
+                    Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
                 }
                 Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;
