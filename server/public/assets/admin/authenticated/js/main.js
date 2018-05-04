@@ -223,7 +223,7 @@ function loaded() {
 			var output_pinned = '<option value="" disabled selected>Channels</option>';
 			var output_delete = '<option value="" disabled selected>Channels</option>';
 			for(var x = 0; x < response.length; x++){
-				if(response[x].count > 5){
+				if(response[x].count > 2){
 					output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
 				}
 				output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
