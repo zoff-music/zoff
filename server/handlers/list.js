@@ -682,7 +682,13 @@ function getNextSong(coll, callback) {
         $limit:1
     }], function(err, doc) {
         if(doc.length == 1) {
-            io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title});
+            var thumbnail = "";
+            var source = "youtube";
+            if(doc[0].source && doc[0].source == "soundcloud") {
+                source = "soundcloud";
+                thumbnail = doc[0].thumbnail;
+            }
+            io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title, source: source, thumbnail: thumbnail});
         }
         if(typeof(callback) == "function") callback();
     });
