@@ -123,6 +123,20 @@ a {
     margin: auto;
 }
 
+#player_loader_container {
+    height: 100%;
+width: 100%;
+background: rgba(0,0,0,.5);
+}
+#player_loader {
+    position: absolute;
+left: 0;
+right: 0;
+margin: auto;
+}
+
+
+
 #send-loader {
     position: absolute;
     top: 0px;
