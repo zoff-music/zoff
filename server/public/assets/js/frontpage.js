@@ -77,8 +77,9 @@ var Frontpage = {
                 var id = lists[x].id;
                 var viewers = lists[x].viewers;
                 var description = lists[x].description;
-                var img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-                if(lists[x].thumbnail) {
+                var img;
+                img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+                if(lists[x].thumbnail && lists[x].thumbnail != "") {
                     img = "background-image:url('" + lists[x].thumbnail + "');";
                 }
 
@@ -86,7 +87,7 @@ var Frontpage = {
                 var card = document.createElement("div");
                 card.innerHTML += pre_card;
                 //card.innerHTML = card.children[0];
-                if(song_count > 4) {
+                if(song_count > 3) {
                     if(lists[x].pinned == 1) {
                         card.querySelector(".pin").setAttribute("style", "display:block;");
                         //card.find(".card").attr("title", "Featured list");

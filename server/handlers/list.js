@@ -84,7 +84,8 @@ function list(msg, guid, coll, offline, socket) {
                             db.collection(coll + "_settings").insert(configs, function(err, docs){
                                 socket.join(coll);
                                 List.send_list(coll, socket, true, false, true);
-                                db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1});
+                                db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(e,d){
+                                });
                                 Functions.check_inlist(coll, guid, socket, offline);
                             });
                         });
@@ -380,7 +381,7 @@ function change_song_post(coll, next_song, callback, socket) {
                             List.send_play(coll, socket, true);
                             callback();
                         }
-                        Frontpage.update_frontpage(coll, docs[0].id, docs[0].title);
+                        Frontpage.update_frontpage(coll, docs[0].id, docs[0].title, docs[0].thumbnail);
                     });
                 });
             });
@@ -438,7 +439,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                                 skips:[]
                                             }
                                         }, function(err, returnDocs){
-                                            Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title);
+                                            Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title, now_playing_doc[0].thumbnail);
                                             List.send_list(coll, socket, send, list_send, configs, shuffled);
                                         });
                                     });
@@ -680,7 +681,13 @@ function getNextSong(coll, callback) {
         $limit:1
     }], function(err, doc) {
         if(doc.length == 1) {
-            io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title});
+            var thumbnail = "";
+            var source = "youtube";
+            if(doc[0].source && doc[0].source == "soundcloud") {
+                source = "soundcloud";
+                thumbnail = doc[0].thumbnail;
+            }
+            io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title, source: source, thumbnail: thumbnail});
         }
         if(typeof(callback) == "function") callback();
     });

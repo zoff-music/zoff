@@ -5,9 +5,14 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var SC;
+var _SC2;
+var firstLoad = "";
+var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
 var hasadmin = 0;
+var soundcloud_loading = false;
 var list_html = document.querySelectorAll("#list-song-html").length > 0 ? document.querySelector("#list-song-html").innerHTML : undefined;
 var unseen 			   	  		= false;
 var searching 		   	  		= false;
@@ -183,6 +188,31 @@ window.addEventListener("DOMContentLoaded", function() {
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
+    if(window.location.pathname == "/" && !client) {
+        tag            = document.createElement('script');
+        tag.src        = "https://www.youtube.com/iframe_api";
+        firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        tag.onload = function() {
+            if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
+
+            } else {
+                tagSearch            = document.createElement('script');
+                tagSearch.setAttribute("async", true);
+                tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
+                firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
+
+                tagSearch.onload = function() {
+                    SC.initialize({
+                      client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+                  }, function() {
+                  });
+                }
+            }
+        }
+    }
 
     if(Helper.mobilecheck()) {
         socket.on("guid", function(msg) {
@@ -262,8 +292,8 @@ initializeCastApi = function() {
             } catch(event){
                 _seekTo = seekTo;
             }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source})
 
             if(Helper.mobilecheck() && !chromecast_specs_sent) {
                 socket.emit("get_id");
@@ -291,8 +321,8 @@ initializeCastApi = function() {
             } catch(event){
                 _seekTo = seekTo;
             }
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase()})
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource})
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source})
             hide_native(1);
             Helper.css("#channel-load", "display", "none");
             Helper.addClass('.castButton', 'castButton-white-active');
@@ -488,6 +518,9 @@ addListener("click", ".copy-context-menu", function(e) {
 addListener("click", ".find-context-menu", function(e) {
     this.preventDefault();
     var that = e;
+    if(that.classList.contains("context-menu-disabled")) {
+        return;
+    }
     var parent = that.parentElement;
     var id = parent.getAttribute("data-id");
     Search.search(id, false, true);
@@ -541,6 +574,7 @@ addListener("click", "#closePlayer", function(event){
     socket.removeEventListener("np");
     socket.removeEventListener("id");
     socket.removeEventListener(id);
+    Helper.removeElement("#soundcloud_container");
     Helper.removeElement("#alreadychannel");
     Player.player = "";
     document.title = "Zoff - the shared YouTube based radio";
@@ -580,6 +614,11 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#import") != document.activeElement &&
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
+            if(videoSource == "soundcloud") {
+                event.preventDefault();
+                Playercontrols.play_pause();
+                return false;
+            }
             if(Player.player.getPlayerState() == 1) {
                 event.preventDefault();
                 Player.player.pauseVideo();
@@ -636,6 +675,7 @@ document.addEventListener("keyup", function(event) {
                 }
             });*/
             document.querySelector("#results").innerHTML = "";
+            document.querySelector("#results_soundcloud").innerHTML = "";
             document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:auto")
             document.querySelector("#search-btn i").innerText = "search";
             document.querySelector(".search_input").value  = "";
@@ -739,6 +779,10 @@ addListener("click", ".prev_page", function(event) {
 
 addListener("click", ".modal-close", function(event){
     this.preventDefault();
+});
+
+addListener("click", "#player_overlay", function(event) {
+    if(videoSource == "soundcloud") Playercontrols.play_pause();
 });
 
 /*
@@ -1213,6 +1257,7 @@ addListener("click", "#closeSettings", function(event)
     Admin.hide_settings();
 });
 
+
 window.addEventListener("focus", function(event) {
     document.getElementById("favicon").setAttribute("href", "/assets/images/favicon.png");
     unseen = false;
@@ -1254,6 +1299,12 @@ addListener("click", ".result-object", function(e){
         var original_length = e.getAttribute("data-video-length");
         var start   = parseInt(e.querySelector(".result-start").value);
         var end     = parseInt(e.querySelector(".result-end").value);
+        var source = "youtube";
+        var thumbnail;
+        if(e.getAttribute("data-type-source") != undefined) {
+            source = "soundcloud";
+            thumbnail = e.getAttribute("data-type-thumbnail");
+        }
         if(end > original_length) {
             end = original_length;
         }
@@ -1264,7 +1315,7 @@ addListener("click", ".result-object", function(e){
         } else {
             try {
                 var length = parseInt(end) - parseInt(start);
-                Search.submitAndClose(id, title, length, start, end);
+                Search.submitAndClose(id, title, length, start, end, source, thumbnail);
             } catch(err) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
@@ -1349,6 +1400,13 @@ addListener("click", "#add-many", function(e){
     if(end > original_length) {
         end = original_length;
     }
+    var source = "youtube";
+    var thumbnail;
+    if(e.getAttribute("data-type-source") != undefined) {
+
+        source = "soundcloud";
+        thumbnail = e.getAttribute("data-type-thumbnail");
+    }
     if(start > end) {
         M.toast({html: "Start can't be before the end..", displayLength: 3000, classes: "red lighten"});
     } else if(start < 0) {
@@ -1356,8 +1414,9 @@ addListener("click", "#add-many", function(e){
     } else {
         try {
             var length = parseInt(end) - parseInt(start);
+
             e.parentElement.parentElement.parentElement.remove();
-            Search.submit(id, title, length, false, 0, 1, start, end);
+            Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
         } catch(event) {
             M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
         }
@@ -1380,7 +1439,7 @@ addListener("click", ".add-suggested", function(e){
     var title 	= e.getAttribute("data-video-title");
     var length 	= e.getAttribute("data-video-length");
     var added_by = e.getAttribute("data-added-by");
-    Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length));
+    Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), "youtube");
     if(added_by == "user") {
         number_suggested = number_suggested - 1;
         if(number_suggested < 0) number_suggested = 0;
