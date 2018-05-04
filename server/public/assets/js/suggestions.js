@@ -37,7 +37,13 @@ var Suggestions = {
     },
 
     fetchYoutubeSuggests: function(id){
-        if(videoSource == "soundcloud") return;
+        if(videoSource == "soundcloud") {
+            Helper.addClass(document.querySelector(".suggest-title-info"), "hide");
+            Helper.addClass("#suggest-song-html", "hide");
+        } else {
+            Helper.removeClass(document.querySelector(".suggest-title-info"), "hide");
+            Helper.removeClass("#suggest-song-html", "hide");
+        }
         var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key;
         var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
 
