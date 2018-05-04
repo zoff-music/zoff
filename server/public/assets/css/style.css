@@ -123,6 +123,15 @@ a {
     margin: auto;
 }
 
+.soundcloud_info_container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    width: 35%;
+    justify-content: space-between;
+}
+
 #player_loader_container {
     height: 100%;
 width: 100%;
