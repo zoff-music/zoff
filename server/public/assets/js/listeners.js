@@ -44,6 +44,7 @@ var chromecast_specs_sent = false;
 var dragging 					= false;
 var user_auth_started 			= false;
 var beginning = false;
+var empty_clear = false;
 var user_auth_avoid 			= false;
 var user_change_password 		= false;
 var paused 				  		= false;
