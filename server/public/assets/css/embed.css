@@ -21,6 +21,20 @@
     width: 50vw;
 }
 
+.soundcloud_info_container {
+    position: absolute;
+    bottom: 20px;
+    right: 0px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    background: rgba(0,0,0,.7);
+}
+
+.soundcloud_info_container a {
+    margin: 0 10px;
+}
+
 .card {
 	cursor:pointer;
   background-color: rgba(255, 255, 255, 0.04) !important;

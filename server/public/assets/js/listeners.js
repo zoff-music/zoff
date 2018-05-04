@@ -199,42 +199,20 @@ window.addEventListener("DOMContentLoaded", function() {
         tag.onload = function() {
             console.log("loaded script")
             if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
-                SC.Widget(Player.soundcloud_player);
+                
             } else {
-                tagS            = document.createElement('script');
-                tagS.src        = "https://w.soundcloud.com/player/api.js";
+                tagSearch            = document.createElement('script');
+                tagSearch.setAttribute("async", true);
+                tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
                 firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tagS, firstScriptTag);
-                tagS.setAttribute("async", true);
+                firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
 
-
-                tagS.onload = function() {
-                    if(firstLoad == "") {
-                        firstLoad = "widget";
-                        SC = SC;
-                    }
-
-                    tagSearch            = document.createElement('script');
-                    tagSearch.setAttribute("async", true);
-                    tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
-                    firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
-
-                    tagSearch.onload = function() {
-                        if(firstLoad == "") {
-                            firstLoad = "search";
-                            _SC2 = SC;
-                        } else {
-                            _SC2 = SC;
-                            SC = SC;
-                            SC = _SC2;
-                        }
-                        console.log("loaded1")
-                        window.SC = SC;
-                        SC.initialize({
-                          client_id: '***REMOVED***'
-                        });
-                    }
+                tagSearch.onload = function() {
+                    SC.initialize({
+                      client_id: '***REMOVED***'
+                  }, function() {
+                      console.log("Loaded streamer");
+                  });
                 }
             }
         }
