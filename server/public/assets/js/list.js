@@ -633,7 +633,7 @@ var List = {
                                     success: function(resp) {
                                     },
                                     error: function(error) {
-                                        console.log(error);
+                                        console.error(error);
                                     }
                                 });
                             }
@@ -645,7 +645,7 @@ var List = {
                     }
                 });
             }, error: function(e) {
-                console.log(e);
+                console.error(e);
             }
         })
     },
@@ -822,7 +822,7 @@ var List = {
                 List.addToYoutubePlaylist(playlist_id, full_playlist, number_added, request_url)
             },
             error: function(response){
-                console.log(response);
+                console.error(response);
                 response = response.responseText;
                 Helper.log([
                     "export to youtube response",
@@ -868,14 +868,13 @@ var List = {
                     //}, 50);
                 }
             }, error: function(response) {
-                console.log(response);
+                console.error(response);
             }
 
         });
     },
 
     addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url) {
-        console.log(full_playlist[num], num);
         if(num == full_playlist.length - 1){
             Helper.log(["All videoes added!"]);
             Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
@@ -1007,13 +1006,13 @@ var List = {
                                 }
                             },
                             error: function(e) {
-                                console.log(e);
+                                console.error(e);
                             }
                         });
 
                     }
                 }, error: function(e) {
-                    console.log(e);
+                    console.error(e);
                 }
             });
 
