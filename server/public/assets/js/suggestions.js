@@ -30,8 +30,16 @@ var Suggestions = {
         var duration 	= Helper.secondsToOther(params.duration);
         var video_id 	= params.id;
         var video_title = params.title;
-        var song 		= List.generateSong({id: video_id, title: video_title, length: params.duration, duration: duration}, false, false, false, true);
-        if(document.querySelectorAll("#" + video_id).length == 0) {
+        var toSend = {id: video_id, title: video_title, length: params.duration, duration: duration};
+        if(params.source) toSend.source = params.source;
+        if(params.thumbnail) toSend.thumbnail = params.thumbnail;
+        var song 		= List.generateSong(toSend, false, false, false, true);
+        var testingElem;
+        try {
+            testingElem = document.getElementById(video_id);
+        } catch(e) {}
+
+        if(!testingElem && document.querySelectorAll("#suggested-" + video_id).length == 0) {
             document.getElementById("user-suggest-html").insertAdjacentHTML("beforeend", song);
         }
     },
