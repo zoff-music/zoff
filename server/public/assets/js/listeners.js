@@ -178,10 +178,6 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
     };
 }
 */
-SC.initialize({
-  client_id: '***REMOVED***'
-}, function() {
-});
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
