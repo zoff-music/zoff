@@ -13,7 +13,7 @@ var Player = {
 
     now_playing_listener: function(obj) {
         if(obj.np != undefined) {
-            if(offline && (video_id == "" || video_id == undefined)){
+            if(offline && (video_id == "" || video_id == undefined) && !client){
                 video_id   = obj.np[0].id;
                 Player.np = obj.np[0];
                 Player.np.start = obj.np[0].start;
@@ -92,10 +92,10 @@ var Player = {
         if(obj.np != undefined && !offline) {
             seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
-            if(((embed && autoplay) || !embed) && !was_stopped) {
+            if(((embed && autoplay) || !embed) && !was_stopped && !client) {
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
-            } else {
+            } else if(!client) {
                 Helper.log(["cueVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.cueVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             }

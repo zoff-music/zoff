@@ -16,6 +16,10 @@ var Channel = {
             Helper.addClass(".pagination-results", "client-pagination-height");
             Helper.addClass(".control-list", "client-control-list");
         } else {
+            SC.initialize({
+              client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+            }, function() {
+            });
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         if(!Admin.logged_in) Admin.display_logged_out();
