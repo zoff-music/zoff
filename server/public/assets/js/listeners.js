@@ -570,6 +570,11 @@ addListener("click", "#closePlayer", function(event){
     socket.removeEventListener("np");
     socket.removeEventListener("id");
     socket.removeEventListener(id);
+    Player.soundcloud_player.unbind("finish", Player.soundcloudFinish);
+    Player.soundcloud_player.unbind("pause", Player.soundcloudPause);
+    Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
+    Player.soundcloud_player.kill();
+    previousSoundcloud = null;
     Helper.removeElement("#soundcloud_container");
     Helper.removeElement("#alreadychannel");
     Player.player = "";
