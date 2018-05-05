@@ -178,10 +178,6 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
     };
 }
 */
-SC.initialize({
-  client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
-}, function() {
-});
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
