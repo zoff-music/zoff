@@ -8,6 +8,7 @@ var startTime = 0;
 var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
+var previousSoundcloud;
 var empty_clear = false;
 var fix_too_far = false;
 var beginning = false;
@@ -51,6 +52,11 @@ var Crypt = {
         return pass;
     }
 };
+
+SC.initialize({
+  client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+}, function() {
+});
 
 function receiveMessage(event) {
     if(event.data == "parent") {
@@ -116,7 +122,7 @@ window.addEventListener("DOMContentLoaded", function() {
     });
 
     setup_host_initialization();
-    setup_youtube_listener();
+    setup_now_playing_listener();
     setup_list_listener();
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
@@ -144,8 +150,8 @@ function setup_host_initialization() {
     socket.on("id", Hostcontroller.host_listener);
 }
 
-function setup_youtube_listener() {
-    socket.on("np", Player.youtube_listener);
+function setup_now_playing_listener() {
+    socket.on("np", Player.now_playing_listener);
 }
 
 function setup_list_listener() {

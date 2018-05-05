@@ -11,26 +11,51 @@ var Player = {
         setVolume: function(val) {}
     },
 
-    youtube_listener: function(obj) {
+    now_playing_listener: function(obj) {
         if(obj.np != undefined) {
-            video_id   = obj.np[0].id;
-            Player.np = {
-                id: video_id,
-                start: obj.np[0].start,
-                end: obj.np[0].end,
-                duration: obj.np[0].duration,
-            };
+            if(offline && (video_id == "" || video_id == undefined)){
+                video_id   = obj.np[0].id;
+                Player.np = obj.np[0];
+                Player.np.start = obj.np[0].start;
+                Player.np.end = obj.np[0].end;
+                Player.np.duration = obj.np[0].duration;
 
-            if(!obj.np[0].hasOwnProperty("start")) {
-                Player.np.start = 0;
-            }
+                if(!obj.np[0].hasOwnProperty("start")) {
+                    Player.np.start = 0;
+                }
 
-            if(!obj.np[0].hasOwnProperty("end")) {
-                Player.np.end = Player.np.duration;
+                if(!obj.np[0].hasOwnProperty("end")) {
+                    Player.np.end = Player.np.duration;
+                }
+                if(obj.conf != undefined) {
+                    conf       = obj.conf[0];
+                }
+                time       = obj.time;
+                seekTo     = 0 + Player.np.start;
+                startTime = time - conf.startTime;
+                song_title = obj.np[0].title;
+                duration   = obj.np[0].duration;
+                videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
+                Player.getTitle(song_title, viewers);
+                Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
+            } else {
+                video_id   = obj.np[0].id;
+                Player.np = obj.np[0];
+                Player.np.start = obj.np[0].start;
+                Player.np.end = obj.np[0].end;
+                Player.np.duration = obj.np[0].duration;
+
+                if(!obj.np[0].hasOwnProperty("start")) {
+                    Player.np.start = 0;
+                }
+
+                if(!obj.np[0].hasOwnProperty("end")) {
+                    Player.np.end = Player.np.duration;
+                }
+                song_title = obj.np[0].title;
+                duration   = obj.np[0].duration;
+                videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
             }
-            song_title = obj.np[0].title;
-            duration   = obj.np[0].duration;
-            videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
         } else {
             Player.np = {
                 id: "",
@@ -54,19 +79,20 @@ var Player = {
 
             }
         }
-
         if(obj.conf != undefined) {
             conf       = obj.conf[0];
+            time       = obj.time;
+            startTime = time - conf.startTime;
+        } else {
+            time = 0;
+            startTime = 0;
         }
-        time       = obj.time;
-        seekTo     = (time - conf.startTime) + Player.np.start;
-        startTime = time - conf.startTime;
-
 
         // Play video/autoplay video
-        if(obj.np != undefined) {
+        if(obj.np != undefined && !offline) {
+            seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
-            if(((embed && autoplay) || !embed ) && !offline && !was_stopped) {
+            if(((embed && autoplay) || !embed) && !was_stopped) {
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else {
@@ -257,45 +283,50 @@ var Player = {
         if(seekTo == undefined) seekTo = 0;
         soundcloud_loading = false;
         var _autoAdd = "false";
-        if(_autoplay) {
-            _autoAdd = "true";
-            Helper.removeClass("#player_loader_container", "hide");
-        }
         try {
             if(SC == null || !SC.stream) return;
         } catch(e) {
             return;
         }
-        SC.stream("/tracks/" + id).then(function(player){
-            Player.soundcloud_player = player;
-            Player.soundcloud_player.bind("finish", Player.soundcloudFinish);
-            Player.soundcloud_player.bind("pause", Player.soundcloudPause);
-            Player.soundcloud_player.bind("play", Player.soundcloudPlay);
-            window.player = player;
-            SC.get('/tracks', {
-                ids: id
-            }).then(function(tracks) {
-                var sound = tracks[0];
-                Helper.removeClass(".soundcloud_info_container", "hide");
-                document.querySelector("#soundcloud_listen_link").href = sound.permalink_url;
-                document.querySelector(".soundcloud_info_container .green").href = sound.user.permalink_url;
-                //document.querySelector(".soundcloud_info_container .red").href = sound.user.permalink_url;
-            });
+        if(previousSoundcloud != id) {
+            previousSoundcloud = id;
             if(_autoplay) {
-                player.play().then(function(){
-                    Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
-                    Player.soundcloud_player.seek((seekTo) * 1000);
-                }).catch(function(e){
-                });
+                _autoAdd = "true";
+                Helper.removeClass("#player_loader_container", "hide");
             }
-          });
+            SC.stream("/tracks/" + id).then(function(player){
+                Player.soundcloud_player = player;
+                Player.soundcloud_player.bind("finish", Player.soundcloudFinish);
+                Player.soundcloud_player.bind("pause", Player.soundcloudPause);
+                Player.soundcloud_player.bind("play", Player.soundcloudPlay);
+                window.player = player;
+                SC.get('/tracks', {
+                    ids: id
+                }).then(function(tracks) {
+                    var sound = tracks[0];
+                    Helper.removeClass(".soundcloud_info_container", "hide");
+                    document.querySelector("#soundcloud_listen_link").href = sound.permalink_url;
+                    document.querySelector(".soundcloud_info_container .green").href = sound.user.permalink_url;
+                    //document.querySelector(".soundcloud_info_container .red").href = sound.user.permalink_url;
+                });
+                if(_autoplay) {
+                    player.play().then(function(){
+                        Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
+                        Player.soundcloud_player.seek((seekTo) * 1000);
+                    }).catch(function(e){
+                    });
+                }
+            });
+        } else {
+            player.seek(seekTo * 1000);
+        }
         soundcloud_loading = true;
         if(start == undefined) start = 0;
         if(seekTo == undefined) seekTo = 0;
 
         if(_autoplay) was_stopped = false;
         try {
-            Helper.css(document.getElementById("player_overlay"), "background",  "url('" + full_playlist[full_playlist.length - 1].thumbnail + "')");
+            Helper.css(document.getElementById("player_overlay"), "background",  "url('" + Player.np.thumbnail + "')");
         } catch(e) {
             console.log("Woops this seems to be the first song in the channel. This will be fixed.. soon.. we think..");
         }
@@ -313,9 +344,11 @@ var Player = {
         else s = Player.np.start;
         if(end) e = end;
         else e = Player.np.end;
-        Suggestions.fetchYoutubeSuggests(id);
+        if(!embed) {
+            Suggestions.fetchYoutubeSuggests(id);
+        }
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource});
+            castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail});
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
@@ -363,7 +396,9 @@ var Player = {
         else s = Player.np.start;
         if(end) e = end;
         else e = Player.np.end;
-        Suggestions.fetchYoutubeSuggests(id);
+        if(!embed) {
+            Suggestions.fetchYoutubeSuggests(id);
+        }
         if(videoSource == "soundcloud") {
             try {
                 Player.player.stopVideo();
@@ -414,6 +449,7 @@ var Player = {
         time       = (new Date()).getTime();
         song_title = next_song.title;
         duration   = next_song.duration;
+        videoSource = next_song.hasOwnProperty("source") ? next_song.source : "youtube";
         var start;
         var end;
         if(next_song.hasOwnProperty("start")) start = next_song.start;
@@ -421,12 +457,10 @@ var Player = {
         if(next_song.hasOwnProperty("end")) end = next_song.end;
         else end = duration;
 
-        Player.np = {
-            id: video_id,
-            start: start,
-            end: end,
-            duration: duration,
-        };
+        Player.np = next_song;
+        Player.np.start = start;
+        Player.np.end = end;
+        Player.np.duration = duration;
 
         Player.getTitle(song_title, viewers);
         //Player.setBGimage(video_id);
@@ -450,6 +484,7 @@ var Player = {
         time       = (new Date()).getTime();
         song_title = next_song.title;
         duration   = next_song.duration;
+        videoSource = next_song.hasOwnProperty("source") ? next_song.source : "youtube";
         var start;
         var end;
         if(next_song.hasOwnProperty("start")) start = next_song.start;
@@ -457,12 +492,10 @@ var Player = {
         if(next_song.hasOwnProperty("end")) end = next_song.end;
         else end = duration;
 
-        Player.np = {
-            id: video_id,
-            start: start,
-            end: end,
-            duration: duration,
-        };
+        Player.np = next_song;
+        Player.np.start = start;
+        Player.np.end = end;
+        Player.np.duration = duration;
 
         Player.getTitle(song_title, viewers);
         //Player.setBGimage(video_id);
@@ -480,7 +513,7 @@ var Player = {
 
     sendNext: function(obj){
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", title: obj.title, videoId: obj.videoId, source: obj.source});
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", title: obj.title, videoId: obj.videoId, source: obj.source, thumbnail: obj.thumbnail});
         }
 
         if(embed) {
@@ -734,7 +767,7 @@ var Player = {
 
     setup_all_listeners: function() {
         get_list_listener();
-        setup_youtube_listener();
+        setup_now_playing_listener();
         setup_admin_listener();
         setup_chat_listener();
         setup_list_listener();
