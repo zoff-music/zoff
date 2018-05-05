@@ -151,7 +151,7 @@ var Channel = {
         if(!Helper.mobilecheck() && (document.querySelectorAll("#alreadychannel").length === 0 || !Hostcontroller.old_id || document.getElementById("code-text").innerText.toUpperCase() == "ABBADUR")) setup_host_initialization();
 
         if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck()){
-            setup_youtube_listener();
+            setup_now_playing_listener();
             get_list_listener();
             setup_suggested_listener();
             if(!client) {
@@ -349,8 +349,8 @@ var Channel = {
             total = total * e.clientX;
 
             if(!chromecastAvailable){
-                Player.player.seekTo(total + Player.np.start);
-
+                if(videoSource == "youtube") Player.player.seekTo(total + Player.np.start);
+                else if(videoSource == "soundcloud") Player.soundcloud_player.seek((total + Player.np.start) * 1000);
                 dMinutes = Math.floor(duration / 60);
                 dSeconds = duration - dMinutes * 60;
                 currDurr = total;

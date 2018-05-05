@@ -22,19 +22,19 @@ var List = {
                     prev_chan_list = chan;
                     List.populate_list(msg.playlist);
                     if(full_playlist.length > 0) {
-                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
                 } else if(offline && prev_chan_list == chan && full_playlist != undefined && !msg.shuffled){
                     List.populate_list(full_playlist, true);
                     if(full_playlist.length > 0) {
-                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
                 }
                 break;
             case "added":
                 List.added_song(msg.value);
                 if(full_playlist.length > 0) {
-                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                    Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                 }
                 found_array = [];
                 found_array_index = 0;
@@ -48,7 +48,7 @@ var List = {
                 if(!offline){
                     List.voted_song(msg.value, msg.time);
                     if(full_playlist.length > 0) {
-                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
                 }
                 found_array = [];
@@ -58,7 +58,7 @@ var List = {
                 if((offline && msg.offline_change) || !offline) {
                     if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
                     if(full_playlist.length > 0) {
-                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
                     found_array = [];
                     found_array_index = 0;
@@ -72,7 +72,7 @@ var List = {
 
                     if(window.location.pathname != "/") List.song_change_prev(msg.time);
                     if(full_playlist.length > 0) {
-                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                        Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
                     found_array = [];
                     found_array_index = 0;
@@ -443,7 +443,7 @@ var List = {
                 }
             }
             full_playlist.splice(List.getIndexOfSong(deleted), 1);
-            Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+            Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
             //}
 
         } catch(err) {
@@ -461,7 +461,7 @@ var List = {
                     Helper.css(nextToChange, "display", "inline-flex");
                     Helper.css(nextToChange, "height", List.element_height + "px");
                 }
-                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
             }
         }
         if(full_playlist.length < 2){

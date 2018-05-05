@@ -54,7 +54,11 @@ function hide_native(way) {
         Helper.toggleClass("#duration", "hide");
         Helper.toggleClass("#fullscreen", "hide");
         try{
-            Player.player.stopVideo();
+            if(videoSource == "youtube") {
+                Player.player.stopVideo();
+            } else if(videoSource == "soundcloud") {
+                Player.soundcloud_player.pause();
+            }
         } catch(e){}
         Player.stopInterval = true;
         if(Helper.mobilecheck()){
@@ -102,7 +106,11 @@ function hide_native(way) {
 
         Helper.toggleClass("#duration", "hide");
         Helper.toggleClass("#fullscreen", "hide");
-        Player.player.playVideo();
+        if(videoSource == "youtube") {
+            Player.player.playVideo();
+        } else if(videoSource == "soundcloud") {
+            Player.soundcloud_player.play();
+        }
         Player.stopInterval = false;
         duration = Player.player.getDuration();
         Player.durationSetter();
@@ -427,8 +435,8 @@ function setup_no_connection_listener(){
     });
 }
 
-function setup_youtube_listener(){
-    socket.on("np", Player.youtube_listener);
+function setup_now_playing_listener(){
+    socket.on("np", Player.now_playing_listener);
 }
 
 function get_list_listener(){
