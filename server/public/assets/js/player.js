@@ -7,6 +7,7 @@ var Player = {
     stopInterval: false,
     fireplace: "",
     np: {},
+    soundcloud_dead: false,
     soundcloud_player: {
         setVolume: function(val) {}
     },
@@ -288,7 +289,7 @@ var Player = {
         } catch(e) {
             return;
         }
-        if(previousSoundcloud != id) {
+        if(previousSoundcloud != id || Player.soundcloud_dead) {
             previousSoundcloud = id;
             if(_autoplay) {
                 _autoAdd = "true";
@@ -300,6 +301,7 @@ var Player = {
                 Player.soundcloud_player.bind("pause", Player.soundcloudPause);
                 Player.soundcloud_player.bind("play", Player.soundcloudPlay);
                 window.player = player;
+                Player.soundcloud_dead = false;
                 SC.get('/tracks', {
                     ids: id
                 }).then(function(tracks) {
@@ -321,6 +323,12 @@ var Player = {
             try {
                 Player.soundcloud_player.seek(seekTo * 1000);
             } catch(e) {}
+            try {
+                if(_autoplay) {
+                    _autoAdd = "true";
+                    Player.soundcloud_player.play();
+                }
+            } catch(e) {}
         }
         soundcloud_loading = true;
         if(start == undefined) start = 0;
@@ -330,7 +338,7 @@ var Player = {
         try {
             Helper.css(document.getElementById("player_overlay"), "background",  "url('" + Player.np.thumbnail + "')");
         } catch(e) {
-            console.log("Woops this seems to be the first song in the channel. This will be fixed.. soon.. we think..");
+            console.error("Woops this seems to be the first song in the channel. This will be fixed.. soon.. we think..");
         }
         Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
         Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
@@ -354,6 +362,10 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
+            if(!durationBegun) {
+                durationBegun = true;
+                Player.durationSetter();
+            }
             if(videoSource == "soundcloud") {
                 try {
                     Player.player.stopVideo();
@@ -400,6 +412,10 @@ var Player = {
         else e = Player.np.end;
         if(!embed) {
             Suggestions.fetchYoutubeSuggests(id);
+        }
+        if(!durationBegun) {
+            durationBegun = true;
+            Player.durationSetter();
         }
         if(videoSource == "soundcloud") {
             try {
@@ -656,7 +672,10 @@ var Player = {
     soundcloudReady: function() {
         beginning = true;
         player_ready = true;
-        if(videoSource == "soundcloud" && videoId != undefined) Player.loadVideoById(videoId, Player.np.duration, Player.np.start, Player.np.end);
+        if(!durationBegun) {
+            Player.durationSetter();
+        }
+        if(videoSource == "soundcloud" && video_id != undefined) Player.loadVideoById(video_id, Player.np.duration, Player.np.start, Player.np.end);
     },
 
     onPlayerReady: function(event) {
@@ -892,9 +911,16 @@ var Player = {
             try{
                 Player.onYouTubeIframeAPIReady();
                 //SC.Widget(Player.soundcloud_player).bind("ready", Player.soundcloudReady);
-                Player.soundcloudReady();
+
             } catch(error){
+                console.error(error);
                 console.error("Seems YouTube iFrame script isn't correctly loaded. Please reload the page.");
+            }
+            try {
+                Player.soundcloudReady();
+            } catch(error) {
+                console.error(error);
+                console.error("Seems SoundCloud script isn't correctly loaded. Please reload the page.");
             }
         } else {
             tag            = document.createElement('script');

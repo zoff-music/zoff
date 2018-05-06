@@ -137,7 +137,7 @@ var Channel = {
             socket = io.connect(''+add+':8080', connection_options);
             socket.on('update_required', function(msg) {
                 if(window.location.hostname == "localhost") {
-                    console.log(msg);
+                    console.error(msg);
                     return;
                 }
                 window.location.reload(true);
@@ -638,6 +638,7 @@ var Channel = {
                             Player.player.destroy();
                         } catch(error){}
                         try {
+                            Player.soundcloud_dead = true;
                             Player.soundcloud_player.kill();
                         } catch(error){}
                         Player.player = "";
