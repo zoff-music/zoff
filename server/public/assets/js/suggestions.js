@@ -48,6 +48,7 @@ var Suggestions = {
         if(videoSource == "soundcloud") {
             Helper.addClass(document.querySelector(".suggest-title-info"), "hide");
             Helper.addClass("#suggest-song-html", "hide");
+            return;
         } else {
             Helper.removeClass(document.querySelector(".suggest-title-info"), "hide");
             Helper.removeClass("#suggest-song-html", "hide");
