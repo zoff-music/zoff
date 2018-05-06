@@ -1632,7 +1632,7 @@ ul #chat-log{
 
 .search_results {
 
-    background: black;
+    background: rgba(0,0,0,0.8);
     position: absolute;
     width: 100vw;
     top: 64px;
@@ -3388,7 +3388,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #inner-results {
-        height: calc(100vh - 54px - 64px - 76px);
+        height: calc(100vh - 54px - 64px - 123px);
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -3413,10 +3413,32 @@ nav ul li:hover, nav ul li.active {
         margin-top: -16px;
     }
 
-    #results{
-        background-color: #000;
-        margin-top:47px;
+    .search_results {
+        margin-top: 45px;
+        background: #000;
     }
+
+    .results-tabs .indicator {
+        margin-top: 50px;
+    }
+
+    #results, #results_soundcloud{
+        background-color: #000;
+        margin-top:-8px;
+    }
+
+    #results {
+        max-height: calc(100vh - 165px);
+    }
+
+    #results_soundcloud {
+        height: calc(100vh - 64px - 54px);
+    }
+
+    #results_soundcloud #inner-results {
+        height: calc(100vh - 54px - 64px - 47px);
+    }
+
     .result{
         margin: 0;
         width: 99%;

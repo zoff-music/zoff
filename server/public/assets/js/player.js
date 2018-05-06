@@ -318,7 +318,9 @@ var Player = {
                 }
             });
         } else {
-            player.seek(seekTo * 1000);
+            try {
+                Player.soundcloud_player.seek(seekTo * 1000);
+            } catch(e) {}
         }
         soundcloud_loading = true;
         if(start == undefined) start = 0;
@@ -663,8 +665,8 @@ var Player = {
             player_ready = true;
             if(!window.MSStream) {
                 if(Helper.mobilecheck()){
-                    Helper.css("#playpause", "visibility", "hidden");
-                    Helper.css("#playpause", "pointer-events", "none");
+                    /*Helper.css("#playpause", "visibility", "hidden");
+                    Helper.css("#playpause", "pointer-events", "none");*/
                     Helper.css("#player", "opacity", "1");
                     if(offline) {
                         setTimeout(function(){
