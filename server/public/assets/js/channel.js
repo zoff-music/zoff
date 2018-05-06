@@ -637,6 +637,9 @@ var Channel = {
                         try{
                             Player.player.destroy();
                         } catch(error){}
+                        try {
+                            Player.soundcloud_player.kill();
+                        } catch(error){}
                         Player.player = "";
                         document.title = "Zoff";
                     }
