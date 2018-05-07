@@ -13,7 +13,6 @@ var Player = {
     },
 
     now_playing_listener: function(obj) {
-        console.log(offline && (video_id == "" || video_id == undefined) && !client);
         if(obj.np != undefined) {
             if(offline && (video_id == "" || video_id == undefined) && !client){
                 video_id   = obj.np[0].id;
@@ -41,7 +40,6 @@ var Player = {
                 Player.getTitle(song_title, viewers);
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else {
-                console.log("here");
                 video_id   = obj.np[0].id;
                 Player.np = obj.np[0];
                 Player.np.start = obj.np[0].start;
@@ -410,7 +408,6 @@ var Player = {
     },
 
     cueVideoById: function(id, this_duration, start, end){
-        console.log("cueVideoById");
         var s;
         var e;
         if(start) s = start;
