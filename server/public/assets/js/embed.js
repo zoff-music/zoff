@@ -157,7 +157,7 @@ function startWaitTimerPlay() {
     } else if(videoSource == "soundcloud"){
       Player.soundcloud_player.play();
     }
-  }, 2000);
+  }, 5000);
 }
 
 function setup_host_listener(id) {
