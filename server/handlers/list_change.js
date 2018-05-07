@@ -549,8 +549,6 @@ function voteUndecided(msg, coll, guid, offline, socket) {
 
 function shuffle(msg, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
-
-
     if(!msg.hasOwnProperty("channel") || typeof(msg.channel) != "string") {
             var result = {
                 channel: {
@@ -607,7 +605,7 @@ function shuffle(msg, coll, guid, offline, socket) {
                 else hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass),true));
                 db.collection(coll + "_settings").find(function(err, docs){
                     if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
-                        if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash || docs[0].adminpass === "") || docs[0].shuffle === false))
+                        if(docs !== null && docs.length !== 0 && ((docs[0].adminpass == hash && docs[0].adminpass != "") || docs[0].shuffle === false))
                         {
                             db.collection(coll).find({now_playing:false}).forEach(function(err, docs){
                                 if(!docs){

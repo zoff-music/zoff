@@ -227,7 +227,12 @@ window.addEventListener("DOMContentLoaded", function() {
         $(".connect_error").remove();
         M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
     });*/
-        before_toast();
+        var to_remove = document.querySelector(".connect_error");
+        if(to_remove != null) {
+            var instance = M.Toast.getInstance(to_remove);
+            instancce.dismiss();
+        }
+        //before_toast();
     }
     Chat.namechange("", true, true);
 });
@@ -1532,13 +1537,13 @@ addListener("click", "#close_find_form_button", function(event) {
 
 addListener("submit", "#find_form", function(event){
     this.preventDefault();
-    if(this.find_value.value != find_word) {
-        find_word = this.find_value.value;
+    if(this.target.find_value.value != find_word) {
+        find_word = this.target.find_value.value;
         found_array = [];
         found_array_index = 0;
     }
     if(found_array.length == 0){
-        var that = this;
+        var that = this.target;
         found_array_index = 0;
         found_array = [];
         for(var i = 0; i < full_playlist.length; i++) {
