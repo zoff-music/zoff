@@ -10,7 +10,9 @@ window.addEventListener("DOMContentLoaded", function(e) {
     ga('send', 'pageview');
 
     if(!Helper.mobilecheck()) {
-        document.getElementById("iframe-container").insertAdjacentHTML("beforeend", '<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
+        if(document.querySelector("#iframe-container")) {
+            document.getElementById("iframe-container").insertAdjacentHTML("beforeend", '<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
+        }
     }
 
     document.getElementsByClassName("token-form")[0].addEventListener("submit", function(e) {
