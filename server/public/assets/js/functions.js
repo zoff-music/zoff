@@ -879,16 +879,19 @@ function before_toast(){
         var toastInstance = toastElement.M_Toast;
         toastInstance.remove();
     }*/
-    var toasts = document.querySelectorAll(".toast");
-    for(var i = 0; i < toasts.length; i++) {
-        var instance = M.Toast.getInstance(toasts[i]);
+    /*var toasts = document.querySelector(".toast");
+    //for(var i = 0; i < toasts.length; i++) {
+    //    var instance = M.Toast.getInstance(toasts[i]);
+    if(toasts == null) return;
+    var instance = M.Toast.getInstance(toasts);
         try {
-            if(instance.timeRemaining > 10) {
+            console.log(instance);
+            if(instance.timeRemaining > 0) {
                 instance.dismiss();
             }
         } catch(e) {
         }
-    }
+    //}*/
     //M.Toast.dismissAll();
     //Materialize.Toast.removeAll();
 }
