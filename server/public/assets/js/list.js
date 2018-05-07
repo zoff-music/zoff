@@ -266,10 +266,11 @@ var List = {
 
     dynamicContentPageJumpTo: function(page) {
         page = page * List.can_fit;
+        var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
         if(page > List.page || page < List.page){
-            Helper.css(document.querySelector("#wrapper").children.slice(List.page, List.page + List.can_fit), "display", "none");
+            Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
             List.page = page;
-            Helper.css(document.querySelector("#wrapper").children.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
+            Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "inline-flex");
             if(List.page > 0 && document.querySelector(".prev_page").style.display == "none"){
                 Helper.css(".prev_page", "display", "inline-flex");
                 Helper.css(".prev_page_hide", "display", "none");
@@ -277,7 +278,7 @@ var List = {
                 Helper.css(".first_page_hide", "display", "none");
             }
 
-            if(List.page + List.can_fit >= document.querySelector("#wrapper").children.length){
+            if(List.page + List.can_fit >= wrapperChildren.length){
                 Helper.css(".next_page_hide", "display", "inline-flex");
                 Helper.css(".next_page", "display", "none");
                 Helper.css(".last_page_hide", "display", "inline-flex");
