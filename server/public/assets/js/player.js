@@ -20,6 +20,8 @@ var Player = {
                 Player.np.start = obj.np[0].start;
                 Player.np.end = obj.np[0].end;
                 Player.np.duration = obj.np[0].duration;
+                if(Player.np.start == undefined) Player.np.start = 0;
+                if(Player.np.end == undefined) Player.np.end = Player.np.duration;
 
                 if(!obj.np[0].hasOwnProperty("start")) {
                     Player.np.start = 0;
@@ -45,6 +47,8 @@ var Player = {
                 Player.np.start = obj.np[0].start;
                 Player.np.end = obj.np[0].end;
                 Player.np.duration = obj.np[0].duration;
+                if(Player.np.start == undefined) Player.np.start = 0;
+                if(Player.np.end == undefined) Player.np.end = Player.np.duration;
 
                 if(!obj.np[0].hasOwnProperty("start")) {
                     Player.np.start = 0;
