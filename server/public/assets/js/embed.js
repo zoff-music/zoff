@@ -14,6 +14,7 @@ var fix_too_far = false;
 var beginning = false;
 var soundcloud_loading = false;
 var firstLoad = "";
+var videoSource = "";
 var list_html = document.getElementById("list-song-html").innerHTML;
 var w_p		= true;
 var lazy_load	= false;
@@ -129,6 +130,7 @@ window.addEventListener("load", function() {
     setup_now_playing_listener();
     setup_list_listener();
 
+    /*
     if(autoplay) {
       setTimeout(function() {
         if(videoSource == "youtube") {
@@ -137,7 +139,7 @@ window.addEventListener("load", function() {
           Player.soundcloud_player.play();
         }
       }, 1000);
-    }
+    }*/
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
     socket.on("toast", toast);
