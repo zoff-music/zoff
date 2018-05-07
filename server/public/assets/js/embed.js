@@ -78,6 +78,10 @@ function receiveMessage(event) {
 
 window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
+  console.log("Loaded DOMContent");
+})
+window.addEventListener("load", function() {
+  console.log("Window loaded");
   if(hash.length >= 3 && hash[2] == "autoplay"){
       autoplay = true;
       Helper.css("#player", "visibility", "hidden");
