@@ -251,9 +251,7 @@ var Search = {
             }
             document.getElementById("results_soundcloud").innerHTML = "";
             if(output.length > 0) {
-                if(document.querySelector("#results").innerHTML.length > 0) {
-                    Helper.css(".search_results", "display", "block");
-                }
+
                 //$(window).scrollTop(0);
                 /*if(!pagination && fresh) {
                     //Helper.css(".search_results", "display", "none");
@@ -264,7 +262,6 @@ var Search = {
                 if(!pagination && fresh) {
                     //$(".search_results").slideDown();
                 }
-                document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:hidden !important")
 
                 /*if(nextPageToken) {
                     document.querySelector(".next-results-button").setAttribute("data-pagination", nextPageToken);
@@ -284,7 +281,14 @@ var Search = {
                 /*Helper.removeClass(".search_loader_spinner", "active");
                 Helper.css(".search_results", "display", "block");*/
 
-            } /*else if(!retried){
+            } else {
+                document.getElementById("results_soundcloud").insertAdjacentHTML("afterbegin", "<div id='inner-results' style='height:calc(100vh - 64px);'>"+empty_results_html+"</div>");
+                document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:hidden !important")
+            }
+            if(document.querySelector("#results").innerHTML.length > 0) {
+                Helper.css(".search_results", "display", "block");
+            }
+             /*else if(!retried){
                 Search.search(search_input, true);
             } else {
                 //$("<div style='display:none;' id='inner-results'>"+empty_results_html+"</div>").appendTo($("#results_soundcloud")).show("blind", 83.33);
