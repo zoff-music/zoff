@@ -76,16 +76,14 @@ function receiveMessage(event) {
     }
 }
 
-if(hash.length >= 3 && hash[2] == "autoplay"){
-    autoplay = true;
-    Helper.css("#player", "visibility", "hidden");
-} else {
-    paused = true;
-}
-
 window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
-
+  if(hash.length >= 3 && hash[2] == "autoplay"){
+      autoplay = true;
+      Helper.css("#player", "visibility", "hidden");
+  } else {
+      //paused = true;
+  }
     if(hash.indexOf("videoonly") > -1) {
         Helper.addClass("#wrapper", "hide");
         Helper.addClass("#controls", "hide");
@@ -122,13 +120,13 @@ window.addEventListener("DOMContentLoaded", function() {
         Player.getTitle(song_title, viewers);
     });
 
+    Player.loadPlayer();
     setup_host_initialization();
     setup_now_playing_listener();
     setup_list_listener();
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
     socket.on("toast", toast);
-    Player.loadPlayer();
 
     Playercontrols.initSlider();
     document.getElementById("playpause").addEventListener("click", Playercontrols.play_pause);
