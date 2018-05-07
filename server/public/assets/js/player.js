@@ -13,52 +13,32 @@ var Player = {
     },
 
     now_playing_listener: function(obj) {
+        if(offline && video_id != undefined) return;
         if(obj.np != undefined) {
+            video_id   = obj.np[0].id;
+            Player.np = obj.np[0];
+            Player.np.start = obj.np[0].start;
+            Player.np.end = obj.np[0].end;
+            Player.np.duration = obj.np[0].duration;
+            if(Player.np.start == undefined) Player.np.start = 0;
+            if(Player.np.end == undefined) Player.np.end = Player.np.duration;
+            song_title = obj.np[0].title;
+            duration   = obj.np[0].duration;
+
             if(offline && (video_id == "" || video_id == undefined) && !client){
-                video_id   = obj.np[0].id;
-                Player.np = obj.np[0];
-                Player.np.start = obj.np[0].start;
-                Player.np.end = obj.np[0].end;
-                Player.np.duration = obj.np[0].duration;
-                if(Player.np.start == undefined) Player.np.start = 0;
-                if(Player.np.end == undefined) Player.np.end = Player.np.duration;
 
-                if(!obj.np[0].hasOwnProperty("start")) {
-                    Player.np.start = 0;
-                }
 
-                if(!obj.np[0].hasOwnProperty("end")) {
-                    Player.np.end = Player.np.duration;
-                }
                 if(obj.conf != undefined) {
                     conf       = obj.conf[0];
                 }
                 time       = obj.time;
                 seekTo     = 0 + Player.np.start;
                 startTime = time - conf.startTime;
-                song_title = obj.np[0].title;
-                duration   = obj.np[0].duration;
+
                 videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
                 Player.getTitle(song_title, viewers);
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else {
-                video_id   = obj.np[0].id;
-                Player.np = obj.np[0];
-                Player.np.start = obj.np[0].start;
-                Player.np.end = obj.np[0].end;
-                Player.np.duration = obj.np[0].duration;
-                if(Player.np.start == undefined) Player.np.start = 0;
-                if(Player.np.end == undefined) Player.np.end = Player.np.duration;
-
-                if(!obj.np[0].hasOwnProperty("start")) {
-                    Player.np.start = 0;
-                }
-
-                if(!obj.np[0].hasOwnProperty("end")) {
-                    Player.np.end = Player.np.duration;
-                }
-                song_title = obj.np[0].title;
-                duration   = obj.np[0].duration;
                 videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
             }
         } else {
