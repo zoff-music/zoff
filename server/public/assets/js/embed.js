@@ -130,15 +130,8 @@ window.addEventListener("load", function() {
     setup_now_playing_listener();
     setup_list_listener();
 
-    
     if(autoplay) {
-      setTimeout(function() {
-        if(videoSource == "youtube") {
-          Player.player.playVideo();
-        } else {
-          Player.soundcloud_player.play();
-        }
-      }, 1000);
+      startWaitTimerPlay();
     }
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
@@ -156,6 +149,16 @@ window.addEventListener("load", function() {
         Hostcontroller.change_enabled(false);
     }
 });
+
+function startWaitTimerPlay() {
+  setTimeout(function() {
+    if(videoSource == "youtube") {
+      Player.player.playVideo();
+    } else if(videoSource == "soundcloud"){
+      Player.soundcloud_player.play();
+    }
+  }, 2000);
+}
 
 function setup_host_listener(id) {
     socket.on(id, Hostcontroller.host_on_action);
