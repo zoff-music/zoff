@@ -93,6 +93,7 @@ window.addEventListener("load", function() {
         Helper.addClass("#wrapper", "hide");
         Helper.addClass("#controls", "hide");
         Helper.addClass("#player", "video_only");
+        Helper.addClass("#player_overlay", "video_only");
         Helper.css("#zoffbutton", "bottom", "0px");
     }
     M.Modal.init(document.getElementById("locked_channel"), {
