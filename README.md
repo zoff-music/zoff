@@ -58,7 +58,7 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 
 ![Channel join](https://puu.sh/zf1Ap/16587c0749.png)
 
-![Channel search desktop](https://puu.sh/yhuVE/b50c6bbe1b.png)
+![Channel search desktop](https://puu.sh/AhKTR/c1e6b5d8d2.png)
 
 ### Screenshots of the mobile version:
 
@@ -67,7 +67,7 @@ The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zof
 <br>
 <img src="https://puu.sh/xCI6X/1aead5e1b6.png" alt="channel" height="600px">
 
-<img src="https://puu.sh/yg5y5/2e0f202d6d.png" alt="channel search" height="600px">
+<img src="https://puu.sh/AhKUE/f93daa8a46.png" alt="channel search" height="600px">
 </div>
 
 ### Legal
