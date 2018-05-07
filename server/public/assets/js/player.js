@@ -94,6 +94,7 @@ var Player = {
             seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
             if(((embed && autoplay) || !embed) && !was_stopped && !client) {
+                console.log(embed, autoplay);
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else if(!client) {
@@ -386,11 +387,14 @@ var Player = {
                 Helper.css(document.getElementById("player_overlay"), "background",  "none");
                 Helper.addClass("#player_overlay_text", "hide");
                 Helper.addClass(document.getElementById("player_overlay"), "hide");
+                if(embed) {
+                    Helper.css("#player", "visibility", "visible");
+                }
                 try {
                     if(Player.player.getVideoUrl().indexOf(id) > -1) {
                         Player.player.seekTo(seekTo);
                     } else {
-                        Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
+                        Player.player.loadVideoById({'videoId': id, 'startSeconds': s + seekTo, 'endSeconds': e});
                     }
                 } catch(e) {
                 }
@@ -712,7 +716,7 @@ var Player = {
                 if(!durationBegun) {
                     Player.durationSetter();
                 }
-                if(embed){
+                /*if(embed){
                     //setTimeout(function(){
                         //Player.player.seekTo(seekTo);
                         if(!autoplay){
@@ -723,7 +727,7 @@ var Player = {
                         }
                     //}, 1000);
                 }else
-                Player.seekTo(seekTo);
+                Player.seekTo(seekTo);*/
             }
             Player.player.setVolume(Crypt.get_volume());
             Player.readyLooks();

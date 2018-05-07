@@ -96,7 +96,7 @@ window.addEventListener("DOMContentLoaded", function() {
     });
     color = "#" + hash[1];
     add = "https://zoff.me";
-    if(window.location.hostname == "localhost") add = "localhost";
+    //if(window.location.hostname == "localhost") add = "localhost";
     //add = "localhost";
     socket = io.connect(''+add+':8080', connection_options);
 
