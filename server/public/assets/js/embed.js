@@ -130,7 +130,7 @@ window.addEventListener("load", function() {
     setup_now_playing_listener();
     setup_list_listener();
 
-    /*
+    
     if(autoplay) {
       setTimeout(function() {
         if(videoSource == "youtube") {
@@ -139,7 +139,7 @@ window.addEventListener("load", function() {
           Player.soundcloud_player.play();
         }
       }, 1000);
-    }*/
+    }
 
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
     socket.on("toast", toast);
