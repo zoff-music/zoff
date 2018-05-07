@@ -230,7 +230,7 @@ window.addEventListener("DOMContentLoaded", function() {
         var to_remove = document.querySelector(".connect_error");
         if(to_remove != null) {
             var instance = M.Toast.getInstance(to_remove);
-            instancce.dismiss();
+            instance.dismiss();
         }
         //before_toast();
     }
