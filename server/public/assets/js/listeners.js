@@ -668,12 +668,8 @@ document.addEventListener("keyup", function(event) {
     }
     if(event.keyCode == 27 && window.location.path != "/"){
         //$("#results").html("");
-        if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
-            Helper.toggleClass("#search-wrapper", "hide");
-        }
-        if(document.querySelectorAll("#song-title").length != 0 && !document.querySelector("#song-title").classList.contains("hide")){
-            Helper.toggleClass("#song-title", "hide");
-        }
+        Helper.addClass("#search-wrapper", "hide");
+        Helper.removeClass(".song-title", "hide");
         if(document.querySelector("#search-btn i").innerText == "close")
         {
             /*$("#results").slideUp({
@@ -687,6 +683,17 @@ document.addEventListener("keyup", function(event) {
             document.querySelector("#search-btn i").innerText = "search";
             document.querySelector(".search_input").value  = "";
         }
+        if(find_started) {
+            Helper.toggleClass("#find_div", "hide");
+            document.getElementById("find_input").value = "";
+            document.getElementById("find_input").blur();
+            Helper.removeClass(".highlight", "highlight");
+            found_array = [];
+            found_array_index = 0;
+            find_word = "";
+            find_start = false;
+            find_started = false;
+        }
         if(document.querySelectorAll(".search-container").length != 0 && !document.querySelector(".search-container").classList.contains("hide")){
             Helper.toggleClass("#results", "hide");
         }
@@ -694,19 +701,10 @@ document.addEventListener("keyup", function(event) {
         clearTimeout(timeout_search);
         Helper.setHtml("#results", "");
         document.querySelector("#search").value = "";
-        if(document.querySelectorAll("#search-wrapper").length != 0 && !document.querySelector("#search-wrapper").classList.contains("hide")) {
-            Helper.toggleClass("#search-wrapper", "hide");
-        }
-        if(document.querySelectorAll("#song-title").length != 0 && !document.querySelector("#song-title").classList.contains("hide")) {
-            Helper.toggleClass("#song-title", "hide");
-        }
-        if(document.querySelector("#search-btn i").innerText == "close")
-        {
-            document.querySelector("#search-btn i").innerText == "search";
-        }
-        if(document.querySelectorAll(".search-container").length != 0 && !document.querySelector(".search-container").classList.contains("hide")){
-            Helper.toggleClass("#results", "hide");
-        }
+        Helper.addClass("#search-wrapper", "hide");
+        Helper.removeClass("#song-title", "hide");
+        document.querySelector("#search-btn i").innerText = "search";
+        Helper.css(".search_results", "display", "none");
         if(fireplace_initiated) {
             fireplace_initiated = false;
             Player.fireplace.destroy();
