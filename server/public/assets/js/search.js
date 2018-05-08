@@ -191,10 +191,10 @@ var Search = {
     },
 
     soundcloudSearch: function(keyword) {
+        if(keyword.length == 0) return;
         SC.get('/tracks', {
             q: keyword
         }).then(function(tracks) {
-            console.log(tracks);
             var pre_result = document.createElement("div");
             pre_result.innerHTML = result_html.outerHTML;
 
