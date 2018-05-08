@@ -77,8 +77,8 @@ var Player = {
         if(obj.np != undefined && !offline) {
             seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
-            if(((embed && autoplay) || !embed) && !was_stopped && !client) {
-                //console.log(embed, autoplay);
+            if(((embed && autoplay) || !embed) && (!was_stopped || buffering) && !client) {
+                buffering = false;
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else if(!client) {
@@ -115,7 +115,6 @@ var Player = {
             Helper.log(["getVideoUrl(): " + Player.player.getVideoUrl().split('v=')[1]]);
         } catch(e){}
         Helper.log(["video_id variable: " + video_id]);
-
         switch(newState.data) {
             case YT.PlayerState.UNSTARTED:
                 break;
@@ -148,6 +147,10 @@ var Player = {
 
                     //}
                 }
+                if(Helper.mobilecheck()) {
+                    Helper.css("#player", "display", "block");
+                    Helper.css("#player", "pointer-events", "all");
+                }
                 Helper.css("#playpause", "visibility", "visible");
                 Helper.css("#playpause", "pointer-events", "all");
                 playing = true;
@@ -164,6 +167,7 @@ var Player = {
                     if(document.getElementById("pause").className.split(" ").length == 2)
                         Helper.toggleClass("#pause", "hide");
                 }
+                buffering = false;
                 if((paused || was_stopped) && !offline) {
                     /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
                     if(u == undefined) u = "";*/
@@ -193,8 +197,14 @@ var Player = {
                         mobile_beginning = true;
                     }
                 }
+                if(Helper.mobilecheck()) {
+                    Helper.css("#player", "display", "none");
+                    Helper.css("#player", "pointer-events", "none");
+                }
                 break;
             case YT.PlayerState.BUFFERING:
+                //was_stopped = false;
+                buffering = true;
                 break;
         }
     },
@@ -325,6 +335,7 @@ var Player = {
         } catch(e) {
             console.error("Woops this seems to be the first song in the channel. This will be fixed.. soon.. we think..");
         }
+
         Helper.css(document.getElementById("player_overlay"), "background-size", "auto");
         Helper.css(document.getElementById("player_overlay"), "background-position", "20%");
         Helper.css(document.getElementById("player_overlay"), "background-color", "#2d2d2d");
@@ -371,6 +382,7 @@ var Player = {
                 Helper.css(document.getElementById("player_overlay"), "background",  "none");
                 Helper.addClass("#player_overlay_text", "hide");
                 Helper.addClass(document.getElementById("player_overlay"), "hide");
+                Helper.css(document.getElementById("player_overlay"), "display", "none !important");
                 if(embed) {
                     Helper.css("#player", "visibility", "visible");
                 }
@@ -382,7 +394,6 @@ var Player = {
                     }
                 } catch(e) {
                 }
-                was_stopped = false;
             }
         }
         if(offline) {
@@ -405,6 +416,9 @@ var Player = {
             durationBegun = true;
             Player.durationSetter();
         }
+        was_stopped = true;
+        Helper.addClass("#pause", "hide");
+        Helper.removeClass("#play", "hide");
         if(videoSource == "soundcloud") {
             try {
                 Player.player.stopVideo();
@@ -612,6 +626,7 @@ var Player = {
 
     soundcloudPlay: function() {
         Helper.addClass("#player_loader_container", "hide");
+        Helper.css(document.getElementById("player_overlay"), "display", "block");
         if(videoSource == "youtube") {
             Player.soundcloud_player.pause();
         } else if(soundcloud_loading){
