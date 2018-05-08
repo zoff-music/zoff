@@ -9,6 +9,7 @@ var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
 var previousSoundcloud;
+var buffering = false;
 var empty_clear = false;
 var fix_too_far = false;
 var beginning = false;
@@ -79,10 +80,8 @@ function receiveMessage(event) {
 
 window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
-  console.log("Loaded DOMContent");
 })
 window.addEventListener("load", function() {
-  console.log("Window loaded");
   if(hash.length >= 3 && hash[2] == "autoplay"){
       autoplay = true;
       Helper.css("#player", "visibility", "hidden");

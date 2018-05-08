@@ -2976,7 +2976,10 @@ nav ul li:hover, nav ul li.active {
         height: calc(30vh);
         bottom: -33px !important;
         top: initial;
-        display: none !important;
+        width: 100vw;
+        height: 200px;
+        pointer-events: all;
+        display: none;
     }
 
     #wrapper{
@@ -3080,6 +3083,7 @@ nav ul li:hover, nav ul li.active {
     #player{
         height: calc(100%);
         display:none;
+        width: 100vw;
     }
 
     .hide-on-small-only{
