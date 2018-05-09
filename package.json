@@ -38,6 +38,7 @@
     "express-recaptcha": "^3.0.1",
     "express-session": "^1.15.6",
     "express-sessions": "^1.0.6",
+    "farmhash": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-uglifyjs": "^0.6.2",
