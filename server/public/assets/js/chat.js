@@ -2,7 +2,11 @@ var Chat = {
 
     channel_received: 0,
     all_received: 0,
-    chat_help: ["/name <new name> <password> to register and save a password for a nickname", "/name <new name> <new_password> <old_password> to change the password on a nickname", "/removename to logout"],//, "There are no commands.. As of now!"],
+    chat_help: [
+        "/name <new name> <password> to register and save a password for a nickname, or to log in with a password on a name.", 
+        "/name <new name> <new_password> <old_password> to change the password on a nickname",
+        "/removename to logout"
+    ],
 
     namechange: function(data, first, initial) {
         var input = data.split(" ");
@@ -42,42 +46,34 @@ var Chat = {
         if(data.value.startsWith("/name ")){
             Chat.namechange(data.value.substring(6), false);
         } else if(data.value.startsWith("/help")) {
+            var add = "";
             if(document.querySelector(".chat-tab-li a.active").getAttribute("href") == "#all_chat"){
                 if(document.querySelector("#chatall").children.length > 100) {
                     document.querySelector("#chatall").children[0].remove()
                 }
-                for(var x = 0; x < Chat.chat_help.length; x++) {
-                    var color = Helper.intToARGB(Helper.hashCode("System"));
-                    if(color.length < 6) {
-                        for(x = color.length; x < 6; x++) {
-                            color = "0" + color;
-                        }
-                    }
-                    color = Helper.hexToRgb(color.substring(0,6));
-                    var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-                    document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='Zoff''><span style='color:"+color_temp+";'>System</span>: </li>");
-                    var in_text = document.createTextNode(Chat.chat_help[x]);
-                    document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
-                    document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
-                }
+                add = "chatall";
             } else {
                 if(document.querySelector("#chatchannel").children.length > 100) {
                     document.querySelector("#chatchannel").children[0].remove()
                 }
-                for(var x = 0; x < Chat.chat_help.length; x++) {
-
-                    var color = Helper.intToARGB(Helper.hashCode("System"));
-                    if(color.length < 6) {
-                        for(x = color.length; x < 6; x++) {
-                            color = "0" + color;
-                        }
+                add = "chatchannel";
+            }
+            for(var x = 0; x < Chat.chat_help.length; x++) {
+                var color = Helper.intToARGB(Helper.hashCode("System"));
+                if(color.length < 6) {
+                    for(x = color.length; x < 6; x++) {
+                        color = "0" + color;
                     }
-                    color = Helper.hexToRgb(color.substring(0,6));
-                    var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-                    document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span style='color:"+color_temp+";'>System</span>: </li>");
-                    var in_text = document.createTextNode(Chat.chat_help[x]);
-                    document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
                 }
+                var _time = new Date();
+                var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
+
+                color = Helper.hexToRgb(color.substring(0,6));
+                var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
+                document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:"+color_temp+";'>System</span>: </li>");
+                var in_text = document.createTextNode(Chat.chat_help[x]);
+                document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
+                document.getElementById("" + add).scrollTop = document.getElementById("" + add).scrollHeight;
             }
         } else if(data.value.startsWith("/removename")) {
             Chat.removename();
