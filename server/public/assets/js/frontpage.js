@@ -452,7 +452,7 @@ var Frontpage = {
         M.Modal.init(document.getElementById("help"));
         M.Modal.init(document.getElementById("contact"));
         var elem = document.querySelector('select');
-        var instance = M.FormSelect.init(elem);
+        M.FormSelect.init(elem);
 
         Helper.log([
             "Sending frontpage_lists",
@@ -503,7 +503,7 @@ var Frontpage = {
             M.toast({html: "We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", displayLength: 10000});
         }
 
-        var pad = 0;
+        //var pad = 0;
 
         /*$(".zicon").on("click", function(e) {
             e.preventDefault();
