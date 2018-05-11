@@ -66,7 +66,6 @@ var Search = {
                 dataType: "jsonp",
                 success: function(response){
                     response = JSON.parse(response);
-                    var output = "";
                     var nextPageToken = response.nextPageToken;
                     var prevPageToken = response.prevPageToken;
                     //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
@@ -141,9 +140,9 @@ var Search = {
                                     document.getElementById("results").insertAdjacentHTML("beforeend", pagination_buttons_html);
                                     //$("<div id='inner-results'>"+output+"</div>").prependTo($("#results"));
                                     document.getElementById("results").insertAdjacentHTML("afterbegin", "<div id='inner-results'>"+output+"</div>");
-                                    if(!pagination && fresh) {
-                                        //$(".search_results").slideDown();
-                                    }
+                                    /*if(!pagination && fresh) {
+                                        $(".search_results").slideDown();
+                                    }*/
                                     document.getElementsByTagName("body")[0].setAttribute("style", "overflow-y:hidden !important")
 
                                     if(nextPageToken) {

@@ -22,7 +22,8 @@ var Channel = {
             });
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
-        if(!Admin.logged_in) Admin.display_logged_out();
+        Admin.logged_in = false;
+        Admin.display_logged_out();
         number_suggested = 0;
         var no_socket = true;
 
@@ -529,7 +530,7 @@ var Channel = {
                 var host = window.location.hostname.split(".");
                 window.location.hostname = host[host.length -1];
             }*/
-            //Admin.display_logged_out();
+            Admin.display_logged_out();
             var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
