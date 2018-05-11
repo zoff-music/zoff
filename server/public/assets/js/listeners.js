@@ -1559,8 +1559,14 @@ addListener("submit", "#find_form", function(event){
         }
 
     }
-    document.getElementById("num_found").innerText = found_array_index + 1;
-    document.getElementById("of_total_found").innerText = found_array.length;
+    if(found_array.length == 0) {
+        document.getElementById("num_found").innerText = 0;
+        document.getElementById("of_total_found").innerText = found_array.length;
+    } else {
+        document.getElementById("num_found").innerText = found_array_index + 1;
+        document.getElementById("of_total_found").innerText = found_array.length;
+    }
+
     if(found_array.length > 0 && found_array[found_array_index] != full_playlist.length - 1){
         Helper.removeClass(".highlight", "highlight");
         var jump_to_page = Math.floor(found_array[found_array_index] / List.can_fit);
