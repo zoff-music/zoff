@@ -5,7 +5,6 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
-var firstLoad = "";
 var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
@@ -114,12 +113,10 @@ var full_playlist;
 var conf;
 var tag;
 var firstScriptTag;
-var title;
 var viewers;
 var video_id;
 var seekTo;
 var song_title;
-var previous_video_id;
 var socket;
 var connection_options = {
     'sync disconnect on unload':true,
