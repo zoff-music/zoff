@@ -18,96 +18,12 @@ $(document).on("click", "#refresh_all", function(e){
 	$("#descriptions_cont").empty();
 	$("#thumbnails_cont").empty();
 	$(".api_token_container").remove();
-	$.ajax({
-		type: "GET",
-		url: "/api/api_token",
-		success: function(response) {
-			if(response.length == 0) {
-				if(!$(".header-api-fields").hasClass("hide")) {
-					$(".header-api-fields").addClass("hide");
-				}
-				return;
-			}
-			$(".header-api-fields").removeClass("hide");
-			for(var i = 0; i < response.length; i++) {
-				var to_add = api_token_list.clone();
-                to_add.find(".api_token_limit").val(response[i].limit);
-				to_add.attr("id", response[i]._id);
-				to_add.find(".api_token_name").text(response[i].name);
-                to_add.find(".api_token_origin").text(response[i].origin);
-				to_add.find(".api_token_usage").text(response[i].usage);
-				to_add.find(".update_api_token").attr("id", response[i]._id + "-update");
-				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
-				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
-				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
-				to_add.find(".update_api_token").attr("data-id", response[i]._id);
-                if(response[i].active) {
-                    to_add.find(".check").removeClass("hide");
-                } else {
-                    to_add.find(".uncheck").removeClass("hide");
-                }
-				$("#api_keys").append(to_add);
-			}
-		},
-		error: function(err) {
-		}
-	});
 
 	if(!$(".channel_things").hasClass("hide")) {
 		$(".channel_things").addClass("hide")
 	}
 	$(".preloader-wrapper").removeClass("hide");
-	$.ajax({
-		type: "GET",
-		url: "/api/lists",
-		success: function(response){
-			var output_pinned = '<option value="" disabled>Channels</option>';
-			var output_delete = '<option value="" disabled>Channels</option>';
-			for(var x = 0; x < response.length; x++){
-				if(response[x].count > 2){
-					output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
-				}
-				output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
-			}
-
-			$("#frontpage_pinned").html(output_pinned);
-			$("#remove_thumbnail").html(output_delete);
-			$("#remove_description").html(output_delete);
-			$("#delete_list_name").html(output_delete);
-			$("#delete_userpass_name").html(output_delete);
-			$("#delete_channel_name").html(output_delete);
-			$("select").material_select();
-			$(".channel_things").removeClass("hide");
-			if(!$(".preloader-wrapper").hasClass("hide")) {
-		    	$(".preloader-wrapper").addClass("hide");
-			}
-		}
-	});
-
-	$.ajax({
-		type: "GET",
-		url: "/api/thumbnails",
-		success: function(response){
-			if(response.length > 0){
-				$(".thumbnails-badge").removeClass("hide");
-				$(".thumbnails-badge").text(response.length);
-			}
-			add_to_tab("thumbnails", response);
-		}
-	});
-
-	$.ajax({
-		type: "GET",
-		url: "/api/descriptions",
-		success: function(response){
-			if(response.length > 0){
-				$(".descriptions-badge").removeClass("hide");
-				$(".descriptions-badge").text(response.length);
-			}
-			add_to_tab("descriptions", response);
-		}
-	});
-
+	loaded();
 	$("#listeners").empty();
 	socket.emit("get_spread");
 });
@@ -230,11 +146,11 @@ function loaded() {
 			}
 
 			$("#frontpage_pinned").html(output_pinned);
-			$("#remove_thumbnail").html(output_delete);
-			$("#remove_description").html(output_delete);
-			$("#delete_list_name").html(output_delete);
-			$("#delete_userpass_name").html(output_delete);
-			$("#delete_channel_name").html(output_delete);
+			$("#remove_thumbnail").html($("#frontpage_pinned").clone().html());
+			$("#remove_description").html($("#frontpage_pinned").clone().html());
+			$("#delete_list_name").html($("#frontpage_pinned").clone().html());
+			$("#delete_userpass_name").html($("#frontpage_pinned").clone().html());
+			$("#delete_channel_name").html($("#frontpage_pinned").clone().html());
 			$("select").material_select();
 
 			if(!$(".preloader-wrapper").hasClass("hide")) {
