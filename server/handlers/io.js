@@ -3,7 +3,7 @@ var cookie = require("cookie");
 module.exports = function() {
     io.on('connection', function(socket){
         try {
-        	var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
+            var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
             socket.cookie_id = parsedCookies["_uI"];
             //return socket.guid;
         } catch(e) {
@@ -37,8 +37,8 @@ module.exports = function() {
 
             var channel = msg.channel;
             if(channel.indexOf("?") > -1){
-                 channel = channel.substring(0, channel.indexOf("?"));
-             }
+                channel = channel.substring(0, channel.indexOf("?"));
+            }
             channel = channel.replace(/ /g,'');
             if(offline) {
                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs){});
@@ -59,8 +59,8 @@ module.exports = function() {
         socket.on('chromecast', function(msg) {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
-                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
-                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
+                msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
+                typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             socket.cookie_id = msg.guid;
@@ -71,8 +71,8 @@ module.exports = function() {
                             coll = emojiStrip(coll).toLowerCase();
                             coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
-                                 coll = coll.substring(0, coll.indexOf("?"));
-                             }
+                                coll = coll.substring(0, coll.indexOf("?"));
+                            }
                             in_list = true;
                             chromecast_object = true;
                             socket.join(coll);
@@ -89,22 +89,22 @@ module.exports = function() {
         });
 
         socket.on("error_video", function(msg) {
-           try {
-               var _list = msg.channel.replace(/ /g,'');
-               if(_list.length == 0) return;
-               if(_list.indexOf("?") > -1){
+            try {
+                var _list = msg.channel.replace(/ /g,'');
+                if(_list.length == 0) return;
+                if(_list.indexOf("?") > -1){
                     _list = _list.substring(0, _list.indexOf("?"));
                     msg.channel = _list;
                 }
-               coll = emojiStrip(_list).toLowerCase();
-               coll = coll.replace(/_/g, "");
+                coll = emojiStrip(_list).toLowerCase();
+                coll = coll.replace(/_/g, "");
 
-               coll = filter.clean(coll);
-           } catch(e) {
-               return;
-           }
-           Search.check_error_video(msg, coll);
-       });
+                coll = filter.clean(coll);
+            } catch(e) {
+                return;
+            }
+            Search.check_error_video(msg, coll);
+        });
 
         socket.on("get_spread", function(){
             db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
@@ -122,33 +122,33 @@ module.exports = function() {
 
         socket.on('suggest_thumbnail', function(msg){
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             Suggestions.thumbnail(msg, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on('suggest_description', function(msg){
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             Suggestions.description(msg, coll.replace(/ /g,''), guid, offline, socket);
         });
 
         socket.on("namechange", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             Chat.namechange(msg, guid, socket);
         });
 
         socket.on("removename", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(typeof(msg) != "object" || !msg.hasOwnProperty("channel")) {
                 var result = {
                     channel: {
@@ -156,7 +156,7 @@ module.exports = function() {
                         got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
                     }
                 };
-               socket.emit('update_required', result);
+                socket.emit('update_required', result);
                 return;
             }
             Chat.removename(guid, msg.channel, socket);
@@ -164,9 +164,9 @@ module.exports = function() {
 
         socket.on("offline", function(msg){
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(!msg.hasOwnProperty('status') || !msg.hasOwnProperty('channel') ||
             typeof(msg.status) != "boolean" || typeof(msg.channel) != "string") {
                 var result = {
@@ -179,7 +179,7 @@ module.exports = function() {
                         got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined
                     }
                 };
-               socket.emit('update_required', result);
+                socket.emit('update_required', result);
                 return;
             }
             var status = msg.status;
@@ -227,9 +227,9 @@ module.exports = function() {
 
         socket.on('get_history', function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
                 var result = {
@@ -246,7 +246,7 @@ module.exports = function() {
                         got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
                     }
                 };
-               socket.emit('update_required', result);
+                socket.emit('update_required', result);
                 return;
             }
             Chat.get_history(msg.channel.replace(/ /g,''), msg.all, socket);
@@ -254,35 +254,35 @@ module.exports = function() {
 
         socket.on('chat', function (msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             Chat.chat(msg, guid, offline, socket);
         });
 
         socket.on("all,chat", function(data)
         {
             if(data.hasOwnProperty("channel") && data.channel.indexOf("?") > -1){
-                 var _list = data.channel.substring(0, data.channel.indexOf("?"));
-                 data.channel = _list;
-             }
+                var _list = data.channel.substring(0, data.channel.indexOf("?"));
+                data.channel = _list;
+            }
             Chat.all_chat(data, guid, offline, socket);
         });
 
         socket.on('frontpage_lists', function(msg)
         {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             Frontpage.frontpage_lists(msg, socket);
         });
 
         socket.on('import_zoff', function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             ListChange.addFromOtherList(msg, guid, offline, socket);
         })
 
@@ -294,9 +294,9 @@ module.exports = function() {
         socket.on('id', function(arr)
         {
             if(arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1){
-                 var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-                 arr.channel = _list;
-             }
+                var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
+                arr.channel = _list;
+            }
             if(typeof(arr) == 'object')
             io.to(arr.id).emit(arr.id.toLowerCase(), {type: arr.type, value: arr.value});
         });
@@ -304,16 +304,16 @@ module.exports = function() {
         socket.on('list', function(msg)
         {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             try {
                 var _list = msg.channel.replace(/ /g,'');
                 if(_list.length == 0) return;
                 if(_list.indexOf("?") > -1){
-                     _list = _list.substring(0, _list.indexOf("?"));
-                     msg.channel = _list;
-                 }
+                    _list = _list.substring(0, _list.indexOf("?"));
+                    msg.channel = _list;
+                }
                 coll = emojiStrip(_list).toLowerCase();
                 coll = coll.replace(/_/g, "");
                 //
@@ -332,9 +332,9 @@ module.exports = function() {
         socket.on('end', function(obj)
         {
             if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
-                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-                 obj.channel = _list;
-             }
+                var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
+                obj.channel = _list;
+            }
             if(coll === undefined) {
                 try {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
@@ -352,18 +352,18 @@ module.exports = function() {
 
         socket.on('addPlaylist', function(arr) {
             if(arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1){
-                 var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-                 arr.channel = _list;
-             }
+                var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
+                arr.channel = _list;
+            }
             ListChange.addPlaylist(arr, guid, offline, socket);
         })
 
         socket.on('add', function(arr)
         {
             if(arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1){
-                 var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-                 arr.channel = _list;
-             }
+                var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
+                arr.channel = _list;
+            }
             if(coll !== undefined) {
                 try {
                     coll = arr.list.replace(/ /g,'');
@@ -382,9 +382,9 @@ module.exports = function() {
         socket.on('delete_all', function(msg) {
             try {
                 if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                     var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                     msg.channel = _list;
-                 }
+                    var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                    msg.channel = _list;
+                }
                 coll = msg.channel.toLowerCase().replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = emojiStrip(coll).toLowerCase();
@@ -401,9 +401,9 @@ module.exports = function() {
         socket.on('vote', function(msg)
         {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(coll !== undefined) {
                 try {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
@@ -422,9 +422,9 @@ module.exports = function() {
         socket.on('password', function(inp)
         {
             if(inp.hasOwnProperty("channel") && inp.channel.indexOf("?") > -1){
-                 var _list = inp.channel.substring(0, inp.channel.indexOf("?"));
-                 inp.channel = _list;
-             }
+                var _list = inp.channel.substring(0, inp.channel.indexOf("?"));
+                inp.channel = _list;
+            }
             if(coll != undefined) coll.replace(/ /g,'');
             ListSettings.password(inp, coll, guid, offline, socket);
         });
@@ -432,27 +432,31 @@ module.exports = function() {
         socket.on('skip', function(list)
         {
             if(list.hasOwnProperty("channel") && list.channel.indexOf("?") > -1){
-                 var _list = list.channel.substring(0, list.channel.indexOf("?"));
-                 list.channel = _list;
-             }
-            List.skip(list, guid, coll.replace(/ /g,''), offline, socket);
+                var _list = list.channel.substring(0, list.channel.indexOf("?"));
+                list.channel = _list;
+                coll = list.channel;
+            }
+            if(coll != undefined) coll.replace(/ /g,'');
+            List.skip(list, guid, coll, offline, socket);
         });
 
         socket.on('conf', function(conf)
         {
             if(conf.hasOwnProperty("channel") && conf.channel.indexOf("?") > -1){
-                 var _list = conf.channel.substring(0, conf.channel.indexOf("?"));
-                 conf.channel = _list;
-             }
-            ListSettings.conf_function(conf, coll.replace(/ /g,''), guid, offline, socket);
+                var _list = conf.channel.substring(0, conf.channel.indexOf("?"));
+                conf.channel = _list;
+                coll = conf.channel;
+            }
+            if(coll != undefined) coll.replace(/ /g,'');
+            ListSettings.conf_function(conf, coll, guid, offline, socket);
         });
 
         socket.on('shuffle', function(msg)
         {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(coll !== undefined) {
                 try {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
@@ -474,8 +478,8 @@ module.exports = function() {
                 obj = {};
                 obj.channel = coll;
             } else if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
-                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-                 obj.channel = _list;
+                var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
+                obj.channel = _list;
             }
             if(coll === undefined && obj !== undefined && obj.channel !== undefined){
                 try {
@@ -505,9 +509,9 @@ module.exports = function() {
 
         socket.on("left_channel", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
-                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-                 msg.channel = _list;
-             }
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
                 coll = msg.channel.replace(/ /g,'');
                 coll = emojiStrip(coll).toLowerCase();
@@ -534,9 +538,9 @@ module.exports = function() {
         socket.on('pos', function(obj)
         {
             if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
-                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-                 obj.channel = _list;
-             }
+                var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
+                obj.channel = _list;
+            }
             if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string")
             if(coll !== undefined) {
                 try {
@@ -589,12 +593,12 @@ module.exports = function() {
 
 /*
 function send_ping() {
-    db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){
-        db.collection("connected_users").update({"_id": "total_users"}, {$add: {total_users: 0}}, {multi: true}, function(err, docs){
-            db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
-                io.emit("self_ping");
-                setTimeout(send_ping, 25000);
-            });
-        });
-    });
+db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){
+db.collection("connected_users").update({"_id": "total_users"}, {$add: {total_users: 0}}, {multi: true}, function(err, docs){
+db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
+io.emit("self_ping");
+setTimeout(send_ping, 25000);
+});
+});
+});
 }*/
