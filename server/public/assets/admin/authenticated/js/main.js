@@ -254,37 +254,6 @@ $(document).on("click", "#get_token", function(e){
 	})
 });
 
-$(document).on("click", "#get_api_token", function(e){
-	e.preventDefault();
-	var name = $("#new_api_token_name").val();
-	if(name == "") {
-		Materialize.toast("Empty name..!", 2000, "red lighten");
-		return;
-	}
-	$("#new_api_token_name").val("");
-	$("#get_api_token").toggleClass("disabled");
-	$.ajax({
-		type: "POST",
-		url: "/api/api_token",
-		data: {
-			name: name,
-		},
-		success: function(response){
-			if(response != false){
-				Materialize.toast("Gotten token", 2000, "green lighten");
-				$("#new_api_token").val(response.token);
-				$("#get_api_token").toggleClass("disabled");
-				var to_add = api_token_list;
-				to_add.attr("id", response._id);
-				to_add.find(".api_token_name").text(name);
-				to_add.find(".api_token_usage").text(0);
-				to_add.find("#delete_api_token").attr("data-id", response._id);
-				$(".channel_things").append(to_add);
-			}
-		}
-	})
-});
-
 $(document).on("click", ".approve_thumbnails", function(e){
 	e.preventDefault();
 	var channel = $(this).attr("data-channel");
