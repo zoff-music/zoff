@@ -8,6 +8,10 @@ $(document).ready(function(){
     $("#login_form").prepend("<input type='text' name='token' placeholder='Token' required autocomplete='off' />");
     $("#login_form").attr("action", "/signup");
   }
+  if(window.location.hash == "#failed") {
+      window.location.hash = "";
+      Materialize.toast("Couldn't find a user with that username or password..", 4000, "red lighten");
+  }
 });
 
 
