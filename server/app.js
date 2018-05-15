@@ -4,7 +4,7 @@ path = require('path'),
 //publicPath = path.join(__dirname, 'public'),
 http = require('http'),
 port = 8080,
-farmhash = require('farmhash'),
+//farmhash = require('farmhash'),
 num_processes = require('os').cpus().length;
 
 publicPath = path.join(__dirname, 'public');
@@ -47,7 +47,15 @@ function startClustered(redis_enabled) {
         }
 
         var worker_index = function(ip, len) {
-            return farmhash.fingerprint32(ip) % len;
+            //console.log(ip);
+            var s = '';
+            for (var i = 0, _len = ip.length; i < _len; i++) {
+                if(!isNaN(ip[i])) {
+                    s += ip[i];
+                }
+            }
+            return Number(s)%len;
+            //eturn farmhash.fingerprint32(ip) % len;
         };
 
         var server = net.createServer({ pauseOnConnect: true }, function(connection, a) {
