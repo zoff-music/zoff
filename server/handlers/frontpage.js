@@ -17,7 +17,7 @@ function frontpage_lists(msg, socket) {
     });
 }
 
-function update_frontpage(coll, id, title, thumbnail, callback) {
+function update_frontpage(coll, id, title, thumbnail, source, callback) {
     coll = coll.replace(/ /g,'');
     db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
         var updateObject = {
@@ -25,7 +25,7 @@ function update_frontpage(coll, id, title, thumbnail, callback) {
             title: title,
             accessed: Functions.get_time()
         };
-        if(doc.length > 0 && (doc[0].thumbnail == "" || doc[0].thumbnail == undefined || doc[0].thumbnail.indexOf("ttps://i1.sndcdn.com") > -1)) {
+        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
             updateObject.thumbnail = thumbnail;
             if(thumbnail == undefined) updateObject.thumbnail = "";
         }
