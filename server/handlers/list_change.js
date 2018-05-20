@@ -55,8 +55,8 @@ function addFromOtherList(arr, guid, offline, socket) {
                             project_object.now_playing = { "$literal": false };
                             to_set_np = false;
                         }
-                        db.collection(new_channel + "_settings").find({id: "config"}, function(e, new_conf) {
-                            if(new_conf.length > 0 && (new_conf[0].userpass == "" || !new_conf[0].userpass || new_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(otheruser)).digest("base64"))) {
+                        db.collection(new_channel + "_settings").find({id: "config"}, function(e, this_conf) {
+                            if(this_conf.length > 0 && (this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(otheruser)).digest("base64"))) {
                                 db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
                                     var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(arr.adminpass), true));
                                     if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(arr.userpass)).digest("base64"))) {
@@ -89,7 +89,7 @@ function addFromOtherList(arr, guid, offline, socket) {
                                                                     to_change.id = np_docs[0].id;
                                                                     to_change.title = np_docs[0].title;
                                                                     db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
-                                                                        if(doc.length > 0 && doc[0].thumbnail != "" && doc[0].thumbnail != undefined) {
+                                                                        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
                                                                             to_change.thumbnail = np_docs[0].thumbnail;
                                                                         }
 
@@ -225,7 +225,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                         to_change.id = np_docs[0].id;
                                                         to_change.title = np_docs[0].title;
                                                         db.collection("frontpage_lists").find({_id: channel}, function(e, doc) {
-                                                            if(doc.length > 0 && doc[0].thumbnail != "" && doc[0].thumbnail != undefined) {
+                                                            if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
                                                                 to_change.thumbnail = np_docs[0].thumbnail;
                                                             }
 
@@ -398,7 +398,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                                 db.collection(coll + "_settings").update({ id: "config" }, {$set:{startTime: Functions.get_time()}});
                                                 List.send_play(coll, undefined);
                                                 var thumbnail = arr.thumbnail != undefined ? arr.thumbnail : undefined;
-                                                Frontpage.update_frontpage(coll, id, title, thumbnail);
+                                                Frontpage.update_frontpage(coll, id, title, thumbnail, arr.source);
                                                 if(source != "soundcloud") Search.get_correct_info(new_song, coll, false);
                                             } else {
                                                 io.to(coll).emit("channel", {type: "added", value: new_song});
