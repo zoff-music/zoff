@@ -712,7 +712,6 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                         var type = fetch_only ? "fetch_song" : "add";
                         validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
                             db.collection(channel_name).find({id: video_id}, function(err, result) {
-                                console.log(result);
                                 if(result.length == 0 || result[0].type == "suggested") {
                                     var song_type = authenticated ? "video" : "suggested";
                                     if(fetch_only && result.length == 0) {
@@ -764,7 +763,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                                         });
                                                     } else if(set_np) {
                                                         var thumbnail = req.body.thumbnail != undefined ? req.body.thumbnail : undefined;
-                                                        Frontpage.update_frontpage(channel_name, video_id, title, thumbnail, function() {
+                                                        Frontpage.update_frontpage(channel_name, video_id, title, thumbnail, source, function() {
                                                             io.to(channel_name).emit("np", {np: [new_song], conf: [conf]});
                                                             postEnd(channel_name, configs, new_song, guid, res, authenticated, authorized);
                                                         });
