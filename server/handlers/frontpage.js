@@ -25,7 +25,7 @@ function update_frontpage(coll, id, title, thumbnail, source, callback) {
             title: title,
             accessed: Functions.get_time()
         };
-        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
+        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && (doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1 || doc[0].thumbnail.indexOf("https://w1.sndcdn.com") > -1)) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
             updateObject.thumbnail = thumbnail;
             if(thumbnail == undefined) updateObject.thumbnail = "";
         }
