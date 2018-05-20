@@ -89,7 +89,7 @@ function addFromOtherList(arr, guid, offline, socket) {
                                                                     to_change.id = np_docs[0].id;
                                                                     to_change.title = np_docs[0].title;
                                                                     db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
-                                                                        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
+                                                                        if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && (doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1 || doc[0].thumbnail.indexOf("https://w1.sndcdn.com") > -1)) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
                                                                             to_change.thumbnail = np_docs[0].thumbnail;
                                                                         }
 
@@ -225,7 +225,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                         to_change.id = np_docs[0].id;
                                                         to_change.title = np_docs[0].title;
                                                         db.collection("frontpage_lists").find({_id: channel}, function(e, doc) {
-                                                            if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
+                                                            if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined && (doc[0].thumbnail.indexOf("https://i1.sndcdn.com") > -1 || doc[0].thumbnail.indexOf("https://w1.sndcdn.com") > -1)) || (doc[0].thumbnail == "" || doc[0].thumbnail == undefined))) {
                                                                 to_change.thumbnail = np_docs[0].thumbnail;
                                                             }
 
