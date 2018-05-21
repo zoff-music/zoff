@@ -78,7 +78,6 @@ var Player = {
             seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
             if(((embed && autoplay) || !embed) && (!was_stopped || buffering) && !client) {
-                buffering = false;
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else if(!client) {
@@ -154,6 +153,7 @@ var Player = {
                 Helper.css("#playpause", "visibility", "visible");
                 Helper.css("#playpause", "pointer-events", "all");
                 playing = true;
+                buffering = false;
                 if(beginning && Helper.mobilecheck() && !chromecastAvailable){
                     //Player.pauseVideo();
                     beginning = false;
