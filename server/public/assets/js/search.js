@@ -34,7 +34,6 @@ var Search = {
     },
 
     search: function(search_input, retried, related, pagination){
-
         if(result_html === undefined || empty_results_html === undefined) {
             result_html = document.getElementById("temp-results-container");
             empty_results_html = Helper.html("#empty-results-container");
@@ -186,6 +185,7 @@ var Search = {
             Helper.removeClass(".main", "blurT");
             Helper.removeClass("#controls", "blurT");
             Helper.removeClass(".main", "clickthrough");
+            Helper.css(".results-tabs", "display", "none");
         }
     },
 
