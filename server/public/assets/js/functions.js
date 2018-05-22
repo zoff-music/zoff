@@ -914,12 +914,15 @@ function searchTimeout(event) {
 
     if (code != 40 && code != 38 && code != 13 && code != 39 && code != 37 && code != 17 && code != 16 && code != 225 && code != 18 && code != 27) {
         clearTimeout(timeout_search);
-        if(search_input.length < 3){
+        /*if(search_input.length < 3){
+            Helper.css(".results-tabs", "display", "none");
             document.querySelector("#results").innerHTML = "";
+            document.querySelector("#results_soundcloud").innerHTML = "";
+            Helper.css("")
             if(search_input.length == 0) {
                 document.querySelector("body").setAttribute("style", "overflow-y: auto");
             }
-        }
+        }*/
         if(code == 13){
             Search.search(search_input);
             Search.soundcloudSearch(search_input);
