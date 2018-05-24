@@ -612,9 +612,13 @@ function send_play(coll, socket, broadcast) {
                         io.to(coll).emit("np", toSend);
                         //
                         List.getNextSong(coll)
-                        sendColor(coll, false, np[0].id);
+                        var url = 'https://img.youtube.com/vi/'+np[0].id+'/mqdefault.jpg';
+                        if(np[0].source == "soundcloud") url = np[0].thumbnail;
+                        sendColor(coll, false, url);
                     } else {
-                        sendColor(coll, socket, np[0].id);
+                        var url = 'https://img.youtube.com/vi/'+np[0].id+'/mqdefault.jpg';
+                        if(np[0].source == "soundcloud") url = np[0].thumbnail;
+                        sendColor(coll, socket, url);
                         if(broadcast) {
                             socket.to(coll).emit("np", toSend);
                             return;
@@ -637,11 +641,13 @@ function send_play(coll, socket, broadcast) {
     });
 }
 
-function sendColor(coll, socket, id, ajax, res) {
+function sendColor(coll, socket, url, ajax, res) {
     if(coll != undefined && typeof(coll) == "string") {
         coll = coll.replace(/ /g,'');
     }
-    var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+    if(url.indexOf("://") == -1) url = 'https://img.youtube.com/vi/'+url+'/mqdefault.jpg';
+    //var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+
     Jimp.read(url).then(function (image) {
 
         var c = ColorThief.getColor(image);

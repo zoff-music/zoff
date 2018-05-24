@@ -218,6 +218,7 @@ window.addEventListener("DOMContentLoaded", function() {
             if(offline) {
                 socket.emit("offline", {status: true, channel: chan != undefined ? chan.toLowerCase() : ""});
             }
+
             /*if(chan != undefined && (Crypt.get_pass(chan.toLowerCase()) !== undefined && Crypt.get_pass(chan.toLowerCase()) !== "")){
             emit("password", {password: Crypt.crypt_pass(Crypt.get_pass(chan.toLowerCase())), channel: chan.toLowerCase()});
         }*/
@@ -230,6 +231,7 @@ window.addEventListener("DOMContentLoaded", function() {
             var instance = M.Toast.getInstance(to_remove);
             instance.dismiss();
         }
+        M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
         //before_toast();
     }
     Chat.namechange("", true, true);

@@ -13,9 +13,10 @@ var Player = {
     },
 
     now_playing_listener: function(obj) {
-        if(offline && video_id != undefined) return;
+        if(offline && video_id != undefined) {
+            return;
+        }
         if(obj.np != undefined) {
-            video_id   = obj.np[0].id;
             Player.np = obj.np[0];
             Player.np.start = obj.np[0].start;
             Player.np.end = obj.np[0].end;
@@ -26,21 +27,19 @@ var Player = {
             duration   = obj.np[0].duration;
 
             if(offline && (video_id == "" || video_id == undefined) && !client){
-
-
                 if(obj.conf != undefined) {
                     conf       = obj.conf[0];
                 }
                 time       = obj.time;
                 seekTo     = 0 + Player.np.start;
                 startTime = time - conf.startTime;
-
                 videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
                 Player.getTitle(song_title, viewers);
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             } else {
                 videoSource = obj.np[0].hasOwnProperty("source") ? obj.np[0].source : "youtube";
             }
+            video_id = obj.np[0].id;
         } else {
             Player.np = {
                 id: "",
@@ -397,8 +396,9 @@ var Player = {
             }
         }
         if(offline) {
-            getColor(id);
-            //socket.emit("color", {id: id});
+            var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
+            if(videoSource == "soundcloud") url = Player.np.thumbnail;
+            getColor(url);
         }
     },
 
