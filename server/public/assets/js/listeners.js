@@ -896,9 +896,11 @@ addListener("click", ".donate-button", function(event) {
     M.Modal.getInstance(document.getElementById("donate")).open();
 });
 
+/*
 addListener("click", '#toast-container', function(){
     before_toast();
 });
+*/
 
 addListener("click", "#aprilfools", function(){
     Helper.css(".mega", "-webkit-transform", "rotate(0deg)");
@@ -1481,12 +1483,13 @@ addListener("click", ".del_user_suggested", function(e){
     List.vote(id, "del");
 });
 
+/*
 addListener("click", '#toast-container', function(){
     var toastElement = document.querySelector('.toast');
      var toastInstance = M.Toast.getInstance(toastElement);
      toastInstance.dismiss();
-
 });
+*/
 
 addListener("click", "#embed-area", function(e){
     e.select();
