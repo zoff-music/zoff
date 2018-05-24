@@ -273,7 +273,7 @@ var Playercontrols = {
 
     setVolume: function(vol) {
         Player.setVolume(vol);
-        Player.soundcloud_player.setVolume(vol / 1000);
+        Player.soundcloud_player.setVolume(vol / 100);
         Playercontrols.choose_button(vol, false);
         if(Player.player.isMuted())
         Player.player.unMute();
@@ -379,7 +379,6 @@ var Playercontrols = {
         var elmnt = document.getElementsByClassName("volume-handle")[0];
         var cmp_elmnt = document.getElementById("volume");
         var slid_elmnt = document.getElementsByClassName("volume-slid")[0];
-
 
         if(slider_type != "vertical") {
             var pos = (cmp_elmnt.offsetWidth / 100) * val;
