@@ -596,6 +596,7 @@ body {
 }
 
 #main-container {
+    flex: auto;
     -webkit-transition: background-color .2s;
     -moz-transition: background-color .2s;
     -ms-transition: background-color .2s;
