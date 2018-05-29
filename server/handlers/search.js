@@ -137,7 +137,7 @@ function findSimilar(msg, channel, broadcast, callback) {
                     db.collection(channel).update({"id": msg.id}, {
                         $set: element
                     }, function(err, docs) {
-                        if(docs.nModified == 1 && broadcast) {
+                        if(docs && docs.hasOwnProperty("nModified") && docs.nModified == 1 && broadcast) {
                             element.new_id = element.id;
                             element.id = msg.id;
                             if(!callback) {

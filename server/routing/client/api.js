@@ -1203,9 +1203,13 @@ function incrementToken(token) {
 }
 
 router.route('/api/color').post(function(req, res) {
-    var origin = req.get("origin").replace("https://", "").replace("http://", "");
-    var allowed = ["client.localhost", "localhost", "zoff.me", "client.zoff.me", "zoff.no", "client.zoff.no"];
-    if(allowed.indexOf(origin) < 0) {
+    try {
+        var origin = req.get("origin").replace("https://", "").replace("http://", "");
+        var allowed = ["client.localhost", "localhost", "zoff.me", "client.zoff.me", "zoff.no", "client.zoff.no"];
+        if(allowed.indexOf(origin) < 0) {
+            throw "Wrong origin";
+        }
+    } catch(e) {
         res.sendStatus(403);
         return;
     }
