@@ -372,7 +372,7 @@ var Search = {
 
                                     if((!not_matched)){
                                         matched = true;
-                                        Search.readySubmit(true, { id: data.id, title: data.snippet.title, source: "youtube", duration: duration, totalLength: totalNumber - 1});
+                                        Search.readySubmit(true, { id: data.id, title: data.snippet.title, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + data.id + "/mqdefault.jpg", duration: duration, totalLength: totalNumber - 1});
                                         break;
                                     }
                                 }
@@ -615,7 +615,7 @@ addVideos: function(ids){
                     enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
                     //Search.submit(song.id, enc_title, duration, playlist, i);
                     x += 1;
-                    Search.submitYouTubeArray.push({id: song.id, title: enc_title, duration: duration});
+                    Search.submitYouTubeArray.push({id: song.id, title: enc_title, duration: duration, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + song.id + "/mqdefault.jpg"});
                 }
             }
             if(more) Search.addVideos(next_ids);

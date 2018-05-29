@@ -1306,7 +1306,7 @@ addListener("click", ".result-object", function(e){
         var start   = parseInt(e.querySelector(".result-start").value);
         var end     = parseInt(e.querySelector(".result-end").value);
         var source = "youtube";
-        var thumbnail;
+        var thumbnail = "https://img.youtube.com/vi/" + id + "/mqdefault.jpg";
         if(e.getAttribute("data-type-source") != undefined) {
             source = "soundcloud";
             thumbnail = e.getAttribute("data-type-thumbnail");
