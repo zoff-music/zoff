@@ -209,6 +209,13 @@ function addPlaylist(arr, guid, offline, socket) {
                                             if(this_element.start > this_element.end) {
                                                 this_element.start = 0;
                                             }
+                                            if(this_element.source == "soundcloud") {
+                                                if(this_element.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || this_element.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
+                                                    this_element.thumbnail = this_element.thumbnail;
+                                                } else {
+                                                    this_element.thumbnail = "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
+                                                }
+                                            } else if(this_element.source == "youtube") this_element.thumbnail = "https://img.youtube.com/vi/" + this_element.id + "/mqdefault.jpg";
                                             if(now_playing) {
                                                 now_playing = false;
                                             }
@@ -392,7 +399,13 @@ function add_function(arr, coll, guid, offline, socket) {
                                             np = false;
                                         }
                                         var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
-                                        if(source == "soundcloud") new_song.thumbnail = arr.thumbnail;
+                                        if(source == "soundcloud") {
+                                            if(arr.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || arr.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
+                                                new_song.thumbnail = arr.thumbnail;
+                                            } else {
+                                                new_song.thumbnail = "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
+                                            }
+                                        } else if(source == "youtube") new_song.thumbnail = "https://img.youtube.com/vi/" + new_song.id + "/mqdefault.jpg";
                                         db.collection(coll).update({id: id}, new_song, {upsert: true}, function(err, docs){
                                             new_song._id = "asd";
                                             if(np) {

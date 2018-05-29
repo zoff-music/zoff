@@ -648,7 +648,6 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             var title = req.body.title;
             if(typeof(userpass) != "string" || typeof(adminpass) != "string" ||
                 typeof(title) != "string" || isNaN(duration) || isNaN(start_time) || isNaN(end_time)) {
-                    console.log("this place crash");
                     throw "Wrong format";
                 }
         }
@@ -726,11 +725,15 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
                                         var runFunction = Search.get_correct_info;
                                         if(source == "soundcloud") {
-                                            new_song.thumbnail = req.body.thumbnail;
+                                            if(req.body.thumbnail.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || req.body.thumbnail.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
+                                                new_song.thumbnail = req.body.thumbnail.thumbnail;
+                                            } else {
+                                                new_song.thumbnail = "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
+                                            }
                                             runFunction = function(new_song, foo_2, foo_3, callback) {
                                                 callback(new_song, true);
                                             }
-                                        }
+                                        } else if(source == "youtube") new_song.thumbnail = "https://img.youtube.com/vi/" + new_song.id + "/mqdefault.jpg";
                                         runFunction(new_song, channel_name, false, function(element, found) {
                                             if(!found) {
                                                 res.status(404).send(JSON.stringify(error.not_found.youtube));
