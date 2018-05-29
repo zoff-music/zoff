@@ -1274,7 +1274,7 @@ try {
                 }
                 token_db.collection("api_links").find({token: token}, function(e, d) {
                     if(results_find.length == 0 || (d.length == 0 && results_find.length > 0 && !results_find[0].active)) {
-                        token_db.collection("api_token").insert({name: name, origin: origin, token: id, usage: 0, active: false, limit: 100}, function(err, docs){
+                        token_db.collection("api_token").insert({name: name, origin: origin, token: id, usage: 0, active: false, limit: 20}, function(err, docs){
                            token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
                                let transporter = nodemailer.createTransport(mailconfig);
 
