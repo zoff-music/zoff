@@ -48,7 +48,9 @@ function addFromOtherList(arr, guid, offline, socket) {
                             "start": 1,
                             "duration": 1,
                             "end": 1,
-                            "type": 1
+                            "type": 1,
+                            "source": 1,
+                            "thumbnail": 1
                         };
                         var to_set_np = true;
                         if(np.length > 0) {

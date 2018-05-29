@@ -372,7 +372,7 @@ var Search = {
 
                                     if((!not_matched)){
                                         matched = true;
-                                        Search.readySubmit(true, { id: data.id, title: data.snippet.title, duration: duration, totalLength: totalNumber - 1});
+                                        Search.readySubmit(true, { id: data.id, title: data.snippet.title, source: "youtube", duration: duration, totalLength: totalNumber - 1});
                                         break;
                                     }
                                 }
