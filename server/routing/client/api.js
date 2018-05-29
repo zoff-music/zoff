@@ -591,6 +591,12 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                                     }
                                     updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                                         var to_return = error.no_error;
+                                        if(list[0].source == undefined) {
+                                            list[0].source = "youtube";
+                                        }
+                                        if(list[0].thumbnail == undefined) {
+                                            list[0].thumbnail = "https://img.youtube.com/vi/" + list[0].id + "/mqdefault.jpg"
+                                        }
                                         to_return.results = list;
                                         res.status(200).send(JSON.stringify(to_return));
                                         return;
@@ -807,8 +813,60 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
+    /*
+
+    var project_object = {
+        "id": 1,
+        "added": 1,
+        "guids": { "$literal": [] },
+        "now_playing": 1,
+        "title": 1,
+        "votes": { "$literal": 0 },
+        "start": 1,
+        "duration": 1,
+        "end": 1,
+        "type": 1,
+        "source": 1,
+        "thumbnail": 1
+    };
+db.collection(new_channel).aggregate([
+                            {
+                                "$match": { type: "video" }
+                            },
+                            {
+                                "$project": project_object
+                            }
+                        ]
+
+                        */
+    var project_object = {
+        "_id": 0,
+        "id": 1,
+        "added": 1,
+        "now_playing": 1,
+        "title": 1,
+        "votes": 1,
+        "start": 1,
+        "duration": 1,
+        "end": 1,
+        "type": 1,
+        "source": { $ifNull: [ "$source", "youtube" ] },
+        "thumbnail": {
+            $ifNull: [ "$thumbnail", {
+                $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+            } ]
+        }
+    };
     var channel_name = req.params.channel_name;
-    db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, docs) {
+    db.collection(channel_name).aggregate([
+        {
+            "$match": { }
+        },
+        {
+            "$project": project_object
+        }
+    ], function(err, docs) {
+    //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, docs) {
         if(docs.length > 0) {
             db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                 if(conf.length == 0) {
@@ -853,6 +911,12 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
                 return;
             }
             var to_return = error.no_error;
+            if(docs[0].source == undefined) {
+                docs[0].source = "youtube";
+            }
+            if(docs[0].thumbnail == undefined) {
+                docs[0].thumbnail = "https://img.youtube.com/vi/" + docs[0].id + "/mqdefault.jpg"
+            }
             to_return.results = docs;
             res.status(200).send(JSON.stringify(to_return));
             return;
@@ -1073,7 +1137,34 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                             return;
                         });
                     } else {
-                        db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
+                        var project_object = {
+                            "_id": 0,
+                            "id": 1,
+                            "added": 1,
+                            "now_playing": 1,
+                            "title": 1,
+                            "votes": 1,
+                            "start": 1,
+                            "duration": 1,
+                            "end": 1,
+                            "type": 1,
+                            "source": { $ifNull: [ "$source", "youtube" ] },
+                            "thumbnail": {
+                                $ifNull: [ "$thumbnail", {
+                                    $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+                                } ]
+                            }
+                        };
+                        var channel_name = req.params.channel_name;
+                        db.collection(channel_name).aggregate([
+                            {
+                                "$match": { }
+                            },
+                            {
+                                "$project": project_object
+                            }
+                        ], function(err, list) {
+                        //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
                             if(list.length > 0) {
                                 db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                                     if(conf.length == 0) {

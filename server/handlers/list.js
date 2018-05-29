@@ -400,7 +400,33 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                 send_list(coll, socket, send, list_send, configs, shuffled);
             });
         } else {
-            db.collection(coll).find({type: {$ne: "suggested"}}, function(err, docs)
+            var project_object = {
+                "_id": 0,
+                "id": 1,
+                "added": 1,
+                "now_playing": 1,
+                "title": 1,
+                "votes": 1,
+                "start": 1,
+                "duration": 1,
+                "end": 1,
+                "type": 1,
+                "source": { $ifNull: [ "$source", "youtube" ] },
+                "thumbnail": {
+                    $ifNull: [ "$thumbnail", {
+                        $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+                    } ]
+                }
+            };
+            db.collection(coll).aggregate([
+                {
+                    "$match": {type: {$ne: "suggested"}}
+                },
+                {
+                    "$project": project_object
+                }
+            ], function(err, docs)
+            //db.collection(coll).find({type: {$ne: "suggested"}}, function(err, docs)
             {
                 if(docs.length > 0) {
                     db.collection(coll).find({now_playing: true}, function(err, np_docs) {
