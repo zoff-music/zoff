@@ -245,23 +245,26 @@ var List = {
 
     check_error_videos: function(i) {
         //Helper.log("Empty-checker at " + i);
-        if(full_playlist.length == 0 || full_playlist[i].source == "soundcloud") return;
-        Helper.ajax({
-            method: "get",
-            url: 'https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
-                   + "&key=" + api_key + "&part=snippet",
-            success:  function (data) {
-                data = JSON.parse(data);
-                  //Helper.log("Empty-checker items " + data.items.length);
-                if (data.items.length == 0) {
-                    Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
-                    socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title, source: full_playlist[i].source});
+        if(full_playlist.length == 0) return;
+        else if(full_playlist[i].source == "soundcloud" && full_playlist.length > i + 1 && window.location.pathname != "/") List.check_error_videos(i + 1);
+        else {
+            Helper.ajax({
+                method: "get",
+                url: 'https://www.googleapis.com/youtube/v3/videos?id=' + full_playlist[i].id
+                       + "&key=" + api_key + "&part=snippet",
+                success:  function (data) {
+                    data = JSON.parse(data);
+                      //Helper.log("Empty-checker items " + data.items.length);
+                    if (data.items.length == 0) {
+                        Helper.log(["Emtpy-checker error at " + full_playlist[i].id + " " + full_playlist[i].title]);
+                        socket.emit("error_video", {channel: chan.toLowerCase(), id: full_playlist[i].id, title: full_playlist[i].title, source: full_playlist[i].source});
+                    }
+                    if(full_playlist.length > i + 1 && window.location.pathname != "/") {
+                        List.check_error_videos(i + 1);
+                    }
                 }
-                if(full_playlist.length > i + 1 && window.location.pathname != "/") {
-                    List.check_error_videos(i + 1);
-                }
-            }
-        })
+            });
+        }
     },
 
     dynamicContentPageJumpTo: function(page) {
