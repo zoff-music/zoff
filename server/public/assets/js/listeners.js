@@ -620,19 +620,25 @@ document.addEventListener("keydown", function(event) {
         document.querySelector("#import") != document.activeElement &&
         document.querySelector("#find_input") != document.activeElement &&
         document.querySelector("#import_spotify") != document.activeElement) {
-            if(videoSource == "soundcloud") {
+            if(chromecastAvailable) {
                 event.preventDefault();
-                Playercontrols.play_pause();
+                Player.playPauseVideo();
                 return false;
-            }
-            if(Player.player.getPlayerState() == 1) {
-                event.preventDefault();
-                Player.player.pauseVideo();
-                return false;
-            } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
-                event.preventDefault();
-                Player.player.playVideo();
-                return false;
+            } else {
+                if(videoSource == "soundcloud") {
+                    event.preventDefault();
+                    Playercontrols.play_pause();
+                    return false;
+                }
+                if(Player.player.getPlayerState() == 1) {
+                    event.preventDefault();
+                    Player.player.pauseVideo();
+                    return false;
+                } else if(Player.player.getPlayerState() == 2 || Player.player.getPlayerState() == 5) {
+                    event.preventDefault();
+                    Player.player.playVideo();
+                    return false;
+                }
             }
         } else {
             find_start = false;
