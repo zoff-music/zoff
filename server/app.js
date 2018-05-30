@@ -122,12 +122,16 @@ function onListen() {
 function routingFunction(req, res, next) {
     var client = require('./apps/client.js');
     var admin = require('./apps/admin.js');
-    var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
-    var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
+    try {
+        var url = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host.split(":")[0];
+        var subdomain = req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'].split(".") : req.headers.host.split(":")[0].split(".");
 
-    if(subdomain.length > 1 && subdomain[0] == "admin") {
-        admin(req, res, next);
-    } else {
-        client(req, res, next);
+        if(subdomain.length > 1 && subdomain[0] == "admin") {
+            admin(req, res, next);
+        } else {
+            client(req, res, next);
+        }
+    } catch(e) {
+        res.sendStatus(500);
     }
 }
