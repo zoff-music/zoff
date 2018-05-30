@@ -812,33 +812,6 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-
-    /*
-
-    var project_object = {
-        "id": 1,
-        "added": 1,
-        "guids": { "$literal": [] },
-        "now_playing": 1,
-        "title": 1,
-        "votes": { "$literal": 0 },
-        "start": 1,
-        "duration": 1,
-        "end": 1,
-        "type": 1,
-        "source": 1,
-        "thumbnail": 1
-    };
-db.collection(new_channel).aggregate([
-                            {
-                                "$match": { type: "video" }
-                            },
-                            {
-                                "$project": project_object
-                            }
-                        ]
-
-                        */
     var project_object = {
         "_id": 0,
         "id": 1,
@@ -864,7 +837,8 @@ db.collection(new_channel).aggregate([
         },
         {
             "$project": project_object
-        }
+        },
+        { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
     ], function(err, docs) {
     //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, docs) {
         if(docs.length > 0) {
@@ -1160,9 +1134,8 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                             {
                                 "$match": { }
                             },
-                            {
-                                "$project": project_object
-                            }
+                            { "$project": project_object },
+                            { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
                         ], function(err, list) {
                         //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
                             if(list.length > 0) {

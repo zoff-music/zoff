@@ -424,7 +424,8 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                 },
                 {
                     "$project": project_object
-                }
+                },
+                { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
             ], function(err, docs)
             //db.collection(coll).find({type: {$ne: "suggested"}}, function(err, docs)
             {
