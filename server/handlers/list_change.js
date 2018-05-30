@@ -1,3 +1,12 @@
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var List = require(pathThumbnails + '/handlers/list.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+var Search = require(pathThumbnails + '/handlers/search.js');
+var crypto = require('crypto');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
+var db = require(pathThumbnails + '/handlers/db.js');
+
 function addFromOtherList(arr, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) == "object") {
@@ -425,7 +434,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                         socket.emit("toast", "addedsong");
                                     });
                                 } else {
-                                    ListChange.vote(coll, id, guid, socket);
+                                    vote(coll, id, guid, socket);
                                 }
                             });
                         } else {
@@ -460,7 +469,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                 } else if(docs[0].now_playing === true){
                                     socket.emit("toast", "alreadyplay");
                                 } else{
-                                    if(conf[0].vote === false) ListChange.vote(coll, id, guid, socket);
+                                    if(conf[0].vote === false) vote(coll, id, guid, socket);
                                     else socket.emit("toast", "listhaspass");
                                 }
                             });
@@ -519,7 +528,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                 return;
             }
         coll = msg.channel.toLowerCase().replace(/ /g,'');
-        coll = emojiStrip(coll).toLowerCase();
+        coll = Functions.removeEmojis(coll).toLowerCase();
         coll = filter.clean(coll);
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || msg.adminpass == undefined) {
@@ -535,13 +544,13 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                     Functions.check_inlist(coll, guid, socket, offline);
 
                     if(msg.type == "del") {
-                        ListChange.del(msg, socket, socketid);
+                        del(msg, socket, socketid);
                     } else {
                         var id = msg.id;
                         var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass), true));
                         if(docs !== null && docs.length !== 0 && ((docs[0].vote === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                         docs[0].vote === false)) {
-                            ListChange.vote(coll, id, guid, socket);
+                            vote(coll, id, guid, socket);
                         } else {
                             socket.emit("toast", "listhaspass");
                         }
@@ -583,7 +592,7 @@ function shuffle(msg, coll, guid, offline, socket) {
             return;
         }
     coll = msg.channel.toLowerCase().replace(/ /g,'');
-    coll = emojiStrip(coll).toLowerCase();
+    coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
         if(adminpass != "" || msg.adminpass == undefined) {
@@ -654,7 +663,7 @@ function shuffle(msg, coll, guid, offline, socket) {
 
 function del(params, socket, socketid) {
     if(params.id){
-        var coll = emojiStrip(params.channel).toLowerCase();
+        var coll = Functions.removeEmojis(params.channel).toLowerCase();
         coll = coll.replace(/_/g, "").replace(/ /g,'');
 
         coll = filter.clean(coll);
@@ -705,7 +714,7 @@ function delete_all(msg, coll, guid, offline, socket) {
                 coll = msg.channel;
             }
             coll = coll.replace(/ /g,'');
-            coll = emojiStrip(coll).toLowerCase();
+            coll = Functions.removeEmojis(coll).toLowerCase();
             coll = filter.clean(coll);
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
                 if(adminpass != "" || msg.adminpass == undefined) {

@@ -1,3 +1,5 @@
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var db = require(pathThumbnails + '/handlers/db.js');
 function frontpage_lists(msg, socket) {
     if(msg == undefined || !msg.hasOwnProperty('version') || msg.version != VERSION || msg.version == undefined) {
         var result = {

@@ -26,7 +26,7 @@ var hbs = exphbs.create({
 	layoutsDir: publicPath + '/layouts/client',
 	partialsDir: publicPath + '/partials'
 });
-uniqid = require('uniqid');
+var uniqid = require('uniqid');
 
 
 app.engine('handlebars', hbs.engine);
@@ -45,36 +45,22 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 app.use(cookieParser());
+app.set('json spaces', 2);
 
-/* Starting DB and socketio */
 io = require('socket.io')({
 	pingTimeout: 25000,
 	//path: '/zoff',
 	//"origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*, http://localhost:8080*")});
 });
-db = require(pathThumbnails + '/handlers/db.js');
+
 var socketIO = require(pathThumbnails +'/handlers/io.js');
 socketIO();
 
 app.socketIO = io;
 
-request = require('request');
 
 /* Globally needed "libraries" and files */
-Functions = require(pathThumbnails + '/handlers/functions.js');
-ListChange = require(pathThumbnails + '/handlers/list_change.js');
-Chat = require(pathThumbnails + '/handlers/chat.js');
-List = require(pathThumbnails + '/handlers/list.js');
-Suggestions = require(pathThumbnails + '/handlers/suggestions.js');
-ListSettings = require(pathThumbnails + '/handlers/list_settings.js');
-Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
-Notifications = require(pathThumbnails + '/handlers/notifications.js');
-Search = require(pathThumbnails + '/handlers/search.js');
-crypto = require('crypto');
-emojiStrip = Functions.removeEmojis;
-Filter = require('bad-words');
-filter = new Filter({ placeHolder: 'x'});
-
+var Functions = require(pathThumbnails + '/handlers/functions.js');
 var router = require(pathThumbnails + '/routing/client/router.js');
 var api = require(pathThumbnails + '/routing/client/api.js');
 var ico_router = require(pathThumbnails + '/routing/client/icons_routing.js');

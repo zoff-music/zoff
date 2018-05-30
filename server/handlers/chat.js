@@ -1,3 +1,9 @@
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var crypto = require('crypto');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
+var db = require(pathThumbnails + '/handlers/db.js');
+
 function get_history(channel, all, socket) {
     var query = {};
     if(all) {
@@ -67,7 +73,7 @@ function chat(msg, guid, offline, socket) {
         return;
     }
     var coll = msg.channel.toLowerCase().replace(/ /g,'');
-    coll = emojiStrip(coll).toLowerCase();
+    coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
         if(userpass != "" || msg.pass == undefined) {
@@ -120,7 +126,7 @@ function all_chat(msg, guid, offline, socket) {
     }
     var coll = msg.channel.toLowerCase().replace(/ /g,'');
     var data = msg.data;
-    coll = emojiStrip(coll).toLowerCase();
+    coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
     Functions.check_inlist(coll, guid, socket, offline);
     if(data !== "" && data !== undefined && data !== null &&
@@ -268,11 +274,11 @@ function generate_name(guid, announce_payload, second) {
                         }
                     });
                 } else {
-                    Chat.generate_name(guid, announce_payload, tmp_name);
+                    generate_name(guid, announce_payload, tmp_name);
                 }
             })
         } else {
-            Chat.generate_name(guid, announce_payload, tmp_name);
+            generate_name(guid, announce_payload, tmp_name);
         }
     })
 }
@@ -280,7 +286,7 @@ function generate_name(guid, announce_payload, second) {
 function get_name(guid, announce_payload, first) {
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 0) {
-            Chat.generate_name(guid, announce_payload);
+            generate_name(guid, announce_payload);
         } else {
             name = docs[0].name;
         }
