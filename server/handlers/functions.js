@@ -8,6 +8,9 @@ try {
 }
 var mongojs = require('mongojs');
 var connected_db = mongojs('mongodb://' + mongo_config.host + '/user_credentials');
+var crypto = require('crypto');
+var db = require(pathThumbnails + '/handlers/db.js');
+var uniqid = require('uniqid');
 
 function remove_unique_id(short_id) {
     db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
@@ -50,7 +53,7 @@ function getSession(socket) {
 }
 
 function remove_from_array(array, element){
-    if(Functions.contains(array, element)){
+    if(contains(array, element)){
         var index = array.indexOf(element);
         if(index != -1)
         array.splice(index, 1);

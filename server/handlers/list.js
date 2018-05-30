@@ -1,5 +1,12 @@
 var ColorThief = require('color-thief-jimp');
 var Jimp = require('jimp');
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+var crypto = require('crypto');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
+var request = require('request');
+var db = require(pathThumbnails + '/handlers/db.js');
 
 function now_playing(list, fn, socket) {
     if(typeof(list) !== 'string' || typeof(fn) !== 'function') {
@@ -47,7 +54,7 @@ function list(msg, guid, coll, offline, socket) {
                 return;
             }
             coll = msg.channel.toLowerCase().replace(/ /g,'');
-            coll = emojiStrip(coll).toLowerCase();
+            coll = Functions.removeEmojis(coll).toLowerCase();
             coll = filter.clean(coll);
             var pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
             db.collection('frontpage_lists').find({"_id": coll}, function(err, frontpage_lists){
@@ -71,7 +78,7 @@ function list(msg, guid, coll, offline, socket) {
                                 io.to(coll).emit("viewers", 1);
                             }
 
-                            List.send_list(coll, socket, true, false, true);
+                            send_list(coll, socket, true, false, true);
 
                         } else {
                             socket.emit("auth_required");
@@ -83,7 +90,7 @@ function list(msg, guid, coll, offline, socket) {
                             var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
                             db.collection(coll + "_settings").insert(configs, function(err, docs){
                                 socket.join(coll);
-                                List.send_list(coll, socket, true, false, true);
+                                send_list(coll, socket, true, false, true);
                                 db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(e,d){
                                 });
                                 Functions.check_inlist(coll, guid, socket, offline);
@@ -114,7 +121,7 @@ function skip(list, guid, coll, offline, socket) {
             try {
                 coll = list.channel.toLowerCase().replace(/ /g,'');
                 if(coll.length == 0) return;
-                coll = emojiStrip(coll).toLowerCase();
+                coll = Functions.removeEmojis(coll).toLowerCase();
                 coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
@@ -187,7 +194,7 @@ function skip(list, guid, coll, offline, socket) {
                                     (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
                                     (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
                                     {
-                                        List.change_song(coll, error, video_id);
+                                        change_song(coll, error, video_id);
                                         socket.emit("toast", "skip");
                                         db.collection("user_names").find({"guid": guid}, function(err, docs) {
                                             if(docs.length == 1) {
@@ -266,7 +273,7 @@ function change_song(coll, error, id, callback, socket) {
                                 db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                                     var next_song;
                                     if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                    List.change_song_post(coll, next_song, callback, socket);
+                                    change_song_post(coll, next_song, callback, socket);
                                     if(!callback) {
                                         io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                                     }
@@ -284,7 +291,7 @@ function change_song(coll, error, id, callback, socket) {
                                         },{multi:true}, function(err, docs){
                                             var next_song;
                                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                            if(docs.n >= 1) List.change_song_post(coll, next_song, callback, socket);
+                                            if(docs.n >= 1) change_song_post(coll, next_song, callback, socket);
                                         });
                                     });
                                 }
@@ -295,7 +302,7 @@ function change_song(coll, error, id, callback, socket) {
                         db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                             var next_song;
                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                            List.change_song_post(coll, next_song, callback, socket);
+                            change_song_post(coll, next_song, callback, socket);
                             if(!callback) {
                                 io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                             }
@@ -313,7 +320,7 @@ function change_song(coll, error, id, callback, socket) {
                             },{multi:true}, function(err, docs){
                                 var next_song;
                                 if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                List.change_song_post(coll, next_song, callback, socket);
+                                change_song_post(coll, next_song, callback, socket);
                             });
                         }
                     }
@@ -375,10 +382,10 @@ function change_song_post(coll, next_song, callback, socket) {
                     db.collection(coll + "_settings").find({id: "config"}, function(err, conf){
                         if(!callback) {
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
-                            List.send_play(coll);
+                            send_play(coll);
                         } else {
                             socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
-                            List.send_play(coll, socket, true);
+                            send_play(coll, socket, true);
                             callback();
                         }
                         Frontpage.update_frontpage(coll, docs[0].id, docs[0].title, docs[0].thumbnail, docs[0].source);
@@ -467,7 +474,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                             }
                                         }, function(err, returnDocs){
                                             Frontpage.update_frontpage(coll, now_playing_doc[0].id, now_playing_doc[0].title, now_playing_doc[0].thumbnail, now_playing_doc[0].source);
-                                            List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                            send_list(coll, socket, send, list_send, configs, shuffled);
                                         });
                                     });
                                 }
@@ -492,8 +499,8 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                             })
                         } else {
                             if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
-                                List.change_song(coll, false, np_docs[0].id, function() {
-                                    List.send_list(coll, socket, send, list_send, configs, shuffled);
+                                change_song(coll, false, np_docs[0].id, function() {
+                                    send_list(coll, socket, send, list_send, configs, shuffled);
                                 }, socket);
                             } else {
                                 if(list_send) {
@@ -502,9 +509,9 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                     socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
                                 }
                                 if(socket === undefined && send) {
-                                    List.send_play(coll);
+                                    send_play(coll);
                                 } else if(send) {
-                                    List.send_play(coll, socket);
+                                    send_play(coll, socket);
                                 }
                             }
                         }
@@ -516,9 +523,9 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                         socket.emit("channel", {type: "list", playlist: docs, shuffled: shuffled});
                     }
                     if(socket === undefined && send) {
-                        List.send_play(coll);
+                        send_play(coll);
                     } else if(send) {
-                        List.send_play(coll, socket);
+                        send_play(coll, socket);
                     }
                 }
             });
@@ -591,13 +598,13 @@ function end(obj, coll, guid, offline, socket) {
                                 if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
                                 {
                                     db.collection(coll).remove({now_playing:true}, function(err, docs){
-                                        List.change_song_post(coll);
+                                        change_song_post(coll);
                                         db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                     });
                                 }else{
                                     if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
                                     {
-                                        List.change_song(coll, false, id);
+                                        change_song(coll, false, id);
                                     }
                                 }
                             });
@@ -626,7 +633,7 @@ function send_play(coll, socket, broadcast) {
             if(err !== null) console.log(err);
             try{
                 if(Functions.get_time()-conf[0].startTime > np[0].duration){
-                    List.change_song(coll, false, np[0].id);
+                    change_song(coll, false, np[0].id);
                 } else if(conf !== null && conf !== undefined && conf.length !== 0)
                 {
                     if(conf[0].adminpass !== "") conf[0].adminpass = true;
@@ -638,7 +645,7 @@ function send_play(coll, socket, broadcast) {
                     if(socket === undefined) {
                         io.to(coll).emit("np", toSend);
                         //
-                        List.getNextSong(coll)
+                        getNextSong(coll)
                         var url = 'https://img.youtube.com/vi/'+np[0].id+'/mqdefault.jpg';
                         if(np[0].source == "soundcloud") url = np[0].thumbnail;
                         sendColor(coll, false, url);

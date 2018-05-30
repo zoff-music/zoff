@@ -7,6 +7,8 @@ try {
     console.log("Seems you forgot to create the file api_key.js in /server/config/. Have a look at api_key.example.js.");
     process.exit();
 }
+var request = require('request');
+var db = require(pathThumbnails + '/handlers/db.js');
 
 function get_correct_info(song_generated, channel, broadcast, callback) {
     channel = channel.replace(/ /g,'');

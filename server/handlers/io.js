@@ -1,5 +1,19 @@
 var cookieParser = require("cookie-parser");
 var cookie = require("cookie");
+
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var ListChange = require(pathThumbnails + '/handlers/list_change.js');
+var Chat = require(pathThumbnails + '/handlers/chat.js');
+var List = require(pathThumbnails + '/handlers/list.js');
+var Suggestions = require(pathThumbnails + '/handlers/suggestions.js');
+var ListSettings = require(pathThumbnails + '/handlers/list_settings.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+var Search = require(pathThumbnails + '/handlers/search.js');
+var crypto = require('crypto');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
+var db = require(pathThumbnails + '/handlers/db.js');
+
 module.exports = function() {
     io.on('connection', function(socket){
         try {
@@ -68,7 +82,7 @@ module.exports = function() {
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
                             coll = msg.channel.toLowerCase().replace(/ /g,'');
-                            coll = emojiStrip(coll).toLowerCase();
+                            coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
                                 coll = coll.substring(0, coll.indexOf("?"));
@@ -96,7 +110,7 @@ module.exports = function() {
                     _list = _list.substring(0, _list.indexOf("?"));
                     msg.channel = _list;
                 }
-                coll = emojiStrip(_list).toLowerCase();
+                coll = Functions.removeEmojis(_list).toLowerCase();
                 coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
@@ -189,7 +203,7 @@ module.exports = function() {
                 offline = true;
                 if(channel != "") coll = channel;
                 if(coll !== undefined) {
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = filter.clean(coll);
 
                     db.collection("connected_users").findAndModify({
@@ -314,7 +328,7 @@ module.exports = function() {
                     _list = _list.substring(0, _list.indexOf("?"));
                     msg.channel = _list;
                 }
-                coll = emojiStrip(_list).toLowerCase();
+                coll = Functions.removeEmojis(_list).toLowerCase();
                 coll = coll.replace(/_/g, "");
                 //
                 coll = filter.clean(coll);
@@ -339,7 +353,7 @@ module.exports = function() {
                 try {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
@@ -368,7 +382,7 @@ module.exports = function() {
                 try {
                     coll = arr.list.replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
@@ -387,7 +401,7 @@ module.exports = function() {
                 }
                 coll = msg.channel.toLowerCase().replace(/ /g,'');
                 if(coll.length == 0) return;
-                coll = emojiStrip(coll).toLowerCase();
+                coll = Functions.removeEmojis(coll).toLowerCase();
                 coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
@@ -408,7 +422,7 @@ module.exports = function() {
                 try {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
@@ -461,7 +475,7 @@ module.exports = function() {
                 try {
                     coll = msg.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
@@ -485,7 +499,7 @@ module.exports = function() {
                 try {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
@@ -514,7 +528,7 @@ module.exports = function() {
             }
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
                 coll = msg.channel.replace(/ /g,'');
-                coll = emojiStrip(coll).toLowerCase();
+                coll = Functions.removeEmojis(coll).toLowerCase();
                 coll = filter.clean(coll);
                 List.left_channel(coll, guid, short_id, in_list, socket, false);
             }
@@ -546,7 +560,7 @@ module.exports = function() {
                 try {
                     coll = obj.channel.toLowerCase().replace(/ /g,'');
                     if(coll.length == 0) return;
-                    coll = emojiStrip(coll).toLowerCase();
+                    coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
