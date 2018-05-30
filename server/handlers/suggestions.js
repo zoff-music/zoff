@@ -1,4 +1,7 @@
-
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var Notifications = require(pathThumbnails + '/handlers/notifications.js');
+var crypto = require('crypto');
+var db = require(pathThumbnails + '/handlers/db.js');
 
 function thumbnail(msg, coll, guid, offline, socket) {
     if(msg.thumbnail != undefined && msg.channel && msg.channel != undefined && Functions.isUrl(msg.thumbnail)){
