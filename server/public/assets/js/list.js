@@ -178,7 +178,7 @@ var List = {
                 full_playlist[x].votes = 0;
             }
         }
-        List.sortList();
+        //List.sortList();
 
         Helper.setHtml("#wrapper", "");
 
