@@ -41,6 +41,11 @@ router.route('/:channel_name').get(function(req, res, next){
     channel(req, res, next);
 });
 
+router.route('/r/:base64data').get(function(req, res, next){
+    var channelToRedirect = Buffer.from(req.params.base64data, 'base64');
+    res.redirect('/' + channelToRedirect);
+});
+
 router.route('/').get(function(req, res, next){
     root(req, res, next);
 });

@@ -28,7 +28,7 @@ var Channel = {
         var no_socket = true;
 
         chan = Helper.decodeChannelName(Helper.html("#chan"));
-        
+
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
 
@@ -186,7 +186,7 @@ var Channel = {
 
 
         if(!client) {
-            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/"+encodeURIComponent(chan.toLowerCase());
+            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/r/"+btoa(encodeURIComponent(chan.toLowerCase()));
             document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
             Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
         } else {
