@@ -568,9 +568,12 @@ module.exports = function() {
             if(obj == undefined && coll != undefined) {
                 obj = {};
                 obj.channel = coll;
-            } else if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
+            } else if(obj != undefined && obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
+            }
+            if(obj == undefined && coll == undefined) {
+                return;
             }
             if(obj.hasOwnProperty("channel")) {
                 obj.channel = Functions.encodeChannelName(obj.channel);
