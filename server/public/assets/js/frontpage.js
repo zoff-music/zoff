@@ -320,7 +320,7 @@ var Frontpage = {
         Helper.css("#channel-load", "display", "block");
         window.scrollTo(0, 0);
         frontpage = false;
-        new_channel = Helper.encodeChannelName(new_channel.toLowerCase());
+        new_channel = new_channel.toLowerCase();
         clearTimeout(rotation_timeout);
         if(Helper.mobilecheck()){
             Helper.log(["removing all listeners"]);
@@ -336,7 +336,7 @@ var Frontpage = {
                 Helper.tooltip(document.querySelectorAll(".pin")[0].parentElement.parentElement.parentElement, "destroy");
             }
         }
-
+        
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
         Helper.ajax({
