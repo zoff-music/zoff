@@ -195,7 +195,7 @@ function get_list_ajax() {
             token: zoff_api_token,
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
-        url: "/api/list/" + chan.toLowerCase(),
+        url: "/api/list/" + Helper.encodeChannelName(chan.toLowerCase()),
         success: function(response) {
             response = JSON.parse(response);
             if(response.results.length > 0) {
@@ -283,7 +283,7 @@ function get_np_ajax() {
             token: zoff_api_token
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
-        url: "/api/list/" + chan.toLowerCase() + "/__np__",
+        url: "/api/list/" + Helper.encodeChannelName(chan.toLowerCase()) + "/__np__",
         success: function(response) {
             response = JSON.parse(response);
             Player.getTitle(response.results[0].title, 1);
@@ -314,7 +314,7 @@ function del_ajax(id) {
             token: zoff_api_token
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
-        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        url: "/api/list/" + Helper.encodeChannelName(chan.toLowerCase()) + "/" + id,
         success: function(response) {
             toast("deletesong");
             get_list_ajax();
@@ -351,7 +351,7 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end, sour
             token: zoff_api_token
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
-        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        url: "/api/list/" + Helper.encodeChannelName(chan.toLowerCase()) + "/" + id,
         success: function(response) {
             toast("addedsong");
             get_list_ajax();
@@ -384,7 +384,7 @@ function vote_ajax(id) {
             token: zoff_api_token
         },
         headers: {"Content-Type": "application/json;charset=UTF-8"},
-        url: "/api/list/" + chan.toLowerCase() + "/" + id,
+        url: "/api/list/" + Helper.encodeChannelName(chan.toLowerCase()) + "/" + id,
         success: function(response) {
             toast("voted");
             get_list_ajax();

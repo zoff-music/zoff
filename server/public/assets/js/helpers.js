@@ -1,5 +1,23 @@
 var Helper = {
     logs: [],
+
+    decodeChannelName: function(str) {
+        var _fn = decodeURIComponent;
+        str = str.toUpperCase();
+        var toReturn = _fn(str.replace(/%5F/g, "_"));
+        toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
+        return toReturn.toLowerCase();
+    },
+    
+    encodeChannelName: function(str) {
+        var _fn = encodeURIComponent;
+        var toReturn = _fn(str);
+        toReturn = toReturn.replace(/_/g, "%5F");
+        toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
+        toReturn = toReturn.toLowerCase();
+        return toReturn;
+    },
+
     log: function(to_log) {
         if(localStorage.debug === "true") {
             console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
@@ -315,12 +333,12 @@ var Helper = {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-               if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
-                   obj.success(xmlhttp.responseText, xmlhttp);
-               }
-               else if(obj.hasOwnProperty("error")){
-                  obj.error(xmlhttp);
-               }
+                if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
+                    obj.success(xmlhttp.responseText, xmlhttp);
+                }
+                else if(obj.hasOwnProperty("error")){
+                    obj.error(xmlhttp);
+                }
             }
         };
 

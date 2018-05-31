@@ -4,7 +4,12 @@ var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var Search = require(pathThumbnails + '/handlers/search.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-var filter = new Filter({ placeHolder: 'x'});
+//var filter = new Filter({ placeHolder: 'x'});
+var filter = {
+    clean: function(str) {
+        return str;
+    }
+}
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function addFromOtherList(arr, guid, offline, socket) {
@@ -25,8 +30,8 @@ function addFromOtherList(arr, guid, offline, socket) {
             socket.emit('update_required', result);
            return;
         }
-        var channel = arr.channel.replace(/ /g,'').toLowerCase();
-        var new_channel = arr.new_channel.replace(/ /g, '').toLowerCase();
+        var channel = arr.channel;//.replace(/ /g,'').toLowerCase();
+        var new_channel = Functions.encodeChannelName(arr.new_channel);//.replace(/ /g, '').toLowerCase();
         db.collection("frontpage_lists").find({_id: new_channel}, function(err, fp) {
             if(fp.length == 0) {
                 socket.emit("toast", "nolist");
@@ -163,7 +168,7 @@ function addPlaylist(arr, guid, offline, socket) {
             socket.emit('update_required', result);
            return;
         }
-        var channel = arr.channel.replace(/ /g,'').toLowerCase();
+        var channel = arr.channel;//.replace(/ /g,'').toLowerCase();
         db.collection("frontpage_lists").find({_id: channel}, function(err, fp) {
             if(fp.length == 0) {
                 socket.emit("toast", "nolist");
@@ -372,7 +377,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
-        coll = coll.replace(/ /g,'');
+        //coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || arr.adminpass == undefined) {
                 arr.adminpass = adminpass;
@@ -380,10 +385,8 @@ function add_function(arr, coll, guid, offline, socket) {
             if(userpass != "" || arr.userpass == undefined) {
                 arr.userpass = userpass;
             }
-
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(arr.pass)).digest("base64")))) {
-
                     Functions.check_inlist(coll, guid, socket, offline);
 
                     var id = arr.id;
@@ -527,7 +530,7 @@ function voteUndecided(msg, coll, guid, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
-        coll = msg.channel.toLowerCase().replace(/ /g,'');
+        coll = msg.channel.toLowerCase();//.replace(/ /g,'');
         coll = Functions.removeEmojis(coll).toLowerCase();
         coll = filter.clean(coll);
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
@@ -591,7 +594,7 @@ function shuffle(msg, coll, guid, offline, socket) {
             socket.emit('update_required', result);
             return;
         }
-    coll = msg.channel.toLowerCase().replace(/ /g,'');
+    coll = msg.channel.toLowerCase();//.replace(/ /g,'');
     coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
@@ -664,7 +667,7 @@ function shuffle(msg, coll, guid, offline, socket) {
 function del(params, socket, socketid) {
     if(params.id){
         var coll = Functions.removeEmojis(params.channel).toLowerCase();
-        coll = coll.replace(/_/g, "").replace(/ /g,'');
+        //coll = coll.replace(/_/g, "").replace(/ /g,'');
 
         coll = filter.clean(coll);
         db.collection(coll + "_settings").find(function(err, docs){
@@ -713,7 +716,7 @@ function delete_all(msg, coll, guid, offline, socket) {
             if(coll == undefined) {
                 coll = msg.channel;
             }
-            coll = coll.replace(/ /g,'');
+            //coll = coll.replace(/ /g,'');
             coll = Functions.removeEmojis(coll).toLowerCase();
             coll = filter.clean(coll);
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
@@ -753,7 +756,7 @@ function delete_all(msg, coll, guid, offline, socket) {
 }
 
 function vote(coll, id, guid, socket) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll).find({id:id, now_playing: false, type:"video"}, function(err, docs){
         if(docs !== null && docs.length > 0 && !Functions.contains(docs[0].guids, guid))
         {

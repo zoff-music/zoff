@@ -11,7 +11,7 @@ var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function get_correct_info(song_generated, channel, broadcast, callback) {
-    channel = channel.replace(/ /g,'');
+    //channel = channel.replace(/ /g,'');
     request({
             type: "GET",
             url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=" + song_generated.id,
@@ -85,7 +85,7 @@ function check_error_video(msg, channel) {
         return;
     }
     if(msg.source == "soundcloud") return;
-    channel = channel.replace(/ /g,'');
+    //channel = channel.replace(/ /g,'');
     request({
             type: "GET",
             url: "https://www.googleapis.com/youtube/v3/videos?part=id&key="+key+"&id=" + msg.id,
@@ -103,7 +103,7 @@ function check_error_video(msg, channel) {
 }
 
 function findSimilar(msg, channel, broadcast, callback) {
-    channel = channel.replace(/ /g,'');
+    //channel = channel.replace(/ /g,'');
     var yt_url = "https://www.googleapis.com/youtube/v3/search?key="+key+"&videoEmbeddable=true&part=id&type=video&order=viewCount&safeSearch=none&maxResults=5&q=" + encodeURIComponent(msg.title);
     request({
         method: "GET",

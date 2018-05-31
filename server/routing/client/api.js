@@ -6,6 +6,10 @@ var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
 var db = require(pathThumbnails + '/handlers/db.js');
+var List = require(pathThumbnails + '/handlers/list.js');
+var Functions = require(pathThumbnails + '/handlers/functions.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+var Search = require(pathThumbnails + '/handlers/search.js');
 
 var toShowChannel = {
     start: 1,
@@ -533,7 +537,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
 
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-        var channel_name = req.params.channel_name;
+        var channel_name = cleanChannelName(req.params.channel_name);
         req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
         var userpass = req.body.userpass;
         var token = "";
@@ -831,7 +835,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
             } ]
         }
     };
-    var channel_name = req.params.channel_name;
+    var channel_name = cleanChannelName(req.params.channel_name);
     db.collection(channel_name).aggregate([
         {
             "$match": { }
@@ -866,7 +870,7 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    var channel_name = req.params.channel_name;
+    var channel_name = cleanChannelName(req.params.channel_name);
     var video_id = req.params.video_id;
     var searchQuery = {id: video_id};
     if(video_id == "__np__") {
@@ -904,7 +908,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
 
-    var channel_name = req.params.channel_name;
+    var channel_name = cleanChannelName(req.params.channel_name);
     db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
         if(docs.length > 0 && docs[0].userpass == "" || docs[0].userpass == undefined) {
             var conf = docs[0];
@@ -946,7 +950,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         }
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-        var channel_name = req.params.channel_name;
+        var channel_name = cleanChannelName(req.params.channel_name);
         req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
         var userpass = req.body.userpass;
 
@@ -1068,7 +1072,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         }
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-        var channel_name = req.params.channel_name;
+        var channel_name = cleanChannelName(req.params.channel_name);
         req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
         var userpass = req.body.userpass;
 
@@ -1384,10 +1388,11 @@ function checkTimeout(guid, res, authorized, type, callback) {
 }
 
 function cleanChannelName(channel_name) {
-    var coll = emojiStrip(channel_name).toLowerCase();
-    coll = coll.replace("_", "");
-    coll = encodeURIComponent(coll).replace(/\W/g, '');
-    coll = filter.clean(coll);
+    var coll = Functions.removeEmojis(channel_name).toLowerCase();
+    //coll = coll.replace("_", "");
+    //coll = encodeURIComponent(coll).replace(/\W/g, '');
+    coll = Functions.encodeChannelName(channel_name);
+    //coll = filter.clean(coll);
     return coll;
 }
 

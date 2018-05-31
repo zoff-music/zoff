@@ -6,6 +6,7 @@ var path = require('path');
 var analytics = "xx";
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
+var Functions = require(pathThumbnails + '/handlers/functions.js');
 try {
     analytics = require(path.join(path.join(__dirname, '../../config/'), 'analytics.js'));
 } catch(e) {
@@ -177,9 +178,10 @@ function channel(req, res, next) {
             } else if(req.params.channel_name == "o_callback") {
                 res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
+
                 var data = {
                     title: "404: File Not Found",
-                    list_name: capitalizeFirstLetter(req.params.channel_name),
+                    list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
                     year: year,
                     javascript_file: "main.min.js",
                     captcha: res.recaptcha,
@@ -194,7 +196,6 @@ function channel(req, res, next) {
                 if(req.params.channel_name == "404") {
                     res.status(404);
                 }
-
                 res.render('layouts/client/channel', data);
             }
         }

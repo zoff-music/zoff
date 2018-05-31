@@ -76,6 +76,7 @@ var Player = {
         if(obj.np != undefined && !offline) {
             seekTo     = (time - conf.startTime) + Player.np.start;
             Player.getTitle(song_title, viewers);
+            Player.setThumbnail(conf, Player.np.id);
             if(((embed && autoplay) || !embed) && (!was_stopped || buffering) && !client) {
                 Helper.log(["loadVideoById \nwas_stopped="+was_stopped+"\noffline="+offline])
                 Player.loadVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
