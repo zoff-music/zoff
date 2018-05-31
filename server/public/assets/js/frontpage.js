@@ -72,7 +72,8 @@ var Frontpage = {
         ]);
 
         for(var x in lists) {
-            var chan = lists[x]._id;
+            //console.log(lists[x]._id);
+            var chan = Helper.decodeChannelName(lists[x]._id);
             if(num<12 || !popular) {
                 var id = lists[x].id;
                 var viewers = lists[x].viewers;
@@ -126,7 +127,7 @@ var Frontpage = {
         options_list = options_list.sort(Frontpage.sortFunction_active);
         var data = {};
         for(var x in options_list) {
-            data[options_list[x]._id] = null;
+            data[Helper.decodeChannelName(options_list[x]._id)] = null;
         }
         if(document.querySelectorAll(".pin").length == 1 && !Helper.mobilecheck()) {
             Helper.tooltip(document.querySelectorAll(".pin")[0].parentElement.parentElement.parentElement, {
@@ -206,7 +207,7 @@ var Frontpage = {
                     Helper.css("#mega-background","background-size" , "cover");
                     Helper.css("#mega-background","background-repeat" , "no-repeat");
                     Helper.css("#mega-background","opacity", 1);
-                    document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
+                    document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
                     //$(".room-namer").css("opacity", 1);
                 }
             },500);
@@ -231,12 +232,12 @@ var Frontpage = {
                                 Helper.css("#mega-background", "background-size" , "cover");
                                 Helper.css("#mega-background", "background-repeat" , "no-repeat");
                                 Helper.css("#mega-background", "opacity", 1);
-                                document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
+                                document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
                             } catch(e) {}
                         },500);
                     },
                     error: function() {
-                        document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
+                        document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
                     }
                 });
             };
@@ -246,7 +247,7 @@ var Frontpage = {
                     Helper.css("#mega-background", "background-size" , "cover");
                     Helper.css("#mega-background", "background-repeat" , "no-repeat");
                     Helper.css("#mega-background", "opacity", 1);
-                    document.querySelector(".autocomplete").setAttribute("placeholder", list[i]._id);
+                    document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
                 } catch(e) {}
             };
 

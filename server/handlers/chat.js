@@ -1,7 +1,12 @@
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-var filter = new Filter({ placeHolder: 'x'});
+//var filter = new Filter({ placeHolder: 'x'});
+var filter = {
+    clean: function(str) {
+        return str;
+    }
+}
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function get_history(channel, all, socket) {
@@ -16,7 +21,7 @@ function get_history(channel, all, socket) {
             channel: channel,
         };
     }
-    channel = channel.replace(/ /g,'');
+    //channel = channel.replace(/ /g,'');
     var pass = "";
     if(!query.all) {
         Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
@@ -37,7 +42,7 @@ function get_history(channel, all, socket) {
 }
 
 function getAndSendLogs(channel, all, socket, pass, query) {
-    channel = channel.replace(/ /g,'');
+    //channel = channel.replace(/ /g,'');
     db.collection("chat_logs").find(query, {
         from: 1,
         createdAt: 1,
@@ -72,7 +77,7 @@ function chat(msg, guid, offline, socket) {
         socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel.toLowerCase().replace(/ /g,'');
+    var coll = msg.channel.toLowerCase();//.replace(/ /g,'');
     coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
@@ -124,7 +129,7 @@ function all_chat(msg, guid, offline, socket) {
         socket.emit('update_required', result);
         return;
     }
-    var coll = msg.channel.toLowerCase().replace(/ /g,'');
+    var coll = msg.channel.toLowerCase();//.replace(/ /g,'');
     var data = msg.data;
     coll = Functions.removeEmojis(coll).toLowerCase();
     coll = filter.clean(coll);
@@ -216,7 +221,7 @@ function namechange(data, guid, socket, tried) {
                                 //socket.emit('name', {type: "name", accepted: true});
                                 if(old_name != name && !first) {
                                     if(data.hasOwnProperty("channel") && typeof(data.channel) == "string") {
-                                        io.to(data.channel.replace(/ /g,'')).emit('chat', {from: old_name, msg: " changed name to " + name});
+                                        io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
                                         io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                                     }
                                 }
@@ -241,7 +246,7 @@ function namechange(data, guid, socket, tried) {
 }
 
 function removename(guid, coll, socket) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 1) {
             var old_name = docs[0].name;

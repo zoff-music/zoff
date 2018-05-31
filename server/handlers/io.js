@@ -11,7 +11,12 @@ var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var Search = require(pathThumbnails + '/handlers/search.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-var filter = new Filter({ placeHolder: 'x'});
+//var filter = new Filter({ placeHolder: 'x'});
+var filter = {
+    clean: function(str) {
+        return str;
+    }
+}
 var db = require(pathThumbnails + '/handlers/db.js');
 
 module.exports = function() {
@@ -53,7 +58,10 @@ module.exports = function() {
             if(channel.indexOf("?") > -1){
                 channel = channel.substring(0, channel.indexOf("?"));
             }
-            channel = channel.replace(/ /g,'');
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
+            //channel = channel.replace(/ /g,'');
             if(offline) {
                 db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs){});
             } else {
@@ -81,7 +89,10 @@ module.exports = function() {
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
-                            coll = msg.channel.toLowerCase().replace(/ /g,'');
+                            if(msg.hasOwnProperty("channel")) {
+                                msg.channel = Functions.encodeChannelName(msg.channel);
+                            }
+                            coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
@@ -104,18 +115,21 @@ module.exports = function() {
 
         socket.on("error_video", function(msg) {
             try {
-                var _list = msg.channel.replace(/ /g,'');
+                var _list = msg.channel;//.replace(/ /g,'');
                 if(_list.length == 0) return;
                 if(_list.indexOf("?") > -1){
                     _list = _list.substring(0, _list.indexOf("?"));
                     msg.channel = _list;
                 }
                 coll = Functions.removeEmojis(_list).toLowerCase();
-                coll = coll.replace(/_/g, "");
+                //coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
             } catch(e) {
                 return;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
             }
             Search.check_error_video(msg, coll);
         });
@@ -139,7 +153,10 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
-            Suggestions.thumbnail(msg, coll.replace(/ /g,''), guid, offline, socket);
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
+            Suggestions.thumbnail(msg, coll, guid, offline, socket);
         });
 
         socket.on('suggest_description', function(msg){
@@ -147,13 +164,19 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
-            Suggestions.description(msg, coll.replace(/ /g,''), guid, offline, socket);
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
+            Suggestions.description(msg, coll, guid, offline, socket);
         });
 
         socket.on("namechange", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
             }
             Chat.namechange(msg, guid, socket);
         });
@@ -162,6 +185,9 @@ module.exports = function() {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
             }
             if(typeof(msg) != "object" || !msg.hasOwnProperty("channel")) {
                 var result = {
@@ -181,6 +207,9 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             if(!msg.hasOwnProperty('status') || !msg.hasOwnProperty('channel') ||
             typeof(msg.status) != "boolean" || typeof(msg.channel) != "string") {
                 var result = {
@@ -197,7 +226,7 @@ module.exports = function() {
                 return;
             }
             var status = msg.status;
-            var channel = msg.channel.replace(/ /g,'');
+            var channel = msg.channel;//.replace(/ /g,'');
             if(status){
                 in_list = false;
                 offline = true;
@@ -205,7 +234,6 @@ module.exports = function() {
                 if(coll !== undefined) {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     coll = filter.clean(coll);
-
                     db.collection("connected_users").findAndModify({
                         query: {"_id": coll},
                         update: {$pull: {users: guid}},
@@ -219,7 +247,7 @@ module.exports = function() {
                             io.to(coll).emit("viewers", num);
                             db.collection("frontpage_lists").update({"_id": coll, "viewers": {$gt: 0}}, {$inc: {viewers: -1}}, function(err, docs) { });
                             db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, docs){
-                                db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, function(err, docs) {
+                                db.collection("connected_users").update({"_id": "offline_users"}, {$addToSet: {users: guid}}, {upsert: true}, function(err, docs) {
                                     if(docs.nModified == 1 && (coll != undefined && coll != "")) {
                                         db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
                                     }
@@ -244,6 +272,9 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("all") ||
             typeof(msg.channel) != "string" || typeof(msg.all) != "boolean") {
                 var result = {
@@ -263,13 +294,16 @@ module.exports = function() {
                 socket.emit('update_required', result);
                 return;
             }
-            Chat.get_history(msg.channel.replace(/ /g,''), msg.all, socket);
+            Chat.get_history(msg.channel, msg.all, socket);
         });
 
         socket.on('chat', function (msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
             }
             Chat.chat(msg, guid, offline, socket);
         });
@@ -280,6 +314,9 @@ module.exports = function() {
                 var _list = data.channel.substring(0, data.channel.indexOf("?"));
                 data.channel = _list;
             }
+            if(data.hasOwnProperty("channel")) {
+                data.channel = Functions.encodeChannelName(data.channel);
+            }
             Chat.all_chat(data, guid, offline, socket);
         });
 
@@ -289,6 +326,9 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             Frontpage.frontpage_lists(msg, socket);
         });
 
@@ -296,6 +336,9 @@ module.exports = function() {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
             }
             ListChange.addFromOtherList(msg, guid, offline, socket);
         })
@@ -311,6 +354,9 @@ module.exports = function() {
                 var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
                 arr.channel = _list;
             }
+            if(arr.hasOwnProperty("channel")) {
+                arr.channel = Functions.encodeChannelName(arr.channel);
+            }
             if(typeof(arr) == 'object')
             io.to(arr.id).emit(arr.id.toLowerCase(), {type: arr.type, value: arr.value});
         });
@@ -321,15 +367,19 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             try {
-                var _list = msg.channel.replace(/ /g,'');
+                //var _list = msg.channel.replace(/ /g,'');
+                var _list = msg.channel;
                 if(_list.length == 0) return;
                 if(_list.indexOf("?") > -1){
                     _list = _list.substring(0, _list.indexOf("?"));
                     msg.channel = _list;
                 }
                 coll = Functions.removeEmojis(_list).toLowerCase();
-                coll = coll.replace(/_/g, "");
+                //coll = coll.replace(/_/g, "");
                 //
                 coll = filter.clean(coll);
             } catch(e) {
@@ -349,12 +399,15 @@ module.exports = function() {
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
+            if(obj.hasOwnProperty("channel")) {
+                obj.channel = Functions.encodeChannelName(obj.channel);
+            }
             if(coll === undefined) {
                 try {
-                    coll = obj.channel.toLowerCase().replace(/ /g,'');
+                    coll = obj.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {
@@ -369,21 +422,27 @@ module.exports = function() {
                 var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
                 arr.channel = _list;
             }
+            if(arr.hasOwnProperty("channel")) {
+                arr.channel = Functions.encodeChannelName(arr.channel);
+            }
             ListChange.addPlaylist(arr, guid, offline, socket);
         })
 
         socket.on('add', function(arr)
         {
-            if(arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1){
-                var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-                arr.channel = _list;
+            if(arr.hasOwnProperty("list") && arr.list.indexOf("?") > -1){
+                var _list = arr.list.substring(0, arr.list.indexOf("?"));
+                arr.list = _list;
+            }
+            if(arr.hasOwnProperty("list")) {
+                arr.list = Functions.encodeChannelName(arr.list);
             }
             if(coll !== undefined) {
                 try {
-                    coll = arr.list.replace(/ /g,'');
+                    coll = arr.list;//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {
@@ -399,10 +458,13 @@ module.exports = function() {
                     var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                     msg.channel = _list;
                 }
-                coll = msg.channel.toLowerCase().replace(/ /g,'');
+                if(msg.hasOwnProperty("channel")) {
+                    msg.channel = Functions.encodeChannelName(msg.channel);
+                }
+                coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = Functions.removeEmojis(coll).toLowerCase();
-                coll = coll.replace(/_/g, "");
+                //coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
             } catch(e) {
@@ -418,12 +480,15 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel.toLowerCase().replace(/ /g,'');
+                    coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {
@@ -439,7 +504,10 @@ module.exports = function() {
                 var _list = inp.channel.substring(0, inp.channel.indexOf("?"));
                 inp.channel = _list;
             }
-            if(coll != undefined) coll.replace(/ /g,'');
+            if(inp.hasOwnProperty("channel")) {
+                inp.channel = Functions.encodeChannelName(inp.channel);
+            }
+            //if(coll != undefined) coll.replace(/ /g,'');
             ListSettings.password(inp, coll, guid, offline, socket);
         });
 
@@ -450,7 +518,10 @@ module.exports = function() {
                 list.channel = _list;
                 coll = list.channel;
             }
-            if(coll != undefined) coll.replace(/ /g,'');
+            if(list.hasOwnProperty("channel")) {
+                list.channel = Functions.encodeChannelName(list.channel);
+            }
+            //if(coll != undefined) coll.replace(/ /g,'');
             List.skip(list, guid, coll, offline, socket);
         });
 
@@ -461,7 +532,10 @@ module.exports = function() {
                 conf.channel = _list;
                 coll = conf.channel;
             }
-            if(coll != undefined) coll.replace(/ /g,'');
+            if(conf.hasOwnProperty("channel")) {
+                conf.channel = Functions.encodeChannelName(conf.channel);
+            }
+            //if(coll != undefined) coll.replace(/ /g,'');
             ListSettings.conf_function(conf, coll, guid, offline, socket);
         });
 
@@ -471,12 +545,15 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             if(coll !== undefined) {
                 try {
-                    coll = msg.channel.toLowerCase().replace(/ /g,'');
+                    coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {
@@ -495,12 +572,15 @@ module.exports = function() {
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
+            if(obj.hasOwnProperty("channel")) {
+                obj.channel = Functions.encodeChannelName(obj.channel);
+            }
             if(coll === undefined && obj !== undefined && obj.channel !== undefined){
                 try {
-                    coll = obj.channel.toLowerCase().replace(/ /g,'');
+                    coll = obj.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {
@@ -526,8 +606,11 @@ module.exports = function() {
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
                 msg.channel = _list;
             }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
-                coll = msg.channel.replace(/ /g,'');
+                coll = msg.channel;//.replace(/ /g,'');
                 coll = Functions.removeEmojis(coll).toLowerCase();
                 coll = filter.clean(coll);
                 List.left_channel(coll, guid, short_id, in_list, socket, false);
@@ -555,13 +638,16 @@ module.exports = function() {
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
+            if(obj.hasOwnProperty("channel")) {
+                obj.channel = Functions.encodeChannelName(obj.channel);
+            }
             if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string")
             if(coll !== undefined) {
                 try {
-                    coll = obj.channel.toLowerCase().replace(/ /g,'');
+                    coll = obj.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = coll.replace(/_/g, "");
+                    //coll = coll.replace(/_/g, "");
 
                     coll = filter.clean(coll);
                 } catch(e) {

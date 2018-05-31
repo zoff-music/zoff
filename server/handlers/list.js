@@ -4,7 +4,12 @@ var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-var filter = new Filter({ placeHolder: 'x'});
+//var filter = new Filter({ placeHolder: 'x'});
+var filter = {
+    clean: function(str) {
+        return str;
+    }
+}
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
 
@@ -53,7 +58,7 @@ function list(msg, guid, coll, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
-            coll = msg.channel.toLowerCase().replace(/ /g,'');
+            coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
             coll = Functions.removeEmojis(coll).toLowerCase();
             coll = filter.clean(coll);
             var pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
@@ -119,10 +124,10 @@ function skip(list, guid, coll, offline, socket) {
         if(coll == undefined && list.hasOwnProperty('channel')) coll = list.channel.toLowerCase();
         if(coll !== undefined) {
             try {
-                coll = list.channel.toLowerCase().replace(/ /g,'');
+                coll = list.channel.toLowerCase();//.replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = Functions.removeEmojis(coll).toLowerCase();
-                coll = coll.replace(/_/g, "");
+                //coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
             } catch(e) {
@@ -241,7 +246,7 @@ function skip(list, guid, coll, offline, socket) {
 }
 
 function change_song(coll, error, id, callback, socket) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll + "_settings").find(function(err, docs){
         var startTime = docs[0].startTime;
         if(docs !== null && docs.length !== 0)
@@ -339,7 +344,7 @@ function change_song(coll, error, id, callback, socket) {
 }
 
 function change_song_post(coll, next_song, callback, socket) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll).aggregate([{
         $match:{
             now_playing:false,
@@ -398,7 +403,7 @@ function change_song_post(coll, next_song, callback, socket) {
 
 function send_list(coll, socket, send, list_send, configs, shuffled)
 {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll + "_settings").find({id: "config"}, function(err, _conf){
         var conf = _conf;
         if(conf.length == 0) {
@@ -580,7 +585,7 @@ function end(obj, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
             return;
         }
-        coll = coll.replace(/ /g,'');
+        //coll = coll.replace(/ /g,'');
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
             if(userpass != "" || obj.pass == undefined) {
                 obj.pass = userpass;
@@ -627,7 +632,7 @@ function end(obj, coll, guid, offline, socket) {
 }
 
 function send_play(coll, socket, broadcast) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll).find({now_playing:true}, function(err, np){
         db.collection(coll + "_settings").find(function(err, conf){
             if(err !== null) console.log(err);
@@ -677,7 +682,7 @@ function send_play(coll, socket, broadcast) {
 
 function sendColor(coll, socket, url, ajax, res) {
     if(coll != undefined && typeof(coll) == "string") {
-        coll = coll.replace(/ /g,'');
+        //coll = coll.replace(/ /g,'');
     }
     if(url.indexOf("://") == -1) url = 'https://img.youtube.com/vi/'+url+'/mqdefault.jpg';
     //var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
@@ -700,7 +705,7 @@ function sendColor(coll, socket, url, ajax, res) {
 }
 
 function getNextSong(coll, callback) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection(coll).aggregate([{
         $match:{
             views:{
@@ -735,7 +740,7 @@ function getNextSong(coll, callback) {
 
 function left_channel(coll, guid, short_id, in_list, socket, change) {
     if(!coll) return;
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, updated) {
         if(updated.nModified > 0) {
             db.collection("connected_users").find({"_id": coll}, function(err, new_doc){

@@ -12,6 +12,22 @@ var crypto = require('crypto');
 var db = require(pathThumbnails + '/handlers/db.js');
 var uniqid = require('uniqid');
 
+function encodeChannelName(str) {
+  var _fn = encodeURIComponent;
+  var toReturn = _fn(str);
+  toReturn = toReturn.replace(/_/g, "%5F");
+  toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
+  toReturn = toReturn.toLowerCase();
+  return toReturn;
+}
+
+function decodeChannelName(str) {
+  var _fn = decodeURIComponent;
+   str = str.toUpperCase();
+   var toReturn = _fn(str.replace(/%5F/g, "_"));
+   return toReturn.toLowerCase();
+}
+
 function remove_unique_id(short_id) {
     db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
 }
@@ -82,7 +98,7 @@ function check_inlist(coll, guid, socket, offline)
 {
 
     if(coll == undefined) return;
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
             if(updated.nModified > 0 || updated.upserted != undefined) {
@@ -294,6 +310,8 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+module.exports.decodeChannelName = decodeChannelName;
+module.exports.encodeChannelName = encodeChannelName;
 module.exports.isUrl = isUrl;
 module.exports.removeEmojis = removeEmojis;
 module.exports.getSessionChatPass = getSessionChatPass;
