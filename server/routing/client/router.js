@@ -7,6 +7,8 @@ var analytics = "xx";
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
 var Functions = require(pathThumbnails + '/handlers/functions.js');
+//var db = require(pathThumbnails + '/handlers/db.js');
+
 try {
     analytics = require(path.join(path.join(__dirname, '../../config/'), 'analytics.js'));
 } catch(e) {
@@ -63,6 +65,7 @@ router.route('/api/apply/:id').get(function(req,res) {
                         correct: true,
                         stylesheet: "style.css",
                         embed: false,
+                        og_image: "https://zoff.me/assets/images/small-square.jpg",
                     }
                     res.render('layouts/client/token', data);
                 });
@@ -78,6 +81,7 @@ router.route('/api/apply/:id').get(function(req,res) {
                 correct: false,
                 stylesheet: "style.css",
                 embed: false,
+                og_image: "https://zoff.me/assets/images/small-square.jpg",
             }
             res.render('layouts/client/token', data);
         }
@@ -96,6 +100,7 @@ router.route('/api/apply').get(function(req, res, next) {
         correct: false,
         stylesheet: "style.css",
         embed: false,
+        og_image: "https://zoff.me/assets/images/small-square.jpg",
     }
     res.render('layouts/client/token', data);
 });
@@ -117,6 +122,7 @@ function root(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
+                og_image: "https://zoff.me/assets/images/small-square.jpg",
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain[0] == "www") {
@@ -130,6 +136,7 @@ function root(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
+                og_image: "https://zoff.me/assets/images/small-square.jpg",
             }
             if(subdomain[0] == "client") {
                 data.client = true;
@@ -159,6 +166,7 @@ function channel(req, res, next) {
                 stylesheet: "style.css",
                 embed: false,
                 client: false,
+                og_image: "https://zoff.me/assets/images/small-square.jpg",
             }
             res.render('layouts/client/remote', data);
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
@@ -173,30 +181,43 @@ function channel(req, res, next) {
                     analytics: analytics,
                     stylesheet: "embed.css",
                     embed: true,
+                    og_image: "https://zoff.me/assets/images/small-square.jpg",
                 }
                 res.render('layouts/client/embed', data);
             } else if(req.params.channel_name == "o_callback") {
                 res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
-
-                var data = {
-                    title: "404: File Not Found",
-                    list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
-                    year: year,
-                    javascript_file: "main.min.js",
-                    captcha: res.recaptcha,
-                    analytics: analytics,
-                    stylesheet: "style.css",
-                    embed: false,
-                    client:false,
-                }
-                if(subdomain[0] == "client") {
-                    data.client = true;
-                }
-                if(req.params.channel_name == "404") {
-                    res.status(404);
-                }
-                res.render('layouts/client/channel', data);
+                /*db.collection("frontpage_lists").find({"_id": Functions.encodeChannelName(req.params.channel_name)}, function(err, docs) {
+                    console.log(docs);
+                    var og_image = "https://zoff.me/assets/images/small-square.jpg";
+                    if(docs.length == 1) {
+                        if(docs[0].hasOwnProperty("thumbnail")) {
+                            if(docs[0].thumbnail.indexOf("mqdefault.jpg") > -1) docs[0].thumbnail = docs[0].thumbnail.replace("mqdefault", "hqdefault");
+                            og_image = docs[0].thumbnail;
+                        } else {
+                            og_image = "https://img.youtube.com/vi/" + docs[0].id + "/hqdefault.jpg";
+                        }
+                    }*/
+                    var data = {
+                        title: "404: File Not Found",
+                        list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
+                        year: year,
+                        javascript_file: "main.min.js",
+                        captcha: res.recaptcha,
+                        analytics: analytics,
+                        stylesheet: "style.css",
+                        embed: false,
+                        client:false,
+                        og_image: "https://zoff.me/assets/images/small-square.jpg"
+                    }
+                    if(subdomain[0] == "client") {
+                        data.client = true;
+                    }
+                    if(req.params.channel_name == "404") {
+                        res.status(404);
+                    }
+                    res.render('layouts/client/channel', data);
+                //});
             }
         }
     } catch(e) {
