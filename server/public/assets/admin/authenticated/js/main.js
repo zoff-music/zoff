@@ -28,13 +28,20 @@ $(document).on("click", "#refresh_all", function(e){
 	socket.emit("get_spread");
 });
 
+function decodeChannelName(str) {
+  var _fn = decodeURIComponent;
+  str = str.toUpperCase();
+  var toReturn = _fn(str.replace(/%5F/g, "_"));
+  return toReturn.toLowerCase();
+}
+
 socket.on("spread_listeners", function(obj){
 	$("#listeners").append("<p>Private listeners: " + obj.offline + "</p>");
 	$("#listeners").append("<p>Total listeners: " + obj.total + "</p>");
 	$("#listeners").append("<hr>");
 	for(var x in obj.online_users){
 		if(obj.online_users[x]._id != "total_users" && obj.online_users[x].hasOwnProperty("users") && obj.online_users[x].users.length > 0){
-			$("#listeners").append("<p>" + obj.online_users[x]._id + ": " + obj.online_users[x].users.length + "</p>");
+			$("#listeners").append("<p>" + decodeChannelName(obj.online_users[x]._id) + ": " + obj.online_users[x].users.length + "</p>");
 		}
 	}
 });
@@ -144,9 +151,9 @@ function loaded() {
 			var output_delete = '<option value="" disabled selected>Channels</option>';
 			for(var x = 0; x < response.length; x++){
 				if(response[x].count > 2){
-					output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
+					output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + decodeChannelName(response[x]._id) + "</option>";
 				}
-				output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
+				output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + decodeChannelName(response[x]._id) + "</option>";
 			}
 
 			$("#frontpage_pinned").html(output_pinned);
@@ -232,9 +239,9 @@ $(document).on("click", ".thumbnail_link", function(e) {
 function add_to_tab(dest, resp){
 	for(var x = 0; x < resp.length; x++){
 		if(dest == "thumbnails"){
-			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + resp[x].channel + "</div><input type='text' readonly class='col s4 m6 thumbnail_link' value='" + resp[x].thumbnail + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
+			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6 thumbnail_link' value='" + resp[x].thumbnail + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
 		} else {
-			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + resp[x].channel + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].description + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
+			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].description + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
 		}
 	}
 }
@@ -433,7 +440,7 @@ $(document).on("submit", "#delete_channel", function(e){
 		Materialize.toast("Something went wrong...", 2000, "red lighten");
 		return;
 	}
-	var r = confirm("Delete list " + to_delete + "?");
+	var r = confirm("Delete list \""+ decodeChannelName(to_delete) + "\"?");
 	if (r == true) {
 		$.ajax({
 			type: "POST",
@@ -443,26 +450,7 @@ $(document).on("submit", "#delete_channel", function(e){
 			},
 			success: function(response){
 				if(response == true){
-					$.ajax({
-						type: "GET",
-						url: "/api/lists",
-						success: function(response){
-							var output_pinned = "";
-							var output_delete = "";
-							for(var x = 0; x < response.length; x++){
-								if(response[x].count > 5){
-									output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
-								}
-								output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + response[x]._id + "</option>";
-							}
-
-							$("#frontpage_pinned").html(output_pinned);
-							$("#delete_list_name").html(output_delete);
-							$("#delete_userpass_name").html(output_delete);
-							$("#delete_channel_name").html(output_delete);
-							$("select").material_select();
-						}
-					});
+					loaded();
 					Materialize.toast("Deleted channel!", 2000, "green lighten");
 				} else {
 					Materialize.toast("Something went wrong...", 2000, "red lighten");

@@ -20,7 +20,7 @@ function frontpage_lists(msg, socket) {
 }
 
 function update_frontpage(coll, id, title, thumbnail, source, callback) {
-    coll = coll.replace(/ /g,'');
+    //coll = coll.replace(/ /g,'');
     db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
         var updateObject = {
             id: id,

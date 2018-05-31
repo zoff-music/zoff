@@ -27,7 +27,9 @@ var Channel = {
         number_suggested = 0;
         var no_socket = true;
 
-        chan = Helper.html("#chan");
+        chan = Helper.decodeChannelName(Helper.html("#chan"));
+        console.log(chan);
+        console.log(Helper.decodeChannelName(chan));
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
 
@@ -185,9 +187,9 @@ var Channel = {
 
 
         if(!client) {
-            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/"+chan.toLowerCase();
+            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/"+encodeURIComponent(chan.toLowerCase());
             document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
-            Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + chan.toLowerCase());
+            Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
         } else {
             Helper.removeElement(".video-container");
             Helper.removeElement(".offline-panel");

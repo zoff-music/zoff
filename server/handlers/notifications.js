@@ -2,7 +2,7 @@ var path = require('path');
 
 function requested_change(type, string, channel) {
     try {
-        channel = channel.replace(/ /g,'');
+        //channel = channel.replace(/ /g,'');
         var nodemailer = require('nodemailer');
         var mailconfig = require(path.join(__dirname, '../config/mailconfig.js'));
 

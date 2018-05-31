@@ -1,7 +1,12 @@
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-var filter = new Filter({ placeHolder: 'x'});
+//var filter = new Filter({ placeHolder: 'x'});
+var filter = {
+    clean: function(str) {
+        return str;
+    }
+}
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function password(inp, coll, guid, offline, socket) {
@@ -29,13 +34,13 @@ function password(inp, coll, guid, offline, socket) {
             coll = inp.channel;
             if(coll.length == 0) return;
             coll = Functions.removeEmojis(coll).toLowerCase();
-            coll = coll.replace(/_/g, "");
+            //coll = coll.replace(/_/g, "");
 
             coll = filter.clean(coll);
         } catch(e) {
             return;
         }
-        coll = coll.replace(/ /g,'');
+        //coll = coll.replace(/ /g,'');
         uncrypted = pw;
         pw = Functions.hash_pass(Functions.decrypt_string(pw), true);
         Functions.check_inlist(coll, guid, socket, offline);
@@ -90,10 +95,10 @@ function conf_function(params, coll, guid, offline, socket) {
     {
         if(coll !== undefined) {
             try {
-                coll = params.channel.replace(/ /g,'');
+                coll = params.channel;//.replace(/ /g,'');
                 if(coll.length == 0) return;
                 coll = Functions.removeEmojis(coll).toLowerCase();
-                coll = coll.replace(/_/g, "");
+                //coll = coll.replace(/_/g, "");
 
                 coll = filter.clean(coll);
             } catch(e) {
