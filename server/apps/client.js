@@ -114,7 +114,6 @@ app.use('/assets/admin', function(req, res, next) {
 app.use('/assets', express.static(publicPath + '/assets'));
 
 app.use(function (req, res, next) {
-	console.log("here");
   res.status(404);
   res.redirect("/404");
 })
