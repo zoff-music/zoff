@@ -28,8 +28,7 @@ var Channel = {
         var no_socket = true;
 
         chan = Helper.decodeChannelName(Helper.html("#chan"));
-        console.log(chan);
-        console.log(Helper.decodeChannelName(chan));
+        
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
 
