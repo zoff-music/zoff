@@ -6,6 +6,7 @@ var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
 var db = require(pathThumbnails + '/handlers/db.js');
+var crypto = require('crypto');
 var List = require(pathThumbnails + '/handlers/list.js');
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
