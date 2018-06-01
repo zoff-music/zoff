@@ -390,7 +390,7 @@ var Player = {
                     if(Player.player.getVideoUrl().indexOf(id) > -1) {
                         Player.player.seekTo(seekTo);
                     } else {
-                        Player.player.loadVideoById({'videoId': id, 'startSeconds': s + seekTo, 'endSeconds': e});
+                        Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
                     }
                 } catch(e) {
                 }
@@ -891,7 +891,7 @@ var Player = {
                             }
                         }
                 } else {
-                    if(Player.player.getCurrentTime() > Player.np.end && Player.player.getPlayerState() == YT.PlayerState.PLAYING) {
+                    if(Math.ceil(Player.player.getCurrentTime()) >= Player.np.end && (Player.player.getPlayerState() == YT.PlayerState.PLAYING)) {
                         end_programmatically = true;
 
                         if(!offline) {
@@ -901,6 +901,8 @@ var Player = {
                         } else {
                             Player.playNext();
                         }
+                    } else if(Math.ceil(Player.player.getCurrentTime()) < Player.np.end && Player.player.getState() != YT.PlayerState.PLAYING && !was_stopped) {
+                        Player.player.playVideo();
                     }
                 }
             }
