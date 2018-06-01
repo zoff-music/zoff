@@ -390,7 +390,7 @@ var Player = {
                     if(Player.player.getVideoUrl().indexOf(id) > -1) {
                         Player.player.seekTo(seekTo);
                     } else {
-                        Player.player.loadVideoById({'videoId': id, 'startSeconds': s, 'endSeconds': e});
+                        Player.player.loadVideoById({'videoId': id, 'startSeconds': seekTo, 'endSeconds': e});
                     }
                 } catch(e) {
                 }
