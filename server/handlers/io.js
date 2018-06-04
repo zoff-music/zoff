@@ -89,6 +89,9 @@ module.exports = function() {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
+                            Functions.setChromecastHost(socket.cookie_id, msg.guid, function(results) {
+                                console.log("setChromecastHost: ", results);
+                            });
                             socket.cookie_id = msg.guid;
                             guid = msg.guid;
                             socketid = msg.socket_id;
@@ -96,6 +99,7 @@ module.exports = function() {
                             if(msg.hasOwnProperty("channel")) {
                                 msg.channel = Functions.encodeChannelName(msg.channel);
                             }
+
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
