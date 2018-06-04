@@ -687,7 +687,9 @@ module.exports = function() {
             }
 
             db.collection(coll + "_settings").find(function(err, docs) {
+                console.log("trying to get pos in song");
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
+                    console.log("userpass, adminpass", userpass, adminpass);
                     if(userpass != "" || obj.pass == undefined) {
                         obj.pass = userpass;
                     }
