@@ -24,9 +24,11 @@ window.addEventListener("DOMContentLoaded", function(e) {
         Helper.toggleClass(".submit", "disabled");
         Helper.removeClass(".full-form-token", "hide");
         var captcha_response = grecaptcha.getResponse();
+        console.log(captcha_response);
         Helper.ajax({
             type: "POST",
             url: "/api/apply",
+            headers: {"Content-Type": "application/json;charset=UTF-8"},
             data: {
                 origin: origin,
                 email: email,
