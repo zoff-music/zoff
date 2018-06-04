@@ -117,7 +117,7 @@ module.exports = function() {
 
         socket.on("get_id", function() {
             console.log("gotten request from mobile", Functions.getSession(socket));
-            socket.emit("id_chromecast", Functions.getSession(socket));
+            socket.emit("id_chromecast", guid);
         });
 
         socket.on("error_video", function(msg) {
