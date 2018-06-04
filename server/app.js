@@ -132,6 +132,6 @@ function routingFunction(req, res, next) {
             client(req, res, next);
         }
     } catch(e) {
-        res.sendStatus(500);
+        res.status(500);
     }
 }
