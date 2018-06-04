@@ -295,8 +295,8 @@ function getSessionAdminUser(id, list, callback) {
             var adminpass = "";
             if(d.length > 0) {
                 console.log(d);
-                if(d.hasOwnProperty("chromecast") && d.chromecast) {
-                    getSessionAdminUser(d.id, list, callback);
+                if(d[0].hasOwnProperty("chromecast") && d[0].chromecast) {
+                    getSessionAdminUser(d[0].id, list, callback);
                 } else {
                     if(d[0].userpass != undefined) userpass = d[0].userpass;
                     if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
