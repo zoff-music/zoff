@@ -11,6 +11,7 @@ var List = require(pathThumbnails + '/handlers/list.js');
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var Search = require(pathThumbnails + '/handlers/search.js');
+var uniqid = require('uniqid');
 
 var toShowChannel = {
     start: 1,
@@ -1254,42 +1255,10 @@ try {
                 token_db.collection("api_links").find({token: token}, function(e, d) {
                     if(results_find.length == 0 || (d.length == 0 && results_find.length > 0 && !results_find[0].active)) {
                         token_db.collection("api_token").insert({name: name, origin: origin, token: id, usage: 0, active: false, limit: 20}, function(err, docs){
-                           token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
-                               let transporter = nodemailer.createTransport(mailconfig);
-
-                               transporter.verify(function(error, success) {
-                                   if (error) {
-                                       token_db.collection("api_links").remove({id: uniqid_link}, function(e,d) {
-                                           res.send("failed");
-                                           return;
-                                       })
-                                   } else {
-                                       var subject = 'ZOFF: API-key';
-                                       var message = "Link to API-key: <a href='https://zoff.me/api/apply/" + uniqid_link + "'/>https://zoff.me/api/apply/" + uniqid_link + "</a>\n\nThis link expires in 1 day.";
-                                       var msg = {
-                                           from: mailconfig.from,
-                                           to: name,
-                                           subject: subject,
-                                           text: message,
-                                           html: message,
-                                       }
-                                       transporter.sendMail(msg, (error, info) => {
-                                           if (error) {
-                                               res.status(400).send("failed");
-                                               transporter.close();
-                                               return;
-                                           }
-                                           res.status(200).send("success");
-                                           transporter.close();
-                                           return;
-                                       });
-                                   }
-                               });
-                           })
+                           createApiLink(req, res, uniqid_link, id, name);
                         });
                     } else {
-                        res.send("failed");
-                        return;
+                        createApiLink(req, res, uniqid_link, token, name);
                     }
                 });
             })
@@ -1298,6 +1267,40 @@ try {
             return;
         }
     });
+
+    function createApiLink(req, res, uniqid_link, id, name) {
+        token_db.collection("api_links").insert({id: uniqid_link, token: id, createdAt: new Date()}, function(err, docs) {
+            let transporter = nodemailer.createTransport(mailconfig);
+            transporter.verify(function(error, success) {
+                if (error) {
+                    token_db.collection("api_links").remove({id: uniqid_link}, function(e,d) {
+                        res.send("failed");
+                        return;
+                    })
+                } else {
+                    var subject = 'ZOFF: API-key';
+                    var message = "Hello,<br><br>Thanks for signing up for the API, here is your key: <a href='https://zoff.me/api/apply/" + uniqid_link + "'/>https://zoff.me/api/apply/" + uniqid_link + "</a><br><br>This link will expire in 1 day, so please write it down.<br><br><img src='https://zoff.me/assets/images/small-square.jpg' width='100' height='100' alt='zoff-logo' />";
+                    var msg = {
+                        from: mailconfig.from,
+                        to: name,
+                        subject: subject,
+                        text: message,
+                        html: message,
+                    }
+                    transporter.sendMail(msg, (error, info) => {
+                        if (error) {
+                            res.send("failed");
+                            transporter.close();
+                            return;
+                        }
+                        res.status(200).send("success");
+                        transporter.close();
+                        return;
+                    });
+                }
+            });
+        })
+    }
 
     router.route('/api/mail').post(recaptcha.middleware.verify, function(req, res) {
         if(req.recaptcha.error == null) {

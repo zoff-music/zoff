@@ -54,7 +54,23 @@ router.route('/').post(function(req, res, next){
     root(req, res, next);
 });
 
-router.route('/api/apply/:id').get(function(req,res) {
+router.route('/api/apply').get(function(req, res, next) {
+    var data = {
+        year: year,
+        javascript_file: "token.min.js",
+        captcha: res.recaptcha,
+        analytics: analytics,
+        activated: false,
+        id: "",
+        correct: false,
+        stylesheet: "style.css",
+        embed: false,
+        og_image: "https://zoff.me/assets/images/small-square.jpg",
+    }
+    res.render('layouts/client/token', data);
+});
+
+router.route('/api/apply/:id').get(function(req, res) {
     var id = req.params.id;
     token_db.collection('api_links').find({id: id}, function(err, result) {
         if(result.length == 1) {
@@ -74,7 +90,7 @@ router.route('/api/apply/:id').get(function(req,res) {
                     }
                     res.render('layouts/client/token', data);
                 });
-            })
+            });
         } else {
             var data = {
                 year: year,
@@ -93,22 +109,6 @@ router.route('/api/apply/:id').get(function(req,res) {
     });
 });
 
-
-router.route('/api/apply').get(function(req, res, next) {
-    var data = {
-        year: year,
-        javascript_file: "token.min.js",
-        captcha: res.recaptcha,
-        analytics: analytics,
-        activated: false,
-        id: "",
-        correct: false,
-        stylesheet: "style.css",
-        embed: false,
-        og_image: "https://zoff.me/assets/images/small-square.jpg",
-    }
-    res.render('layouts/client/token', data);
-});
 
 function root(req, res, next) {
     try{
