@@ -296,7 +296,7 @@ initializeCastApi = function() {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
 
-                if(Helper.mobilecheck() && !chromecast_specs_sent) {
+                if(Helper.mobilecheck()) {
                     socket.emit("get_id");
                 }
                 hide_native(1);
@@ -321,6 +321,9 @@ initializeCastApi = function() {
                     _seekTo = Player.player.getCurrentTime();
                 } catch(event){
                     _seekTo = seekTo;
+                }
+                if(Helper.mobilecheck()) {
+                    socket.emit("get_id");
                 }
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
