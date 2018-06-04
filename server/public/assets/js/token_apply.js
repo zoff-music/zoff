@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", function(e) {
 
     if(!Helper.mobilecheck()) {
         if(document.querySelector("#iframe-container")) {
-            document.getElementById("iframe-container").insertAdjacentHTML("beforeend", '<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080" width="600px" height="300px"></iframe>');
+            document.getElementById("iframe-container").insertAdjacentHTML("beforeend", '<iframe id="iframe" src="https://zoff.me/_embed#celebrate&808080&autoplay" width="600px" height="300px" allow="autoplay"></iframe>');
         }
     }
 
@@ -24,7 +24,6 @@ window.addEventListener("DOMContentLoaded", function(e) {
         Helper.toggleClass(".submit", "disabled");
         Helper.removeClass(".full-form-token", "hide");
         var captcha_response = grecaptcha.getResponse();
-        console.log(captcha_response);
         Helper.ajax({
             type: "POST",
             url: "/api/apply",
