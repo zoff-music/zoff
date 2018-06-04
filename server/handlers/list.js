@@ -701,6 +701,14 @@ function sendColor(coll, socket, url, ajax, res) {
                 io.to(coll).emit("color", {color: c, only: false});
             }
         }
+    }).catch(function(err) {
+        console.log("Crashed on fetching image, url is " + url);
+        console.log("Is ajax: " + ajax);
+        if(ajax) {
+            res.header({"Content-Type": "application/json"});
+            res.status(404);
+            return;
+        }
     });
 }
 
