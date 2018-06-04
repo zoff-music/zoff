@@ -79,6 +79,7 @@ module.exports = function() {
         });
 
         socket.on('chromecast', function(msg) {
+            console.log("chromecast event", msg);
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
@@ -99,6 +100,7 @@ module.exports = function() {
                                 coll = coll.substring(0, coll.indexOf("?"));
                             }
                             in_list = true;
+                            console.log("chromecast list", coll);
                             chromecast_object = true;
                             socket.join(coll);
                         }
@@ -110,6 +112,7 @@ module.exports = function() {
         });
 
         socket.on("get_id", function() {
+            console.log("gotten request from mobile", Functions.getSession(socket));
             socket.emit("id_chromecast", Functions.getSession(socket));
         });
 
