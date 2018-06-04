@@ -80,6 +80,8 @@ module.exports = function() {
 
         socket.on('chromecast', function(msg) {
             console.log("chromecast event", msg);
+            console.log(Functions.getSession(socket));
+            console.log("cookie_id", socket.cookie_id);
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
@@ -107,6 +109,7 @@ module.exports = function() {
                     });
                 }
             } catch(e) {
+                console.log(e);
                 return;
             }
         });
