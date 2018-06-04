@@ -332,6 +332,7 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+module.exports.setChromecastHost = setChromecastHost;
 module.exports.decodeChannelName = decodeChannelName;
 module.exports.encodeChannelName = encodeChannelName;
 module.exports.isUrl = isUrl;
