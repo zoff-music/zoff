@@ -89,7 +89,13 @@ module.exports = function() {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
-                            Functions.setChromecastHost(socket.cookie_id, msg.guid, function(results) {
+                            coll = msg.channel.toLowerCase();//.replace(/ /g,'');
+                            coll = Functions.removeEmojis(coll).toLowerCase();
+                            coll = filter.clean(coll);
+                            if(coll.indexOf("?") > -1){
+                                coll = coll.substring(0, coll.indexOf("?"));
+                            }
+                            Functions.setChromecastHost(socket.cookie_id, msg.guid, msg.channel, function(results) {
                                 console.log("setChromecastHost: ", results);
                             });
                             socket.cookie_id = msg.guid;
@@ -98,13 +104,6 @@ module.exports = function() {
                             socket.zoff_id = socketid;
                             if(msg.hasOwnProperty("channel")) {
                                 msg.channel = Functions.encodeChannelName(msg.channel);
-                            }
-
-                            coll = msg.channel.toLowerCase();//.replace(/ /g,'');
-                            coll = Functions.removeEmojis(coll).toLowerCase();
-                            coll = filter.clean(coll);
-                            if(coll.indexOf("?") > -1){
-                                coll = coll.substring(0, coll.indexOf("?"));
                             }
                             in_list = true;
                             console.log("chromecast list", coll);
