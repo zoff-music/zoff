@@ -83,7 +83,7 @@ module.exports = function() {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
-                typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
+                typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             socket.cookie_id = msg.guid;
@@ -398,6 +398,7 @@ module.exports = function() {
 
         socket.on('end', function(obj)
         {
+            console.log("end event", obj);
             if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
