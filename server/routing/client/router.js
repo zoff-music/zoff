@@ -34,10 +34,12 @@ try {
 }
 
 router.use(recaptcha.middleware.render, function(req, res, next) {
+    console.log("middleware render");
     next(); // make sure we go to the next routes and don't stop here
 });
 
 router.route('/:channel_name').get(function(req, res, next){
+    console.log("channel_name get");
     channel(req, res, next);
 });
 
@@ -47,10 +49,12 @@ router.route('/r/:base64data').get(function(req, res, next){
 });
 
 router.route('/').get(function(req, res, next){
+    console.log("/ get");
     root(req, res, next);
 });
 
 router.route('/').post(function(req, res, next){
+    console.log("/ post");
     root(req, res, next);
 });
 
