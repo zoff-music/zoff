@@ -637,14 +637,16 @@ module.exports = function() {
 
         socket.on('pos', function(obj)
         {
-            if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
+            if(obj != undefined && obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
-            if(obj.hasOwnProperty("channel")) {
+            if(obj != undefined && obj.hasOwnProperty("channel")) {
                 obj.channel = Functions.encodeChannelName(obj.channel);
             }
-            if(!obj.hasOwnProperty("channel") || typeof(obj.channel) != "string")
+            if(obj == undefined && coll == undefined) {
+                return;
+            }
             if(coll !== undefined) {
                 try {
                     coll = obj.channel.toLowerCase();//.replace(/ /g,'');
