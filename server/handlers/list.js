@@ -188,47 +188,47 @@ function skip(list, guid, coll, offline, socket) {
                     else
                     hash = "";
 
-                    db.collection(coll + "_settings").find(function(err, docs){
+                    //db.collection(coll + "_settings").find(function(err, docs){
 
-                        if(docs !== null && docs.length !== 0)
+                    if(docs !== null && docs.length !== 0)
+                    {
+                        if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
                         {
-                            if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
-                            {
-                                db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                                    if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
-                                    (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
-                                    (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
-                                    {
-                                        change_song(coll, error, video_id);
-                                        socket.emit("toast", "skip");
-                                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                                            if(docs.length == 1) {
-                                                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
-                                                    var icon = false;
-                                                    if(n.length > 0 && n[0].icon) {
-                                                        icon = n[0].icon;
-                                                    }
-                                                    io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
-                                                });
-                                            }
-                                        });
-                                    }else if(!Functions.contains(docs[0].skips, guid)){
-                                        db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
-                                            if(frontpage_viewers[0].viewers == 2)
-                                            to_skip = 1;
-                                            else
-                                            to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
-                                            socket.emit("toast", to_skip + " more are needed to skip!");
-                                            socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
-                                        });
-                                    }else{
-                                        socket.emit("toast", "alreadyskip");
-                                    }
-                                });
-                            }else
-                            socket.emit("toast", "noskip");
-                        }
-                    });
+                            db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
+                                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+                                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
+                                (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                                {
+                                    change_song(coll, error, video_id, docs);
+                                    socket.emit("toast", "skip");
+                                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                        if(docs.length == 1) {
+                                            db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                                var icon = false;
+                                                if(n.length > 0 && n[0].icon) {
+                                                    icon = n[0].icon;
+                                                }
+                                                io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
+                                            });
+                                        }
+                                    });
+                                }else if(!Functions.contains(docs[0].skips, guid)){
+                                    db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
+                                        if(frontpage_viewers[0].viewers == 2)
+                                        to_skip = 1;
+                                        else
+                                        to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
+                                        socket.emit("toast", to_skip + " more are needed to skip!");
+                                        socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                    });
+                                }else{
+                                    socket.emit("toast", "alreadyskip");
+                                }
+                            });
+                        }else
+                        socket.emit("toast", "noskip");
+                    }
+                    //});
                 } else {
                     socket.emit("auth_required");
                 }
@@ -245,11 +245,11 @@ function skip(list, guid, coll, offline, socket) {
     }
 }
 
-function change_song(coll, error, id, callback, socket) {
+function change_song(coll, error, id, conf, callback, socket) {
     //coll = coll.replace(/ /g,'');
-    db.collection(coll + "_settings").find(function(err, docs){
-        var startTime = docs[0].startTime;
-        if(docs !== null && docs.length !== 0)
+    //db.collection(coll + "_settings").find(function(err, docs){
+        var startTime = conf[0].startTime;
+        if(conf !== null && conf.length !== 0)
         {
             db.collection(coll).aggregate([{
                 $match:{
@@ -270,7 +270,6 @@ function change_song(coll, error, id, callback, socket) {
             }, {
                 $limit:2
             }], function(err, now_playing_doc){
-
                 if((id && id == now_playing_doc[0].id) || !id) {
                     if(error){
                         request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
@@ -278,14 +277,16 @@ function change_song(coll, error, id, callback, socket) {
                                 db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                                     var next_song;
                                     if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                    change_song_post(coll, next_song, callback, socket);
+                                    change_song_post(coll, next_song, conf, callback, socket);
                                     if(!callback) {
                                         io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                                     }
-                                    db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                                    if(docs.deletedCount == 1) {
+                                        db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                                    }
                                 });
                             } else {
-                                if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
+                                if((conf[0].skipped_time != undefined && conf[0].skipped_time != Functions.get_time()) ||conf[0].skipped_time == undefined) {
                                     db.collection(coll + "_settings").update({id: "config"}, {$set: {skipped_time: Functions.get_time()}}, function(err, updated){
                                         db.collection(coll).update({now_playing:true, id:id}, {
                                             $set:{
@@ -296,26 +297,28 @@ function change_song(coll, error, id, callback, socket) {
                                         },{multi:true}, function(err, docs){
                                             var next_song;
                                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                            if(docs.n >= 1) change_song_post(coll, next_song, callback, socket);
+                                            if(docs.n >= 1) change_song_post(coll, next_song, conf, callback, socket);
                                         });
                                     });
                                 }
                             }
                         });
 
-                    } else if(docs[0].removeplay === true){
+                    } else if(conf[0].removeplay === true){
                         db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
                             var next_song;
                             if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                            change_song_post(coll, next_song, callback, socket);
+                            change_song_post(coll, next_song, conf, callback, socket);
                             if(!callback) {
                                 io.to(coll).emit("channel", {type: "deleted", value: now_playing_doc[0].id, removed: true});
                             }
-                            db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                            if(docs.deletedCount == 1) {
+                                db.collection("frontpage_lists").update({_id: coll, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){});
+                            }
                         });
                     } else {
 
-                        if((docs[0].skipped_time != undefined && docs[0].skipped_time != Functions.get_time()) || docs[0].skipped_time == undefined) {
+                        if((conf[0].skipped_time != undefined && conf[0].skipped_time != Functions.get_time()) ||conf[0].skipped_time == undefined) {
                             db.collection(coll).update({now_playing:true, id:id}, {
                                 $set:{
                                     now_playing:false,
@@ -325,14 +328,14 @@ function change_song(coll, error, id, callback, socket) {
                             },{multi:true}, function(err, docs){
                                 var next_song;
                                 if(now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
-                                change_song_post(coll, next_song, callback, socket);
+                                change_song_post(coll, next_song, conf, callback, socket);
                             });
                         }
                     }
                 } else {
                     if(now_playing_doc[0].now_playing == true && now_playing_doc.length > 1 && now_playing_doc[1].id == id) {
                         db.collection(coll).update({id: now_playing_doc[0].id}, {$set: {now_playing: false}}, function(e, d) {
-                            change_song(coll, error, id, callback, socket);
+                            change_song(coll, error, id, conf, callback, socket);
                         })
                     } else {
                         return;
@@ -340,10 +343,10 @@ function change_song(coll, error, id, callback, socket) {
                 }
             });
         }
-    });
+    //});
 }
 
-function change_song_post(coll, next_song, callback, socket) {
+function change_song_post(coll, next_song, conf, callback, socket) {
     //coll = coll.replace(/ /g,'');
     db.collection(coll).aggregate([{
         $match:{
@@ -384,7 +387,7 @@ function change_song_post(coll, next_song, callback, socket) {
                         skips:[]
                     }
                 }, function(err, returnDocs){
-                    db.collection(coll + "_settings").find({id: "config"}, function(err, conf){
+                    //db.collection(coll + "_settings").find({id: "config"}, function(err, conf){
                         if(!callback) {
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
                             send_play(coll);
@@ -394,7 +397,7 @@ function change_song_post(coll, next_song, callback, socket) {
                             callback();
                         }
                         Frontpage.update_frontpage(coll, docs[0].id, docs[0].title, docs[0].thumbnail, docs[0].source);
-                    });
+                    //});
                 });
             });
         }
@@ -504,7 +507,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                             })
                         } else {
                             if(Functions.get_time()-conf[0].startTime > np_docs[0].duration){
-                                change_song(coll, false, np_docs[0].id, function() {
+                                change_song(coll, false, np_docs[0].id, conf, function() {
                                     send_list(coll, socket, send, list_send, configs, shuffled);
                                 }, socket);
                             } else {
@@ -598,21 +601,21 @@ function end(obj, coll, guid, offline, socket) {
                     db.collection(coll).find({now_playing:true}, function(err, np){
                         if(err !== null) console.log(err);
                         if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
-                            db.collection(coll + "_settings").find(function(err, docs){
+                            //db.collection(coll + "_settings").find(function(err, docs){
                                 var startTime = docs[0].startTime;
-                                if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
-                                {
-                                    db.collection(coll).remove({now_playing:true}, function(err, docs){
-                                        change_song_post(coll);
-                                        db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
+                                if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5) {
+                                    db.collection(coll).remove({now_playing:true, id: id}, function(err, docs){
+                                        change_song_post(coll, undefined, docs);
+                                        if(docs.deletedCount == 1) {
+                                            db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
+                                        }
                                     });
-                                }else{
-                                    if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5)
-                                    {
-                                        change_song(coll, false, id);
+                                } else {
+                                    if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5) {
+                                        change_song(coll, false, id, docs);
                                     }
                                 }
-                            });
+                            //});
                         }
                     });
                 } else {
@@ -638,7 +641,7 @@ function send_play(coll, socket, broadcast) {
             if(err !== null) console.log(err);
             try{
                 if(Functions.get_time()-conf[0].startTime > np[0].duration){
-                    change_song(coll, false, np[0].id);
+                    change_song(coll, false, np[0].id, conf);
                 } else if(conf !== null && conf !== undefined && conf.length !== 0)
                 {
                     if(conf[0].adminpass !== "") conf[0].adminpass = true;
