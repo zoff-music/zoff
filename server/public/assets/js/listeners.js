@@ -213,6 +213,9 @@ window.addEventListener("DOMContentLoaded", function() {
     M.Modal.init(document.getElementById("donate"));
 
     socket.on("connect", function(){
+        if(chromecastAvailable) {
+            socket.emit("get_id");
+        }
         if(connect_error){
             connect_error = false;
             if(offline) {
