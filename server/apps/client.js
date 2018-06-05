@@ -33,6 +33,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.enable('view cache');
 app.set('views', publicPath);
+app.set('trust proxy', '127.0.0.1');
 
 var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
