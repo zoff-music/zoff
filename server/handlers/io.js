@@ -22,6 +22,7 @@ var db = require(pathThumbnails + '/handlers/db.js');
 module.exports = function() {
     io.on('connection', function(socket){
         try {
+            console.log("Full cookies", cookie.parse(socket.handshake.headers.cookie));
             var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
             socket.cookie_id = parsedCookies["_uI"];
             //return socket.guid;
@@ -88,6 +89,7 @@ module.exports = function() {
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
+                        console.log("another error");
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
@@ -99,7 +101,7 @@ module.exports = function() {
                             /*Functions.setChromecastHost(socket.cookie_id, msg.guid, msg.channel, function(results) {
                                 console.log("setChromecastHost: ", results);
                             });*/
-                            socket.cookie_id = msg.guid;
+                            //socket.cookie_id = msg.guid;
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
@@ -114,14 +116,14 @@ module.exports = function() {
                     });
                 }
             } catch(e) {
-                console.log(e);
+                console.log("this is the crash" + e);
                 return;
             }
         });
 
         socket.on("get_id", function() {
             console.log("gotten request from mobile", Functions.getSession(socket));
-            socket.emit("id_chromecast", guid);
+            socket.emit("id_chromecast", Functions.getSession(socket));
         });
 
         socket.on("error_video", function(msg) {
