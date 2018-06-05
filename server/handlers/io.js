@@ -688,10 +688,6 @@ module.exports = function() {
                 return;
             }
             if(coll == undefined) return;
-            if(chromecast_object) {
-                console.log("chromecast object", Functions.getSession(socket));
-                return;
-            }
             db.collection(coll + "_settings").find(function(err, docs) {
                 console.log("trying to get pos in song");
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
