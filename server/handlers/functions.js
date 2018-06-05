@@ -256,7 +256,6 @@ function getSessionChatPass(id, callback) {
 
 function setChromecastHost(id, other_id, list, callback) {
     try {
-        console.log("settingChromecastHost: ", id, other_id);
         if(id == "empty" || id == undefined) {
             callback();
             return;
@@ -266,7 +265,6 @@ function setChromecastHost(id, other_id, list, callback) {
             return;
         });
     } catch(e) {
-      console.log(e);
         callback(false);
     }
 }
@@ -288,7 +286,6 @@ function setSessionUserPass(id, userpass, list, callback) {
 
 function getSessionAdminUser(id, list, callback) {
     try {
-        console.log(id);
         if(id == "empty" || id == undefined) {
             callback("", "", false);
             return;
@@ -297,7 +294,6 @@ function getSessionAdminUser(id, list, callback) {
             var userpass = "";
             var adminpass = "";
             if(d.length > 0) {
-                console.log(id, d);
                 if(d[0].hasOwnProperty("chromecast") && d[0].chromecast) {
                     getSessionAdminUser(d[0].id, list, callback);
                 } else {

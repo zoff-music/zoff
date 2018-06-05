@@ -79,16 +79,11 @@ module.exports = function() {
         });
 
         socket.on('chromecast', function(msg) {
-            console.log("chromecast event", msg);
-            console.log(Functions.getSession(socket));
-            console.log("cookie_id", socket.cookie_id);
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
-                        console.log("another error", err);
-                        console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
@@ -97,7 +92,6 @@ module.exports = function() {
                                 coll = coll.substring(0, coll.indexOf("?"));
                             }
                             Functions.setChromecastHost(socket.cookie_id, msg.socket_id, msg.channel, function(results) {
-                                console.log("setChromecastHost: ", results);
                             });
                             //socket.cookie_id = msg.guid;
                             guid = msg.guid;
@@ -107,20 +101,17 @@ module.exports = function() {
                                 msg.channel = Functions.encodeChannelName(msg.channel);
                             }
                             in_list = true;
-                            console.log("chromecast list", coll);
                             chromecast_object = true;
                             socket.join(coll);
                         }
                     });
                 }
             } catch(e) {
-                console.log("this is the crash", e);
                 return;
             }
         });
 
         socket.on("get_id", function() {
-            console.log("gotten request from mobile", Functions.getSession(socket));
             socket.emit("id_chromecast", {cookie_id: Functions.getSession(socket), guid: guid});
         });
 
@@ -406,7 +397,6 @@ module.exports = function() {
 
         socket.on('end', function(obj)
         {
-            console.log("end event", obj);
             if(obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
@@ -649,7 +639,6 @@ module.exports = function() {
 
         socket.on('pos', function(obj)
         {
-            console.log("pos object", obj);
             if(obj != undefined && obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
@@ -689,9 +678,7 @@ module.exports = function() {
             }
             if(coll == undefined) return;
             db.collection(coll + "_settings").find(function(err, docs) {
-                console.log("trying to get pos in song");
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
-                    console.log("userpass, adminpass", userpass, adminpass);
                     if(userpass != "" || obj.pass == undefined) {
                         obj.pass = userpass;
                     }
