@@ -71,7 +71,6 @@ app.get('/robots.txt', function (req, res) {
 });
 
 app.use(function (req, res, next) {
-    console.log("User agent", req.get("User-Agent"));
 	var cookie = req.cookies._uI;
 	if (cookie === undefined) {
 		var user_name = Functions.hash_pass(Functions.rndName(uniqid.time(), 15));
