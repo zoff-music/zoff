@@ -261,7 +261,7 @@ function setChromecastHost(id, other_id, list, callback) {
             callback();
             return;
         }
-        connected_db.collection(id).update({_id: list}, {"chromecast": true, id: id}, {upsert: true}, function(e, docs) {
+        connected_db.collection(id).update({_id: list}, {"chromecast": true, id: other_id}, {upsert: true}, function(e, docs) {
             callback(true);
             return;
         });
