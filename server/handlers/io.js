@@ -82,21 +82,23 @@ module.exports = function() {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
-                typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string") {
+                typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
-                            socket.cookie_id = msg.guid;
-                            guid = msg.guid;
-                            socketid = msg.socket_id;
-                            socket.zoff_id = socketid;
-                            if(msg.hasOwnProperty("channel")) {
-                                msg.channel = Functions.encodeChannelName(msg.channel);
-                            }
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
                                 coll = coll.substring(0, coll.indexOf("?"));
+                            }
+                            Functions.setChromecastHost(socket.cookie_id, msg.socket_id, msg.channel, function(results) {
+                            });
+                            //socket.cookie_id = msg.guid;
+                            guid = msg.guid;
+                            socketid = msg.socket_id;
+                            socket.zoff_id = socketid;
+                            if(msg.hasOwnProperty("channel")) {
+                                msg.channel = Functions.encodeChannelName(msg.channel);
                             }
                             in_list = true;
                             chromecast_object = true;
@@ -110,7 +112,7 @@ module.exports = function() {
         });
 
         socket.on("get_id", function() {
-            socket.emit("id_chromecast", Functions.getSession(socket));
+            socket.emit("id_chromecast", {cookie_id: Functions.getSession(socket), guid: guid});
         });
 
         socket.on("error_video", function(msg) {
@@ -674,7 +676,7 @@ module.exports = function() {
                 socket.emit('update_required', result);
                 return;
             }
-
+            if(coll == undefined) return;
             db.collection(coll + "_settings").find(function(err, docs) {
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
                     if(userpass != "" || obj.pass == undefined) {

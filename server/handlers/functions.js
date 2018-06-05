@@ -62,6 +62,7 @@ function getSession(socket) {
         var cookie = require("cookie");
         var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
         return parsedCookies["_uI"];*/
+        if(socket.cookie_id == undefined) throw "Undefined error";
         return socket.cookie_id;
     } catch(e) {
         return "empty";
@@ -252,6 +253,22 @@ function getSessionChatPass(id, callback) {
     }
 }
 
+
+function setChromecastHost(id, other_id, list, callback) {
+    try {
+        if(id == "empty" || id == undefined) {
+            callback();
+            return;
+        }
+        connected_db.collection(id).update({_id: list}, {"chromecast": true, id: other_id}, {upsert: true}, function(e, docs) {
+            callback(true);
+            return;
+        });
+    } catch(e) {
+        callback(false);
+    }
+}
+
 function setSessionUserPass(id, userpass, list, callback) {
     try {
         if(id == "empty" || id == undefined) {
@@ -277,10 +294,16 @@ function getSessionAdminUser(id, list, callback) {
             var userpass = "";
             var adminpass = "";
             if(d.length > 0) {
-                if(d[0].userpass != undefined) userpass = d[0].userpass;
-                if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
+                if(d[0].hasOwnProperty("chromecast") && d[0].chromecast) {
+                    getSessionAdminUser(d[0].id, list, callback);
+                } else {
+                    if(d[0].userpass != undefined) userpass = d[0].userpass;
+                    if(d[0].adminpass != undefined) adminpass = d[0].adminpass;
+                    callback(userpass, adminpass, true);
+                }
+            } else {
+                callback(userpass, adminpass, true);
             }
-            callback(userpass, adminpass, true);
         })
     } catch(e) {
         callback("", "", false);
@@ -310,6 +333,7 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+module.exports.setChromecastHost = setChromecastHost;
 module.exports.decodeChannelName = decodeChannelName;
 module.exports.encodeChannelName = encodeChannelName;
 module.exports.isUrl = isUrl;
