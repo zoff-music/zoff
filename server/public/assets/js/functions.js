@@ -90,7 +90,7 @@ function hide_native(way) {
         Player.player.setVolume(100);
         Player.soundcloud_player.setVolume(1);
 
-        Helper.toggleClass("#player_overlay_text", "hide");
+        Helper.addClass("#player_overlay_text", "hide");
     } else if(way == 0){
         if(!Helper.mobilecheck()) {
             if(M.Tooltip.getInstance(document.getElementsByClassName("castButton")[0])) {
@@ -120,7 +120,7 @@ function hide_native(way) {
             Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
         }
         Helper.addClass("#player_overlay", "hide");
-        Helper.toggleClass("#player_overlay_text", "hide");
+        Helper.removeClass("#player_overlay_text", "hide");
         Helper.setHtml("#chromecast_text", "");
         Helper.css("#playing_on", "display", "none");
         if(!offline){
@@ -456,7 +456,6 @@ function get_list_listener(){
         socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
     });
     socket.on("id_chromecast", function(msg) {
-        console.log(msg);
         chromecast_specs_sent = true;
         castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: msg.guid, socketid: msg.cookie_id, channel: chan.toLowerCase()})
     })
