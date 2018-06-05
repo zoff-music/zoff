@@ -450,7 +450,7 @@ function get_list_listener(){
     });
     socket.on("id_chromecast", function(msg) {
         chromecast_specs_sent = true;
-        castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: msg, socketid: socket.id})
+        castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: msg.guid, socketid: msg.cookie_id, channel: chan.toLowerCase()})
     })
 }
 
