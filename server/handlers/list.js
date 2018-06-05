@@ -588,40 +588,38 @@ function end(obj, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
             return;
         }
-        //coll = coll.replace(/ /g,'');
-        Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
-            if(userpass != "" || obj.pass == undefined) {
-                obj.pass = userpass;
+        var callback_function = function() {
+            for(var i = 0; i < arguments.length; i++) {
+                if(typeof(arguments[i]) == "function") {
+                    arguments[i]();
+                }
             }
-
-            db.collection(coll + "_settings").find(function(err, docs){
-                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64")))) {
-
+        }
+        db.collection(coll + "_settings").find(function(err, docs){
+            var authentication_needed = false;
+            if(docs.length > 0 && (docs[0].userpass != undefined && docs[0].userpass != "")) {
+                callback_function = Functions.getSessionAdminUser;
+                authentication_needed = true;
+            }
+            callback_function(Functions.getSession(socket), coll, function(userpass) {
+                if(userpass != "" || obj.pass == undefined) {
+                    obj.pass = userpass;
+                }
+                if(!authentication_needed || (authentication_needed && obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64"))) {
                     Functions.check_inlist(coll, guid, socket, offline);
                     db.collection(coll).find({now_playing:true}, function(err, np){
                         if(err !== null) console.log(err);
                         if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){
-                            //db.collection(coll + "_settings").find(function(err, docs){
-                                var startTime = docs[0].startTime;
-                                if(docs[0].removeplay === true && startTime+parseInt(np[0].duration)<=Functions.get_time()+5) {
-                                    db.collection(coll).remove({now_playing:true, id: id}, function(err, docs){
-                                        change_song_post(coll, undefined, docs);
-                                        if(docs.deletedCount == 1) {
-                                            db.collection("frontpage_lists").update({_id:coll, count: {$gt: 0}}, {$inc:{count:-1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
-                                        }
-                                    });
-                                } else {
-                                    if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5) {
-                                        change_song(coll, false, id, docs);
-                                    }
-                                }
-                            //});
+                            var startTime = docs[0].startTime;
+                            if(startTime+parseInt(np[0].duration)<=Functions.get_time()+5) {
+                                change_song(coll, false, id, docs);
+                            }
                         }
                     });
                 } else {
                     socket.emit("auth_required");
                 }
-            });
+            })
         });
     } else {
         var result = {
