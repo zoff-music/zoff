@@ -22,14 +22,12 @@ var db = require(pathThumbnails + '/handlers/db.js');
 module.exports = function() {
     io.on('connection', function(socket){
         try {
-            console.log("Full cookies", cookie.parse(socket.handshake.headers.cookie));
             var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
             socket.cookie_id = parsedCookies["_uI"];
             //return socket.guid;
         } catch(e) {
             socket.cookie_id = "empty";
         }
-        console.log("socket.cookie_id at start", socket.cookie_id);
         socket.zoff_id = socket.id;
         socket.emit("get_list");
 
@@ -89,7 +87,7 @@ module.exports = function() {
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
-                        console.log("another error");
+                        console.log("another error", err);
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
@@ -116,7 +114,7 @@ module.exports = function() {
                     });
                 }
             } catch(e) {
-                console.log("this is the crash" + e);
+                console.log("this is the crash", e);
                 return;
             }
         });
@@ -688,7 +686,10 @@ module.exports = function() {
                 socket.emit('update_required', result);
                 return;
             }
-
+            if(chromecast_object) {
+                console.log("chromecast object", Functions.getSession(socket));
+                return;
+            }
             db.collection(coll + "_settings").find(function(err, docs) {
                 console.log("trying to get pos in song");
                 Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
