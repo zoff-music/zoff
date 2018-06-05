@@ -89,7 +89,7 @@ module.exports = function() {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         console.log("another error", err);
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
-                        if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
+                        if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.socket_id) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
@@ -649,6 +649,7 @@ module.exports = function() {
 
         socket.on('pos', function(obj)
         {
+            console.log("pos object", obj);
             if(obj != undefined && obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1){
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
