@@ -62,7 +62,7 @@ function getSession(socket) {
         var cookie = require("cookie");
         var parsedCookies = cookie.parse(socket.handshake.headers.cookie);
         return parsedCookies["_uI"];*/
-        if(socket.cookie_id == undefined) throw "Undefined error");
+        if(socket.cookie_id == undefined) throw "Undefined error";
         return socket.cookie_id;
     } catch(e) {
         return "empty";
