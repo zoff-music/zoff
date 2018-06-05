@@ -456,6 +456,7 @@ function get_list_listener(){
         socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
     });
     socket.on("id_chromecast", function(msg) {
+        console.log(msg);
         chromecast_specs_sent = true;
         castSession.sendMessage("urn:x-cast:zoff.me", {type: "mobilespecs", guid: msg.guid, socketid: msg.cookie_id, channel: chan.toLowerCase()})
     })
