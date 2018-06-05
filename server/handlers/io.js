@@ -96,9 +96,9 @@ module.exports = function() {
                             if(coll.indexOf("?") > -1){
                                 coll = coll.substring(0, coll.indexOf("?"));
                             }
-                            /*Functions.setChromecastHost(socket.cookie_id, msg.guid, msg.channel, function(results) {
+                            Functions.setChromecastHost(socket.cookie_id, msg.guid, msg.channel, function(results) {
                                 console.log("setChromecastHost: ", results);
-                            });*/
+                            });
                             //socket.cookie_id = msg.guid;
                             guid = msg.guid;
                             socketid = msg.socket_id;
