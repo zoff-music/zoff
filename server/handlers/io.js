@@ -89,14 +89,14 @@ module.exports = function() {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         console.log("another error", err);
                         console.log("test: ", connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel.length > 0, connected_users_channel[0].users.indexOf(msg.guid) > -1, connected_users_channel)
-                        if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.socket_id) > -1) {
+                        if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
                             coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
                                 coll = coll.substring(0, coll.indexOf("?"));
                             }
-                            Functions.setChromecastHost(socket.cookie_id, msg.guid, msg.channel, function(results) {
+                            Functions.setChromecastHost(socket.cookie_id, msg.socketid, msg.channel, function(results) {
                                 console.log("setChromecastHost: ", results);
                             });
                             //socket.cookie_id = msg.guid;
@@ -121,7 +121,7 @@ module.exports = function() {
 
         socket.on("get_id", function() {
             console.log("gotten request from mobile", Functions.getSession(socket));
-            socket.emit("id_chromecast", Functions.getSession(socket));
+            socket.emit("id_chromecast", {cookie_id: Functions.getSession(socket), guid: guid});
         });
 
         socket.on("error_video", function(msg) {
@@ -687,6 +687,7 @@ module.exports = function() {
                 socket.emit('update_required', result);
                 return;
             }
+            if(coll == undefined) return;
             if(chromecast_object) {
                 console.log("chromecast object", Functions.getSession(socket));
                 return;

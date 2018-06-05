@@ -256,7 +256,7 @@ function getSessionChatPass(id, callback) {
 
 function setChromecastHost(id, other_id, list, callback) {
     try {
-        console.log("settingChromecastHost: ", socket.cookie_id, msg.guid);
+        console.log("settingChromecastHost: ", id, other_id);
         if(id == "empty" || id == undefined) {
             callback();
             return;
