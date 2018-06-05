@@ -297,7 +297,6 @@ initializeCastApi = function() {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
 
                 //if(Helper.mobilecheck()) {
-                console.log("trying to get id");
                     socket.emit("get_id");
                 //}
                 hide_native(1);
