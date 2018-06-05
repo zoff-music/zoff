@@ -435,6 +435,13 @@ function setup_no_connection_listener(){
     });
 }
 
+function updateChromecastMetadata() {
+    if(!chromecastAvailable) return;
+    var image = 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg';
+    if(Player.np.thumbnail) image = Player.np.thumbnail;
+    chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:Player.np.title, image: image, images: [image]});
+}
+
 function setup_now_playing_listener(){
     socket.on("np", Player.now_playing_listener);
 }

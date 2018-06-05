@@ -278,7 +278,7 @@ initializeCastApi = function() {
             case cast.framework.SessionState.SESSION_STARTED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener)
-                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+                updateChromecastMetadata();
                 //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                 chromecastAvailable = true;
                 paused = false;
@@ -296,9 +296,9 @@ initializeCastApi = function() {
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
 
-                if(Helper.mobilecheck()) {
+                //if(Helper.mobilecheck()) {
                     socket.emit("get_id");
-                }
+                //}
                 hide_native(1);
                 if(Helper.mobilecheck()) {
                     Player.playVideo();
@@ -311,7 +311,7 @@ initializeCastApi = function() {
             case cast.framework.SessionState.SESSION_RESUMED:
                 castSession = cast.framework.CastContext.getInstance().getCurrentSession();
                 castSession.addMessageListener("urn:x-cast:zoff.me", chromecastListener);
-                chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
+                updateChromecastMetadata();
                 //chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
                 chromecastAvailable = true;
                 paused = false;
@@ -322,9 +322,9 @@ initializeCastApi = function() {
                 } catch(event){
                     _seekTo = seekTo;
                 }
-                if(Helper.mobilecheck()) {
+                //if(Helper.mobilecheck()) {
                     socket.emit("get_id");
-                }
+                //}
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
                 hide_native(1);
