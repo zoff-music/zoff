@@ -85,6 +85,7 @@ var Player = {
                 Player.cueVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             }
         }
+        updateChromecastMetadata();
     },
 
     setThumbnail: function(conf, video_id) {
