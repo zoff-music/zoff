@@ -256,7 +256,7 @@ function getSessionChatPass(id, callback) {
 
 function setChromecastHost(id, other_id, list, callback) {
     try {
-        if(id == "empty" || id == undefined) {
+        if(id == "empty" || id == undefined || other_id == "empty" || other_id == undefined) {
             callback();
             return;
         }
