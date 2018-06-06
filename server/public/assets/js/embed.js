@@ -5,6 +5,7 @@ var song_title = "";
 var paused = false;
 var client = false;
 var startTime = 0;
+var hostMode = false;
 var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
