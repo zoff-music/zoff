@@ -463,11 +463,7 @@ function loadChromecastVideo() {
         thumbnail: Player.np.thumbnail != undefined ? Player.np.thumbnail : 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg',
     };
     castSession.loadMedia(request).then(function() {
-        var _player = new cast.framework.RemotePlayer();
-        var _controller = new cast.framework.RemotePlayerController(_player);
-        window._controller = _controller;
-        window._player = _player;
-
+        console.log("Loaded chromecast-video. Don't look here, look at your TV!");
     },
       function(errorCode) {
           console.log('Error code: ' + errorCode);
