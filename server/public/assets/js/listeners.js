@@ -287,22 +287,14 @@ initializeCastApi = function() {
                 chromecastAvailable = true;
                 paused = false;
                 mobile_beginning = false;
-                var _seekTo;
-                try{
-                    if(videoSource == "youtube") {
-                        _seekTo = Player.player.getCurrentTime();
-                    } else if(videoSource == "soundcloud") {
-                        _seekTo = Player.soundcloud_player.currentTime() / 1000;
-                    }
-                } catch(event){
-                    _seekTo = seekTo;
-                }
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
 
-                //if(Helper.mobilecheck()) {
+                //console.log("request here", request);
+                //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
+                loadChromecastVideo();
+                if(window.location.hostname.indexOf("zoff.me") > -1 && !offline && window.location.hostname.indexOf("localhost") == -1) {
                     socket.emit("get_id");
-                //}
+                }
                 hide_native(1);
                 if(Helper.mobilecheck()) {
                     Player.playVideo();
@@ -320,16 +312,12 @@ initializeCastApi = function() {
                 chromecastAvailable = true;
                 paused = false;
                 mobile_beginning = false;
-                var _seekTo;
-                try{
-                    _seekTo = Player.player.getCurrentTime();
-                } catch(event){
-                    _seekTo = seekTo;
-                }
-                //if(Helper.mobilecheck()) {
+
+                if(window.location.hostname.indexOf("zoff.me") > -1 && !offline && window.location.hostname.indexOf("localhost") == -1) {
                     socket.emit("get_id");
-                //}
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
+                }
+                loadChromecastVideo();
+                //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
                 hide_native(1);
                 Helper.css("#channel-load", "display", "none");
