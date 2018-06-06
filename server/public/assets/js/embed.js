@@ -179,6 +179,7 @@ function setVolume(val) {
     Playercontrols.setVolume(val);
 }
 
+function updateChromecastMetadata(){}
 
 function toast(msg) {
     switch(msg) {
