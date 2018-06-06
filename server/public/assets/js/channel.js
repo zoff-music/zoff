@@ -435,6 +435,9 @@ var Channel = {
 
     add_context_menu: function() {
         addListener("contextmenu", ".vote-container", function(e) {
+            if(hostMode) {
+                return;
+            }
             this.preventDefault();
             this.preventDefault();
             var that = this;
