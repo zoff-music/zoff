@@ -435,11 +435,51 @@ function setup_no_connection_listener(){
     });
 }
 
+function loadChromecastVideo() {
+    castSession = cast.framework.CastContext.getInstance().getCurrentSession();
+    var _seekTo;
+    try{
+        if(videoSource == "youtube") {
+            _seekTo = Player.player.getCurrentTime();
+        } else if(videoSource == "soundcloud") {
+            _seekTo = Player.soundcloud_player.currentTime() / 1000;
+        }
+    } catch(event){
+        _seekTo = seekTo;
+    }
+    var mediaInfo = new chrome.cast.media.MediaInfo(video_id, videoSource);
+    var image = {url:'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', heigth: 180, width: 320};
+    if(Player.np.thumbnail) image.url = Player.np.thumbnail;
+    mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+    mediaInfo.metadata.title = Player.np.title;
+    mediaInfo.metadata.image = image;
+    mediaInfo.metadata.images = [image];
+    var request = new chrome.cast.media.LoadRequest(mediaInfo);
+    request.media.customData = {
+        start: Player.np.start,
+        end: Player.np.end,
+        seekTo: _seekTo,
+        channel: chan.toLowerCase(),
+        thumbnail: Player.np.thumbnail != undefined ? Player.np.thumbnail : 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg',
+    };
+    castSession.loadMedia(request).then(function() {
+        var _player = new cast.framework.RemotePlayer();
+        var _controller = new cast.framework.RemotePlayerController(_player);
+        window._controller = _controller;
+        window._player = _player;
+
+    },
+      function(errorCode) {
+          console.log('Error code: ' + errorCode);
+    });
+}
+
 function updateChromecastMetadata() {
     if(!chromecastAvailable) return;
-    var image = 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg';
-    if(Player.np.thumbnail) image = Player.np.thumbnail;
+    var image = {url:'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', heigth: 180, width: 320};
+    if(Player.np.thumbnail) image.url = Player.np.thumbnail;
     chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:Player.np.title, image: image, images: [image]});
+    return new chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:Player.np.title, image: image, images: [image]});
 }
 
 function setup_now_playing_listener(){

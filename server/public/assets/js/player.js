@@ -355,7 +355,8 @@ var Player = {
             Suggestions.fetchYoutubeSuggests(id);
         }
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail});
+            //castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail, title: Player.np.title});
+            loadChromecastVideo();
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
@@ -487,7 +488,8 @@ var Player = {
         Player.getTitle(song_title, viewers);
         //Player.setBGimage(video_id);
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end:end, source: videoSource});
+            loadChromecastVideo();
+            //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end:end, source: videoSource});
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
@@ -523,7 +525,8 @@ var Player = {
         //Player.setBGimage(video_id);
 
         if(chromecastAvailable){
-            castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end: end, source: videoSource});
+            loadChromecastVideo();
+            //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", videoId: video_id, channel: chan.toLowerCase(), start: start, end: end, source: videoSource});
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
