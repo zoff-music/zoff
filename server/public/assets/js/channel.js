@@ -535,6 +535,11 @@ var Channel = {
                 window.location.hostname = host[host.length -1];
             }*/
             Admin.display_logged_out();
+            if(hostMode) {
+                Helper.removeClass("#main-row", "fullscreened");
+                document.querySelector(".host_switch_class").checked = false
+                enable_host_mode(false);
+            }
             var channel_before_move = chan.toLowerCase();
             clearTimeout(timed_remove_check);
             changing_to_frontpage = true;
