@@ -1295,9 +1295,15 @@ window.addEventListener("resize", function(){
             List.dynamicContentPage(-10);
         }
         if(List.can_fit < temp_fit){
-            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit - 1], "display", "inline-flex");
+            for(var i = 0; i < List.page + temp_fit; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "inline-flex");
+            }
         } else if(List.can_fit > temp_fit){
             Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
+            var elements = document.querySelector("#wrapper").children;
+            for(var i = List.page + temp_fit; i < elements.length; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "none");
+            }
         }
         List.can_fit = temp_fit;
         List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;

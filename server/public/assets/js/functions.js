@@ -507,6 +507,7 @@ function enable_host_mode(enabled) {
         Helper.css("#fullscreen", "display", "block");
         hostMode = false;
     }
+    List.dynamicContentPageJumpTo(1);
 }
 
 function get_list_listener(){
