@@ -1128,6 +1128,9 @@ var List = {
         if(!embed) {
             song.querySelector(".mobile-delete").remove();
         }
+        if(hostMode) {
+            song.querySelector(".list-remove").style.display = "none";
+        }
         song.querySelector(".list-title").innerText = video_title;
         song.querySelector(".list-title").setAttribute("title", video_title);
         song.querySelector(attr).setAttribute("data-video-id", video_id);
