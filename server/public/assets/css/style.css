@@ -1781,7 +1781,7 @@ nav .zbrand.channel-logo-container {
     flex:1;
     z-index: 9;
     position: relative;
-    height: calc(100vh - 64px) !important;
+    height: calc(100vh - 64px);
     min-width: 338px;
     /*background-color:rgba(0,0,0,0.2);*/
 }
@@ -2183,6 +2183,10 @@ nav ul li:hover, nav ul li.active {
 
 .client-wrapper {
     height: calc(100vh - 48px - 64px) !important;
+}
+
+.host-mode-wrapper {
+    height: calc(100vh - 48px + 15px) !important;
 }
 
 
@@ -2687,11 +2691,19 @@ nav ul li:hover, nav ul li.active {
     background-color:rgba(0, 0, 0, 0.3);
 }
 
-#offline-info{
+#offline-info, #host-info{
     color: black;
     line-height: 20px;
     margin: 0 24px;
     padding-bottom: 15px;
+}
+
+.host-mode-height {
+    height: 100vh !important;
+}
+
+.host-mode-width {
+    width: 100vw !important;
 }
 
 #seekToDuration{
@@ -3577,7 +3589,7 @@ nav ul li:hover, nav ul li.active {
     #playlist{
         /*padding:0px 15px;*/
         height: 90%;
-        height: calc(100% - 64px);
+        height: calc(100vh - 64px);
         overflow: hidden;
         padding-right: 0px;
         /*padding:0px 0px 0px 0px;*/

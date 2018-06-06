@@ -9,6 +9,7 @@ var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
 var hasadmin = 0;
+var hostMode = false;
 var soundcloud_loading = false;
 var buffering = false;
 var list_html = document.querySelectorAll("#list-song-html").length > 0 ? document.querySelector("#list-song-html").innerHTML : undefined;
@@ -966,6 +967,12 @@ addListener("change", '.offline_switch_class', function()
     change_offline(offline, !offline);
 });
 
+addListener("change", '.host_switch_class', function()
+{
+    var host = document.getElementsByName("host_switch")[0].checked;
+    enable_host_mode(host);
+});
+
 addListener("change", '.conf', function(e)
 {
     this.preventDefault();
@@ -1443,6 +1450,11 @@ addListener("click", "#add-many", function(e){
 });
 
 addListener("click", ".vote-container", function(e, target){
+    if(hostMode) {
+        toast("Can't vote while in host mode!", "red lighten");
+        document.querySelector("#toast-container").setAttribute("style", "z-index: 99999999999 !important");
+        return;
+    }
     var id = e.getAttribute("data-video-id");
     List.vote(id, "pos");
 });
