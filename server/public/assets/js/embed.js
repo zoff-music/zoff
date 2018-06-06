@@ -180,6 +180,7 @@ function setVolume(val) {
 }
 
 function updateChromecastMetadata(){}
+function loadChromecastVideo(){}
 
 function toast(msg) {
     switch(msg) {
