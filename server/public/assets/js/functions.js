@@ -446,6 +446,69 @@ function setup_now_playing_listener(){
     socket.on("np", Player.now_playing_listener);
 }
 
+function exitHandler(event) {
+    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null) {
+        if(!document.getElementById("main-row").classList.contains("fullscreened")) {
+            Helper.addClass("#main-row", "fullscreened");
+        } else {
+            Helper.removeClass("#main-row", "fullscreened");
+            document.querySelector(".host_switch_class").checked = false
+            enable_host_mode(false);
+        }
+    }
+}
+
+function enable_host_mode(enabled) {
+    if(!hostMode) {
+        var playerElement = document.querySelector("main");
+        var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
+        if (requestFullScreen) {
+            requestFullScreen.bind(playerElement)();
+            M.Tabs.getInstance(document.querySelector('.playlist-tabs-loggedIn')).select("wrapper");
+            Helper.addClass("#main-row", "host-mode-height");
+            Helper.addClass("#main-row", "host-mode-width");
+            Helper.addClass("main", "host-mode-height");
+            Helper.addClass("main", "host-mode-width");
+            Helper.addClass("#video-container", "host-mode-height");
+            Helper.addClass("#playlist", "host-mode-height");
+            Helper.css(".playlist-tabs-loggedIn", "display", "none");
+            Helper.removeClass("#wrapper", "tabs_height");
+            Helper.addClass("#wrapper", "host-mode-wrapper");
+            Helper.css(".skip", "display", "none");
+            var removeElements = document.querySelectorAll(".list-remove");
+            for(var i = 0; i < removeElements.length; i++) {
+            	removeElements[i].style.display = "none";
+            }
+            Helper.css("#fullscreen", "display", "none");
+            Helper.css("#playlist", "backgroundColor", "inherit");
+            Helper.css("#main-row", "backgroundColor", "inherit");
+            Helper.css(".main", "backgroundColor", "inherit");
+            hostMode = enabled;
+            document.addEventListener('webkitfullscreenchange', exitHandler, false);
+            document.addEventListener('mozfullscreenchange', exitHandler, false);
+            document.addEventListener('fullscreenchange', exitHandler, false);
+            document.addEventListener('MSFullscreenChange', exitHandler, false);
+        }
+    } else {
+        Helper.removeClass("#main-row", "host-mode-height");
+        Helper.removeClass("#main-row", "host-mode-width");
+        Helper.removeClass(".main", "host-mode-height");
+        Helper.removeClass(".main", "host-mode-width");
+        Helper.removeClass("#video-container", "host-mode-height");
+        Helper.removeClass("#playlist", "host-mode-height");
+        Helper.css(".playlist-tabs-loggedIn", "display", "flex");
+        Helper.addClass("#wrapper", "tabs_height");
+        Helper.removeClass("#wrapper", "host-mode-wrapper");
+        Helper.css(".skip", "display", "block");
+        var removeElements = document.querySelectorAll(".list-remove");
+        for(var i = 0; i < removeElements.length; i++) {
+        	removeElements[i].style.display = "block";
+        }
+        Helper.css("#fullscreen", "display", "block");
+        hostMode = false;
+    }
+}
+
 function get_list_listener(){
     socket.on("get_list", function(){
         var add = "";
@@ -707,7 +770,7 @@ function removeListener(type, element) {
     delete dynamicListeners[type][element];
 }
 
-function toast(msg) {
+function toast(msg, _class) {
     switch(msg) {
         case "other_list_pass":
             msg = "The other list has a pass, can't import the songs..";
@@ -865,7 +928,8 @@ function toast(msg) {
             break;
     }
     before_toast();
-    M.toast({ html: msg, displayLength: 4000});
+    var classes = _class == undefined ? "" : _class;
+    M.toast({ html: msg, displayLength: 4000, classes: classes});
 }
 
 function emit() {
