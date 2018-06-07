@@ -11,12 +11,12 @@ var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var Search = require(pathThumbnails + '/handlers/search.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-//var filter = new Filter({ placeHolder: 'x'});
-var filter = {
+var filter = new Filter({ placeHolder: 'x'});
+/*var filter = {
     clean: function(str) {
         return str;
     }
-}
+}*/
 var db = require(pathThumbnails + '/handlers/db.js');
 
 module.exports = function() {
