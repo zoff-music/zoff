@@ -551,7 +551,7 @@ function enable_host_mode(enabled) {
         document.addEventListener('fullscreenchange', exitHandler, false);
         document.addEventListener('MSFullscreenChange', exitHandler, false);
     }
-    List.dynamicContentPageJumpTo(1);
+    List.dynamicContentPageJumpTo(-10);
 }
 
 function get_list_listener(){

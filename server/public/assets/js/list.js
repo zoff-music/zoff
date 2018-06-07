@@ -360,6 +360,10 @@ var List = {
                 full_playlist.push(now_playing);
             }
 
+            if(hostMode) {
+                M.toast({html: "<div style='display:flex;'><img style='height:100px;align-self:center;' src='" + added.thumbnail + "' /><div style='padding-left:32px;padding-right:32px;'><p>New song added</p><p>" + added.title + "</p></div></div>", displayLength: 10000});
+                document.querySelector("#toast-container").setAttribute("style", "z-index: 99999999999 !important");
+            }
             if(added.source != "soundcloud" && document.querySelectorAll("#suggested-"+added.id).length > 0) {
                 number_suggested = number_suggested - 1;
                 if(number_suggested < 0) number_suggested = 0;
