@@ -1,12 +1,12 @@
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-//var filter = new Filter({ placeHolder: 'x'});
-var filter = {
+var filter = new Filter({ placeHolder: 'x'});
+/*var filter = {
     clean: function(str) {
         return str;
     }
-}
+}*/
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function password(inp, coll, guid, offline, socket) {
