@@ -560,7 +560,9 @@ var Player = {
             //var elem          = document.getElementById('song-title');
             //var getTitleViews = document.getElementById('viewers');
 
-            document.getElementById("host-title").innerText = title;
+            if(!client) {
+                document.getElementById("host-title").innerText = title;
+            }
             document.getElementById("song-title").innerText = title;
             if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
             document.getElementById("song-title").setAttribute("title", title);
