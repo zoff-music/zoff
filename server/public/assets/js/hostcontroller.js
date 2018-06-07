@@ -47,7 +47,9 @@ var Hostcontroller = {
 
                 chan = arr.value.toLowerCase();
                 Helper.setHtml("#chan", Helper.upperFirst(chan));
-
+                var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/r/"+btoa(encodeURIComponent(chan.toLowerCase()));
+                document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
+                Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
                 w_p = true;
                 var add = "";
                 if(private_channel) add = Crypt.getCookie("_uI") + "_";
