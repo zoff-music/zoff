@@ -520,6 +520,8 @@ function enable_host_mode(enabled) {
             Helper.css("#main-row", "backgroundColor", "inherit");
             Helper.css(".main", "backgroundColor", "inherit");
             Helper.removeClass("#host-title", "hide");
+            Helper.css("#soundcloud_info_container", "display", "none");
+            Helper.css("#player", "pointer-events", "none");
             hostMode = enabled;
             document.querySelector("#playlist").insertAdjacentHTML("beforeend", "<div id='join-sidebar' style='color:white;'>" + document.querySelector("#channel-share-modal").querySelector(".modal-content").innerHTML + "</div>");
             document.addEventListener('webkitfullscreenchange', exitHandler, false);
@@ -535,9 +537,11 @@ function enable_host_mode(enabled) {
         Helper.removeClass("#video-container", "host-mode-height");
         Helper.removeClass("#playlist", "host-mode-height");
         Helper.css(".playlist-tabs-loggedIn", "display", "flex");
+        Helper.css("#player", "pointer-events", "all");
         Helper.addClass("#wrapper", "tabs_height");
         Helper.addClass("#host-title", "hide");
         Helper.removeClass("#wrapper", "host-mode-wrapper");
+        Helper.css("#soundcloud_info_container", "display", "flex");
         Helper.css(".skip", "display", "block");
         document.querySelector("#join-sidebar").remove();
         var removeElements = document.querySelectorAll(".list-remove");
