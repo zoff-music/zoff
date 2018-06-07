@@ -515,6 +515,7 @@ function enable_host_mode(enabled) {
             for(var i = 0; i < removeElements.length; i++) {
             	removeElements[i].style.display = "none";
             }
+            Helper.css(".prev", "display", "none");
             Helper.css("#fullscreen", "display", "none");
             Helper.css("#playlist", "backgroundColor", "inherit");
             Helper.css("#main-row", "backgroundColor", "inherit");
@@ -532,6 +533,7 @@ function enable_host_mode(enabled) {
     } else {
         Helper.removeClass("#main-row", "host-mode-height");
         Helper.removeClass("#main-row", "host-mode-width");
+        Helper.css(".prev", "display", "block");
         Helper.removeClass(".main", "host-mode-height");
         Helper.removeClass(".main", "host-mode-width");
         Helper.removeClass("#video-container", "host-mode-height");
