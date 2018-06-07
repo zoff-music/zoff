@@ -519,7 +519,9 @@ function enable_host_mode(enabled) {
             Helper.css("#playlist", "backgroundColor", "inherit");
             Helper.css("#main-row", "backgroundColor", "inherit");
             Helper.css(".main", "backgroundColor", "inherit");
+            Helper.removeClass("#host-title", "hide");
             hostMode = enabled;
+            document.querySelector("#playlist").insertAdjacentHTML("beforeend", "<div id='join-sidebar' style='color:white;'>" + document.querySelector("#channel-share-modal").querySelector(".modal-content").innerHTML + "</div>");
             document.addEventListener('webkitfullscreenchange', exitHandler, false);
             document.addEventListener('mozfullscreenchange', exitHandler, false);
             document.addEventListener('fullscreenchange', exitHandler, false);
@@ -534,14 +536,20 @@ function enable_host_mode(enabled) {
         Helper.removeClass("#playlist", "host-mode-height");
         Helper.css(".playlist-tabs-loggedIn", "display", "flex");
         Helper.addClass("#wrapper", "tabs_height");
+        Helper.addClass("#host-title", "hide");
         Helper.removeClass("#wrapper", "host-mode-wrapper");
         Helper.css(".skip", "display", "block");
+        document.querySelector("#join-sidebar").remove();
         var removeElements = document.querySelectorAll(".list-remove");
         for(var i = 0; i < removeElements.length; i++) {
         	removeElements[i].style.display = "block";
         }
         Helper.css("#fullscreen", "display", "block");
         hostMode = false;
+        document.addEventListener('webkitfullscreenchange', exitHandler, false);
+        document.addEventListener('mozfullscreenchange', exitHandler, false);
+        document.addEventListener('fullscreenchange', exitHandler, false);
+        document.addEventListener('MSFullscreenChange', exitHandler, false);
     }
     List.dynamicContentPageJumpTo(1);
 }
