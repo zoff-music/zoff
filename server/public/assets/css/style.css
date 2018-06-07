@@ -2186,7 +2186,18 @@ nav ul li:hover, nav ul li.active {
 }
 
 .host-mode-wrapper {
-    height: calc(100vh - 48px + 15px) !important;
+    height: calc(65vh - 48px + 15px) !important;
+}
+
+#host-title {
+    color: white;
+    position: absolute;
+    z-index: 999999;
+    padding: 20px;
+    font-size: 1.5rem;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1));
+    text-align: left;
 }
 
 
