@@ -12,6 +12,8 @@ var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var Search = require(pathThumbnails + '/handlers/search.js');
 var uniqid = require('uniqid');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
 
 var toShowChannel = {
     start: 1,
@@ -1395,7 +1397,7 @@ function cleanChannelName(channel_name) {
     //coll = coll.replace("_", "");
     //coll = encodeURIComponent(coll).replace(/\W/g, '');
     coll = Functions.encodeChannelName(channel_name);
-    //coll = filter.clean(coll);
+    coll = filter.clean(coll);
     return coll;
 }
 

@@ -4,12 +4,12 @@ var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 var crypto = require('crypto');
 var Filter = require('bad-words');
-//var filter = new Filter({ placeHolder: 'x'});
-var filter = {
+var filter = new Filter({ placeHolder: 'x'});
+/*var filter = {
     clean: function(str) {
         return str;
     }
-}
+}*/
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
 
