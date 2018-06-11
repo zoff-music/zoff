@@ -19,7 +19,7 @@ function password(inp, coll, guid, offline, socket) {
              var result = {
                  channel: {
                      expected: "string",
-                     got: inp.hasOwnProperty("channel") ? typeof(iinp.channel) : undefined,
+                     got: inp.hasOwnProperty("channel") ? typeof(inp.channel) : undefined,
                  },
                  password: {
                      expected: "password",
