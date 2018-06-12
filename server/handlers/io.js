@@ -78,6 +78,20 @@ module.exports = function() {
             Functions.removeSessionAdminPass(Functions.getSession(socket), coll, function() {})
         });
 
+        socket.on('next_song', function(obj) {
+            if(obj == undefined || !obj.hasOwnProperty("channel") || !obj.hasOwnProperty("pass")) return;
+            db.collection(obj.channel + "_settings").find(function(e, docs) {
+                if(docs.length == 0) return;
+                var pass = "";
+                if(obj.pass) {
+                    pass = crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64");
+                }
+                if((docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
+                    List.getNextSong(obj.channel);
+                }
+            });
+        });
+
         socket.on('chromecast', function(msg) {
             try {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
