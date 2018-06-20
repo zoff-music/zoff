@@ -752,6 +752,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
     //coll = coll.replace(/ /g,'');
     db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, updated) {
         if(updated.nModified > 0) {
+            db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
             db.collection("connected_users").find({"_id": coll}, function(err, new_doc){
                 db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, doc) {
                     db.collection("user_names").find({"guid": guid}, function(err, docs) {
@@ -762,17 +763,17 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                 });
-                db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
 
                 if(!change) {
                     Functions.remove_name_from_db(guid, name);
                 }
             });
+
         } else {
             db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){
-                if(updated.nModified > 0) {
+                //if(updated.nModified > 0) {
                     db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
-                }
+                //}
             });
 
         }
