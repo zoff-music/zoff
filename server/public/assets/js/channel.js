@@ -20,6 +20,10 @@ var Channel = {
               client_id: '***REMOVED***'
             }, function() {
             });
+            if(cast_ready_connect || chromecastAvailable || chromecastReady) {
+                Helper.addClass(".volume-container", "volume-container-cast");
+            }
+
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         Admin.logged_in = false;

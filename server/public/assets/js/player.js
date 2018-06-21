@@ -147,10 +147,13 @@ var Player = {
 
                     //}
                 }
-                if(Helper.mobilecheck()) {
+                /*if(Helper.mobilecheck()) {
                     Helper.css("#player", "display", "block");
                     Helper.css("#player", "pointer-events", "all");
-                }
+                }*/
+                Helper.addClass("#player", "pointer-events-all-mobile");
+                Helper.removeClass("#video-container", "click-through");
+                Helper.addClass("#player", "small-display");
                 Helper.css("#playpause", "visibility", "visible");
                 Helper.css("#playpause", "pointer-events", "all");
                 playing = true;
@@ -198,10 +201,13 @@ var Player = {
                         mobile_beginning = true;
                     }
                 }
-                if(Helper.mobilecheck()) {
+                /*if(Helper.mobilecheck()) {
                     Helper.css("#player", "display", "none");
                     Helper.css("#player", "pointer-events", "none");
-                }
+                }*/
+                Helper.removeClass("#player", "pointer-events-all-mobile");
+                Helper.addClass("#video-container", "click-through");
+                Helper.removeClass("#player", "small-display");
                 break;
             case YT.PlayerState.BUFFERING:
                 //was_stopped = false;
