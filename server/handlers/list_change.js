@@ -732,7 +732,7 @@ function delete_all(msg, coll, guid, offline, socket) {
                     if(conf.length == 1 && conf) {
                         conf = conf[0];
                         if(conf.adminpass == hash && conf.adminpass != "" && (conf.userpass == "" || conf.userpass == undefined || (conf.userpass != "" && conf.userpass != undefined && conf.pass == hash_userpass))) {
-                            db.collection(coll).remove({views: {$exists: false}}, {multi: true}, function(err, succ) {
+                            db.collection(coll).remove({views: {$exists: false}, type: "video"}, {multi: true}, function(err, succ) {
                                 List.send_list(coll, false, true, true, true);
                                 db.collection("frontpage_lists").update({_id: coll}, {$set: {count: 0, accessed: Functions.get_time()}}, {upsert: true}, function(err, docs) {});
                                 socket.emit("toast", "deleted_songs");
