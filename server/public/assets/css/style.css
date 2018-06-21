@@ -3115,6 +3115,14 @@ nav ul li:hover, nav ul li.active {
         width: 100vw;
     }
 
+    .pointer-events-all-mobile {
+        pointer-events: all !important;
+    }
+
+    .small-display {
+        display: block !important;
+    }
+
     .hide-on-small-only{
         display:none;
     }
