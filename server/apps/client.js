@@ -73,27 +73,39 @@ app.get('/robots.txt', function (req, res) {
 
 app.use(function (req, res, next) {
 	var cookie = req.cookies._uI;
-	if (cookie === undefined) {
-		console.error((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req, "couldn't fetch cookie for some reason, maybe no cookie exists?");
-		var user_name = Functions.hash_pass(Functions.rndName(uniqid.time(), 15));
-		res.cookie('_uI', user_name, {
-            maxAge: 365 * 10000 * 3600000,
-            httpOnly: true,
-            secure: secure,
-            sameSite: true,
-        });
+	if(req.originalUrl.split("/").length > 3) {
+		res.header("Access-Control-Allow-Origin", "*");
+	    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		next();
 	} else {
-		//process.stderr.write((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req, "couldn't fetch cookie for some reason, maybe no cookie exists?");
-		res.cookie('_uI', cookie, {
-            maxAge: 365 * 10000 * 3600000,
-            httpOnly: true,
-            secure: secure,
-            sameSite: true,
-        });
+		if (cookie === undefined) {
+            try {
+				console.error((new Date), "originalUrl", req.originalUrl);
+	            console.error((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req.get('origin'), "couldn't fetch cookie for some reason, maybe no cookie exists?");
+
+			} catch(e) {
+                console.error((new Date), "couldn't fetch origin");
+            }
+            var user_name = Functions.hash_pass(Functions.rndName(uniqid.time(), 15));
+			res.cookie('_uI', user_name, {
+	            maxAge: 365 * 10000 * 3600000,
+	            httpOnly: true,
+	            secure: secure,
+	            sameSite: true,
+	        });
+		} else {
+			//process.stderr.write((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req, "couldn't fetch cookie for some reason, maybe no cookie exists?");
+			res.cookie('_uI', cookie, {
+	            maxAge: 365 * 10000 * 3600000,
+	            httpOnly: true,
+	            secure: secure,
+	            sameSite: true,
+	        });
+		}
+		res.header("Access-Control-Allow-Origin", "*");
+	    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		next();
 	}
-	res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
 });
 
 app.use('/service-worker.js', function(req, res) {
