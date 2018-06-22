@@ -52,7 +52,7 @@ var Hostcontroller = {
                 Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
                 w_p = true;
                 var add = "";
-                if(private_channel) add = Crypt.getCookie("_uI") + "_";
+                //if(private_channel) add = Crypt.getCookie("_uI") + "_";
                 socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
 
                 window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());

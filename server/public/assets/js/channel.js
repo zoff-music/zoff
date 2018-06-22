@@ -531,7 +531,7 @@ var Channel = {
             document.getElementById("chan").innerHTML = Helper.upperFirst(chan);
             var add = "";
             w_p = true;
-            if(private_channel) add = Crypt.getCookie("_uI") + "_";
+            //if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
         } else if(url_split[3] === "") {
             /*if(client) {
