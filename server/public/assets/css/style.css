@@ -3432,10 +3432,9 @@ nav ul li:hover, nav ul li.active {
 
     .title-container{
         background-color: rgba(0,0,0,0.1);
-        display: inline-block;
+        display: block;
         top:56px !important;
         width: 100vw;
-
         background: #2d2d2d;
     }
     .title-container li {

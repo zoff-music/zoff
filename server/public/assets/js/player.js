@@ -566,7 +566,7 @@ var Player = {
             //var elem          = document.getElementById('song-title');
             //var getTitleViews = document.getElementById('viewers');
 
-            if(!client) {
+            if(!client && !embed) {
                 document.getElementById("host-title").innerText = title;
             }
             document.getElementById("song-title").innerText = title;
