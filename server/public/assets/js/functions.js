@@ -174,7 +174,7 @@ function start_auth() {
 
 function emit_list() {
     var add = "";
-    if(private_channel) add = Crypt.getCookie("_uI") + "_";
+    //if(private_channel) add = Crypt.getCookie("_uI") + "_";
     /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
     if(p == undefined) p = "";*/
     if(socket.id) {
@@ -773,7 +773,7 @@ function change_offline(enabled, already_offline){
             socket.on("color", Player.setBGimage);
             socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
-            if(private_channel) add = Crypt.getCookie("_uI") + "_";
+            //if(private_channel) add = Crypt.getCookie("_uI") + "_";
             socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
             Helper.removeClass("#controls", "ewresize");
         }
