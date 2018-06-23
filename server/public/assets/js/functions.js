@@ -784,12 +784,11 @@ function resizePlaylistPlaying(playing) {
     if(window.innerWidth < 601) {
         var subtract = 0;
         if(playing) {
-            Helper.css("#chat-bar" "height", window.innerHeight - 246 - subtract + "px");
+            Helper.css("#chat-bar", "height", window.innerHeight - 246 - subtract + "px");
             subtract = 200;
         } else {
             document.querySelector("#chat-bar").style.height = "";
         }
-        Helper.css("#chat-bar" "height", window.innerHeight - 246 - subtract + "px");
         Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
