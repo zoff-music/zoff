@@ -651,7 +651,7 @@ function send_play(coll, socket, broadcast) {
                     if(socket === undefined) {
                         io.to(coll).emit("np", toSend);
                         //
-                        getNextSong(coll)
+                        getNextSong(coll, undefined)
                         var url = 'https://img.youtube.com/vi/'+np[0].id+'/mqdefault.jpg';
                         if(np[0].source == "soundcloud") url = np[0].thumbnail;
                         sendColor(coll, false, url);
@@ -713,7 +713,7 @@ function sendColor(coll, socket, url, ajax, res) {
     });
 }
 
-function getNextSong(coll, callback) {
+function getNextSong(coll, socket, callback) {
     //coll = coll.replace(/ /g,'');
     db.collection(coll).aggregate([{
         $match:{
@@ -741,7 +741,11 @@ function getNextSong(coll, callback) {
                 source = "soundcloud";
                 thumbnail = doc[0].thumbnail;
             }
-            io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title, source: source, thumbnail: thumbnail});
+            if(socket != undefined) {
+                socket.emit("next_song", {videoId: doc[0].id, title: doc[0].title, source: source, thumbnail: thumbnail});
+            } else {
+                io.to(coll).emit("next_song", {videoId: doc[0].id, title: doc[0].title, source: source, thumbnail: thumbnail});
+            }
         }
         if(typeof(callback) == "function") callback();
     });
