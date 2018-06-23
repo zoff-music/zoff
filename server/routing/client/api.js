@@ -511,7 +511,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                                             incrementToken(token);
                                         }
                                         io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
-                                        List.getNextSong(channel_name, function() {
+                                        List.getNextSong(channel_name, undefined, function() {
                                             updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
                                                 var to_return = error.no_error;
                                                 to_return.results = song;
@@ -1435,7 +1435,7 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated, auth
     if(configs != undefined) {
         io.to(channel_name).emit("conf", configs);
     }
-    List.getNextSong(channel_name, function() {
+    List.getNextSong(channel_name, undefined, function() {
         updateTimeout(guid, res, authorized, "POST", function(err, docs) {
             var to_return = error.no_error;
             if(!authenticated) {

@@ -432,7 +432,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                                 if(source != "soundcloud") Search.get_correct_info(new_song, coll, true);
                                             }
                                             db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
-                                            List.getNextSong(coll);
+                                            List.getNextSong(coll, undefined);
                                         });
                                         socket.emit("toast", "addedsong");
                                     });
@@ -656,7 +656,7 @@ function shuffle(msg, coll, guid, offline, socket) {
                     if(tot == curr)
                     {
                         List.send_list(coll, undefined, false, true, false);
-                        List.getNextSong(coll);
+                        List.getNextSong(coll, undefined);
                     }
                 };
             });
@@ -765,7 +765,7 @@ function vote(coll, id, guid, socket) {
                 socket.emit("toast", "voted");
                 io.to(coll).emit("channel", {type: "vote", value: id, time: Functions.get_time()});
 
-                List.getNextSong(coll);
+                List.getNextSong(coll, undefined);
             });
         }else
         {
