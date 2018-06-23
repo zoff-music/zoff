@@ -2177,7 +2177,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .tabs_height{
-    height:calc(100vh - 48px - 64px - 32px) !important;
+    height:calc(100vh - 48px - 64px - 32px);
     overflow:auto;
 }
 
@@ -3103,7 +3103,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     .tabs_height{
-        height:calc(100vh - 48px - 64px - 134px) !important;
+        height:calc(100vh - 48px - 64px - 134px);
         overflow:initial;
     }
 

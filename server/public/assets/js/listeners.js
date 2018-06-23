@@ -1278,6 +1278,12 @@ window.addEventListener("focus", function(event) {
 
 window.addEventListener("resize", function(){
     if(chan && !Helper.mobilecheck()){
+        if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
+            document.querySelector("#wrapper").style.height = "";
+        } else if(window.innerWidth < 601) {
+            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING);
+            return;
+        }
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
