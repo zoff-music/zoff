@@ -780,6 +780,48 @@ function change_offline(enabled, already_offline){
     }
 }
 
+function resizePlaylistPlaying(playing) {
+    if(window.innerWidth < 601) {
+        var subtract = 0;
+        if(playing) {
+            Helper.css("#chat-bar" "height", window.innerHeight - 246 - subtract + "px");
+            subtract = 200;
+        } else {
+            document.querySelector("#chat-bar").style.height = "";
+        }
+        Helper.css("#chat-bar" "height", window.innerHeight - 246 - subtract + "px");
+        Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
+        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+        if(temp_fit > List.can_fit || temp_fit < List.can_fit){
+            List.dynamicContentPage(-10);
+        }
+        if(List.can_fit < temp_fit){
+            for(var i = 0; i < List.page + temp_fit; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "inline-flex");
+            }
+        } else if(List.can_fit > temp_fit){
+            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
+            var elements = document.querySelector("#wrapper").children;
+            for(var i = List.page + temp_fit; i < elements.length; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "none");
+            }
+        }
+        List.can_fit = temp_fit;
+        List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
+        Helper.css(".list-song", "height", List.element_height + "px");
+        Channel.set_title_width();
+        if(!client) {
+            var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
+            if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
+            } else if(document.querySelectorAll("#controls").length > 0) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
+            }
+            Channel.window_width_volume_slider();
+        }
+    }
+}
+
 function pagination_results(e) {
     this.preventDefault();
     var that = e;

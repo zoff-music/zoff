@@ -139,6 +139,9 @@ var Player = {
                 if(embed) {
                     Helper.css("#player", "visibility", "visible");
                 }
+                if(!embed && !client && window.location.pathname != "/") {
+                    resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING);
+                }
                 if(embed && !autoplay) autoplay = true;
                 if(!window.MSStream) {
                     Helper.css("#player", "opacity", "1");
@@ -199,6 +202,9 @@ var Player = {
                         if(gotten_np) gotten_np = false;
                         if(window.location.pathname != "/") Playercontrols.play_pause_show();
                         mobile_beginning = true;
+                        if(!embed && !client && window.location.pathname != "/") {
+                            resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING);
+                        }
                     }
                 }
                 /*if(Helper.mobilecheck()) {
