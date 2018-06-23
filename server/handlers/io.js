@@ -79,15 +79,15 @@ module.exports = function() {
         });
 
         socket.on('next_song', function(obj) {
-            if(obj == undefined || !obj.hasOwnProperty("channel") || !obj.hasOwnProperty("pass")) return;
+            if(obj == undefined || !obj.hasOwnProperty("channel")) return;
             db.collection(obj.channel + "_settings").find(function(e, docs) {
                 if(docs.length == 0) return;
                 var pass = "";
-                if(obj.pass) {
+                if(obj.hasOwnProperty("pass")) {
                     pass = crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64");
                 }
                 if((docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || docs[0].userpass == pass))) {
-                    List.getNextSong(obj.channel);
+                    List.getNextSong(obj.channel, socket);
                 }
             });
         });
