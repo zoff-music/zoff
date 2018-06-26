@@ -2176,7 +2176,7 @@ nav ul li:hover, nav ul li.active {
     min-height: calc(100vh - 64px - 64px - 87px);
 }
 
-.tabs_height{
+#wrapper.tabs_height{
     height:calc(100vh - 48px - 64px - 32px);
     overflow:auto;
 }
