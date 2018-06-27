@@ -3102,7 +3102,7 @@ nav ul li:hover, nav ul li.active {
         width: calc(100%) !important;
     }
 
-    .tabs_height{
+    #wrapper.tabs_height{
         height:calc(100vh - 48px - 64px - 134px);
         overflow:initial;
     }
