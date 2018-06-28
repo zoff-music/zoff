@@ -1280,8 +1280,12 @@ window.addEventListener("resize", function(){
     if(chan && !Helper.mobilecheck()){
         if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
             document.querySelector("#wrapper").style.height = "";
+           document.querySelector("#chat-bar").style.height = "";
+           document.querySelector("#channelchat").style.height = "";
+           document.querySelector("#all_chat").style.height = "";
+           document.querySelector("#chat-container").style.height = "";
         } else if(window.innerWidth < 601) {
-            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING);
+            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.soundcloud_player.isPlaying());
             return;
         }
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
