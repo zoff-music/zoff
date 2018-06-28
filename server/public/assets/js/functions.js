@@ -784,10 +784,17 @@ function resizePlaylistPlaying(playing) {
     if(window.innerWidth < 601) {
         var subtract = 0;
         if(playing) {
-            Helper.css("#chat-bar", "height", window.innerHeight - 246 - subtract + "px");
+            var height = window.innerHeight - 246 - 170 - subtract;
+            Helper.css("#chat-bar", "height", height + "px");
+            Helper.css("#channelchat", "height", height - 130 + "px");
+            Helper.css("#all_chat", "height", height - 130 + "px");
+            Helper.css("#chat-container", "height", height + "px");
             subtract = 200;
         } else {
             document.querySelector("#chat-bar").style.height = "";
+            document.querySelector("#channelchat").style.height = "";
+            document.querySelector("#all_chat").style.height = "";
+            document.querySelector("#chat-container").style.height = "";
         }
         Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;

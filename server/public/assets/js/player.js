@@ -626,6 +626,9 @@ var Player = {
             end_programmatically = false;
         } else {
             was_stopped = true;
+            if(!embed && !client && window.location.pathname != "/") {
+                resizePlaylistPlaying(false);
+            }
             if(!chromecastAvailable){
                 if(Helper.mobilecheck()) {
                     Helper.css("#playpause", "visibility", "visible");
@@ -665,6 +668,10 @@ var Player = {
 
             //}
         }
+        if(!embed && !client && window.location.pathname != "/") {
+            resizePlaylistPlaying(true);
+        }
+
         Helper.css("#playpause", "visibility", "visible");
         Helper.css("#playpause", "pointer-events", "all");
         playing = true;
