@@ -22,6 +22,7 @@ var Hostcontroller = {
                 window.parentWindow.postMessage({type: "controller", id: id}, window.parentOrigin);
             }
         } else if(!embed) {
+            if(window.location.pathname == "/") return;
             document.querySelector("#code-text").innerText = id;
             document.querySelector("#code-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+codeURL);
             document.querySelector("#code-link").setAttribute("href", codeURL);
@@ -36,12 +37,15 @@ var Hostcontroller = {
         if(client) return;
         if(enabled){
             if(arr.type == "volume") {
-                Playercontrols.visualVolume(arr.value);
-                Player.setVolume(arr.value);
-                Player.soundcloud_player.setVolume(arr.value / 100);
-                localStorage.setItem("volume", arr.value);
-                Playercontrols.choose_button(arr.value, false);
+                try {
+                    Playercontrols.visualVolume(arr.value);
+                    Player.setVolume(arr.value);
+                    Player.soundcloud_player.setVolume(arr.value / 100);
+                    localStorage.setItem("volume", arr.value);
+                    Playercontrols.choose_button(arr.value, false);
+                } catch(e) {}
             } else if(arr.type == "channel") {
+                if(window.location.pathname == "/") return;
                 socket.emit("change_channel");
                 Admin.beginning = true;
 
