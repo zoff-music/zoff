@@ -929,10 +929,10 @@ addListener("click", "#aprilfools", function(){
 
 addListener("change", '#view_channels_select', function(event) {
     var that = this;
-    if(currently_showing_channels != parseInt(that.value)) {
-        Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.value) == 1 ? true : false));
+    if(currently_showing_channels != parseInt(that.target.value)) {
+        Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.target.value) == 1 ? true : false));
     }
-    currently_showing_channels = parseInt(that.value);
+    currently_showing_channels = parseInt(that.target.value);
 });
 
 addListener("input", '#color_embed', function(e){
