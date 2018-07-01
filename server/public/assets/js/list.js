@@ -111,12 +111,14 @@ var List = {
     },
 
     insertAtBeginning: function(song_info, transition) {
+        if(document.querySelector("#wrapper") == null) return;
         var display = List.page == 0 ? "" : "none";
         var add = List.generateSong(song_info, transition, false, true, false, display, false);
         document.querySelector("#wrapper").insertAdjacentHTML("beforeend", add);
     },
 
     insertAtIndex: function(song_info, transition, change) {
+        if(document.querySelector("#wrapper") == null) return;
         var i = List.getIndexOfSong(song_info.id);
         var display = "none";
         if(!song_info.now_playing){
