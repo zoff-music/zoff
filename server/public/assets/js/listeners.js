@@ -568,11 +568,11 @@ addListener("click", "#closePlayer", function(event){
         Player.soundcloud_player.unbind("finish", Player.soundcloudFinish);
         Player.soundcloud_player.unbind("pause", Player.soundcloudPause);
         Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
+        Player.soundcloud_player.kill();
     } catch(error){}
     socket.removeEventListener("np");
     socket.removeEventListener("id");
     socket.removeEventListener(id);
-    Player.soundcloud_player.kill();
     previousSoundcloud = null;
     Helper.removeElement("#soundcloud_container");
     Helper.removeElement("#alreadychannel");
