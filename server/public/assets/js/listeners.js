@@ -1295,6 +1295,7 @@ window.addEventListener("focus", function(event) {
 
 window.addEventListener("resize", function(){
     if(chan && !Helper.mobilecheck()){
+        if(document.querySelector("#wrapper") == null) return;
         if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
             document.querySelector("#wrapper").style.height = "";
            document.querySelector("#chat-bar").style.height = "";
