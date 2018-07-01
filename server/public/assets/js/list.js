@@ -268,6 +268,7 @@ var List = {
     },
 
     dynamicContentPageJumpTo: function(page) {
+        if(document.querySelector("#wrapper") == null) return
         page = page * List.can_fit;
         var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
         if(page > List.page || page < List.page){
@@ -293,6 +294,7 @@ var List = {
     },
 
     dynamicContentPage: function(way) {
+        if(document.querySelector("#wrapper") == null) return
         var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
         if(way == 1 || way == 10) {
             Helper.css(wrapperChildren.slice(List.page, List.page + List.can_fit), "display", "none");
