@@ -140,7 +140,7 @@ var Player = {
                     Helper.css("#player", "visibility", "visible");
                 }
                 if(!embed && !client && window.location.pathname != "/") {
-                    resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING);
+                    resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                 }
                 if(embed && !autoplay) autoplay = true;
                 if(!window.MSStream) {
@@ -203,7 +203,7 @@ var Player = {
                         if(window.location.pathname != "/") Playercontrols.play_pause_show();
                         mobile_beginning = true;
                         if(!embed && !client && window.location.pathname != "/") {
-                            resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING);
+                            resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                         }
                     }
                 }
@@ -218,6 +218,7 @@ var Player = {
             case YT.PlayerState.BUFFERING:
                 //was_stopped = false;
                 buffering = true;
+                resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                 break;
         }
     },

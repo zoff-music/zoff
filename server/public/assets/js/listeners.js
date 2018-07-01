@@ -13,15 +13,14 @@ var hostMode = false;
 var soundcloud_loading = false;
 var buffering = false;
 var list_html = document.querySelectorAll("#list-song-html").length > 0 ? document.querySelector("#list-song-html").innerHTML : undefined;
-var unseen 			   	  		= false;
-var searching 		   	  		= false;
-var time_regex 		   	  		= /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
-var private_channel 			= false;
+var unseen = false;
+var searching = false;
+var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
 var end_programmatically = false;
 var _kWay = "38384040373937396665";
 var _kT = "";
 var _kDone = false;
-var music 			   	  		= 0;
+var music = 0;
 var was_stopped = Helper.mobilecheck() ? true : false;
 var timed_remove_check;
 var slider_type = Helper.mobilecheck() ? "vertical" : "horizontal";
@@ -30,12 +29,12 @@ var lastCommand;
 var tried_again = false;
 var userscroll = false;
 var gotten_np   = false;
-var frontpage 		   	  		= 1;
-var adminpass 		   	  		= "";
-var showDiscovery						= false;
-var player_ready 	   	  		= false;
-var viewers 			  		= 1;
-var temp_user_pass 				= "";
+var frontpage = 1;
+var adminpass = "";
+var showDiscovery = false;
+var player_ready = false;
+var viewers = 1;
+var temp_user_pass = "";
 var zoff_api_token = "DwpnKVkaMH2HdcpJT2YPy783SY33byF5/32rbs0+xdU=";
 if(window.location.hostname == "localhost" || window.location.hostname == "client.localhost") {
     var zoff_api_token = "AhmC4Yg2BhaWPZBXeoWK96DAiAVfbou8TUG2IXtD3ZQ=";
@@ -43,54 +42,54 @@ if(window.location.hostname == "localhost" || window.location.hostname == "clien
 var retry_frontpage;
 var previousSoundcloud;
 var chromecast_specs_sent = false;
-var dragging 					= false;
-var user_auth_started 			= false;
+var dragging = false;
+var user_auth_started = false;
 var beginning = false;
 var empty_clear = false;
-var user_auth_avoid 			= false;
-var user_change_password 		= false;
-var paused 				  		= false;
+var user_auth_avoid = false;
+var user_change_password = false;
+var paused = false;
 var currently_showing_channels 	= 1;
-var playing 			  		= false;
-var SAMPLE_RATE 		  		= 6000; // 6 seconds
-var lastSample 			  		= Date.now();
-var fireplace_initiated   		= false;
-var began 				  		= false;
-var userpass              		= "";
-var i 					  		= -1;
-var lazy_load    		  		= false;
-var embed				  		= false;
-var autoplay			  		= Helper.mobilecheck() ? false : true;
-var durationBegun 	      		= false;
-var chat_active 		  		= false;
-var chat_unseen 		  		= false;
-var blinking 			  		= false;
-var from_frontpage        		= false;
-var access_token_data     		= {};
-var spotify_authenticated 		= false;
-var not_import_html       		= "";
-var not_export_html       		= "";
-var embed_height          		= 300;
-var embed_width           		= 600;
+var playing = false;
+var SAMPLE_RATE = 6000; // 6 seconds
+var lastSample = Date.now();
+var fireplace_initiated = false;
+var began = false;
+var userpass = "";
+var i = -1;
+var lazy_load = false;
+var embed = false;
+var autoplay = Helper.mobilecheck() ? false : true;
+var durationBegun = false;
+var chat_active = false;
+var chat_unseen = false;
+var blinking = false;
+var from_frontpage = false;
+var access_token_data = {};
+var spotify_authenticated = false;
+var not_import_html = "";
+var not_export_html = "";
+var embed_height = 300;
+var embed_width = 600;
 var embed_videoonly = "";
-var embed_autoplay        		= "&autoplay";
-var connect_error         		= false;
-var access_token_data_youtube 	= {};
-var youtube_authenticated 		= false;
-var chromecastAvailable 		= false;
-var color               		= "808080";
-var find_start          		= false;
-var find_started        		= false;
-var offline             		= false;
-var cast_ready_connect  		= false;
-var number_suggested 			= 0;
-var prev_chan_list 				= "";
+var embed_autoplay = "&autoplay";
+var connect_error = false;
+var access_token_data_youtube = {};
+var youtube_authenticated = false;
+var chromecastAvailable = false;
+var color = "808080";
+var find_start = false;
+var find_started = false;
+var offline = false;
+var cast_ready_connect = false;
+var number_suggested = 0;
+var prev_chan_list = "";
 var changing_to_frontpage = false;
-var prev_chan_player 			= "";
-var chromecastReady 			= false;
+var prev_chan_player = "";
+var chromecastReady = false;
 var find_word = "";
-var found_array 				= [];
-var found_array_index 			= 0;
+var found_array = [];
+var found_array_index = 0;
 var startTime = 0;
 var fix_too_far = false;
 var guid = "";
@@ -152,10 +151,10 @@ window.zoff = {
     enable_debug: enable_debug,
     disable_debug: disable_debug
 }
-/*
+
 if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
     window.onerror = function(e, source, lineno, colno, error) {
-        if(e == "Script error.") return true;
+        if(e == "Script error." || e.toString().indexOf(" ReferenceError: pagespeed is not defined") > -1) return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
         Helper.logs.unshift({log: chan != "" && chan != undefined ? chan.toLowerCase() : "frontpage", date: new Date()});
         document.querySelector(".contact-form-content").remove();
@@ -176,7 +175,7 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         return true;
     };
 }
-*/
+
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
         localStorage.setItem("VERSION", VERSION);
@@ -566,13 +565,13 @@ addListener("click", "#closePlayer", function(event){
         Player.player.destroy();
         Helper.toggleClass("#player_bottom_overlay", "hide");
         Helper.removeElement("#player");
+        Player.soundcloud_player.unbind("finish", Player.soundcloudFinish);
+        Player.soundcloud_player.unbind("pause", Player.soundcloudPause);
+        Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
     } catch(error){}
     socket.removeEventListener("np");
     socket.removeEventListener("id");
     socket.removeEventListener(id);
-    Player.soundcloud_player.unbind("finish", Player.soundcloudFinish);
-    Player.soundcloud_player.unbind("pause", Player.soundcloudPause);
-    Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
     Player.soundcloud_player.kill();
     previousSoundcloud = null;
     Helper.removeElement("#soundcloud_container");
