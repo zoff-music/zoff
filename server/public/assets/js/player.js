@@ -103,7 +103,7 @@ var Player = {
         Helper.log([
             "onPlayerStateChange",
             "New state\nState: ",
-            newState
+            newState.data
         ]);
         if(Player.player && Player.player.getCurrentTime() > startTime + Player.np.start && !fix_too_far && autoplay)  {
             Player.seekTo(seekTo);
