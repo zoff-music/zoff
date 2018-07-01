@@ -153,6 +153,7 @@ var List = {
     },
 
     populate_list: function(msg, no_reset) {
+        if(document.querySelector("#wrapper") == null) return;
         // This math is fucked and I don't know how it works. Should be fixed sometime
         if(!Helper.mobilecheck() && !embed && !client){
             List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);

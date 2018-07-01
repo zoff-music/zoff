@@ -552,10 +552,10 @@ function enable_host_mode(enabled) {
         }
         Helper.css("#fullscreen", "display", "block");
         hostMode = false;
-        document.addEventListener('webkitfullscreenchange', exitHandler, false);
-        document.addEventListener('mozfullscreenchange', exitHandler, false);
-        document.addEventListener('fullscreenchange', exitHandler, false);
-        document.addEventListener('MSFullscreenChange', exitHandler, false);
+        document.removeEventListener('webkitfullscreenchange', exitHandler, false);
+        document.removeEventListener('mozfullscreenchange', exitHandler, false);
+        document.removeEventListener('fullscreenchange', exitHandler, false);
+        document.removeEventListener('MSFullscreenChange', exitHandler, false);
     }
     List.dynamicContentPageJumpTo(-10);
 }
@@ -781,6 +781,7 @@ function change_offline(enabled, already_offline){
 }
 
 function resizePlaylistPlaying(playing) {
+    if(document.querySelector("#wrapper") == null) return;
     if(window.innerWidth < 601) {
         var subtract = 0;
         if(playing) {

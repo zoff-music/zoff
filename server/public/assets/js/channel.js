@@ -177,8 +177,12 @@ var Channel = {
                 Playercontrols.initYoutubeControls(Player.player);
                 Playercontrols.initSlider();
                 if(player_ready) {
-                    Player.player.setVolume(Crypt.get_volume());
-                    Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
+                    try {
+                        Player.player.setVolume(Crypt.get_volume());
+                    } catch(e){}
+                    try {
+                        Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
+                    } catch(e){}
                 }
                 Helper.removeClass(".video-container", "no-opacity");
                 var codeURL = "https://remote."+window.location.hostname+"/"+id;
