@@ -170,7 +170,25 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         </div>');
         M.Modal.init(document.getElementById("contact"));
         M.Modal.getInstance(document.getElementById("contact")).open();
-        Helper.setHtml("#error-report-code", JSON.stringify(Helper.logs, undefined, 4));
+        var cache = [];
+        Helper.setHtml("#error-report-code", JSON.stringify(Helper.logs, function(key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // Duplicate reference found
+                    try {
+                        // If this value does not reference a parent it can be deduped
+                        return JSON.parse(JSON.stringify(value));
+                    } catch (error) {
+                        // discard key if value cannot be deduped
+                        return;
+                    }
+                }
+                // Store value in our collection
+                cache.push(value);
+            }
+            return value;
+        }, 4));
+        cache = null;
         //console.error(e.originalEvent.error);
         return true;
     };
