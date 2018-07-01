@@ -14,6 +14,11 @@
             "platform": "play",
             "id": "zoff.me.zoff",
             "url": "https://play.google.com/store/apps/details?id=zoff.me.zoff"
+        },
+        {
+            "platform": "itunes",
+            "id": "me.zoff.zoffnative",
+            "url": "https://itunes.apple.com/us/app/zoff/id1402037061?ls=1&mt=8"
         }
     ],
     "icons": [
