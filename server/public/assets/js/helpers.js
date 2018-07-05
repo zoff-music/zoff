@@ -8,7 +8,7 @@ var Helper = {
         toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
         return toReturn.toLowerCase();
     },
-    
+
     encodeChannelName: function(str) {
         var _fn = encodeURIComponent;
         var toReturn = _fn(str);
