@@ -1,64 +1,76 @@
 var gulp    = require('gulp'),
 	gutil   = require('gulp-util'),
-	uglify  = require('gulp-uglifyjs'),
+	uglify  = require('gulp-uglify'),
+    sourcemaps = require('gulp-sourcemaps'),
 	concat  = require('gulp-concat');
 
 gulp.task('js', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/token*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
+    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/token*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
+    .pipe(sourcemaps.init())
+    .pipe(concat('main.min.js'))
         .pipe(uglify({
         	mangle: true,
             compress: true,
-        	enclose: true
+        	enclose: true,
         }))
-        .pipe(concat('main.min.js'))
+
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
 gulp.task('embed', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/player.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
+    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/player.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
+    .pipe(sourcemaps.init())
         .pipe(uglify({
             mangle: true,
             compress: true,
             enclose: true
         }))
         .pipe(concat('embed.min.js'))
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
 gulp.task('token', function() {
-    gulp.src(['server/public/assets/js/token*', 'server/public/assets/js/helpers.js'])
+    return gulp.src(['server/public/assets/js/token*', 'server/public/assets/js/helpers.js'])
+    .pipe(sourcemaps.init())
         .pipe(uglify({
             mangle: true,
             compress: true,
             enclose: true
         }))
         .pipe(concat('token.min.js'))
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 })
 
 gulp.task('callback', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/callback.js'])
+    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/callback.js'])
+    .pipe(sourcemaps.init())
         .pipe(uglify({
             mangle: true,
             compress: true,
             enclose: true
         }))
         .pipe(concat('callback.min.js'))
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
 gulp.task('build', function() {
-    gulp.run(['js', 'embed', 'remotecontroller', 'callback', 'token']);
+    return gulp.run(['js', 'embed', 'remotecontroller', 'callback', 'token']);
 })
 
 gulp.task('remotecontroller', function () {
-    gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/remotecontroller.js', 'server/public/assets/js/helpers.js'])
+    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/remotecontroller.js', 'server/public/assets/js/helpers.js'])
+    .pipe(sourcemaps.init())
         .pipe(uglify({
             mangle: true,
             compress: true,
             enclose: true
         }))
         .pipe(concat('remote.min.js'))
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
