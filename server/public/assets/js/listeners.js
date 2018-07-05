@@ -157,17 +157,20 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         if(e == "Script error." || e.toString().indexOf(" ReferenceError: pagespeed is not defined") > -1) return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
         Helper.logs.unshift({log: chan != "" && chan != undefined ? chan.toLowerCase() : "frontpage", date: new Date()});
-        document.querySelector(".contact-form-content").remove();
-        document.querySelector("#submit-contact-form").remove();
-        document.querySelector(".contact-modal-header").innerText = "An error occurred";
-        document.querySelector(".contact-container-info").remove();
-        document.querySelector(".contact-modal-footer").insertAdjacentHTML("beforeend", '<a href="#!" class="waves-effect waves-green btn-flat send-error-modal">Send</a>');
-        document.querySelector("#contact-form").setAttribute("id", "error-report-form");
-        document.querySelector("#contact-container").insertAdjacentHTML("afterbegin", '<p>Do you want to send an error-report?</p> \
-        <p class="error-report-success"></p> \
-        <div class="error-code-container"> \
-        <code id="error-report-code"></code> \
-        </div>');
+
+        try {
+            document.querySelector(".contact-form-content").remove();
+            document.querySelector("#submit-contact-form").remove();
+            document.querySelector(".contact-modal-header").innerText = "An error occurred";
+            document.querySelector(".contact-container-info").remove();
+            document.querySelector(".contact-modal-footer").insertAdjacentHTML("beforeend", '<a href="#!" class="waves-effect waves-green btn-flat send-error-modal">Send</a>');
+            document.querySelector("#contact-form").setAttribute("id", "error-report-form");
+            document.querySelector("#contact-container").insertAdjacentHTML("afterbegin", '<p>Do you want to send an error-report?</p> \
+            <p class="error-report-success"></p> \
+            <div class="error-code-container"> \
+            <code id="error-report-code"></code> \
+            </div>');
+        } catch(e){}
         M.Modal.init(document.getElementById("contact"));
         M.Modal.getInstance(document.getElementById("contact")).open();
         var cache = [];
@@ -1303,8 +1306,14 @@ window.addEventListener("resize", function(){
            document.querySelector("#all_chat").style.height = "";
            document.querySelector("#chat-container").style.height = "";
         } else if(window.innerWidth < 601) {
-            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.soundcloud_player.isPlaying());
-            return;
+            if(!client && !embed) {
+                var scPlaying = false;
+                try {
+                    scPlaying = Player.soundcloud_player.isPlaying();
+                } catch(e){}
+                resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                return;
+            }
         }
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
@@ -1372,8 +1381,10 @@ addListener("click", ".result-object", function(e){
 
 addListener("click", ".result-get-more-info", function(event) {
     this.preventDefault();
-    var that = this;
+    var that = this.target;
     var parent = that.parentElement.parentElement.parentElement.parentElement;
+    if(that.tagName == "I") parent = parent.parentElement;
+
     var videoId = parent.getAttribute("data-video-id");
     var to_toggle = document.getElementById("inner-results").querySelectorAll("[data-video-id='" + videoId + "']")[0];
     to_toggle = to_toggle.children[0];
@@ -1403,15 +1414,50 @@ addListener("submit", '#contact-form', function(event){
 
 addListener("click", ".send-error-modal", function(event) {
     this.preventDefault();
-    document.getElementById("error-report-form").submit();
+    var captcha_response = grecaptcha.getResponse();
+
+    Helper.removeClass("#send-loader", "hide");
+    Helper.ajax({
+        type: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: {
+            from: "no-reply@zoff.me",
+            message: Helper.html("#error-report-code"),
+            "g-recaptcha-response": captcha_response,
+        },
+        url: "/api/mail",
+        success: function(data){
+            if(data == "success"){
+                Helper.removeElement(".send-error-modal");
+                Helper.removeElement("#error-report-form");
+                Helper.removeElement(".error-code-container");
+                Helper.setHtml(".error-report-success", "Error report sent!");
+                Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.");
+                window.location.reload(true);
+            }else{
+                Helper.setHtml(".error-report-success", "Mail was not sent, try again");
+            }
+            Helper.addClass("#send-loader", "hide");
+        }
+    });
+    return false;
+    //document.getElementById("error-report-form").submit();
 })
 
 addListener("submit", "#error-report-form", function(event) {
     this.preventDefault();
+    //event.preventDefault();
+
     var captcha_response = grecaptcha.getResponse();
+
     Helper.removeClass("#send-loader", "hide");
     Helper.ajax({
         type: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
         data: {
             from: "no-reply@zoff.me",
             message: Helper.html("#error-report-code"),
