@@ -630,7 +630,11 @@ var Player = {
         } else {
             was_stopped = true;
             if(!embed && !client && window.location.pathname != "/") {
-                resizePlaylistPlaying(false);
+                var scPlaying = false;
+                try {
+                    scPlaying = Player.soundcloud_player.isPlaying();
+                } catch(e){}
+                resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
             }
             if(!chromecastAvailable){
                 if(Helper.mobilecheck()) {
@@ -672,7 +676,11 @@ var Player = {
             //}
         }
         if(!embed && !client && window.location.pathname != "/") {
-            resizePlaylistPlaying(true);
+            var scPlaying = false;
+            try {
+                scPlaying = Player.soundcloud_player.isPlaying();
+            } catch(e){}
+            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
         }
 
         Helper.css("#playpause", "visibility", "visible");
