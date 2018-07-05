@@ -797,16 +797,20 @@ function resizePlaylistPlaying(playing) {
             document.querySelector("#all_chat").style.height = "";
             document.querySelector("#chat-container").style.height = "";
         }
+        var page = List.page;
+        var canFit = List.can_fit;
         Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
         var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
         if(List.can_fit < temp_fit){
+            Helper.css(document.querySelector("#wrapper").children, "display", "none");
             for(var i = 0; i < List.page + temp_fit; i++) {
                 Helper.css(document.querySelector("#wrapper").children[i], "display", "inline-flex");
             }
         } else if(List.can_fit > temp_fit){
+            //Helper.css(document.querySelector("#wrapper").children, "display", "none");
             Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
             var elements = document.querySelector("#wrapper").children;
             for(var i = List.page + temp_fit; i < elements.length; i++) {
@@ -817,6 +821,7 @@ function resizePlaylistPlaying(playing) {
         List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
+        List.dynamicContentPageJumpTo(page / canFit);
         if(!client) {
             var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
             if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
