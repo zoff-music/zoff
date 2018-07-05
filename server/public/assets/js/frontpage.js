@@ -336,7 +336,7 @@ var Frontpage = {
                 Helper.tooltip(document.querySelectorAll(".pin")[0].parentElement.parentElement.parentElement, "destroy");
             }
         }
-        
+
         currently_showing_channels = 1;
         clearTimeout(retry_frontpage);
         Helper.ajax({
