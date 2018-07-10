@@ -30,7 +30,7 @@ function getColor(id) {
             id: id
         }),
         success: function(c) {
-            c = JSON.parse(c);
+            //c = JSON.parse(c);
             if(typeof(c) == "object") {
                 Player.setBGimage({color:c, only:true});
             }
@@ -201,7 +201,7 @@ function get_list_ajax() {
             if(response.results.length > 0) {
                 if(response.status == 403) {
                     start_auth();
-                }
+                } else if(response.status == 404) return;
                 if(client) {
                     Helper.removeElement("#channel-load");
                 }
@@ -209,14 +209,14 @@ function get_list_ajax() {
             }
         },
         error: function(response) {
-            response = JSON.parse(response);
+            //response = JSON.parse(response);
             if(response.status == 403) {
                 start_auth();
             } else if(response.status == 429) {
                 setTimeout(function() {
                     get_list_ajax();
                 }, xmlhttp.getResponseHeader("Retry-After") * 1000)
-            }
+            } else if(response.status == 404) return;
             if(client) {
                 Helper.removeElement("#channel-load");
             }
@@ -289,7 +289,7 @@ function get_np_ajax() {
             Player.getTitle(response.results[0].title, 1);
         },
         error: function(response, xmlhttp) {
-            response = JSON.parse(response);
+            //response = JSON.parse(response);
             if(response.status == 403) {
                 start_auth();
             } else if(response.status == 429) {
@@ -320,7 +320,7 @@ function del_ajax(id) {
             get_list_ajax();
         },
         error: function(response, xmlhttp) {
-            response = JSON.parse(response);
+            //response = JSON.parse(response);
             if(response.status == 403) {
                 toast("listhaspass");
             } else if(response.status == 429) {
@@ -357,7 +357,7 @@ function add_ajax(id, title, duration, playlist, num, full_num, start, end, sour
             get_list_ajax();
         },
         error: function(response, xmlhttp) {
-            response = JSON.parse(response);
+            //response = JSON.parse(response);
             if(response.status == 403) {
                 toast("listhaspass");
             } else if(response.status == 409) {
@@ -390,7 +390,7 @@ function vote_ajax(id) {
             get_list_ajax();
         },
         error: function(response, xmlhttp) {
-            response = JSON.parse(response);
+            //response = JSON.parse(response);
             if(response.status == 403) {
                 toast("listhaspass");
             } else if(response.status == 429) {
@@ -1070,7 +1070,7 @@ function before_toast(){
         } catch(e) {
         }
     //}*/
-    //M.Toast.dismissAll();
+    M.Toast.dismissAll();
     //Materialize.Toast.removeAll();
 }
 
