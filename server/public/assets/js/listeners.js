@@ -1308,10 +1308,14 @@ window.addEventListener("resize", function(){
         } else if(window.innerWidth < 601) {
             if(!client && !embed) {
                 var scPlaying = false;
+		var ytPlaying = false;
+		try {
+		    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;	
+		} catch(e) {}
                 try {
                     scPlaying = Player.soundcloud_player.isPlaying();
                 } catch(e){}
-                resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                resizePlaylistPlaying(ytPlaying || scPlaying);
                 return;
             }
         }
