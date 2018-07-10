@@ -481,7 +481,8 @@ var Player = {
     },
 
     playNext: function(){
-        var next_song = full_playlist[0];
+        if(full_playlist.length == 0) return;
+	var next_song = full_playlist[0];
 
         video_id   = next_song.id;
         time       = (new Date()).getTime();
@@ -517,7 +518,7 @@ var Player = {
         var length = full_playlist.length - 2;
         if(length < 0) {
             length = 0;
-        }
+        } else if(length == 0) return;
         var next_song = full_playlist[length];
         video_id   = next_song.id;
         time       = (new Date()).getTime();
