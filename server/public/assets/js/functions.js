@@ -847,6 +847,16 @@ function pagination_results(e) {
 
 function handleEvent(e, target, tried, type) {
     var path = e.path || (e.composedPath && e.composedPath());
+    if(!path) {
+        var path = [target];
+        var parent = target.parentElement;
+        while(parent != null) {
+            path.push(parent);
+            try {
+                parent = parent.parentElement;
+            } catch(e){break;}
+        }
+    } 
     if(path) {
         for(var y = 0; y < path.length; y++) {
             var target = path[y];
