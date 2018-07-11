@@ -155,8 +155,8 @@ var Search = {
                                         Helper.addClass(".prev-results-button", "disabled");
                                     }
 
-                                    document.querySelector(".pagination-results a").setAttribute("data-original-search", search_input);
-
+                                    document.querySelectorAll(".pagination-results a")[0].setAttribute("data-original-search", search_input);
+                                    document.querySelectorAll(".pagination-results a")[1].setAttribute("data-original-search", search_input);
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
 
                                     Helper.removeClass(".search_loader_spinner", "active");
