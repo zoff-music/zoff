@@ -1336,7 +1336,8 @@ window.addEventListener("resize", function(){
         }
         List.can_fit = temp_fit;
         List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
-        Helper.css(".list-song", "height", List.element_height + "px");
+
+	Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
         if(!client) {
             var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
