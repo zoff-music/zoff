@@ -282,8 +282,9 @@ var Channel = {
 
         }
 
-        if(!Helper.msieversion() && !Helper.mobilecheck() && !client) Notification.requestPermission();
-
+	try {
+        	if(!Helper.msieversion() && !Helper.mobilecheck() && !client && Notification != undefined) Notification.requestPermission();
+	}catch(e){}
         document.getElementsByClassName("search_input")[0].focus();
 
         Helper.sample();
