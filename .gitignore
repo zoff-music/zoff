@@ -17,3 +17,4 @@ scripts/
 .DS_Store
 npm-debug.log
 server/npm-debug.log
+server/public/assets/dist/
