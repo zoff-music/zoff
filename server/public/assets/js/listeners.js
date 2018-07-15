@@ -5,6 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var hiddenPlaylist = false;
 var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
@@ -392,6 +393,10 @@ addListener("click", "#player_overlay", function(event) {
     }
 });
 
+addListener("click", "#hide-playlist", function(event) {
+    this.preventDefault();
+    fullVideo(!hiddenPlaylist);
+});
 
 
 addListener("click", "#bitcoin-address", function(event) {
@@ -919,11 +924,11 @@ addListener("click", ".donate-button", function(event) {
     M.Modal.getInstance(document.getElementById("donate")).open();
 });
 
-/*
+
 addListener("click", '#toast-container', function(){
     before_toast();
 });
-*/
+
 
 addListener("click", "#aprilfools", function(){
     Helper.css(".mega", "-webkit-transform", "rotate(0deg)");
@@ -1297,58 +1302,7 @@ window.addEventListener("focus", function(event) {
 });
 
 window.addEventListener("resize", function(){
-    if(chan && !Helper.mobilecheck()){
-        if(document.querySelector("#wrapper") == null) return;
-        if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
-            document.querySelector("#wrapper").style.height = "";
-           document.querySelector("#chat-bar").style.height = "";
-           document.querySelector("#channelchat").style.height = "";
-           document.querySelector("#all_chat").style.height = "";
-           document.querySelector("#chat-container").style.height = "";
-        } else if(window.innerWidth < 601) {
-            if(!client && !embed) {
-                var scPlaying = false;
-		var ytPlaying = false;
-		try {
-		    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;	
-		} catch(e) {}
-                try {
-                    scPlaying = Player.soundcloud_player.isPlaying();
-                } catch(e){}
-                resizePlaylistPlaying(ytPlaying || scPlaying);
-                return;
-            }
-        }
-        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
-        if(temp_fit > List.can_fit || temp_fit < List.can_fit){
-            List.dynamicContentPage(-10);
-        }
-        if(List.can_fit < temp_fit){
-            for(var i = 0; i < List.page + temp_fit; i++) {
-                Helper.css(document.querySelector("#wrapper").children[i], "display", "inline-flex");
-            }
-        } else if(List.can_fit > temp_fit){
-            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
-            var elements = document.querySelector("#wrapper").children;
-            for(var i = List.page + temp_fit; i < elements.length; i++) {
-                Helper.css(document.querySelector("#wrapper").children[i], "display", "none");
-            }
-        }
-        List.can_fit = temp_fit;
-        List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
-
-	Helper.css(".list-song", "height", List.element_height + "px");
-        Channel.set_title_width();
-        if(!client) {
-            var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
-            if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
-                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
-            } else if(document.querySelectorAll("#controls").length > 0) {
-                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
-            }
-            Channel.window_width_volume_slider();
-        }
-    }
+    resizeFunction();
 });
 
 addListener("click", ".result-object", function(e){
