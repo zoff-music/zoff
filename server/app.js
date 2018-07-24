@@ -5,6 +5,7 @@ path = require('path'),
 http = require('http'),
 port = 8080,
 //farmhash = require('farmhash'),
+uniqid = require('uniqid'),
 num_processes = require('os').cpus().length;
 
 publicPath = path.join(__dirname, 'public');
@@ -49,7 +50,8 @@ function startClustered(redis_enabled) {
         var worker_index = function(ip, len) {
             //console.log(ip);
             var s = '';
-            for (var i = 0, _len = ip.length; i < _len; i++) {
+            if(ip == undefined) ip = uniqid.time();
+	    for (var i = 0, _len = ip.length; i < _len; i++) {
                 if(!isNaN(ip[i])) {
                     s += ip[i];
                 }
