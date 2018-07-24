@@ -45,7 +45,27 @@ function resizeFunction() {
                 return;
             }
         }
-        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+        var temp_fit;
+
+        if(!Helper.mobilecheck() && !embed && !client){
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
+        } else if(embed) {
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-4;
+        } else if(!client){
+            temp_fit = Math.round((Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71)+1;
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+        } else {
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
+        }
+        if(List.element_height < 55.2 && !client){
+            temp_fit = temp_fit - 1;
+            List.element_height = 55.2;
+            temp_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+        }
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
@@ -61,8 +81,7 @@ function resizeFunction() {
             }
         }
         List.can_fit = temp_fit;
-        List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
-
+        //List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
         if(!client) {
@@ -876,7 +895,27 @@ function resizePlaylistPlaying(playing) {
         var page = List.page;
         var canFit = List.can_fit;
         Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
-        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+
+        if(!Helper.mobilecheck() && !embed && !client){
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
+        } else if(embed) {
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-4;
+        } else if(!client){
+            temp_fit = Math.round((Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71)+1;
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+        } else {
+            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
+        }
+        if(List.element_height < 55.2 && !client){
+            temp_fit = temp_fit - 1;
+            List.element_height = 55.2;
+            temp_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+        }
+
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);
         }
