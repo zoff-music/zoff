@@ -23,7 +23,10 @@ var Channel = {
             if(cast_ready_connect || chromecastAvailable || chromecastReady) {
                 Helper.addClass(".volume-container", "volume-container-cast");
             }
-
+	    if(!embed) {
+	    	document.querySelector("#main-container").insertAdjacentHTML("beforeend", "<a id='hide-playlist' class='hide-on-small-only' href='#!' style='    position: absolute;top: 128px;background: inherit;display:flex;align:items:center;justify-content:center;z-index: 99;font-size: 1rem;padding: 10px;color: white;'><i class='material-icons'>keyboard_arrow_right</i></div>");
+		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+	    }
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         Admin.logged_in = false;
@@ -279,8 +282,9 @@ var Channel = {
 
         }
 
-        if(!Helper.msieversion() && !Helper.mobilecheck() && !client) Notification.requestPermission();
-
+	try {
+        	if(!Helper.msieversion() && !Helper.mobilecheck() && !client && Notification != undefined) Notification.requestPermission();
+	}catch(e){}
         document.getElementsByClassName("search_input")[0].focus();
 
         Helper.sample();
@@ -626,9 +630,12 @@ var Channel = {
                 url: "/",
                 method: "GET",
                 success: function(e){
-
+		
                     if(!client) {
-                        document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
+                	document.querySelector("#hide-playlist").remove();
+			if(hiddenPlaylist) document.querySelector("main").style.maxWidth = "";
+			hiddenPlaylist = false;
+		        document.getElementById("volume-button").removeEventListener("click", Playercontrols.mute_video);
                         document.getElementById("playpause").removeEventListener("click", Playercontrols.play_pause);
                         document.getElementById("fullscreen").removeEventListener("click", Playercontrols.fullscreen);
                     }

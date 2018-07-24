@@ -21,6 +21,81 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function resizeFunction() {
+    if(chan && !Helper.mobilecheck()){
+	if(!client && !embed) document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+        if(document.querySelector("#wrapper") == null) return;
+        if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
+            document.querySelector("#wrapper").style.height = "";
+           document.querySelector("#chat-bar").style.height = "";
+           document.querySelector("#channelchat").style.height = "";
+           document.querySelector("#all_chat").style.height = "";
+           document.querySelector("#chat-container").style.height = "";
+        } else if(window.innerWidth < 601) {
+            if(!client && !embed) {
+                var scPlaying = false;
+                var ytPlaying = false;
+                try {
+                    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
+                } catch(e) {}
+                try {
+                    scPlaying = Player.soundcloud_player.isPlaying();
+                } catch(e){}
+                resizePlaylistPlaying(ytPlaying || scPlaying);
+                return;
+            }
+        }
+        var temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
+        if(temp_fit > List.can_fit || temp_fit < List.can_fit){
+            List.dynamicContentPage(-10);
+        }
+        if(List.can_fit < temp_fit){
+            for(var i = 0; i < List.page + temp_fit; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "inline-flex");
+            }
+        } else if(List.can_fit > temp_fit){
+            Helper.css(document.querySelector("#wrapper").children[List.page + temp_fit], "display", "none");
+            var elements = document.querySelector("#wrapper").children;
+            for(var i = List.page + temp_fit; i < elements.length; i++) {
+                Helper.css(document.querySelector("#wrapper").children[i], "display", "none");
+            }
+        }
+        List.can_fit = temp_fit;
+        List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
+
+        Helper.css(".list-song", "height", List.element_height + "px");
+        Channel.set_title_width();
+        if(!client) {
+            var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
+            if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 55);
+            } else if(document.querySelectorAll("#controls").length > 0) {
+                Helper.css(document.querySelector("#seekToDuration"), "top", controlsPosition - 20);
+            }
+            Channel.window_width_volume_slider();
+        }
+    }
+}
+
+function fullVideo(hide) {
+	if(hide) {
+		document.querySelector("#playlist").className += " show-only-mobile";
+		document.querySelector("#video-container").classList.remove("m9");
+		document.querySelector("#video-container").className += " m12";
+		document.querySelector("main").style.maxWidth = "100%";
+		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+		document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_left";
+    } else {
+		document.querySelector("#playlist").classList.remove("show-only-mobile");
+		document.querySelector("#video-container").classList.remove("m12");
+		document.querySelector("#video-container").className += " m9";
+		document.querySelector("main").style.maxWidth = "99%";
+		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+  		document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_right";
+    }
+	hiddenPlaylist = hide;
+}
+
 function getColor(id) {
     Helper.ajax({
         method: "POST",
@@ -556,8 +631,9 @@ function enable_host_mode(enabled) {
         document.removeEventListener('mozfullscreenchange', exitHandler, false);
         document.removeEventListener('fullscreenchange', exitHandler, false);
         document.removeEventListener('MSFullscreenChange', exitHandler, false);
+        resizeFunction();
     }
-    List.dynamicContentPageJumpTo(-10);
+    List.dynamicContentPage(-10);
 }
 
 function get_list_listener(){
@@ -847,6 +923,16 @@ function pagination_results(e) {
 
 function handleEvent(e, target, tried, type) {
     var path = e.path || (e.composedPath && e.composedPath());
+    if(!path) {
+        var path = [target];
+        var parent = target.parentElement;
+        while(parent != null) {
+            path.push(parent);
+            try {
+                parent = parent.parentElement;
+            } catch(e){break;}
+        }
+    }
     if(path) {
         for(var y = 0; y < path.length; y++) {
             var target = path[y];

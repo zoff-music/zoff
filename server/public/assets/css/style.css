@@ -191,7 +191,8 @@ margin: auto;
 }
 
 #channel-share-modal {
-    background: transparent !important;
+overflow:hidden;    
+background: transparent !important;
     text-align: center !important;
     margin: auto;
     flex-direction: column;
