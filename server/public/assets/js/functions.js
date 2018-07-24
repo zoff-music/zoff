@@ -30,7 +30,7 @@ function getColor(id) {
             id: id
         }),
         success: function(c) {
-            //c = JSON.parse(c);
+            c = JSON.parse(c);
             if(typeof(c) == "object") {
                 Player.setBGimage({color:c, only:true});
             }

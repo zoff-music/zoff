@@ -356,12 +356,12 @@ var Frontpage = {
                     //socket.disconnect();
                     socket.removeAllListeners();
                 }
-
+                var old_chan = chan;
                 if(!popstate){
                     window.history.pushState("to the channel!", "Title", "/" + new_channel);
                     if(prev_chan_list == "") prev_chan_list = new_channel;
                     if(prev_chan_player == "") prev_chan_player = new_channel;
-                    window.chan = new_channel;
+                    chan = new_channel;
                 }
 
                 var response = document.createElement("div");
@@ -392,6 +392,7 @@ var Frontpage = {
                 Helper.addClass(".page-footer", "padding-bottom-novideo");
                 from_frontpage = true;
                 if(document.querySelectorAll("#alreadychannel").length == 1){
+                    if(old_chan != new_channel) local_new_channel = true;
                     Channel.init();
                 }else{
                     fromFront = true;

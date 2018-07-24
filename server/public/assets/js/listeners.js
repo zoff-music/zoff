@@ -5,6 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var local_new_channel = false;
 var videoSource;
 var dynamicListeners = {};
 var socket_connected = false;
@@ -1310,7 +1311,7 @@ window.addEventListener("resize", function(){
                 var scPlaying = false;
 		var ytPlaying = false;
 		try {
-		    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;	
+		    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
 		} catch(e) {}
                 try {
                     scPlaying = Player.soundcloud_player.isPlaying();
