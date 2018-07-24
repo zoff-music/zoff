@@ -13,7 +13,7 @@ var Player = {
     },
 
     now_playing_listener: function(obj) {
-        if(offline && video_id != undefined) {
+        if((offline && !local_new_channel) && video_id != undefined) {
             return;
         }
         if(obj.np != undefined) {
@@ -26,7 +26,7 @@ var Player = {
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
 
-            if(offline && (video_id == "" || video_id == undefined) && !client){
+            if(offline && (video_id == "" || video_id == undefined || local_new_channel) && !client){
                 if(obj.conf != undefined) {
                     conf       = obj.conf[0];
                 }
@@ -85,6 +85,7 @@ var Player = {
                 Player.cueVideoById(Player.np.id, duration, Player.np.start, Player.np.end);
             }
         }
+        local_new_channel = false;
         updateChromecastMetadata();
     },
 
@@ -481,8 +482,8 @@ var Player = {
     },
 
     playNext: function(){
-        if(full_playlist.length == 0) return;
-	var next_song = full_playlist[0];
+        if(full_playlist == undefined || full_playlist.length == 0) return;
+	    var next_song = full_playlist[0];
 
         video_id   = next_song.id;
         time       = (new Date()).getTime();
@@ -495,13 +496,15 @@ var Player = {
         else start = 0;
         if(next_song.hasOwnProperty("end")) end = next_song.end;
         else end = duration;
-
         Player.np = next_song;
         Player.np.start = start;
         Player.np.end = end;
+        //seekTo = 0;
         Player.np.duration = duration;
 
+
         Player.getTitle(song_title, viewers);
+        seekTo = start;
         //Player.setBGimage(video_id);
         if(chromecastAvailable){
             loadChromecastVideo();
@@ -509,12 +512,14 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg');
         } else {
+
             Player.loadVideoById(video_id, duration, start, end);
         }
         List.channel_function({type:"song_change", time: time, offline_change: true});
     },
 
     playPrev: function() {
+        if(full_playlist == undefined) return;
         var length = full_playlist.length - 2;
         if(length < 0) {
             length = 0;
@@ -536,7 +541,7 @@ var Player = {
         Player.np.start = start;
         Player.np.end = end;
         Player.np.duration = duration;
-
+        seekTo = start;
         Player.getTitle(song_title, viewers);
         //Player.setBGimage(video_id);
 

@@ -513,6 +513,8 @@ var List = {
         full_playlist.unshift(full_playlist.pop());
 
         full_playlist[full_playlist.length - 1].now_playing = true;
+
+        if(full_playlist.length == 1) return;
         document.querySelector("#wrapper").children[document.querySelector("#wrapper").children.length - 1].remove();
 
         var length = full_playlist.length - 2;
