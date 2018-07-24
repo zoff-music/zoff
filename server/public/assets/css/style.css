@@ -183,6 +183,19 @@ margin: auto;
     width: 50% !important;
 }
 
+.hide-playlist-button {
+    position: absolute;
+    top: 128px;
+    background: inherit;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index: 99;
+    font-size: 1rem;
+    padding: 10px;
+    color: white;
+}
+
 #pageNumber{
     cursor: default;
     color: white;
@@ -191,7 +204,7 @@ margin: auto;
 }
 
 #channel-share-modal {
-overflow:hidden;    
+overflow:hidden;
 background: transparent !important;
     text-align: center !important;
     margin: auto;
