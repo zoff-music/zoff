@@ -822,7 +822,8 @@ var Player = {
 
     notifyUser: function(id, title) {
         title = title.replace(/\\\'/g, "'").replace(/&quot;/g,"'").replace(/&amp;/g,"&");
-        if (Notification.permission === "granted" && document.hidden && !embed) {
+        try{
+	if (Notification != undefined && Notification.permission === "granted" && document.hidden && !embed) {
             var icon = "https://img.youtube.com/vi/"+id+"/mqdefault.jpg";
             if(videoSource) icon = full_playlist[full_playlist.length - 1].thumbnail;
             var notification = new Notification("Now Playing", {body: title, icon: icon, iconUrl: icon});
@@ -831,6 +832,7 @@ var Player = {
                 notification.close();
             },5000);
         }
+	}catch(e){}
     },
 
     setup_all_listeners: function() {
