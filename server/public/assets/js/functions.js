@@ -23,14 +23,14 @@ function removeAllListeners() {
 
 function resizeFunction() {
     if(chan && !Helper.mobilecheck()){
-	if(!client && !embed) document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+        if(!client && !embed) document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
         if(document.querySelector("#wrapper") == null) return;
         if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
             document.querySelector("#wrapper").style.height = "";
-           document.querySelector("#chat-bar").style.height = "";
-           document.querySelector("#channelchat").style.height = "";
-           document.querySelector("#all_chat").style.height = "";
-           document.querySelector("#chat-container").style.height = "";
+            document.querySelector("#chat-bar").style.height = "";
+            document.querySelector("#channelchat").style.height = "";
+            document.querySelector("#all_chat").style.height = "";
+            document.querySelector("#chat-container").style.height = "";
         } else if(window.innerWidth < 601) {
             if(!client && !embed) {
                 var scPlaying = false;
@@ -47,7 +47,7 @@ function resizeFunction() {
         }
         var temp_fit;
 
-        if(!Helper.mobilecheck() && !embed && !client){
+        if(!embed && !client){
             temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
             List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
         } else if(embed) {
@@ -97,22 +97,22 @@ function resizeFunction() {
 }
 
 function fullVideo(hide) {
-	if(hide) {
-		document.querySelector("#playlist").className += " show-only-mobile";
-		document.querySelector("#video-container").classList.remove("m9");
-		document.querySelector("#video-container").className += " m12";
-		document.querySelector("main").style.maxWidth = "100%";
-		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
-		document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_left";
+    if(hide) {
+        document.querySelector("#playlist").className += " show-only-mobile";
+        document.querySelector("#video-container").classList.remove("m9");
+        document.querySelector("#video-container").className += " m12";
+        document.querySelector("main").style.maxWidth = "100%";
+        document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+        document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_left";
     } else {
-		document.querySelector("#playlist").classList.remove("show-only-mobile");
-		document.querySelector("#video-container").classList.remove("m12");
-		document.querySelector("#video-container").className += " m9";
-		document.querySelector("main").style.maxWidth = "99%";
-		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
-  		document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_right";
+        document.querySelector("#playlist").classList.remove("show-only-mobile");
+        document.querySelector("#video-container").classList.remove("m12");
+        document.querySelector("#video-container").className += " m9";
+        document.querySelector("main").style.maxWidth = "99%";
+        document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+        document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_right";
     }
-	hiddenPlaylist = hide;
+    hiddenPlaylist = hide;
 }
 
 function getColor(id) {
@@ -229,27 +229,27 @@ function chromecastListener(evt, data) {
     var json_parsed = JSON.parse(data);
     switch(json_parsed.type){
         case -1:
-            if(offline){
-                Player.playNext();
-            } else {
-                socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
-            }
-            break;
+        if(offline){
+            Player.playNext();
+        } else {
+            socket.emit("end", {id: json_parsed.videoId, channel: chan.toLowerCase()});
+        }
+        break;
         case 0:
-            if(offline){
-                Player.playNext();
-            } else {
-                emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, channel: chan.toLowerCase()});
-            }
-            break;
+        if(offline){
+            Player.playNext();
+        } else {
+            emit("skip", {error: json_parsed.data_code, id: json_parsed.videoId, channel: chan.toLowerCase()});
+        }
+        break;
         case 1:
-            Helper.addClass("#play", "hide");
-            Helper.removeClass("#pause", "hide");
-            break;
+        Helper.addClass("#play", "hide");
+        Helper.removeClass("#pause", "hide");
+        break;
         case 2:
-            Helper.addClass("#pause", "hide");
-            Helper.removeClass("#play", "hide");
-            break;
+        Helper.addClass("#pause", "hide");
+        Helper.removeClass("#play", "hide");
+        break;
     }
 }
 
@@ -353,12 +353,12 @@ function contextListener(that, event) {
 
 function mouseContext(left, top) {
     var moveFunction = function( event ) {
-       if(event.pageX < left - 60 || event.pageX > left + document.querySelector(".context-menu-root").offsetWidth + 60 ||
-          event.pageY < top - 60 || event.pageY > top + document.querySelector(".context-menu-root").offsetHeight + 60) {
-           Helper.addClass(".context-menu-root", "hide");
-           Helper.addClass("#context-menu-overlay", "hide");
-           document.removeEventListener("mousemove", moveFunction);
-       }
+        if(event.pageX < left - 60 || event.pageX > left + document.querySelector(".context-menu-root").offsetWidth + 60 ||
+        event.pageY < top - 60 || event.pageY > top + document.querySelector(".context-menu-root").offsetHeight + 60) {
+            Helper.addClass(".context-menu-root", "hide");
+            Helper.addClass("#context-menu-overlay", "hide");
+            document.removeEventListener("mousemove", moveFunction);
+        }
     };
     try {
         document.removeEventListener("mousemove", moveFunction);
@@ -559,8 +559,8 @@ function loadChromecastVideo() {
     castSession.loadMedia(request).then(function() {
         console.log("Loaded chromecast-video. Don't look here, look at your TV!");
     },
-      function(errorCode) {
-          console.log('Error code: ' + errorCode);
+    function(errorCode) {
+        console.log('Error code: ' + errorCode);
     });
 }
 
@@ -607,7 +607,7 @@ function enable_host_mode(enabled) {
             Helper.css(".skip", "display", "none");
             var removeElements = document.querySelectorAll(".list-remove");
             for(var i = 0; i < removeElements.length; i++) {
-            	removeElements[i].style.display = "none";
+                removeElements[i].style.display = "none";
             }
             Helper.css(".prev", "display", "none");
             Helper.css("#fullscreen", "display", "none");
@@ -642,7 +642,7 @@ function enable_host_mode(enabled) {
         document.querySelector("#join-sidebar").remove();
         var removeElements = document.querySelectorAll(".list-remove");
         for(var i = 0; i < removeElements.length; i++) {
-        	removeElements[i].style.display = "block";
+            removeElements[i].style.display = "block";
         }
         Helper.css("#fullscreen", "display", "block");
         hostMode = false;
@@ -792,91 +792,91 @@ function change_offline(enabled, already_offline){
 
     if(enabled){
         /*if(list_html == undefined){
-            var tempOuter = document.createElement("div");
-            list_html.innerHTML = list_html;
-            //list_html.find(".list-remove").removeClass("hide");
-            list_html = list_html.innerHTML;
-        }*/
-        //$(".list-remove").removeClass("hide");
-        Helper.addClass("#viewers", "hide");
-        Helper.removeClass(".margin-playbar", "margin-playbar");
-        Helper.addClass(".prev playbar", "margin-playbar");
-        Helper.removeClass(".prev playbar", "hide");
-        Helper.removeClass("#offline-mode", "waves-cyan");
-        Helper.addClass("#offline-mode", "cyan");
-        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
-        if(!Helper.mobilecheck()) {
-            Helper.tooltip("#offline-mode", {
-                delay: 5,
-                position: "bottom",
-                html: "Disable local mode"
-            });
-        }
-
-        if(window.location.pathname != "/"){
-            socket.removeEventListener("color");
-            document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
-            document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
-            document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
-            document.getElementById("controls").addEventListener("mouseup", mouseUp, false);
-            document.getElementById("controls").addEventListener("mousemove", Channel.seekToMove);
-            document.getElementById("controls").addEventListener("click", Channel.seekToClick);
-
-            document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
-            var controlElement = document.querySelector("#controls");
-            if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
-            else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
-            Helper.addClass("#controls", "ewresize");
-        }
-        if(full_playlist != undefined && !already_offline){
-            for(var x = 0; x < full_playlist.length; x++){
-                full_playlist[x].votes = 0;
-            }
-            List.sortList();
-            List.populate_list(full_playlist);
-        }
-    } else {
-        /*if(list_html == undefined){
-            var tempOuter = document.createElement("div");
-            list_html.innerHTML = list_html;
-            //list_html.find(".list-remove").removeClass("hide");
-            list_html = list_html.innerHTML;
-        }*/
-        if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
-        Helper.removeClass(".margin-playbar", "margin-playbar");
-        Helper.addClass("#playpause", "margin-playbar");
-        Helper.removeClass("#viewers", "hide");
-        Helper.addClass(".prev playbar", "hide");
-        Helper.addClass("#offline-mode", "waves-cyan");
-        Helper.removeClass("#offline-mode", "cyan");
-        if(!Helper.mobilecheck()) {
-            Helper.tooltip("#offline-mode", {
-                delay: 5,
-                position: "bottom",
-                html: "Enable local mode"
-            });
-        }
-
-        if(window.location.pathname != "/"){
-            document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
-            document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
-            document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
-            document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
-            document.getElementById("controls").removeEventListener("mousemove", Channel.seekToMove);
-            document.getElementById("controls").removeEventListener("click", Channel.seekToClick);
-            Helper.removeElement("#seekToDuration");
-            socket.on("color", Player.setBGimage);
-            socket.emit("pos", {channel: chan.toLowerCase()});
-            var add = "";
-            //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
-            Helper.removeClass("#controls", "ewresize");
-        }
+        var tempOuter = document.createElement("div");
+        list_html.innerHTML = list_html;
+        //list_html.find(".list-remove").removeClass("hide");
+        list_html = list_html.innerHTML;
+    }*/
+    //$(".list-remove").removeClass("hide");
+    Helper.addClass("#viewers", "hide");
+    Helper.removeClass(".margin-playbar", "margin-playbar");
+    Helper.addClass(".prev playbar", "margin-playbar");
+    Helper.removeClass(".prev playbar", "hide");
+    Helper.removeClass("#offline-mode", "waves-cyan");
+    Helper.addClass("#offline-mode", "cyan");
+    Helper.removeClass(".delete-context-menu", "context-menu-disabled");
+    if(!Helper.mobilecheck()) {
+        Helper.tooltip("#offline-mode", {
+            delay: 5,
+            position: "bottom",
+            html: "Disable local mode"
+        });
     }
+
+    if(window.location.pathname != "/"){
+        socket.removeEventListener("color");
+        document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
+        document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
+        document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
+        document.getElementById("controls").addEventListener("mouseup", mouseUp, false);
+        document.getElementById("controls").addEventListener("mousemove", Channel.seekToMove);
+        document.getElementById("controls").addEventListener("click", Channel.seekToClick);
+
+        document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
+        var controlElement = document.querySelector("#controls");
+        if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
+        else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
+        Helper.addClass("#controls", "ewresize");
+    }
+    if(full_playlist != undefined && !already_offline){
+        for(var x = 0; x < full_playlist.length; x++){
+            full_playlist[x].votes = 0;
+        }
+        List.sortList();
+        List.populate_list(full_playlist);
+    }
+} else {
+    /*if(list_html == undefined){
+    var tempOuter = document.createElement("div");
+    list_html.innerHTML = list_html;
+    //list_html.find(".list-remove").removeClass("hide");
+    list_html = list_html.innerHTML;
+}*/
+if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
+Helper.removeClass(".margin-playbar", "margin-playbar");
+Helper.addClass("#playpause", "margin-playbar");
+Helper.removeClass("#viewers", "hide");
+Helper.addClass(".prev playbar", "hide");
+Helper.addClass("#offline-mode", "waves-cyan");
+Helper.removeClass("#offline-mode", "cyan");
+if(!Helper.mobilecheck()) {
+    Helper.tooltip("#offline-mode", {
+        delay: 5,
+        position: "bottom",
+        html: "Enable local mode"
+    });
+}
+
+if(window.location.pathname != "/"){
+    document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
+    document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
+    document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
+    document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
+    document.getElementById("controls").removeEventListener("mousemove", Channel.seekToMove);
+    document.getElementById("controls").removeEventListener("click", Channel.seekToClick);
+    Helper.removeElement("#seekToDuration");
+    socket.on("color", Player.setBGimage);
+    socket.emit("pos", {channel: chan.toLowerCase()});
+    var add = "";
+    //if(private_channel) add = Crypt.getCookie("_uI") + "_";
+    socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+    Helper.removeClass("#controls", "ewresize");
+}
+}
 }
 
 function resizePlaylistPlaying(playing) {
-    if(document.querySelector("#wrapper") == null) return;
+    if(document.querySelector("#wrapper") == null || embed || client) return;
     if(window.innerWidth < 601) {
         var subtract = 0;
         if(playing) {
@@ -896,15 +896,9 @@ function resizePlaylistPlaying(playing) {
         var canFit = List.can_fit;
         Helper.css("#wrapper", "height", window.innerHeight - 246 - subtract + "px");
 
-        if(!Helper.mobilecheck() && !embed && !client){
+        if(!embed && !client){
             temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
             List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
-        } else if(embed) {
-            temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
-            List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-4;
-        } else if(!client){
-            temp_fit = Math.round((Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71)+1;
-            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
         } else {
             temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
             List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
@@ -1003,159 +997,159 @@ function removeListener(type, element) {
 function toast(msg, _class) {
     switch(msg) {
         case "other_list_pass":
-            msg = "The other list has a pass, can't import the songs..";
-            break;
+        msg = "The other list has a pass, can't import the songs..";
+        break;
         case "nolist":
-            msg = "There is no list with that name";
-            break;
+        msg = "There is no list with that name";
+        break;
         case "suggested_thumbnail":
-            if(embed) return;
-            msg = "The thumbnail has been suggested!";
-            break;
+        if(embed) return;
+        msg = "The thumbnail has been suggested!";
+        break;
         case "faulty_start_end":
-            if(embed) return;
-            msg = "You tried to send a faulty start/end value. Try again..";
-            break;
+        if(embed) return;
+        msg = "You tried to send a faulty start/end value. Try again..";
+        break;
         case "wait_longer":
-            if(embed) return;
-            msg = Helper.rnd(["Have you tried to wait longer between commands?!", "Looks like you're clicking that button too much..", "You need to wait longer between clicks.."]);
-            break;
+        if(embed) return;
+        msg = Helper.rnd(["Have you tried to wait longer between commands?!", "Looks like you're clicking that button too much..", "You need to wait longer between clicks.."]);
+        break;
         case "suggested_description":
-            if(embed) return;
-            msg = "The description has been suggested!";
-            break;
+        if(embed) return;
+        msg = "The description has been suggested!";
+        break;
         case "thumbnail_denied":
-            if(embed) return;
-            msg = "The thumbnail is not an url..";
-            break;
+        if(embed) return;
+        msg = "The thumbnail is not an url..";
+        break;
         case "description_denied":
-            if(embed) return;
-            msg = "The description will be denied";
-            break;
+        if(embed) return;
+        msg = "The description will be denied";
+        break;
         case "addedsong":
-            if(embed) return;
-            msg=Helper.rnd(["I added your song", "Your song has been added", "Yay, more songs!", "Thats a cool song!", "I added that song for you", "I see you like adding songs..."]);
-            break;
+        if(embed) return;
+        msg=Helper.rnd(["I added your song", "Your song has been added", "Yay, more songs!", "Thats a cool song!", "I added that song for you", "I see you like adding songs..."]);
+        break;
         case "addedplaylist":
-            if(embed) return;
-            if(Search.submitYouTubeError) {
-                M.toast({html: "Added most of your playlist, but something was wrong. Check the playlist..", displayLength: 4000, classes: "red lighten connect_error"});
-                Search.submitYouTubeError = false;
+        if(embed) return;
+        if(Search.submitYouTubeError) {
+            M.toast({html: "Added most of your playlist, but something was wrong. Check the playlist..", displayLength: 4000, classes: "red lighten connect_error"});
+            Search.submitYouTubeError = false;
+            return;
+        }
+        msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
+        document.getElementById("import").disabled = false;
+        Helper.addClass("#playlist_loader", "hide");
+        Helper.removeClass("#import", "hide");
+        break;
+        case "savedsettings":
+        if(embed) return;
+        msg=Helper.rnd(["I've saved your settings", "I stored all your settings", "Your settings have been stored in a safe place"]);
+        break;
+        case "wrongpass":
+        if(embed) return;
+        msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
+        //Crypt.remove_pass(chan.toLowerCase());
+        Admin.display_logged_out();
+        Helper.css("#thumbnail_form", "display", "none");
+        Helper.css("#description_form", "display", "none");
+        w_p = true;
+        break;
+        case "deleted_songs":
+        if(embed) return;
+        msg="All songs in the channel has been deleted!";
+        break;
+        case "shuffled":
+        if(embed) return;
+        msg=Helper.rnd(["♫ You stir me right round, baby. ♫","♫ Stir, stir, stir my boat ♫","I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"]);
+        break;
+        case "deletesong":
+        if(embed) return;
+        msg=Helper.rnd(["Your song is now in a better place...", "You won't be seeing any more of that video...", "EXTERMINATE! EXTERMINATE! EXTERMINATE!", "I killed it with fire", "Thanks for deleting that song. I didn't like it anyways...", "Removed song securely."]);
+        break;
+        case "voted":
+        msg=Helper.rnd(["You voted!", "You vote like a boss", "Voting is the key to democracy", "May you get your song to the very top!", "I love that song! I vouch for you.", "Only you vote that good", "I like the way you vote...", "Up the video goes!", "Voted Zoff for president", "Only 999 more to go!"]);
+        break;
+        case "alreadyvoted":
+        msg=Helper.rnd(["You can't vote twice on that song!", "I see you have voted on that song before", "One vote per person!", "I know you want to hear your song, but have patience!", "I'm sorry, but I can't let you vote twice, Dave."]);
+        break;
+        case "skip":
+        if(embed) return;
+        msg=Helper.rnd(["The song was skipped", "I have skipped a song", "Skipped to the beat", "Skipmaster3000", "They see me skippin', they hatin'"]);
+        break;
+        case "listhaspass":
+        if(embed) return;
+        if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
+            if(Crypt.get_pass() != undefined) {
+                tried_again = true;
+                if(lastCommand.length == 1) {
+                    socket.emit(lastCommand[0]);
+                } else if(lastCommand.length == 2) {
+                    socket.emit(lastCommand[0], lastCommand[1]);
+                }
+                lastCommand = [];
                 return;
             }
-            msg=Helper.rnd(["I added the playlist", "Your playlist has been added", "Yay, many more songs!", "Thats a cool playlist!", "I added all the songs for you", "I see you like adding songs.."]);
-            document.getElementById("import").disabled = false;
-            Helper.addClass("#playlist_loader", "hide");
-            Helper.removeClass("#import", "hide");
-            break;
-        case "savedsettings":
-            if(embed) return;
-            msg=Helper.rnd(["I've saved your settings", "I stored all your settings", "Your settings have been stored in a safe place"]);
-            break;
-        case "wrongpass":
-            if(embed) return;
-            msg=Helper.rnd(["That's not the right password!", "Wrong! Better luck next time...", "You seem to have mistyped the password", "Incorrect. Have you tried meditating?","Nope, wrong password!", "Wrong password. The authorities have been notified."]);
-            //Crypt.remove_pass(chan.toLowerCase());
-            Admin.display_logged_out();
-            Helper.css("#thumbnail_form", "display", "none");
-            Helper.css("#description_form", "display", "none");
-            w_p = true;
-            break;
-        case "deleted_songs":
-            if(embed) return;
-            msg="All songs in the channel has been deleted!";
-            break;
-        case "shuffled":
-            if(embed) return;
-            msg=Helper.rnd(["♫ You stir me right round, baby. ♫","♫ Stir, stir, stir my boat ♫","I vigorously stirred your playlist!", "I hope you like your list stirred, not shaken.", "I shuffled your playlist with the cosmic background radiation as a seed. Enjoy.", "100% randomized, for your listening pleasure!", "I hope you enjoy your fresh playlist!"]);
-            break;
-        case "deletesong":
-            if(embed) return;
-            msg=Helper.rnd(["Your song is now in a better place...", "You won't be seeing any more of that video...", "EXTERMINATE! EXTERMINATE! EXTERMINATE!", "I killed it with fire", "Thanks for deleting that song. I didn't like it anyways...", "Removed song securely."]);
-            break;
-        case "voted":
-            msg=Helper.rnd(["You voted!", "You vote like a boss", "Voting is the key to democracy", "May you get your song to the very top!", "I love that song! I vouch for you.", "Only you vote that good", "I like the way you vote...", "Up the video goes!", "Voted Zoff for president", "Only 999 more to go!"]);
-            break;
-        case "alreadyvoted":
-            msg=Helper.rnd(["You can't vote twice on that song!", "I see you have voted on that song before", "One vote per person!", "I know you want to hear your song, but have patience!", "I'm sorry, but I can't let you vote twice, Dave."]);
-            break;
-        case "skip":
-            if(embed) return;
-            msg=Helper.rnd(["The song was skipped", "I have skipped a song", "Skipped to the beat", "Skipmaster3000", "They see me skippin', they hatin'"]);
-            break;
-        case "listhaspass":
-            if(embed) return;
-            if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
-                if(Crypt.get_pass() != undefined) {
-                    tried_again = true;
-                    if(lastCommand.length == 1) {
-                        socket.emit(lastCommand[0]);
-                    } else if(lastCommand.length == 2) {
-                        socket.emit(lastCommand[0], lastCommand[1]);
-                    }
-                    lastCommand = [];
-                    return;
-                }
-            }
-            document.getElementById("import_spotify").disabled = false;
-            document.getElementById("import").disabled = false;
-            tried_again = false;
-            msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
-            //Crypt.remove_pass(chan.toLowerCase());
-            Admin.display_logged_out();
-            Helper.css("#thumbnail_form", "display", "none");
-            Helper.css("#description_form", "display", "none");
-            w_p = true;
-            Helper.addClass("#playlist_loader", "hide");
-            Helper.addClass("#playlist_loader_spotify", "hide");
-            Helper.removeClass("#import_spotify", "hide");
-            Helper.removeClass("#import", "hide");
-            break;
+        }
+        document.getElementById("import_spotify").disabled = false;
+        document.getElementById("import").disabled = false;
+        tried_again = false;
+        msg=Helper.rnd(["I'm sorry, but you have to be an admin to do that!", "Only admins can do that", "You're not allowed to do that, try logging in!", "I can't let you do that", "Please log in to do that"]);
+        //Crypt.remove_pass(chan.toLowerCase());
+        Admin.display_logged_out();
+        Helper.css("#thumbnail_form", "display", "none");
+        Helper.css("#description_form", "display", "none");
+        w_p = true;
+        Helper.addClass("#playlist_loader", "hide");
+        Helper.addClass("#playlist_loader_spotify", "hide");
+        Helper.removeClass("#import_spotify", "hide");
+        Helper.removeClass("#import", "hide");
+        break;
         case "noskip":
-            if(embed) return;
-            if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
-                if(Crypt.get_pass() != undefined) {
-                    tried_again = true;
-                    if(lastCommand.length == 1) {
-                        socket.emit(lastCommand[0]);
-                    } else if(lastCommand.length == 2) {
-                        socket.emit(lastCommand[0], lastCommand[1]);
-                    }
-                    lastCommand = [];
-                    return;
+        if(embed) return;
+        if(!tried_again && lastCommand != undefined && lastCommand.length > 0) {
+            if(Crypt.get_pass() != undefined) {
+                tried_again = true;
+                if(lastCommand.length == 1) {
+                    socket.emit(lastCommand[0]);
+                } else if(lastCommand.length == 2) {
+                    socket.emit(lastCommand[0], lastCommand[1]);
                 }
+                lastCommand = [];
+                return;
             }
-            tried_again = false;
-            msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"]);
-            break;
+        }
+        tried_again = false;
+        msg=Helper.rnd(["Only Admins can skip songs, peasant!", "You have to log in to skip songs on this channel", "Try clicking the settings icon and logging in before you skip"]);
+        break;
         case "alreadyskip":
-            if(embed) return;
-            msg=Helper.rnd(["Skipping is democratic, only one vote per person!", "More people have to vote to skip, not just you!", "Get someone else to skip too! You can't do it on yourself."]);
-            break;
+        if(embed) return;
+        msg=Helper.rnd(["Skipping is democratic, only one vote per person!", "More people have to vote to skip, not just you!", "Get someone else to skip too! You can't do it on yourself."]);
+        break;
         case "notyetskip":
-            if(embed) return;
-            msg="Skipping is disabled the first 10 seconds.";
-            break;
+        if(embed) return;
+        msg="Skipping is disabled the first 10 seconds.";
+        break;
         case "correctpass":
-            if(embed) return;
-            tried_again = false;
-            adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
-            msg="Correct password. You now have access to the sacred realm of The Admin.";
-            Helper.css("#thumbnail_form", "display", "inline-block");
-            Helper.css("#description_form", "display", "inline-block");
-            break;
+        if(embed) return;
+        tried_again = false;
+        adminpass = Crypt.get_pass(chan.toLowerCase()) == undefined ? Crypt.tmp_pass : Crypt.get_pass(chan.toLowerCase());
+        msg="Correct password. You now have access to the sacred realm of The Admin.";
+        Helper.css("#thumbnail_form", "display", "inline-block");
+        Helper.css("#description_form", "display", "inline-block");
+        break;
         case "changedpass":
-            if(embed) return;
-            msg="Your password has been changed!";
-            break;
+        if(embed) return;
+        msg="Your password has been changed!";
+        break;
         case "suggested":
-            if(embed) return;
-            msg="Your song was suggested!";
-            break;
+        if(embed) return;
+        msg="Your song was suggested!";
+        break;
         case "alreadyplay":
-            if(embed) return;
-            msg="Seems the song you want is already playing. No fooling the system!";
-            break;
+        if(embed) return;
+        msg="Seems the song you want is already playing. No fooling the system!";
+        break;
     }
     before_toast();
     var classes = _class == undefined ? "" : _class;
@@ -1178,25 +1172,25 @@ function emit() {
 
 function before_toast(){
     /*if($('.toast').length > 0) {
-        var toastElement = $('.toast').first()[0];
-        var toastInstance = toastElement.M_Toast;
-        toastInstance.remove();
-    }*/
-    /*var toasts = document.querySelector(".toast");
-    //for(var i = 0; i < toasts.length; i++) {
-    //    var instance = M.Toast.getInstance(toasts[i]);
-    if(toasts == null) return;
-    var instance = M.Toast.getInstance(toasts);
-        try {
-            console.log(instance);
-            if(instance.timeRemaining > 0) {
-                instance.dismiss();
-            }
-        } catch(e) {
-        }
-    //}*/
-    M.Toast.dismissAll();
-    //Materialize.Toast.removeAll();
+    var toastElement = $('.toast').first()[0];
+    var toastInstance = toastElement.M_Toast;
+    toastInstance.remove();
+}*/
+/*var toasts = document.querySelector(".toast");
+//for(var i = 0; i < toasts.length; i++) {
+//    var instance = M.Toast.getInstance(toasts[i]);
+if(toasts == null) return;
+var instance = M.Toast.getInstance(toasts);
+try {
+console.log(instance);
+if(instance.timeRemaining > 0) {
+instance.dismiss();
+}
+} catch(e) {
+}
+//}*/
+M.Toast.dismissAll();
+//Materialize.Toast.removeAll();
 }
 
 function scrollChat() {
@@ -1216,22 +1210,22 @@ function searchTimeout(event) {
     if (code != 40 && code != 38 && code != 13 && code != 39 && code != 37 && code != 17 && code != 16 && code != 225 && code != 18 && code != 27) {
         clearTimeout(timeout_search);
         /*if(search_input.length < 3){
-            Helper.css(".results-tabs", "display", "none");
-            document.querySelector("#results").innerHTML = "";
-            document.querySelector("#results_soundcloud").innerHTML = "";
-            Helper.css("")
-            if(search_input.length == 0) {
-                document.querySelector("body").setAttribute("style", "overflow-y: auto");
-            }
-        }*/
-        if(code == 13){
-            Search.search(search_input);
-            Search.soundcloudSearch(search_input);
-        }else{
-            timeout_search = setTimeout(function(){
-                Search.search(search_input);
-                Search.soundcloudSearch(search_input);
-            }, 1000);
-        }
+        Helper.css(".results-tabs", "display", "none");
+        document.querySelector("#results").innerHTML = "";
+        document.querySelector("#results_soundcloud").innerHTML = "";
+        Helper.css("")
+        if(search_input.length == 0) {
+        document.querySelector("body").setAttribute("style", "overflow-y: auto");
     }
+}*/
+if(code == 13){
+    Search.search(search_input);
+    Search.soundcloudSearch(search_input);
+}else{
+    timeout_search = setTimeout(function(){
+        Search.search(search_input);
+        Search.soundcloudSearch(search_input);
+    }, 1000);
+}
+}
 }
