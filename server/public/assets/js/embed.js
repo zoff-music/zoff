@@ -148,6 +148,8 @@ window.addEventListener("load", function() {
     }
 });
 
+function resizePlaylistPlaying(){};
+
 function startWaitTimerPlay() {
   setTimeout(function() {
     if(videoSource == "youtube") {
