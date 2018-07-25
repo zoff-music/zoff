@@ -109,8 +109,8 @@ var Player = {
             newState.data
         ]);
         if(Player.player && Player.player.getCurrentTime() > startTime + Player.np.start && !fix_too_far && autoplay)  {
-            Player.seekTo(seekTo);
-            Player.playVideo();
+            //Player.seekTo(seekTo);
+            //Player.playVideo();
             fix_too_far = true;
         }
         try {
