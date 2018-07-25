@@ -363,6 +363,7 @@ var Channel = {
         var acceptable = ["bar", "controls", "duration"];
 
         if(acceptable.indexOf(e.target.getAttribute("id")) >= 0) {
+            if(full_playlist == undefined) return;
             var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
             total = total * e.clientX;
 

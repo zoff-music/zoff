@@ -23,8 +23,8 @@ function removeAllListeners() {
 
 function resizeFunction() {
     if(chan && !Helper.mobilecheck()){
+	if(document.querySelector("#wrapper") == null) return;
         if(!client && !embed) document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
-        if(document.querySelector("#wrapper") == null) return;
         if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
             document.querySelector("#wrapper").style.height = "";
             document.querySelector("#chat-bar").style.height = "";
