@@ -54,7 +54,8 @@ var Search = {
                 var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
             }
 
-
+            Helper.addClass(document.querySelector("#search-btn .material-icons"), "hide");
+            Helper.removeClass("#search_loader", "hide");
             Helper.addClass(".search_loader_spinner", "active");
             //Helper.removeClass(".search_results", "hide");
             //Helper.css(".results-tabs", "display", "none");
@@ -74,6 +75,8 @@ var Search = {
                         //Helper.css(".results-tabs", "display", "block");
                         //$("<div style='display:none;' id='inner-results' class='empty-inner-results'>"+empty_results_html+"</div>").appendTo($("#results")).show("blind", 83.33);
                         document.getElementById("results").insertAdjacentHTML("beforeend", "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);' class='empty-inner-results'>"+empty_results_html+"</div>");
+                        Helper.removeClass(document.querySelector("#search-btn .material-icons"), "hide");
+                        Helper.addClass("#search_loader", "hide");
                         Helper.removeClass(".search_loader_spinner", "active");
 
                     } else if(response.items){
@@ -158,7 +161,8 @@ var Search = {
                                     document.querySelectorAll(".pagination-results a")[0].setAttribute("data-original-search", search_input);
                                     document.querySelectorAll(".pagination-results a")[1].setAttribute("data-original-search", search_input);
                                     //setTimeout(function(){$(".thumb").lazyload({container: $("#results")});}, 250);
-
+                                    Helper.removeClass(document.querySelector("#search-btn .material-icons"), "hide");
+                                    Helper.addClass("#search_loader", "hide");
                                     Helper.removeClass(".search_loader_spinner", "active");
                                     if(document.querySelector("#results_soundcloud").innerHTML.length > 0) {
                                         Helper.css(".search_results", "display", "block");
@@ -174,6 +178,8 @@ var Search = {
                                     if(document.querySelector("#results_soundcloud").innerHTML.length > 0) {
                                         Helper.css(".search_results", "display", "block");
                                     }
+                                    Helper.removeClass(document.querySelector("#search-btn .material-icons"), "hide");
+                                    Helper.addClass("#search_loader", "hide");
                                     Helper.removeClass(".search_loader_spinner", "active");
                                 }
                             }
@@ -207,6 +213,7 @@ var Search = {
                 //var secs=Search.durationToSeconds(duration);
                 var secs = duration;
                 var _temp_duration = Helper.secondsToOther(secs);
+                if(longsongs == undefined) longsongs = true;
                 if((longsongs != undefined && !longsongs) || secs<720){
                     var title=song.title;
                     if(title.indexOf(song.user.username) == -1) {
