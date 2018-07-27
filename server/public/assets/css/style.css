@@ -1740,7 +1740,7 @@ nav .zbrand.channel-logo-container {
 
 .main{
     width: 100%;
-    max-width:99%;
+    max-width:100%;
     margin: 0px;
     padding:0px;
 }
@@ -1759,10 +1759,10 @@ nav .zbrand.channel-logo-container {
 .title-container{
     position: initial;
     display: inline-block;
-    overflow: hidden;
-    width: 40%;
-    height: 100%;
-    left: 0;
+    margin-top: initial;
+    width: 65%;
+    width: calc(90% - 180px - 130px);
+    left: 25%;
 }
 
 .title-container li{
@@ -3439,15 +3439,6 @@ nav ul li:hover, nav ul li.active {
         box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
     }
 
-    #search_loader{
-        margin-left: -36px;
-        margin-top: 0;
-        height: 56px;
-        position: absolute;
-        right: 15px;
-        top: 50px;
-    }
-
     .title-container{
         background-color: rgba(0,0,0,0.1);
         display: block;
@@ -3616,14 +3607,7 @@ nav ul li:hover, nav ul li.active {
         /*top:-22px;*/
         /*left:100px;*/
     }
-    .title-container{
-        position: initial;
-        display: inline-block;
-        margin-top: initial;
-        width: 65%;
-        width: calc(90% - 256px - 130px);
-        left: 25%;
-    }
+
     .title-container li {
         /*width: 71%;*/
     }
@@ -3641,7 +3625,7 @@ nav ul li:hover, nav ul li.active {
         height: 90%;
         height: calc(100vh - 64px);
         overflow: hidden;
-        padding-right: 0px;
+        /*padding-right: 0px;*/
         /*padding:0px 0px 0px 0px;*/
     }
 }
