@@ -420,7 +420,7 @@ var Channel = {
             if(start){
                 add_width = window.innerWidth * 0.15;
             }
-            var test_against_width = window.innerWidth - document.getElementsByClassName("control-list")[0].offsetWidth - add_width - 33;
+            var test_against_width = window.innerWidth - document.getElementsByClassName("control-list")[0].offsetWidth - add_width - 11;
             title_width = test_against_width;
             document.getElementsByClassName("title-container")[0].style.width = title_width + "px";
         } else {
