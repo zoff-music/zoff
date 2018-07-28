@@ -3386,6 +3386,10 @@ nav ul li:hover, nav ul li.active {
         margin-top:-6px;
     }
 
+    .main {
+        max-width: 99%;
+    }
+
     #playlist {
         /*margin-left: 10px;*/
         width: calc(100% - 10px);
@@ -3395,6 +3399,10 @@ nav ul li:hover, nav ul li.active {
     #player{
         pointer-events:none;
         margin-top: 7px;
+    }
+
+    .search-container, .song-title {
+        background: inherit;
     }
 
     .row .col.s12 {
