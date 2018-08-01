@@ -36,7 +36,7 @@ function password(inp, coll, guid, offline, socket) {
             coll = Functions.removeEmojis(coll).toLowerCase();
             //coll = coll.replace(/_/g, "");
 
-            coll = filter.clean(coll);
+            //coll = filter.clean(coll);
         } catch(e) {
             return;
         }
@@ -100,7 +100,7 @@ function conf_function(params, coll, guid, offline, socket) {
                 coll = Functions.removeEmojis(coll).toLowerCase();
                 //coll = coll.replace(/_/g, "");
 
-                coll = filter.clean(coll);
+                //coll = filter.clean(coll);
             } catch(e) {
                 return;
             }

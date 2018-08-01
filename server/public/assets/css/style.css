@@ -3096,6 +3096,10 @@ nav ul li:hover, nav ul li.active {
         width: 100vw;
     }
 
+    #search-wrapper:hover, #song-title:hover {
+        background: inherit;
+    }
+
     #toast-container{
         left:0% !important;
         width:100vw;

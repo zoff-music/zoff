@@ -5,6 +5,7 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var soundcloud_enabled = true;
 var local_new_channel = false;
 var hiddenPlaylist = false;
 var videoSource;
