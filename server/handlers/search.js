@@ -1,7 +1,8 @@
 var path = require('path');
 var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)W)?(([0-9]*\.?[0-9]*)D)?)?(T(([0-9]*\.?[0-9]*)H)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)S)?)?/;
 try {
-    var key = require(path.join(__dirname, '../config/api_key.js'));
+    var keys = require(path.join(__dirname, '../config/api_key.js'));
+    var key = keys.youtube;
 } catch(e) {
     console.log("Error - missing file");
     console.log("Seems you forgot to create the file api_key.js in /server/config/. Have a look at api_key.example.js.");

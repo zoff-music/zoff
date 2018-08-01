@@ -537,7 +537,7 @@ function add_function(arr, coll, guid, offline, socket) {
             }
             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
             coll = Functions.removeEmojis(coll).toLowerCase();
-            coll = filter.clean(coll);
+            //coll = filter.clean(coll);
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
                 if(adminpass != "" || msg.adminpass == undefined) {
                     msg.adminpass = adminpass;
@@ -601,7 +601,7 @@ function add_function(arr, coll, guid, offline, socket) {
         }
         coll = msg.channel.toLowerCase();//.replace(/ /g,'');
         coll = Functions.removeEmojis(coll).toLowerCase();
-        coll = filter.clean(coll);
+        //coll = filter.clean(coll);
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || msg.adminpass == undefined) {
                 msg.adminpass = adminpass;
@@ -674,7 +674,7 @@ function add_function(arr, coll, guid, offline, socket) {
             var coll = Functions.removeEmojis(params.channel).toLowerCase();
             //coll = coll.replace(/_/g, "").replace(/ /g,'');
 
-            coll = filter.clean(coll);
+            //coll = filter.clean(coll);
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs !== null && docs.length !== 0 && docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(params.adminpass),true)))
                 {
@@ -723,7 +723,7 @@ function add_function(arr, coll, guid, offline, socket) {
             }
             //coll = coll.replace(/ /g,'');
             coll = Functions.removeEmojis(coll).toLowerCase();
-            coll = filter.clean(coll);
+            //coll = filter.clean(coll);
             Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
                 if(adminpass != "" || msg.adminpass == undefined) {
                     msg.adminpass = adminpass;

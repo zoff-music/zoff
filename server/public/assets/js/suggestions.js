@@ -53,8 +53,8 @@ var Suggestions = {
             Helper.removeClass(document.querySelector(".suggest-title-info"), "hide");
             Helper.removeClass("#suggest-song-html", "hide");
         }
-        var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key;
-        var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key+"&id=";
+        var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key.youtube;
+        var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
 
         Helper.ajax({
             type: "GET",

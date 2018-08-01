@@ -245,6 +245,10 @@ var Player = {
             //Playercontrols.play_pause();
         } else {
             if(videoSource == "soundcloud") {
+                if(!soundcloud_enabled) {
+                    console.error("SoundCloud isn't enabled, so can't search on SoundCloud..");
+                    return;
+                }
                 Player.soundcloud_player.play();
                 //SC.Widget(document.querySelector("#soundcloud_player")).play();
             } else {
@@ -264,6 +268,10 @@ var Player = {
         } else {
             paused = true;
             if(videoSource == "soundcloud") {
+                if(!soundcloud_enabled) {
+                    console.error("SoundCloud isn't enabled, so can't search on SoundCloud..");
+                    return;
+                }
                 Player.soundcloud_player.pause();
                 //SC.Widget(document.querySelector("#soundcloud_player")).pause();
             } else {
@@ -283,6 +291,10 @@ var Player = {
     },
 
     loadSoundCloud: function(id, this_duration, start, end, _autoplay) {
+        if(!soundcloud_enabled) {
+            console.error("SoundCloud isn't enabled, so can't search on SoundCloud..");
+            return;
+        }
         try {
             if(SC == null) return;
         } catch(e) {

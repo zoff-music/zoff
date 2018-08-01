@@ -31,8 +31,12 @@ $(document).on("click", "#refresh_all", function(e){
 function decodeChannelName(str) {
   var _fn = decodeURIComponent;
   str = str.toUpperCase();
-  var toReturn = _fn(str.replace(/%5F/g, "_"));
-  return toReturn.toLowerCase();
+  try {
+      var toReturn = _fn(str.replace(/%5F/g, "_"));
+      return toReturn.toLowerCase();
+  } catch(e) {
+      return str.toLowerCase();
+  }
 }
 
 socket.on("spread_listeners", function(obj){
