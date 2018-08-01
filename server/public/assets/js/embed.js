@@ -6,6 +6,7 @@ var paused = false;
 var client = false;
 var startTime = 0;
 var hostMode = false;
+var soundcloud_enabled = true;
 var socket_connected = false;
 var dynamicListeners = {};
 var player_ready = false;
@@ -54,7 +55,7 @@ var Crypt = {
 };
 
 SC.initialize({
-  client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
+  client_id: api_key.soundcloud
 }, function() {
 });
 

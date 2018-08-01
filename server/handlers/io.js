@@ -99,9 +99,12 @@ module.exports = function() {
                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
+                            if(msg.hasOwnProperty("channel")) {
+                                msg.channel = Functions.encodeChannelName(msg.channel);
+                            }
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
-                            coll = filter.clean(coll);
+                            //coll = filter.clean(coll);
                             if(coll.indexOf("?") > -1){
                                 coll = coll.substring(0, coll.indexOf("?"));
                             }
@@ -111,9 +114,7 @@ module.exports = function() {
                             guid = msg.guid;
                             socketid = msg.socket_id;
                             socket.zoff_id = socketid;
-                            if(msg.hasOwnProperty("channel")) {
-                                msg.channel = Functions.encodeChannelName(msg.channel);
-                            }
+
                             in_list = true;
                             chromecast_object = true;
                             socket.join(coll);
@@ -139,8 +140,8 @@ module.exports = function() {
                 }
                 coll = Functions.removeEmojis(_list).toLowerCase();
                 //coll = coll.replace(/_/g, "");
-
-                coll = filter.clean(coll);
+                msg.channel = Functions.encodeChannelName(msg.channel);
+                //coll = filter.clean(coll);
             } catch(e) {
                 return;
             }
@@ -249,7 +250,7 @@ module.exports = function() {
                 if(channel != "") coll = channel;
                 if(coll !== undefined) {
                     coll = Functions.removeEmojis(coll).toLowerCase();
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                     db.collection("connected_users").findAndModify({
                         query: {"_id": coll},
                         update: {$pull: {users: guid}},
@@ -397,7 +398,7 @@ module.exports = function() {
                 coll = Functions.removeEmojis(_list).toLowerCase();
                 //coll = coll.replace(/_/g, "");
                 //
-                coll = filter.clean(coll);
+                //coll = filter.clean(coll);
             } catch(e) {
                 return;
             }
@@ -425,7 +426,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }
@@ -460,7 +461,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }
@@ -482,7 +483,7 @@ module.exports = function() {
                 coll = Functions.removeEmojis(coll).toLowerCase();
                 //coll = coll.replace(/_/g, "");
 
-                coll = filter.clean(coll);
+                //coll = filter.clean(coll);
             } catch(e) {
                 return;
             }
@@ -506,7 +507,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }
@@ -571,7 +572,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }
@@ -601,7 +602,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }
@@ -631,7 +632,7 @@ module.exports = function() {
             if(msg.hasOwnProperty("channel") && msg.channel != "" && typeof(msg.channel) == "string") {
                 coll = msg.channel;//.replace(/ /g,'');
                 coll = Functions.removeEmojis(coll).toLowerCase();
-                coll = filter.clean(coll);
+                //coll = filter.clean(coll);
                 List.left_channel(coll, guid, short_id, in_list, socket, false);
             }
         })
@@ -670,7 +671,7 @@ module.exports = function() {
                     coll = Functions.removeEmojis(coll).toLowerCase();
                     //coll = coll.replace(/_/g, "");
 
-                    coll = filter.clean(coll);
+                    //coll = filter.clean(coll);
                 } catch(e) {
                     return;
                 }

@@ -11,9 +11,12 @@ var connected_db = mongojs('mongodb://' + mongo_config.host + '/user_credentials
 var crypto = require('crypto');
 var db = require(pathThumbnails + '/handlers/db.js');
 var uniqid = require('uniqid');
+var Filter = require('bad-words');
+var filter = new Filter({ placeHolder: 'x'});
 
 function encodeChannelName(str) {
   var _fn = encodeURIComponent;
+  str = filter.clean(str);
   var toReturn = _fn(str);
   toReturn = toReturn.replace(/_/g, "%5F");
   toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
@@ -25,6 +28,7 @@ function decodeChannelName(str) {
   var _fn = decodeURIComponent;
    str = str.toUpperCase();
    var toReturn = _fn(str.replace(/%5F/g, "_"));
+   toReturn = filter.clean(toReturn);
    return toReturn.toLowerCase();
 }
 

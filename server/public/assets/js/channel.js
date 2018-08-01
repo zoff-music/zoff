@@ -16,10 +16,13 @@ var Channel = {
             Helper.addClass(".pagination-results", "client-pagination-height");
             Helper.addClass(".control-list", "client-control-list");
         } else {
-            SC.initialize({
-              client_id: 'ed53fc01f248f15becddf8eb52cc91ef'
-            }, function() {
-            });
+            if(!api_key.hasOwnProperty("soundcloud")) soundcloud_enabled = false;
+            else {
+                SC.initialize({
+                  client_id: api_key.soundcloud
+                }, function() {
+                });
+            }
             if(cast_ready_connect || chromecastAvailable || chromecastReady) {
                 Helper.addClass(".volume-container", "volume-container-cast");
             }
