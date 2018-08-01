@@ -108,7 +108,7 @@ function fullVideo(hide) {
         document.querySelector("#playlist").classList.remove("show-only-mobile");
         document.querySelector("#video-container").classList.remove("m12");
         document.querySelector("#video-container").className += " m9";
-        document.querySelector("main").style.maxWidth = "99%";
+        document.querySelector("main").style.maxWidth = "";
         document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
         document.querySelector("#hide-playlist .material-icons").innerText = "keyboard_arrow_right";
     }
