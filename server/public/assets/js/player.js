@@ -729,6 +729,10 @@ var Player = {
     },
 
     soundcloudReady: function() {
+        SC.initialize({
+          client_id: api_key.soundcloud
+        }, function() {
+        });
         beginning = true;
         player_ready = true;
         if(!durationBegun) {
@@ -969,7 +973,7 @@ var Player = {
         }
     },
 
-    loadPlayer: function() {
+    loadPlayer: function(notify) {
         if(document.querySelectorAll("script[src='https://www.youtube.com/iframe_api']").length == 1){
             try{
                 Player.onYouTubeIframeAPIReady();
@@ -991,6 +995,29 @@ var Player = {
             firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
+        if(document.querySelectorAll("script[src='https://connect.soundcloud.com/sdk/sdk-3.3.0.js']").length == 1) {
+            console.log("exists");
+        } else {
+            tagSC            = document.createElement('script');
+            console.log("not exists");
+            if (tagSC.readyState){  //IE
+                tagSC.onreadystatechange = function(){
+                    if (tagSC.readyState == "loaded" ||
+                            tagSC.readyState == "complete"){
+                        tagSC.onreadystatechange = null;
+                        Player.soundcloudReady();
+                    }
+                };
+            } else {  //Others
+                tagSC.onload = function(){
+                    Player.soundcloudReady();
+                };
+            }
+            tagSC.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
+            firstScriptTagSC = document.getElementsByTagName('script')[0];
+            firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
+        }
+
     }
 
 };

@@ -210,21 +210,54 @@ window.addEventListener("DOMContentLoaded", function() {
         Frontpage.init();
     }
     if(window.location.pathname == "/" && !client) {
-        tag            = document.createElement('script');
-        tag.src        = "https://www.youtube.com/iframe_api";
-        firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        if(document.querySelectorAll("script[src='https://www.youtube.com/iframe_api']").length == 1){
+            try{
+                Player.onYouTubeIframeAPIReady();
+                //SC.Widget(Player.soundcloud_player).bind("ready", Player.soundcloudReady);
 
-        tag.onload = function() {
-            if(document.querySelectorAll("script[src='https://w.soundcloud.com/player/api.js']").length == 1) {
-
-            } else {
-                tagSearch            = document.createElement('script');
-                tagSearch.setAttribute("async", true);
-                tagSearch.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
-                firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tagSearch, firstScriptTag);
+            } catch(error){
+                console.error(error);
+                console.error("Seems YouTube iFrame script isn't correctly loaded. Please reload the page.");
             }
+            try {
+                //Player.soundcloudReady();
+            } catch(error) {
+                console.error(error);
+                console.error("Seems SoundCloud script isn't correctly loaded. Please reload the page.");
+            }
+        } else {
+            tag            = document.createElement('script');
+            tag.src        = "https://www.youtube.com/iframe_api";
+            firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+        if(document.querySelectorAll("script[src='https://connect.soundcloud.com/sdk/sdk-3.3.0.js']").length == 1) {
+            console.log("exists");
+        } else {
+            tagSC            = document.createElement('script');
+            console.log("not exists");
+            if (tagSC.readyState){  //IE
+                tagSC.onreadystatechange = function(){
+                    if (tagSC.readyState == "loaded" ||
+                            tagSC.readyState == "complete"){
+                        tagSC.onreadystatechange = null;
+                        SC.initialize({
+                          client_id: api_key.soundcloud
+                        }, function() {
+                        });
+                    }
+                };
+            } else {  //Others
+                tagSC.onload = function(){
+                    SC.initialize({
+                      client_id: api_key.soundcloud
+                    }, function() {
+                    });
+                };
+            }
+            tagSC.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
+            firstScriptTagSC = document.getElementsByTagName('script')[0];
+            firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
         }
     }
 
