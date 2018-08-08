@@ -269,7 +269,7 @@ var Frontpage = {
         if(window.location.hostname == "fb.zoff.me") {
             add = "https://zoff.me";
         }
-        Helper.ajax({
+        /*Helper.ajax({
             url: add + "/api/frontpages",
             method: "get",
             success: function(response){
@@ -282,7 +282,7 @@ var Frontpage = {
                     Frontpage.get_frontpage_lists();
                 }, 3000);
             },
-        });
+        });*/
     },
 
     start_snowfall: function() {

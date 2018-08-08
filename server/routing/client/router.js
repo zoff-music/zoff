@@ -7,6 +7,8 @@ var analytics = "xx";
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
 var Functions = require(pathThumbnails + '/handlers/functions.js');
+
+var db = require(pathThumbnails + '/handlers/db.js');
 //var db = require(pathThumbnails + '/handlers/db.js');
 
 try {
@@ -142,14 +144,67 @@ function root(req, res, next) {
                 embed: false,
                 client: false,
                 og_image: "https://zoff.me/assets/images/small-square.jpg",
+                channels: [],
             }
             if(subdomain[0] == "client") {
                 data.client = true;
             }
-            res.render('layouts/client/frontpage', data);
+            var project_object = {
+                "_id": 1,
+                "count": 1,
+                "frontpage": 1,
+                "id": 1,
+                "title": 1,
+                "viewers": 1,
+                "pinned": 1,
+                "description": 1,
+                "thumbnail": {
+                    $ifNull: [ {$cond: {
+                        "if": {
+                            "$or": [
+                                { "$eq": [ "$thumbnail", ""] },
+                                { "$eq": [ "$thumbnail", null] },
+                                { "$eq": [ "$thumbnail", undefined] }
+                            ]
+                        },
+                        then: {
+                            $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+                        },
+                        else: "$thumbnail"
+                    }}, { $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]}]
+
+                }
+            };
+            db.collection("frontpage_lists").aggregate([
+                {
+                    "$match": {
+                        frontpage: true,
+                        count: {$gt: 0},
+                    }
+                },
+                {
+                    "$project": project_object
+                },
+                {
+                    "$sort" : {
+                        "pinned": -1,
+                        "count": -1,
+                        "accessed": -1,
+                        "title": 1
+                    }
+                },
+                ], function(err, docs) {
+                db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+                    data.channels = docs.slice(0, 12);
+                    data.channel_list = docs;
+                    data.viewers = tot[0].total_users.length;
+                    res.render('layouts/client/frontpage', data);
+                });
+            });
+
         }
     } catch(e) {
-        //console.log(e);
+        console.log(e);
         //res.redirect("https://zoff.me");
     }
 }

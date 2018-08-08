@@ -1,5 +1,9 @@
 <div id="channel-list-container">
     <ul class="row" id="channels">
-        {{> frontpage/channel}}
+        {{#each channels}}
+            {{#if frontpage}}
+                {{> frontpage/channel}}
+            {{/if}}
+        {{/each}}
     </ul>
 </div>
