@@ -698,7 +698,7 @@ var Player = {
             try {
                 scPlaying = Player.soundcloud_player.isPlaying();
             } catch(e){}
-            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+            resizePlaylistPlaying(scPlaying);
         }
 
         Helper.css("#playpause", "visibility", "visible");
