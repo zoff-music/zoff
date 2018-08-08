@@ -31,7 +31,7 @@
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/unless}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default">
+        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
         {{#unless embed}}
             <script async type="text/javascript">
@@ -82,9 +82,6 @@
         {{/unless}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
-        {{#unless client}}
-            <script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js" async></script>
-        {{/unless}}
         <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
         {{#unless embed}}
             <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>

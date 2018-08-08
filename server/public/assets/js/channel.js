@@ -18,17 +18,19 @@ var Channel = {
         } else {
             if(!api_key.hasOwnProperty("soundcloud")) soundcloud_enabled = false;
             else {
-                SC.initialize({
+                /*SC.initialize({
                   client_id: api_key.soundcloud
                 }, function() {
-                });
+                });*/
             }
             if(cast_ready_connect || chromecastAvailable || chromecastReady) {
                 Helper.addClass(".volume-container", "volume-container-cast");
             }
 	    if(!embed) {
+            console.log("qq");
+            console.log(Helper.computedStyle(document.querySelector("#video-container")));
 	    	document.querySelector("#main-container").insertAdjacentHTML("beforeend", "<a id='hide-playlist' class='hide-on-small-only hide-playlist-button' href='#!'><i class='material-icons'>keyboard_arrow_right</i></div>");
-		document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+	          document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
 	    }
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
