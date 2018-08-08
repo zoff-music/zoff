@@ -18,6 +18,7 @@ try {
 var add = "";
 var express = require('express');
 var app = express();
+var compression = require('compression');
 var exphbs = require('express-handlebars');
 var cors = require('cors');
 
@@ -27,7 +28,17 @@ var hbs = exphbs.create({
 	partialsDir: publicPath + '/partials'
 });
 var uniqid = require('uniqid');
+app.use(compression({filter: shouldCompress}))
 
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
