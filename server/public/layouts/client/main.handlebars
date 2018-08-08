@@ -24,17 +24,16 @@
         <meta property="fb:app_id" content="1581693815380949" />
         <link rel="manifest" href="/assets/manifest.json">
         {{#unless embed}}
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css" media="none" onload="if(media!='all')media='all'">
             <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
             <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
             <link rel="icon" id="favicon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/unless}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}">
+        <link rel="stylesheet" type="text/css" href="/assets/dist/{{stylesheet}}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
         {{#unless embed}}
-            <script async type="text/javascript">
+            <script>
                 if(window.location.hostname.indexOf("localhost") < 0) {
                     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -84,7 +83,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
         <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
         {{#unless embed}}
-            <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+            <script async type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
         {{/unless}}
     </body>
 </html>

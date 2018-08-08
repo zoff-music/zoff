@@ -27,8 +27,6 @@ var Channel = {
                 Helper.addClass(".volume-container", "volume-container-cast");
             }
 	    if(!embed) {
-            console.log("qq");
-            console.log(Helper.computedStyle(document.querySelector("#video-container")));
 	    	document.querySelector("#main-container").insertAdjacentHTML("beforeend", "<a id='hide-playlist' class='hide-on-small-only hide-playlist-button' href='#!'><i class='material-icons'>keyboard_arrow_right</i></div>");
 	          document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
 	    }
@@ -578,9 +576,10 @@ var Channel = {
 
             Helper.css("#embed-button", "display", "none");
             if(!Helper.mobilecheck()) {
-                Helper.tooltip('.castButton', "destroy");
+                Helper.tooltip(".castButton", "destroy");
                 Helper.tooltip("#viewers", "destroy");
                 Helper.tooltip("#offline-mode", "destroy");
+                Helper.tooltip("search-btn", "destroy");
                 Helper.tooltip('#fullscreen', "destroy");
                 if(M.Tooltip.getInstance(document.getElementById("admin-lock")) != undefined) {
                     Helper.tooltip('#admin-lock', "destroy");
