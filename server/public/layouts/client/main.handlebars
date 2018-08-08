@@ -31,7 +31,7 @@
             <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#2d2d2d">
         {{/unless}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}" title="Default" media="none" onload="if(media!='all')media='all'">
+        <link rel="stylesheet" type="text/css" href="/assets/css/{{stylesheet}}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
         {{#unless embed}}
             <script async type="text/javascript">
@@ -49,172 +49,6 @@
                 }
             </script>
         {{/unless}}
-        <style>
-        @-webkit-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-webkit-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-moz-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-ms-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-moz-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-webkit-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@-o-keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		@keyframes uil-ring-anim {
-			0% {
-				-ms-transform: rotate(0deg);
-				-moz-transform: rotate(0deg);
-				-webkit-transform: rotate(0deg);
-				-o-transform: rotate(0deg);
-				transform: rotate(0deg);
-			}
-			100% {
-				-ms-transform: rotate(360deg);
-				-moz-transform: rotate(360deg);
-				-webkit-transform: rotate(360deg);
-				-o-transform: rotate(360deg);
-				transform: rotate(360deg);
-			}
-		}
-		
-		#loading-text {
-		    color: white;
-		    font-size: 1.5rem;
-		}
-
-		.uil-ring-css {
-			background: none;
-			width: 300px;
-			height: 300px;
-			transform: scale(.7);
-			position: absolute;
-			margin: auto;
-		}
-		.uil-ring-css > div {
-			position: absolute;
-		    width: 300px;
-		    height: 300px;
-		    border: 50px solid white;
-		    border-radius: 50%;
-		    border-bottom-color: transparent;
-		    border-left-color: transparent;
-		    transform: rotate(-45deg);
-		    -moz-animation: uil-ring-anim 1s linear infinite;
-		    -webkit-animation: uil-ring-anim 1s linear infinite;
-		    -o-animation: uil-ring-anim 1s linear infinite;
-		    animation: uil-ring-anim 1s linear infinite
-		}
-
-        body {
-                height: 100vh;
-                overflow: hidden;
-            }
-            #main-container, footer {
-                display: none;
-            }
-        </style>
     </head>
     <body class="noselect">
         {{{body}}}
@@ -245,17 +79,6 @@
                 </li>
             </ul>
             <div id="context-menu-overlay" class="hide"></div>
-            <div class="initial-load" style="height: 100vh;
-                    width: 100vw;
-                    background: #2d2d2d;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;">
-                    <div class="uil-ring-css" style="transform:scale(0.7);">
-					<div></div>
-                	</div>
-					<p id="loading-text">Loading</p>
-            </div>
         {{/unless}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
