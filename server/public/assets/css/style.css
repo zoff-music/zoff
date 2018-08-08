@@ -899,6 +899,11 @@ nav .zbrand{
     height: 120px;
 }
 
+.description_text {
+    color: #2d2d2d;
+    text-align: left;
+}
+
 .white-bg{
     background-color:white !important;
 }

@@ -959,7 +959,7 @@ addListener("click", "#aprilfools", function(){
 addListener("change", '#view_channels_select', function(event) {
     var that = this;
     if(currently_showing_channels != parseInt(that.target.value)) {
-        Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.target.value) == 1 ? true : false));
+        Frontpage.populate_channels(Frontpage.all_channels, (parseInt(that.target.value) == 1 ? true : false), true);
     }
     currently_showing_channels = parseInt(that.target.value);
 });
