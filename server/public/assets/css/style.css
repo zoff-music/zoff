@@ -25,17 +25,6 @@ a {
     outline: 0 !important;
 }
 
-.initial-load {
-    display: none !important;
-}
- body {
-    height: auto !important;
-    overflow: initial !important;
-}
-#main-container, footer {
-    display: initial !important;
-}
-
 .error-code-container {
     background: lightgrey;
     border: 1px solid darkgrey;
