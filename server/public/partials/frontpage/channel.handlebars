@@ -1,7 +1,7 @@
 
     <li class="chan-card col s6 m4 l4">
         <div class="card sticky-action">
-            <a id="chan-link" href="{{_id}}/">
+            <a class="chan-link" href="{{_id}}/">
                 <div class="chan-bg card-image cardbg" style="background-image:url({{thumbnail}});"></div>
                 <div class="card-content">
                     {{#if pinned}}
@@ -20,12 +20,11 @@
                 <div class="card-action noselect">
                     <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
                 </div>
-                {{#if description}}
+
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4 truncate">{{_id}}</span>
                         <p class="description_text">{{description}}</p>
                     </div>
-                {{/if}}
             </a>
         </div>
     </li>

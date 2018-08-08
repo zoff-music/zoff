@@ -13,113 +13,121 @@ var Frontpage = {
 
     all_channels: [],
 
-    frontpage_function: function(msg) {
+    frontpage_function: function() {
         frontpage = true;
 
         Helper.log([
             "Frontpage fetch",
             msg
         ]);
-        Frontpage.all_channels = msg.channels;
-        if(msg.channels.length == 0) {
+        Frontpage.all_channels = lists;
+        var msg = lists;
+        delete lists;
+        lists = undefined;
+        document.querySelector("#lists-script").remove();
+        if(msg.length == 0) {
             Helper.css("#preloader", "display", "none");
             document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
-            Frontpage.populate_channels(msg.channels, true);
+            console.log(msg);
+            Frontpage.populate_channels(msg, true, false);
         }
-        Frontpage.set_viewers(msg.viewers);
+        //Frontpage.set_viewers(msg.viewers);
     },
 
-    populate_channels: function(lists, popular) {
-        document.getElementById("channels").innerHTML = "";
+    populate_channels: function(lists, popular, set) {
+        //document.getElementById("channels").innerHTML = "";
 
         var num = 0;
-
-        if(popular) {
-            lists = lists.sort(Helper.predicate({
-                name: 'pinned',
-                reverse: true
-            }, {
-                name: 'viewers',
-                reverse: true
-            }, {
-                name: 'accessed',
-                reverse: true
-            }, {
-                name: 'count',
-                reverse: true
-            }));
-        } else {
-            lists = lists.sort(Helper.predicate({
-                name: 'viewers',
-                reverse: true
-            }, {
-                name: 'count',
-                reverse: true
-            }));
-        }
-
-        if(!Helper.mobilecheck()) {
-            clearTimeout(rotation_timeout);
-            Frontpage.add_backdrop(lists, 0);
-        }
-
-        pre_card = channel_list;
-
-        Helper.log([
-            "Pre_card: ",
-            pre_card
-        ]);
-
-        for(var x in lists) {
-            //console.log(lists[x]._id);
-            var chan = Helper.decodeChannelName(lists[x]._id);
-            if(num<12 || !popular) {
-                var id = lists[x].id;
-                var viewers = lists[x].viewers;
-                var description = lists[x].description;
-                var img;
-                img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
-                if(lists[x].thumbnail && lists[x].thumbnail != "") {
-                    img = "background-image:url('" + lists[x].thumbnail + "');";
-                }
-
-                var song_count = lists[x].count;
-                var card = document.createElement("div");
-                card.innerHTML += pre_card;
-                //card.innerHTML = card.children[0];
-                if(song_count > 3) {
-                    if(lists[x].pinned == 1) {
-                        card.querySelector(".pin").setAttribute("style", "display:block;");
-                        //card.find(".card").attr("title", "Featured list");
-                    } else {
-                        /*card.find(".pin").attr("style", "display:none;");
-                        card.find(".card").attr("title", "");*/
-                        card.querySelector(".pin").remove();
-                    }
-                    card.querySelector(".chan-name").innerText = chan;
-                    card.querySelector(".chan-name").setAttribute("title", chan);
-                    card.querySelector(".chan-views").innerText = viewers;
-                    card.querySelector(".chan-songs").innerText = song_count;
-                    card.querySelector(".chan-bg").setAttribute("style", img);
-                    card.querySelector(".chan-link").setAttribute("href", chan + "/");
-
-                    if(description != "" && description != undefined && !Helper.mobilecheck()) {
-                        card.querySelector(".card-title").innerText = chan;
-                        card.querySelector(".description_text").innerText = description;
-                        description = "";
-                    } else {
-                        card.querySelector(".card-reveal").remove();
-                        Helper.removeClass(card.querySelector(".card"), "sticky-action")
-                    }
-
-                    document.getElementById("channels").insertAdjacentHTML("beforeend", card.children[0].innerHTML);
-                } else {
-                    num--;
-                }
-
+        if(!set) Frontpage.add_backdrop(lists, 0);
+        else if(set) {
+            document.getElementById("channels").innerHTML = "";
+            if(popular) {
+                lists = lists.sort(Helper.predicate({
+                    name: 'pinned',
+                    reverse: true
+                }, {
+                    name: 'viewers',
+                    reverse: true
+                }, {
+                    name: 'accessed',
+                    reverse: true
+                }, {
+                    name: 'count',
+                    reverse: true
+                }));
+            } else {
+                lists = lists.sort(Helper.predicate({
+                    name: 'viewers',
+                    reverse: true
+                }, {
+                    name: 'count',
+                    reverse: true
+                }));
             }
-            num++;
+
+            if(!Helper.mobilecheck()) {
+                clearTimeout(rotation_timeout);
+                Frontpage.add_backdrop(lists, 0);
+            }
+
+            pre_card = channel_list;
+
+            Helper.log([
+                "Pre_card: ",
+                pre_card
+            ]);
+
+            for(var x in lists) {
+                //console.log(lists[x]._id);
+                var chan = Helper.decodeChannelName(lists[x]._id);
+                if(num<12 || !popular) {
+                    var id = lists[x].id;
+                    var viewers = lists[x].viewers;
+                    var description = lists[x].description;
+                    var img;
+                    img = "background-image:url('https://img.youtube.com/vi/"+id+"/hqdefault.jpg');";
+                    if(lists[x].thumbnail && lists[x].thumbnail != "") {
+                        img = "background-image:url('" + lists[x].thumbnail + "');";
+                    }
+
+                    var song_count = lists[x].count;
+                    var card = document.createElement("div");
+                    card.innerHTML += pre_card;
+                    //card.innerHTML = card.children[0];
+                    if(song_count > 3) {
+                        if(lists[x].pinned == 1) {
+                            card.querySelector(".pin").setAttribute("style", "display:block;");
+                            //card.find(".card").attr("title", "Featured list");
+                        } else {
+                            /*card.find(".pin").attr("style", "display:none;");
+                            card.find(".card").attr("title", "");
+                            card.querySelector(".pin").remove();*/
+                        }
+                        card.querySelector(".chan-name").innerText = chan;
+                        card.querySelector(".chan-name").setAttribute("title", chan);
+                        card.querySelector(".chan-views").innerText = viewers;
+                        card.querySelector(".chan-songs").innerText = song_count;
+                        card.querySelector(".chan-bg").setAttribute("style", img);
+                        card.querySelector(".chan-link").setAttribute("href", chan + "/");
+
+                        if(description != "" && description != undefined && !Helper.mobilecheck()) {
+                            card.querySelector(".card-title").innerText = chan;
+                            card.querySelector(".description_text").innerText = description;
+                            description = "";
+                        } else {
+                            //card.querySelector(".card-reveal").remove();
+                            Helper.removeClass(card.querySelector(".card"), "sticky-action")
+                        }
+
+                        document.getElementById("channels").insertAdjacentHTML("beforeend", card.children[0].innerHTML);
+                    } else {
+                        num--;
+                    }
+
+                }
+                num++;
+            }
         }
 
         var options_list = lists.slice();
@@ -148,7 +156,7 @@ var Frontpage = {
             },
         });
 
-        document.getElementById("preloader").style.display = "none";
+        //document.getElementById("preloader").style.display = "none";
         document.getElementById("channels").style.display = "block";
         //Materialize.fadeInImage('#channels');
         //$("#channels").fadeIn(800);
@@ -269,6 +277,7 @@ var Frontpage = {
         if(window.location.hostname == "fb.zoff.me") {
             add = "https://zoff.me";
         }
+        Frontpage.frontpage_function();
         /*Helper.ajax({
             url: add + "/api/frontpages",
             method: "get",
@@ -430,7 +439,11 @@ var Frontpage = {
             Helper.addClass("footer", "hide");
         }
 
-        channel_list = document.getElementById("channel-list-container").cloneNode(true).innerHTML;
+        channel_list = document.querySelector(".hidden-channel-list").cloneNode(true).innerHTML;
+        console.log(channel_list);
+        try {
+            document.querySelector(".hidden-channel-list").remove();
+        }catch(e){}
 
         if(window.location.hostname != "fb.zoff.me") Frontpage.share_link_modifier();
 
