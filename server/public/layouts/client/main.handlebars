@@ -83,7 +83,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.slim.js"></script>
         {{#unless client}}
-            <script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
+            <script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js" async></script>
         {{/unless}}
         <script type="text/javascript" src="/assets/dist/{{javascript_file}}"></script>
         {{#unless embed}}
