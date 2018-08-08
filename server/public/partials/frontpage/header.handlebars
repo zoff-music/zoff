@@ -4,7 +4,10 @@
             <a href="#" class="brand-logo">
                 <img class="zicon" src="/assets/images/z.svg" alt="zoff" title="Zoff" />
             </a>
-            <div id="frontpage-viewer-counter" class="noselect" title="Divided among all channels. Hidden or not"></div>
+            <div id="frontpage-viewer-counter" class="noselect" title="Divided among all channels. Hidden or not">
+                <i class="material-icons frontpage-viewers">visibility</i>
+                {{viewers}}
+            </div>
             <ul class="right">
                 {{#if client}}
                     <li><a class="header-buttons waves-effect waves-orange orange" id="client-mode-button" title="Client mode" href="https://zoff.me">Client</a></li>
