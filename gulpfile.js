@@ -2,7 +2,32 @@ var gulp    = require('gulp'),
 	gutil   = require('gulp-util'),
 	uglify  = require('gulp-uglify'),
     //sourcemaps = require('gulp-sourcemaps'),
-	concat  = require('gulp-concat');
+	concat  = require('gulp-concat'),
+    cssnano = require('gulp-cssnano');
+
+gulp.task('css', function() {
+    return gulp.src('server/public/assets/css/style.css')
+        .pipe(cssnano({
+            preset: ['default', {
+                discardComments: {
+                    removeAll: true,
+                },
+            }]
+        }))
+        .pipe(gulp.dest('server/public/assets/dist'));
+});
+
+gulp.task('css-embed', function() {
+    return gulp.src('server/public/assets/css/embed.css')
+        .pipe(cssnano({
+            preset: ['default', {
+                discardComments: {
+                    removeAll: true,
+                },
+            }]
+        }))
+        .pipe(gulp.dest('server/public/assets/dist'));
+});
 
 gulp.task('js', function () {
     return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/*.js', '!server/public/assets/js/embed*', '!server/public/assets/js/token*', '!server/public/assets/js/remotecontroller.js', '!server/public/assets/js/callback.js'])
@@ -60,7 +85,7 @@ gulp.task('callback', function () {
 });
 
 gulp.task('build', function() {
-    return gulp.run(['js', 'embed', 'remotecontroller', 'callback', 'token']);
+    return gulp.run(['css', 'css-embed', 'js', 'embed', 'remotecontroller', 'callback', 'token']);
 })
 
 gulp.task('remotecontroller', function () {
@@ -79,6 +104,7 @@ gulp.task('remotecontroller', function () {
 
 gulp.task('default', function(){
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['js']);
+    gulp.watch(['server/public/assets/css/*.css'], ['css']);
     gulp.watch(['server/public/assets/js/token*.js', 'server/public/assets/js/helpers.js'], ['token']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['embed']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);
