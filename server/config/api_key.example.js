@@ -1,6 +1,6 @@
 var api_key = {
     "youtube": "xxxx",
-    "soundcloud": "",
+    "soundcloud": "xx",
 };
 
 try {
