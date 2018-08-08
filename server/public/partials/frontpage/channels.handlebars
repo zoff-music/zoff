@@ -6,4 +6,12 @@
             {{/if}}
         {{/each}}
     </ul>
+    <div class="hidden-channel-list hide">
+        <ul class="row" id="channels">
+        {{>frontpage/channel}}
+        </ul>
+    </div>
+    <script id="lists-script">
+        var lists = {{{channel_list}}}
+    </script>
 </div>

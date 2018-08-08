@@ -157,7 +157,20 @@ function root(req, res, next) {
                 "title": 1,
                 "viewers": 1,
                 "pinned": 1,
-                "description": 1,
+                "description": {
+                    $ifNull: [ {$cond: {
+                        "if": {
+                            "$or": [
+                                { "$eq": [ "$description", ""] },
+                                { "$eq": [ "$description", null] },
+                                { "$eq": [ "$description", undefined] }
+                            ]
+                        },
+                        then: "This list has no description",
+                        else: "$description"
+                    }}, "This list has no description"]
+
+                },
                 "thumbnail": {
                     $ifNull: [ {$cond: {
                         "if": {
@@ -196,7 +209,7 @@ function root(req, res, next) {
                 ], function(err, docs) {
                 db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
                     data.channels = docs.slice(0, 12);
-                    data.channel_list = docs;
+                    data.channel_list = JSON.stringify(docs);
                     data.viewers = tot[0].total_users.length;
                     res.render('layouts/client/frontpage', data);
                 });
