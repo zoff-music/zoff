@@ -1,7 +1,7 @@
 var gulp    = require('gulp'),
 	gutil   = require('gulp-util'),
 	uglify  = require('gulp-uglify'),
-    sourcemaps = require('gulp-sourcemaps'),
+    //sourcemaps = require('gulp-sourcemaps'),
 	concat  = require('gulp-concat');
 
 gulp.task('js', function () {

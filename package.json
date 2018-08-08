@@ -41,7 +41,6 @@
     "express-sessions": "^1.0.6",
     "farmhash": "^2.1.0",
     "gulp": "^3.9.1",
-    "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifyjs": "^0.6.2",
     "gulp-util": "^3.0.8",
