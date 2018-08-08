@@ -1,26 +1,31 @@
-<li class="chan-card col s6 m4 l4">
-    <div class="card sticky-action">
-        <a class="chan-link">
-            <div class="chan-bg card-image cardbg"></div>
-            <div class="card-content">
-                <i class="material-icons pin">star_rate</i>
-                <p class="left-align">
-                    <span class="chan-name flow-text truncate"></span>
-                    <br>
-                    <span class="highlighted">Viewers:&nbsp;</span>
-                    <span class="chan-views"></span>
-                    <br>
-                    <span class="highlighted">Songs:&nbsp;</span>
-                    <span class="chan-songs"></span>
-                </p>
-            </div>
-            <div class="card-action noselect">
-                <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
-            </div>
-            <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4 truncate"></span>
-                <p class="description_text"></p>
-            </div>
-        </a>
-    </div>
-</li>
+
+    <li class="chan-card col s6 m4 l4">
+        <div class="card sticky-action">
+            <a id="chan-link" href="{{_id}}/">
+                <div class="chan-bg card-image cardbg" style="background-image:url({{thumbnail}});"></div>
+                <div class="card-content">
+                    {{#if pinned}}
+                        <i class="material-icons pin">star_rate</i>
+                    {{/if}}
+                    <p class="left-align">
+                        <span class="chan-name flow-text truncate">{{_id}}</span>
+                        <br>
+                        <span class="highlighted">Viewers:&nbsp;</span>
+                        <span class="chan-views">{{viewers}}</span>
+                        <br>
+                        <span class="highlighted">Songs:&nbsp;</span>
+                        <span class="chan-songs">{{count}}</span>
+                    </p>
+                </div>
+                <div class="card-action noselect">
+                    <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
+                </div>
+                {{#if description}}
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4 truncate">{{_id}}</span>
+                        <p class="description_text">{{description}}</p>
+                    </div>
+                {{/if}}
+            </a>
+        </div>
+    </li>
