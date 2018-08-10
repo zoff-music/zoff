@@ -6,7 +6,7 @@
                 <div class="card-content">
 
                         <i class="material-icons pin" style="{{#if pinned}}display:block;{{/if}}{{#unless pinned}}display:none;{{/unless}}">star_rate</i>
-                    
+
                     <p class="left-align">
                         <span class="chan-name flow-text truncate">{{_id}}</span>
                         <br>
@@ -20,11 +20,13 @@
                 <div class="card-action noselect">
                     <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
                 </div>
-
+                {{#if_equal description "This list has no description"}}
+                {{else}}
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4 truncate">{{_id}}</span>
                         <p class="description_text">{{description}}</p>
                     </div>
+                {{/if_equal}}
             </a>
         </div>
     </li>
