@@ -941,10 +941,10 @@ addListener("click", ".first_page", function(event){
 
 addListener("click", ".donate-button", function(event) {
     this.preventDefault();
+    M.Modal.init(document.getElementById("donate"));
     ga('send', 'event', "button-click", "donate");
     M.Modal.getInstance(document.getElementById("donate")).open();
 });
-
 
 addListener("click", '#toast-container', function(){
     before_toast();
@@ -1223,14 +1223,32 @@ addListener("click", "#twitter-code-link", function() {
 });
 
 addListener("click", ".help-button-footer", function() {
+    this.preventDefault();
+    M.Modal.init(document.getElementById("help"));
     ga('send', 'event', "button-click", "help-footer");
+    M.Modal.getInstance(document.getElementById("help")).open();
 });
 
 addListener("click", "#embed-button", function() {
+    this.preventDefault();
+    M.Modal.init(document.getElementById("embed"));
     ga('send', 'event', "button-click", "embed-channel", "channel-name", chan.toLowerCase());
-})
+    M.Modal.getInstance(document.getElementById("embed")).open();
+});
 
+addListener("click", "#contact-button", function() {
+    this.preventDefault();
+    M.Modal.init(document.getElementById("contact"));
+    ga('send', 'event', "button-click", "contact-footer");
+    M.Modal.getInstance(document.getElementById("contact")).open();
+});
 
+addListener("click", ".about-button", function() {
+    this.preventDefault();
+    M.Modal.init(document.getElementById("about"));
+    ga('send', 'event', "button-click", "contact-footer");
+    M.Modal.getInstance(document.getElementById("about")).open();
+});
 
 addListener("click", ".playlist-link", function(event){
     chat_active = false;
