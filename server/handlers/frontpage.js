@@ -27,7 +27,7 @@ function get_frontpage_lists(callback) {
         "id": 1,
         "title": 1,
         "viewers": 1,
-        "pinned": 1,
+        "pinned": { $ifNull: [ "$pinned", 0 ] },
         "description": {
             $ifNull: [ {$cond: {
                 "if": {

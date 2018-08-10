@@ -27,7 +27,7 @@ var Frontpage = {
         window.lists = undefined;
         //document.querySelector("#lists-script").remove();
         if(msg.length == 0) {
-            Helper.css("#preloader", "display", "none");
+            //Helper.css("#preloader", "display", "none");
             document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
             Frontpage.populate_channels(msg, true, false);
