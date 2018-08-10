@@ -20,16 +20,16 @@ var Frontpage = {
             "Frontpage fetch",
             msg
         ]);
-        Frontpage.all_channels = lists;
-        var msg = lists;
-        delete lists;
-        lists = undefined;
-        document.querySelector("#lists-script").remove();
+
+        Frontpage.all_channels = window.lists;
+        var msg = window.lists;
+        delete window.lists;
+        window.lists = undefined;
+        //document.querySelector("#lists-script").remove();
         if(msg.length == 0) {
             Helper.css("#preloader", "display", "none");
             document.getElementById("channel-list-container").insertAdjacentHTML("beforeend", "<p>No channels yet</p>");
         } else {
-            console.log(msg);
             Frontpage.populate_channels(msg, true, false);
         }
         //Frontpage.set_viewers(msg.viewers);
@@ -79,7 +79,6 @@ var Frontpage = {
             ]);
 
             for(var x in lists) {
-                //console.log(lists[x]._id);
                 var chan = Helper.decodeChannelName(lists[x]._id);
                 if(num<12 || !popular) {
                     var id = lists[x].id;
@@ -160,7 +159,7 @@ var Frontpage = {
         document.getElementById("channels").style.display = "block";
         //Materialize.fadeInImage('#channels');
         //$("#channels").fadeIn(800);
-        document.getElementById("autocomplete-input").focus();
+        //document.getElementById("autocomplete-input").focus();
         num = 0;
     },
 
@@ -264,7 +263,7 @@ var Frontpage = {
             if(Frontpage.times_rotated == 50 && frontpage){
                 Frontpage.times_rotated = 0;
                 i = 0;
-                Frontpage.get_frontpage_lists();
+                //Frontpage.get_frontpage_lists();
             }else if(frontpage){
                 Frontpage.times_rotated += 1;
                 Frontpage.add_backdrop(list, i+1);
@@ -440,12 +439,11 @@ var Frontpage = {
         }
 
         channel_list = document.querySelector(".hidden-channel-list").cloneNode(true).innerHTML;
-        console.log(channel_list);
         try {
             document.querySelector(".hidden-channel-list").remove();
         }catch(e){}
 
-        if(window.location.hostname != "fb.zoff.me") Frontpage.share_link_modifier();
+        Frontpage.share_link_modifier();
 
         if(window.location.hostname == "zoff.me" || window.location.hostname == "fb.zoff.me") add = "https://zoff.me";
         else add = window.location.hostname;
@@ -464,10 +462,11 @@ var Frontpage = {
             setup_playlist_listener();
         }
 
-        M.Modal.init(document.getElementById("about"));
+        /*M.Modal.init(document.getElementById("about"));
         M.Modal.init(document.getElementById("help"));
-        M.Modal.init(document.getElementById("contact"));
+        M.Modal.init(document.getElementById("contact"));*/
         var elem = document.querySelector('select');
+        document.querySelector(".no-jump-select").remove();
         M.FormSelect.init(elem);
 
         Helper.log([
@@ -516,7 +515,7 @@ var Frontpage = {
 
         if(!localStorage.ok_cookie){
             before_toast();
-            M.toast({html: "We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", displayLength: 10000});
+            //M.toast({html: "We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", displayLength: 10000});
         }
 
         //var pad = 0;
