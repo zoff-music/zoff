@@ -10,6 +10,10 @@
             <div class="col s12">
                 <div class="row">
                     <div class="input-field col s12">
+                        <div class="no-jump-select">
+                            Most Popular
+                            <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>
+                        </div>
                         <select id="view_channels_select">
                             <option value="" disabled>Channels to show</option>
                             <option value="1" selected>Most Popular</option>
@@ -17,9 +21,6 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div id="preloader" class="progress frontpage-preloader orange lighten-3">
-                <div class="indeterminate"></div>
             </div>
             {{> frontpage/channels}}
         </div>

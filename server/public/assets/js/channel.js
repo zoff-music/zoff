@@ -677,6 +677,12 @@ var Channel = {
 
                     var response = document.createElement("div");
                     response.innerHTML = e;
+
+                    var newList = response.querySelector("#lists-script").innerHTML;
+                    newList = newList.trim().replace("window.lists = ", "");
+                    newList = newList.substring(0, newList.length);
+                    window.lists = JSON.parse(newList);
+                    response.querySelector("#lists-script").remove();
                     Helper.removeElement("#sidenav-overlay");
                     document.getElementsByTagName("main")[0].className = "center-align container";
                     Helper.removeClass("#main-container", "channelpage");

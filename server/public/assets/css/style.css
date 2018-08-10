@@ -899,8 +899,22 @@ nav .zbrand{
     height: 120px;
 }
 
-#channels{
-    display: none;
+.no-jump-select {
+    height: calc(3rem + 1px) !important;
+    margin: 0 0 8px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #9e9e9e;
+    align-items: center;
+    font-size: 16px;
+
+     line-height: 3rem;
+    color: #000;
+}
+
+.description_text {
+    color: #2d2d2d;
+    text-align: left;
 }
 
 .white-bg{
