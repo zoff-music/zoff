@@ -4,9 +4,9 @@
             <a class="chan-link" href="{{_id}}/">
                 <div class="chan-bg card-image cardbg" style="background-image:url({{thumbnail}});"></div>
                 <div class="card-content">
-                    {{#if pinned}}
-                        <i class="material-icons pin">star_rate</i>
-                    {{/if}}
+
+                        <i class="material-icons pin" style="{{#if pinned}}display:block;{{/if}}{{#unless pinned}}display:none;{{/unless}}">star_rate</i>
+                    
                     <p class="left-align">
                         <span class="chan-name flow-text truncate">{{_id}}</span>
                         <br>

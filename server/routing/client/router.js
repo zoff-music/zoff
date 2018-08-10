@@ -7,6 +7,7 @@ var analytics = "xx";
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
 var Functions = require(pathThumbnails + '/handlers/functions.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
 
 var db = require(pathThumbnails + '/handlers/db.js');
 //var db = require(pathThumbnails + '/handlers/db.js');
@@ -149,67 +150,17 @@ function root(req, res, next) {
             if(subdomain[0] == "client") {
                 data.client = true;
             }
-            var project_object = {
-                "_id": 1,
-                "count": 1,
-                "frontpage": 1,
-                "id": 1,
-                "title": 1,
-                "viewers": 1,
-                "pinned": 1,
-                "description": {
-                    $ifNull: [ {$cond: {
-                        "if": {
-                            "$or": [
-                                { "$eq": [ "$description", ""] },
-                                { "$eq": [ "$description", null] },
-                                { "$eq": [ "$description", undefined] }
-                            ]
-                        },
-                        then: "This list has no description",
-                        else: "$description"
-                    }}, "This list has no description"]
-
-                },
-                "thumbnail": {
-                    $ifNull: [ {$cond: {
-                        "if": {
-                            "$or": [
-                                { "$eq": [ "$thumbnail", ""] },
-                                { "$eq": [ "$thumbnail", null] },
-                                { "$eq": [ "$thumbnail", undefined] }
-                            ]
-                        },
-                        then: {
-                            $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
-                        },
-                        else: "$thumbnail"
-                    }}, { $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]}]
-
-                }
-            };
-            db.collection("frontpage_lists").aggregate([
-                {
-                    "$match": {
-                        frontpage: true,
-                        count: {$gt: 0},
-                    }
-                },
-                {
-                    "$project": project_object
-                },
-                {
-                    "$sort" : {
-                        "pinned": -1,
-                        "count": -1,
-                        "accessed": -1,
-                        "title": 1
-                    }
-                },
-                ], function(err, docs) {
+            Frontpage.get_frontpage_lists(function(err, docs){
                 db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
-                    data.channels = docs.slice(0, 12);
-                    data.channel_list = JSON.stringify(docs);
+                    if(docs.length > 0) {
+                        data.channels_exist = true;
+                        data.channels = docs.slice(0, 12);
+                        data.channel_list = JSON.stringify(docs);
+                    } else {
+                        data.channels_exist = false;
+                        data.channels = [];
+                        data.channel_list = [];
+                    }
                     data.viewers = tot[0].total_users.length;
                     res.render('layouts/client/frontpage', data);
                 });

@@ -1,10 +1,15 @@
 <div id="channel-list-container">
     <ul class="row" id="channels">
-        {{#each channels}}
-            {{#if frontpage}}
-                {{> frontpage/channel}}
-            {{/if}}
-        {{/each}}
+        {{#if channels_exist}}
+            {{#each channels}}
+                {{#if frontpage}}
+                    {{> frontpage/channel}}
+                {{/if}}
+            {{/each}}
+        {{/if}}
+        {{#unless channels_exist}}
+            No channels yet
+        {{/unless}}
     </ul>
     <div class="hidden-channel-list hide">
         <ul class="row" id="channels">
@@ -12,6 +17,6 @@
         </ul>
     </div>
     <script id="lists-script">
-        var lists = {{{channel_list}}}
+        window.lists = {{{channel_list}}}
     </script>
 </div>
