@@ -19,6 +19,68 @@ function frontpage_lists(msg, socket) {
     });
 }
 
+function get_frontpage_lists(callback) {
+    var project_object = {
+        "_id": 1,
+        "count": 1,
+        "frontpage": 1,
+        "id": 1,
+        "title": 1,
+        "viewers": 1,
+        "pinned": 1,
+        "description": {
+            $ifNull: [ {$cond: {
+                "if": {
+                    "$or": [
+                        { "$eq": [ "$description", ""] },
+                        { "$eq": [ "$description", null] },
+                        { "$eq": [ "$description", undefined] }
+                    ]
+                },
+                then: "This list has no description",
+                else: "$description"
+            }}, "This list has no description"]
+
+        },
+        "thumbnail": {
+            $ifNull: [ {$cond: {
+                "if": {
+                    "$or": [
+                        { "$eq": [ "$thumbnail", ""] },
+                        { "$eq": [ "$thumbnail", null] },
+                        { "$eq": [ "$thumbnail", undefined] }
+                    ]
+                },
+                then: {
+                    $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+                },
+                else: "$thumbnail"
+            }}, { $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]}]
+
+        }
+    };
+    db.collection("frontpage_lists").aggregate([
+        {
+            "$match": {
+                frontpage: true,
+                count: {$gt: 0},
+            }
+        },
+        {
+            "$project": project_object
+        },
+        {
+            "$sort" : {
+                "pinned": -1,
+                "viewers": -1,
+                "count": -1,
+                "accessed": -1,
+                "title": 1
+            }
+        },
+    ], callback);
+}
+
 function update_frontpage(coll, id, title, thumbnail, source, callback) {
     //coll = coll.replace(/ /g,'');
     db.collection("frontpage_lists").find({_id: coll}, function(e, doc) {
@@ -38,5 +100,6 @@ if(doc.length > 0 && ((doc[0].thumbnail != "" && doc[0].thumbnail != undefined &
     });
 }
 
+module.exports.get_frontpage_lists = get_frontpage_lists;
 module.exports.frontpage_lists = frontpage_lists;
 module.exports.update_frontpage = update_frontpage;

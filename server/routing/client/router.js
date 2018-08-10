@@ -7,6 +7,9 @@ var analytics = "xx";
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
 var Functions = require(pathThumbnails + '/handlers/functions.js');
+var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+
+var db = require(pathThumbnails + '/handlers/db.js');
 //var db = require(pathThumbnails + '/handlers/db.js');
 
 try {
@@ -142,14 +145,30 @@ function root(req, res, next) {
                 embed: false,
                 client: false,
                 og_image: "https://zoff.me/assets/images/small-square.jpg",
+                channels: [],
             }
             if(subdomain[0] == "client") {
                 data.client = true;
             }
-            res.render('layouts/client/frontpage', data);
+            Frontpage.get_frontpage_lists(function(err, docs){
+                db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+                    if(docs.length > 0) {
+                        data.channels_exist = true;
+                        data.channels = docs.slice(0, 12);
+                        data.channel_list = JSON.stringify(docs);
+                    } else {
+                        data.channels_exist = false;
+                        data.channels = [];
+                        data.channel_list = [];
+                    }
+                    data.viewers = tot[0].total_users.length;
+                    res.render('layouts/client/frontpage', data);
+                });
+            });
+
         }
     } catch(e) {
-        //console.log(e);
+        console.log(e);
         //res.redirect("https://zoff.me");
     }
 }

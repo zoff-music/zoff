@@ -117,7 +117,8 @@ router.route('/api/frontpages').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-    db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
+    Frontpage.get_frontpage_lists(function(err, docs) {
+    //db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
         db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
             var to_return = error.no_error;
             to_return.results = {channels: docs, viewers: tot[0].total_users.length};
