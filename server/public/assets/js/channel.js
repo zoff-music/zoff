@@ -679,14 +679,10 @@ var Channel = {
                     response.innerHTML = e;
 
                     var newList = response.querySelector("#lists-script").innerHTML;
-                    newList = newList.trim().replace("window.lists = ", "");
+                    newList = newList.trim().replace("window.lists = ", "").replace("window.lists=", "");
                     newList = newList.substring(0, newList.length);
-                    try {
-                        window.lists = JSON.parse(newList);
-                    } catch(e) {
-                        console.error(e);
-                        console.log(newList);
-                    }
+                    window.lists = JSON.parse(newList);
+
                     response.querySelector("#lists-script").remove();
                     Helper.removeElement("#sidenav-overlay");
                     document.getElementsByTagName("main")[0].className = "center-align container";
