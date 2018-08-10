@@ -1,5 +1,22 @@
 <div id="channel-list-container">
     <ul class="row" id="channels">
-        {{> frontpage/channel}}
+        {{#if channels_exist}}
+            {{#each channels}}
+                {{#if frontpage}}
+                    {{> frontpage/channel}}
+                {{/if}}
+            {{/each}}
+        {{/if}}
+        {{#unless channels_exist}}
+            No channels yet
+        {{/unless}}
     </ul>
+    <div class="hidden-channel-list hide">
+        <ul class="row" id="channels">
+        {{>frontpage/channel}}
+        </ul>
+    </div>
+    <script id="lists-script">
+        window.lists = {{{channel_list}}}
+    </script>
 </div>
