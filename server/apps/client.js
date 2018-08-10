@@ -25,7 +25,17 @@ var cors = require('cors');
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/client/main',
 	layoutsDir: publicPath + '/layouts/client',
-	partialsDir: publicPath + '/partials'
+	partialsDir: publicPath + '/partials',
+	helpers: {
+        if_equal: function(a, b, opts) {
+            if (a == b) {
+                return opts.fn(this)
+            } else {
+                return opts.inverse(this)
+            }
+        }
+
+    }
 });
 var uniqid = require('uniqid');
 app.use(compression({filter: shouldCompress}))
