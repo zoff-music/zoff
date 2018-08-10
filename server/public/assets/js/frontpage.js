@@ -110,12 +110,12 @@ var Frontpage = {
                         card.querySelector(".chan-bg").setAttribute("style", img);
                         card.querySelector(".chan-link").setAttribute("href", chan + "/");
 
-                        if(description != "" && description != undefined && !Helper.mobilecheck()) {
+                        if(description != "" && description != undefined && !Helper.mobilecheck() && description != "This list has no description") {
                             card.querySelector(".card-title").innerText = chan;
                             card.querySelector(".description_text").innerText = description;
                             description = "";
                         } else {
-                            //card.querySelector(".card-reveal").remove();
+                            card.querySelector(".card-reveal").remove();
                             Helper.removeClass(card.querySelector(".card"), "sticky-action")
                         }
 

@@ -775,6 +775,7 @@ document.addEventListener("click", function(event) {
 document.addEventListener("mouseleave", function(event) {
     if(event.target.className == "card sticky-action") {
         var that = event.target;
+        if(that.querySelector(".card-reveal") == null) return;
         that.querySelector(".card-reveal").setAttribute("style", "display: block;transform: translateY(0%);");
         clearTimeout(image_timeout);
         image_timeout = setTimeout(function(){
@@ -786,6 +787,7 @@ document.addEventListener("mouseleave", function(event) {
 document.addEventListener("mouseenter", function(event) {
     if(event.target.className == "card sticky-action") {
         var that = event.target;
+        if(that.querySelector(".card-reveal") == null) return;
         that.querySelector(".card-reveal").setAttribute("style", "display: block;");
         clearTimeout(image_timeout);
         image_timeout = setTimeout(function(){
