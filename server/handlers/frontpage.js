@@ -27,6 +27,7 @@ function get_frontpage_lists(callback) {
         "id": 1,
         "title": 1,
         "viewers": 1,
+        "accessed": 1,
         "pinned": { $ifNull: [ "$pinned", 0 ] },
         "description": {
             $ifNull: [ {$cond: {
@@ -63,7 +64,7 @@ function get_frontpage_lists(callback) {
         {
             "$match": {
                 frontpage: true,
-                count: {$gt: 0},
+                count: {$gt: 3},
             }
         },
         {
@@ -73,8 +74,8 @@ function get_frontpage_lists(callback) {
             "$sort" : {
                 "pinned": -1,
                 "viewers": -1,
-                "count": -1,
                 "accessed": -1,
+                "count": -1,
                 "title": 1
             }
         },
