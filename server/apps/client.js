@@ -21,6 +21,7 @@ var app = express();
 var compression = require('compression');
 var exphbs = require('express-handlebars');
 var cors = require('cors');
+var Functions = require(pathThumbnails + '/handlers/functions.js');
 
 var hbs = exphbs.create({
 	defaultLayout: publicPath + '/layouts/client/main',
@@ -33,6 +34,10 @@ var hbs = exphbs.create({
             } else {
                 return opts.inverse(this)
             }
+        },
+        decodeString: function(s) {
+			if(s == undefined) return s;
+            return Functions.decodeChannelName(s);
         }
 
     }
