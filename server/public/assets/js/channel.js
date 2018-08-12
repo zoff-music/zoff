@@ -95,8 +95,8 @@ var Channel = {
             }
 
             Helper.tabs('.chatTabs');
-            Helper.tabs('.results-tabs');
         }
+        Helper.tabs('.results-tabs');
         var sidenavElem = document.getElementsByClassName("sidenav")[0];
         M.Sidenav.init(sidenavElem, {
             menuWidth: 310,
@@ -259,6 +259,8 @@ var Channel = {
         if(!client) {
             window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
             if(Player.player === "" || Player.player === undefined || Helper.mobilecheck()) Player.loadPlayer();
+        } else {
+            Player.loadSoundCloudPlayer();
         }
         //}
 
