@@ -245,6 +245,8 @@ window.addEventListener("DOMContentLoaded", function() {
             firstScriptTagSC = document.getElementsByTagName('script')[0];
             firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
         }
+    } else if(window.location.pathname == "/" && client) {
+        Player.loadSoundCloudPlayer();
     }
 
     if(Helper.mobilecheck()) {

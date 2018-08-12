@@ -990,6 +990,11 @@ var Player = {
             firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
+
+        Player.loadSoundCloudPlayer();
+    },
+
+    loadSoundCloudPlayer: function() {
         if(document.querySelectorAll("script[src='https://connect.soundcloud.com/sdk/sdk-3.3.0.js']").length == 1) {
             try {
                 Player.soundcloudReady();
@@ -1016,7 +1021,6 @@ var Player = {
             firstScriptTagSC = document.getElementsByTagName('script')[0];
             firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
         }
-
     }
 
 };
