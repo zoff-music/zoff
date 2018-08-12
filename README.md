@@ -40,7 +40,7 @@ The team consists of Kasper Rynning-Tønnesen and Nicolas Almagro Tonne, and the
 
 ### Contact
 
-The team can be reached on <a href="mailto:contact@zoff.no?Subject=Contact%20Zoff">contact@zoff.no</a>
+The team can be reached on <a href="mailto:contact@zoff.me?Subject=Contact%20Zoff">contact@zoff.me</a>
 
 ### Screenshots of desktop version:
 
