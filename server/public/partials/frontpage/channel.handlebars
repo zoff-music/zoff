@@ -8,7 +8,7 @@
                         <i class="material-icons pin" style="{{#if pinned}}display:block;{{/if}}{{#unless pinned}}display:none;{{/unless}}">star_rate</i>
 
                     <p class="left-align">
-                        <span class="chan-name flow-text truncate">{{_id}}</span>
+                        <span class="chan-name flow-text truncate">{{decodeString _id}}</span>
                         <br>
                         <span class="highlighted">Viewers:&nbsp;</span>
                         <span class="chan-views">{{viewers}}</span>
@@ -23,7 +23,7 @@
                 {{#if_equal description "This list has no description"}}
                 {{else}}
                     <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4 truncate">{{_id}}</span>
+                        <span class="card-title grey-text text-darken-4 truncate">{{decodeString _id}}</span>
                         <p class="description_text">{{description}}</p>
                     </div>
                 {{/if_equal}}
