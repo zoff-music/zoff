@@ -14,7 +14,7 @@ function toast(text, length, classes) {
 window.addEventListener("DOMContentLoaded", function() {
     M.Tabs.init(document.querySelector("ul.tabs"));
     api_token_list = document.querySelector("#api_token_list").cloneNode(true);
-    //document.querySelector("#api_token_list").remove();
+    document.querySelector("#api_token_list").remove();
     loaded();
 
 	addClass(".channel_things", "hide");
@@ -37,9 +37,10 @@ window.addEventListener("DOMContentLoaded", function() {
 	}, true);
 
 	document.getElementById("refresh_all").addEventListener("click", function(event) {
-		this.preventDefault();
-		document.getElementById("descriptions_cont").empty();
-		document.getElementById("thumbnails_cont").empty();
+		event.preventDefault();
+		document.getElementById("descriptions_cont").innerHTML = "";
+		document.getElementById("thumbnails_cont").innerHTML = "";
+		document.querySelector(".names-container").innerHTML = "";
 		document.querySelector(".api_token_container").remove();
 
 		addClass(".channel_things", "hide");
@@ -55,11 +56,11 @@ addListener("click", ".update_api_token", function(event) {
 	this.preventDefault();
 	var that = event;
 	var id = that.getAttribute("data-id");
-	var limit = document.querySelector("#" + id + "-limit").value;
+	var limit = document.querySelector("#limit-" + id).value;
 
 	toggleClass(that, "disabled");
 
-	toggleClass("#" + id + "-delete", "disabled");
+	toggleClass("#delete-" + id, "disabled");
 	ajax({
 		type: "PUT",
 		url: "api/api_token",
@@ -77,7 +78,7 @@ addListener("click", ".update_api_token", function(event) {
 				toast("Something went wrong...", 2000, "red lighten");
 			}
 			toggleClass(that, "disabled");
-			toggleClass("#" + id + "-delete", "disabled");
+			toggleClass("#delete-" + id, "disabled");
 		}
 	});
 });
@@ -87,7 +88,7 @@ addListener("click", ".delete_api_token", function(event) {
 	var that = event;
 	var id = that.getAttribute("data-id");
 	toggleClass(that, "disabled");
-	toggleClass("#" + id + "-limit", "disabled");
+	toggleClass("#limit-" + id, "disabled");
 	ajax({
 		type: "DELETE",
 		url: "api/api_token",
@@ -100,11 +101,11 @@ addListener("click", ".delete_api_token", function(event) {
 		success: function(response) {
 			if(response == "success") {
 				toast("Removed token!", 2000, "green lighten");
-				document.querySelector("#" + id).remove();
+				document.querySelector("#element-" + id).remove();
 			} else {
 				toast("Something went wrong...", 2000, "red lighten");
 				toggleClass(that, "disabled");
-				toggleClass("#" + id + "-limit", "disabled");
+				toggleClass("#limit-" + id, "disabled");
 			}
 		},
 	});
@@ -136,7 +137,7 @@ addListener("click", ".approve_name", function(event) {
 
 addListener("click", ".thumbnail_link", function(event) {
 	this.preventDefault();
-	window.open("https:" + this.value,'_blank');
+	window.open("https:" + event.value,'_blank');
 });
 
 addListener("click", "#get_token", function(event) {
@@ -187,6 +188,8 @@ addListener("click", ".approve_thumbnails", function(event) {
 			} else {
 				toast("Something went wrong...", 2000, "red lighten");
 			}
+		},
+		error: function(err) {
 		}
 	});
 });
@@ -351,8 +354,7 @@ addListener("click", "#remove_thumbnail_button", function(event) {
 	});
 });
 
-addListener("submit", "#delete_channel", function(event) {
-	this.preventDefault();
+function delete_channel(that) {
 	var to_delete = document.querySelector("#delete_channel_name").value;
 	if(!to_delete) {
 		toast("Something went wrong...", 2000, "red lighten");
@@ -379,11 +381,16 @@ addListener("submit", "#delete_channel", function(event) {
 			}
 		})
 	}
+}
+
+addListener("submit", "#delete_channel", function(event) {
+	this.preventDefault();
+	delete_channel(event);
 });
 
 addListener("click", "#delete_channel_button", function(event) {
 	this.preventDefault();
-	document.querySelector("#delete_channel").submit();
+	delete_channel(event);
 });
 
 addListener("click", "#remove_token", function(event) {
@@ -406,6 +413,20 @@ addListener("click", "#remove_token", function(event) {
 
 addListener("submit", "#change_pinned", function(event) {
 	this.preventDefault();
+	change_pinned(event);
+});
+
+addListener("click", "#change_pinned_button", function(event) {
+	this.preventDefault();
+	change_pinned(event);
+});
+
+addListener("click", "#delete_admin_button", function(event) {
+	this.preventDefault();
+	delete_admin_list(event);
+});
+
+function change_pinned(that) {
 	var to_pin = document.querySelector("#frontpage_pinned").value;
 	if(!to_pin) {
 		toast("Something went wrong...", 2000, "red lighten");
@@ -428,25 +449,9 @@ addListener("submit", "#change_pinned", function(event) {
 			}
 		}
 	})
-});
+}
 
-addListener("click", "#change_pinned_button", function(event) {
-	this.preventDefault();
-	document.querySelector("#change_pinned").submit();
-});
-
-addListener("click", "#delete_admin_button", function(event) {
-	this.preventDefault();
-	document.querySelector("#delete_list").submit();
-});
-
-addListener("click", "#delete_userpass_button", function(event) {
-	this.preventDefault();
-	document.querySelector("#delete_userpass").submit();
-});
-
-addListener("submit", "#delete_list", function(event) {
-	this.preventDefault();
+function delete_admin_list(that) {
 	var to_remove_password = document.querySelector("#delete_list_name").value;
 	if(!to_remove_password) {
 		toast("Something went wrong...", 2000, "red lighten");
@@ -468,11 +473,10 @@ addListener("submit", "#delete_list", function(event) {
 				toast("Something went wrong...", 2000, "red lighten");
 			}
 		}
-	})
-});
+	});
+}
 
-addListener("submit", "#delete_userpass", function(event) {
-	this.preventDefault();
+function delete_userpass(that) {
 	var to_remove_password = document.querySelector("#delete_userpass_name").value;
 	if(!to_remove_password) {
 		toast("Something went wrong...", 2000, "red lighten");
@@ -495,6 +499,21 @@ addListener("submit", "#delete_userpass", function(event) {
 			}
 		}
 	})
+}
+
+addListener("click", "#delete_userpass_button", function(event) {
+	this.preventDefault();
+	delete_userpass(event);
+});
+
+addListener("submit", "#delete_list", function(event) {
+	this.preventDefault();
+	delete_admin_list(event);
+});
+
+addListener("submit", "#delete_userpass", function(event) {
+	this.preventDefault();
+	delete_userpass(event);
 });
 
 socket.on("spread_listeners", function(obj){
@@ -533,15 +552,14 @@ function loaded() {
 			removeClass(".header-api-fields", "hide");
 			for(var i = 0; i < response.length; i++) {
 				var to_add = api_token_list.cloneNode(true);
-
-                to_add.querySelector(".api_token_limit").value = response[i].limit;
-				to_add.setAttribute("id", response[i]._id);
+				to_add.setAttribute("id", "element-" + response[i]._id);
 				to_add.querySelector(".api_token_name").innerText = response[i].name;
 				to_add.querySelector(".api_token_usage").innerText = response[i].usage;
                 to_add.querySelector(".api_token_origin").innerText = response[i].origin;
-				to_add.querySelector(".update_api_token").setAttribute("id", response[i]._id + "-update");
-				to_add.querySelector(".api_token_limit").setAttribute("id", response[i]._id + "-limit");
-				to_add.querySelector(".delete_api_token").setAttribute("id", response[i]._id + "-delete");
+				to_add.querySelector(".update_api_token").setAttribute("id", "update-" + response[i]._id);
+				to_add.querySelector(".api_token_limit").setAttribute("id", "limit-" + response[i]._id);
+				to_add.querySelector("#limit-" + response[i]._id).value = parseInt(response[i].limit);
+				to_add.querySelector(".delete_api_token").setAttribute("id", "delete-" + response[i]._id);
 				to_add.querySelector(".delete_api_token").setAttribute("data-id", response[i]._id);
 				to_add.querySelector(".update_api_token").setAttribute("data-id", response[i]._id);
 				if(response[i].active) {
@@ -549,7 +567,8 @@ function loaded() {
                 } else {
                     removeClass(to_add.querySelector(".uncheck"), "hide");
                 }
-				document.querySelector("#api_keys").insertAdjacentHTML("beforeend", to_add.innerHTML);
+				document.querySelector("#api_keys").insertAdjacentHTML("beforeend", '<div class="row api_token_container" id="element-' + response[i]._id + '">' + to_add.innerHTML + "</div>");
+				document.querySelector("#limit-" + response[i]._id).value = parseInt(response[i].limit);
 			}
 		},
 		error: function(err) {
@@ -620,7 +639,6 @@ function loaded() {
 				removeClass(".thumbnails-badge", "hide");
 				document.querySelector(".thumbnails-badge").innerText = response.length;
 			}
-			console.log(response);
 			add_to_tab("thumbnails", response);
 		}
 	});
@@ -825,7 +843,11 @@ function ajax(obj) {
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
 			if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
-				obj.success(xmlhttp.responseText, xmlhttp);
+				try {
+					obj.success(JSON.parse(xmlhttp.responseText), xmlhttp);
+				} catch(e) {
+					obj.success(xmlhttp.responseText, xmlhttp);
+				}
 			}
 			else if(obj.hasOwnProperty("error")){
 				obj.error(xmlhttp);

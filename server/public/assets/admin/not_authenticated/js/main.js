@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", function() {
     document.getElementById("login_button").addEventListener("click", function(event) {
-        this.preventDefault();
+        event.preventDefault();
         document.querySelector("#login_form").submit();
     });
 
