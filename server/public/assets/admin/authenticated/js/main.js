@@ -5,146 +5,581 @@ var connection_options = {
 };
 var socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':8080', connection_options);
 var api_token_list;
+var dynamicListeners = {};
 
-$(document).ready(function(){
-	 $('ul.tabs').tabs();
-	 api_token_list = $("#api_token_list").clone();
-	 $("#api_token_list").remove();
-	 loaded();
- });
-
-$(document).on("click", "#refresh_all", function(e){
-	e.preventDefault();
-	$("#descriptions_cont").empty();
-	$("#thumbnails_cont").empty();
-	$(".api_token_container").remove();
-
-	if(!$(".channel_things").hasClass("hide")) {
-		$(".channel_things").addClass("hide")
-	}
-	$(".preloader-wrapper").removeClass("hide");
-	loaded();
-	$("#listeners").empty();
-	socket.emit("get_spread");
-});
-
-function decodeChannelName(str) {
-  var _fn = decodeURIComponent;
-  str = str.toUpperCase();
-  try {
-      var toReturn = _fn(str.replace(/%5F/g, "_"));
-      return toReturn.toLowerCase();
-  } catch(e) {
-      return str.toLowerCase();
-  }
+function toast(text, length, classes) {
+	M.toast({ html: text, displayLength: length, classes: classes});
 }
 
-socket.on("spread_listeners", function(obj){
-	$("#listeners").append("<p>Private listeners: " + obj.offline + "</p>");
-	$("#listeners").append("<p>Total listeners: " + obj.total + "</p>");
-	$("#listeners").append("<hr>");
-	for(var x in obj.online_users){
-		if(obj.online_users[x]._id != "total_users" && obj.online_users[x].hasOwnProperty("users") && obj.online_users[x].users.length > 0){
-			$("#listeners").append("<p>" + decodeChannelName(obj.online_users[x]._id) + ": " + obj.online_users[x].users.length + "</p>");
-		}
-	}
+window.addEventListener("DOMContentLoaded", function() {
+    M.Tabs.init(document.querySelector("ul.tabs"));
+    api_token_list = document.querySelector("#api_token_list").cloneNode(true);
+    document.querySelector("#api_token_list").remove();
+    loaded();
+
+	addClass(".channel_things", "hide");
+	removeClass(".preloader-wrapper", "hide");
+
+	document.addEventListener("click", function(event) {
+	    handleEvent(event, event.target, false, "click");
+	}, true);
+
+	document.addEventListener("input", function(event) {
+	    handleEvent(event, event.target, false, "input");
+	}, true);
+
+	document.addEventListener("change", function(event) {
+	    handleEvent(event, event.target, false, "change");
+	}, true);
+
+	document.addEventListener("submit", function(event) {
+	    handleEvent(event, event.target, false, "submit");
+	}, true);
+
+	document.getElementById("refresh_all").addEventListener("click", function(event) {
+		event.preventDefault();
+		document.getElementById("descriptions_cont").innerHTML = "";
+		document.getElementById("thumbnails_cont").innerHTML = "";
+		document.querySelector(".names-container").innerHTML = "";
+		document.querySelector(".api_token_container").remove();
+
+		addClass(".channel_things", "hide");
+
+		removeClass(".preloader-wrapper", "hide");
+		loaded();
+		document.querySelector("#listeners").innerHTML = "";
+		socket.emit("get_spread");
+	});
 });
 
-if(!$(".channel_things").hasClass("hide")) {
-	$(".channel_things").addClass("hide")
-}
-$(".preloader-wrapper").removeClass("hide");
+addListener("click", ".update_api_token", function(event) {
+	this.preventDefault();
+	var that = event;
+	var id = that.getAttribute("data-id");
+	var limit = document.querySelector("#limit-" + id).value;
 
-$(document).on("click", ".update_api_token", function(e) {
-	e.preventDefault();
+	toggleClass(that, "disabled");
 
-	var id = $(this).attr("data-id");
-	var limit = $("#" + id + "-limit").val();
-	var that = this;
-	$(that).toggleClass("disabled");
-	$("#" + id + "-delete").toggleClass("disabled");
-	$.ajax({
+	toggleClass("#delete-" + id, "disabled");
+	ajax({
 		type: "PUT",
 		url: "api/api_token",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		data: {
 			id: id,
 			limit: limit,
 		},
 		success: function(response) {
 			if(response == "OK") {
-				Materialize.toast("Updated limit!", 2000, "green lighten");
+				toast("Updated limit!", 2000, "green lighten");
 			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
+				toast("Something went wrong...", 2000, "red lighten");
 			}
-			$(that).toggleClass("disabled");
-			$("#" + id + "-delete").toggleClass("disabled");
+			toggleClass(that, "disabled");
+			toggleClass("#delete-" + id, "disabled");
 		}
 	});
 });
 
-$(document).on("click", ".delete_api_token", function(e) {
-	e.preventDefault();
-	var id = $(this).attr("data-id");
-	var that = this;
-	$(that).toggleClass("disabled");
-	$("#" + id + "-limit").toggleClass("disabled");
-	$.ajax({
+addListener("click", ".delete_api_token", function(event) {
+	this.preventDefault();
+	var that = event;
+	var id = that.getAttribute("data-id");
+	toggleClass(that, "disabled");
+	toggleClass("#limit-" + id, "disabled");
+	ajax({
 		type: "DELETE",
 		url: "api/api_token",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		data: {
 			id: id
 		},
 		success: function(response) {
 			if(response == "success") {
-				Materialize.toast("Removed token!", 2000, "green lighten");
-				$("#" + id).remove();
+				toast("Removed token!", 2000, "green lighten");
+				document.querySelector("#element-" + id).remove();
 			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-				$(that).toggleClass("disabled");
-				$("#" + id + "-limit").toggleClass("disabled");
+				toast("Something went wrong...", 2000, "red lighten");
+				toggleClass(that, "disabled");
+				toggleClass("#limit-" + id, "disabled");
 			}
 		},
 	});
 });
 
-function loaded() {
-	$.ajax({
+addListener("click", ".approve_name", function(event) {
+	var that = event;
+	var name = that.getAttribute("data-name");
+	var value = document.querySelector("." + name + "_input").value;
+	ajax({
+		type: "POST",
+		url: "/api/names",
+		data: {
+			icon: value,
+			name: name,
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(resp) {
+			if(resp == true) {
+				toast("Approved image!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", ".thumbnail_link", function(event) {
+	this.preventDefault();
+	window.open("https:" + event.value,'_blank');
+});
+
+addListener("click", "#get_token", function(event) {
+	this.preventDefault();
+	ajax({
 		type: "GET",
+		url: "/api/token",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response != false){
+				document.querySelector("#new_token").value = response.token;
+				toggleClass("#get_token", "hide");
+				toggleClass("#remove_token", "hide");
+			}
+		}
+	})
+});
+
+addListener("click", ".approve_thumbnails", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/approve_thumbnail",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".thumbnails-badge").innerText);
+				length = length - 1;
+				document.querySelector(".thumbnails-badge").innerText = length;
+				if(length <= 0){
+					addClass(".thumbnails-badge", "hide");
+				}
+				toast("Approved Thumbnail!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		},
+		error: function(err) {
+		}
+	});
+});
+
+addListener("click", ".deny_thumbnails", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/deny_thumbnail",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".thumbnails-badge").innerText);
+				length = length - 1;
+				document.querySelector(".thumbnails-badge").innerText = length;
+				if(length <= 0){
+					addClass(".thumbnails-badge", "hide");
+				}
+				toast("Denied thumbnail!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", ".approve_descriptions", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/approve_description",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".descriptions-badge").innerText);
+				length = length - 1;
+				document.querySelector(".descriptions-badge").innerText = length;
+				if(length <= 0){
+					addClass(".descriptions-badge", "hide");
+				}
+				toast("Approved description!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", ".deny_descriptions", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/deny_description",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".descriptions-badge").innerText);
+				length = length - 1;
+				document.querySelector(".descriptions-badge").innerText = length;
+				if(length <= 0){
+					addClass(".descriptions-badge", "hide");
+				}
+				toast("Denied description!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", "#remove_description_button", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = document.querySelector("#remove_description").value;
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/remove_description",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				toast("Removed description!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", "#remove_thumbnail_button", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = document.querySelector("#remove_thumbnail").value;
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/remove_thumbnail",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				toast("Removed thumbnail!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+function delete_channel(that) {
+	var to_delete = document.querySelector("#delete_channel_name").value;
+	if(!to_delete) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	var r = confirm("Delete list \""+ decodeChannelName(to_delete) + "\"?");
+	if (r == true) {
+		ajax({
+			type: "POST",
+			url: "/api/delete",
+			data: {
+				_id: to_delete
+			},
+			headers: {
+				"Content-Type": "application/json"
+			},
+			success: function(response){
+				if(response == true){
+					loaded();
+					toast("Deleted channel!", 2000, "green lighten");
+				} else {
+					toast("Something went wrong...", 2000, "red lighten");
+				}
+			}
+		})
+	}
+}
+
+addListener("submit", "#delete_channel", function(event) {
+	this.preventDefault();
+	delete_channel(event);
+});
+
+addListener("click", "#delete_channel_button", function(event) {
+	this.preventDefault();
+	delete_channel(event);
+});
+
+addListener("click", "#remove_token", function(event) {
+	this.preventDefault();
+	ajax({
+		type: "GET",
+		url: "/api/remove_token",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response != false){
+				document.querySelector("#new_token").value = "";
+				toggleClass("#get_token", "hide");
+				toggleClass("#remove_token", "hide");
+			}
+		}
+	})
+});
+
+addListener("submit", "#change_pinned", function(event) {
+	this.preventDefault();
+	change_pinned(event);
+});
+
+addListener("click", "#change_pinned_button", function(event) {
+	this.preventDefault();
+	change_pinned(event);
+});
+
+addListener("click", "#delete_admin_button", function(event) {
+	this.preventDefault();
+	delete_admin_list(event);
+});
+
+function change_pinned(that) {
+	var to_pin = document.querySelector("#frontpage_pinned").value;
+	if(!to_pin) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/pinned",
+		data: {
+			_id: to_pin
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response == true){
+				toast("Pinned channel!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	})
+}
+
+function delete_admin_list(that) {
+	var to_remove_password = document.querySelector("#delete_list_name").value;
+	if(!to_remove_password) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/admin",
+		data: {
+			_id: to_remove_password
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response == true){
+				toast("Removed admin password!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+}
+
+function delete_userpass(that) {
+	var to_remove_password = document.querySelector("#delete_userpass_name").value;
+	if(!to_remove_password) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/userpass",
+		data: {
+			_id: to_remove_password
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response == true){
+				toast("Removed userpass password!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	})
+}
+
+addListener("click", "#delete_userpass_button", function(event) {
+	this.preventDefault();
+	delete_userpass(event);
+});
+
+addListener("submit", "#delete_list", function(event) {
+	this.preventDefault();
+	delete_admin_list(event);
+});
+
+addListener("submit", "#delete_userpass", function(event) {
+	this.preventDefault();
+	delete_userpass(event);
+});
+
+socket.on("spread_listeners", function(obj){
+	document.querySelector("#listeners").insertAdjacentHTML("beforeend", "<p>Private listeners: " + obj.offline + "</p>");
+	document.querySelector("#listeners").insertAdjacentHTML("beforeend", "<p>Total listeners: " + obj.total + "</p>");
+	document.querySelector("#listeners").insertAdjacentHTML("beforeend", "<hr>");
+	for(var x in obj.online_users){
+		if(obj.online_users[x]._id != "total_users" && obj.online_users[x].hasOwnProperty("users") && obj.online_users[x].users.length > 0){
+			document.querySelector("#listeners").insertAdjacentHTML("beforeend", "<p>" + decodeChannelName(obj.online_users[x]._id) + ": " + obj.online_users[x].users.length + "</p>");
+		}
+	}
+});
+
+function add_to_tab(dest, resp){
+	for(var x = 0; x < resp.length; x++){
+		if(dest == "thumbnails"){
+			document.querySelector("#" + dest + "_cont").insertAdjacentHTML("beforeend", "<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6 thumbnail_link' value='" + resp[x].thumbnail + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
+		} else {
+			document.querySelector("#" + dest + "_cont").insertAdjacentHTML("beforeend", "<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].description + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
+		}
+	}
+}
+
+function loaded() {
+	ajax({
+		type: "GET",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		url: "/api/api_token",
 		success: function(response) {
 			if(response.length == 0) {
-				if(!$(".header-api-fields").hasClass("hide")) {
-					$(".header-api-fields").addClass("hide");
-				}
+				addClass(".header-api-fields", "hide");
 				return;
 			}
-			$(".header-api-fields").removeClass("hide");
+			removeClass(".header-api-fields", "hide");
 			for(var i = 0; i < response.length; i++) {
-				var to_add = api_token_list.clone();
-                to_add.find(".api_token_limit").val(response[i].limit);
-				to_add.attr("id", response[i]._id);
-				to_add.find(".api_token_name").text(response[i].name);
-				to_add.find(".api_token_usage").text(response[i].usage);
-                to_add.find(".api_token_origin").text(response[i].origin);
-				to_add.find(".update_api_token").attr("id", response[i]._id + "-update");
-				to_add.find(".api_token_limit").attr("id", response[i]._id + "-limit");
-				to_add.find(".delete_api_token").attr("id", response[i]._id + "-delete");
-				to_add.find(".delete_api_token").attr("data-id", response[i]._id);
-				to_add.find(".update_api_token").attr("data-id", response[i]._id);
+				var to_add = api_token_list.cloneNode(true);
+				to_add.setAttribute("id", "element-" + response[i]._id);
+				to_add.querySelector(".api_token_name").innerText = response[i].name;
+				to_add.querySelector(".api_token_usage").innerText = response[i].usage;
+                to_add.querySelector(".api_token_origin").innerText = response[i].origin;
+				to_add.querySelector(".update_api_token").setAttribute("id", "update-" + response[i]._id);
+				to_add.querySelector(".api_token_limit").setAttribute("id", "limit-" + response[i]._id);
+				to_add.querySelector("#limit-" + response[i]._id).value = parseInt(response[i].limit);
+				to_add.querySelector(".delete_api_token").setAttribute("id", "delete-" + response[i]._id);
+				to_add.querySelector(".delete_api_token").setAttribute("data-id", response[i]._id);
+				to_add.querySelector(".update_api_token").setAttribute("data-id", response[i]._id);
 				if(response[i].active) {
-                    to_add.find(".check").removeClass("hide");
+                    removeClass(to_add.querySelector(".check"), "hide");
                 } else {
-                    to_add.find(".uncheck").removeClass("hide");
+                    removeClass(to_add.querySelector(".uncheck"), "hide");
                 }
-				$("#api_keys").append(to_add);
+				document.querySelector("#api_keys").insertAdjacentHTML("beforeend", '<div class="row api_token_container" id="element-' + response[i]._id + '">' + to_add.innerHTML + "</div>");
+				document.querySelector("#limit-" + response[i]._id).value = parseInt(response[i].limit);
 			}
 		},
 		error: function(err) {
 		}
 	});
 
-	$.ajax({
+	ajax({
 		type: "GET",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		url: "/api/lists",
 		success: function(response){
 			response = response.sort(predicate({
@@ -160,410 +595,69 @@ function loaded() {
 				output_delete += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + decodeChannelName(response[x]._id) + "</option>";
 			}
 
-			$("#frontpage_pinned").html(output_pinned);
-			$("#remove_thumbnail").html($("#frontpage_pinned").clone().html());
-			$("#remove_description").html($("#frontpage_pinned").clone().html());
-			$("#delete_list_name").html($("#frontpage_pinned").clone().html());
-			$("#delete_userpass_name").html($("#frontpage_pinned").clone().html());
-			$("#delete_channel_name").html($("#frontpage_pinned").clone().html());
-			$("select").material_select();
-
-			if(!$(".preloader-wrapper").hasClass("hide")) {
-				$(".preloader-wrapper").addClass("hide")
+			document.querySelector("#frontpage_pinned").innerHTML = output_pinned;
+			document.querySelector("#remove_thumbnail").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			document.querySelector("#remove_description").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			document.querySelector("#delete_list_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			document.querySelector("#delete_userpass_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			document.querySelector("#delete_channel_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			var selects = document.querySelectorAll("select");
+			for(var i = 0; i < selects.length; i++) {
+				M.FormSelect.init(selects[i]);
 			}
-			$(".channel_things").removeClass("hide");
+
+			addClass(".preloader-wrapper", "hide");
+			removeClass(".channel_things", "hide");
 		}
 	});
 
-	$.ajax({
+	ajax({
 	    type: "GET",
 	    url: "/api/names",
+		headers: {
+			"Content-Type": "application/json"
+		},
 	    success: function(response) {
 			for(var i = 0; i < response.length; i++) {
 				var icon = "";
 				if(response[i].icon && response[i].icon != "") {
 					icon = "<img class='chat-icon' src='" + response[i].icon + "' alt='" + response[i]._id + "'>";
 				}
-				$(".names-container").append("<div class='col s12'><div class='name-chat col s3'>" + icon + response[i]._id + "</div><input type='text' class='" + response[i]._id + "_input col s7'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>check</i></a></div>");
+				document.querySelector(".names-container").insertAdjacentHTML("beforeend", "<div class='col s12'><div class='name-chat col s3'>" + icon + response[i]._id + "</div><input type='text' class='" + response[i]._id + "_input col s7'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>check</i></a></div>");
 			}
 	    },
 	});
 
-	$.ajax({
+	ajax({
 		type: "GET",
 		url: "/api/thumbnails",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		success: function(response){
 			if(response.length > 0){
-				$(".thumbnails-badge").removeClass("hide");
-				$(".thumbnails-badge").text(response.length);
+				removeClass(".thumbnails-badge", "hide");
+				document.querySelector(".thumbnails-badge").innerText = response.length;
 			}
 			add_to_tab("thumbnails", response);
 		}
 	});
 
-	$.ajax({
+	ajax({
 		type: "GET",
 		url: "/api/descriptions",
+		headers: {
+			"Content-Type": "application/json"
+		},
 		success: function(response){
 			if(response.length > 0){
-				$(".descriptions-badge").removeClass("hide");
-				$(".descriptions-badge").text(response.length);
+				removeClass(".descriptions-badge", "hide");
+				document.querySelector(".descriptions-badge").innerText = response.length;
 			}
 			add_to_tab("descriptions", response);
 		}
 	});
 }
-
-$(document).on("click", ".approve_name", function(e) {
-	var that = this;
-	var name = $(that).attr("data-name");
-	var value = $("." + name + "_input").val();
-	$.ajax({
-		type: "POST",
-		url: "/api/names",
-		data: {
-			icon: value,
-			name: name,
-		},
-		success: function(resp) {
-			if(resp == true) {
-				Materialize.toast("Approved image!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", ".thumbnail_link", function(e) {
-	e.preventDefault();
-	window.open("https:" + this.value,'_blank');
-});
-
-function add_to_tab(dest, resp){
-	for(var x = 0; x < resp.length; x++){
-		if(dest == "thumbnails"){
-			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6 thumbnail_link' value='" + resp[x].thumbnail + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
-		} else {
-			$("#" + dest + "_cont").append("<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].description + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
-		}
-	}
-}
-
-$(document).on("click", "#get_token", function(e){
-	e.preventDefault();
-	$.ajax({
-		type: "GET",
-		url: "/api/token",
-		success: function(response){
-			if(response != false){
-				$("#new_token").val(response.token);
-				$("#get_token").toggleClass("hide");
-				$("#remove_token").toggleClass("hide");
-			}
-		}
-	})
-});
-
-$(document).on("click", ".approve_thumbnails", function(e){
-	e.preventDefault();
-	var channel = $(this).attr("data-channel");
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/approve_thumbnail",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				$(that).parent().remove();
-				var length = parseInt($(".thumbnails-badge").text());
-				length = length - 1;
-				$(".thumbnails-badge").text(length);
-				if(length <= 0 && !$(".thumbnails-badge").hasClass("hide")){
-					$(".thumbnails-badge").addClass("hide");
-				}
-				Materialize.toast("Approved Thumbnail!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", ".deny_thumbnails", function(e){
-	e.preventDefault();
-	var channel = $(this).attr("data-channel");
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/deny_thumbnail",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				$(that).parent().remove();
-				var length = parseInt($(".thumbnails-badge").text());
-				length = length - 1;
-				$(".thumbnails-badge").text(length);
-				if(length <= 0 && !$(".thumbnails-badge").hasClass("hide")){
-					$(".thumbnails-badge").addClass("hide");
-				}
-				Materialize.toast("Denied thumbnail!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", ".approve_descriptions", function(e){
-	e.preventDefault();
-	var channel = $(this).attr("data-channel");
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/approve_description",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				$(that).parent().remove();
-				var length = parseInt($(".descriptions-badge").text());
-				length = length - 1;
-				$(".descriptions-badge").text(length);
-				if(length <= 0 && !$(".descriptions-badge").hasClass("hide")){
-					$(".descriptions-badge").addClass("hide");
-				}
-				Materialize.toast("Approved description!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", ".deny_descriptions", function(e){
-	e.preventDefault();
-	var channel = $(this).attr("data-channel");
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/deny_description",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				$(that).parent().remove();
-				var length = parseInt($(".descriptions-badge").text());
-				length = length - 1;
-				$(".descriptions-badge").text(length);
-				if(length <= 0 && !$(".descriptions-badge").hasClass("hide")){
-					$(".descriptions-badge").addClass("hide");
-				}
-				Materialize.toast("Denied description!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", "#remove_description_button", function(e){
-	e.preventDefault();
-	var channel = $("#remove_description").val();
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/remove_description",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				Materialize.toast("Removed description!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("click", "#remove_thumbnail_button", function(e){
-	e.preventDefault();
-	var channel = $("#remove_thumbnail").val();
-	if(!channel) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var that = this;
-	$.ajax({
-		type: "POST",
-		url: "/api/remove_thumbnail",
-		data: {
-			channel: channel
-		},
-		success: function(response){
-			if(response){
-				Materialize.toast("Removed thumbnail!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	});
-});
-
-$(document).on("submit", "#delete_channel", function(e){
-	e.preventDefault();
-	var to_delete = $("#delete_channel_name").val();
-	if(!to_delete) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	var r = confirm("Delete list \""+ decodeChannelName(to_delete) + "\"?");
-	if (r == true) {
-		$.ajax({
-			type: "POST",
-			url: "/api/delete",
-			data: {
-				_id: to_delete
-			},
-			success: function(response){
-				if(response == true){
-					loaded();
-					Materialize.toast("Deleted channel!", 2000, "green lighten");
-				} else {
-					Materialize.toast("Something went wrong...", 2000, "red lighten");
-				}
-			}
-		})
-	}
-});
-
-$(document).on("click", "#delete_channel_button", function(e){
-	e.preventDefault();
-	$("#delete_channel").submit();
-});
-
-$(document).on("click", "#remove_token", function(e){
-	e.preventDefault();
-	$.ajax({
-		type: "GET",
-		url: "/api/remove_token",
-		success: function(response){
-			if(response != false){
-				$("#new_token").val("");
-				$("#get_token").toggleClass("hide");
-				$("#remove_token").toggleClass("hide");
-			}
-		}
-	})
-});
-
-$(document).on("submit", "#change_pinned", function(e){
-	e.preventDefault();
-	var to_pin = $("#frontpage_pinned").val();
-	if(!to_pin) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	$.ajax({
-		type: "POST",
-		url: "/api/pinned",
-		data: {
-			_id: to_pin
-		},
-		success: function(response){
-			if(response == true){
-				Materialize.toast("Pinned channel!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	})
-});
-
-$(document).on("click", "#change_pinned_button", function(){
-	$("#change_pinned").submit();
-});
-
-$(document).on("click", "#delete_admin_button", function(){
-	$("#delete_list").submit();
-});
-
-$(document).on("click", "#delete_userpass_button", function(){
-	$("#delete_userpass").submit();
-});
-
-$(document).on("submit", "#delete_list", function(e){
-	e.preventDefault();
-	var to_remove_password = $("#delete_list_name").val();
-	if(!to_remove_password) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	$.ajax({
-		type: "POST",
-		url: "/api/admin",
-		data: {
-			_id: to_remove_password
-		},
-		success: function(response){
-			if(response == true){
-				Materialize.toast("Removed admin password!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	})
-});
-
-$(document).on("submit", "#delete_userpass", function(e){
-	e.preventDefault();
-	var to_remove_password = $("#delete_userpass_name").val();
-	if(!to_remove_password) {
-		Materialize.toast("Something went wrong...", 2000, "red lighten");
-		return;
-	}
-	$.ajax({
-		type: "POST",
-		url: "/api/userpass",
-		data: {
-			_id: to_remove_password
-		},
-		success: function(response){
-			if(response == true){
-				Materialize.toast("Removed userpass password!", 2000, "green lighten");
-			} else {
-				Materialize.toast("Something went wrong...", 2000, "red lighten");
-			}
-		}
-	})
-});
 
 function predicate() {
 	var fields = [],
@@ -622,6 +716,197 @@ function predicate() {
 		}
 		return result;
 	};
+}
+
+function removeClass(element, className) {
+	try {
+		if(typeof(element) == "object") {
+			element.classList.remove(className);
+		} else if(element.substring(0,1) == "#") {
+			document.getElementById(element.substring(1)).classList.remove(className);
+		} else {
+			var elements = document.getElementsByClassName(element.substring(1));
+			for(var i = 0; i < elements.length; i++) {
+				elements[i].classList.remove(className);
+			}
+		}
+	} catch(e) {
+		//console.log(e);
+	}
+}
+
+function addClass(element, className) {
+	try {
+		if(typeof(element) == "object") {
+			try {
+				if(element.length > 0) {
+					for(var i = 0; i < element.length; i++) {
+						if(element[i].className.indexOf(className) == -1) {
+							element[i].className += " " + className;
+						}
+					}
+				} else {
+					if(element.className.indexOf(className) == -1) {
+						element.className += " " + className;
+					}
+				}
+			} catch(e) {
+				if(element.className.indexOf(className) == -1) {
+					element.className += " " + className;
+				}
+			}
+		} else if(element.substring(0,1) == "#") {
+			var elem = document.getElementById(element.substring(1));
+			if(elem.className.indexOf(className) == -1) {
+				elem.className += " " + className;
+			}
+		} else {
+			var elements;
+			if(element.substring(0,1) == ".") {
+				elements = document.getElementsByClassName(element.substring(1));
+			} else {
+				elements = document.getElementsByTagName(element);
+			}
+			for(var i = 0; i < elements.length; i++) {
+				if(elements[i].className.indexOf(className) == -1) {
+					elements[i].className += " " + className;
+				}
+			}
+		}
+	}catch(e) {}
+}
+
+function decodeChannelName(str) {
+  var _fn = decodeURIComponent;
+  str = str.toUpperCase();
+  try {
+      var toReturn = _fn(str.replace(/%5F/g, "_"));
+      return toReturn.toLowerCase();
+  } catch(e) {
+      return str.toLowerCase();
+  }
+}
+
+function toggleClass(element, className) {
+	try {
+		if(typeof(element) == "object") {
+			if(element.className.indexOf(className) == -1) {
+				addClass(element, className);
+			} else {
+				removeClass(element, className);
+			}
+		} else if(element.substring(0,1) == "#") {
+			var elem = document.getElementById(element.substring(1));
+			if(elem.className.indexOf(className) == -1) {
+				addClass(elem, className);
+			} else {
+				removeClass(elem, className);
+			}
+		} else {
+			var elements;
+			if(element.substring(0,1) == ".") {
+				var testSplit = element.substring(1).split(" ");
+				if(testSplit.length > 1) {
+					var insideElement = document.getElementsByClassName(testSplit[0]);
+					elements = [];
+					for(var i = 0; i < insideElement.length; i++) {
+						var innards = insideElement[i].querySelectorAll(testSplit[1]);
+						for(var y = 0; y < innards.length; y++) {
+							elements.push(innards[y]);
+						}
+					}
+				} else {
+					elements = document.getElementsByClassName(element.substring(1));
+				}
+			} else {
+				elements = document.getElementsByTagName(element);
+			}
+			for(var i = 0; i < elements.length; i++) {
+				if(elements[i].className.indexOf(className) == -1) {
+					addClass(elements[i], className);
+				}  else {
+					removeClass(element, className);
+				}
+			}
+		}
+	}catch(e) {
+		//console.log(e);
+	}
+}
+
+function ajax(obj) {
+	var _async = true;
+	if(obj.async) _async = obj.async;
+	if(obj.method == undefined && obj.type != undefined) obj.method = obj.type;
+	if(obj.method == undefined) obj.method = "GET";
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+			if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
+				try {
+					obj.success(JSON.parse(xmlhttp.responseText), xmlhttp);
+				} catch(e) {
+					obj.success(xmlhttp.responseText, xmlhttp);
+				}
+			}
+			else if(obj.hasOwnProperty("error")){
+				obj.error(xmlhttp);
+			}
+		}
+	};
+
+	xmlhttp.open(obj.method, obj.url, _async);
+	if(obj.headers) {
+		for(header in obj.headers) {
+			xmlhttp.setRequestHeader(header, obj.headers[header]);
+		}
+	}
+	if(obj.data) {
+		if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
+		//xmlhttp.send(sendRequest);
+		xmlhttp.send(obj.data);
+	}
+	else xmlhttp.send();
+}
+
+function handleEvent(e, target, tried, type) {
+    var path = e.path || (e.composedPath && e.composedPath());
+    if(!path) {
+        var path = [target];
+        var parent = target.parentElement;
+        while(parent != null) {
+            path.push(parent);
+            try {
+                parent = parent.parentElement;
+            } catch(e){break;}
+        }
+    }
+    if(path) {
+        for(var y = 0; y < path.length; y++) {
+            var target = path[y];
+            if(dynamicListeners[type] && dynamicListeners[type]["#" + target.id]) {
+                dynamicListeners[type]["#" + target.id].call(e, target);
+                return;
+            } else {
+                if(target.classList == undefined) return;
+                for(var i = 0; i < target.classList.length; i++) {
+                    if(dynamicListeners[type] && dynamicListeners[type]["." + target.classList[i]]) {
+                        dynamicListeners[type]["." + target.classList[i]].call(e, target);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function addListener(type, element, callback) {
+    if(dynamicListeners[type] == undefined) dynamicListeners[type] = {};
+    dynamicListeners[type][element] = callback;
+}
+
+function removeListener(type, element) {
+    delete dynamicListeners[type][element];
 }
 
 socket.emit("get_spread");
