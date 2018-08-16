@@ -76,7 +76,7 @@ window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
 });
 window.addEventListener("load", function() {
-  if(hash.length >= 3 && hash[2] == "autoplay"){
+  if(hash.length >= 2 && hash.indexOf("autoplay") > 0){
       autoplay = true;
       Helper.css("#player", "visibility", "hidden");
   } else {
