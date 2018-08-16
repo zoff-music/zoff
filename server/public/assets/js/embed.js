@@ -54,11 +54,6 @@ var Crypt = {
     }
 };
 
-SC.initialize({
-  client_id: api_key.soundcloud
-}, function() {
-});
-
 function receiveMessage(event) {
     if(event.data == "parent") {
         window.parentWindow = event.source;
@@ -79,7 +74,7 @@ function receiveMessage(event) {
 
 window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
-})
+});
 window.addEventListener("load", function() {
   if(hash.length >= 3 && hash[2] == "autoplay"){
       autoplay = true;
