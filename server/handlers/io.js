@@ -97,10 +97,10 @@ module.exports = function() {
                 if(typeof(msg) == "object" && msg.hasOwnProperty("guid") &&
                 msg.hasOwnProperty("socket_id") && msg.hasOwnProperty("channel") && typeof(msg.guid) == "string" &&
                 typeof(msg.channel) == "string" && typeof(msg.socket_id) == "string" && msg.channel != "") {
+                    if(msg.hasOwnProperty("channel")) {
+                        msg.channel = Functions.encodeChannelName(msg.channel);
+                    }
                     db.collection("connected_users").find({"_id": msg.channel}, function(err, connected_users_channel) {
-                        if(msg.hasOwnProperty("channel")) {
-                            msg.channel = Functions.encodeChannelName(msg.channel);
-                        }
                         if(connected_users_channel.length > 0 && connected_users_channel[0].users.indexOf(msg.guid) > -1) {
                             coll = msg.channel.toLowerCase();//.replace(/ /g,'');
                             coll = Functions.removeEmojis(coll).toLowerCase();
