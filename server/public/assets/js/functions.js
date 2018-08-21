@@ -179,7 +179,7 @@ function hide_native(way) {
             Helper.css("#player_overlay", "background-color", "black");
             Helper.css("#player_overlay", "background-repeat", "no-repeat");
             Helper.css("#playing_on", "display", "flex");
-            Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.La.friendlyName);
+            Helper.setHtml("#chromecast_text", "Playing on<br>" + c.getCastDevice().friendlyName);
         }
         Player.player.setVolume(100);
         Player.soundcloud_player.setVolume(1);
