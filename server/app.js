@@ -151,12 +151,12 @@ function routingFunction(req, res, next) {
             admin(req, res, next);
         } else {
             console.log("this other place");
-            res.push('/assets/dist/main.min.js', headers, function(err, stream){
+            /*res.push('/assets/dist/main.min.js', headers, function(err, stream){
                 console.log("this place");
                 if (err) return;
 
                 stream.end(main_client);
-            });
+            });*/
             client(req, res, next);
         }
     } catch(e) {
