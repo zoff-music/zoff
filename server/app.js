@@ -1,16 +1,16 @@
 var cluster = require('cluster'),
-net = require('net'),
-path = require('path'),
-//publicPath = path.join(__dirname, 'public'),
-http = require('http'),
-port = 8080,
-//farmhash = require('farmhash'),
-uniqid = require('uniqid'),
-num_processes = require('os').cpus().length;
+    net = require('net'),
+    path = require('path'),
+    http = require('spdy'),
+    port = 8080,
+    fs = require('fs'),
+    uniqid = require('uniqid'),
+    num_processes = require('os').cpus().length;
 
 publicPath = path.join(__dirname, 'public');
 pathThumbnails = __dirname;
 
+var main_client = fs.readFileSync(publicPath + '/assets/dist/main.min.js');
 
 try {
     var redis = require("redis");
@@ -72,6 +72,14 @@ function startClustered(redis_enabled) {
 function startSingle(clustered, redis_enabled) {
     var server;
     var client = require('./apps/client.js');
+    var options = {
+        spdy: {
+            protocols: [ 'h2', 'spdy/3.1', 'http/1.1' ],
+            plain: true,
+            'x-forwarded-for': true,
+
+        }
+    };
     try {
         var cert_config = require(path.join(path.join(__dirname, 'config'), 'cert_config.js'));
         var fs = require('fs');
@@ -83,13 +91,24 @@ function startSingle(clustered, redis_enabled) {
             cert: certificate,
             ca: ca
         };
-        var https = require('https');
-        server = https.Server(credentials, routingFunction);
+        options.spdy.key = credentials.key;
+        options.spdy.cert = credentials.cert;
+        options.spdy.ca = credentials.ca;
+        options.spdy.secure = true;
+        options.ssl = true;
+        options.secure = false;
+        //var https = require('https');
+        //server = https.Server(credentials, routingFunction);
     } catch(err){
         console.log("Starting without https (probably on localhost)");
-        server = http.createServer(routingFunction);
+        options.ssl = false;
+        options.secure = false;
+        options.spdy.secure = false;
+        //server = http.createServer(routingFunction);
     }
 
+    server = http.createServer(options, routingFunction);
+    console.log(server);
     if(clustered) {
         server.listen(onListen);
     } else {
@@ -131,6 +150,13 @@ function routingFunction(req, res, next) {
         if(subdomain.length > 1 && subdomain[0] == "admin") {
             admin(req, res, next);
         } else {
+            console.log("this other place");
+            res.push('/assets/dist/main.min.js', headers, function(err, stream){
+                console.log("this place");
+                if (err) return;
+
+                stream.end(main_client);
+            });
             client(req, res, next);
         }
     } catch(e) {
