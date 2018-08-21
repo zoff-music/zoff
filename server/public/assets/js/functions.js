@@ -171,15 +171,18 @@ function hide_native(way) {
             Helper.css("#player_overlay", "display", "none");
             Helper.css("#playing_on", "display", "none");
         } else {
+            var thisThumbnail;
+            if(Player.np.thumbnail == undefined) thisThumbnail = "https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg";
+            else thisThumbnail = Player.np.thumbnail;
             Helper.removeClass("#player_overlay", "hide");
             Helper.css("#player_overlay", "display", "block");
-            Helper.css("#player_overlay", "background", "url(https://img.ytimg.com/vi/" + video_id + "/hqdefault.jpg)");
+            Helper.css("#player_overlay", "background", "url(" + thisThumbnail + ")");
             Helper.css("#player_overlay", "background-position", "center");
             Helper.css("#player_overlay", "background-size", "100%");
             Helper.css("#player_overlay", "background-color", "black");
             Helper.css("#player_overlay", "background-repeat", "no-repeat");
             Helper.css("#playing_on", "display", "flex");
-            Helper.setHtml("#chromecast_text", "Playing on<br>" + c.getCastDevice().friendlyName);
+            Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.getCastDevice().friendlyName);
         }
         Player.player.setVolume(100);
         Player.soundcloud_player.setVolume(1);
