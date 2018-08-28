@@ -544,7 +544,7 @@ function loadChromecastVideo() {
     } catch(event){
         _seekTo = seekTo;
     }
-    var mediaInfo = new chrome.cast.media.MediaInfo(video_id, videoSource);
+    var mediaInfo = new chrome.cast.media.MediaInfo(video_id, "video");
     var image = {url:'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', heigth: 180, width: 320};
     if(Player.np.thumbnail) image.url = Player.np.thumbnail;
     mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
@@ -557,6 +557,7 @@ function loadChromecastVideo() {
         end: Player.np.end,
         seekTo: _seekTo,
         channel: chan.toLowerCase(),
+        source: videoSource,
         thumbnail: Player.np.thumbnail != undefined ? Player.np.thumbnail : 'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg',
     };
     castSession.loadMedia(request).then(function() {
