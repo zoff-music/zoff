@@ -752,7 +752,12 @@ function getNextSong(coll, socket, callback) {
 }
 
 function left_channel(coll, guid, short_id, in_list, socket, change) {
-    if(!coll) return;
+    if(!coll) {
+        if(!change) {
+            Functions.remove_name_from_db(guid, name);
+        }
+        return;
+    }
     //coll = coll.replace(/ /g,'');
     db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, updated) {
         if(updated.nModified > 0) {
@@ -767,10 +772,6 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                 });
-
-                if(!change) {
-                    Functions.remove_name_from_db(guid, name);
-                }
             });
 
         } else {
@@ -780,6 +781,9 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                 //}
             });
 
+        }
+        if(!change) {
+            Functions.remove_name_from_db(guid, name);
         }
     });
     Functions.remove_unique_id(short_id);
