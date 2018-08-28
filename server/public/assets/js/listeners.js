@@ -209,6 +209,14 @@ window.addEventListener("DOMContentLoaded", function() {
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
+    if(!localStorage.ok_cookie){
+        before_toast();
+        M.toast({html: "This website uses cookies! <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a><a class='waves-effect waves-light btn orange lighten' href='#cookies' id='cookieinfo' style='cursor:pointer;pointer-events:all;margin-left:10px;'> info</a>", displayLength: 10000000});
+    }
+    if(window.location.hash == "#cookies") {
+        M.Modal.init(document.getElementById("cookie"));
+        M.Modal.getInstance(document.getElementById("cookie")).open();
+    }
     if(window.location.pathname == "/" && !client) {
         if(document.querySelectorAll("script[src='https://www.youtube.com/iframe_api']").length == 1){
 
@@ -509,6 +517,12 @@ addListener("click", '#cookieok', function(e) {
     this.preventDefault();
     M.Toast.getInstance(e.parentElement).dismiss();
     localStorage.ok_cookie = true;
+});
+
+addListener("click", "#cookieinfo", function(e) {
+    this.preventDefault();
+    M.Modal.init(document.getElementById("cookie"));
+    M.Modal.getInstance(document.getElementById("cookie")).open();
 });
 
 addListener("click", ".connect_error", function(event){
