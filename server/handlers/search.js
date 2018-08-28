@@ -98,7 +98,7 @@ function check_error_video(msg, channel) {
                 findSimilar(msg, channel, true, undefined)
             }
         } catch(e){
-            console.log(e);
+            console.log(msg.id, key, e, body);
         }
     });
 }
