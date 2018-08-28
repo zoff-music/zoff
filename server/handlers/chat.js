@@ -261,8 +261,9 @@ function removename(guid, coll, socket) {
     });
 }
 
-function generate_name(guid, announce_payload, second) {
-    var tmp_name = Functions.rndName(second ? second : guid, 8);
+function generate_name(guid, announce_payload, second, round) {
+    if(round == undefined) round = 0;
+    var tmp_name = Functions.rndName(second ? second : guid, Math.floor(8 + round));
     db.collection("registered_users").find({"_id": tmp_name}, function(err, docs) {
         if(docs.length == 0) {
             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
@@ -279,11 +280,11 @@ function generate_name(guid, announce_payload, second) {
                         }
                     });
                 } else {
-                    generate_name(guid, announce_payload, tmp_name);
+                    generate_name(guid, announce_payload, tmp_name, round + 0.25);
                 }
             })
         } else {
-            generate_name(guid, announce_payload, tmp_name);
+            generate_name(guid, announce_payload, tmp_name, round + 0.25);
         }
     })
 }
