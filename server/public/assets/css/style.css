@@ -1394,16 +1394,10 @@ margin:-1px;
     margin-left: 0px !important;
 }
 
-.input-field .prefix
-{
-    position: relative !important;
-}
-
 .channel-finder .input-field .prefix{
     color:white;
     font-size:17px;
-    left: 47px;
-    top: -9px;
+    margin-left: -215px;
 }
 
 .autocomplete-content li .highlight {
