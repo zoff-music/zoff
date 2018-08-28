@@ -87,24 +87,26 @@ function chat(msg, guid, offline, socket) {
         db.collection(coll + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
                 var data = msg.data;
-                Functions.check_inlist(coll, guid, socket, offline);
-                if(data !== "" && data !== undefined && data !== null &&
-                data.length < 151 && data.replace(/\s/g, '').length){
-                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                        if(docs.length == 1) {
-                            db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
-                                var icon = false;
-                                if(n.length > 0 && n[0].icon) {
-                                    icon = n[0].icon;
-                                }
-                                db.collection("chat_logs").insert({ "createdAt": new Date(), all: false, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon });
-                                io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
-                            });
-                        } else if(docs.length == 0){
-                            get_name(guid, {announce: false, channel: coll, message: data, all: false});
-                        }
-                    });
-                }
+
+                Functions.check_inlist(coll, guid, socket, offline, function() {
+                    if(data !== "" && data !== undefined && data !== null &&
+                    data.length < 151 && data.replace(/\s/g, '').length){
+                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                            if(docs.length == 1) {
+                                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                    var icon = false;
+                                    if(n.length > 0 && n[0].icon) {
+                                        icon = n[0].icon;
+                                    }
+                                    db.collection("chat_logs").insert({ "createdAt": new Date(), all: false, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon });
+                                    io.to(coll).emit('chat', {from: docs[0].name, msg: ": " + data, icon: icon});
+                                });
+                            } else if(docs.length == 0){
+                                get_name(guid, {announce: false, channel: coll, message: data, all: false});
+                            }
+                        });
+                    }
+                });
             } else {
                 socket.emit('auth_required');
             }
@@ -133,27 +135,28 @@ function all_chat(msg, guid, offline, socket) {
     var data = msg.data;
     coll = Functions.removeEmojis(coll).toLowerCase();
     //coll = filter.clean(coll);
-    Functions.check_inlist(coll, guid, socket, offline);
-    if(data !== "" && data !== undefined && data !== null &&
-    data.length < 151 && data.replace(/\s/g, '').length){
-        db.collection("user_names").find({"guid": guid}, function(err, docs) {
-            if(docs.length == 1) {
-                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
-                    var icon = false;
-                    if(n.length > 0 && n[0].icon) {
-                        icon = n[0].icon;
-                    }
-                    db.collection("chat_logs").insert({ "createdAt": new Date(), all: true, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon }, function(err, docs) {});
-                    io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
-                });
-            } else if(docs.length == 0) {
-                get_name(guid, {announce: false, channel: coll, message: data, all: true});
-            }
-        });
-    }
+    Functions.check_inlist(coll, guid, socket, offline, function() {
+        if(data !== "" && data !== undefined && data !== null &&
+        data.length < 151 && data.replace(/\s/g, '').length){
+            db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                if(docs.length == 1) {
+                    db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                        var icon = false;
+                        if(n.length > 0 && n[0].icon) {
+                            icon = n[0].icon;
+                        }
+                        db.collection("chat_logs").insert({ "createdAt": new Date(), all: true, channel: coll, from: docs[0].name, msg: ": " + data, icon: icon }, function(err, docs) {});
+                        io.sockets.emit('chat.all', {from: docs[0].name, msg: ": " + data, channel: coll, icon: icon});
+                    });
+                } else if(docs.length == 0) {
+                    get_name(guid, {announce: false, channel: coll, message: data, all: true});
+                }
+            });
+        }
+    });
 }
 
-function namechange(data, guid, socket, tried) {
+function namechange(data, guid, socket, tried, callback) {
     /*if(!data.hasOwnProperty("channel") ||
      typeof(data.channel) != "string") return;*/
     var pw = "";
@@ -195,7 +198,8 @@ function namechange(data, guid, socket, tried) {
                 }
                 accepted_password = true;
                 Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.password, function() {
-                    db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {});
+                    db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {
+                    });
                 });
             } else if(docs[0].password == Functions.hash_pass(password)) {
                 if(docs[0].icon) {
@@ -204,7 +208,9 @@ function namechange(data, guid, socket, tried) {
                 accepted_password = true;
                 if(new_password) {
                     Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.new_password, function() {
-                        db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {});
+                        db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {
+
+                        });
                     });
                 } else {
                     Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.password, function() {
@@ -213,18 +219,23 @@ function namechange(data, guid, socket, tried) {
             }
             if(accepted_password) {
                 db.collection("user_names").find({"guid": guid}, function(err, names) {
-                    if(names.length > 0) {
-                        var old_name = names[0].name;
-                        db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
-                        db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, function(err, docs) {
+                    if(names.length > 0 || (docs.length != 0 && docs[0].password == Functions.hash_pass(password))) {
+                        var no_name = false;
+                        if(names.length == 0) no_name = true;
+                        if(!no_name) {
+                            var old_name = names[0].name;
+                            db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
+                        }
+                        db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, {upsert: true}, function(err, docs) {
                             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
                                 //socket.emit('name', {type: "name", accepted: true});
-                                if(old_name != name && !first) {
+                                if(old_name != name && !first && !no_name) {
                                     if(data.hasOwnProperty("channel") && typeof(data.channel) == "string") {
                                         io.to(data.channel).emit('chat', {from: old_name, msg: " changed name to " + name});
                                         io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                                     }
                                 }
+                                if(callback != undefined && typeof(callback) == "function") callback();
                             });
                         });
                     } else {
