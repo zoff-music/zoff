@@ -513,11 +513,6 @@ var Frontpage = {
             M.Modal.getInstance(document.getElementById("donation")).open();
         }
 
-        if(!localStorage.ok_cookie){
-            before_toast();
-            //M.toast({html: "We're using cookies to enhance your experience!  <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a>", displayLength: 10000});
-        }
-
         //var pad = 0;
 
         /*$(".zicon").on("click", function(e) {
