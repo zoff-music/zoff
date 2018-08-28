@@ -14,22 +14,24 @@ var uniqid = require('uniqid');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
 
+var Chat = require(pathThumbnails + '/handlers/chat.js');
+
 function encodeChannelName(str) {
-  var _fn = encodeURIComponent;
-  str = filter.clean(str);
-  var toReturn = _fn(str);
-  toReturn = toReturn.replace(/_/g, "%5F");
-  toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
-  toReturn = toReturn.toLowerCase();
-  return toReturn;
+    var _fn = encodeURIComponent;
+    str = filter.clean(str);
+    var toReturn = _fn(str);
+    toReturn = toReturn.replace(/_/g, "%5F");
+    toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
+    toReturn = toReturn.toLowerCase();
+    return toReturn;
 }
 
 function decodeChannelName(str) {
-  var _fn = decodeURIComponent;
-   str = str.toUpperCase();
-   var toReturn = _fn(str.replace(/%5F/g, "_"));
-   toReturn = filter.clean(toReturn);
-   return toReturn.toLowerCase();
+    var _fn = decodeURIComponent;
+    str = str.toUpperCase();
+    var toReturn = _fn(str.replace(/%5F/g, "_"));
+    toReturn = filter.clean(toReturn);
+    return toReturn.toLowerCase();
 }
 
 function remove_unique_id(short_id) {
@@ -41,31 +43,31 @@ function remove_name_from_db(guid, name) {
     //
     // Find a way of indexing users in lists in a clever way, to avoid the search here
     db.collection("connected_users").find({"_id": "total_users"}, function(err, all_users) {
-      var hasOne = all_users[0].total_users.some(function(v){ return v.indexOf(guid)>=0 });
-      if(!hasOne) {
-        db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
-            db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
-        });
-      }
+        var hasOne = all_users[0].total_users.some(function(v){ return v.indexOf(guid)>=0 });
+        if(!hasOne) {
+            db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
+                db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+            });
+        }
     });
 }
 
 function isUrl(str) {
- 	var pattern = new RegExp("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
-    	"(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
-    	"|mil|biz|info|mobi|name|aero|jobs|museum" +
-    	"|travel|[a-z]{2}))(:[\\d]{1,5})?" +
-		"(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
-		"((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
-		"(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
-		"([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
-		"(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
-  	if(!pattern.test(str)) {
-    	return false;
-  	} else {
-    	return true;
-  	}
+    var pattern = new RegExp("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" +
+    "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" +
+    "|mil|biz|info|mobi|name|aero|jobs|museum" +
+    "|travel|[a-z]{2}))(:[\\d]{1,5})?" +
+    "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" +
+    "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+    "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" +
+    "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" +
+    "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*" +
+    "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
+    if(!pattern.test(str)) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function getSession(socket) {
@@ -107,7 +109,7 @@ function get_short_id(socket) {
     socket.emit("id", new_short_id);
 }
 
-function check_inlist(coll, guid, socket, offline)
+function check_inlist(coll, guid, socket, offline, callback)
 {
 
     if(coll == undefined) return;
@@ -122,18 +124,23 @@ function check_inlist(coll, guid, socket, offline)
                         } else {
                             io.to(coll).emit("viewers", new_doc[0].users.length);
                         }
-                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                            if(docs.length == 1) {
-                                socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
-                            }
+                        Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function() {
+                            db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                if(docs.length == 1) {
+                                    socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
+                                }
+                            });
+                            db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){
+                                if(callback != undefined && typeof(callback) == "function") callback();
+                            });
                         });
-                        db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){});
                     });
                 });
             } else {
                 db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                 });
+                if(callback != undefined && typeof(callback) == "function") callback();
             }
         });
 
@@ -147,6 +154,7 @@ function check_inlist(coll, guid, socket, offline)
         if(coll != undefined && coll != "") {
             db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs) {});
         }
+        if(callback != undefined && typeof(callback) == "function") callback();
     }
 }
 
