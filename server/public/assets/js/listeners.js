@@ -157,7 +157,7 @@ window.zoff = {
 
 if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
     window.onerror = function(e, source, lineno, colno, error) {
-        if(e == "Script error." || e.toString().indexOf(" ReferenceError: pagespeed is not defined") > -1) return true;
+        if(e == "Script error." || e.toString().toLowerCase().indexOf("pagespeed") > -1) return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
         Helper.logs.unshift({log: chan != "" && chan != undefined ? chan.toLowerCase() : "frontpage", date: new Date()});
 
