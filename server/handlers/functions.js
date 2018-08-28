@@ -37,8 +37,16 @@ function remove_unique_id(short_id) {
 }
 
 function remove_name_from_db(guid, name) {
-    db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
-        db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+    // Use temporary, with caution. Can bottleneck in large quantity of users.
+    //
+    // Find a way of indexing users in lists in a clever way, to avoid the search here
+    db.collection("connected_users").find({"_id": "total_users"}, function(err, all_users) {
+      var hasOne = all_users[0].total_users.some(function(v){ return v.indexOf(guid)>=0 });
+      if(!hasOne) {
+        db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
+            db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+        });
+      }
     });
 }
 
