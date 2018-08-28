@@ -282,7 +282,7 @@ window.addEventListener("DOMContentLoaded", function() {
         M.toast({ html: "Connected!", displayLength: 2000, classes: "green lighten"});
         //before_toast();
     }
-    Chat.namechange("", true, true);
+    //Chat.namechange("", true, true);
 });
 
 /*socket.on("name", function(data) {
