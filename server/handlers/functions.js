@@ -165,11 +165,15 @@ function rndName(seed, len) {
     word = '';
     is_vowel = false;
     var arr;
-    for (var i = 0; i < len; i++) {
-        if (is_vowel) arr = vowels;
-        else arr = consts;
-        is_vowel = !is_vowel;
-        word += arr[(seed[i%seed.length].charCodeAt()+i) % (arr.length-1)];
+    try {
+        for (var i = 0; i < len; i++) {
+            if (is_vowel) arr = vowels;
+            else arr = consts;
+            is_vowel = !is_vowel;
+            word += arr[(seed[i%seed.length].charCodeAt()+i) % (arr.length-1)];
+        }
+    } catch(e) {
+        return rndName(uniqid.time().toLowerCase(), len);
     }
     return word;
 }
