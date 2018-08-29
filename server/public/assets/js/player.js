@@ -146,13 +146,13 @@ var Player = {
                     resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                 }
                 if(embed && !autoplay) autoplay = true;
-                if(!window.MSStream) {
+                //if(!window.MSStream) {
                     Helper.css("#player", "opacity", "1");
                     //if(!Helper.mobilecheck()) {
                         Helper.css("#channel-load", "display", "none");
 
                     //}
-                }
+                //}
                 /*if(Helper.mobilecheck()) {
                     Helper.css("#player", "display", "block");
                     Helper.css("#player", "pointer-events", "all");
@@ -755,7 +755,7 @@ var Player = {
         try{
             beginning = true;
             player_ready = true;
-            if(!window.MSStream) {
+            //if(!window.MSStream) {
                 if(Helper.mobilecheck()){
                     /*Helper.css("#playpause", "visibility", "hidden");
                     Helper.css("#playpause", "pointer-events", "none");*/
@@ -797,7 +797,7 @@ var Player = {
                     //}, 1000);
                 }else
                 Player.seekTo(seekTo);*/
-            }
+            //}
             Player.player.setVolume(Crypt.get_volume());
             Player.readyLooks();
             Playercontrols.initYoutubeControls(Player.player);
