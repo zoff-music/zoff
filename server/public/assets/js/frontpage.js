@@ -244,7 +244,11 @@ var Frontpage = {
                         },500);
                     },
                     error: function() {
-                        document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
+                        try {
+                            document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
+                        } catch(e) {
+                            console.log("This is a weird error...");
+                        }
                     }
                 });
             };
