@@ -7,6 +7,7 @@ if(domain.length > 0 && domain[0] == "client") {
 }
 var soundcloud_enabled = true;
 var local_new_channel = false;
+var sc_need_initialization = false;
 var hiddenPlaylist = false;
 var videoSource;
 var dynamicListeners = {};
@@ -235,18 +236,26 @@ window.addEventListener("DOMContentLoaded", function() {
                     if (tagSC.readyState == "loaded" ||
                             tagSC.readyState == "complete"){
                         tagSC.onreadystatechange = null;
+                        if(sc_need_initialization) {
+                            Player.soundcloudReady();
+                        } else {
+                            SC.initialize({
+                              client_id: api_key.soundcloud
+                            }, function() {
+                            });
+                        }
+                    }
+                };
+            } else {  //Others
+                tagSC.onload = function(){
+                    if(sc_need_initialization) {
+                        Player.soundcloudReady();
+                    } else {
                         SC.initialize({
                           client_id: api_key.soundcloud
                         }, function() {
                         });
                     }
-                };
-            } else {  //Others
-                tagSC.onload = function(){
-                    SC.initialize({
-                      client_id: api_key.soundcloud
-                    }, function() {
-                    });
                 };
             }
             tagSC.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
