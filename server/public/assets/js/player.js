@@ -729,10 +729,20 @@ var Player = {
     },
 
     soundcloudReady: function() {
-        SC.initialize({
-          client_id: api_key.soundcloud
-        }, function() {
-        });
+        if(SC == undefined && sc_need_initialization) {
+            sc_need_initialization = true;
+            return;
+        }
+        sc_need_initialization = false;
+        try {
+            SC.initialize({
+              client_id: api_key.soundcloud
+            }, function() {
+            });
+        } catch(e) {
+            sc_need_initialization = true;
+            return;
+        }
         beginning = true;
         player_ready = true;
         if(!durationBegun) {
@@ -999,8 +1009,9 @@ var Player = {
             try {
                 Player.soundcloudReady();
             } catch(error) {
-                console.error(error);
-                console.error("Seems SoundCloud script isn't correctly loaded. Please reload the page.");
+                sc_need_initialization = true;
+                //console.error(error);
+                //console.error("Seems SoundCloud script isn't correctly loaded. Please reload the page.");
             }
         } else {
             tagSC            = document.createElement('script');
