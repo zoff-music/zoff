@@ -44,7 +44,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('embed', function () {
-    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/player.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
+    return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/player.js', 'server/public/assets/js/functions.js', 'server/public/assets/js/helpers.js', 'server/public/assets/js/playercontrols.js', 'server/public/assets/js/list.js', 'server/public/assets/js/embed.js', '!server/public/assets/js/frontpage*', '!server/public/assets/js/remotecontroller.js', 'server/public/assets/js/hostcontroller.js'])
     //.pipe(sourcemaps.init())
     .pipe(concat('embed.min.js'))
         .pipe(uglify({
@@ -105,6 +105,7 @@ gulp.task('remotecontroller', function () {
 gulp.task('default', function(){
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['js']);
     gulp.watch(['server/public/assets/css/*.css'], ['css']);
+    gulp.watch(['server/public/assets/css/*.css'], ['css-embed']);
     gulp.watch(['server/public/assets/js/token*.js', 'server/public/assets/js/helpers.js'], ['token']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/*.js'], ['embed']);
     gulp.watch(['server/VERSION.js', 'server/public/assets/js/callback.js', 'server/public/assets/js/helpers.js'], ['callback']);

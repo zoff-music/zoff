@@ -23,7 +23,7 @@ function removeAllListeners() {
 
 function resizeFunction() {
     if(chan && !Helper.mobilecheck()){
-	if(document.querySelector("#wrapper") == null) return;
+        if(document.querySelector("#wrapper") == null) return;
         if(!client && !embed) document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
         if(window.innerWidth > 600 && document.querySelector("#wrapper").style.height != "") {
             document.querySelector("#wrapper").style.height = "";
@@ -753,10 +753,10 @@ function disable_debug(){
     localStorage.debug = false;
 }
 
-function embed_code(autoplay, width, height, color, embed_code){
+function embed_code(autoplay, width, height, color, embed_code, embed_local){
     var autoplay_add = "";
     if(autoplay == "&autoplay") autoplay_add = 'allow="autoplay"';
-    return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + embed_videoonly + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
+    return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + embed_videoonly + embed_local + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
 }
 
 function change_offline(enabled, already_offline){
@@ -795,88 +795,129 @@ function change_offline(enabled, already_offline){
     };
 
     if(enabled){
-        /*if(list_html == undefined){
-        var tempOuter = document.createElement("div");
-        list_html.innerHTML = list_html;
-        //list_html.find(".list-remove").removeClass("hide");
-        list_html = list_html.innerHTML;
-    }*/
-    //$(".list-remove").removeClass("hide");
-    Helper.addClass("#viewers", "hide");
-    Helper.removeClass(".margin-playbar", "margin-playbar");
-    Helper.addClass(".prev playbar", "margin-playbar");
-    Helper.removeClass(".prev playbar", "hide");
-    Helper.removeClass("#offline-mode", "waves-cyan");
-    Helper.addClass("#offline-mode", "cyan");
-    Helper.removeClass(".delete-context-menu", "context-menu-disabled");
-    if(!Helper.mobilecheck()) {
-        Helper.tooltip("#offline-mode", {
-            delay: 5,
-            position: "bottom",
-            html: "Disable local mode"
-        });
-    }
-
-    if(window.location.pathname != "/"){
-        socket.removeEventListener("color");
-        document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
-        document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
-        document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
-        document.getElementById("controls").addEventListener("mouseup", mouseUp, false);
-        document.getElementById("controls").addEventListener("mousemove", Channel.seekToMove);
-        document.getElementById("controls").addEventListener("click", Channel.seekToClick);
-
-        document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
-        var controlElement = document.querySelector("#controls");
-        if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
-        else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
-        Helper.addClass("#controls", "ewresize");
-    }
-    if(full_playlist != undefined && !already_offline){
-        for(var x = 0; x < full_playlist.length; x++){
-            full_playlist[x].votes = 0;
+        Helper.addClass("#viewers", "hide");
+        Helper.removeClass(".margin-playbar", "margin-playbar");
+        Helper.addClass(".prev playbar", "margin-playbar");
+        Helper.removeClass(".prev playbar", "hide");
+        Helper.removeClass("#offline-mode", "waves-cyan");
+        Helper.addClass("#offline-mode", "cyan");
+        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
+        if(!Helper.mobilecheck()) {
+            Helper.tooltip("#offline-mode", {
+                delay: 5,
+                position: "bottom",
+                html: "Disable local mode"
+            });
         }
-        List.sortList();
-        List.populate_list(full_playlist);
+
+        if(window.location.pathname != "/"){
+            socket.removeEventListener("color");
+            document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
+            document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
+            document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
+            document.getElementById("controls").addEventListener("mouseup", mouseUp, false);
+            document.getElementById("controls").addEventListener("mousemove", seekToMove);
+            document.getElementById("controls").addEventListener("click", seekToClick);
+
+            document.querySelector("#main_components").insertAdjacentHTML("beforeend", "<div id='seekToDuration' class='hide'>00:00/01:00</div>");
+            var controlElement = document.querySelector("#controls");
+            if(!Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
+            else if(Helper.mobilecheck()) Helper.css("#seekToDuration", "top", -controlElement.offsetHeight - 25 + "px");
+            Helper.addClass("#controls", "ewresize");
+        }
+        if(full_playlist != undefined && !already_offline){
+            for(var x = 0; x < full_playlist.length; x++){
+                full_playlist[x].votes = 0;
+            }
+            List.sortList();
+            List.populate_list(full_playlist);
+        }
+    } else {
+        if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
+        Helper.removeClass(".margin-playbar", "margin-playbar");
+        Helper.addClass("#playpause", "margin-playbar");
+        Helper.removeClass("#viewers", "hide");
+        Helper.addClass(".prev playbar", "hide");
+        Helper.addClass("#offline-mode", "waves-cyan");
+        Helper.removeClass("#offline-mode", "cyan");
+        if(!Helper.mobilecheck()) {
+            Helper.tooltip("#offline-mode", {
+                delay: 5,
+                position: "bottom",
+                html: "Enable local mode"
+            });
+        }
+
+        if(window.location.pathname != "/"){
+            document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
+            document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
+            document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
+            document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
+            document.getElementById("controls").removeEventListener("mousemove", seekToMove);
+            document.getElementById("controls").removeEventListener("click", seekToClick);
+            Helper.removeElement("#seekToDuration");
+            socket.on("color", Player.setBGimage);
+            socket.emit("pos", {channel: chan.toLowerCase()});
+            var add = "";
+            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+            Helper.removeClass("#controls", "ewresize");
+        }
     }
-} else {
-    /*if(list_html == undefined){
-    var tempOuter = document.createElement("div");
-    list_html.innerHTML = list_html;
-    //list_html.find(".list-remove").removeClass("hide");
-    list_html = list_html.innerHTML;
-}*/
-if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
-Helper.removeClass(".margin-playbar", "margin-playbar");
-Helper.addClass("#playpause", "margin-playbar");
-Helper.removeClass("#viewers", "hide");
-Helper.addClass(".prev playbar", "hide");
-Helper.addClass("#offline-mode", "waves-cyan");
-Helper.removeClass("#offline-mode", "cyan");
-if(!Helper.mobilecheck()) {
-    Helper.tooltip("#offline-mode", {
-        delay: 5,
-        position: "bottom",
-        html: "Enable local mode"
-    });
 }
 
-if(window.location.pathname != "/"){
-    document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
-    document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
-    document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
-    document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
-    document.getElementById("controls").removeEventListener("mousemove", Channel.seekToMove);
-    document.getElementById("controls").removeEventListener("click", Channel.seekToClick);
-    Helper.removeElement("#seekToDuration");
-    socket.on("color", Player.setBGimage);
-    socket.emit("pos", {channel: chan.toLowerCase()});
-    var add = "";
-    //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-    socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
-    Helper.removeClass("#controls", "ewresize");
+function seekToClick(e){
+    var acceptable = ["bar", "controls", "duration"];
+
+    if(acceptable.indexOf(e.target.getAttribute("id")) >= 0) {
+        if(full_playlist == undefined) return;
+        var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
+        total = total * e.clientX;
+
+        if(!chromecastAvailable){
+            if(videoSource == "youtube") Player.player.seekTo(total + Player.np.start);
+            else if(videoSource == "soundcloud") Player.soundcloud_player.seek((total + Player.np.start) * 1000);
+            dMinutes = Math.floor(duration / 60);
+            dSeconds = duration - dMinutes * 60;
+            currDurr = total;
+            if(currDurr - Player.np.start > duration) {
+                currDurr = duration - Player.np.start;
+            }
+            currDurr = currDurr - Player.np.start;
+            minutes = Math.floor(currDurr / 60);
+            seconds = currDurr - (minutes * 60);
+            document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
+            per = (100 / duration) * currDurr;
+            if(per >= 100)
+            per = 100;
+            else if(duration === 0)
+            per = 0;
+            document.getElementById("bar").style.width = per + "%"
+        } else {
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "seekTo", seekTo: total});
+        }
+    }
 }
-}
+
+function seekToMove(e){
+    var pos_x = event.clientX - Math.ceil(document.getElementById("seekToDuration").offsetWidth / 2);
+    if(pos_x < 0) pos_x = 0;
+    else if(pos_x + document.getElementById("seekToDuration").offsetWidth > document.getElementById("controls").offsetWidth) {
+        pos_x = document.getElementById("controls").offsetWidth - document.getElementById("seekToDuration").offsetWidth;
+    }
+    Helper.css("#seekToDuration", "left", pos_x + "px");
+    try{
+        var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
+        total = total * event.clientX;
+        var _time = Helper.secondsToOther(total);
+        var _minutes = Helper.pad(_time[0]);
+        var _seconds = Helper.pad(Math.ceil(_time[1]));
+        Helper.setHtml("#seekToDuration", _minutes + ":" + _seconds);
+
+        var acceptable = ["bar", "controls", "duration"];
+        if(acceptable.indexOf(event.target.getAttribute("id")) >= 0 && dragging) {
+            document.getElementById("bar").style.width(((100 / duration) * total) + "%");
+        }
+    } catch(e){}
 }
 
 function resizePlaylistPlaying(playing) {
