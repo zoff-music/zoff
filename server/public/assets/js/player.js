@@ -426,7 +426,7 @@ var Player = {
                 }
             }
         }
-        if(offline) {
+        if(offline && !embed) {
             var url = 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
             if(videoSource == "soundcloud") url = Player.np.thumbnail;
             getColor(url);
