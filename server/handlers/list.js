@@ -771,6 +771,9 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     });
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
+                    if(!change) {
+                        Functions.remove_name_from_db(guid, name);
+                    }
                 });
             });
 
@@ -778,12 +781,12 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
             db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){
                 //if(updated.nModified > 0) {
                     db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
+                    if(!change) {
+                        Functions.remove_name_from_db(guid, name);
+                    }
                 //}
             });
 
-        }
-        if(!change) {
-            Functions.remove_name_from_db(guid, name);
         }
     });
     Functions.remove_unique_id(short_id);
