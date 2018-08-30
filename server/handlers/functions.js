@@ -45,8 +45,12 @@ function remove_name_from_db(guid, name) {
     db.collection("connected_users").find({"_id": "total_users"}, function(err, all_users) {
         var hasOne = all_users[0].total_users.some(function(v){ return v.indexOf(guid)>=0 });
         if(!hasOne) {
-            db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: name}}, function(err, updated) {
-                db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+            db.collection("user_names").find({"guid": guid}, function(err, user){
+                if(user.length == 1){
+                    db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: user[0].name}}, function(err, updated) {
+                        db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
+                    });
+                }
             });
         }
     });
