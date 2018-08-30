@@ -156,7 +156,7 @@ window.zoff = {
     disable_debug: disable_debug
 }
 
-if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
+/*if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {
     window.onerror = function(e, source, lineno, colno, error) {
         if(e == "Script error." || e.toString().toLowerCase().indexOf("pagespeed") > -1) return true;
         Helper.logs.unshift({log: e.toString().replace(/(\r\n|\n|\r)/gm,""), date: new Date(), lineno: lineno, colno: colno, source:source});
@@ -199,7 +199,7 @@ if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.locat
         //console.error(e.originalEvent.error);
         return true;
     };
-}
+}*/
 
 window.addEventListener("DOMContentLoaded", function() {
     if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
