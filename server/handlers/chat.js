@@ -278,7 +278,7 @@ function generate_name(guid, announce_payload, second, round) {
     db.collection("registered_users").find({"_id": tmp_name}, function(err, docs) {
         if(docs.length == 0) {
             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
-                if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && n == 1)) {
+                if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && updated.hasOwnProperty("n") && updated.n == 1)) {
                     db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name, icon: false}}, {upsert: true}, function(err, update){
                         name = tmp_name;
                         if(announce_payload.announce) {
