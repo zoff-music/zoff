@@ -13,6 +13,40 @@
   transition: all .3s !important;
 }
 
+.prev.playbar, .skip.playbar {
+    float: left;
+    font-size: 24px;
+    cursor: pointer;
+    height: 32px;
+    line-height: 31px;
+    padding-top: 3px;
+}
+
+.prev, .skip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#playpause, .prev.playbar, .skip.playbar {
+    padding: 0 2.5px;
+}
+.playbar-btn:hover {
+    background-color: rgba(0,0,0,.6);
+    color: hsla(0,0%,100%,.5);
+}
+
+.hide {
+    display: none!important;
+}
+.playbar-btn {
+    cursor: pointer;
+    transition: background-color .2s;
+}
+#controls, .playbar {
+    color: #fff;
+}
+
 #player_loader_container {
   width: 100%;
   height: 100%;
@@ -252,9 +286,28 @@
   color:white;
 }
 
+.margin-playbar {
+  margin-left: 10px;
+}
+
+
+#seekToDuration{
+    position: absolute;
+    background: #2d2d2d;
+    color:white;
+    padding: 10px 8px;
+    z-index: 2000;
+    background-color: #2d2d2d;
+    border-radius: 2px;
+    color: #fff;
+    min-height: 36px;
+    text-align: center;
+    max-width: calc(100% - 4px);
+    pointer-events: none;
+}
+
 #playpause, #volume-button
 {
-  margin-left:10px;
   font-size: 23px;
 }
 

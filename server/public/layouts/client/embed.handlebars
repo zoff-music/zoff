@@ -7,7 +7,7 @@
     </div>
 </div>
 <div id="song-title"></div>
-<div id="container" style="display:inline-flex;">
+<div id="main_components" style="display:inline-flex;">
     <div id="player-container">
         <div id="player"></div>
         <div id="player_overlay" class="hide valign-wrapper">
@@ -25,9 +25,15 @@
         </div>
         <div id="zoffbutton" title="Visit the channel!"></div>
         <div id="controls" class="noselect">
-            <div id="playpause">
+            <div class="playbar-btn prev playbar hide">
+                <i class="material-icons">skip_previous</i>
+            </div>
+            <div id="playpause" class="playbar-btn playbar margin-playbar">
                 <i id="play" class="material-icons hide">play_arrow</i>
                 <i id="pause" class="material-icons">pause</i>
+            </div>
+            <div class="playbar-btn skip playbar hide">
+                <i class="material-icons">skip_next</i>
             </div>
             <div id="duration">00:00 / 00:00</div>
             <div id="volume-button">
