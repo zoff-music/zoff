@@ -870,15 +870,19 @@ var Player = {
     },
 
     onYouTubeIframeAPIReady: function() {
-        Player.player = new YT.Player('player', {
-            videoId: video_id,
-            playerVars: { rel:"0", autoplay: 1, wmode:"transparent", controls: "0" , fs: "0", iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
-            events: {
-                'onReady': Player.onPlayerReady,
-                'onStateChange': Player.onPlayerStateChange,
-                'onError': Player.errorHandler
-            }
-        });
+        try {
+            Player.player = new YT.Player('player', {
+                videoId: video_id,
+                playerVars: { rel:"0", autoplay: 1, wmode:"transparent", controls: "0" , fs: "0", iv_load_policy: "3", theme:"light", color:"white", showinfo: 0},
+                events: {
+                    'onReady': Player.onPlayerReady,
+                    'onStateChange': Player.onPlayerStateChange,
+                    'onError': Player.errorHandler
+                }
+            });
+        } catch(e) {
+            console.log("YouTube not quite loaded yet");
+        }
     },
 
     createFireplacePlayer: function() {
