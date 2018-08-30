@@ -1231,10 +1231,16 @@ function addDynamicListeners() {
         var to_toggle = document.getElementById("inner-results").querySelectorAll("[data-video-id='" + videoId + "']")[0];
         to_toggle = to_toggle.children[0];
         Helper.toggleClass(to_toggle, "result-object-slid");
-        if(Helper.html(that.children[0]) == "keyboard_arrow_right") {
-            Helper.setHtml(that.children[0], "keyboard_arrow_left");
+        var elementToChange;
+        if(that.className.indexOf("material-icons") == 0) {
+            elementToChange = that;
         } else {
-            Helper.setHtml(that.children[0], "keyboard_arrow_right");
+            elementToChange = that.children[0];
+        }
+        if(elementToChange.innerText == "keyboard_arrow_right") {
+            Helper.setHtml(elementToChange, "keyboard_arrow_left");
+        } else {
+            Helper.setHtml(elementToChange, "keyboard_arrow_right");
         }
     })
 
