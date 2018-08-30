@@ -364,61 +364,6 @@ var Channel = {
         }
     },
 
-    seekToClick: function(e){
-        var acceptable = ["bar", "controls", "duration"];
-
-        if(acceptable.indexOf(e.target.getAttribute("id")) >= 0) {
-            if(full_playlist == undefined) return;
-            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
-            total = total * e.clientX;
-
-            if(!chromecastAvailable){
-                if(videoSource == "youtube") Player.player.seekTo(total + Player.np.start);
-                else if(videoSource == "soundcloud") Player.soundcloud_player.seek((total + Player.np.start) * 1000);
-                dMinutes = Math.floor(duration / 60);
-                dSeconds = duration - dMinutes * 60;
-                currDurr = total;
-                if(currDurr - Player.np.start > duration) {
-                    currDurr = duration - Player.np.start;
-                }
-                currDurr = currDurr - Player.np.start;
-                minutes = Math.floor(currDurr / 60);
-                seconds = currDurr - (minutes * 60);
-                document.getElementById("duration").innerHTML = Helper.pad(minutes)+":"+Helper.pad(seconds)+" <span id='dash'>/</span> "+Helper.pad(dMinutes)+":"+Helper.pad(dSeconds);
-                per = (100 / duration) * currDurr;
-                if(per >= 100)
-                per = 100;
-                else if(duration === 0)
-                per = 0;
-                document.getElementById("bar").style.width = per + "%"
-            } else {
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "seekTo", seekTo: total});
-            }
-        }
-    },
-
-    seekToMove: function(e){
-        var pos_x = event.clientX - Math.ceil(document.getElementById("seekToDuration").offsetWidth / 2);
-        if(pos_x < 0) pos_x = 0;
-        else if(pos_x + document.getElementById("seekToDuration").offsetWidth > document.getElementById("controls").offsetWidth) {
-            pos_x = document.getElementById("controls").offsetWidth - document.getElementById("seekToDuration").offsetWidth;
-        }
-        Helper.css("#seekToDuration", "left", pos_x + "px");
-        try{
-            var total = full_playlist[full_playlist.length - 1].duration / document.getElementById("controls").offsetWidth;
-            total = total * event.clientX;
-            var _time = Helper.secondsToOther(total);
-            var _minutes = Helper.pad(_time[0]);
-            var _seconds = Helper.pad(Math.ceil(_time[1]));
-            Helper.setHtml("#seekToDuration", _minutes + ":" + _seconds);
-
-            var acceptable = ["bar", "controls", "duration"];
-            if(acceptable.indexOf(event.target.getAttribute("id")) >= 0 && dragging) {
-                document.getElementById("bar").style.width(((100 / duration) * total) + "%");
-            }
-        } catch(e){}
-    },
-
     set_title_width: function(start){
         if(window.innerWidth > 600){
             var add_width = document.getElementsByClassName("brand-logo")[0].offsetWidth
