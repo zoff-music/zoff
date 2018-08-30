@@ -76,6 +76,7 @@ var not_export_html = "";
 var embed_height = 300;
 var embed_width = 600;
 var embed_videoonly = "";
+var embed_localmode = "";
 var embed_autoplay = "&autoplay";
 var connect_error = false;
 var access_token_data_youtube = {};
@@ -840,13 +841,13 @@ document.addEventListener("submit", function(event) {
 addListener("change", "#width_embed", function(event) {
     var that = this.target;
     embed_width = that.value;
-    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
 });
 
 addListener("change", "#height_embed", function(event) {
     var that = this.target;
     embed_height = that.value;
-    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
 });
 
 addListener("click", ".prev_page", function(event) {
@@ -994,7 +995,7 @@ addListener("change", '#view_channels_select', function(event) {
 addListener("input", '#color_embed', function(e){
     var that = e;
     color = that.value.substring(1);
-    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
 });
 
 addListener("click", ".chan-link", function(e){
@@ -1172,13 +1173,19 @@ addListener("submit", "#listImportSpotify", function(event){
 addListener("change", "#autoplay", function(e) {
     if(e.checked) embed_autoplay = "&autoplay";
     else embed_autoplay = "";
-    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
 });
 
 addListener("change", "#videoonly", function(e) {
     if(e.checked) embed_videoonly = "&videoonly";
     else embed_videoonly = "";
-    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly);
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
+});
+
+addListener("change", "#localmode", function(e) {
+    if(e.checked) embed_localmode = "&localmode";
+    else embed_localmode = "";
+    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
 });
 
 addListener("click", "#playbutton_remote", function(event) {
