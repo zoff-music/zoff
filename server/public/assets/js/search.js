@@ -164,7 +164,7 @@ var Search = {
                                     Helper.removeClass(document.querySelector("#search-btn .material-icons"), "hide");
                                     Helper.addClass("#search_loader", "hide");
                                     Helper.removeClass(".search_loader_spinner", "active");
-                                    if(document.querySelector("#results_soundcloud").innerHTML.length > 0) {
+                                    if(document.querySelector("#results_soundcloud").innerHTML.length > 0 || related) {
                                         Helper.css(".search_results", "display", "block");
                                     }
                                     Helper.css(".results-tabs", "display", "block");
