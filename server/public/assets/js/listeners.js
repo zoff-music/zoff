@@ -593,10 +593,11 @@ function addDynamicListeners() {
         }
         var parent = that.parentElement;
         var id = parent.getAttribute("data-id");
+        var thisTitle = document.getElementById(id).children[0].title;
+        document.querySelector(".song-title").click();
+        Search.soundcloudSearch(thisTitle);
         Search.search(id, false, true);
-        if(Helper.contains(document.getElementsByClassName("search-container")[0].getAttribute("class").split(" "), "hide")) {
-            Search.showSearch();
-        }
+        document.getElementById("search").focus();
         Helper.addClass(".context-menu-root", "hide");
         Helper.addClass("#context-menu-overlay", "hide");
         document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
