@@ -143,20 +143,17 @@ var Player = {
                     Helper.css("#player", "visibility", "visible");
                 }
                 if(!embed && !client && window.location.pathname != "/") {
+                    if(Helper.mobilecheck()) {
+                        Helper.css("#player", "display", "block");
+                        Helper.toggleClass(".video-container", "click-through");
+                        Helper.toggleClass(".page-footer", "padding-bottom-extra");
+                    }
                     resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                 }
                 if(embed && !autoplay) autoplay = true;
-                //if(!window.MSStream) {
-                    Helper.css("#player", "opacity", "1");
-                    //if(!Helper.mobilecheck()) {
-                        Helper.css("#channel-load", "display", "none");
+                Helper.css("#player", "opacity", "1");
+                Helper.css("#channel-load", "display", "none");
 
-                    //}
-                //}
-                /*if(Helper.mobilecheck()) {
-                    Helper.css("#player", "display", "block");
-                    Helper.css("#player", "pointer-events", "all");
-                }*/
                 Helper.addClass("#player", "pointer-events-all-mobile");
                 Helper.removeClass("#video-container", "click-through");
                 Helper.addClass("#player", "small-display");
@@ -176,6 +173,7 @@ var Player = {
                         Helper.toggleClass("#play", "hide");
                     if(document.getElementById("pause").className.split(" ").length == 2)
                         Helper.toggleClass("#pause", "hide");
+
                 }
                 buffering = false;
                 if((paused || was_stopped) && !offline) {
@@ -206,14 +204,15 @@ var Player = {
                         if(window.location.pathname != "/") Playercontrols.play_pause_show();
                         mobile_beginning = true;
                         if(!embed && !client && window.location.pathname != "/") {
+                            if(Helper.mobilecheck()) {
+                                Helper.css("#player", "display", "none");
+                                Helper.toggleClass(".video-container", "click-through");
+                                Helper.toggleClass(".page-footer", "padding-bottom-extra");
+                            }
                             resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                         }
                     }
                 }
-                /*if(Helper.mobilecheck()) {
-                    Helper.css("#player", "display", "none");
-                    Helper.css("#player", "pointer-events", "none");
-                }*/
                 Helper.removeClass("#player", "pointer-events-all-mobile");
                 Helper.addClass("#video-container", "click-through");
                 Helper.removeClass("#player", "small-display");
