@@ -301,13 +301,41 @@ function generate_name(guid, announce_payload, second, round) {
 }
 
 function get_name(guid, announce_payload, first) {
+    if(!announce_payload.announce && announce_payload.hasOwnProperty("socket")) {
+        Functions.getSessionChatPass(Functions.getSession(announce_payload.socket), function(name, pass) {
+            if(name == "" || pass == "") {
+                get_name_generate(guid, announce_payload, first);
+                return;
+            }
+            db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
+                if(docs[0].password == Functions.hash_pass(Functions.decrypt_string(pass))) {
+                    var icon = false;
+                    if(docs[0].icon) {
+                        icon = docs[0].icon;
+                    }
+                    Functions.setSessionChatPass(Functions.getSession(announce_payload.socket), name.toLowerCase(), pass, function() {
+                    });
+                    db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, {upsert: true}, function(err, docs) {
+                        db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
+                            name = name;
+                        });
+                    });
+                }
+            });
+        });
+    } else {
+        get_name_generate(guid, announce_payload, first);
+    }
+}
+
+function get_name_generate(guid, announce_payload, first) {
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 0) {
             generate_name(guid, announce_payload);
         } else {
             name = docs[0].name;
         }
-    })
+    });
 }
 
 module.exports.get_history = get_history;
