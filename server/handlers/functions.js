@@ -38,7 +38,7 @@ function remove_unique_id(short_id) {
     db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
 }
 
-function remove_name_from_db(guid, name) {
+function remove_name_from_db(guid) {
     // Use temporary, with caution. Can bottleneck in large quantity of users.
     //
     // Find a way of indexing users in lists in a clever way, to avoid the search here
