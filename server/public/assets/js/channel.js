@@ -82,6 +82,7 @@ var Channel = {
                         document.getElementById("text-chat-input").focus();
                         Helper.css("#pageButtons", "display", "none");
                         scrollChat();
+                        window.scrollTo(0, 0);
                     }
                 }
             });
@@ -102,7 +103,7 @@ var Channel = {
             menuWidth: 310,
             edge: side,
             closeOnClick: false,
-            draggable: false,
+            draggable: Helper.mobilecheck(),
             onOpenStart: function(el) {
                 Helper.addClass(".hamburger-sidenav", "open");
                 try {
