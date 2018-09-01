@@ -48,7 +48,7 @@ module.exports = function() {
         var in_list = false;
         var name = "";
         var short_id;
-        Chat.get_name(guid, {announce: false});
+        Chat.get_name(guid, {announce: false, socket: socket});
         var offline = false;
         var chromecast_object = false;
 
@@ -273,7 +273,7 @@ module.exports = function() {
                                 });
                             });
                         }
-                        Functions.remove_name_from_db(guid, name);
+                        Functions.remove_name_from_db(guid);
                     });
                 }
 

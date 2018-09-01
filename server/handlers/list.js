@@ -754,7 +754,7 @@ function getNextSong(coll, socket, callback) {
 function left_channel(coll, guid, short_id, in_list, socket, change) {
     if(!coll) {
         if(!change) {
-            Functions.remove_name_from_db(guid, name);
+            Functions.remove_name_from_db(guid);
         }
         return;
     }
@@ -772,7 +772,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                     if(!change) {
-                        Functions.remove_name_from_db(guid, name);
+                        Functions.remove_name_from_db(guid);
                     }
                 });
             });
@@ -782,7 +782,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                 //if(updated.nModified > 0) {
                     db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
                     if(!change) {
-                        Functions.remove_name_from_db(guid, name);
+                        Functions.remove_name_from_db(guid);
                     }
                 //}
             });
