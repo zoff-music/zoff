@@ -3407,7 +3407,7 @@ nav ul li:hover, nav ul li.active {
         margin-left: -11px;
         width: 100vw;
         position: relative;
-        bottom: -3px;
+        padding-bottom: 3px;
     }
 
     #search_loader {
