@@ -2261,7 +2261,7 @@ nav ul li:hover, nav ul li.active {
 
 .context-menu-list {
     z-index: 999999999 !important;
-    position: fixed;
+    position: absolute;
     background: #2d2d2d;
     border: 1px solid #2d2d2d;
     width: 200px;
