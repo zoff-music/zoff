@@ -3406,6 +3406,7 @@ nav ul li:hover, nav ul li.active {
     #pageButtons {
         margin-left: -11px;
         width: 100vw;
+        position: relative;
     }
 
     #search_loader {
