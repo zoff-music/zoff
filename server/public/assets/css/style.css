@@ -98,6 +98,8 @@ a {
     flex-shrink: initial;
     justify-content: space-between;
     height: 32px;
+    background: inherit;
+    z-index: 9;
 }
 
 .token-container {
@@ -2258,11 +2260,8 @@ nav ul li:hover, nav ul li.active {
 }
 
 .context-menu-list {
-    position: absolute;
-}
-
-.context-menu-list {
     z-index: 999999999 !important;
+    position: fixed;
     background: #2d2d2d;
     border: 1px solid #2d2d2d;
     width: 200px;
@@ -2923,6 +2922,7 @@ nav ul li:hover, nav ul li.active {
 
     #main-row {
         margin-right: -3px !important;
+        background: inherit;
     }
 
     .admin_panel{
@@ -3141,9 +3141,9 @@ nav ul li:hover, nav ul li.active {
         height: calc(100vh - 48px - 64px - 36px) !important;
     }
 
-    .client-results-height {
+    /*.client-results-height {
         margin-top: 50px !important;
-    }
+    }*/
 
     .client-pagination-height {
         height: 80px;
@@ -3400,10 +3400,21 @@ nav ul li:hover, nav ul li.active {
 
     .main {
         max-width: 99%;
+        background: inherit;
+    }
+
+    #pageButtons {
+        margin-left: -11px;
+        width: 100vw;
+    }
+
+    #search_loader {
+        height: 56px;
     }
 
     #playlist {
         /*margin-left: 10px;*/
+        background: inherit;
         width: calc(100% - 10px);
         overflow: hidden;
     }
