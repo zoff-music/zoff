@@ -115,8 +115,10 @@ function get_short_id(socket) {
 
 function check_inlist(coll, guid, socket, offline, callback)
 {
-
-    if(coll == undefined) return;
+    if(coll == undefined) {
+        if(typeof(callback) == "function") callback();
+        return;
+    }
     //coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
