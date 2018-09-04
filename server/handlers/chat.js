@@ -170,6 +170,7 @@ function namechange(data, guid, socket, tried, callback) {
             data.password = pass;
             new_password = false;
             if(name == "" || pass == "") {
+                if(typeof(callback) == "function") callback();
                 return;
             }
         } else {
@@ -185,7 +186,9 @@ function namechange(data, guid, socket, tried, callback) {
                 new_password = Functions.decrypt_string(data.new_password);
             }
         }
+
         if(name == "") {
+            if(typeof(callback) == "function") callback();
             return;
         }
         var password = Functions.decrypt_string(pw);
@@ -194,6 +197,7 @@ function namechange(data, guid, socket, tried, callback) {
             var icon = false;
             if(docs.length == 0) {
                 if(new_password) {
+                    if(typeof(callback) == "function") callback();
                     return;
                 }
                 accepted_password = true;
