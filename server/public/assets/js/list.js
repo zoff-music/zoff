@@ -1128,18 +1128,8 @@ var List = {
             song.querySelector(".vote-container").setAttribute("class", "clickable add-suggested");
             song.querySelector(".add-suggested").setAttribute("title", video_title);
             //Helper.addClass(song.querySelector(".delete_button"), del_attr);
-
             song.querySelector(".list-votes").innerText = _song_info.extra;
-            if(_song_info.extra == "Added") {
-                var date = new Date(video_votes * 1000);
-                song.querySelector(".vote-text").innerText = Helper.pad(date.getHours()) + ":"
-                                                            + Helper.pad(date.getMinutes()) + " - "
-                                                            + Helper.pad(date.getDate()) + "."
-                                                            + Helper.pad(date.getMonth()) + "."
-                                                            + Helper.pad((date.getYear()-100));
-            } else if(_song_info.extra == "Views") {
-                song.querySelector(".vote-text").innerText = video_votes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
+            song.querySelector(".vote-text").innerText = video_votes;
             song.querySelector(attr).setAttribute("data-video-title", video_title);
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
