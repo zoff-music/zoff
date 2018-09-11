@@ -2007,7 +2007,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 .add-suggested .card-content .list-title{
-    line-height: 3.5rem;
+    /*line-height: 3.5rem;*/
 }
 
 .card-image{cursor:pointer}
