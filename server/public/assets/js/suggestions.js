@@ -30,7 +30,13 @@ var Suggestions = {
         var duration 	= Helper.secondsToOther(params.duration);
         var video_id 	= params.id;
         var video_title = params.title;
-        var toSend = {id: video_id, title: video_title, length: params.duration, duration: duration, votes: params.added, extra: "Added"};
+        var date = new Date(params.added * 1000);
+        var addedTime = Helper.pad(date.getHours()) + ":"
+                        + Helper.pad(date.getMinutes()) + " - "
+                        + Helper.pad(date.getDate()) + "."
+                        + Helper.pad(date.getMonth()) + "."
+                        + Helper.pad((date.getYear()-100));
+        var toSend = {id: video_id, title: video_title, length: params.duration, duration: duration, votes: addedTime, extra: "Added"};
         if(params.source) toSend.source = params.source;
         if(params.thumbnail) toSend.thumbnail = params.thumbnail;
         var song 		= List.generateSong(toSend, false, false, false, true);
@@ -84,9 +90,10 @@ var Suggestions = {
                             duration 		= Helper.secondsToOther(Search.durationToSeconds(duration));
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
+                            var viewCount = song.statistics.viewCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
                             try {
-                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: song.statistics.viewCount, extra: "Views"}, false, false, false));
+                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views"}, false, false, false));
                             } catch(e) {}
                         }
                     }
