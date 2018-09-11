@@ -152,9 +152,7 @@ var List = {
         }
     },
 
-    populate_list: function(msg, no_reset) {
-        if(document.querySelector("#wrapper") == null) return;
-        // This math is fucked and I don't know how it works. Should be fixed sometime
+    calculate_song_heights: function(){
         if(!Helper.mobilecheck() && !embed && !client){
             List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
             List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
@@ -174,6 +172,11 @@ var List = {
             List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
             List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
         }
+    },
+
+    populate_list: function(msg, no_reset) {
+        if(document.querySelector("#wrapper") == null) return;
+        // This math is fucked and I don't know how it works. Should be fixed sometime
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         full_playlist = msg;
         if(offline && !no_reset){
@@ -1107,6 +1110,7 @@ var List = {
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
         }else if(!list){
+
             //song.querySelector(".card-duration").remove();
             //song.querySelector(".list-song").removeClass("playlist-element");
             //song.querySelector(".more_button").addClass("hide");
@@ -1124,6 +1128,18 @@ var List = {
             song.querySelector(".vote-container").setAttribute("class", "clickable add-suggested");
             song.querySelector(".add-suggested").setAttribute("title", video_title);
             //Helper.addClass(song.querySelector(".delete_button"), del_attr);
+
+            song.querySelector(".list-votes").innerText = _song_info.extra;
+            if(_song_info.extra == "Added") {
+                var date = new Date(video_votes * 1000);
+                song.querySelector(".vote-text").innerText = Helper.pad(date.getHours()) + ":"
+                                                            + Helper.pad(date.getMinutes()) + " - "
+                                                            + Helper.pad(date.getDate()) + "."
+                                                            + Helper.pad(date.getMonth()) + "."
+                                                            + Helper.pad((date.getYear()-100));
+            } else if(_song_info.extra == "Views") {
+                song.querySelector(".vote-text").innerText = video_votes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
             song.querySelector(attr).setAttribute("data-video-title", video_title);
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
