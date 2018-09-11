@@ -32,6 +32,8 @@ var Channel = {
 	    }
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
+
+        List.calculate_song_heights();
         Admin.logged_in = false;
         Admin.display_logged_out();
         number_suggested = 0;
