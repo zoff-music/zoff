@@ -168,11 +168,11 @@ var Channel = {
             change_offline(true, offline);
         }
         if(!Helper.mobilecheck() && (document.querySelectorAll("#alreadychannel").length === 0 || !Hostcontroller.old_id || document.getElementById("code-text").innerText.toUpperCase() == "ABBADUR")) setup_host_initialization();
-
+        setup_suggested_listener();
         if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck()){
             setup_now_playing_listener();
             get_list_listener();
-            setup_suggested_listener();
+
             if(!client) {
                 setup_viewers_listener();
             }
