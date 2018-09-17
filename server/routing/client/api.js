@@ -741,8 +741,8 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
                                         var runFunction = Search.get_correct_info;
                                         if(source == "soundcloud") {
-                                            if(req.body.thumbnail.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || req.body.thumbnail.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
-                                                new_song.thumbnail = req.body.thumbnail.thumbnail;
+                                            if(req.body.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || req.body.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
+                                                new_song.thumbnail = req.body.thumbnail;
                                             } else {
                                                 new_song.thumbnail = "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
                                             }
