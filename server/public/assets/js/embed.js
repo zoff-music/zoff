@@ -4,6 +4,12 @@ var gotten_np = false;
 var song_title = "";
 var paused = false;
 var client = false;
+var _VERSION;
+try {
+    _VERSION = localStorage.getItem("VERSION");
+} catch(e) {
+    _VERSION = 6;
+}
 var startTime = 0;
 var full_playlist;
 var hostMode = false;
@@ -383,7 +389,7 @@ function change_offline(enabled, already_offline){
             socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
             //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+            socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
             Helper.removeClass("#controls", "ewresize");
         }
     }
