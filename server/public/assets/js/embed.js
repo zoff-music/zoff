@@ -136,6 +136,8 @@ window.addEventListener("load", function() {
         startWaitTimerPlay();
     }
 
+    List.calculate_song_heights();
+
     window.onYouTubeIframeAPIReady = Player.onYouTubeIframeAPIReady;
     socket.on("toast", toast);
 
