@@ -392,7 +392,11 @@ function change_song_post(coll, next_song, conf, callback, socket) {
                             io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
                             send_play(coll);
                         } else {
-                            socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+                            if(socket == undefined) {
+                                io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+                            } else {
+                                socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay});
+                            }
                             send_play(coll, socket, true);
                             callback();
                         }
