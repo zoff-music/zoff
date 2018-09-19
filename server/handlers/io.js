@@ -32,7 +32,7 @@ module.exports = function() {
         socket.emit("get_list");
 
         var guid = socket.cookie_id;
-        if(guid == "empty") guid = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+        if(guid == "empty" || guid == null || guid == undefined) guid = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
 
         socket.guid = guid;
         socket.on('close', function() {
