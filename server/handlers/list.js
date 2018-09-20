@@ -755,47 +755,6 @@ function getNextSong(coll, socket, callback) {
     });
 }
 
-function left_channel(coll, guid, short_id, in_list, socket, change) {
-    if(!coll) {
-        if(!change) {
-            Functions.remove_name_from_db(guid);
-        }
-        return;
-    }
-    //coll = coll.replace(/ /g,'');
-    db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, updated) {
-        if(updated.nModified > 0) {
-            db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
-            db.collection("connected_users").find({"_id": coll}, function(err, new_doc){
-                db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, doc) {
-                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                        if(docs.length == 1) {
-                            io.to(coll).emit('chat', {from: docs[0].name, msg: " left"});
-                        }
-                    });
-                    io.to(coll).emit("viewers", new_doc[0].users.length);
-                    socket.leave(coll);
-                    if(!change) {
-                        Functions.remove_name_from_db(guid);
-                    }
-                });
-            });
-
-        } else {
-            db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){
-                //if(updated.nModified > 0) {
-                    db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
-                    if(!change) {
-                        Functions.remove_name_from_db(guid);
-                    }
-                //}
-            });
-
-        }
-    });
-    Functions.remove_unique_id(short_id);
-}
-
 module.exports.sendColor = sendColor;
 module.exports.now_playing = now_playing;
 module.exports.list = list;
@@ -806,4 +765,3 @@ module.exports.send_list = send_list;
 module.exports.end = end;
 module.exports.send_play = send_play;
 module.exports.getNextSong = getNextSong;
-module.exports.left_channel = left_channel;
