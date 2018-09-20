@@ -42,7 +42,11 @@ var Chat = {
 
     chat: function(data) {
         if(data.value.length > 150) return;
-        if(data.value.startsWith("/login ")){
+        if(data.value.startsWith("/name ") || data.value.startsWith("/removename")) {
+            data.value = "/help";
+            Chat.chat(data);
+            return;
+        } else if(data.value.startsWith("/login ")){
             Chat.namechange(data.value.substring(7), false);
         } else if(data.value.startsWith("/help")) {
             var add = "";
