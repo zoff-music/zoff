@@ -20,7 +20,7 @@ var Crypt = {
         } catch(err) {
             conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
         }
-
+        
         if(window.location.pathname != "/") {
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
@@ -31,6 +31,7 @@ var Crypt = {
         if(Crypt.getCookie(name) === undefined) {
             cookie = Crypt.create_cookie(name);
         }
+        if(cookie == undefined && name == "_opt") return {"volume":100,"width":100,"remote":true,"name":"","offline":false};
         /*var key = btoa("0103060703080703080701") + btoa("0103060703080703080701");
         key = key.substring(0,32);
         key = btoa(key);

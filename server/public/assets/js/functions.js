@@ -275,7 +275,7 @@ function emit_list() {
     /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
     if(p == undefined) p = "";*/
     if(socket.id) {
-        socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+        socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
     } else {
         setTimeout(function(){
             emit_list();
@@ -666,7 +666,7 @@ function get_list_listener(){
         //if(private_channel) add = Crypt.getCookie("_uI") + "_";
         /*var p = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
         if(p == undefined) p = "";*/
-        socket.emit("list", { offline: offline, version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+        socket.emit("list", { offline: offline, version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
     });
     socket.on("id_chromecast", function(msg) {
         chromecast_specs_sent = true;
@@ -746,11 +746,15 @@ function setup_host_listener(id){
 }
 
 function enable_debug(){
-    localStorage.debug = true;
+    try {
+        localStorage.debug = true;
+    } catch(e){}
 }
 
 function disable_debug(){
-    localStorage.debug = false;
+    try {
+        localStorage.debug = false;
+    } catch(e){}
 }
 
 function embed_code(autoplay, width, height, color, embed_code, embed_local){
@@ -859,7 +863,7 @@ function change_offline(enabled, already_offline){
             socket.on("color", Player.setBGimage);
             socket.emit("pos", {channel: chan.toLowerCase()});
             var add = "";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+            socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
             Helper.removeClass("#controls", "ewresize");
         }
     }
