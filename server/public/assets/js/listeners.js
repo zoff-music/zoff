@@ -5,6 +5,12 @@ var client = false;
 if(domain.length > 0 && domain[0] == "client") {
     client = true;
 }
+var _VERSION;
+try {
+    _VERSION = localStorage.getItem("VERSION");
+} catch(e) {
+    _VERSION = 6;
+}
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = false;
@@ -101,11 +107,13 @@ var guid = "";
 var castSession;
 var width_timeout;
 var tap_target_timeout;
-
-if(localStorage.debug === undefined){
-    var debug = false;
-    localStorage.debug = debug;
-}
+var debug;
+try {
+    if(localStorage.debug === undefined){
+        debug = false;
+        localStorage.debug = debug;
+    }
+}catch(e){debug = false;}
 
 var image_timeout;
 var result_html;
@@ -204,15 +212,23 @@ window.zoff = {
 
 window.addEventListener("DOMContentLoaded", function() {
     addDynamicListeners();
-    if(!localStorage.getItem("VERSION") || parseInt(localStorage.getItem("VERSION")) != VERSION) {
-        localStorage.setItem("VERSION", VERSION);
+    if(!_VERSION || parseInt(_VERSION) != VERSION) {
+        try {
+            localStorage.setItem("VERSION", VERSION);
+        } catch(e){}
     }
 
     if(!fromFront && window.location.pathname != "/") Channel.init();
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
-    if(!localStorage.ok_cookie){
+    var okCookie;
+    try {
+        okCookie = localStorage.ok_cookie;
+    } catch(e) {
+        okCookie = false;
+    }
+    if(!okCookie){
         before_toast();
         M.toast({html: "This website uses cookies! <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a><a class='waves-effect waves-light btn orange lighten' href='#cookies' id='cookieinfo' style='cursor:pointer;pointer-events:all;margin-left:10px;'> info</a>", displayLength: 10000000});
     }
@@ -404,7 +420,13 @@ initializeCastApi = function() {
             Helper.css(".castButton", "display", "block");
             Helper.addClass(".volume-container", "volume-container-cast");
             cast_ready_connect = true;
-            if((!localStorage.getItem("_chSeen") || localStorage.getItem("_chSeen") != "seen") && !client) {
+            var _chSeen;
+            try {
+                _chSeen = localStorage.getItem("_chSeen");
+            } catch(e){
+                _chSeen = false;
+            }
+            if((!_chSeen || _chSeen != "seen") && !client) {
                 Helper.css(".castButton", "display", "block");
                 showDiscovery = true;
                 var elem = document.querySelector('.tap-target');
@@ -413,7 +435,9 @@ initializeCastApi = function() {
                 tap_target_timeout = setTimeout(function() {
                     instance.close();
                 }, 4000);
-                localStorage.setItem("_chSeen", "seen");
+                try {
+                    localStorage.setItem("_chSeen", "seen");
+                } catch(e){}
                 Helper.removeClass('.castButton', 'castButton-white-active');
             }
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
@@ -528,7 +552,9 @@ function addDynamicListeners() {
     addListener("click", '#cookieok', function(e) {
         this.preventDefault();
         M.Toast.getInstance(e.parentElement).dismiss();
-        localStorage.ok_cookie = true;
+        try {
+            localStorage.ok_cookie = true;
+        } catch(e){}
     });
 
     addListener("click", "#cookieinfo", function(e) {
@@ -703,7 +729,7 @@ function addDynamicListeners() {
             temp_user_pass = document.getElementById("user-pass-input").value;
 
             document.getElementById("user-pass-input").value = "";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+            socket.emit("list", {version: parseInt(_VERSION), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
         } else {
             M.Modal.getInstance(document.getElementById("user_password")).close();
             userpass = document.getElementById("user-pass-input").value;
@@ -729,7 +755,7 @@ function addDynamicListeners() {
         if(user_auth_started) {
             temp_user_pass = document.getElementById("user-pass-input").value;
             document.getElementById("user-pass-input").value = "";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
+            socket.emit("list", {version: parseInt(_VERSION), channel: chan.toLowerCase(), pass: Crypt.crypt_pass(temp_user_pass)});
         } else {
             M.Modal.getInstance(document.getElementById("user_password")).close();
             userpass = document.getElementById("user-pass-input").value;

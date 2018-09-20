@@ -32,7 +32,6 @@ var Channel = {
 	    }
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
-
         List.calculate_song_heights();
         Admin.logged_in = false;
         Admin.display_logged_out();
@@ -494,7 +493,8 @@ var Channel = {
             var add = "";
             w_p = true;
             //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+
+            socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
         } else if(url_split[3] === "") {
             /*if(client) {
                 var host = window.location.hostname.split(".");
