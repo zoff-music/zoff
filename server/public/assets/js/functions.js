@@ -979,7 +979,11 @@ function resizePlaylistPlaying(playing) {
         List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
-        List.dynamicContentPageJumpTo(page / canFit);
+        var toJumpTo = page / canFit;
+        if(toJumpTo > Math.floor(full_playlist.length / List.can_fit)) {
+            toJumpTo = Math.floor(full_playlist.length / List.can_fit);
+        }
+        List.dynamicContentPageJumpTo(toJumpTo);
         if(!client) {
             var controlsPosition = document.querySelector("#controls").offsetHeight - Helper.computedStyle("#controls", "height");
             if(document.querySelectorAll("#controls").length > 0 && !Helper.mobilecheck()) {
