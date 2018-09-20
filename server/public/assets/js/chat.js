@@ -62,11 +62,18 @@ var Chat = {
                 add = "chatchannel";
             }
             for(var x = 0; x < Chat.chat_help.length; x++) {
-
+                var color = Helper.intToARGB(Helper.hashCode("System"));
+                if(color.length < 6) {
+                    for(x = color.length; x < 6; x++) {
+                        color = "0" + color;
+                    }
+                }
                 var _time = new Date();
                 var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
+                 color = Helper.hexToRgb(color.substring(0,6));
+                var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
 
-                document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:orange;'>System</span>: </li>");
+                document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:" + color_temp + ";'>System</span>: </li>");
                 var in_text = document.createTextNode(Chat.chat_help[x]);
                 document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
                 document.getElementById("" + add).scrollTop = document.getElementById("" + add).scrollHeight;
