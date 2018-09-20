@@ -273,7 +273,7 @@ module.exports = function() {
                                 });
                             });
                         }
-                        Functions.remove_name_from_db(guid);
+                        Functions.remove_name_from_db(guid, coll);
                     });
                 }
 
