@@ -41,7 +41,9 @@ var Hostcontroller = {
                     Playercontrols.visualVolume(arr.value);
                     Player.setVolume(arr.value);
                     Player.soundcloud_player.setVolume(arr.value / 100);
-                    localStorage.setItem("volume", arr.value);
+                    try {
+                        localStorage.setItem("volume", arr.value);
+                    } catch(e){}
                     Playercontrols.choose_button(arr.value, false);
                 } catch(e) {}
             } else if(arr.type == "channel") {
@@ -57,7 +59,7 @@ var Hostcontroller = {
                 w_p = true;
                 var add = "";
                 //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-                socket.emit("list", {version: parseInt(localStorage.getItem("VERSION")), channel: add + chan.toLowerCase()});
+                socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
 
                 window.history.pushState("object or string", "Title", "/"+chan.toLowerCase());
             } else if(arr.type == "pause") {

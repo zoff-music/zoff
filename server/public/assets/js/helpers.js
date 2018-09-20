@@ -19,7 +19,13 @@ var Helper = {
     },
 
     log: function(to_log) {
-        if(localStorage.debug === "true") {
+        var _DEBUG;
+        try {
+            _DEBUG = localStorage.getItem("debug");
+        } catch(e) {
+            _DEBUG = false;
+        }
+        if(_DEBUG === "true") {
             console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
             for(var i = 0; i < to_log.length; i++) {
                 console.log(to_log[i]);/*RemoveLogging:skip*/
