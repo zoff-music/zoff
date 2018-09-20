@@ -7,6 +7,7 @@ var client = false;
 var _VERSION;
 try {
     _VERSION = localStorage.getItem("VERSION");
+    if(_VERSION == null || _VERSION == undefined) throw "Some error";
 } catch(e) {
     _VERSION = 6;
 }
