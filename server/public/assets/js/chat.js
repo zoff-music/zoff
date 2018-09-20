@@ -22,8 +22,6 @@ var Chat = {
             var new_password = input[1];
             var old_password = input[2];
 
-
-
             new_password = Crypt.crypt_chat_pass(new_password);
             old_password = Crypt.crypt_chat_pass(old_password);
 
@@ -60,18 +58,7 @@ var Chat = {
                 add = "chatchannel";
             }
             for(var x = 0; x < Chat.chat_help.length; x++) {
-                var color = Helper.intToARGB(Helper.hashCode("System"));
-                if(color.length < 6) {
-                    for(x = color.length; x < 6; x++) {
-                        color = "0" + color;
-                    }
-                }
-                var _time = new Date();
-                var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-
-                color = Helper.hexToRgb(color.substring(0,6));
-                var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-                document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:"+color_temp+";'>System</span>: </li>");
+                document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:orange;'>System</span>: </li>");
                 var in_text = document.createTextNode(Chat.chat_help[x]);
                 document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
                 document.getElementById("" + add).scrollTop = document.getElementById("" + add).scrollHeight;
@@ -123,7 +110,7 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + " </span></li>");
+        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + "</span></li>");
         var in_text = document.createTextNode(inp.msg);
         document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
         if(!userscroll) {
@@ -167,7 +154,7 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span> </li>");
+        document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
         var in_text = document.createTextNode(data.msg);
         document.querySelector("#chatchannel").children[document.querySelector("#chatchannel").children.length - 1].appendChild(in_text);
         if(!userscroll) {
