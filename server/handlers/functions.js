@@ -38,7 +38,7 @@ function remove_unique_id(short_id) {
     db.collection("unique_ids").update({"_id": "unique_ids"}, {$pull: {unique_ids: short_id}}, function(err, docs) {});
 }
 
-function remove_name_from_db(guid) {
+function remove_name_from_db(guid, channel) {
     // Use temporary, with caution. Can bottleneck in large quantity of users.
     //
     // Find a way of indexing users in lists in a clever way, to avoid the search here
@@ -51,6 +51,11 @@ function remove_name_from_db(guid) {
                         db.collection("user_names").remove({"guid": guid}, function(err, removed) {	});
                     });
                 }
+            });
+        } else {
+            if(channel == undefined || channel == "") return;
+            db.collection("user_names").update({"guid": guid}, {$pull: {channels: channel}}, function(err, docs) {
+                //console.log("Pulled user from current channel");
             });
         }
     });
@@ -135,6 +140,7 @@ function check_inlist(coll, guid, socket, offline, callback)
                                 if(docs.length == 1) {
                                     var icon = "";
                                     if(docs[0].icon != undefined) icon = docs[0].icon;
+                                    db.collection("user_names").update({"guid": guid}, {$addToSet:{channels: coll}}, function(err, doc){});
                                     socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
                                 }
                             });
@@ -368,7 +374,7 @@ function removeSessionAdminPass(id, channel, callback) {
 function left_channel(coll, guid, short_id, in_list, socket, change) {
     if(!coll) {
         if(!change) {
-            remove_name_from_db(guid);
+            remove_name_from_db(guid, coll);
         }
         return;
     }
@@ -388,7 +394,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     io.to(coll).emit("viewers", new_doc[0].users.length);
                     socket.leave(coll);
                     if(!change) {
-                        remove_name_from_db(guid);
+                        remove_name_from_db(guid, coll);
                     }
                 });
             });
@@ -398,7 +404,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                 //if(updated.nModified > 0) {
                     db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
                     if(!change) {
-                        remove_name_from_db(guid);
+                        remove_name_from_db(guid, coll);
                     }
                 //}
             });

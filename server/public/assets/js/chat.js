@@ -3,9 +3,10 @@ var Chat = {
     channel_received: 0,
     all_received: 0,
     chat_help: [
-        "/name <new name> <password> to register and save a password for a nickname, or to log in with a password on a name.", 
-        "/name <new name> <new_password> <old_password> to change the password on a nickname",
-        "/removename to logout"
+        "/login <new name> <password> to register and save a password for a nickname, or to log in with a password on a name.",
+        "/login <name> <new_password> <old_password> to change the password on a nickname",
+        "/logout to logout",
+        "/who to see the names of the people in the channel"
     ],
 
     namechange: function(data, first, initial) {
@@ -43,8 +44,8 @@ var Chat = {
 
     chat: function(data) {
         if(data.value.length > 150) return;
-        if(data.value.startsWith("/name ")){
-            Chat.namechange(data.value.substring(6), false);
+        if(data.value.startsWith("/login ")){
+            Chat.namechange(data.value.substring(7), false);
         } else if(data.value.startsWith("/help")) {
             var add = "";
             if(document.querySelector(".chat-tab-li a.active").getAttribute("href") == "#all_chat"){
@@ -75,7 +76,7 @@ var Chat = {
                 document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
                 document.getElementById("" + add).scrollTop = document.getElementById("" + add).scrollHeight;
             }
-        } else if(data.value.startsWith("/removename")) {
+        } else if(data.value.startsWith("/logout")) {
             Chat.removename();
         } else if(document.querySelector(".chat-tab-li a.active").getAttribute("href") == "#all_chat") {
             socket.emit("all,chat", {channel: chan.toLowerCase(), data: data.value});
