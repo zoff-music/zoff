@@ -609,18 +609,18 @@ module.exports = function() {
                     return;
                 }
             }
-            List.left_channel(coll, guid, short_id, in_list, socket, true);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, true);
             in_list = false;
         });
 
         socket.on('disconnect', function()
         {
-            List.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
         socket.on('disconnected', function()
         {
-            List.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
         socket.on("left_channel", function(msg) {
@@ -635,23 +635,23 @@ module.exports = function() {
                 coll = msg.channel;//.replace(/ /g,'');
                 coll = Functions.removeEmojis(coll).toLowerCase();
                 //coll = filter.clean(coll);
-                List.left_channel(coll, guid, short_id, in_list, socket, false);
+                Functions.left_channel(coll, guid, short_id, in_list, socket, false);
             }
         })
 
         socket.on('reconnect_failed', function()
         {
-            List.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
         socket.on('connect_timeout', function()
         {
-            List.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
         socket.on('error', function()
         {
-            List.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
         });
 
         socket.on('pos', function(obj)
