@@ -478,7 +478,11 @@ var Player = {
             castSession.sendMessage("urn:x-cast:zoff.me", {type: "stopVideo"});
         } else {
             try{
-                Player.player.stopVideo();
+                if(videoSource == "soundcloud") {
+                    Player.soundcloud_player.pause();
+                } else {
+                    Player.player.stopVideo();
+                }
             } catch(e){}
         }
     },
