@@ -89,7 +89,13 @@ function chat(msg, guid, offline, socket) {
                 var data = msg.data;
 
                 Functions.check_inlist(coll, guid, socket, offline, function() {
-                    if(data !== "" && data !== undefined && data !== null &&
+                    if(data == "/who") {
+                        db.collection("user_names").distinct("name", {channels: coll}, function(err, docs) {
+                            var userAdd = "s";
+                            if(docs.length == 1) userAdd = "";
+                            socket.emit('chat', {from: "System", msg: ": User" + userAdd + " in channel are: " + docs.join(", "), icon: "https://zoff.me/assets/images/favicon-32x32.png"});
+                        });
+                    } else if(data !== "" && data !== undefined && data !== null &&
                     data.length < 151 && data.replace(/\s/g, '').length){
                         db.collection("user_names").find({"guid": guid}, function(err, docs) {
                             if(docs.length == 1) {
@@ -230,7 +236,11 @@ function namechange(data, guid, socket, tried, callback) {
                             var old_name = names[0].name;
                             db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
                         }
-                        db.collection("user_names").update({"guid": guid}, {$set: {name: name, icon: icon}}, {upsert: true}, function(err, docs) {
+                        var updateElement = {$set: {name: name, icon: icon}};
+                        if(data.hasOwnProperty("channel") && data.channel != "") {
+                            updateElement["$addToSet"] = {channels: data.channel};
+                        }
+                        db.collection("user_names").update({"guid": guid}, updateElement, {upsert: true}, function(err, docs) {
                             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: name}}, function(err, docs) {
                                 //socket.emit('name', {type: "name", accepted: true});
                                 if(old_name != name && !first && !no_name) {
@@ -276,14 +286,18 @@ function removename(guid, coll, socket) {
     });
 }
 
-function generate_name(guid, announce_payload, second, round) {
+function generate_name(guid, announce_payload, second, round, channel) {
     if(round == undefined) round = 0;
     var tmp_name = Functions.rndName(second ? second : guid, Math.floor(8 + round));
     db.collection("registered_users").find({"_id": tmp_name}, function(err, docs) {
         if(docs.length == 0) {
             db.collection("user_names").update({"_id": "all_names"}, {$addToSet: {names: tmp_name}}, {upsert: true}, function(err, updated) {
                 if(updated.nModified == 1 || (updated.hasOwnProperty("upserted") && updated.hasOwnProperty("n") && updated.n == 1)) {
-                    db.collection("user_names").update({"guid": guid}, {$set: {name: tmp_name, icon: false}}, {upsert: true}, function(err, update){
+                    var updateElement = {$set: {name: tmp_name, icon: false}};
+                    if(channel != undefined && channel != "") {
+                        updateElement["$addToSet"] = {channels: channel};
+                    }
+                    db.collection("user_names").update({"guid": guid}, updateElement, {upsert: true}, function(err, update){
                         name = tmp_name;
                         if(announce_payload.announce) {
                             io.to(announce_payload.channel).emit('chat', {from: announce_payload.old_name,  msg: " changed name to " + name});
@@ -295,11 +309,11 @@ function generate_name(guid, announce_payload, second, round) {
                         }
                     });
                 } else {
-                    generate_name(guid, announce_payload, tmp_name, round + 0.25);
+                    generate_name(guid, announce_payload, tmp_name, round + 0.25, channel);
                 }
             })
         } else {
-            generate_name(guid, announce_payload, tmp_name, round + 0.25);
+            generate_name(guid, announce_payload, tmp_name, round + 0.25, channel);
         }
     })
 }
@@ -308,7 +322,7 @@ function get_name(guid, announce_payload, first) {
     if(!announce_payload.announce && announce_payload.hasOwnProperty("socket")) {
         Functions.getSessionChatPass(Functions.getSession(announce_payload.socket), function(name, pass) {
             if(name == "" || pass == "") {
-                get_name_generate(guid, announce_payload, first);
+                get_name_generate(guid, announce_payload, first, announce_payload.channel);
                 return;
             }
             db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
@@ -328,14 +342,14 @@ function get_name(guid, announce_payload, first) {
             });
         });
     } else {
-        get_name_generate(guid, announce_payload, first);
+        get_name_generate(guid, announce_payload, first, announce_payload.channel);
     }
 }
 
-function get_name_generate(guid, announce_payload, first) {
+function get_name_generate(guid, announce_payload, first, channel) {
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 0) {
-            generate_name(guid, announce_payload);
+            generate_name(guid, announce_payload, channel);
         } else {
             name = docs[0].name;
         }
