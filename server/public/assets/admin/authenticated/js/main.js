@@ -41,7 +41,10 @@ window.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("descriptions_cont").innerHTML = "";
 		document.getElementById("thumbnails_cont").innerHTML = "";
 		document.querySelector(".names-container").innerHTML = "";
-		document.querySelector(".api_token_container").remove();
+        var elements = document.querySelectorAll(".api_token_container");
+        for(var i = 0; i < elements.length; i++) {
+        	elements[i].remove();
+        }
 
 		addClass(".channel_things", "hide");
 
