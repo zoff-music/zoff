@@ -133,7 +133,9 @@ function check_inlist(coll, guid, socket, offline, callback)
                         Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function() {
                             db.collection("user_names").find({"guid": guid}, function(err, docs) {
                                 if(docs.length == 1) {
-                                    socket.broadcast.to(coll).emit('chat', {from: docs[0].name, msg: " joined"});
+                                    var icon = "";
+                                    if(docs[0].icon != undefined) icon = docs[0].icon;
+                                    socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
                                 }
                             });
                             db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){
@@ -363,6 +365,50 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+function left_channel(coll, guid, short_id, in_list, socket, change) {
+    if(!coll) {
+        if(!change) {
+            remove_name_from_db(guid);
+        }
+        return;
+    }
+    //coll = coll.replace(/ /g,'');
+    db.collection("connected_users").update({"_id": coll}, {$pull: {users: guid}}, function(err, updated) {
+        if(updated.nModified > 0) {
+            db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
+            db.collection("connected_users").find({"_id": coll}, function(err, new_doc){
+                db.collection("frontpage_lists").update({"_id": coll, viewers: {$gt: 0}}, {$inc: {viewers: -1}}, function(err, doc) {
+                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                        if(docs.length == 1) {
+                            var icon = "";
+                            if(docs[0].icon != undefined) icon = docs[0].icon;
+                            io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " left"});
+                        }
+                    });
+                    io.to(coll).emit("viewers", new_doc[0].users.length);
+                    socket.leave(coll);
+                    if(!change) {
+                        remove_name_from_db(guid);
+                    }
+                });
+            });
+
+        } else {
+            db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, updated){
+                //if(updated.nModified > 0) {
+                    db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
+                    if(!change) {
+                        remove_name_from_db(guid);
+                    }
+                //}
+            });
+
+        }
+    });
+    remove_unique_id(short_id);
+}
+
+module.exports.left_channel = left_channel;
 module.exports.setChromecastHost = setChromecastHost;
 module.exports.decodeChannelName = decodeChannelName;
 module.exports.encodeChannelName = encodeChannelName;
