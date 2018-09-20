@@ -3651,6 +3651,7 @@ nav ul li:hover, nav ul li.active {
         overflow: auto;
         opacity: 1;
         overflow:hidden;
+        padding-right: .5rem !important;
     }
 
     #playlist{
@@ -3658,6 +3659,7 @@ nav ul li:hover, nav ul li.active {
         height: 90%;
         height: calc(100vh - 64px);
         overflow: hidden;
+        padding-right: 0px;
         /*padding-right: 0px;*/
         /*padding:0px 0px 0px 0px;*/
     }
