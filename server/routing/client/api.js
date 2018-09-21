@@ -149,7 +149,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -180,7 +180,7 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -337,8 +337,8 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
-        res.status(400).send(result);
+        to_send.results = [result];
+        res.status(400).send(to_send);
         return;
     }
     var cookie = req.cookies._uI;
@@ -463,7 +463,7 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -560,7 +560,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -642,6 +642,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             !req.body.hasOwnProperty('duration') || !req.body.hasOwnProperty('start_time') ||
             !req.body.hasOwnProperty('end_time') || !req.body.hasOwnProperty('title') ||
             !req.body.hasOwnProperty('source'))) {
+
             throw "Wrong format";
         }
 
@@ -695,7 +696,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -970,7 +971,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
         return;
     }
@@ -1092,7 +1093,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
             }
         };
         var to_send = error.formatting;
-        to_send.results.push(result);
+        to_send.results = [result];
         res.status(400).send(to_send);
 
         return;
