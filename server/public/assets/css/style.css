@@ -917,6 +917,7 @@ nav .zbrand{
 .description_text {
     color: #2d2d2d;
     text-align: left;
+    word-break: break-word;
 }
 
 .white-bg{
