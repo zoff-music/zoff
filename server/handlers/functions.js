@@ -142,6 +142,12 @@ function check_inlist(coll, guid, socket, offline, callback)
                                     if(docs[0].icon != undefined) icon = docs[0].icon;
                                     db.collection("user_names").update({"guid": guid}, {$addToSet:{channels: coll}}, function(err, doc){});
                                     socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
+                                } else if(docs.length == 0) {
+                                    console.log("User doesn't have a name for some reason.");
+                                    console.log("guid", guid);
+                                    console.log("channel", coll);
+                                    console.log("Trying to get a chat-name");
+                                    Chat.get_name(guid, {announce: false, socket: socket, channel: coll});
                                 }
                             });
                             db.collection("connected_users").update({"_id": "total_users"}, {$addToSet: {total_users: guid + coll}}, function(err, docs){
@@ -371,6 +377,11 @@ function removeSessionAdminPass(id, channel, callback) {
     });
 }
 
+function remove_from_chat_channel(coll, guid) {
+    db.collection("user_names").update({"guid": guid}, {$pull: {channels: coll}}, function(err, docs) {
+    });
+}
+
 function left_channel(coll, guid, short_id, in_list, socket, change) {
     if(!coll) {
         if(!change) {
@@ -395,6 +406,8 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     socket.leave(coll);
                     if(!change) {
                         remove_name_from_db(guid, coll);
+                    } else {
+                        remove_from_chat_channel(coll, guid);
                     }
                 });
             });
@@ -405,6 +418,8 @@ function left_channel(coll, guid, short_id, in_list, socket, change) {
                     db.collection("connected_users").update({"_id": "total_users"}, {$pull: {total_users: guid + coll}}, function(err, updated){});
                     if(!change) {
                         remove_name_from_db(guid, coll);
+                    } else {
+                        remove_from_chat_channel(coll, guid);
                     }
                 //}
             });
