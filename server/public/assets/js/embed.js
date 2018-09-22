@@ -12,6 +12,7 @@ try {
     _VERSION = 6;
 }
 var startTime = 0;
+var small = false;
 var full_playlist;
 var hostMode = false;
 var soundcloud_enabled = true;
