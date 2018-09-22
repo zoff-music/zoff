@@ -1,6 +1,6 @@
 var Channel = {
     init: function() {
-        if(window.location.hash == "#small") {
+        if(window.location.hash == "#small" || inIframe()) {
             small_player = true;
             document.querySelector("footer").style.display = "none";
         }
