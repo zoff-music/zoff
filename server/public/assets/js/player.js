@@ -223,7 +223,7 @@ var Player = {
             case YT.PlayerState.BUFFERING:
                 //was_stopped = false;
                 buffering = true;
-                if(small_player) {
+                if(small_player || !Helper.mobilecheck()) {
                     Helper.css("#player", "opacity", "1");
                 }
                 resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
