@@ -655,7 +655,11 @@ var Player = {
                 try {
                     scPlaying = Player.soundcloud_player.isPlaying();
                 } catch(e){}
-                resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                try {
+                    resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                } catch(e) {
+                    resizePlaylistPlaying(scPlaying);
+                }
             }
             if(!chromecastAvailable){
                 if(Helper.mobilecheck()) {

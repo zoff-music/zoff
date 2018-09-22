@@ -368,7 +368,6 @@ initializeCastApi = function() {
                 paused = false;
                 mobile_beginning = false;
 
-                //console.log("request here", request);
                 //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
                 loadChromecastVideo();
@@ -572,7 +571,10 @@ function addDynamicListeners() {
     addListener("click", ".extra-button-search", function(e){
         this.preventDefault();
         document.getElementById("search").value = e.getAttribute("data-text");
+        document.querySelector(".song-title").click();
+        Search.soundcloudSearch(e.getAttribute("data-text"));
         Search.search(e.getAttribute("data-text"));
+        document.getElementById("search").focus();
     });
 
     addListener("click", ".extra-button-delete", function(e){
@@ -796,7 +798,9 @@ function addDynamicListeners() {
     });
 
     addListener("click", ".extra-add-text", function(e){
-        e.select();
+        try {
+            e.select();
+        } catch(e) {}
     });
 
     addListener("click", ".next_page", function(event){
@@ -990,6 +994,81 @@ function addDynamicListeners() {
         this.preventDefault();
         Helper.addClass(".import-zoff-container", "hide");
         Helper.removeClass(".zoff_add_field", "hide");
+    });
+
+    addListener("click", ".import-soundcloud", function(event) {
+        this.preventDefault();
+        Helper.addClass(".soundcloud-import-button", "hide");
+        Helper.removeClass(".soundcloud_authenticated", "hide");
+        document.querySelector("#import_soundcloud").focus();
+    });
+
+    addListener("submit", "#listImportSoundCloud", function(event) {
+        this.preventDefault();
+        Helper.removeClass(".playlist_loader_soundcloud", "hide");
+        Helper.addClass("#listImportSoundCloud", "hide");
+        Helper.ajax({
+            type: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            url: "http://api.soundcloud.com/resolve/?url=" + document.querySelector("#import_soundcloud").value + "&limit=1&client_id=" + api_key.soundcloud + "&format=json&_status_code_map[200]=200",
+            success: function(data){
+                try {
+                    var jsonData = JSON.parse(data);
+                    var tracks = jsonData.tracks;
+                    document.querySelector("#import_soundcloud").value = "";
+                    var addList = [];
+                    for(var i = 0; i < tracks.length; i++) {
+                        var song = tracks[i];
+                        var title=song.title;
+                        if(title.indexOf(song.user.username) == -1) {
+                            title = song.user.username +  " - " + title;
+                        }
+                        if(!song.streamable) {
+                            var not_added_song = document.createElement("div");
+                            not_added_song.innerHTML = not_import_html;
+
+                            not_added_song.querySelector(".extra-add-text").innerText = title;
+                            not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
+                            not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
+                            document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                            Helper.removeClass(".not-imported", "hide");
+                            continue;
+                        }
+                        var duration=Math.floor(song.duration / 1000);
+                        //var secs=Search.durationToSeconds(duration);
+                        var secs = duration;
+                        if(longsongs == undefined) longsongs = true;
+                        if((longsongs != undefined && !longsongs) || secs<720){
+
+                            var id=song.id;
+                            //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
+                            var thumb=song.artwork_url;
+                            //var thumb = null;
+                            if(thumb == null) thumb = song.waveform_url;
+
+                            var songElement = {id: song.id, title: title, duration: secs, source: "soundcloud", thumbnail: thumb};
+
+                            addList.push(songElement);
+                        }
+                    }
+                    if(addList.length > 0) {
+                        socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: addList});
+                    }
+                    Helper.addClass(".playlist_loader_soundcloud", "hide");
+                    Helper.removeClass("#listImportSoundCloud", "hide");
+                    //{id: song.id, title: enc_title, duration: duration, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + song.id + "/mqdefault.jpg"}
+                } catch(e) {
+                    console.error(e);
+                    Helper.addClass(".playlist_loader_soundcloud", "hide");
+                    Helper.removeClass("#listImportSoundCloud", "hide");
+                }
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
     });
 
     addListener("submit", "#listImportSpotify", function(event){
@@ -1580,7 +1659,8 @@ function addDynamicListeners() {
             document.querySelector("#remote_channel") != document.activeElement &&
             document.querySelector("#import") != document.activeElement &&
             document.querySelector("#find_input") != document.activeElement &&
-            document.querySelector("#import_spotify") != document.activeElement) {
+            document.querySelector("#import_spotify") != document.activeElement &&
+            document.querySelector("#import_soundcloud") != document.activeElement) {
                 if(chromecastAvailable) {
                     event.preventDefault();
                     Player.playPauseVideo();
