@@ -88,7 +88,9 @@ function getSession(socket) {
         if(socket.cookie_id == undefined) throw "Undefined error";
         return socket.cookie_id;
     } catch(e) {
-        return "empty";
+        // Returning "sessiong"-based on place of connection
+        return Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+        //return "empty";
     }
 }
 
