@@ -136,7 +136,7 @@ function skip(list, guid, coll, offline, socket) {
         }
 
         if(!list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
-            typeof(list.id) != "string" || typeof(list.channel) != "string") {
+            (typeof(list.id) != "string" && typeof(list.id) != "number") || typeof(list.channel) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
