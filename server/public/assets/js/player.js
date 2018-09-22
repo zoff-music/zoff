@@ -120,7 +120,9 @@ var Player = {
         Helper.log(["video_id variable: " + video_id]);
         switch(newState.data) {
             case YT.PlayerState.UNSTARTED:
-                Helper.css("#player", "opacity", "1");
+                if(small_player) {
+                    Helper.css("#player", "opacity", "1");
+                }
                 break;
             case YT.PlayerState.ENDED:
                 playing = false;
@@ -221,7 +223,9 @@ var Player = {
             case YT.PlayerState.BUFFERING:
                 //was_stopped = false;
                 buffering = true;
-                Helper.css("#player", "opacity", "1");
+                if(small_player) {
+                    Helper.css("#player", "opacity", "1");
+                }
                 resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
                 break;
         }
