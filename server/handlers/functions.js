@@ -143,10 +143,10 @@ function check_inlist(coll, guid, socket, offline, callback)
                                     db.collection("user_names").update({"guid": guid}, {$addToSet:{channels: coll}}, function(err, doc){});
                                     socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
                                 } else if(docs.length == 0) {
-                                    console.log("User doesn't have a name for some reason.");
-                                    console.log("guid", guid);
-                                    console.log("channel", coll);
-                                    console.log("Trying to get a chat-name");
+                                    //console.log("User doesn't have a name for some reason.");
+                                    //console.log("guid", guid);
+                                    //console.log("channel", coll);
+                                    //console.log("Trying to get a chat-name");
                                     Chat.get_name(guid, {announce: false, socket: socket, channel: coll});
                                 }
                             });
