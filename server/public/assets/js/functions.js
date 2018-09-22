@@ -354,6 +354,14 @@ function contextListener(that, event) {
     }
 }
 
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
 function mouseContext(left, top) {
     var moveFunction = function( event ) {
         if(event.pageX < left - 60 || event.pageX > left + document.querySelector(".context-menu-root").offsetWidth + 60 ||
