@@ -520,7 +520,7 @@ li.disabled span {
 #closePlayer{
     position: fixed;
     top: 7px;
-    right: 14px;
+    right: 7px;
     z-index: 999999999999999;
     font-size: 18px;
     color: white;

@@ -614,7 +614,7 @@ var Channel = {
                         Helper.css("#player", "opacity", "1");
                         Helper.removeClass("#video-container", "no-opacity");
                         document.getElementById("main-row").insertAdjacentHTML("afterbegin", "<div id='player_bottom_overlay' class='player player_bottom'></div>");
-                        document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'>X</a>");
+                        document.getElementById("player_bottom_overlay").insertAdjacentHTML("afterbegin", "<a id='closePlayer' title='Close Player'><i class='material-icons'>close</i></a>");
                         document.getElementById("player_bottom_overlay").setAttribute("data-channel", channel_before_move.toLowerCase());
                         Helper.removeElement("#playlist");
                     } else {
