@@ -1,5 +1,9 @@
 var Channel = {
     init: function() {
+        if(window.location.hash == "#small") {
+            small_player = true;
+            document.querySelector("footer").style.display = "none";
+        }
         if(client) {
             Helper.addClass(".tabs", "hide");
             Helper.removeClass("#wrapper", "tabs_height");
