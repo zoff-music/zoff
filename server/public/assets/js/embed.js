@@ -13,6 +13,7 @@ try {
 }
 var startTime = 0;
 var small = false;
+var small_player = false;
 var full_playlist;
 var hostMode = false;
 var soundcloud_enabled = true;
