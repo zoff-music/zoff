@@ -15,6 +15,7 @@ try {
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = false;
+var small_player = false;
 var hiddenPlaylist = false;
 var videoSource;
 var dynamicListeners = {};
@@ -1467,7 +1468,10 @@ function addDynamicListeners() {
 
     addListener("click", ".brand-logo-navigate", function(event){
         this.preventDefault();
-
+        if(small_player) {
+            window.open(window.location.origin + window.location.pathname, "_blank");
+            return;
+        }
         window.history.pushState("to the frontpage!", "Title", "/");
         Channel.onepage_load();
     });
