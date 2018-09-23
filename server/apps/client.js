@@ -123,7 +123,7 @@ app.use(function (req, res, next) {
 		            maxAge: 365 * 10000 * 3600000,
 		            httpOnly: true,
 		            secure: secure,
-		            sameSite: true,
+		            //sameSite: true,
 		        });
 			} else {
 				//process.stderr.write((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req, "couldn't fetch cookie for some reason, maybe no cookie exists?");
@@ -131,7 +131,7 @@ app.use(function (req, res, next) {
 		            maxAge: 365 * 10000 * 3600000,
 		            httpOnly: true,
 		            secure: secure,
-		            sameSite: true,
+		            //sameSite: true,
 		        });
 			}
 			res.header("Access-Control-Allow-Origin", "*");
