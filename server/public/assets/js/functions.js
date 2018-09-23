@@ -1235,6 +1235,10 @@ function before_toast(){
     M.Toast.dismissAll();
 }
 
+function addJoinBox() {
+    document.querySelector("#video-container").insertAdjacentHTML("beforeend", '<a href="https://zoff.me" target="_blank"><div class="addedJoinBox">Listen directly on https://zoff.me</div></a>');
+}
+
 function scrollChat() {
     var current = document.querySelector(".chatTabs .active").getAttribute("href");
     if(current == "#channelchat") {
