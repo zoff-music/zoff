@@ -3,6 +3,7 @@ var Channel = {
         if(window.location.hash == "#small" || inIframe()) {
             small_player = true;
             document.querySelector("footer").style.display = "none";
+            addJoinBox();
         }
         if(client) {
             Helper.addClass(".tabs", "hide");
