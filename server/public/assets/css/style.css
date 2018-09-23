@@ -3352,6 +3352,10 @@ nav ul li:hover, nav ul li.active {
         margin-top: auto !important;
     }
 
+    #channel-share-modal {
+        width: 100%;
+    }
+
     #autocomplete-input {
         width: 100%;
         border-bottom: 1px solid #9e9e9e !important;

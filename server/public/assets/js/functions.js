@@ -1236,7 +1236,7 @@ function before_toast(){
 }
 
 function addJoinBox() {
-    document.querySelector("#video-container").insertAdjacentHTML("beforeend", '<a href="https://zoff.me" target="_blank"><div class="addedJoinBox">Listen directly on https://zoff.me</div></a>');
+    document.querySelector("#video-container").insertAdjacentHTML("beforeend", '<a href="https://zoff.me" target="_blank"><div class="addedJoinBox">Listen directly on https://zoff.me<br>&copy; KasperRT &amp; Nixo</div></a>');
 }
 
 function scrollChat() {

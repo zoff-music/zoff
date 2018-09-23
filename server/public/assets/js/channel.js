@@ -207,9 +207,14 @@ var Channel = {
 
 
         if(!client) {
-            var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/r/"+btoa(encodeURIComponent(chan.toLowerCase()));
-            document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
-            Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
+            if(!Helper.mobilecheck()) {
+                var shareCodeUrl = window.location.protocol + "//client."+window.location.hostname+"/r/"+btoa(encodeURIComponent(chan.toLowerCase()));
+                document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
+                Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
+            } else if(small_player) {
+                document.querySelector("#channel-share-modal .modal-content").innerHTML = "<p>To listen to this channel, go to</p><p>https://zoff.me/" + encodeURIComponent(chan.toLowerCase()) + "</p><img src='/assets/images/favicon.png' height='100' width='100' alt='circle-logo-zoff'>";
+                M.Modal.getInstance(document.getElementById("channel-share-modal")).open();
+            }
         } else {
             Helper.removeElement(".video-container");
             Helper.removeElement(".offline-panel");
