@@ -841,6 +841,10 @@ var List = {
             },
             error: function(response){
                 console.error(response);
+                toast("Couldn't export to YouTube for some reason.. Try again later", "red lighten");
+                Helper.addClass(".exported-list-container", "hide");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.removeClass(".youtube_export_button", "hide");
                 response = response.responseText;
                 Helper.log([
                     "export to youtube response",
@@ -893,7 +897,7 @@ var List = {
     },
 
     addToYoutubePlaylist: function(playlist_id, full_playlist, num, request_url) {
-        if(num == full_playlist.length - 1){
+        if(num == full_playlist.length){
             Helper.log(["All videoes added!"]);
             Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
             document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
@@ -932,7 +936,7 @@ var List = {
                         not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
                         document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                         Helper.removeClass(".not-exported", "hide");
-                        if(num == full_playlist.length - 1){
+                        if(num == full_playlist.length){
                             Helper.log(["All videoes added!"]);
                             Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
                             document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
@@ -978,7 +982,7 @@ var List = {
                                                     ((data.snippet.title.toLowerCase().indexOf("remix") == -1 &&
                                                     title.toLowerCase().indexOf("remix") == -1) ||
                                                     (data.snippet.title.toLowerCase().indexOf("remix") != -1 &&
-                                                    title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(artist[0].toLowerCase()) == -1 &&
+                                                    title.toLowerCase().indexOf("remix") != -1) || !(data.snippet.title.toLowerCase().indexOf(data_title.toLowerCase()) == -1 &&
                                                     data.snippet.channelTitle.toLowerCase().indexOf("vevo") == -1)))
                                                 )
                                                 not_matched = true;
@@ -1011,11 +1015,13 @@ var List = {
                                             "Spotify title: " + title,
                                             "Spotify length: " + length
                                         ]);
+
                                         var not_added_song = document.createElement("div");
                                         not_added_song.innerHTML = not_export_html;
-                                        not_added_song.querySelector(".extra-add-text").innerText = title;
+                                        not_added_song.querySelector(".extra-add-text").value = title;
+                                        not_added_song.querySelector(".extra-add-text").setAttribute("value", title);
                                         not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
-                                        not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
+                                        //not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
                                         document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                                         Helper.removeClass(".not-exported", "hide");
                                         List.addToYoutubePlaylist(playlist_id, full_playlist, num + 1, request_url);
