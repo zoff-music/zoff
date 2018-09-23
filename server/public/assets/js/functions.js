@@ -1248,6 +1248,17 @@ function scrollChat() {
     }
 }
 
+function hideAllExtra() {
+    document.querySelector(".settings-collapsible").children[0].style.display = "none";
+    document.querySelector(".settings-collapsible").children[2].style.display = "none";
+    document.querySelector(".settings-collapsible").children[3].style.display = "none";
+    document.querySelector(".settings-collapsible").children[4].style.display = "none";
+    document.querySelector(".settings-collapsible").children[5].style.display = "none";
+    document.querySelector(".settings-collapsible").children[6].style.display = "none";
+    document.querySelector(".settings-collapsible").children[7].style.display = "none";
+
+}
+
 function searchTimeout(event) {
     search_input = document.getElementsByClassName("search_input")[0].value;
 
