@@ -89,7 +89,7 @@ function getSession(socket) {
         return socket.cookie_id;
     } catch(e) {
         // Returning "sessiong"-based on place of connection
-        return Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+        return hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
         //return "empty";
     }
 }
