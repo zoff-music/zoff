@@ -337,7 +337,7 @@ var Channel = {
 
         if(!client) {
             Helper.addClass("footer", "padding-bottom-novideo");
-            document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
+            document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         }
 
         if(!/chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && !Helper.mobilecheck() && !client){
