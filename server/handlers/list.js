@@ -574,7 +574,7 @@ function end(obj, coll, guid, offline, socket) {
     if(id !== undefined && id !== null && id !== "") {
 
         if(!obj.hasOwnProperty("id") || !obj.hasOwnProperty("channel") ||
-            typeof(obj.id) != "string" || typeof(obj.channel) != "string") {
+            (typeof(obj.id) != "string" && typeof(obj.id) != "number") || typeof(obj.channel) != "string") {
                 var result = {
                     channel: {
                         expected: "string",
@@ -585,7 +585,7 @@ function end(obj, coll, guid, offline, socket) {
                         got: obj.hasOwnProperty("pass") ? typeof(obj.pass) : undefined,
                     },
                     id: {
-                        expected: "string",
+                        expected: "string || number",
                         got: obj.hasOwnProperty("id") ? typeof(obj.id) : undefined,
                     },
                 };
