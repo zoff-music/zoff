@@ -5,8 +5,8 @@ var Channel = {
             document.querySelector("footer").style.display = "none";
             addJoinBox();
             hideAllExtra();
-            document.querySelectorAll(".tab.col.s3")[1].remove();
-            document.querySelectorAll(".tab.col.s3")[1].remove();
+            //document.querySelectorAll(".tab.col.s3")[1].remove();
+            //document.querySelectorAll(".tab.col.s3")[1].remove();
         }
         if(client) {
             Helper.addClass(".tabs", "hide");
