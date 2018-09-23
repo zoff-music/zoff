@@ -765,10 +765,10 @@ function disable_debug(){
     } catch(e){}
 }
 
-function embed_code(autoplay, width, height, color, embed_code, embed_local){
+function embed_code(autoplay, width, height, color, embed_videoonly, embed_localmode){
     var autoplay_add = "";
     if(autoplay == "&autoplay") autoplay_add = 'allow="autoplay"';
-    return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + embed_videoonly + embed_local + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
+    return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + embed_videoonly + embed_localmode + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
 }
 
 function change_offline(enabled, already_offline){
@@ -1232,26 +1232,7 @@ function emit() {
 }
 
 function before_toast(){
-    /*if($('.toast').length > 0) {
-    var toastElement = $('.toast').first()[0];
-    var toastInstance = toastElement.M_Toast;
-    toastInstance.remove();
-}*/
-/*var toasts = document.querySelector(".toast");
-//for(var i = 0; i < toasts.length; i++) {
-//    var instance = M.Toast.getInstance(toasts[i]);
-if(toasts == null) return;
-var instance = M.Toast.getInstance(toasts);
-try {
-console.log(instance);
-if(instance.timeRemaining > 0) {
-instance.dismiss();
-}
-} catch(e) {
-}
-//}*/
-M.Toast.dismissAll();
-//Materialize.Toast.removeAll();
+    M.Toast.dismissAll();
 }
 
 function scrollChat() {
