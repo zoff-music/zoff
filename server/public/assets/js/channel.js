@@ -4,6 +4,9 @@ var Channel = {
             small_player = true;
             document.querySelector("footer").style.display = "none";
             addJoinBox();
+            hideAllExtra();
+            document.querySelectorAll(".tab.col.s3")[1].remove();
+            document.querySelectorAll(".tab.col.s3")[1].remove();
         }
         if(client) {
             Helper.addClass(".tabs", "hide");
@@ -212,7 +215,7 @@ var Channel = {
                 document.getElementById("share-join-qr").setAttribute("src", "https://chart.googleapis.com/chart?chs=221x221&cht=qr&choe=UTF-8&chld=L|1&chl="+shareCodeUrl);
                 Helper.setHtml("#channel-name-join", "client." + window.location.hostname + "/" + encodeURIComponent(chan.toLowerCase()));
             } else if(small_player) {
-                document.querySelector("#channel-share-modal .modal-content").innerHTML = "<p>To listen to this channel, go to</p><p>https://zoff.me/" + encodeURIComponent(chan.toLowerCase()) + "</p><img src='/assets/images/favicon.png' height='100' width='100' alt='circle-logo-zoff'>";
+                document.querySelector("#channel-share-modal .modal-content").innerHTML = "<p>To listen to this channel with more features, go to</p><p>https://zoff.me/" + encodeURIComponent(chan.toLowerCase()) + "</p><img src='/assets/images/favicon.png' height='100' width='100' alt='circle-logo-zoff'>";
                 M.Modal.getInstance(document.getElementById("channel-share-modal")).open();
                 if(!Helper.mobilecheck()) {
                     setTimeout(function() {
