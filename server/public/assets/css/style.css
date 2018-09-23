@@ -517,6 +517,17 @@ li.disabled span {
     padding-right: 1px;
 }
 
+.addedJoinBox {
+    position: absolute;
+    bottom: 50px;
+    z-index: 99;
+    left: 0px;
+    text-align: left;
+    background: #2d2d2d;
+    padding: 20px;
+    color: white;
+}
+
 #closePlayer{
     position: fixed;
     top: 7px;
@@ -2989,6 +3000,10 @@ nav ul li:hover, nav ul li.active {
 
     #fireplace_player {
         display: none !important;
+    }
+
+    .addedJoinBox {
+        display: none;
     }
 
     #playbar{
