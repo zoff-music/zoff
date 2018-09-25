@@ -1130,7 +1130,7 @@ margin:-1px;
     position: absolute;
     background: #282828;
     z-index: 2;
-    width: 100%;
+    width: calc(100% - 22px);
     padding: 0 15px;
     top: 0;
     color: white;
