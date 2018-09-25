@@ -260,7 +260,9 @@ window.addEventListener("DOMContentLoaded", function() {
                             tagSC.readyState == "complete"){
                         tagSC.onreadystatechange = null;
                         if(sc_need_initialization) {
-                            //Player.soundcloudReady();
+                            if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                                Player.soundcloudReady();
+                            }
                         } else {
                             SC_player = SC;
                             SC_player.initialize({
@@ -274,7 +276,9 @@ window.addEventListener("DOMContentLoaded", function() {
             } else {  //Others
                 tagSC.onload = function(){
                     if(sc_need_initialization) {
-                        //Player.soundcloudReady();
+                        if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                            Player.soundcloudReady();
+                        }
                     } else {
                         SC_player = SC;
                         SC_player.initialize({
