@@ -14,6 +14,8 @@ try {
 var SC_widget;
 var scUsingWidget = false;
 var SC_player;
+var sc_need_initialization = true;
+var sc_initialized = false;
 var startTime = 0;
 var small = false;
 var small_player = false;
