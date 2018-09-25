@@ -347,6 +347,12 @@ var Player = {
                     }).catch(function(e){
                     });
                 }
+            }).catch(function(error) {
+                curr_playing = id;
+                emit("skip", {error: 5, id: id, channel: chan.toLowerCase()});
+                setTimeout(function() {
+                    toast("Seems the SoundCloud-API rate-limit has been reached..", "red lighten");
+                }, 1000);
             });
         } else {
             try {

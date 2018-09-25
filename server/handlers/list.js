@@ -271,7 +271,7 @@ function change_song(coll, error, id, conf, callback, socket) {
                 $limit:2
             }], function(err, now_playing_doc){
                 if((id && id == now_playing_doc[0].id) || !id) {
-                    if(error){
+                    if(error && now_playing_doc[0].source == "youtube"){
                         request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
                             if (err || response.statusCode == 404) {
                                 db.collection(coll).remove({now_playing:true, id:id}, function(err, docs){
