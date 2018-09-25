@@ -2,6 +2,7 @@ var gulp    = require('gulp'),
 	gutil   = require('gulp-util'),
 	uglify  = require('gulp-uglify'),
     //sourcemaps = require('gulp-sourcemaps'),
+    gutil = require('gulp-util'),
 	concat  = require('gulp-concat'),
     cssnano = require('gulp-cssnano');
 
@@ -38,7 +39,7 @@ gulp.task('js', function () {
             compress: true,
         	enclose: true,
         }))
-
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         //.pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
@@ -52,6 +53,7 @@ gulp.task('embed', function () {
             compress: true,
             enclose: true
         }))
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         //.pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
 });
@@ -65,6 +67,7 @@ gulp.task('token', function() {
             compress: true,
             enclose: true
         }))
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
 
         //.pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
@@ -79,6 +82,7 @@ gulp.task('callback', function () {
             compress: true,
             enclose: true
         }))
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
 
         //.pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));
@@ -97,6 +101,7 @@ gulp.task('remotecontroller', function () {
             compress: true,
             enclose: true
         }))
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
 
         //.pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('server/public/assets/dist'));

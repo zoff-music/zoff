@@ -197,7 +197,8 @@ var Channel = {
                         Player.player.setVolume(Crypt.get_volume());
                     } catch(e){}
                     try {
-                        Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
+                        if(scUsingWidget) Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume());
+                        else Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
                     } catch(e){}
                 }
                 Helper.removeClass(".video-container", "no-opacity");

@@ -12,6 +12,9 @@ try {
 } catch(e) {
     _VERSION = 6;
 }
+var SC_widget;
+var scUsingWidget = false;
+var SC_player;
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = false;
@@ -257,25 +260,29 @@ window.addEventListener("DOMContentLoaded", function() {
                             tagSC.readyState == "complete"){
                         tagSC.onreadystatechange = null;
                         if(sc_need_initialization) {
-                            Player.soundcloudReady();
+                            //Player.soundcloudReady();
                         } else {
-                            SC.initialize({
+                            SC_player = SC;
+                            SC_player.initialize({
                               client_id: api_key.soundcloud
                             }, function() {
                             });
                         }
+                        Player.loadSoundCloudIframe();
                     }
                 };
             } else {  //Others
                 tagSC.onload = function(){
                     if(sc_need_initialization) {
-                        Player.soundcloudReady();
+                        //Player.soundcloudReady();
                     } else {
-                        SC.initialize({
+                        SC_player = SC;
+                        SC_player.initialize({
                           client_id: api_key.soundcloud
                         }, function() {
                         });
                     }
+                    Player.loadSoundCloudIframe();
                 };
             }
             tagSC.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
@@ -283,7 +290,7 @@ window.addEventListener("DOMContentLoaded", function() {
             firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
         }
     } else if(window.location.pathname == "/" && client) {
-        Player.loadSoundCloudPlayer();
+        //Player.loadSoundCloudPlayer();
     }
 
     if(Helper.mobilecheck()) {
@@ -676,6 +683,7 @@ function addDynamicListeners() {
             Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
             Player.soundcloud_player.kill();
         } catch(error){}
+        if(scUsingWidget) document.querySelector("#sc_player").innerHTML = "";
         socket.removeEventListener("np");
         socket.removeEventListener("id");
         socket.removeEventListener(id);
@@ -711,7 +719,9 @@ function addDynamicListeners() {
     });
 
     addListener("click", "#player_overlay", function(event) {
-        if(videoSource == "soundcloud") Playercontrols.play_pause();
+        if(videoSource == "soundcloud") {
+            Playercontrols.play_pause();
+        }
     });
 
     /*

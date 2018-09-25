@@ -202,7 +202,7 @@ var Search = {
             return;
         }
         if(keyword.length == 0) return;
-        SC.get('/tracks', {
+        SC_player.get('/tracks', {
             q: keyword
         }).then(function(tracks) {
             var pre_result = document.createElement("div");
