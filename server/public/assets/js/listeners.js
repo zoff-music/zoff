@@ -15,9 +15,10 @@ try {
 var SC_widget;
 var scUsingWidget = false;
 var SC_player;
+var sc_initialized = false;
 var soundcloud_enabled = true;
 var local_new_channel = false;
-var sc_need_initialization = false;
+var sc_need_initialization = true;
 var small_player = false;
 var hiddenPlaylist = false;
 var videoSource;
@@ -250,49 +251,8 @@ window.addEventListener("DOMContentLoaded", function() {
             firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
-        if(document.querySelectorAll("script[src='https://connect.soundcloud.com/sdk/sdk-3.3.0.js']").length == 1) {
-
-        } else {
-            tagSC            = document.createElement('script');
-            if (tagSC.readyState){  //IE
-                tagSC.onreadystatechange = function(){
-                    if (tagSC.readyState == "loaded" ||
-                            tagSC.readyState == "complete"){
-                        tagSC.onreadystatechange = null;
-                        if(sc_need_initialization) {
-                            if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
-                                Player.soundcloudReady();
-                            }
-                        } else {
-                            SC_player = SC;
-                            SC_player.initialize({
-                              client_id: api_key.soundcloud
-                            }, function() {
-                            });
-                        }
-                        Player.loadSoundCloudIframe();
-                    }
-                };
-            } else {  //Others
-                tagSC.onload = function(){
-                    if(sc_need_initialization) {
-                        if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
-                            Player.soundcloudReady();
-                        }
-                    } else {
-                        SC_player = SC;
-                        SC_player.initialize({
-                          client_id: api_key.soundcloud
-                        }, function() {
-                        });
-                    }
-                    Player.loadSoundCloudIframe();
-                };
-            }
-            tagSC.src        = "https://connect.soundcloud.com/sdk/sdk-3.3.0.js";
-            firstScriptTagSC = document.getElementsByTagName('script')[0];
-            firstScriptTagSC.parentNode.insertBefore(tagSC, firstScriptTagSC);
-        }
+        Player.loadSoundCloudPlayer();
+        Player.loadSoundCloudIframe();
     } else if(window.location.pathname == "/" && client) {
         //Player.loadSoundCloudPlayer();
     }
