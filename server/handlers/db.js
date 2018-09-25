@@ -4,7 +4,7 @@ try {
 } catch(e) {
     console.log("Error - missing file");
     console.log("Seems you forgot to create the file mongo_config.js in /server/config/. Have a look at mongo_config.example.js.");
-    process.exit();
+    process.exit(1);
 }
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://' + mongo_config.host + '/' + mongo_config.config);
