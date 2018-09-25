@@ -1123,7 +1123,9 @@ var Player = {
     loadSoundCloudPlayer: function() {
         if(document.querySelectorAll("script[src='https://connect.soundcloud.com/sdk/sdk-3.3.0.js']").length == 1) {
             try {
-                //Player.soundcloudReady();
+                if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                    Player.soundcloudReady();
+                }
             } catch(error) {
                 sc_need_initialization = true;
                 //console.error(error);
@@ -1137,14 +1139,18 @@ var Player = {
                             tagSC.readyState == "complete"){
                         tagSC.onreadystatechange = null;
                         SC_player = SC;
-                        //Player.soundcloudReady();
+                        if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                            Player.soundcloudReady();
+                        }
                         Player.loadSoundCloudIframe();
                     }
                 };
             } else {  //Others
                 tagSC.onload = function(){
                     SC_player = SC;
-                    //Player.soundcloudReady();
+                    if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                        Player.soundcloudReady();
+                    }
                     Player.loadSoundCloudIframe();
                 };
             }
@@ -1157,7 +1163,9 @@ var Player = {
     loadSoundCloudIframe: function() {
         if(document.querySelectorAll("script[src='/assets/sclib/scapi.js']").length == 1) {
             try {
-                Player.soundcloudReady();
+                if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                    Player.soundcloudReady();
+                }
             } catch(error) {
                 //sc_need_initialization = true;
                 //console.error(error);
@@ -1171,13 +1179,17 @@ var Player = {
                             tagSC.readyState == "complete"){
                         tagSC.onreadystatechange = null;
                         SC_widget = SC;
-                        Player.soundcloudReady();
+                        if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                            Player.soundcloudReady();
+                        }
                     }
                 };
             } else {  //Others
                 tagSC.onload = function(){
                     SC_widget = SC;
-                    Player.soundcloudReady();
+                    if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined) {
+                        Player.soundcloudReady();
+                    }
                 };
             }
             tagSC.src        = "/assets/sclib/scapi.js";

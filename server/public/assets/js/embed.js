@@ -11,6 +11,9 @@ try {
 } catch(e) {
     _VERSION = 6;
 }
+var SC_widget;
+var scUsingWidget = false;
+var SC_player;
 var startTime = 0;
 var small = false;
 var small_player = false;
