@@ -112,7 +112,7 @@ app.use(function (req, res, next) {
 		} else {
 			if (cookie === undefined) {
 	            try {
-					console.error((new Date), "originalUrl", req.originalUrl);
+					//console.error((new Date), "originalUrl", req.originalUrl);
 		            //console.error((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req.get('origin'), "couldn't fetch cookie for some reason, maybe no cookie exists?");
 
 				} catch(e) {
