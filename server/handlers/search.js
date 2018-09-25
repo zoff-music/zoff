@@ -6,7 +6,7 @@ try {
 } catch(e) {
     console.log("Error - missing file");
     console.log("Seems you forgot to create the file api_key.js in /server/config/. Have a look at api_key.example.js.");
-    process.exit();
+    process.exit(1);
 }
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
