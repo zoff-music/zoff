@@ -1027,7 +1027,7 @@ function addDynamicListeners() {
             headers: {
                 "Content-Type": "application/json"
             },
-            url: "http://api.soundcloud.com/resolve/?url=" + document.querySelector("#import_soundcloud").value + "&limit=1&client_id=" + api_key.soundcloud + "&format=json&_status_code_map[200]=200",
+            url: "https://api.soundcloud.com/resolve/?url=" + document.querySelector("#import_soundcloud").value + "&limit=1&client_id=" + api_key.soundcloud + "&format=json&_status_code_map[200]=200",
             success: function(data){
                 try {
                     var jsonData = JSON.parse(data);
