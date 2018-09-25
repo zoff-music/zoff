@@ -35,13 +35,23 @@ function resizeFunction() {
             if(!client && !embed) {
                 var scPlaying = false;
                 var ytPlaying = false;
-                try {
-                    ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
-                } catch(e) {}
-                try {
-                    scPlaying = Player.soundcloud_player.isPlaying();
-                } catch(e){}
-                resizePlaylistPlaying(ytPlaying || scPlaying);
+                if(scUsingWidget) {
+                    Player.soundcloud_player.isPaused(function(paused) {
+                        try {
+                            ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
+                        } catch(e) {}
+                        scPlaying = !paused;
+                        resizePlaylistPlaying(ytPlaying || scPlaying);
+                    })
+                } else {
+                    try {
+                        ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
+                    } catch(e) {}
+                    try {
+                        scPlaying = Player.soundcloud_player.isPlaying();
+                    } catch(e){}
+                    resizePlaylistPlaying(ytPlaying || scPlaying);
+                }
                 return;
             }
         }
@@ -185,7 +195,8 @@ function hide_native(way) {
             Helper.setHtml("#chromecast_text", "Playing on<br>" + castSession.getCastDevice().friendlyName);
         }
         Player.player.setVolume(100);
-        Player.soundcloud_player.setVolume(1);
+        if(scUsingWidget) Player.soundcloud_player.setVolume(100);
+        else Player.soundcloud_player.setVolume(1);
 
         Helper.addClass("#player_overlay_text", "hide");
     } else if(way == 0){
@@ -214,7 +225,8 @@ function hide_native(way) {
         if(!Helper.mobilecheck()){
             Player.player.setVolume(Crypt.get_volume());
             Playercontrols.visualVolume(Crypt.get_volume());
-            Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
+            if(scUsingWidget) Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume());
+            else Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
         }
         Helper.addClass("#player_overlay", "hide");
         Helper.removeClass("#player_overlay_text", "hide");

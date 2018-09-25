@@ -40,7 +40,8 @@ var Hostcontroller = {
                 try {
                     Playercontrols.visualVolume(arr.value);
                     Player.setVolume(arr.value);
-                    Player.soundcloud_player.setVolume(arr.value / 100);
+                    if(scUsingWidget) Player.soundcloud_player.setVolume(arr.value);
+                    else Player.soundcloud_player.setVolume(arr.value / 100);
                     try {
                         localStorage.setItem("volume", arr.value);
                     } catch(e){}

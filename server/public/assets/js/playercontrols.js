@@ -191,10 +191,22 @@ var Playercontrols = {
     play_pause: function() {
         if(!chromecastAvailable){
             if(videoSource == "soundcloud") {
-                if(!Player.soundcloud_player.isPlaying()) {
-                    Player.playVideo();
+                if(scUsingWidget) {
+                    Player.soundcloud_player.isPaused(function(playing) {
+                        playing = !playing;
+                        if(!playing) {
+                            Player.playVideo();
+                        } else {
+                            Player.pauseVideo();
+                        }
+                        was_stopped = true;
+                    });
                 } else {
-                    Player.pauseVideo();
+                    if(!Player.soundcloud_player.isPlaying()) {
+                        Player.playVideo();
+                    } else {
+                        Player.pauseVideo();
+                    }
                 }
             } else {
                 if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
@@ -273,7 +285,8 @@ var Playercontrols = {
 
     setVolume: function(vol) {
         Player.setVolume(vol);
-        Player.soundcloud_player.setVolume(vol / 100);
+        if(scUsingWidget) Player.soundcloud_player.setVolume(vol);
+        else Player.soundcloud_player.setVolume(vol / 100);
         Playercontrols.choose_button(vol, false);
         if(Player.player.isMuted())
         Player.player.unMute();
@@ -355,14 +368,29 @@ var Playercontrols = {
 
     playPause: function() {
         if(videoSource == "soundcloud") {
-            if(!Player.soundcloud_player.isPlaying()) {
-                Helper.addClass("#play", "hide");
-                Helper.removeClass("#pause", "hide");
-                Player.soundcloud_player.play();
+            if(scUsingWidget) {
+                Player.soundcloud_player.isPaused(function(playing) {
+                    playing = !playing;
+                    if(!playing) {
+                        Helper.addClass("#play", "hide");
+                        Helper.removeClass("#pause", "hide");
+                        Player.soundcloud_player.play();
+                    } else {
+                        Helper.removeClass("#play", "hide");
+                        Helper.addClass("#pause", "hide");
+                        Player.soundcloud_player.pause();
+                    }
+                })
             } else {
-                Helper.removeClass("#play", "hide");
-                Helper.addClass("#pause", "hide");
-                Player.soundcloud_player.pause();
+                if(!Player.soundcloud_player.isPlaying()) {
+                    Helper.addClass("#play", "hide");
+                    Helper.removeClass("#pause", "hide");
+                    Player.soundcloud_player.play();
+                } else {
+                    Helper.removeClass("#play", "hide");
+                    Helper.addClass("#pause", "hide");
+                    Player.soundcloud_player.pause();
+                }
             }
         } else {
             state = Player.player.getPlayerState();
