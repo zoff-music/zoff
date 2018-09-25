@@ -18,7 +18,7 @@ try {
     client.on("error", function (err) {
         console.log("Couldn't connect to redis-server, assuming non-clustered run");
         num_processes = 1;
-        startClustered(false);
+        startSingle(false, false);
         client.quit();
     });
     client.on("connect", function() {
@@ -28,7 +28,7 @@ try {
 } catch(e) {
     console.log("Couldn't connect to redis-server, assuming non-clustered run");
     num_processes = 1;
-    startClustered(false);
+    startSingle(false, false);
 }
 
 function startClustered(redis_enabled) {
@@ -38,6 +38,10 @@ function startClustered(redis_enabled) {
         var spawn = function(i) {
             workers[i] = cluster.fork();
             workers[i].on('exit', function(code, signal) {
+                if(code == 1) {
+                    process.exit(1);
+                    return;
+                }
                 console.log('respawning worker', i);
                 spawn(i);
             });
