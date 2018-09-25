@@ -90,7 +90,12 @@ var Suggestions = {
                             duration 		= Helper.secondsToOther(Search.durationToSeconds(duration));
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
-                            var viewCount = song.statistics.viewCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            var viewCount = 0;
+                            try {
+                                viewCount = song.statistics.viewCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } catch(e) {
+
+                            }
 
                             try {
                                 document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views"}, false, false, false));
