@@ -420,8 +420,6 @@ module.exports = function() {
             }
             if(obj.hasOwnProperty("channel")) {
                 obj.channel = Functions.encodeChannelName(obj.channel);
-            }
-            if(coll === undefined) {
                 try {
                     coll = obj.channel.toLowerCase();//.replace(/ /g,'');
                     if(coll.length == 0) return;
@@ -433,6 +431,7 @@ module.exports = function() {
                     return;
                 }
             }
+
             List.end(obj, coll, guid, offline, socket);
         });
 
