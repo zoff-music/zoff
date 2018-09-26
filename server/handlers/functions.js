@@ -386,7 +386,7 @@ function remove_from_chat_channel(coll, guid) {
 }
 
 function left_channel(coll, guid, short_id, in_list, socket, change) {
-    console.log(coll);
+    console.log(coll, guid, short_id, in_list, change);
     if(!coll) {
         if(!change) {
             remove_name_from_db(guid, coll);
