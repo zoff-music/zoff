@@ -75,7 +75,7 @@ function list(msg, guid, coll, offline, socket) {
                             }
                             in_list = true;
                             socket.join(coll);
-                            Functions.check_inlist(coll, guid, socket, offline);
+                            Functions.check_inlist(coll, guid, socket, offline, undefined, "place 10");
 
                             if(frontpage_lists.viewers != undefined){
                                 io.to(coll).emit("viewers", frontpage_lists.viewers);
@@ -98,7 +98,7 @@ function list(msg, guid, coll, offline, socket) {
                                 send_list(coll, socket, true, false, true);
                                 db.collection("frontpage_lists").insert({"_id": coll, "count" : 0, "frontpage": true, "accessed": Functions.get_time(), "viewers": 1}, function(e,d){
                                 });
-                                Functions.check_inlist(coll, guid, socket, offline);
+                                Functions.check_inlist(coll, guid, socket, offline, undefined, "place 11");
                             });
                         });
                     });
@@ -170,7 +170,7 @@ function skip(list, guid, coll, offline, socket) {
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(list.userpass)).digest("base64")))) {
 
-                    Functions.check_inlist(coll, guid, socket, offline);
+                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 12");
 
                     adminpass = "";
                     video_id  = list.id;
@@ -613,7 +613,7 @@ function end(obj, coll, guid, offline, socket) {
                     obj.pass = userpass;
                 }
                 if(!authentication_needed || (authentication_needed && obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64"))) {
-                    Functions.check_inlist(coll, guid, socket, offline);
+                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 13");
                     db.collection(coll).find({now_playing:true}, function(err, np){
                         if(err !== null) console.log(err);
                         if(np !== null && np !== undefined && np.length == 1 && np[0].id == id){

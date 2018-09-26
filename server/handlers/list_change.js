@@ -393,7 +393,7 @@ function add_function(arr, coll, guid, offline, socket) {
             }
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(arr.pass)).digest("base64")))) {
-                    Functions.check_inlist(coll, guid, socket, offline);
+                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 5");
 
                     var id = arr.id + "";
                     var title = arr.title;
@@ -550,7 +550,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
                     if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
 
-                        Functions.check_inlist(coll, guid, socket, offline);
+                        Functions.check_inlist(coll, guid, socket, offline, undefined, "place 6");
 
                         if(msg.type == "del") {
                             del(msg, socket, socketid);
@@ -632,7 +632,7 @@ function add_function(arr, coll, guid, offline, socket) {
                         guid: coll,
                     },
                 }, {upsert: true}, function(err, docs) {
-                    Functions.check_inlist(coll, guid, socket, offline);
+                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 7");
                     var hash;
                     if(msg.adminpass === "") hash = msg.adminpass;
                     else hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass),true));

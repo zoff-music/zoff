@@ -43,7 +43,7 @@ function password(inp, coll, guid, offline, socket) {
         //coll = coll.replace(/ /g,'');
         uncrypted = pw;
         pw = Functions.hash_pass(Functions.decrypt_string(pw), true);
-        Functions.check_inlist(coll, guid, socket, offline);
+        Functions.check_inlist(coll, guid, socket, offline, undefined, "place 8");
         Functions.getSessionAdminUser(sessionId, coll, function(userpass, adminpass) {
 
             db.collection(coll + "_settings").find(function(err, docs){
@@ -111,7 +111,7 @@ function conf_function(params, coll, guid, offline, socket) {
             return;
         }
 
-        Functions.check_inlist(coll, guid, socket, offline);
+        Functions.check_inlist(coll, guid, socket, offline, undefined, "place 9");
 
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
             if(gotten) {

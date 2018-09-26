@@ -112,7 +112,7 @@ function chat(msg, guid, offline, socket) {
                             }
                         });
                     }
-                });
+                }, "place 1");
             } else {
                 socket.emit('auth_required');
             }
@@ -159,7 +159,7 @@ function all_chat(msg, guid, offline, socket) {
                 }
             });
         }
-    });
+    }, "place 2");
 }
 
 function namechange(data, guid, socket, tried, callback) {

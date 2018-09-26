@@ -245,7 +245,7 @@ module.exports = function() {
                 return;
             }
             var status = msg.status;
-            var channel = msg.channel;//.replace(/ /g,'');
+            var channel = Functions.encodeChannelName(msg.channel);//.replace(/ /g,'');
             if(status){
                 in_list = false;
                 offline = true;
@@ -281,7 +281,7 @@ module.exports = function() {
             } else {
                 offline = false;
                 db.collection("connected_users").update({"_id": "offline_users"}, {$pull: {users: guid}}, function(err, docs) {
-                    Functions.check_inlist(coll, guid, socket, offline);
+                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 3");
                 });
             }
         });
@@ -700,7 +700,7 @@ module.exports = function() {
                         obj.pass = userpass;
                     }
                     if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (obj.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(obj.pass)).digest("base64")))) {
-                        Functions.check_inlist(coll, guid, socket, offline);
+                        Functions.check_inlist(coll, guid, socket, offline, undefined, "place 4");
                         List.send_play(coll, socket);
                     } else {
                         socket.emit("auth_required");
