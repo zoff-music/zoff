@@ -49,6 +49,7 @@ var frontpage = 1;
 var adminpass = "";
 var showDiscovery = false;
 var player_ready = false;
+var toggleChat = true;
 var viewers = 1;
 var temp_user_pass = "";
 var zoff_api_token = "DwpnKVkaMH2HdcpJT2YPy783SY33byF5/32rbs0+xdU=";

@@ -180,8 +180,8 @@ function conf_function(params, coll, guid, offline, socket) {
             var adminpass = params.adminpass;
             var skipping = params.skipping;
             var shuffling = params.shuffling;
+            var toggleChat = params.toggleChat;
             var userpass = Functions.decrypt_string(params.userpass);
-
 
             if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
                 userpass = "";
@@ -212,6 +212,7 @@ function conf_function(params, coll, guid, offline, socket) {
                         longsongs:longsongs,
                         adminpass:hash,
                         desc: description,
+                        toggleChat: toggleChat
                     };
                     if(params.userpass_changed) {
                         obj["userpass"] = userpass;
@@ -220,7 +221,7 @@ function conf_function(params, coll, guid, offline, socket) {
                     }
                     db.collection(coll + "_settings").update({ id: "config" }, {
                         $set:obj
-                    }, function(err, docs){
+                    }, {upsert: true}, function(err, docs){
                         Functions.setSessionUserPass(Functions.getSession(socket), params.userpass, coll, function() {
                             db.collection(coll + "_settings").find(function(err, docs){
                                 if(docs[0].adminpass !== "") docs[0].adminpass = true;

@@ -22,7 +22,7 @@ var Admin = {
         }
         Helper.removeClass(".delete-context-menu", "context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle", "userpass"];
+        "removeplay", "skip", "shuffle", "userpass", "toggleChat"];
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
@@ -105,7 +105,7 @@ var Admin = {
         w_p       = true;
         adminpass = "";
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle"];
+        "removeplay", "skip", "shuffle", "toggleChat"];
         document.getElementById("password").value = "";
         Helper.css("#thumbnail_form", "display", "none");
         Helper.css("#description_form", "display", "none");
@@ -146,9 +146,9 @@ var Admin = {
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle", "userpass"];
-
-
+        "removeplay", "skip", "shuffle", "userpass", "toggleChat"];
+        if(!conf.hasOwnProperty("toggleChat")) conf.toggleChat = true;
+        toggleChat = conf.toggleChat;
         hasadmin = conf_array.adminpass != "";
         var show_disabled = true;
         if(hasadmin && Admin.logged_in || !hasadmin) {
@@ -197,6 +197,8 @@ var Admin = {
         removeplay = form.removeplay.checked;
         skipping   = form.skip.checked;
         shuffling  = form.shuffle.checked;
+        toggleChat = form.toggleChat.checked;
+
         var pass_send = userpass_changed && !form.userpass.checked ? "" : userpass;
         configs = {
             channel: chan.toLowerCase(),
@@ -209,6 +211,7 @@ var Admin = {
             adminpass: adminpass == "" ? "" : Crypt.crypt_pass(adminpass),
             skipping: skipping,
             shuffling: shuffling,
+            toggleChat: toggleChat,
             userpass: Crypt.crypt_pass(pass_send),
             userpass_changed: userpass_changed
         };
