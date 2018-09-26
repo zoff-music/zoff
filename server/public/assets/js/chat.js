@@ -7,7 +7,7 @@ var Chat = {
         "/login <name> <new_password> <old_password> to change the password on a nickname",
         "/logout to logout",
         "/who to see the names of the people in the channel",
-        "Want your own icon besides your name? If you donate to us, we'll add a picture of your choosing!"
+        "Want your own icon besides your name? If you donate 5$ or more, we'll add a picture of your choosing besides your name!"
     ],
 
     namechange: function(data, first, initial) {
