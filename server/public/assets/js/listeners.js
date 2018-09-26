@@ -1646,6 +1646,7 @@ function addDynamicListeners() {
             document.querySelector("#import") != document.activeElement &&
             document.querySelector("#find_input") != document.activeElement &&
             document.querySelector("#import_spotify") != document.activeElement &&
+            document.querySelector("#import_zoff") != document.activeElement &&
             document.querySelector("#import_soundcloud") != document.activeElement) {
                 if(chromecastAvailable) {
                     event.preventDefault();

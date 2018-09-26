@@ -26,11 +26,13 @@ function get_history(channel, all, socket) {
     if(!query.all) {
         Functions.getSessionAdminUser(Functions.getSession(socket), channel, function(userpass) {
             if(userpass != "" || pass == undefined) {
-                pass = userpass;
+                pass = userpass
+            } else {
+                pass = crypto.createHash('sha256').update(Functions.decrypt_string(pass)).digest('base64')
             }
             db.collection(channel + "_settings").find({id: "config"}, function(err, conf) {
                 if(conf.length > 0) {
-                    if(conf[0].userpass == "" || conf[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(pass)).digest('base64')) {
+                    if(conf[0].userpass == "" || conf[0].userpass == pass) {
                         getAndSendLogs(channel, all, socket, pass, query);
                     }
                 }
@@ -83,9 +85,11 @@ function chat(msg, guid, offline, socket) {
     Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass) {
         if(userpass != "" || msg.pass == undefined) {
             msg.pass = userpass;
+        } else {
+            msg.pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
         }
         db.collection(coll + "_settings").find(function(err, docs){
-            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64")))) {
+            if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == msg.pass))) {
                 var data = msg.data;
 
                 Functions.check_inlist(coll, guid, socket, offline, function() {
@@ -169,6 +173,7 @@ function namechange(data, guid, socket, tried, callback) {
     var new_password;
     var first = false;
     Functions.getSessionChatPass(Functions.getSession(socket), function(name, pass) {
+        var fetched = false;
         if(data.hasOwnProperty("first") && data.first) {
             pw = pass;
             name = name;
@@ -179,6 +184,8 @@ function namechange(data, guid, socket, tried, callback) {
                 if(typeof(callback) == "function") callback();
                 return;
             }
+            fetched = true;
+            password = pw;
         } else {
             var name = data.name;
             if(data.hasOwnProperty("first")) {
@@ -191,13 +198,17 @@ function namechange(data, guid, socket, tried, callback) {
                 pw = data.old_password;
                 new_password = Functions.decrypt_string(data.new_password);
             }
+            password = Functions.decrypt_string(pw);
+            password = Functions.hash_pass(password);
+            doubled = true;
         }
 
         if(name == "") {
             if(typeof(callback) == "function") callback();
             return;
         }
-        var password = Functions.decrypt_string(pw);
+
+
         db.collection("registered_users").find({"_id": name.toLowerCase()}, function(err, docs) {
             var accepted_password = false;
             var icon = false;
@@ -208,28 +219,30 @@ function namechange(data, guid, socket, tried, callback) {
                 }
                 accepted_password = true;
                 Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.password, function() {
-                    db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: Functions.hash_pass(password)}}, {upsert: true}, function() {
+                    db.collection("registered_users").update({"_id": name.toLowerCase()}, {$set: {password: password}}, {upsert: true}, function() {
                     });
                 });
-            } else if(docs[0].password == Functions.hash_pass(password)) {
+            } else if(docs[0].password == password) {
                 if(docs[0].icon) {
                     icon = docs[0].icon;
                 }
                 accepted_password = true;
                 if(new_password) {
                     Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.new_password, function() {
-                        db.collection("registered_users").update({"_id": name.toLowerCase(), password: Functions.hash_pass(password)}, {$set: {password: Functions.hash_pass(new_password)}}, function() {
+
+                        db.collection("registered_users").update({"_id": name.toLowerCase(), password: password}, {$set: {password: Functions.hash_pass(new_password)}}, function() {
 
                         });
                     });
                 } else {
-                    Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), data.password, function() {
+                    Functions.setSessionChatPass(Functions.getSession(socket), name.toLowerCase(), fetched ? data.password : Functions.hash_pass(Functions.decrypt_string(data.password)), function() {
                     });
                 }
             }
             if(accepted_password) {
+
                 db.collection("user_names").find({"guid": guid}, function(err, names) {
-                    if(names.length > 0 || (docs.length != 0 && docs[0].password == Functions.hash_pass(password))) {
+                    if(names.length > 0 || (docs.length != 0 && docs[0].password == password)) {
                         var no_name = false;
                         if(names.length == 0) no_name = true;
                         if(!no_name) {
@@ -278,7 +291,7 @@ function removename(guid, coll, socket) {
             Functions.removeSessionChatPass(Functions.getSession(socket), function() {
                 db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function(err, updated) {
                     db.collection("user_names").remove({"guid": guid}, function(err, removed) {
-                        get_name(guid, {announce: true, old_name: old_name, channel: coll});
+                        get_name(guid, {announce: true, old_name: old_name, channel: coll, socket: socket});
                     });
                 });
             });
@@ -349,7 +362,7 @@ function get_name(guid, announce_payload, first) {
 function get_name_generate(guid, announce_payload, first, channel) {
     db.collection("user_names").find({"guid": guid}, function(err, docs) {
         if(docs.length == 0) {
-            generate_name(guid, announce_payload, channel);
+            generate_name(guid, announce_payload, undefined);
         } else {
             name = docs[0].name;
         }
