@@ -488,6 +488,14 @@ function addDynamicListeners() {
         //document.getElementById("chatForm").submit();
     });
 
+    addListener("click", "#chat_help", function(event) {
+        this.preventDefault(),
+        this.stopPropagation();
+        document.getElementById("text-chat-input").value = "/help";
+        Chat.chat(document.getElementById("chatForm").input);
+        document.getElementById("chat_submit").focus();
+    });
+
     addListener("click", "#offline-mode", function(event){
         this.preventDefault();
         if(!Crypt.get_offline()){

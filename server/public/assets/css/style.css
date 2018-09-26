@@ -1630,9 +1630,11 @@ margin:-1px;
     box-shadow: none;
 }
 
-#chat_submit{
+#chat_submit, #chat_help{
     margin-top: 4px;
-    margin-left: 4%;
+    margin-left: 2%;
+    width: 12.45%;
+    padding: 0;
 }
 
 .indicator {
