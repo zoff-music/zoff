@@ -35,13 +35,11 @@ function list(msg, guid, coll, offline, socket) {
     if(typeof(msg) === 'object' && msg !== undefined && msg !== null)
     {
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
-            console.log(gotten, userpass, msg.hasOwnProperty("pass"));
             if(gotten && userpass != "" && !msg.hasOwnProperty("pass")) {
                 msg.pass = userpass;
             } else {
                 msg.pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
             }
-            console.log(msg.pass);
             adminpass = Functions.hash_pass(adminpass);
             if(!msg.hasOwnProperty('version') || !msg.hasOwnProperty("channel") ||
              msg.version != VERSION || msg.version == undefined ||
@@ -74,6 +72,9 @@ function list(msg, guid, coll, offline, socket) {
                             if(docs.length > 0 && docs[0].hasOwnProperty('userpass') && docs[0].userpass != "" && docs[0].userpass == pass) {
                                 Functions.setSessionUserPass(Functions.getSession(socket), msg.pass, coll, function(){})
                                 socket.emit("auth_accepted", {value: true});
+                            }
+                            if(docs.length > 0 && docs[0].userpass != pass) {
+                                Functions.setSessionUserPass(Functions.getSession(socket), "", coll, function(){})
                             }
                             if(docs.length > 0 && docs[0].hasOwnProperty("adminpass") && docs[0].adminpass != "" && docs[0].adminpass == adminpass) {
                                 socket.emit("pw", true);
