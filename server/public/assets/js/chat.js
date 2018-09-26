@@ -6,7 +6,8 @@ var Chat = {
         "/login <new name> <password> to register and save a password for a nickname, or to log in with a password on a name.",
         "/login <name> <new_password> <old_password> to change the password on a nickname",
         "/logout to logout",
-        "/who to see the names of the people in the channel"
+        "/who to see the names of the people in the channel",
+        "Want your own icon besides your name? If you donate to us, we'll add a picture of your choosing!"
     ],
 
     namechange: function(data, first, initial) {
@@ -125,7 +126,7 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+inp.channel+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + inp.channel + "</span></li>");
+        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+Helper.decodeChannelName(inp.channel)+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + Helper.decodeChannelName(inp.channel) + "</span></li>");
         var in_text = document.createTextNode(inp.msg);
         document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
         if(!userscroll) {

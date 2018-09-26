@@ -213,6 +213,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                             if(!this_element.hasOwnProperty("duration") || !this_element.hasOwnProperty("id") || !this_element.hasOwnProperty("title")) {
                                                 continue;
                                             }
+                                            this_element.id = this_element.id + "";
                                             this_element.added = time;
                                             this_element.now_playing = now_playing;
                                             this_element.votes = 0;
@@ -394,7 +395,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == crypto.createHash('sha256').update(Functions.decrypt_string(arr.pass)).digest("base64")))) {
                     Functions.check_inlist(coll, guid, socket, offline);
 
-                    var id = arr.id;
+                    var id = arr.id + "";
                     var title = arr.title;
                     var hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(arr.adminpass), true));
                     var duration = parseInt(arr.duration);
