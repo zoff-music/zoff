@@ -507,7 +507,7 @@ function add_function(arr, coll, guid, offline, socket) {
     function voteUndecided(msg, coll, guid, offline, socket) {
         var socketid = socket.zoff_id;
         if(typeof(msg) === 'object' && msg !== undefined && msg !== null){
-
+            if(msg.hasOwnProperty("id")) msg.id = msg.id + "";
             if(!msg.hasOwnProperty("channel") || !msg.hasOwnProperty("id") ||
             !msg.hasOwnProperty("type") || typeof(msg.channel) != "string" ||
             typeof(msg.id) != "string" || typeof(msg.type) != "string") {

@@ -158,6 +158,7 @@ function skip(list, guid, coll, offline, socket) {
                 socket.emit('update_required', result);
                 return;
             }
+        list.id = list.id + "";
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || list.pass == undefined) {
                 list.pass = adminpass;
@@ -592,6 +593,8 @@ function end(obj, coll, guid, offline, socket) {
                 socket.emit("update_required", result);
             return;
         }
+        obj.id = obj.id + "";
+        id = id + "";
         var callback_function = function() {
             for(var i = 0; i < arguments.length; i++) {
                 if(typeof(arguments[i]) == "function") {
