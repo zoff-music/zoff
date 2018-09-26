@@ -418,6 +418,7 @@ module.exports = function() {
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
+            console.log("end object", obj);
             if(obj.hasOwnProperty("channel")) {
                 obj.channel = Functions.encodeChannelName(obj.channel);
                 try {
