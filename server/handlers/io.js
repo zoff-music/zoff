@@ -134,6 +134,7 @@ module.exports = function() {
 
         socket.on("error_video", function(msg) {
             try {
+                msg.channel = Functions.encodeChannelName(msg.channel);
                 var _list = msg.channel;//.replace(/ /g,'');
                 if(_list.length == 0) return;
                 if(_list.indexOf("?") > -1){
@@ -142,7 +143,7 @@ module.exports = function() {
                 }
                 coll = Functions.removeEmojis(_list).toLowerCase();
                 //coll = coll.replace(/_/g, "");
-                msg.channel = Functions.encodeChannelName(msg.channel);
+
                 //coll = filter.clean(coll);
             } catch(e) {
                 return;
@@ -418,7 +419,6 @@ module.exports = function() {
                 var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
                 obj.channel = _list;
             }
-            console.log("end object", obj);
             if(obj.hasOwnProperty("channel")) {
                 obj.channel = Functions.encodeChannelName(obj.channel);
                 try {
@@ -553,6 +553,7 @@ module.exports = function() {
             }
             if(conf.hasOwnProperty("channel")) {
                 conf.channel = Functions.encodeChannelName(conf.channel);
+                coll = conf.channel;
             }
             //if(coll != undefined) coll.replace(/ /g,'');
             ListSettings.conf_function(conf, coll, guid, offline, socket);
@@ -567,18 +568,17 @@ module.exports = function() {
             if(msg.hasOwnProperty("channel")) {
                 msg.channel = Functions.encodeChannelName(msg.channel);
             }
-            if(coll !== undefined) {
-                try {
-                    coll = msg.channel.toLowerCase();//.replace(/ /g,'');
-                    if(coll.length == 0) return;
-                    coll = Functions.removeEmojis(coll).toLowerCase();
-                    //coll = coll.replace(/_/g, "");
+            try {
+                coll = msg.channel.toLowerCase();//.replace(/ /g,'');
+                if(coll.length == 0) return;
+                coll = Functions.removeEmojis(coll).toLowerCase();
+                //coll = coll.replace(/_/g, "");
 
-                    //coll = filter.clean(coll);
-                } catch(e) {
-                    return;
-                }
+                //coll = filter.clean(coll);
+            } catch(e) {
+                return;
             }
+
             ListChange.shuffle(msg, coll, guid, offline, socket);
         });
 
@@ -609,18 +609,18 @@ module.exports = function() {
                     return;
                 }
             }
-            Functions.left_channel(coll, guid, short_id, in_list, socket, true);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, true, "left 1");
             in_list = false;
         });
 
         socket.on('disconnect', function()
         {
-            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 2");
         });
 
         socket.on('disconnected', function()
         {
-            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 3");
         });
 
         socket.on("left_channel", function(msg) {
@@ -635,23 +635,23 @@ module.exports = function() {
                 coll = msg.channel;//.replace(/ /g,'');
                 coll = Functions.removeEmojis(coll).toLowerCase();
                 //coll = filter.clean(coll);
-                Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+                Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 4");
             }
         })
 
         socket.on('reconnect_failed', function()
         {
-            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 5");
         });
 
         socket.on('connect_timeout', function()
         {
-            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 6");
         });
 
         socket.on('error', function()
         {
-            Functions.left_channel(coll, guid, short_id, in_list, socket, false);
+            Functions.left_channel(coll, guid, short_id, in_list, socket, false, "left 7");
         });
 
         socket.on('pos', function(obj)

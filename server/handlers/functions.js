@@ -126,7 +126,6 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
         if(typeof(callback) == "function") callback();
         return;
     }
-    console.log(coll, double_check);
     //coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
@@ -385,8 +384,7 @@ function remove_from_chat_channel(coll, guid) {
     });
 }
 
-function left_channel(coll, guid, short_id, in_list, socket, change) {
-    console.log(coll, guid, short_id, in_list, change);
+function left_channel(coll, guid, short_id, in_list, socket, change, caller) {
     if(!coll) {
         if(!change) {
             remove_name_from_db(guid, coll);
