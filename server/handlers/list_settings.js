@@ -213,7 +213,7 @@ function conf_function(params, coll, guid, offline, socket) {
                         adminpass:hash,
                         desc: description,
                     };
-                    if(params.hasOwnProperty("toggleChat")) {
+                    if(params.hasOwnProperty("toggleChat") && docs[0].adminpass != "" && docs[0].adminpass != undefined && docs[0].adminpass == hash) {
                         obj.toggleChat = params.toggleChat;
                     }
                     if(params.userpass_changed) {

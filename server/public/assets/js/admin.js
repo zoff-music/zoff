@@ -42,6 +42,7 @@ var Admin = {
         document.getElementById("password").value = "";
         document.getElementById("password").setAttribute("placeholder", "Change admin password");
         Helper.removeClass(".user-password-li", "hide");
+        Helper.removeClass(".chat-toggle-li", "hide");
         Helper.removeClass(".delete-all", "hide");
         if(document.getElementsByClassName("password_protected")[0].checked) {
             Helper.removeClass(".change_user_pass", "hide");
@@ -123,6 +124,7 @@ var Admin = {
 
 
         Helper.addClass(".user-password-li", "hide");
+        Helper.addClass(".chat-toggle-li", "hide");
         Helper.addClass(".delete-all", "hide");
 
         if(document.getElementsByClassName("password_protected")[0].checked) {
