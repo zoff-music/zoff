@@ -2,6 +2,10 @@ var Chat = {
 
     channel_received: 0,
     all_received: 0,
+    chat_admin_help: [
+        "/ban USERNAME REASON to ban user",
+        "/unban USERNAME to unban a user"
+    ],
     chat_help: [
         "/login <new name> <password> to register and save a password for a nickname, or to log in with a password on a name.",
         "/login <name> <new_password> <old_password> to change the password on a nickname",
@@ -62,7 +66,9 @@ var Chat = {
                 }
                 add = "chatchannel";
             }
-            for(var x = 0; x < Chat.chat_help.length; x++) {
+            var help = Chat.chat_help;
+            if(Admin.logged_in) help = help.concat(Chat.chat_admin_help);
+            for(var x = 0; x < help.length; x++) {
                 var color = Helper.intToARGB(Helper.hashCode("System"));
                 if(color.length < 6) {
                     for(x = color.length; x < 6; x++) {
@@ -75,7 +81,7 @@ var Chat = {
                 var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
 
                 document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:" + color_temp + ";'>System</span>: </li>");
-                var in_text = document.createTextNode(Chat.chat_help[x]);
+                var in_text = document.createTextNode(help[x]);
                 document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
                 document.getElementById("" + add).scrollTop = document.getElementById("" + add).scrollHeight;
             }
