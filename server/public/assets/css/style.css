@@ -3207,6 +3207,10 @@ nav ul li:hover, nav ul li.active {
         display: block !important;
     }
 
+    .small-display-hide {
+        display: none !important;
+    }
+
     .hide-on-small-only{
         display:none;
     }

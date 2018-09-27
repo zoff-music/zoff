@@ -748,6 +748,7 @@ var Player = {
                 if(gotten_np) gotten_np = false;
                 if(window.location.pathname != "/") Playercontrols.play_pause_show();
                 mobile_beginning = true;
+                Helper.addClass("#player_overlay", "small-display-hide");
             }
             Helper.removeClass("#play", "hide");
             Helper.addClass("#pause", "hide");
@@ -799,7 +800,7 @@ var Player = {
                 resizePlaylistPlaying(scPlaying);
             }
         }
-
+        Helper.removeClass("#player_overlay", "small-display-hide");
         Helper.css("#playpause", "visibility", "visible");
         Helper.css("#playpause", "pointer-events", "all");
         playing = true;
