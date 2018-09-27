@@ -433,6 +433,11 @@ function addDynamicListeners() {
         }
     });
 
+    addListener("click", ".info_change_button", function(event) {
+        this.preventDefault();
+        M.Modal.getInstance(document.querySelector("#channel_info")).open();
+    });
+
     addListener("click", "#hide-playlist", function(event) {
         this.preventDefault();
         fullVideo(!hiddenPlaylist);
@@ -506,16 +511,34 @@ function addDynamicListeners() {
         }
     });
 
-    addListener("submit", "#thumbnail_form", function(event){
+    addListener("click", ".description_input_send", function(event) {
         this.preventDefault();
-        emit("suggest_thumbnail", {channel: chan, thumbnail: document.getElementById("chan_thumbnail").value});
-        document.getElementById("chan_thumbnail").value = "";
+        sendDescription();
     });
 
-    addListener("submit", "#description_form", function(event){
+    addListener("click", ".rules_input_send", function(event) {
         this.preventDefault();
-        emit("suggest_description", {channel: chan, description: document.getElementById("chan_description").value});
-        document.getElementById("chan_description").value = "";
+        sendRules();
+    });
+
+    addListener("click", ".thumbnail_input_send", function(event) {
+        this.preventDefault();
+        sendThumbnail();
+    });
+
+    addListener("submit", "#thumbnail_input_form", function(event){
+        this.preventDefault();
+        sendThumbnail();
+    });
+
+    addListener("submit", "#description_input_form", function(event){
+        this.preventDefault();
+        sendDescription();
+    });
+
+    addListener("submit", "#rules_input_form", function(event){
+        this.preventDefault();
+        sendRules();
     });
 
     addListener("click", "#playpause-overlay", function(){
@@ -1639,8 +1662,9 @@ function addDynamicListeners() {
             document.querySelector("#text-chat-input") != document.activeElement &&
             document.querySelector("#password") != document.activeElement &&
             document.querySelector("#user-pass-input") != document.activeElement &&
-            document.querySelector("#chan_thumbnail") != document.activeElement &&
-            document.querySelector("#chan_description") != document.activeElement &&
+            document.querySelector("#thumbnail_input") != document.activeElement &&
+            document.querySelector("#rules_input") != document.activeElement &&
+            document.querySelector("#description_input") != document.activeElement &&
             document.querySelector("#contact-form-from") != document.activeElement &&
             document.querySelector("#contact-form-message") != document.activeElement &&
             document.querySelector("#remote_channel") != document.activeElement &&

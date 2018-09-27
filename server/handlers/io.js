@@ -190,6 +190,17 @@ module.exports = function() {
             Suggestions.description(msg, coll, guid, offline, socket);
         });
 
+        socket.on('suggest_rules', function(msg){
+            if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
+                var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+                msg.channel = _list;
+            }
+            if(msg.hasOwnProperty("channel")) {
+                msg.channel = Functions.encodeChannelName(msg.channel);
+            }
+            Suggestions.rules(msg, coll, guid, offline, socket);
+        });
+
         socket.on("namechange", function(msg) {
             if(msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1){
                 var _list = msg.channel.substring(0, msg.channel.indexOf("?"));

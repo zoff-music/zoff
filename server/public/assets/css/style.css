@@ -25,6 +25,10 @@ a {
     outline: 0 !important;
 }
 
+.initial-line-height {
+    line-height: initial;
+}
+
 .error-code-container {
     background: lightgrey;
     border: 1px solid darkgrey;
@@ -1362,8 +1366,11 @@ margin:-1px;
 .suggest-songs:nth-child(odd) {background: rgba(204,204,204,0.40)}
 .suggest-songs:nth-child(even) {background: #FFF}
 
-.suggest-songs {
+.info_change_button_container, .suggest-songs {
     padding-top:20px;
+}
+.suggest-songs {
+
     border-bottom:1px solid black;
 }
 

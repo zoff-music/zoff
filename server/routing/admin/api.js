@@ -43,6 +43,16 @@ router.route('/api/descriptions').get(function(req, res){
    }
 });
 
+router.route('/api/rules').get(function(req, res){
+   if(req.isAuthenticated()){
+      db.collection("suggested_rules").find(function(err, docs){
+         res.json(docs);
+      });
+   } else {
+      res.send(false);
+   }
+});
+
 router.route('/api/approve_thumbnail').post(function(req, res){
    if(req.isAuthenticated()){
       var channel = req.body.channel;
@@ -67,6 +77,45 @@ router.route('/api/deny_thumbnail').post(function(req, res){
       db.collection("suggested_thumbnails").remove({channel: channel},function(err, docs){
          res.send(true);
      });
+   } else {
+      res.send(false);
+   }
+});
+
+
+router.route('/api/approve_rules').post(function(req, res){
+   if(req.isAuthenticated()){
+      var channel = req.body.channel;
+      db.collection("suggested_rules").find({channel: channel}, function(err, docs){
+         var rules = docs[0].rules;
+         db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{rules: rules}}, {upsert: true}, function(err, docs){
+            db.collection("suggested_rules").remove({channel: channel}, function(err, docs){
+               res.send(true);
+            });
+         });
+      });
+   } else {
+      res.send(false);
+   }
+});
+
+router.route('/api/deny_rules').post(function(req, res){
+   if(req.isAuthenticated()){
+      var channel = req.body.channel;
+      db.collection("suggested_rules").remove({channel: channel},function(err, docs){
+         res.send(true);
+     });
+   } else {
+      res.send(false);
+   }
+});
+
+router.route('/api/remove_rules').post(function(req, res){
+   if(req.isAuthenticated()){
+      var channel = req.body.channel;
+         db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{rules: ""}}, function(err, docs){
+         res.send(true);
+      });
    } else {
       res.send(false);
    }
