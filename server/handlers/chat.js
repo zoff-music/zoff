@@ -90,7 +90,7 @@ function chat(msg, guid, offline, socket) {
                 msg.pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
             }
             db.collection(coll + "_settings").find(function(err, conf){
-                if(conf.length > 0 && !conf[0].toggleChat) {
+                if(conf.length > 0 && (conf[0].hasOwnProperty("toggleChat") && !conf[0].toggleChat)) {
                     socket.emit('chat', {from: "System", msg: ": Chat for this channel has been disabled.", icon: "https://zoff.me/assets/images/favicon-32x32.png"});
                     return;
                 } else if(conf.length > 0 && (conf[0].userpass == undefined || conf[0].userpass == "" || (msg.hasOwnProperty('pass') && conf[0].userpass == msg.pass))) {
@@ -233,7 +233,7 @@ function checkIfChatEnabled(channel, socket, callback) {
     if(channel == "" || channel == undefined) callback();
     else {
         db.collection(channel + "_settings").find(function(err, docs){
-            if(docs.length > 0 && !docs[0].toggleChat) {
+            if(docs.length > 0 && (docs[0].hasOwnProperty("toggleChat") && !docs[0].toggleChat)) {
                 socket.emit('chat', {from: "System", msg: ": Chat for this channel has been disabled.", icon: "https://zoff.me/assets/images/favicon-32x32.png"});
             } else {
                 callback();
