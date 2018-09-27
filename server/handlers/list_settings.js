@@ -45,7 +45,7 @@ function password(inp, coll, guid, offline, socket) {
         pw = Functions.hash_pass(Functions.decrypt_string(pw), true);
         Functions.check_inlist(coll, guid, socket, offline, undefined, "place 8");
         Functions.getSessionAdminUser(sessionId, coll, function(userpass, adminpass) {
-
+            adminpass = Functions.hash_pass(adminpass);
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs !== null && docs.length !== 0)
                 {
@@ -61,7 +61,7 @@ function password(inp, coll, guid, offline, socket) {
                                 socket.emit("pw", true);
                             });
                         });
-                    } else if(docs[0].adminpass === "" || docs[0].adminpass == Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(adminpass), true))) {
+                    } else if(docs[0].adminpass === "" || docs[0].adminpass == adminpass) {
                         Functions.setSessionAdminPass(sessionId, inp.password, coll, function() {
                             db.collection(coll + "_settings").update({ id: "config" }, {$set:{adminpass:Functions.hash_pass(pw)}}, function(err, docs){
                                 if(adminpass != pw) {
@@ -117,7 +117,6 @@ function conf_function(params, coll, guid, offline, socket) {
             if(gotten) {
                 params.adminpass = adminpass;
                 if(!params.userpass_changed) params.userpass = userpass;
-
             }
             if(!params.hasOwnProperty('voting') || !params.hasOwnProperty('addsongs') ||
                 !params.hasOwnProperty('longsongs') || !params.hasOwnProperty('frontpage') ||
@@ -191,13 +190,19 @@ function conf_function(params, coll, guid, offline, socket) {
             var description = "";
             var hash;
             if(params.description) description = params.description;
-            if(adminpass !== "") {
+            if(adminpass !== "" && !gotten) {
                 hash = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(adminpass), true));
+            } else if(adminpass !== "" && gotten) {
+                hash = Functions.hash_pass(adminpass);
             } else {
                 hash = adminpass;
             }
             if(userpass != "") {
-                userpass = crypto.createHash('sha256').update(userpass).digest("base64");
+                if(!params.userpass_changed && gotten) {
+
+                } else {
+                    userpass = crypto.createHash('sha256').update(userpass).digest("base64");
+                }
             }
             db.collection(coll + "_settings").find({id: "config"}, function(err, docs){
                 if(docs !== null && docs.length !== 0 && (docs[0].adminpass === "" || docs[0].adminpass == hash)) {
@@ -223,8 +228,8 @@ function conf_function(params, coll, guid, offline, socket) {
                     }
                     db.collection(coll + "_settings").update({ id: "config" }, {
                         $set:obj
-                    }, {upsert: true}, function(err, docs){
-                        Functions.setSessionUserPass(Functions.getSession(socket), params.userpass, coll, function() {
+                    }, function(err, docs){
+                        Functions.setSessionUserPass(Functions.getSession(socket), obj["userpass"], coll, function() {
                             db.collection(coll + "_settings").find(function(err, docs){
                                 if(docs[0].adminpass !== "") docs[0].adminpass = true;
                                 if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;

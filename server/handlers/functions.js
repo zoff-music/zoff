@@ -236,6 +236,7 @@ function contains(a, obj) {
 }
 
 function hash_pass(adminpass, hex) {
+    if(adminpass == undefined || adminpass == "") return "";
     if(hex) return crypto.createHash('sha256').update(adminpass).digest('hex');
     return crypto.createHash('sha256').update(adminpass).digest('base64');
 }
@@ -247,7 +248,7 @@ function setSessionAdminPass(id, adminpass, list, callback) {
             return;
         }
 
-        connected_db.collection(id).update({_id: list}, {$set: {adminpass: adminpass}}, {upsert: true}, function(e, d){
+        connected_db.collection(id).update({_id: list}, {$set: {adminpass: hash_pass(decrypt_string(adminpass), true)}}, {upsert: true}, function(e, d){
             callback();
             return;
         });
@@ -262,7 +263,6 @@ function setSessionChatPass(id, name, pass, callback) {
             callback();
             return;
         }
-
         connected_db.collection(id).update({_id: "_chat_"}, {$set: {password: pass, name: name}}, {upsert: true}, function(e) {
             callback();
             return;
@@ -317,10 +317,11 @@ function setChromecastHost(id, other_id, list, callback) {
 
 function setSessionUserPass(id, userpass, list, callback) {
     try {
-        if(id == "empty" || id == undefined) {
+        if(id == "empty" || id == undefined || userpass == undefined) {
             callback();
             return;
         }
+
         connected_db.collection(id).update({_id: list}, {$set: {userpass: userpass}}, {upsert: true}, function(e, d){
             callback();
             return;
@@ -373,7 +374,7 @@ function removeSessionAdminPass(id, channel, callback) {
         callback();
         return;
     }
-    connected_db.collection(id).remove({_id: channel}, function() {
+    connected_db.collection(id).update({_id: channel}, {$set: {"adminpass": ""}}, function() {
         callback();
         return;
     });
