@@ -56,6 +56,7 @@ function addFromOtherList(arr, guid, offline, socket) {
                     } else {
                         otheruser = crypto.createHash('sha256').update(Functions.decrypt_string(otheruser)).digest("base64");
                     }
+                    
                     db.collection(channel).find({now_playing: true}, function(e, np) {
 
                         var project_object = {

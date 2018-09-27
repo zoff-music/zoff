@@ -179,8 +179,8 @@ function conf_function(params, coll, guid, offline, socket) {
             var adminpass = params.adminpass;
             var skipping = params.skipping;
             var shuffling = params.shuffling;
-            var userpass = Functions.decrypt_string(params.userpass);
 
+            var userpass = Functions.decrypt_string(params.userpass);
 
             if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
                 userpass = "";
@@ -218,6 +218,9 @@ function conf_function(params, coll, guid, offline, socket) {
                         adminpass:hash,
                         desc: description,
                     };
+                    if(params.hasOwnProperty("toggleChat") && docs[0].adminpass != "" && docs[0].adminpass != undefined && docs[0].adminpass == hash) {
+                        obj.toggleChat = params.toggleChat;
+                    }
                     if(params.userpass_changed) {
                         obj["userpass"] = userpass;
                     } else if (frontpage) {
@@ -226,7 +229,7 @@ function conf_function(params, coll, guid, offline, socket) {
                     db.collection(coll + "_settings").update({ id: "config" }, {
                         $set:obj
                     }, function(err, docs){
-                        Functions.setSessionUserPass(Functions.getSession(socket), crypto.createHash('sha256').update(Functions.decrypt_string(params.userpass)).digest('base64'), coll, function() {
+                        Functions.setSessionUserPass(Functions.getSession(socket), obj["userpass"], coll, function() {
                             db.collection(coll + "_settings").find(function(err, docs){
                                 if(docs[0].adminpass !== "") docs[0].adminpass = true;
                                 if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;

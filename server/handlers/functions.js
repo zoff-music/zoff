@@ -317,10 +317,11 @@ function setChromecastHost(id, other_id, list, callback) {
 
 function setSessionUserPass(id, userpass, list, callback) {
     try {
-        if(id == "empty" || id == undefined) {
+        if(id == "empty" || id == undefined || userpass == undefined) {
             callback();
             return;
         }
+
         connected_db.collection(id).update({_id: list}, {$set: {userpass: userpass}}, {upsert: true}, function(e, d){
             callback();
             return;

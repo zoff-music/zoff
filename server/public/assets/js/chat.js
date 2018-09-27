@@ -143,7 +143,7 @@ var Chat = {
     },
 
     channelchat: function(data, time_sent, disable_blink) {
-        if(data.msg.substring(0,1) == ":" && !chat_active && !disable_blink) {
+        if(data.msg.substring(0,1) == ":" && !chat_active && !disable_blink && data.from.toLowerCase() != "system") {
             document.querySelector("#favicon").setAttribute("href", "/assets/images/highlogo.png");
             unseen = true;
             chat_unseen = true;
