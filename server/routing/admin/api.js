@@ -148,7 +148,19 @@ router.route('/api/names').post(function(req, res) {
    } else {
       res.send(false);
    }
-})
+});
+
+router.route('/api/names').delete(function(req, res) {
+    if(req.isAuthenticated()) {
+       var name = req.body.name;
+       db.collection("registered_users").remove({_id: name}, function(err, docs) {
+          if(err) res.send(false);
+          else res.send(true);
+       });
+    } else {
+       res.send(false);
+    }
+});
 
 router.route('/api/token').get(function(req, res){
    if(req.isAuthenticated()){

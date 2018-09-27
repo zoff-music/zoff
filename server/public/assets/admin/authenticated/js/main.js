@@ -138,6 +138,30 @@ addListener("click", ".approve_name", function(event) {
 	});
 });
 
+addListener("click", ".remove_name", function(event) {
+	var that = event;
+	var name = that.getAttribute("data-name");
+	var value = document.querySelector("." + name + "_input").value;
+	ajax({
+		type: "DELETE",
+		url: "/api/names",
+		data: {
+			name: name,
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(resp) {
+			if(resp == true) {
+				toast("Removed username!", 2000, "green lighten");
+				that.parentElement.remove();
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
 addListener("click", ".thumbnail_link", function(event) {
 	this.preventDefault();
 	window.open("https:" + event.value,'_blank');
@@ -626,7 +650,7 @@ function loaded() {
 				if(response[i].icon && response[i].icon != "") {
 					icon = "<img class='chat-icon' src='" + response[i].icon + "' alt='" + response[i]._id + "'>";
 				}
-				document.querySelector(".names-container").insertAdjacentHTML("beforeend", "<div class='col s12'><div class='name-chat col s3'>" + icon + response[i]._id + "</div><input type='text' class='" + response[i]._id + "_input col s7'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>check</i></a></div>");
+				document.querySelector(".names-container").insertAdjacentHTML("beforeend", "<div class='col s12'><div class='name-chat col s3'>" + icon + response[i]._id + "</div><input type='text' class='" + response[i]._id + "_input col s5'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 remove_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>close</i></a></div>");
 			}
 	    },
 	});
