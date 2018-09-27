@@ -180,7 +180,7 @@ function conf_function(params, coll, guid, offline, socket) {
             var adminpass = params.adminpass;
             var skipping = params.skipping;
             var shuffling = params.shuffling;
-            var toggleChat = params.toggleChat;
+
             var userpass = Functions.decrypt_string(params.userpass);
 
             if((!params.userpass_changed && frontpage) || (params.userpass_changed && userpass == "")) {
@@ -212,8 +212,10 @@ function conf_function(params, coll, guid, offline, socket) {
                         longsongs:longsongs,
                         adminpass:hash,
                         desc: description,
-                        toggleChat: toggleChat
                     };
+                    if(params.hasOwnProperty("toggleChat")) {
+                        obj.toggleChat = params.toggleChat;
+                    }
                     if(params.userpass_changed) {
                         obj["userpass"] = userpass;
                     } else if (frontpage) {
