@@ -182,7 +182,6 @@ function skip(list, guid, coll, offline, socket) {
 
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == list.userpass))) {
-
                     Functions.check_inlist(coll, guid, socket, offline, undefined, "place 12");
 
                     adminpass = "";
@@ -198,47 +197,49 @@ function skip(list, guid, coll, offline, socket) {
                     }
 
                     hash = adminpass;
+                    var toCompare = list.error
+                    Functions.checkTimeout("skip", 1, coll, coll, error, true, socket, function() {
+                        //db.collection(coll + "_settings").find(function(err, docs){
 
-                    //db.collection(coll + "_settings").find(function(err, docs){
-
-                    if(docs !== null && docs.length !== 0)
-                    {
-                        if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
+                        if(docs !== null && docs.length !== 0)
                         {
-                            db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
-                                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
-                                (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
-                                {
-                                    change_song(coll, error, video_id, docs);
-                                    socket.emit("toast", "skip");
-                                    db.collection("user_names").find({"guid": guid}, function(err, docs) {
-                                        if(docs.length == 1) {
-                                            db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
-                                                var icon = false;
-                                                if(n.length > 0 && n[0].icon) {
-                                                    icon = n[0].icon;
-                                                }
-                                                io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
-                                            });
-                                        }
-                                    });
-                                }else if(!Functions.contains(docs[0].skips, guid)){
-                                    db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
-                                        if(frontpage_viewers[0].viewers == 2)
-                                        to_skip = 1;
-                                        else
-                                        to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
-                                        socket.emit("toast", to_skip + " more are needed to skip!");
-                                        socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
-                                    });
-                                }else{
-                                    socket.emit("toast", "alreadyskip");
-                                }
-                            });
-                        }else
-                        socket.emit("toast", "noskip");
-                    }
+                            if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
+                            {
+                                db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
+                                    if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+                                    (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
+                                    (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                                    {
+                                        change_song(coll, error, video_id, docs);
+                                        socket.emit("toast", "skip");
+                                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                            if(docs.length == 1) {
+                                                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                                    var icon = false;
+                                                    if(n.length > 0 && n[0].icon) {
+                                                        icon = n[0].icon;
+                                                    }
+                                                    io.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " skipped"});
+                                                });
+                                            }
+                                        });
+                                    }else if(!Functions.contains(docs[0].skips, guid)){
+                                        db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
+                                            if(frontpage_viewers[0].viewers == 2)
+                                            to_skip = 1;
+                                            else
+                                            to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
+                                            socket.emit("toast", to_skip + " more are needed to skip!");
+                                            socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                        });
+                                    }else{
+                                        socket.emit("toast", "alreadyskip");
+                                    }
+                                });
+                            }else
+                            socket.emit("toast", "noskip");
+                        }
+                    });
                     //});
                 } else {
                     socket.emit("auth_required");
