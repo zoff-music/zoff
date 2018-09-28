@@ -10,8 +10,7 @@ var Admin = {
         w_p = false;
         M.Modal.init(document.getElementById("channel_info"));
         if(Admin.logged_in) {
-            Helper.css("#thumbnail_form", "display", "inline-block");
-            Helper.css("#description_form", "display", "inline-block");
+            Helper.removeClass(".info_change_li", "hide");
             Helper.removeClass("#user_suggests", "hide");
             Helper.removeClass("#user-suggest-html", "hide");
             if(Helper.html(".suggested-badge") != "0" && Helper.html(".suggested-badge") != "") {
@@ -108,8 +107,7 @@ var Admin = {
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
         "removeplay", "skip", "shuffle", "toggleChat"];
         document.getElementById("password").value = "";
-        Helper.css("#thumbnail_form", "display", "none");
-        Helper.css("#description_form", "display", "none");
+        Helper.addClass(".info_change_li", "hide");
         for (i = 0; i < names.length; i++) {
             document.getElementsByName(names[i])[0].setAttribute("disabled", true);
         }
