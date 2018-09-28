@@ -198,7 +198,8 @@ function skip(list, guid, coll, offline, socket) {
 
                     hash = adminpass;
                     var toCompare = list.error
-                    Functions.checkTimeout("skip", 1, coll, coll, error, true, socket, function() {
+                    var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+                    Functions.checkTimeout("skip", 1, coll, connection_id, error, true, socket, function() {
                         //db.collection(coll + "_settings").find(function(err, docs){
 
                         if(docs !== null && docs.length !== 0)
