@@ -52,6 +52,8 @@ The team can be reached on <a href="mailto:contact@zoff.me?Subject=Contact%20Zof
 
 ![Channel desktop](https://puu.sh/xCHXj/3f7d826329.png)
 
+![Channel settings](https://puu.sh/BCii4/f6594fc481.png)
+
 ![Channel join](https://puu.sh/zf1Ap/16587c0749.png)
 
 ![Channel search desktop](https://puu.sh/AhKTR/c1e6b5d8d2.png)
