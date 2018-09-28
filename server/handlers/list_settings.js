@@ -230,7 +230,16 @@ function conf_function(params, coll, guid, offline, socket) {
                         $set:obj
                     }, function(err, docs){
                         Functions.setSessionUserPass(Functions.getSession(socket), obj["userpass"], coll, function() {
-                            db.collection(coll + "_settings").find(function(err, docs){
+                            db.collection(coll + "_settings").aggregate([
+                                {
+                                    "$match": {
+                                        id: "config"
+                                    }
+                                },
+                                {
+                                    "$project": projects.toShowConfig
+                                },
+                            ], function(err, docs){
                                 if(docs[0].adminpass !== "") docs[0].adminpass = true;
                                 if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                                 else docs[0].userpass = false;

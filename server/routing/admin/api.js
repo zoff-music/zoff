@@ -9,6 +9,7 @@ var uniqid = require('uniqid');
 var crypto = require('crypto');
 var ObjectId = mongojs.ObjectId;
 var sIO = require(path.join(__dirname, '../../apps/client.js')).socketIO;
+var projects = require(pathThumbnails + "/handlers/aggregates.js");
 
 router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
@@ -62,7 +63,16 @@ router.route('/api/approve_thumbnail').post(function(req, res){
          db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
             db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{thumbnail: thumbnail}}, {upsert: true}, function(err, docs){
                db.collection("suggested_thumbnails").remove({channel: channel}, function(err, docs){
-                  db.collection(channel + "_settings").find(function(err, docs) {
+                  db.collection(channel + "_settings").aggregate([
+                        {
+                            "$match": {
+                                id: "config"
+                            }
+                        },
+                        {
+                            "$project": projects.toShowConfig
+                        },
+                    ], function(err, docs) {
                      if(docs[0].adminpass !== "") docs[0].adminpass = true;
                      if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                      else docs[0].userpass = false;
@@ -97,7 +107,16 @@ router.route('/api/approve_rules').post(function(req, res){
          var rules = docs[0].rules;
          db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{rules: rules}}, {upsert: true}, function(err, docs){
             db.collection("suggested_rules").remove({channel: channel}, function(err, docs){
-               db.collection(channel + "_settings").find(function(err, docs) {
+               db.collection(channel + "_settings").aggregate([
+                     {
+                         "$match": {
+                             id: "config"
+                         }
+                     },
+                     {
+                         "$project": projects.toShowConfig
+                     },
+                 ], function(err, docs) {
                    if(docs[0].adminpass !== "") docs[0].adminpass = true;
                    if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                    else docs[0].userpass = false;
@@ -127,7 +146,16 @@ router.route('/api/remove_rules').post(function(req, res){
    if(req.isAuthenticated()){
       var channel = req.body.channel;
       db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{rules: ""}}, function(err, docs){
-        db.collection(channel + "_settings").find(function(err, docs) {
+         db.collection(channel + "_settings").aggregate([
+              {
+                  "$match": {
+                      id: "config"
+                  }
+              },
+              {
+                  "$project": projects.toShowConfig
+              },
+          ], function(err, docs) {
             if(docs[0].adminpass !== "") docs[0].adminpass = true;
             if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
             else docs[0].userpass = false;
@@ -148,7 +176,16 @@ router.route('/api/approve_description').post(function(req, res){
          db.collection("frontpage_lists").update({_id: channel}, {$set:{description: description}}, {upsert: true}, function(err, docs){
            db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{description: description}}, function(err, docs){
              db.collection("suggested_descriptions").remove({channel: channel}, function(err, docs){
-                db.collection(channel + "_settings").find(function(err, docs) {
+                db.collection(channel + "_settings").aggregate([
+                      {
+                          "$match": {
+                              id: "config"
+                          }
+                      },
+                      {
+                          "$project": projects.toShowConfig
+                      },
+                  ], function(err, docs) {
                    if(docs[0].adminpass !== "") docs[0].adminpass = true;
                    if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                    else docs[0].userpass = false;
@@ -180,7 +217,16 @@ router.route('/api/remove_thumbnail').post(function(req, res){
       var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{thumbnail: ""}}, function(err, docs){
          db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{thumbnail: ""}}, function(err, docs){
-            db.collection(channel + "_settings").find(function(err, docs) {
+            db.collection(channel + "_settings").aggregate([
+                  {
+                      "$match": {
+                          id: "config"
+                      }
+                  },
+                  {
+                      "$project": projects.toShowConfig
+                  },
+              ], function(err, docs) {
                 if(docs[0].adminpass !== "") docs[0].adminpass = true;
                 if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                 else docs[0].userpass = false;
@@ -199,7 +245,16 @@ router.route('/api/remove_description').post(function(req, res){
       var channel = req.body.channel;
       db.collection("frontpage_lists").update({_id: channel}, {$set:{description: ""}}, function(err, docs){
          db.collection(channel + "_settings").update({views:{$exists:true}}, {$set:{description: ""}}, function(err, docs){
-            db.collection(channel + "_settings").find(function(err, docs) {
+            db.collection(channel + "_settings").aggregate([
+                  {
+                      "$match": {
+                          id: "config"
+                      }
+                  },
+                  {
+                      "$project": projects.toShowConfig
+                  },
+              ], function(err, docs) {
                 if(docs[0].adminpass !== "") docs[0].adminpass = true;
                 if(docs[0].hasOwnProperty("userpass") && docs[0].userpass != "") docs[0].userpass = true;
                 else docs[0].userpass = false;

@@ -2,6 +2,7 @@ var ColorThief = require('color-thief-jimp');
 var Jimp = require('jimp');
 var Functions = require(pathThumbnails + '/handlers/functions.js');
 var Frontpage = require(pathThumbnails + '/handlers/frontpage.js');
+var projects = require(pathThumbnails + "/handlers/aggregates.js");
 var crypto = require('crypto');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
@@ -98,7 +99,7 @@ function list(msg, guid, coll, offline, socket) {
                 } else {
                     db.createCollection(coll, function(err, docs){
                         db.collection(coll).createIndex({ id: 1}, {unique: true}, function(e, d) {
-                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "description": "", "thumbnail": "", "rules": "", userpass: "", id: "config"};
+                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "description": "", "thumbnail": "", "rules": "", userpass: "", id: "config", "toggleChat": true};
                             db.collection(coll + "_settings").insert(configs, function(err, docs){
                                 socket.join(coll);
                                 send_list(coll, socket, true, false, true);
@@ -421,38 +422,29 @@ function change_song_post(coll, next_song, conf, callback, socket) {
 function send_list(coll, socket, send, list_send, configs, shuffled)
 {
     //coll = coll.replace(/ /g,'');
-    db.collection(coll + "_settings").find({id: "config"}, function(err, _conf){
+    db.collection(coll + "_settings").aggregate([
+        {
+            "$match": {
+                id: "config"
+            }
+        },
+        {
+            "$project": projects.toShowConfig
+        },
+    ], function(err, _conf){
         var conf = _conf;
         if(conf.length == 0) {
-            var conf = {"id": "config", "addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: ""};
+            var conf = {"id": "config", "addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "description": "", "thumbnail": "", "rules": "", "toggleChat": true, userpass: ""};
             db.collection(coll + "_settings").update({id: "config"}, conf, {upsert: true}, function(err, docs) {
                 send_list(coll, socket, send, list_send, configs, shuffled);
             });
         } else {
-            var project_object = {
-                "_id": 0,
-                "id": 1,
-                "added": 1,
-                "now_playing": 1,
-                "title": 1,
-                "votes": 1,
-                "start": 1,
-                "duration": 1,
-                "end": 1,
-                "type": 1,
-                "source": { $ifNull: [ "$source", "youtube" ] },
-                "thumbnail": {
-                    $ifNull: [ "$thumbnail", {
-                        $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
-                    } ]
-                }
-            };
             db.collection(coll).aggregate([
                 {
                     "$match": {type: {$ne: "suggested"}}
                 },
                 {
-                    "$project": project_object
+                    "$project": projects.project_object
                 },
                 { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
             ], function(err, docs)
