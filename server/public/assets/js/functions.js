@@ -355,6 +355,7 @@ function contextListener(that, event) {
     if(parent.id.indexOf("suggested-") > -1) suggested = true;
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-suggested", suggested);
     document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", parent.getAttribute("id").replace("suggested-", ""));
+    document.getElementsByClassName("context-menu-root")[0].setAttribute("data-source", parent.getAttribute("data-video-source"));
     Helper.removeClass("#context-menu-overlay", "hide");
     var left = event.pageX - document.querySelector(".context-menu-root").offsetWidth / 2;
     var top = event.pageY;

@@ -602,7 +602,11 @@ function addDynamicListeners() {
         var id = parent.getAttribute("data-id");
         if(id != "") {
             Helper.css(".copy_video_id", "display", "block");
-            Helper.setHtml(".copy_video_id", "https://www.youtube.com/watch?v=" + id);
+            if(parent.getAttribute("data-source") == "soundcloud") {
+                Helper.setHtml(".copy_video_id", "https://api.soundcloud.com/tracks/" + id + "?client_id=" + api_key.soundcloud);
+            } else if(parent.getAttribute("data-source") == "youtube") {
+                Helper.setHtml(".copy_video_id", "https://www.youtube.com/watch?v=" + id);
+            }
             var copyTextarea = document.querySelector('.copy_video_id');
             copyTextarea.select();
             var successful = document.execCommand('copy');
@@ -613,6 +617,7 @@ function addDynamicListeners() {
             }
             Helper.css(".copy_video_id", "display", "none");
         }
+
         Helper.addClass(".context-menu-root", "hide");
         Helper.addClass("#context-menu-overlay", "hide");
         document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
