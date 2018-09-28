@@ -191,7 +191,8 @@ var Search = {
             Helper.removeClass(".main", "blurT");
             Helper.removeClass("#controls", "blurT");
             Helper.removeClass(".main", "clickthrough");
-            Helper.css(".results-tabs", "display", "none");
+            //Helper.css(".results-tabs", "display", "none");
+            Helper.css(".search_results", "display", "none");
         }
     },
 
