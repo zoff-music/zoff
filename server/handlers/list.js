@@ -98,7 +98,7 @@ function list(msg, guid, coll, offline, socket) {
                 } else {
                     db.createCollection(coll, function(err, docs){
                         db.collection(coll).createIndex({ id: 1}, {unique: true}, function(e, d) {
-                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "desc": "", userpass: "", id: "config"};
+                            var configs = {"addsongs":false, "adminpass":"", "allvideos":true, "frontpage":true, "longsongs":false, "removeplay": false, "shuffle": true, "skip": false, "skips": [], "startTime":Functions.get_time(), "views": [], "vote": false, "description": "", "thumbnail": "", "rules": "", userpass: "", id: "config"};
                             db.collection(coll + "_settings").insert(configs, function(err, docs){
                                 socket.join(coll);
                                 send_list(coll, socket, true, false, true);

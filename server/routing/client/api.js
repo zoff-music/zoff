@@ -30,6 +30,26 @@ var toShowChannel = {
     source: 1,
     thumbnail: 1,
 };
+
+var project_object = {
+    "_id": 0,
+    "id": 1,
+    "added": 1,
+    "now_playing": 1,
+    "title": 1,
+    "votes": 1,
+    "start": 1,
+    "duration": 1,
+    "end": 1,
+    "type": 1,
+    "source": { $ifNull: [ "$source", "youtube" ] },
+    "thumbnail": {
+        $ifNull: [ "$thumbnail", {
+            $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
+        } ]
+    }
+};
+
 var toShowConfig = {
     addsongs: 1,
     adminpass: 1,
@@ -42,6 +62,10 @@ var toShowConfig = {
     startTime: 1,
     userpass: 1,
     vote: 1,
+    toggleChat: 1,
+    description: { $ifNull: [ "$description", "" ] },
+    thumbnail: { $ifNull: [ "$thumbnail", "" ] },
+    rules: { $ifNull: [ "$rules", "" ] },
     _id: 0
 };
 
@@ -915,8 +939,17 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
     res.header({"Content-Type": "application/json"});
 
     var channel_name = cleanChannelName(req.params.channel_name);
-    db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
-        if(docs.length > 0 && docs[0].userpass == "" || docs[0].userpass == undefined) {
+    db.collection(channel_name + "_settings").aggregate([
+        {
+            "$match": {
+                id: "config"
+            }
+        },
+        {
+            "$project": toShowConfig
+        },
+    ], function(err, docs) {
+        if(docs.length > 0 && (docs[0].userpass == "" || docs[0].userpass == undefined)) {
             var conf = docs[0];
             if(conf.adminpass != "") {
                 conf.adminpass = true;
@@ -998,7 +1031,16 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                             return;
                         });
                     } else {
-                        db.collection(channel_name + "_settings").find({ id: "config" }, toShowConfig, function(err, docs) {
+                        db.collection(channel_name + "_settings").aggregate([
+                            {
+                                "$match": {
+                                    id: "config"
+                                }
+                            },
+                            {
+                                "$project": toShowConfig
+                            },
+                        ], function(err, docs) {
                             if(docs.length > 0 && docs[0].userpass == userpass) {
                                 var conf = docs[0];
                                 if(conf.adminpass != "") {
