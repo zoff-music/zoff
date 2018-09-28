@@ -434,6 +434,46 @@ function left_channel(coll, guid, short_id, in_list, socket, change, caller) {
     remove_unique_id(short_id);
 }
 
+
+function checkTimeout(type, timeout, channel, guid, conf_pass, this_pass, socket, callback, error_message){
+    if(conf_pass != "" && conf_pass == this_pass) {
+        callback();
+        return;
+    }
+    db.collection("timeout_api").find({
+        type: type,
+        guid: guid,
+    }, function(err, docs) {
+        if(docs.length > 0) {
+            var date = new Date(docs[0].createdAt);
+            date.setSeconds(date.getSeconds() + timeout);
+            var now = new Date();
+
+            var retry_in = (date.getTime() - now.getTime()) / 1000;
+            if(retry_in > 0) {
+                if(error_message) {
+                    socket.emit("toast", error_message + Math.ceil(retry_in) + " seconds.");
+                } else {
+                    socket.emit("toast", "wait_longer");
+                }
+                return;
+            }
+        }
+        var now_date = new Date();
+        db.collection("timeout_api").update({type: type, guid: guid}, {
+            $set: {
+                "createdAt": now_date,
+                type: type,
+                guid: guid,
+            },
+        }, {upsert: true}, function(err, docs) {
+            callback();
+            return;
+        });
+    });
+}
+
+module.exports.checkTimeout = checkTimeout;
 module.exports.left_channel = left_channel;
 module.exports.setChromecastHost = setChromecastHost;
 module.exports.decodeChannelName = decodeChannelName;
