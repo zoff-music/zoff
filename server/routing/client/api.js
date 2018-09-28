@@ -14,60 +14,7 @@ var Search = require(pathThumbnails + '/handlers/search.js');
 var uniqid = require('uniqid');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
-
-var toShowChannel = {
-    start: 1,
-    end: 1,
-    added: 1,
-    id: 1,
-    title: 1,
-    votes: 1,
-    duration: 1,
-    type: 1,
-    _id: 0,
-    now_playing: 1,
-    type: 1,
-    source: 1,
-    thumbnail: 1,
-};
-
-var project_object = {
-    "_id": 0,
-    "id": 1,
-    "added": 1,
-    "now_playing": 1,
-    "title": 1,
-    "votes": 1,
-    "start": 1,
-    "duration": 1,
-    "end": 1,
-    "type": 1,
-    "source": { $ifNull: [ "$source", "youtube" ] },
-    "thumbnail": {
-        $ifNull: [ "$thumbnail", {
-            $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
-        } ]
-    }
-};
-
-var toShowConfig = {
-    addsongs: 1,
-    adminpass: 1,
-    allvideos: 1,
-    frontpage: 1,
-    longsongs: 1,
-    removeplay: 1,
-    shuffle: 1,
-    skip: 1,
-    startTime: 1,
-    userpass: 1,
-    vote: 1,
-    toggleChat: 1,
-    description: { $ifNull: [ "$description", "" ] },
-    thumbnail: { $ifNull: [ "$thumbnail", "" ] },
-    rules: { $ifNull: [ "$rules", "" ] },
-    _id: 0
-};
+var projects = require(pathThumbnails + "/handlers/aggregates.js");
 
 var error = {
     not_found: {
@@ -610,7 +557,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                             return;
                         });
                     } else {
-                        db.collection(channel_name).find({now_playing: true}, toShowChannel, function(err, list) {
+                        db.collection(channel_name).find({now_playing: true}, projects.toShowChannel, function(err, list) {
                             if(list.length > 0) {
                                 db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                                     if(authorized) {
@@ -847,35 +794,17 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-    var project_object = {
-        "_id": 0,
-        "id": 1,
-        "added": 1,
-        "now_playing": 1,
-        "title": 1,
-        "votes": 1,
-        "start": 1,
-        "duration": 1,
-        "end": 1,
-        "type": 1,
-        "source": { $ifNull: [ "$source", "youtube" ] },
-        "thumbnail": {
-            $ifNull: [ "$thumbnail", {
-                $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
-            } ]
-        }
-    };
     var channel_name = cleanChannelName(req.params.channel_name);
     db.collection(channel_name).aggregate([
         {
             "$match": { }
         },
         {
-            "$project": project_object
+            "$project": projects.project_object
         },
         { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
     ], function(err, docs) {
-    //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, docs) {
+    //db.collection(channel_name).find({views: {$exists: false}}, projects.toShowChannel, function(err, docs) {
         if(docs.length > 0) {
             db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                 if(conf.length == 0) {
@@ -906,7 +835,7 @@ router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
     if(video_id == "__np__") {
         searchQuery = {now_playing: true};
     }
-    db.collection(channel_name).find(searchQuery, toShowChannel, function(err, docs) {
+    db.collection(channel_name).find(searchQuery, projects.toShowChannel, function(err, docs) {
         db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
             if(conf.length == 0) {
                 res.status(404).send(error.not_found.list);
@@ -946,7 +875,7 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
             }
         },
         {
-            "$project": toShowConfig
+            "$project": projects.toShowConfig
         },
     ], function(err, docs) {
         if(docs.length > 0 && (docs[0].userpass == "" || docs[0].userpass == undefined)) {
@@ -1038,7 +967,7 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                                 }
                             },
                             {
-                                "$project": toShowConfig
+                                "$project": projects.toShowConfig
                             },
                         ], function(err, docs) {
                             if(docs.length > 0 && docs[0].userpass == userpass) {
@@ -1164,32 +1093,14 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                             return;
                         });
                     } else {
-                        var project_object = {
-                            "_id": 0,
-                            "id": 1,
-                            "added": 1,
-                            "now_playing": 1,
-                            "title": 1,
-                            "votes": 1,
-                            "start": 1,
-                            "duration": 1,
-                            "end": 1,
-                            "type": 1,
-                            "source": { $ifNull: [ "$source", "youtube" ] },
-                            "thumbnail": {
-                                $ifNull: [ "$thumbnail", {
-                                    $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
-                                } ]
-                            }
-                        };
                         db.collection(channel_name).aggregate([
                             {
                                 "$match": { }
                             },
-                            { "$project": project_object },
+                            { "$project": projects.project_object },
                             { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
                         ], function(err, list) {
-                        //db.collection(channel_name).find({views: {$exists: false}}, toShowChannel, function(err, list) {
+                        //db.collection(channel_name).find({views: {$exists: false}}, projects.toShowChannel, function(err, list) {
                             if(list.length > 0) {
                                 db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                                     if(conf.length == 0) {
