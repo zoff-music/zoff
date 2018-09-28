@@ -603,7 +603,7 @@ function addDynamicListeners() {
         if(id != "") {
             Helper.css(".copy_video_id", "display", "block");
             if(parent.getAttribute("data-source") == "soundcloud") {
-                Helper.setHtml(".copy_video_id", "https://api.soundcloud.com/tracks/" + id + "?client_id=" + api_key.soundcloud);
+                Helper.setHtml(".copy_video_id", "https://api.soundcloud.com/tracks/" + id);
             } else if(parent.getAttribute("data-source") == "youtube") {
                 Helper.setHtml(".copy_video_id", "https://www.youtube.com/watch?v=" + id);
             }
