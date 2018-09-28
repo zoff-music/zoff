@@ -12,7 +12,14 @@ function toast(text, length, classes) {
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-    M.Tabs.init(document.querySelector("ul.tabs"));
+    M.Tabs.init(document.querySelector(".tabs_admin"), {
+		onShow: function() {
+			if(this.index == 2) {
+			    M.Tabs.getInstance(document.querySelector(".tabs_admin_info")).updateTabIndicator();
+			}
+		}
+	});
+    M.Tabs.init(document.querySelector(".tabs_admin_info"));
     api_token_list = document.querySelector("#api_token_list").cloneNode(true);
     document.querySelector("#api_token_list").remove();
     loaded();
@@ -207,6 +214,7 @@ addListener("click", ".approve_thumbnails", function(event) {
 				that.parentElement.remove();
 				var length = parseInt(document.querySelector(".thumbnails-badge").innerText);
 				length = length - 1;
+				increaseInfo(-1);
 				document.querySelector(".thumbnails-badge").innerText = length;
 				if(length <= 0){
 					addClass(".thumbnails-badge", "hide");
@@ -244,6 +252,7 @@ addListener("click", ".deny_thumbnails", function(event) {
 				that.parentElement.remove();
 				var length = parseInt(document.querySelector(".thumbnails-badge").innerText);
 				length = length - 1;
+				increaseInfo(-1);
 				document.querySelector(".thumbnails-badge").innerText = length;
 				if(length <= 0){
 					addClass(".thumbnails-badge", "hide");
@@ -279,6 +288,7 @@ addListener("click", ".approve_descriptions", function(event) {
 				that.parentElement.remove();
 				var length = parseInt(document.querySelector(".descriptions-badge").innerText);
 				length = length - 1;
+				increaseInfo(-1);
 				document.querySelector(".descriptions-badge").innerText = length;
 				if(length <= 0){
 					addClass(".descriptions-badge", "hide");
@@ -314,9 +324,82 @@ addListener("click", ".deny_descriptions", function(event) {
 				that.parentElement.remove();
 				var length = parseInt(document.querySelector(".descriptions-badge").innerText);
 				length = length - 1;
+				increaseInfo(-1);
 				document.querySelector(".descriptions-badge").innerText = length;
 				if(length <= 0){
 					addClass(".descriptions-badge", "hide");
+				}
+				toast("Denied description!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", ".approve_rules", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/approve_rules",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".rules-badge").innerText);
+				length = length - 1;
+				increaseInfo(-1);
+				document.querySelector(".rules-badge").innerText = length;
+				if(length <= 0){
+					addClass(".rules-badge", "hide");
+				}
+				toast("Approved rules!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+addListener("click", ".deny_rules", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = that.getAttribute("data-channel");
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+
+	ajax({
+		type: "POST",
+		url: "/api/deny_rules",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				that.parentElement.remove();
+				var length = parseInt(document.querySelector(".rules-badge").innerText);
+				length = length - 1;
+				increaseInfo(-1);
+				document.querySelector(".rules-badge").innerText = length;
+				if(length <= 0){
+					addClass(".rules-badge", "hide");
 				}
 				toast("Denied description!", 2000, "green lighten");
 			} else {
@@ -346,6 +429,34 @@ addListener("click", "#remove_description_button", function(event) {
 		success: function(response){
 			if(response){
 				toast("Removed description!", 2000, "green lighten");
+			} else {
+				toast("Something went wrong...", 2000, "red lighten");
+			}
+		}
+	});
+});
+
+
+addListener("click", "#remove_rules_button", function(event) {
+	this.preventDefault();
+	var that = event;
+	var channel = document.querySelector("#remove_rules").value;
+	if(!channel) {
+		toast("Something went wrong...", 2000, "red lighten");
+		return;
+	}
+	ajax({
+		type: "POST",
+		url: "/api/remove_rules",
+		data: {
+			channel: channel
+		},
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response){
+				toast("Removed rules!", 2000, "green lighten");
 			} else {
 				toast("Something went wrong...", 2000, "red lighten");
 			}
@@ -558,9 +669,27 @@ function add_to_tab(dest, resp){
 	for(var x = 0; x < resp.length; x++){
 		if(dest == "thumbnails"){
 			document.querySelector("#" + dest + "_cont").insertAdjacentHTML("beforeend", "<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6 thumbnail_link' value='" + resp[x].thumbnail + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
-		} else {
+		} else if(dest == "descriptions"){
 			document.querySelector("#" + dest + "_cont").insertAdjacentHTML("beforeend", "<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].description + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
+		} else {
+			resp[x].rules = resp[x].rules.replace(/\n/g, " /n\\ ");
+			document.querySelector("#" + dest + "_cont").insertAdjacentHTML("beforeend", "<div><div class='col s4 m3'>" + decodeChannelName(resp[x].channel) + "</div><input type='text' readonly class='col s4 m6' value='" + resp[x].rules + "'><a class='btn green waves-effect col s2 m1 approve_" + dest + "' href='#' data-channel='" + resp[x].channel + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 deny_" + dest + "' href='#' data-channel='" + resp[x].channel + "'>X</a></div>");
 		}
+	}
+}
+
+function increaseInfo(num) {
+	removeClass(".info-badge", "hide");
+	try {
+		var currentNumber = parseInt(document.querySelector(".info-badge").innerText);
+		if(isNaN(currentNumber)) currentNumber = 0;
+		document.querySelector(".info-badge").innerText = currentNumber + num;
+		currentNumber += num;
+		if(currentNumber <= 0) {
+			addClass(".info-badge", "hide");
+		}
+	} catch(e) {
+		document.querySelector(".info-badge").innerText = 1;
 	}
 }
 
@@ -625,6 +754,7 @@ function loaded() {
 			document.querySelector("#frontpage_pinned").innerHTML = output_pinned;
 			document.querySelector("#remove_thumbnail").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
 			document.querySelector("#remove_description").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
+			document.querySelector("#remove_rules").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
 			document.querySelector("#delete_list_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
 			document.querySelector("#delete_userpass_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
 			document.querySelector("#delete_channel_name").innerHTML = document.querySelector("#frontpage_pinned").cloneNode(true).innerHTML;
@@ -665,6 +795,7 @@ function loaded() {
 			if(response.length > 0){
 				removeClass(".thumbnails-badge", "hide");
 				document.querySelector(".thumbnails-badge").innerText = response.length;
+				increaseInfo(response.length);
 			}
 			add_to_tab("thumbnails", response);
 		}
@@ -680,8 +811,25 @@ function loaded() {
 			if(response.length > 0){
 				removeClass(".descriptions-badge", "hide");
 				document.querySelector(".descriptions-badge").innerText = response.length;
+				increaseInfo(response.length);
 			}
 			add_to_tab("descriptions", response);
+		}
+	});
+
+	ajax({
+		type: "GET",
+		url: "/api/rules",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		success: function(response){
+			if(response.length > 0){
+				removeClass(".rules-badge", "hide");
+				document.querySelector(".rules-badge").innerText = response.length;
+				increaseInfo(response.length);
+			}
+			add_to_tab("rules", response);
 		}
 	});
 }

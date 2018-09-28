@@ -120,5 +120,64 @@ function description(msg, coll, guid, offline, socket) {
     }
 }
 
+
+function rules(msg, coll, guid, offline, socket) {
+    if(msg.rules && msg.channel && msg.rules.length < 250){
+        if(typeof(msg.channel) != "string" || typeof(msg.rules) != "string") {
+                var result = {
+                    channel: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("channel") ? typeof(msg.channel) : undefined,
+                    },
+                    pass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("pass") ? typeof(msg.pass) : undefined,
+                    },
+                    rules: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("rules") ? typeof(msg.rules) : undefined,
+                    },
+                    adminpass: {
+                        expected: "string",
+                        got: msg.hasOwnProperty("adminpass") ? typeof(msg.adminpass) : undefined,
+                    },
+                };
+                socket.emit("update_required", result);
+                return;
+            }
+            //coll = coll.replace(/ /g,'');
+        Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass, gotten) {
+            if(userpass != "" || msg.pass == undefined) {
+                msg.pass = userpass;
+            } else if(msg.hasOwnProperty("pass")) {
+                msg.pass = crypto.createHash('sha256').update(Functions.decrypt_string(msg.pass)).digest("base64");
+            }
+            if(adminpass != "" || msg.adminpass == undefined) {
+                msg.adminpass = Functions.hash_pass(adminpass);
+            } else {
+                msg.adminpass = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(msg.adminpass), true));
+            }
+            var channel = msg.channel.toLowerCase();
+            var hash = msg.adminpass;
+            db.collection(channel + "_settings").find({id: "config"}, function(err, docs){
+                if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (msg.hasOwnProperty('pass') && docs[0].userpass == msg.pass))) {
+                    if(docs !== null && docs.length !== 0 && docs[0].adminpass !== "" && docs[0].adminpass == hash){
+                        db.collection("suggested_rules").update({channel: channel}, {$set:{rules: msg.rules}}, {upsert:true}, function(err, docs){
+                            Notifications.requested_change("rules", msg.rules, channel);
+                            socket.emit("toast", "suggested_rules");
+                        });
+                    }
+                } else {
+                    socket.emit("auth_required");
+                }
+            });
+        });
+    } else {
+        socket.emit("toast", "rules_denied");
+    }
+}
+
+
 module.exports.thumbnail = thumbnail;
 module.exports.description = description;
+module.exports.rules = rules;

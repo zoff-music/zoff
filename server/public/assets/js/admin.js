@@ -8,7 +8,7 @@ var Admin = {
         Admin.logged_in = msg;
         if(!msg) return;
         w_p = false;
-
+        M.Modal.init(document.getElementById("channel_info"));
         if(Admin.logged_in) {
             Helper.css("#thumbnail_form", "display", "inline-block");
             Helper.css("#description_form", "display", "inline-block");
@@ -179,15 +179,34 @@ var Admin = {
             Helper.addClass(".change_user_pass", "hide");
             //Crypt.remove_userpass(chan.toLowerCase());
         }
+        var updated = false;
 
         if(conf_array.thumbnail != undefined && conf_array.thumbnail != "") {
             document.getElementById("thumbnail_image").innerHTML = "<img id='thumbnail_image_channel' src='" + conf_array.thumbnail + "' alt='thumbnail' />";
+            document.getElementById("thumbnail_input").value = conf_array.thumbnail;
+            updated = true;
         }
 
         if(conf_array.description != undefined && conf_array.description != "") {
             document.getElementById("description_area").innerHTML = conf_array.description;
+            document.getElementById("description_input").value = conf_array.description;
+            updated = true;
         }
 
+        if(conf_array.rules != undefined && conf_array.rules != "") {
+            var existingRules = document.querySelector(".rules-container");
+            if(existingRules) existingRules.remove();
+            var rules = conf_array.rules.split("\n");
+            var elementToAdd = "<li class='rules-container'><div class='row'><div class='col s10 offset-s1'><h4 class='center-align'>Rules</h4>";
+            for(var i = 0; i < rules.length; i++) {
+                elementToAdd += "<p class='initial-line-height'>" + rules[i] + "</p>";
+            }
+            elementToAdd += "</div></div>";
+            document.querySelector(".channel_info_container").insertAdjacentHTML("afterend", elementToAdd);
+            document.getElementById("rules_input").value = conf_array.rules;
+            updated = true;
+        }
+        if(updated) M.updateTextFields();
     },
 
     submitAdmin: function(form, userpass_changed) {

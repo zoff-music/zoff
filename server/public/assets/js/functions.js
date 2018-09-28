@@ -21,6 +21,21 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function sendDescription() {
+    emit("suggest_description", {channel: chan, description: document.getElementById("description_input").value});
+    document.getElementById("description_input").value = "";
+}
+
+function sendThumbnail() {
+    emit("suggest_thumbnail", {channel: chan, thumbnail: document.getElementById("thumbnail_input").value});
+    document.getElementById("thumbnail_input").value = "";
+}
+
+function sendRules() {
+    emit("suggest_rules", {channel: chan, rules: document.getElementById("rules_input").value});
+    document.getElementById("rules_input").value = "";
+}
+
 function resizeFunction() {
     if(chan && !Helper.mobilecheck()){
         if(document.querySelector("#wrapper") == null) return;
@@ -1071,6 +1086,12 @@ function toast(msg, _class) {
     switch(msg) {
         case "other_list_pass":
         msg = "The other list has a pass, can't import the songs..";
+        break;
+        case "suggested_rules":
+        msg = "Your rules have been suggested";
+        break;
+        case "rules_denied":
+        msg = "Your rules will be denied";
         break;
         case "nolist":
         msg = "There is no list with that name";

@@ -53,6 +53,43 @@
         <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
 </div>
+<div id="channel_info" class="modal">
+    <div class="modal-content">
+        <h5>Channel Info</h5>
+        <p>Here you can add a thumbnail for the channel, description or rules. The description and thumbnail will be visible from the frontpage, and the sidebar, but the rules will only be visible from the sidebar when in the channel.</p>
+        <p>Remember, all thumbnails, descriptions and rules has to be approved by a site-administrator before it will be visible to visitors.</p>
+        <div class="row">
+            <form id="thumbnail_input_form" class="col s12">
+                <div class="input-field col s8">
+                    <input id="thumbnail_input" name="user-pass" type="text" autocomplete="off" />
+                    <label for="thumbnail_input" class="noselect">Thumbnail</label>
+                </div>
+                <a class="col offset-s1 s3 btn waves-effect white-text thumbnail_input_send">Send</a>
+            </form>
+        </div>
+        <div class="row">
+            <form id="description_input_form" class="col s12">
+                <div class="input-field col s8">
+                    <input id="description_input" name="user-pass" type="text" autocomplete="off" />
+                    <label for="description_input" class="noselect">Description</label>
+                </div>
+                <a class="col offset-s1 s3  btn waves-effect orange white-text description_input_send">Send</a>
+            </form>
+        </div>
+        <div class="row">
+            <form id="rules_input_form" class="col s12">
+                <div class="input-field col s8">
+                    <textarea id="rules_input" class="materialize-textarea"></textarea>
+                    <label for="rules_input">Rules</label>
+                </div>
+                <a class="col offset-s1 s3  btn waves-effect green white-text rules_input_send">Send</a>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" id="abort-channel-login" class="modal-action modal-close waves-effect waves-green btn-flat close-user-password">Close</a>
+    </div>
+</div>
 <div id="user_password" class="modal">
     <div class="modal-content">
         <h5>Locked Channel</h5>
