@@ -12,7 +12,7 @@ var connected_db = mongojs('mongodb://' + mongo_config.host + '/user_credentials
 var ObjectId = mongojs.ObjectId;
 
 db.collection("chat_logs").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 600 }, function(){});
-db.collection("timeout_api").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 5 }, function(){});
+db.collection("timeout_api").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 120 }, function(){});
 db.collection("api_links").createIndex({ "createdAt": 1 }, { expireAfterSeconds: 86400 }, function(){});
 db.on('connected', function(err) {
     console.log("connected");

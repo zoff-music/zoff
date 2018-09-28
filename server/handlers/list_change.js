@@ -82,7 +82,8 @@ function addFromOtherList(arr, guid, offline, socket) {
                                 db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
                                     var hash = arr.adminpass;
                                     if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == arr.userpass)) {
-                                        Functions.checkTimeout("add_playlist", 60, channel, guid, this_conf[0].adminpass, hash, socket, function() {
+                                        var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+                                        Functions.checkTimeout("add_playlist", 60, channel, connection_id, this_conf[0].adminpass, hash, socket, function() {
                                             if(((this_conf[0].addsongs === true && (hash == this_conf[0].adminpass || this_conf[0].adminpass === "")) ||
                                             this_conf[0].addsongs === false)) {
                                                 db.collection(new_channel).aggregate([
@@ -209,7 +210,8 @@ function addPlaylist(arr, guid, offline, socket) {
                             if((conf[0].userpass == "" || !conf[0].userpass || conf[0].userpass == arr.userpass)) {
                                 if(((conf[0].addsongs === true && (hash == conf[0].adminpass || conf[0].adminpass === "")) ||
                                 conf[0].addsongs === false)) {
-                                    Functions.checkTimeout("add_playlist", 60, channel, guid, conf[0].adminpass, hash, socket, function() {
+                                    var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+                                    Functions.checkTimeout("add_playlist", 60, channel, connection_id, conf[0].adminpass, hash, socket, function() {
                                         var path = require('path');
                                         var mongo_config = require(path.join(path.join(__dirname, '../config/'), 'mongo_config.js'));
                                         var MongoClient = require('mongodb').MongoClient;
