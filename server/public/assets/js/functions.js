@@ -179,6 +179,7 @@ function hide_native(way) {
                 Player.soundcloud_player.pause();
             }
         } catch(e){}
+        //clearTimeout(durationTimeout);
         Player.stopInterval = true;
         if(Helper.mobilecheck()){
             if(document.querySelector("#pause").classList.contains("hide")){

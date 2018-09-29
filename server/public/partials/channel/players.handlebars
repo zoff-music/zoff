@@ -5,41 +5,41 @@
     {{/unless}}
     <div id="player" class="ytplayer"></div>
     <div id="sc_player" class="scplayer"></div>
-    <div id="main_components">
-        <div id="player_overlay" class="hide valign-wrapper">
-            <div id="playing_on">
-                <div id="chromecast_icon">
-                    <i class="material-icons">cast</i>
-                </div>
-                <div id="chromecast_text"></div>
+    <div id="player_overlay" class="hide valign-wrapper">
+        <div id="playing_on">
+            <div id="chromecast_icon">
+                <i class="material-icons">cast</i>
             </div>
-            <div class="soundcloud_info_container hide">
-                <a href="#!" id="soundcloud_listen_link" target="_blank">
-                    <img src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
-                </a>
-                <a href="#!" class="btn green waves-effect waves-light" target="_blank">Artist</a>
-            </div>
-            <div id="player_overlay_text" class="valign center-align">
-                Waiting for Video
-            </div>
-            <div id="player_loader_container" class="hide valign-wrapper">
-                <div id="player_loader" class="preloader-wrapper large active valign">
-                    {{> spinner}}
-                </div>
-            </div>
-            <div id="player_overlay_controls" class="hide valign-wrapper">
-                <div id="playpause-overlay" class="valign center-align">
-                    <i id="play-overlay" class="material-icons hide">play_arrow</i>
-                    <i id="pause-overlay" class="material-icons">pause</i>
-                </div>
-                <div id="volume-button-overlay">
-                    <i id="v-mute-overlay" class="material-icons">volume_off</i>
-                    <i id="v-low-overlay" class="material-icons">volume_mute</i>
-                    <i id="v-medium-overlay" class="material-icons">volume_down</i>
-                    <i id="v-full-overlay" class="material-icons">volume_up</i>
-                </div>
+            <div id="chromecast_text"></div>
+        </div>
+        <div class="soundcloud_info_container hide">
+            <a href="#!" id="soundcloud_listen_link" target="_blank">
+                <img src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
+            </a>
+            <a href="#!" class="btn green waves-effect waves-light" target="_blank">Artist</a>
+        </div>
+        <div id="player_overlay_text" class="valign center-align">
+            Waiting for Video
+        </div>
+        <div id="player_loader_container" class="hide valign-wrapper">
+            <div id="player_loader" class="preloader-wrapper large active valign">
+                {{> spinner}}
             </div>
         </div>
+        <div id="player_overlay_controls" class="hide valign-wrapper">
+            <div id="playpause-overlay" class="valign center-align">
+                <i id="play-overlay" class="material-icons hide">play_arrow</i>
+                <i id="pause-overlay" class="material-icons">pause</i>
+            </div>
+            <div id="volume-button-overlay">
+                <i id="v-mute-overlay" class="material-icons">volume_off</i>
+                <i id="v-low-overlay" class="material-icons">volume_mute</i>
+                <i id="v-medium-overlay" class="material-icons">volume_down</i>
+                <i id="v-full-overlay" class="material-icons">volume_up</i>
+            </div>
+        </div>
+    </div>
+    <div id="main_components">
         <div id="controls" class="noselect">
             <div class="playbar-btn prev playbar hide">
                 <i class="material-icons">skip_previous</i>
