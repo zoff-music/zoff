@@ -454,7 +454,6 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
-            console.log(videoSource);
             if(!durationBegun) {
                 durationBegun = true;
                 Player.durationSetter();

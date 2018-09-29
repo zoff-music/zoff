@@ -52,7 +52,7 @@ var seekTo;
 var socket;
 var video_id;
 var hash = window.location.hash.substring(1).split("&");
-var chan = hash[0];
+var chan = Helper.decodeChannelName(hash[0]);
 var autoplay = false;
 var color = "#808080";
 var dragging = false;
@@ -95,6 +95,7 @@ function receiveMessage(event) {
 
 window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
+
 });
 window.addEventListener("load", function() {
     if(hash.length >= 2 && hash.indexOf("autoplay") > 0){
@@ -127,6 +128,10 @@ window.addEventListener("load", function() {
     socket.on('auth_required', function() {
         M.Modal.getInstance(document.getElementById("locked_channel")).open();
     });
+
+    document.querySelector(".channel-info-container").href = "https://zoff.me/" + chan.toLowerCase();
+    console.log("https://zoff.me/" + chan.toLowerCase());
+    document.querySelector(".channel-title").innerText = "/" + chan.toLowerCase();
 
     socket.on("get_list", function() {
         setTimeout(function(){socket.emit('list', {version: VERSION, channel: chan.toLowerCase(), pass: ''});},1000);
@@ -426,7 +431,8 @@ document.addEventListener("click", function(e) {
     handleEvent(e, e.target, false, "click");
 }, false);
 
-addListener("click", "#zoffbutton", function(e) {
+addListener("click", ".channel-info-container", function(e) {
+    this.preventDefault();
     Player.pauseVideo();
     window.open("https://zoff.me/" + chan.toLowerCase() + "/", '_blank');
 });

@@ -73,7 +73,7 @@
   height: calc(100% - 32px);
   top: 0px;
   left: 0px;
-  width: 50vw;
+  width: 60vw;
 }
 
 .soundcloud_info_container {
@@ -119,7 +119,7 @@
 }
 
 #player{
-  width:50vw;
+  width:60vw;
   height: calc(100vh - 32px);
 }
 
@@ -257,22 +257,21 @@
 }
 
 #playlist{
-  /*background-color:grey;*/
-  height:100vh;
-  width:50vw;
-  overflow:hidden;
+  height: 100vh;
+  width: 40vw;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
 }
 
 #zoffbutton{
-  cursor:pointer;
-  position: absolute;
-  bottom: 35px;
-  left: 10px;
-  background-image: url('/assets/images/z.svg');
-  width: 50px;
+  cursor: pointer;
+  background-image: url(/assets/images/z.svg);
+  width: 90px;
   height: 50px;
-  background-position: center;
-  background-size: 135%;
+  background-position: 50%;
+  background-size: 85%;
   background-repeat: no-repeat;
 }
 
@@ -289,7 +288,7 @@
   position: relative;
   opacity:0;
   height:32px;
-  width:50vw;
+  width:60vw;
   color:white;
   margin-top:-5px;
 }
@@ -343,7 +342,22 @@
   font-family:"Roboto", sans-serif;
   font-weight:300;
   margin-left:15px;
-  margin-right:5px;
+  margin-right:10px;
+}
+
+.channel-info-container {
+  align-items: center;
+  display: flex;
+  position: absolute;
+  bottom: 50px;
+  left: 0px;
+  background: rgba(0,0,0,.5);
+  padding-left: 5px;
+  padding-right: 25px;
+}
+
+.channel-title {
+  margin-left: -20px;
 }
 
 #viewers{
