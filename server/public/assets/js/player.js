@@ -27,7 +27,11 @@ var Player = {
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
 
-            if(offline && (video_id == "" || video_id == undefined || local_new_channel) && !client){
+            if(embed) {
+                try {
+                    window.parentWindow.postMessage({type: "np", title: song_title}, window.parentOrigin);
+                } catch(e) {}
+            } else if(offline && (video_id == "" || video_id == undefined || local_new_channel) && !client){
                 if(obj.conf != undefined) {
                     conf       = obj.conf[0];
                 }

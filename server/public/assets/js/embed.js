@@ -88,7 +88,7 @@ function receiveMessage(event) {
                 Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
             }
         } catch(e) {
-            console.log("crash here", e, full_playlist);
+
         }
     }
 }
