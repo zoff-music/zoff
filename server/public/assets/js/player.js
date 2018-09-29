@@ -148,6 +148,7 @@ var Player = {
                     //was_stopped = false;
                     return;
                 }
+                Helper.css("#player_overlay", "display", "none");
                 if(embed) {
                     Helper.css("#player", "visibility", "visible");
                 }
@@ -679,7 +680,12 @@ var Player = {
             document.getElementById("song-title").setAttribute("title", title);
             //elem.title        = title;
             if(chromecastAvailable){
-                Helper.css("#player_overlay", "background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+                try {
+                    Helper.css("#player_overlay", "background", "url(" + Player.np.thumbnail + ")");
+
+                } catch(e) {
+                    Helper.css("#player_overlay", "background", "url(https://img.youtube.com/vi/" + video_id + "/hqdefault.jpg)");
+                }
                 Helper.css("#player_overlay", "background-position", "center");
                 Helper.css("#player_overlay", "background-size", "100%");
                 Helper.css("#player_overlay", "background-color", "black");
@@ -767,7 +773,7 @@ var Player = {
 
     soundcloudPlay: function() {
         Helper.addClass("#player_loader_container", "hide");
-        Helper.removeClass("#player_overlay", "hide");
+        Helper.css("#player_overlay", "display", "block");
         Helper.addClass("#player", "hide");
         if(videoSource == "youtube") {
             Player.soundcloud_player.pause();
