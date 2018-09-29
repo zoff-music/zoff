@@ -3097,7 +3097,7 @@ nav ul li:hover, nav ul li.active {
     #player_overlay {
         height: calc(30vh);
         bottom: -33px !important;
-        top: initial;
+        top: 7px;
         width: 100vw;
         height: 200px;
         pointer-events: all;
