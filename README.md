@@ -60,6 +60,10 @@ The team can be reached on <a href="mailto:contact@zoff.me?Subject=Contact%20Zof
 
 ![Channel host mode desktop](https://puu.sh/AAGrK/953d11b2a7.png)
 
+### Embedded player:
+
+![embedded](https://puu.sh/BCQOs/9393bc5d09.png)
+
 ### Screenshots of the mobile version:
 
 <div style="text-align:center;">
