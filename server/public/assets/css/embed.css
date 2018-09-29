@@ -139,7 +139,7 @@
 }
 
 #wrapper{
-  height:calc(100% - 56px);
+  height:calc(100% - 46px);
 }
 
 .prev_page_hide, .next_page_hide{
@@ -546,6 +546,8 @@ html {
 
 #pageButtons, #pageButtons a{
   color:white !important;
+  width: 100%;
+  justify-content: center;
 }
 
 #pageNumber{
@@ -556,6 +558,7 @@ html {
   align-items: center;
   height: 36px;
   justify-content: center;
+  width: 100%;
 }
 
 .prev_page, .next_page, .last_page, .first_page{
@@ -567,10 +570,17 @@ html {
   visibility: visible !important;
   color:gray;
   cursor:default;
+  height: 32px;
+  line-height: 36px;
+  width: 100%;
+  justify-content: center;
 }
 
 .prev_page_hide, .prev_page, .first_page, .first_page_hide{
   padding:0 1px;
+  height: 32px;
+  line-height: 36px;
+
 }
 
 .next_page_hide, .next_page, .last_page, .last_page_hide{
