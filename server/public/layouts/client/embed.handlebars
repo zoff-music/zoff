@@ -49,9 +49,6 @@
     </div>
     <div id="playlist">
         <div id="wrapper">
-            <div id="preloader" class="progress channel_preloader">
-                <div class="indeterminate"></div>
-            </div>
             <div id="list-song-html">
                 <div id="list-song" class="card left-align list-song  waves-effect waves-light playlist-element">
                     <div class="clickable vote-container" title="Vote!">
@@ -99,6 +96,11 @@
             <span class="last_page_hide btn-flat disabled">
                 <i class="material-icons">last_page</i>
             </span>
+        </div>
+    </div>
+    <div class="site_loader">
+        <div class="preloader-wrapper large active valign">
+            {{> spinner}}
         </div>
     </div>
 </div>

@@ -193,7 +193,10 @@ function setup_now_playing_listener() {
 }
 
 function setup_list_listener() {
-    socket.on("channel", List.channel_function);
+    socket.on("channel", function(msg) {
+        Helper.addClass(".site_loader", "hide");
+        List.channel_function(msg);
+    });
 }
 
 function setVolume(val) {
