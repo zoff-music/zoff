@@ -97,6 +97,7 @@ var youtube_authenticated = false;
 var chromecastAvailable = false;
 var color = "2d2d2d";
 var find_start = false;
+var durationTimeout;
 var find_started = false;
 var offline = false;
 var cast_ready_connect = false;
@@ -783,6 +784,7 @@ function addDynamicListeners() {
     addListener("click", "#abort-channel-login", function(event) {
         this.preventDefault();
         if(user_auth_started) {
+            clearTimeout(durationTimeout);
             Player.stopInterval = true;
             user_auth_avoid = true;
             if(!Helper.mobilecheck()) {

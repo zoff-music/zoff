@@ -14,6 +14,7 @@ try {
 var SC_widget;
 var scUsingWidget = false;
 var SC_player;
+var durationTimeout;
 var sc_need_initialization = true;
 var sc_initialized = false;
 var startTime = 0;
@@ -130,7 +131,6 @@ window.addEventListener("load", function() {
     });
 
     document.querySelector(".channel-info-container").href = "https://zoff.me/" + chan.toLowerCase();
-    console.log("https://zoff.me/" + chan.toLowerCase());
     document.querySelector(".channel-title").innerText = "/" + chan.toLowerCase();
 
     socket.on("get_list", function() {

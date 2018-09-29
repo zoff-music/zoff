@@ -572,6 +572,7 @@ li.disabled span {
     display: block !important;
     /* right: 10px; */
     z-index: 10;
+    left: 0;
     /*transition: 1s;*/
 }
 
@@ -1763,10 +1764,15 @@ ul #chat-log{
 #player_overlay{
     background-color:black;
     position: absolute;
-    top: calc(-100vh + 64px + 26px);
+    /*top: calc(-100vh + 64px + 26px);*/
+    top: 0px;
+    z-index: 99;
     width:100%;
     color:white;
     height: calc(100vh - 64px - 32px);
+    transition: transform .5s ease-out,width .5s ease-out,height .5s ease-out,opacity 1s;
+    -moz-transition: transform .5s ease-out,width .5s ease-out,height .5s ease-out,opacity 1s;
+    -o-transition: transform .5s ease-out,width .5s ease-out,height .5s ease-out,opacity 1s;
 }
 
 #player_overlay_text{

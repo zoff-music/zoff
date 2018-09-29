@@ -395,6 +395,7 @@ var Frontpage = {
                     if(!client) document.getElementById("video-container").insertAdjacentHTML("beforeend", response.querySelectorAll("#main_components")[0].outerHTML);
                     document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id='playbar'></div>");
                     Helper.removeClass("#player", "player_bottom");
+                    Helper.removeClass("#player_overlay", "player_bottom");
                     Helper.removeClass("#main-row", "frontpage_modified_heights");
                     Helper.removeElement("#main_section_frontpage");
                     Helper.removeElement("#closePlayer");
@@ -403,6 +404,8 @@ var Frontpage = {
                 document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
                 Helper.addClass(".page-footer", "padding-bottom-novideo");
                 from_frontpage = true;
+                //Player.stopInterval =true;
+                //clearTimeout(durationTimeout);
                 if(document.querySelectorAll("#alreadychannel").length == 1){
                     if(old_chan != new_channel) local_new_channel = true;
                     Channel.init();

@@ -67,7 +67,9 @@ var Channel = {
         if(window.location.hostname == "zoff.me" || window.location.hostname == "fb.zoff.me") add = "https://zoff.me";
         else add = window.location.hostname;
 
-        if(Player !== undefined && !client) Player.stopInterval= false;
+        if(Player !== undefined && !client) {
+            Player.stopInterval = false;
+        }
 
         if(!client) {
             //Helper.tabs('.playlist-tabs');
@@ -490,6 +492,7 @@ var Channel = {
     onepage_load: function(){
         if(changing_to_frontpage) return;
         if(user_auth_started) {
+            clearTimeout(durationTimeout);
             Player.stopInterval = true;
             user_auth_avoid = true;
             if(!Helper.mobilecheck()) {
@@ -538,7 +541,7 @@ var Channel = {
             Helper.css("#channel-load", "display", "block");
             window.scrollTo(0, 0);
 
-            Player.stopInterval = true;
+            //Player.stopInterval = true;
             Admin.beginning 	 = true;
             began 				 = false;
             durationBegun  		 = false;
@@ -624,6 +627,7 @@ var Channel = {
                     if(!Helper.mobilecheck() && !user_auth_avoid){
                         Helper.removeElement("#playbar");
                         Helper.removeElement("#main_components");
+                        Helper.addClass("#player_overlay", "player_bottom");
                         Helper.addClass("#player", "player_bottom");
                         Helper.addClass("#main-row", "frontpage_modified_heights");
                         Helper.css("#player", "opacity", "1");
