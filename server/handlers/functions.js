@@ -452,7 +452,8 @@ function checkTimeout(type, timeout, channel, guid, conf_pass, this_pass, socket
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
                 if(error_message) {
-                    socket.emit("toast", error_message + Math.ceil(retry_in) + " seconds.");
+                    var sOrNot = Math.ceil(retry_in) > 1 || Math.ceil(retry_in) == 0 ? "s" : "";
+                    socket.emit("toast", error_message + Math.ceil(retry_in) + " second" + sOrNot + ".");
                 } else {
                     socket.emit("toast", "wait_longer");
                 }
