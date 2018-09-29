@@ -26,12 +26,12 @@ var Player = {
             if(Player.np.end == undefined) Player.np.end = Player.np.duration;
             song_title = obj.np[0].title;
             duration   = obj.np[0].duration;
-
             if(embed) {
                 try {
                     window.parentWindow.postMessage({type: "np", title: song_title}, window.parentOrigin);
                 } catch(e) {}
-            } else if(offline && (video_id == "" || video_id == undefined || local_new_channel) && !client){
+            }
+            if(offline && (video_id == "" || video_id == undefined || local_new_channel) && !client){
                 if(obj.conf != undefined) {
                     conf       = obj.conf[0];
                 }
@@ -454,6 +454,7 @@ var Player = {
             chrome.cast.media.GenericMediaMetadata({metadataType: 0, title:song_title, image: 'https://img.youtube.com/vi/'+id+'/mqdefault.jpg', images: ['https://img.youtube.com/vi/'+id+'/mqdefault.jpg']});
             chrome.cast.Image('https://img.youtube.com/vi/'+id+'/mqdefault.jpg');
         } else {
+            console.log(videoSource);
             if(!durationBegun) {
                 durationBegun = true;
                 Player.durationSetter();
@@ -687,7 +688,6 @@ var Player = {
     errorHandler: function(newState) {
         if(!user_auth_started) {
             if(newState.data == 5 || newState.data == 100 || newState.data == 101 || newState.data == 150) {
-                curr_playing = Player.player.getVideoUrl().replace("https://www.youtube.com/watch?v=", "");
                 /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
                 if(u == undefined) u = "";*/
                 emit("skip", {error: newState.data, id: video_id, channel: chan.toLowerCase()});
