@@ -19,7 +19,7 @@ var sc_initialized = false;
 var startTime = 0;
 var small = false;
 var small_player = false;
-var full_playlist;
+var full_playlist = [];
 var hostMode = false;
 var soundcloud_enabled = true;
 var socket_connected = false;
@@ -83,8 +83,12 @@ function receiveMessage(event) {
     } else if(event.data == "get_info") {
         window.parentWindow.postMessage({type: "np", title: song_title}, window.parentOrigin);
         window.parentWindow.postMessage({type: "controller", id: Hostcontroller.old_id}, window.parentOrigin);
-        if(full_playlist.length > 0) {
-            Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+        try {
+            if(full_playlist.length > 0) {
+                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id});
+            }
+        } catch(e) {
+            console.log("crash here", e, full_playlist);
         }
     }
 }
