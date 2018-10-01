@@ -7,6 +7,7 @@ var filter = new Filter({ placeHolder: 'x'});
         return str;
     }
 }*/
+var projects = require(pathThumbnails + "/handlers/aggregates.js");
 var db = require(pathThumbnails + '/handlers/db.js');
 
 function password(inp, coll, guid, offline, socket) {
