@@ -3158,7 +3158,7 @@ nav ul li:hover, nav ul li.active {
     }
 
     #search-wrapper:hover, #song-title:hover {
-        background: inherit;
+        /*background: inherit;*/
     }
 
     #toast-container{
