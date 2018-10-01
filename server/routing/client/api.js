@@ -802,7 +802,7 @@ router.route('/api/list/:channel_name').get(function(req, res) {
         {
             "$project": projects.project_object
         },
-        { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
+        { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1, "title": 1 } }
     ], function(err, docs) {
     //db.collection(channel_name).find({views: {$exists: false}}, projects.toShowChannel, function(err, docs) {
         if(docs.length > 0) {
@@ -1098,7 +1098,7 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                                 "$match": { }
                             },
                             { "$project": projects.project_object },
-                            { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1 } }
+                            { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1, "title": 1 } }
                         ], function(err, list) {
                         //db.collection(channel_name).find({views: {$exists: false}}, projects.toShowChannel, function(err, list) {
                             if(list.length > 0) {
