@@ -3130,7 +3130,7 @@ nav ul li:hover, nav ul li.active {
 
     #remote_channel{
         color:#2d2d2d;
-        width:90%;
+        /*width:90%;*/
     }
     .show-only-mobile{display:block;}
 
