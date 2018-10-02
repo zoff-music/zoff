@@ -1405,8 +1405,9 @@ function checkTimeout(guid, res, authorized, type, callback) {
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
                 res.header({'Retry-After': retry_in});
-                error.tooMany.error += " To get an API-key, visit https://zoff.me/api/apply.";
-                res.status(429).send(error.tooMany);
+                var thisError = error.tooMany;
+                thisError.error += " To get an API-key, visit https://zoff.me/api/apply.";
+                res.status(429).send(thisError);
                 return;
             }
         }
