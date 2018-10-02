@@ -63,7 +63,7 @@ var error = {
     },
     tooMany: {
         status: 429,
-        error: "You're doing too many requests, check header-field Retry-After for the wait-time left. To get an API-key, visit https://zoff.me/api/apply",
+        error: "You're doing too many requests, check header-field Retry-After for the wait-time left.",
         success: false,
         results: [],
     },
@@ -1405,6 +1405,7 @@ function checkTimeout(guid, res, authorized, type, callback) {
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
                 res.header({'Retry-After': retry_in});
+                error.tooMany.error += " To get an API-key, visit https://zoff.me/api/apply.";
                 res.status(429).send(error.tooMany);
                 return;
             }
