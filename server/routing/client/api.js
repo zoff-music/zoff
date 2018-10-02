@@ -63,7 +63,7 @@ var error = {
     },
     tooMany: {
         status: 429,
-        error: "You're doing too many requests, check header-field Retry-After for the wait-time left.",
+        error: "You're doing too many requests, check header-field Retry-After for the wait-time left. To get an API-key, visit https://zoff.me/api/apply",
         success: false,
         results: [],
     },
