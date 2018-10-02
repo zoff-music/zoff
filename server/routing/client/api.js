@@ -88,14 +88,59 @@ router.route('/api/frontpages').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
-    Frontpage.get_frontpage_lists(function(err, docs) {
-    //db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
-        db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
-            var to_return = error.no_error;
-            to_return.results = {channels: docs, viewers: tot[0].total_users.length};
-            res.status(200).send(to_return);
-            return;
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+
+    checkTimeout(guid, res, false, "GET", function() {
+        Frontpage.get_frontpage_lists(function(err, docs) {
+        //db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
+            db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+                var to_return = error.no_error;
+                to_return.results = {channels: docs, viewers: tot[0].total_users.length};
+                res.status(200).send(to_return);
+                return;
+            });
         });
+    });
+});
+
+router.route('/api/frontpages').post(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header({"Content-Type": "application/json"});
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+
+    var token = "";
+    if(req.body.hasOwnProperty("token")) {
+        token = req.body.token;
+    }
+
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+
+    token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+        var authorized = false;
+        var origin;
+        try {
+            origin = req.headers.referer.split("/")[2];
+        } catch(e) { origin = ""; }
+        if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || origin.indexOf(token_docs[0].origin) > -1)) {
+            authorized = true;
+        }
+        checkOveruseApiToken(authorized, token_docs, res, function() {
+            checkTimeout(guid, res, authorized, "POST", function() {
+                Frontpage.get_frontpage_lists(function(err, docs) {
+                //db.collection("frontpage_lists").find({frontpage: true, count: {$gt: 0}}, function(err, docs) {
+                    db.collection("connected_users").find({"_id": "total_users"}, function(err, tot) {
+                        var to_return = error.no_error;
+                        to_return.results = {channels: docs, viewers: tot[0].total_users.length};
+                        res.status(200).send(to_return);
+                        return;
+                    });
+                });
+            });
+        })
     });
 });
 
@@ -177,10 +222,10 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "DELETE", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         validateLogin(adminpass, userpass, channel_name, "delete", res, function(exists) {
                             if(!exists) {
@@ -204,16 +249,16 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
                                         io.to(channel_name).emit("channel", {type:"deleted", value: video_id});
                                         if(!dont_increment) {
                                             db.collection("frontpage_lists").update({_id: channel_name, count: {$gt: 0}}, {$inc: {count: -1}, $set:{accessed: Functions.get_time()}}, {upsert: true}, function(err, docs){
-                                                updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                                                //updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
                                                     res.status(200).send(error.no_error);
                                                     return;
-                                                });
+                                                //});
                                             });
                                         } else {
-                                            updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                                            //updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
                                                 res.status(200).send(error.no_error);
                                                 return;
-                                            });
+                                            //});
                                         }
                                     });
                                 }
@@ -332,10 +377,10 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "CONFIG", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         validateLogin(adminpass, userpass, channel_name, "config", res, function(exists, conf) {
                             if(!exists && conf.length == 0) {
@@ -383,12 +428,12 @@ router.route('/api/conf/:channel_name').put(function(req, res) {
                                     if(authorized) {
                                         incrementToken(token);
                                     }
-                                    updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
+                                    //updateTimeout(guid, res, authorized, "CONFIG", function(err, docs) {
                                         var to_return = error.no_error;
                                         to_return.results = [obj];
                                         res.status(200).send(to_return);
                                         return;
-                                    });
+                                    //});
                                 });
                             });
                         });
@@ -458,10 +503,10 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "PUT", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         validateLogin(adminpass, userpass, channel_name, "vote", res, function(exists) {
                             if(!exists) {
@@ -484,12 +529,12 @@ router.route('/api/list/:channel_name/:video_id').put(function(req,res) {
                                         }
                                         io.to(channel_name).emit("channel", {type: "vote", value: video_id, time: Functions.get_time()});
                                         List.getNextSong(channel_name, undefined, function() {
-                                            updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
+                                            //updateTimeout(guid, res, authorized, "PUT", function(err, docs) {
                                                 var to_return = error.no_error;
                                                 to_return.results = song;
                                                 res.status(200).send(to_return);
                                                 return;
-                                            });
+                                            //});
                                         });
                                     });
                                 }
@@ -507,21 +552,19 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
     try {
-        if(!req.body.hasOwnProperty('userpass')) {
-            throw "Wrong format";
-        }
-
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = cleanChannelName(req.params.channel_name);
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
-        var userpass = req.body.userpass;
+        var userpass;
+        if(req.body.hasOwnProperty("userpass")) {
+            req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
+            userpass = req.body.userpass;
+        } else {
+            userpass = "";
+        }
         var token = "";
         if(req.body.hasOwnProperty("token")) {
             token = req.body.token;
-        }
-        if(typeof(userpass) != "string") {
-            throw "Wrong format";
         }
     } catch(e) {
         var result = {
@@ -552,10 +595,10 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         db.collection(channel_name).find({now_playing: true}, projects.toShowChannel, function(err, list) {
                             if(list.length > 0) {
@@ -570,7 +613,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                                         res.status(403).send(error.not_authenticated);
                                         return;
                                     }
-                                    updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                                    //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                                         var to_return = error.no_error;
                                         if(list[0].source == undefined) {
                                             list[0].source = "youtube";
@@ -581,7 +624,7 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
                                         to_return.results = list;
                                         res.status(200).send(to_return);
                                         return;
-                                    });
+                                    //});
                                 });
                             } else {
                                 res.status(404).send(error.not_found.list);
@@ -619,8 +662,13 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
 
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
-        var userpass = req.body.userpass;
+        var userpass;
+        if(req.body.hasOwnProperty("userpass")) {
+            req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
+            userpass = req.body.userpass;
+        } else {
+            userpass = "";
+        }
         var channel_name = cleanChannelName(req.params.channel_name);
         var video_id = req.params.video_id;
         if(!fetch_only) {
@@ -691,10 +739,10 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         var type = fetch_only ? "fetch_song" : "add";
                         validateLogin(adminpass, userpass, channel_name, type, res, function(exists, conf, authenticated) {
@@ -804,8 +852,45 @@ router.route('/api/list/:channel_name').get(function(req, res) {
         },
         { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1, "title": 1 } }
     ], function(err, docs) {
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
     //db.collection(channel_name).find({views: {$exists: false}}, projects.toShowChannel, function(err, docs) {
-        if(docs.length > 0) {
+        checkTimeout(guid, res, false, "GET", function() {
+            if(docs.length > 0) {
+                db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
+                    if(conf.length == 0) {
+                        res.status(404).send(error.not_found.list);
+                        return;
+                    } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
+                        res.status(403).send(error.not_authenticated);
+                        return;
+                    }
+                    var to_return = error.no_error;
+                    to_return.results = docs;
+                    res.status(200).send(to_return);
+                });
+            } else {
+                res.status(404).send(error.not_found.list);
+            }
+        });
+    });
+});
+
+router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header({"Content-Type": "application/json"});
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+
+    checkTimeout(guid, res, false, "GET", function() {
+        var channel_name = cleanChannelName(req.params.channel_name);
+        var video_id = req.params.video_id;
+        var searchQuery = {id: video_id};
+        if(video_id == "__np__") {
+            searchQuery = {now_playing: true};
+        }
+        db.collection(channel_name).find(searchQuery, projects.toShowChannel, function(err, docs) {
             db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
                 if(conf.length == 0) {
                     res.status(404).send(error.not_found.list);
@@ -814,50 +899,21 @@ router.route('/api/list/:channel_name').get(function(req, res) {
                     res.status(403).send(error.not_authenticated);
                     return;
                 }
+                if(docs.length == 0) {
+                    res.status(404).send(error.not_found.local);
+                    return;
+                }
                 var to_return = error.no_error;
+                if(docs[0].source == undefined) {
+                    docs[0].source = "youtube";
+                }
+                if(docs[0].thumbnail == undefined) {
+                    docs[0].thumbnail = "https://img.youtube.com/vi/" + docs[0].id + "/mqdefault.jpg"
+                }
                 to_return.results = docs;
                 res.status(200).send(to_return);
+                return;
             });
-        } else {
-            res.status(404).send(error.not_found.list);
-        }
-    });
-});
-
-router.route('/api/list/:channel_name/:video_id').get(function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header({"Content-Type": "application/json"});
-
-    var channel_name = cleanChannelName(req.params.channel_name);
-    var video_id = req.params.video_id;
-    var searchQuery = {id: video_id};
-    if(video_id == "__np__") {
-        searchQuery = {now_playing: true};
-    }
-    db.collection(channel_name).find(searchQuery, projects.toShowChannel, function(err, docs) {
-        db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
-            if(conf.length == 0) {
-                res.status(404).send(error.not_found.list);
-                return;
-            } else if(conf[0].userpass != "" && conf[0].userpass != undefined) {
-                res.status(403).send(error.not_authenticated);
-                return;
-            }
-            if(docs.length == 0) {
-                res.status(404).send(error.not_found.local);
-                return;
-            }
-            var to_return = error.no_error;
-            if(docs[0].source == undefined) {
-                docs[0].source = "youtube";
-            }
-            if(docs[0].thumbnail == undefined) {
-                docs[0].thumbnail = "https://img.youtube.com/vi/" + docs[0].id + "/mqdefault.jpg"
-            }
-            to_return.results = docs;
-            res.status(200).send(to_return);
-            return;
         });
     });
 });
@@ -866,40 +922,44 @@ router.route('/api/conf/:channel_name').get(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
 
-    var channel_name = cleanChannelName(req.params.channel_name);
-    db.collection(channel_name + "_settings").aggregate([
-        {
-            "$match": {
-                id: "config"
-            }
-        },
-        {
-            "$project": projects.toShowConfig
-        },
-    ], function(err, docs) {
-        if(docs.length > 0 && (docs[0].userpass == "" || docs[0].userpass == undefined)) {
-            var conf = docs[0];
-            if(conf.adminpass != "") {
-                conf.adminpass = true;
+    checkTimeout(guid, res, false, "GET", function() {
+        var channel_name = cleanChannelName(req.params.channel_name);
+        db.collection(channel_name + "_settings").aggregate([
+            {
+                "$match": {
+                    id: "config"
+                }
+            },
+            {
+                "$project": projects.toShowConfig
+            },
+        ], function(err, docs) {
+            if(docs.length > 0 && (docs[0].userpass == "" || docs[0].userpass == undefined)) {
+                var conf = docs[0];
+                if(conf.adminpass != "") {
+                    conf.adminpass = true;
+                } else {
+                    conf.adminpass = false;
+                }
+                if(conf.userpass != "" && conf.userpass != undefined) {
+                    conf.userpass = true;
+                } else {
+                    conf.userpass = false;
+                }
+                var to_return = error.no_error;
+                to_return.results = [conf];
+                res.status(200).send(to_return);
+            } else if(docs.length > 0 && docs[0].userpass != "" && docs[0].userpass != undefined){
+                res.status(403).send(error.not_authenticated);
+                return;
             } else {
-                conf.adminpass = false;
+                res.status(404).send(error.not_found.list);
+                return;
             }
-            if(conf.userpass != "" && conf.userpass != undefined) {
-                conf.userpass = true;
-            } else {
-                conf.userpass = false;
-            }
-            var to_return = error.no_error;
-            to_return.results = [conf];
-            res.status(200).send(to_return);
-        } else if(docs.length > 0 && docs[0].userpass != "" && docs[0].userpass != undefined){
-            res.status(403).send(error.not_authenticated);
-            return;
-        } else {
-            res.status(404).send(error.not_found.list);
-            return;
-        }
+        });
     });
 });
 
@@ -909,9 +969,6 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
     res.header({"Content-Type": "application/json"});
 
     try {
-        if(!req.body.hasOwnProperty('userpass')) {
-            throw "Wrong format"
-        }
         var token = "";
         if(req.body.hasOwnProperty("token")) {
             token = req.body.token;
@@ -919,11 +976,12 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = cleanChannelName(req.params.channel_name);
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
-        var userpass = req.body.userpass;
-
-        if(typeof(userpass) != "string") {
-            throw "Wrong format";
+        var userpass;
+        if(req.body.hasOwnProperty("userpass")) {
+            req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
+            userpass = req.body.userpass;
+        } else {
+            userpass = "";
         }
     } catch(e) {
         var result = {
@@ -955,10 +1013,10 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "DELETE", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         db.collection(channel_name + "_settings").aggregate([
                             {
@@ -985,11 +1043,11 @@ router.route('/api/conf/:channel_name').post(function(req, res) {
                                 if(authorized) {
                                     incrementToken(token);
                                 }
-                                updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                                //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                                     var to_return = error.no_error;
                                     to_return.results = [conf];
                                     res.status(200).send(to_return);
-                                });
+                                //});
                             } else if(docs.length > 0 && docs[0].userpass != userpass) {
                                 res.status(403).send(error.not_authenticated);
                                 return;
@@ -1010,24 +1068,31 @@ function checkOveruseApiToken(authorized, token_docs, res, callback) {
         callback();
         return;
     }
+
     db.collection("timeout_api").find({guid: token_docs[0].token}, function(e, doc) {
         if(doc.length == 1) {
             var this_doc = doc[0];
-            var date = new Date(this_doc[0].createdAt);
+            var date = new Date(this_doc.createdAt);
             date.setSeconds(date.getSeconds() + 1);
             var now = new Date();
             var retry_in = (date.getTime() - now.getTime()) / 1000;
-            if(this_doc.used > token_docs[0].limit && retry_in > 0) {
+            if(this_doc.used >= token_docs[0].limit && retry_in > 0) {
                 res.header({'Retry-After': retry_in});
                 res.status(429).send(error.tooMany);
                 return;
             } else {
-                db.collection("timeout_api").update({guid: token_docs[0].token}, {$inc: {used: 1}}, function(e, d) {
+                var updateElement = {};
+                if(retry_in <= 0) {
+                    updateElement["$set"] = {createdAt: new Date(), used: 1};
+                } else {
+                    updateElement["$inc"] = {used: 1};
+                }
+                db.collection("timeout_api").update({guid: token_docs[0].token}, updateElement, function(e, d) {
                     callback();
                 });
             }
         } else {
-            db.collection("timeout_api").insert({guid: token_docs[0].token, used: 0, createdAt: new Date(), type: "ALL"}, function(e, d) {
+            db.collection("timeout_api").update({guid: token_docs[0].token}, {$set: {guid: token_docs[0].token, createdAt: new Date(), type: "ALL"}, $inc: {used: 1}}, {upsert: true}, function(e, d) {
                 callback();
             });
         }
@@ -1039,10 +1104,6 @@ router.route('/api/list/:channel_name').post(function(req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header({"Content-Type": "application/json"});
     try {
-        if(!req.body.hasOwnProperty('userpass')) {
-            throw "Wrong format";
-        }
-
         var token = "";
         if(req.body.hasOwnProperty("token")) {
             token = req.body.token;
@@ -1050,12 +1111,17 @@ router.route('/api/list/:channel_name').post(function(req, res) {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
         var channel_name = cleanChannelName(req.params.channel_name);
-        req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
-        var userpass = req.body.userpass;
-
-        if(typeof(userpass) != "string") {
-            throw "Wrong format";
+        var userpass;
+        if(req.body.hasOwnProperty("userpass")) {
+            req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
+            userpass = req.body.userpass;
+        } else {
+            userpass = "";
         }
+
+        /*if(typeof(userpass) != "string") {
+            throw "Wrong format";
+        }*/
     } catch(e) {
         var result = {
             userpass: {
@@ -1088,10 +1154,10 @@ router.route('/api/list/:channel_name').post(function(req, res) {
             checkOveruseApiToken(authorized, token_docs, res, function() {
                 checkTimeout(guid, res, authorized, "POST", function() {
                     if(token != "" && !authorized) {
-                        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                        //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                             res.status(400).send(error.wrong_token);
                             return;
-                        });
+                        //});
                     } else {
                         db.collection(channel_name).aggregate([
                             {
@@ -1113,12 +1179,12 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                                     if(authorized) {
                                         incrementToken(token);
                                     }
-                                    updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+                                    //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
                                         var to_return = error.no_error;
                                         to_return.results = list;
                                         res.status(200).send(to_return);
                                         return;
-                                    });
+                                    //});
                                 });
                             } else {
                                 res.status(404).send(error.not_found.list);
@@ -1343,7 +1409,17 @@ function checkTimeout(guid, res, authorized, type, callback) {
                 return;
             }
         }
-        callback();
+        var now_date = new Date();
+        db.collection("timeout_api").update({type: type, guid: guid}, {
+            $set: {
+                "createdAt": now_date,
+                type: type,
+                guid: guid,
+            },
+        }, {upsert: true}, function(err, docs) {
+            callback();
+            return;
+        });
     });
 }
 
@@ -1391,7 +1467,7 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated, auth
         io.to(channel_name).emit("conf", configs);
     }
     List.getNextSong(channel_name, undefined, function() {
-        updateTimeout(guid, res, authorized, "POST", function(err, docs) {
+        //updateTimeout(guid, res, authorized, "POST", function(err, docs) {
             var to_return = error.no_error;
             if(!authenticated) {
                 to_return = error.not_authenticated;
@@ -1400,7 +1476,7 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated, auth
             to_return.results = [new_song];
             res.status(authenticated ? 200 : 403).send(to_return);
             return;
-        });
+        //});
     });
 }
 

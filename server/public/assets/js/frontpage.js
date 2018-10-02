@@ -283,7 +283,10 @@ var Frontpage = {
         Frontpage.frontpage_function();
         /*Helper.ajax({
             url: add + "/api/frontpages",
-            method: "get",
+            method: "POST",
+            data: {
+                token: zoff_api_token,
+            },
             success: function(response){
                 response = JSON.parse(response);
                 Frontpage.frontpage_function(response.results);
