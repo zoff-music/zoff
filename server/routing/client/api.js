@@ -1405,7 +1405,8 @@ function checkTimeout(guid, res, authorized, type, callback) {
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
                 res.header({'Retry-After': retry_in});
-                var thisError = error.tooMany;
+                var thisErrorString = JSON.stringify(error.tooMany);
+                var thisError = JSON.parse(thisErrorString);
                 thisError.error += " To get an API-key, visit https://zoff.me/api/apply.";
                 res.status(429).send(thisError);
                 return;
