@@ -399,6 +399,7 @@ var Frontpage = {
                     document.getElementById("main-row").insertAdjacentHTML("beforeend", "<div id='playbar'></div>");
                     Helper.removeClass("#player", "player_bottom");
                     Helper.removeClass("#player_overlay", "player_bottom");
+                    Helper.removeClass(".video-container", "frontpage-player");
                     Helper.removeClass("#main-row", "frontpage_modified_heights");
                     Helper.removeElement("#main_section_frontpage");
                     Helper.removeElement("#closePlayer");

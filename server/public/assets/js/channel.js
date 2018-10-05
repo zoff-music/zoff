@@ -629,6 +629,7 @@ var Channel = {
                         Helper.removeElement("#main_components");
                         Helper.addClass("#player_overlay", "player_bottom");
                         Helper.addClass("#player", "player_bottom");
+                        Helper.addClass(".video-container", "frontpage-player");
                         Helper.addClass("#main-row", "frontpage_modified_heights");
                         Helper.css("#player", "opacity", "1");
                         Helper.removeClass("#video-container", "no-opacity");
