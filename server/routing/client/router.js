@@ -57,6 +57,23 @@ router.route('/').post(function(req, res, next){
     root(req, res, next);
 });
 
+router.route('/api/embed').get(function(req, res, next) {
+    var data = {
+        year: year,
+        javascript_file: "embed.min.js",
+        captcha: res.recaptcha,
+        analytics: analytics,
+        stylesheet: "embed.css",
+        embed: true,
+        og_image: "https://zoff.me/assets/images/small-square.jpg",
+    }
+    res.render('layouts/client/embed', data);
+});
+
+router.route('/api/oauth').get(function(req, res, next) {
+    res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
+});
+
 router.route('/api/apply').get(function(req, res, next) {
     var data = {
         year: year,
@@ -196,20 +213,9 @@ function channel(req, res, next) {
         } else if(subdomain.length >= 2 && subdomain[0] == "www") {
             res.redirect("https://zoff.me");
         } else {
-            if(req.params.channel_name == "_embed") {
-                //res.sendFile(path.join(pathThumbnails, '/public/assets/html/embed.html'));
-                var data = {
-                    year: year,
-                    javascript_file: "embed.min.js",
-                    captcha: res.recaptcha,
-                    analytics: analytics,
-                    stylesheet: "embed.css",
-                    embed: true,
-                    og_image: "https://zoff.me/assets/images/small-square.jpg",
-                }
-                res.render('layouts/client/embed', data);
-            } else if(req.params.channel_name == "o_callback") {
-                res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
+            if(req.params.channel_name == "o_callback") {
+                res.redirect("/api/oauth");
+                //res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
             } else {
                 /*db.collection("frontpage_lists").find({"_id": Functions.encodeChannelName(req.params.channel_name)}, function(err, docs) {
                     console.log(docs);

@@ -52,10 +52,12 @@ var began = false;
 var seekTo;
 var socket;
 var video_id;
-var hash = window.location.hash.substring(1).split("&");
-var chan = Helper.decodeChannelName(hash[0]);
-var autoplay = false;
-var color = "#808080";
+var embedOptions = getSearch(window.location.search);
+var chan = Helper.decodeChannelName(embedOptions["channel"]);
+var autoplay = embedOptions["autoplay"];
+var videoonly = embedOptions["videoonly"];
+var color = "#" + embedOptions["color"];
+var localmode = embedOptions["localmode"];
 var dragging = false;
 var user_auth_started = false;
 var user_auth_avoid = false;
@@ -98,14 +100,26 @@ window.addEventListener("message", receiveMessage, false);
 window.addEventListener("DOMContentLoaded", function() {
 
 });
-window.addEventListener("load", function() {
-    if(hash.length >= 2 && hash.indexOf("autoplay") > 0){
-        autoplay = true;
-        Helper.css("#player", "visibility", "hidden");
-    } else {
-        //paused = true;
+
+function getSearch(elem) {
+    var result = {};
+    var search = window.location.search.split("&");
+    for(var i = 0; i < search.length; i++) {
+        var currElement = search[i].split("=");
+        var key = currElement[0].replace("?", "");
+        var value = currElement[1];
+        if(value == "true") value = true;
+        else if(value == "false") value = false;
+        result[key] = value;
     }
-    if(hash.indexOf("videoonly") > -1) {
+    return result;
+}
+
+window.addEventListener("load", function() {
+    if(autoplay){
+        Helper.css("#player", "visibility", "hidden");
+    }
+    if(videoonly) {
         Helper.addClass("#wrapper", "hide");
         Helper.addClass("#controls", "hide");
         Helper.addClass("#player", "video_only");
@@ -116,13 +130,13 @@ window.addEventListener("load", function() {
     M.Modal.init(document.getElementById("locked_channel"), {
         dismissible: false
     });
-    color = "#" + hash[1];
+
     add = "https://zoff.me";
     //if(window.location.hostname == "localhost") add = "localhost";
     //add = "localhost";
     socket = io.connect(''+add+':8080', connection_options);
 
-    if(hash.indexOf("localmode") > 1) {
+    if(localmode) {
         change_offline(true, false);
     }
 
@@ -170,7 +184,7 @@ window.addEventListener("load", function() {
     //Helper.css("#controls", "background-color", color);
 
     document.querySelector("body").style.backgroundColor = color;
-    if(hash.indexOf("controll") > -1) {
+    if(embedOptions.hasOwnProperty("control") && embedOptions.control) {
         Hostcontroller.change_enabled(true);
     } else {
         Hostcontroller.change_enabled(false);

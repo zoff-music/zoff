@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
     var query = getQueryHash(window.location.hash);
-    var redirect  = window.location.protocol + "//" + window.location.hostname + "/o_callback";
+    var redirect  = window.location.protocol + "//" + window.location.hostname + "/api/oauth";
     var client_id;
     var response;
     var scope;
