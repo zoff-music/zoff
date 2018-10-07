@@ -88,14 +88,14 @@ var not_import_html = "";
 var not_export_html = "";
 var embed_height = 300;
 var embed_width = 600;
-var embed_videoonly = "";
-var embed_localmode = "";
-var embed_autoplay = "&autoplay";
+var embed_videoonly = "&videoonly=false";
+var embed_localmode = "&localmode=false";
+var embed_autoplay = "&autoplay=true";
 var connect_error = false;
 var access_token_data_youtube = {};
 var youtube_authenticated = false;
 var chromecastAvailable = false;
-var color = "2d2d2d";
+var color = "&color=2d2d2d";
 var find_start = false;
 var durationTimeout;
 var find_started = false;
@@ -859,7 +859,7 @@ function addDynamicListeners() {
 
     addListener("input", '#color_embed', function(e){
         var that = e;
-        color = that.value.substring(1);
+        color = "&color=" + that.value.substring(1);
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
@@ -944,7 +944,7 @@ function addDynamicListeners() {
                 youtube_window.close();
                 window.callback = "";
             };
-            youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+            youtube_window = window.open("/api/oauth#youtube=true&nonce=" + nonce, "", "width=600, height=600");
         } else {
             List.exportToYoutube();
         }
@@ -972,7 +972,7 @@ function addDynamicListeners() {
             spotify_window.close();
             window.callback = "";
         };
-        spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
+        spotify_window = window.open("/api/oauth#spotify=true&nonce=" + nonce, "", "width=600, height=600");
     });
 
     addListener("submit", "#listImport", function(event){
@@ -1103,28 +1103,45 @@ function addDynamicListeners() {
 
                 Search.importSpotifyPlaylist('https://api.spotify.com/v1/users/' + user + '/playlists/' + playlist_id + '/tracks');
             } else {
-                before_toast();
-                M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
+                var url = document.getElementById("import_spotify").value.split("https://open.spotify.com/playlist/");
+
+                if(url.length == 2) {
+                    /*url = url[1].split("/");
+                    var user = url[0];*/
+                    var playlist_id = url[1];
+                    playlist_id = playlist_id.replace("?", "");
+
+                    document.getElementById("import_spotify").disabled = true;
+                    Helper.addClass("#import_spotify", "hide");
+                    Helper.removeClass("#playlist_loader_spotify", "hide");
+
+                    ga('send', 'event', "import", "spotify");
+
+                    Search.importSpotifyPlaylist('https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks');
+                } else {
+                    before_toast();
+                    M.toast({html: "It seems you've entered a invalid url.", displayLength: 4000});
+                }
             }
         }
         document.getElementById("import_spotify").value = "";
     });
 
     addListener("change", "#autoplay", function(e) {
-        if(e.checked) embed_autoplay = "&autoplay";
-        else embed_autoplay = "";
+        if(e.checked) embed_autoplay = "&autoplay=true";
+        else embed_autoplay = "&autoplay=false";
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
     addListener("change", "#videoonly", function(e) {
-        if(e.checked) embed_videoonly = "&videoonly";
-        else embed_videoonly = "";
+        if(e.checked) embed_videoonly = "&videoonly=true";
+        else embed_videoonly = "&videoonly=false";
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
     addListener("change", "#localmode", function(e) {
-        if(e.checked) embed_localmode = "&localmode";
-        else embed_localmode = "";
+        if(e.checked) embed_localmode = "&localmode=true";
+        else embed_localmode = "&localmode=false";
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
@@ -1262,7 +1279,7 @@ function addDynamicListeners() {
             spotify_window.close();
             window.callback = "";
         };
-        spotify_window = window.open("/o_callback#spotify=true&nonce=" + nonce, "", "width=600, height=600");
+        spotify_window = window.open("/api/oauth#spotify=true&nonce=" + nonce, "", "width=600, height=600");
     });
 
     addListener("click", ".import-youtube", function(event){

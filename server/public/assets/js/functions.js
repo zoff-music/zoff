@@ -797,7 +797,7 @@ function disable_debug(){
 function embed_code(autoplay, width, height, color, embed_videoonly, embed_localmode){
     var autoplay_add = "";
     if(autoplay == "&autoplay") autoplay_add = 'allow="autoplay"';
-    return '<iframe src="https://zoff.me/_embed#' + chan.toLowerCase() + '&' + color + autoplay + embed_videoonly + embed_localmode + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
+    return '<iframe src="https://zoff.me/api/embed/?channel=' + chan.toLowerCase() + color + autoplay + embed_videoonly + embed_localmode + '" width="' + width + 'px" height="' + height + 'px" ' + autoplay_add + '></iframe>';
 }
 
 function change_offline(enabled, already_offline){

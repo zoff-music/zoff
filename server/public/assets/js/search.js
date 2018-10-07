@@ -498,7 +498,7 @@ importPlaylist: function(pId,pageToken){
                         youtube_window.close();
                         window.callback = "";
                     };
-                    youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+                    youtube_window = window.open("/api/oauth#youtube=true&nonce=" + nonce, "", "width=600, height=600");
                 } else {
                     Helper.log([
                         "import list error: ",
@@ -555,7 +555,7 @@ importPlaylist: function(pId,pageToken){
                     youtube_window.close();
                     window.callback = "";
                 };
-                youtube_window = window.open("/o_callback#youtube=true&nonce=" + nonce, "", "width=600, height=600");
+                youtube_window = window.open("/api/oauth#youtube=true&nonce=" + nonce, "", "width=600, height=600");
             } else {
                 Helper.log([
                     "import list error: ",
