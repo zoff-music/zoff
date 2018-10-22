@@ -1089,6 +1089,7 @@ function addDynamicListeners() {
                     var nonce = Helper.randomString(29);
                     window.callback = function(data) {
                         access_token_data_soundcloud = data;
+                        console.log(access_token_data_soundcloud, nonce);
                         if(access_token_data_soundcloud.state == nonce){
                             soundcloud_authenticated = true;
                             Helper.ajax({
