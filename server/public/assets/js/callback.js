@@ -46,7 +46,12 @@ window.addEventListener("load", function() {
       //console.log(url);
       window.location.href = url;
     } else {
-        var query_parameters = getQueryHash(window.location.hash);
+        var query_parameters;
+        if(window.location.search.length > 0) {
+            query_parameters = getQueryHash(window.location.search);
+        } else {
+            query_parameters = getQueryHash(window.location.hash);
+        }
         window.opener.callback(query_parameters);
     }
 });
