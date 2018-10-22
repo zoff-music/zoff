@@ -82,6 +82,8 @@ var chat_active = false;
 var chat_unseen = false;
 var blinking = false;
 var from_frontpage = false;
+var access_token_data_soundcloud = {};
+var soundcloud_window;
 var access_token_data = {};
 var spotify_authenticated = false;
 var not_import_html = "";
@@ -1081,6 +1083,85 @@ function addDynamicListeners() {
             },
             error: function(data) {
                 console.log(data);
+                Helper.addClass(".playlist_loader_soundcloud", "hide");
+                Helper.removeClass("#listImportSoundCloud", "hide");
+                if(data.status == 404) {
+                    var nonce = Helper.randomString(29);
+                    window.callback = function(data) {
+                        access_token_data_soundcloud = data;
+                        if(access_token_data_soundcloud.state == nonce){
+                            soundcloud_authenticated = true;
+                            Helper.ajax({
+                                type: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                url: "https://api.soundcloud.com/resolve/?url=" + document.querySelector("#import_soundcloud").value + "&limit=1&client_id=" + api_key.soundcloud + "&oauth_token=" + access_token_data_soundcloud.code + "&format=json&_status_code_map[200]=200",
+                                success: function(data){
+                                    try {
+                                        var jsonData = JSON.parse(data);
+                                        var tracks = jsonData.tracks;
+                                        document.querySelector("#import_soundcloud").value = "";
+                                        var addList = [];
+                                        for(var i = 0; i < tracks.length; i++) {
+                                            var song = tracks[i];
+                                            var title=song.title;
+                                            if(title.indexOf(song.user.username) == -1) {
+                                                title = song.user.username +  " - " + title;
+                                            }
+                                            if(!song.streamable) {
+                                                var not_added_song = document.createElement("div");
+                                                not_added_song.innerHTML = not_import_html;
+
+                                                not_added_song.querySelector(".extra-add-text").innerText = title;
+                                                not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
+                                                not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
+                                                document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                                                Helper.removeClass(".not-imported", "hide");
+                                                continue;
+                                            }
+                                            var duration=Math.floor(song.duration / 1000);
+                                            //var secs=Search.durationToSeconds(duration);
+                                            var secs = duration;
+                                            if(longsongs == undefined) longsongs = true;
+                                            if((longsongs != undefined && !longsongs) || secs<720){
+
+                                                var id=song.id;
+                                                //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
+                                                var thumb=song.artwork_url;
+                                                //var thumb = null;
+                                                if(thumb == null) thumb = song.waveform_url;
+
+                                                var songElement = {id: song.id, title: title, duration: secs, source: "soundcloud", thumbnail: thumb};
+
+                                                addList.push(songElement);
+                                            }
+                                        }
+                                        if(addList.length > 0) {
+                                            socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: addList});
+                                        }
+                                        Helper.addClass(".playlist_loader_soundcloud", "hide");
+                                        Helper.removeClass("#listImportSoundCloud", "hide");
+                                        //{id: song.id, title: enc_title, duration: duration, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + song.id + "/mqdefault.jpg"}
+                                    } catch(e) {
+                                        console.error(e);
+                                        Helper.addClass(".playlist_loader_soundcloud", "hide");
+                                        Helper.removeClass("#listImportSoundCloud", "hide");
+                                    }
+                                },
+                                error: function(e) {
+                                    console.error(e);
+                                }
+                            });
+                        } else {
+                            access_token_data_soundcloud = {};
+                            console.error("States doesn't match");
+                        }
+                        soundcloud_window.close();
+                        window.callback = "";
+                    };
+                    soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");
+                }
             }
         });
     });

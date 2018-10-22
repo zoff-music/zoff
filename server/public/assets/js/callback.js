@@ -20,6 +20,31 @@ window.addEventListener("load", function() {
 
         //window.opener.callback(query);
         window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + client_id + "&response_type=" + response + "&state=" + state + "&redirect_uri=" + redirect + "&scope=" + scope;
+    } else if(query.soundcloud) {
+        /*
+        SC.initialize({
+          client_id: api_key.soundcloud,
+          redirect_uri: 'https://zoff.me/api/oauth'
+        });
+
+        // initiate auth popup
+        console.log("asd ok", api_key.soundcloud);
+        SC.connect().then(function() {
+          return SC.get('/me');
+        }).then(function(me) {
+            console.log(me);
+          //alert('Hello, ' + me.username);
+      }).catch(function(e) {
+          console.log(e);
+      });*/
+
+      var redirect_uri = encodeURIComponent("https://zoff.me/api/oauth");
+      var response_type = "code";
+      var scope = "non-expiring";
+      var state = query.nonce;
+      var url = "https://soundcloud.com/connect?client_id=" + api_key.soundcloud + "&redirect_uri=" + redirect_uri + "&state=" + state + "&display=page&response_type=code&scope=" + scope;
+      //console.log(url);
+      window.location.href = url;
     } else {
         var query_parameters = getQueryHash(window.location.hash);
         window.opener.callback(query_parameters);
@@ -27,14 +52,30 @@ window.addEventListener("load", function() {
 });
 
 function getQueryHash(url) {
-    var temp_arr = url.substring(1).split("&");
-    var done_obj = {};
-    var splitted;
-    for(var i in temp_arr) {
-        splitted = temp_arr[i].split("=");
-        if(splitted.length == 2) {
-            done_obj[splitted[0]] = splitted[1];
+    if(window.location.search.length > 0) {
+        if(url.substring(url.length - 1) == "#") {
+            url = url.substring(0, url.length - 1);
         }
+        var temp_arr = url.substring(1).split("&");
+        var done_obj = {};
+        var splitted;
+        for(var i in temp_arr) {
+            splitted = temp_arr[i].split("=");
+            if(splitted.length == 2) {
+                done_obj[splitted[0]] = splitted[1];
+            }
+        }
+        return done_obj;
+    } else {
+        var temp_arr = url.substring(1).split("&");
+        var done_obj = {};
+        var splitted;
+        for(var i in temp_arr) {
+            splitted = temp_arr[i].split("=");
+            if(splitted.length == 2) {
+                done_obj[splitted[0]] = splitted[1];
+            }
+        }
+        return done_obj;
     }
-    return done_obj;
 }
