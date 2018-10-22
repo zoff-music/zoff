@@ -952,6 +952,29 @@ function addDynamicListeners() {
         }
     });
 
+    addListener("click", ".export-soundcloud", function(event) {
+        this.preventDefault();
+        var nonce = Helper.randomString(29);
+        Helper.removeClass("#playlist_loader_export", "hide");
+        Helper.addClass(".soundcloud_export_button", "hide");
+        window.callback = function(data) {
+            access_token_data_soundcloud = data;
+            if(access_token_data_soundcloud.state == nonce){
+                soundcloud_authenticated = true;
+                Helper.removeClass("#playlist_loader_export", "hide");
+                Helper.addClass(".soundcloud_export_button", "hide");
+            } else {
+                access_token_data_soundcloud = {};
+                console.error("States doesn't match");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.removeClass(".soundcloud_export_button", "hide");
+            }
+            soundcloud_window.close();
+            window.callback = "";
+        };
+        soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");
+    })
+
     addListener("click", ".export-spotify-auth", function(event){
         this.preventDefault();
         var nonce = Helper.randomString(29);
@@ -1019,7 +1042,7 @@ function addDynamicListeners() {
         document.querySelector("#import_soundcloud").focus();
     });
 
-    addListener("submit", "#listImportSoundCloud", function(event) {
+    /*addListener("submit", "#listImportSoundCloud", function(event) {
         this.preventDefault();
         Helper.removeClass(".playlist_loader_soundcloud", "hide");
         Helper.addClass("#listImportSoundCloud", "hide");
@@ -1085,87 +1108,10 @@ function addDynamicListeners() {
                 console.log(data);
                 Helper.addClass(".playlist_loader_soundcloud", "hide");
                 Helper.removeClass("#listImportSoundCloud", "hide");
-                if(data.status == 404) {
-                    var nonce = Helper.randomString(29);
-                    window.callback = function(data) {
-                        access_token_data_soundcloud = data;
-                        console.log(access_token_data_soundcloud, nonce);
-                        if(access_token_data_soundcloud.state == nonce){
-                            soundcloud_authenticated = true;
-                            Helper.ajax({
-                                type: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                url: "https://api.soundcloud.com/resolve/?url=" + document.querySelector("#import_soundcloud").value + "&limit=1&client_id=" + api_key.soundcloud + "&oauth_token=" + access_token_data_soundcloud.code + "&format=json&_status_code_map[200]=200",
-                                success: function(data){
-                                    try {
-                                        var jsonData = JSON.parse(data);
-                                        var tracks = jsonData.tracks;
-                                        document.querySelector("#import_soundcloud").value = "";
-                                        var addList = [];
-                                        for(var i = 0; i < tracks.length; i++) {
-                                            var song = tracks[i];
-                                            var title=song.title;
-                                            if(title.indexOf(song.user.username) == -1) {
-                                                title = song.user.username +  " - " + title;
-                                            }
-                                            if(!song.streamable) {
-                                                var not_added_song = document.createElement("div");
-                                                not_added_song.innerHTML = not_import_html;
-
-                                                not_added_song.querySelector(".extra-add-text").innerText = title;
-                                                not_added_song.querySelector(".extra-add-text").setAttribute("title", title);
-                                                not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title);
-                                                document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
-                                                Helper.removeClass(".not-imported", "hide");
-                                                continue;
-                                            }
-                                            var duration=Math.floor(song.duration / 1000);
-                                            //var secs=Search.durationToSeconds(duration);
-                                            var secs = duration;
-                                            if(longsongs == undefined) longsongs = true;
-                                            if((longsongs != undefined && !longsongs) || secs<720){
-
-                                                var id=song.id;
-                                                //duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
-                                                var thumb=song.artwork_url;
-                                                //var thumb = null;
-                                                if(thumb == null) thumb = song.waveform_url;
-
-                                                var songElement = {id: song.id, title: title, duration: secs, source: "soundcloud", thumbnail: thumb};
-
-                                                addList.push(songElement);
-                                            }
-                                        }
-                                        if(addList.length > 0) {
-                                            socket.emit("addPlaylist", {channel: chan.toLowerCase(), songs: addList});
-                                        }
-                                        Helper.addClass(".playlist_loader_soundcloud", "hide");
-                                        Helper.removeClass("#listImportSoundCloud", "hide");
-                                        //{id: song.id, title: enc_title, duration: duration, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + song.id + "/mqdefault.jpg"}
-                                    } catch(e) {
-                                        console.error(e);
-                                        Helper.addClass(".playlist_loader_soundcloud", "hide");
-                                        Helper.removeClass("#listImportSoundCloud", "hide");
-                                    }
-                                },
-                                error: function(e) {
-                                    console.error(e);
-                                }
-                            });
-                        } else {
-                            access_token_data_soundcloud = {};
-                            console.error("States doesn't match");
-                        }
-                        soundcloud_window.close();
-                        window.callback = "";
-                    };
-                    soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");
-                }
+                toast("If the list is private, you have to add the secret code at the end");
             }
         });
-    });
+    });*/
 
     addListener("submit", "#listImportSpotify", function(event){
         this.preventDefault();
