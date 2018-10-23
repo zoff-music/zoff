@@ -954,25 +954,6 @@ function addDynamicListeners() {
 
     addListener("click", ".export-soundcloud", function(event) {
         this.preventDefault();
-        /*var nonce = Helper.randomString(29);
-        Helper.removeClass("#playlist_loader_export", "hide");
-        Helper.addClass(".soundcloud_export_button", "hide");
-        window.callback = function(data) {
-            access_token_data_soundcloud = data;
-            if(access_token_data_soundcloud.state == nonce){
-                soundcloud_authenticated = true;
-                Helper.removeClass("#playlist_loader_export", "hide");
-                Helper.addClass(".soundcloud_export_button", "hide");
-            } else {
-                access_token_data_soundcloud = {};
-                console.error("States doesn't match");
-                Helper.addClass("#playlist_loader_export", "hide");
-                Helper.removeClass(".soundcloud_export_button", "hide");
-            }
-            soundcloud_window.close();
-            window.callback = "";
-        };
-        soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");*/
         window.SC_player = SC_player;
         SC_player.connect({"display":"page"}).then(function() {
             Helper.removeClass("#playlist_loader_export", "hide");
@@ -1105,15 +1086,12 @@ function addDynamicListeners() {
                     }
                     Helper.addClass(".playlist_loader_soundcloud", "hide");
                     Helper.removeClass("#listImportSoundCloud", "hide");
-                    //{id: song.id, title: enc_title, duration: duration, source: "youtube", thumbnail: "https://img.youtube.com/vi/" + song.id + "/mqdefault.jpg"}
                 } catch(e) {
-                    console.error(e);
                     Helper.addClass(".playlist_loader_soundcloud", "hide");
                     Helper.removeClass("#listImportSoundCloud", "hide");
                 }
             },
             error: function(data) {
-                console.log(data);
                 Helper.addClass(".playlist_loader_soundcloud", "hide");
                 Helper.removeClass("#listImportSoundCloud", "hide");
                 toast("If the list is private, you have to add the secret code at the end");
