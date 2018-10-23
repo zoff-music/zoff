@@ -1046,7 +1046,7 @@ function addDynamicListeners() {
         document.querySelector("#import_soundcloud").focus();
     });
 
-    /*addListener("submit", "#listImportSoundCloud", function(event) {
+    addListener("submit", "#listImportSoundCloud", function(event) {
         this.preventDefault();
         Helper.removeClass(".playlist_loader_soundcloud", "hide");
         Helper.addClass("#listImportSoundCloud", "hide");
@@ -1115,7 +1115,7 @@ function addDynamicListeners() {
                 toast("If the list is private, you have to add the secret code at the end");
             }
         });
-    });*/
+    });
 
     addListener("submit", "#listImportSpotify", function(event){
         this.preventDefault();
