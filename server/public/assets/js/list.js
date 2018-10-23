@@ -610,15 +610,25 @@ var List = {
         console.log(thisSong, i);
         if(i >= full_playlist.length) {
             console.log(result, List.found, List.not_found);
-            //List.found = [];
-            //List.not_found = [];
             SC_player.post('/playlists', {
                 playlist: {
-                    title: "zoff_list",
+                    title: chan.toLowerCase() + " - Zoff",
                     tracks: List.found,
                 }
             }).then(function(result) {
                 console.log(result, List.found, List.not_found);
+                for(var x = 0; x < List.not_found.length; x++) {
+                    var data = List.not_found[x];
+                    var not_added_song = document.createElement("div");
+                    not_added_song.innerHTML = not_export_html;
+                    not_added_song.querySelector(".extra-add-text").setAttribute("value", data);
+                    not_added_song.querySelector(".extra-add-text").setAttribute("title", data);
+                    document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                }
+                Helper.addClass(".current_number", "hide");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.addClass(".exported-list-container", "hide");
+                document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" result.permalink_url + "'>" + result.title + "</a>");
                 List.found = [];
                 List.not_found = [];
             }).catch(function(error) {
@@ -630,6 +640,8 @@ var List = {
             }
         } else if(thisSong != undefined && i != undefined) {
             var isFound = false;
+            Helper.removeClass(".current_number", "hide");
+            document.querySelector(".current_number").innerText = (i) + " of " + (full_playlist.length);
             if(thisSong.source == "soundcloud") {
                 List.found.push({id: parseInt(thisSong.id)});
                 List.exportToSoundCloud(full_playlist[i+1], i+1);

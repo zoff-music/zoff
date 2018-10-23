@@ -975,15 +975,9 @@ function addDynamicListeners() {
         soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");*/
 
         SC_player.connect({"display":"page"}).then(function() {
-            console.log("We export now");
-            var tracks = [{id: 290}, {id: 291}, {id: 292}];
-
-              SC_player.post('/playlists', {
-                playlist: { title: 'My Playlist', tracks: tracks }
-            }).then(function(res) {
-                console.log("this", res);
-            });
-
+            Helper.removeClass("#playlist_loader_export", "hide");
+            Helper.addClass(".soundcloud-export-button", "hide");
+            Helper.removeClass(".exported-list-container", "hide");
             List.exportToSoundCloud();
         });
     });
