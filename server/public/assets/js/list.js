@@ -669,6 +669,7 @@ var List = {
                 }).then(function(tracks) {
                     //$("#results").append(result_html);
                     //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
+                    console.log(tracks.length);
                     for(var y = 0; y < tracks.length; y++) {
                         var song = tracks[y];
                         if(!song.streamable) continue;
