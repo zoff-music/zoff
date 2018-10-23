@@ -636,7 +636,7 @@ var List = {
             });
         } else if(thisSong == undefined) {
             if(full_playlist.length > 0) {
-                List.exportToSoundCloud(full_playlist[0], 1);
+                List.exportToSoundCloud(full_playlist[0], 0);
             }
         } else if(thisSong != undefined && i != undefined) {
             var isFound = false;

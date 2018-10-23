@@ -973,12 +973,13 @@ function addDynamicListeners() {
             window.callback = "";
         };
         soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");*/
-
+        window.SC_player = SC_player;
         SC_player.connect({"display":"page"}).then(function() {
             Helper.removeClass("#playlist_loader_export", "hide");
             Helper.addClass(".soundcloud-export-button", "hide");
             Helper.removeClass(".exported-list-container", "hide");
             List.exportToSoundCloud();
+            delete window.SC_player;
         });
     });
 
