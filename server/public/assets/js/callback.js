@@ -22,7 +22,9 @@ window.addEventListener("load", function() {
         window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + client_id + "&response_type=" + response + "&state=" + state + "&redirect_uri=" + redirect + "&scope=" + scope;
     } else {
         var query_parameters = getQueryHash(window.location.hash);
-        window.opener.callback(query_parameters);
+        try {
+            window.opener.callback(query_parameters);
+        } catch(e) {}
     }
 });
 
