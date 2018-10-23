@@ -607,6 +607,7 @@ var List = {
     },
 
     exportToSoundCloud: function(thisSong, i) {
+        console.log(thisSong, i);
         if(thisSong == undefined) {
             if(full_playlist.length > 0) {
                 List.exportToSoundCloud(full_playlist[0], 1);

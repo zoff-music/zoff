@@ -975,6 +975,7 @@ function addDynamicListeners() {
         soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");*/
 
         SC_player.connect({"display":"page"}).then(function() {
+            console.log("We export now");
             List.exportToSoundCloud();
         });
     });
