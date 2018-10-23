@@ -1,7 +1,9 @@
 Zoff
 ====
 
-Zoff (pronounced __søff__) is a shared (free) YouTube and SoundCloud based radio service, built upon the YouTube API, and SoundCloud API, with integrated casting with Chromecast. Zoff supports importing YouTube, SoundCloud and Spotify playlists, and has functionality that (tries to) export to YouTube, SoundCloud and Spotify.
+Zoff (pronounced __søff__) is a shared (free) YouTube and SoundCloud based radio service, built upon the YouTube API, and SoundCloud API, with integrated casting with Chromecast. 
+
+Zoff supports importing YouTube, SoundCloud and Spotify playlists, and has functionality that (tries to) export to YouTube, SoundCloud and Spotify.
 
 <a href="https://zoff.me"><img height="80" src="https://puu.sh/BlSwW/57061de17b.png"></a><a class="android-image-link" href="https://play.google.com/store/apps/details?id=zoff.me.zoff&amp;hl=no&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"><img alt="Get it on Google Play" height="65" src="https://puu.sh/BcWup/f560259c3f.png"></a>
 <a  style="padding-bottom:20px;" class="apple-image-link" href="https://itunes.apple.com/us/app/zoff/id1402037061?ls=1&amp;mt=8"><img height="65" alt="Get it on the AppStore" src="https://puu.sh/BcWvt/09002407c3.png"></a>
