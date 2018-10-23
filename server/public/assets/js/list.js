@@ -628,7 +628,7 @@ var List = {
                 Helper.addClass(".current_number", "hide");
                 Helper.addClass("#playlist_loader_export", "hide");
                 Helper.addClass(".exported-list-container", "hide");
-                document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" result.permalink_url + "'>" + result.title + "</a>");
+                document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
                 List.found = [];
                 List.not_found = [];
             }).catch(function(error) {
