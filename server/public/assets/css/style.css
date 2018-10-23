@@ -406,6 +406,11 @@ li.disabled span {
     height: 100%;
 }
 
+.export-soundcloud, .import-soundcloud {
+    display: flex;
+    justify-content: center;
+}
+
 .import-spotify-auth{
     padding-left:5px;
 }
