@@ -976,6 +976,14 @@ function addDynamicListeners() {
 
         SC_player.connect({"display":"page"}).then(function() {
             console.log("We export now");
+            var tracks = [{id: 290}, {id: 291}, {id: 292}];
+
+              SC_player.post('/playlists', {
+                playlist: { title: 'My Playlist', tracks: tracks }
+            }).then(function(res) {
+                console.log("this", res);
+            });
+
             List.exportToSoundCloud();
         });
     });
