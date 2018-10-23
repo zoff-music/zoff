@@ -386,7 +386,7 @@ li.disabled span {
     color: white !important;
 }
 
-.import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist, .import-zoff, .import-soundcloud{
+.import-spotify-auth, .import-youtube, .export-spotify-auth, .export-youtube, .exported-playlist, .import-zoff, .import-soundcloud, .export-soundcloud{
     color:white !important;
     height:40px !important;
     line-height: 40px !important;
@@ -394,11 +394,11 @@ li.disabled span {
     width: 76%;
 }
 
-.import-soundcloud, .import-soundcloud:active, .import-soundcloud:visited {
+.import-soundcloud, .import-soundcloud:active, .import-soundcloud:visited, .export-soundcloud:visited {
     background: #f96200;
 }
 
-.import-soundcloud:hover {
+.import-soundcloud:hover, .export-soundcloud:hover {
     background: #f97f30;
 }
 

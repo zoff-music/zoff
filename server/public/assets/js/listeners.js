@@ -82,6 +82,8 @@ var chat_active = false;
 var chat_unseen = false;
 var blinking = false;
 var from_frontpage = false;
+var access_token_data_soundcloud = {};
+var soundcloud_window;
 var access_token_data = {};
 var spotify_authenticated = false;
 var not_import_html = "";
@@ -950,6 +952,29 @@ function addDynamicListeners() {
         }
     });
 
+    addListener("click", ".export-soundcloud", function(event) {
+        this.preventDefault();
+        var nonce = Helper.randomString(29);
+        Helper.removeClass("#playlist_loader_export", "hide");
+        Helper.addClass(".soundcloud_export_button", "hide");
+        window.callback = function(data) {
+            access_token_data_soundcloud = data;
+            if(access_token_data_soundcloud.state == nonce){
+                soundcloud_authenticated = true;
+                Helper.removeClass("#playlist_loader_export", "hide");
+                Helper.addClass(".soundcloud_export_button", "hide");
+            } else {
+                access_token_data_soundcloud = {};
+                console.error("States doesn't match");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.removeClass(".soundcloud_export_button", "hide");
+            }
+            soundcloud_window.close();
+            window.callback = "";
+        };
+        soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");
+    })
+
     addListener("click", ".export-spotify-auth", function(event){
         this.preventDefault();
         var nonce = Helper.randomString(29);
@@ -1017,7 +1042,7 @@ function addDynamicListeners() {
         document.querySelector("#import_soundcloud").focus();
     });
 
-    addListener("submit", "#listImportSoundCloud", function(event) {
+    /*addListener("submit", "#listImportSoundCloud", function(event) {
         this.preventDefault();
         Helper.removeClass(".playlist_loader_soundcloud", "hide");
         Helper.addClass("#listImportSoundCloud", "hide");
@@ -1081,9 +1106,12 @@ function addDynamicListeners() {
             },
             error: function(data) {
                 console.log(data);
+                Helper.addClass(".playlist_loader_soundcloud", "hide");
+                Helper.removeClass("#listImportSoundCloud", "hide");
+                toast("If the list is private, you have to add the secret code at the end");
             }
         });
-    });
+    });*/
 
     addListener("submit", "#listImportSpotify", function(event){
         this.preventDefault();
