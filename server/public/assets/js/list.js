@@ -608,11 +608,7 @@ var List = {
 
     exportToSoundCloud: function(thisSong, i) {
         console.log(thisSong, i);
-        if(thisSong == undefined) {
-            if(full_playlist.length > 0) {
-                List.exportToSoundCloud(full_playlist[0], 1);
-            }
-        } else if(i != undefined && i == full_playlist.length) {
+        if(i >= full_playlist.length) {
             SC_player.post('/playlists', {
                 playlist: {
                     title: decodeURIComponent(channel.toLowerCase()) + ' - Zoff',
@@ -624,6 +620,10 @@ var List = {
                 List.found = [];
                 List.not_found = [];
             });
+        } else if(thisSong == undefined) {
+            if(full_playlist.length > 0) {
+                List.exportToSoundCloud(full_playlist[0], 1);
+            }
         } else if(thisSong != undefined && i != undefined) {
             var isFound = false;
             if(thisSong.source == "soundcloud") {
