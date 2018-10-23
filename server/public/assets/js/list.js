@@ -608,7 +608,7 @@ var List = {
 
     exportToSoundCloud: function(thisSong, i) {
         console.log(thisSong, i);
-        if(i >= full_playlist.length) {
+        if(i > full_playlist.length) {
             console.log(result, List.found, List.not_found);
             List.found = [];
             List.not_found = [];
