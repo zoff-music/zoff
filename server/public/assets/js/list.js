@@ -7,6 +7,7 @@ var List = {
     uris: [],
     not_found: [],
     num_songs: 0,
+    found: [],
 
     channel_function: function(msg) {
         if(user_auth_started) {
@@ -605,6 +606,104 @@ var List = {
         return true;
     },
 
+    exportToSoundCloud: function(thisSong, i) {
+        if(i >= full_playlist.length) {
+            if(List.found.length == 0) {
+                for(var x = 0; x < List.not_found.length; x++) {
+                    var data = List.not_found[x];
+                    var not_added_song = document.createElement("div");
+                    not_added_song.innerHTML = not_export_html;
+                    not_added_song.querySelector(".extra-add-text").setAttribute("value", data);
+                    not_added_song.querySelector(".extra-add-text").setAttribute("title", data);
+                    document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                }
+                Helper.removeClass(".not-exported", "hide");
+                Helper.addClass(".current_number", "hide");
+                Helper.addClass("#playlist_loader_export", "hide");
+                Helper.addClass(".exported-list-container", "hide");
+                List.found = [];
+                List.not_found = [];
+            } else {
+                SC_player.post('/playlists', {
+                    playlist: {
+                        title: chan.toLowerCase() + " - Zoff",
+                        tracks: List.found,
+                        description: "Playlist exported from https://zoff.me/" + Helper.encodeChannelName(chan.toLowerCase()),
+                    }
+                }).then(function(result) {
+                    for(var x = 0; x < List.not_found.length; x++) {
+                        var data = List.not_found[x];
+                        var not_added_song = document.createElement("div");
+                        not_added_song.innerHTML = not_export_html;
+                        not_added_song.querySelector(".extra-add-text").setAttribute("value", data);
+                        not_added_song.querySelector(".extra-add-text").setAttribute("title", data);
+                        document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                    }
+                    Helper.addClass(".current_number", "hide");
+                    Helper.addClass("#playlist_loader_export", "hide");
+                    Helper.addClass(".exported-list-container", "hide");
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-soundcloud-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
+                    Helper.removeClass(".not-exported", "hide");
+                    toast("List exported!");
+                    List.found = [];
+                    List.not_found = [];
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
+        } else if(thisSong == undefined) {
+            if(full_playlist.length > 0) {
+                List.exportToSoundCloud(full_playlist[0], 0);
+            }
+        } else if(thisSong != undefined && i != undefined) {
+            var isFound = false;
+            Helper.removeClass(".current_number", "hide");
+            document.querySelector(".current_number").innerText = (i) + " of " + (full_playlist.length);
+            if(thisSong.source == "soundcloud") {
+                List.found.push({id: parseInt(thisSong.id)});
+                List.exportToSoundCloud(full_playlist[i+1], i+1);
+            } else {
+                var _title = thisSong.title;
+                _title = Helper.replaceForFind(_title);
+                SC_player.get('/tracks', {
+                    q: _title
+                }).then(function(tracks) {
+                    //$("#results").append(result_html);
+                    //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
+                    for(var y = 0; y < tracks.length; y++) {
+                        var song = tracks[y];
+                        if(!song.streamable) continue;
+                        var duration=Math.floor(song.duration / 1000);
+                        //var secs=Search.durationToSeconds(duration);
+                        var secs = duration;
+                        if(longsongs == undefined) longsongs = true;
+                        if((longsongs != undefined && !longsongs) || secs<720){
+                            var title=song.title;
+                            if(title.indexOf(song.user.username) == -1) {
+                                title = song.user.username +  " - " + title;
+                            }
+                            title = title.toLowerCase();
+                            var id=song.id;
+                            if(similarity(title, _title) > 0.60) {
+                                List.found.push({id: parseInt(song.id)});
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!isFound) {
+                        List.not_found.push(full_playlist[i].title);
+                    }
+                    List.exportToSoundCloud(full_playlist[i+1], i+1);
+                }).catch(function(e) {
+                    List.not_found.push(full_playlist[i].title);
+                    List.exportToSoundCloud(full_playlist[i+1], i+1);
+                });
+            }
+        }
+
+    },
+
     exportToSpotify: function() {
         ga('send', 'event', "export", "spotify");
 
@@ -768,7 +867,7 @@ var List = {
                         Helper.addClass("#playlist_loader_export", "hide");
                     }
                     if(document.querySelectorAll(".exported-spotify-list").length == 0) {
-                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light green lighten exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
                     }
                     for(var i = 0; i < List.not_found.length; i++) {
                         var data = List.not_found[i];
@@ -878,7 +977,7 @@ var List = {
                 if(num == full_playlist.length - 1){
                     Helper.log(["All videoes added!"]);
                     Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light red exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".current_number", "hide");
                     //$(".youtube_export_button").removeClass("hide");
