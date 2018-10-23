@@ -643,6 +643,7 @@ var List = {
                     Helper.addClass(".exported-list-container", "hide");
                     document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
                     Helper.removeClass(".not-exported", "hide");
+                    toast("List exported!");
                     List.found = [];
                     List.not_found = [];
                 }).catch(function(error) {
@@ -682,6 +683,7 @@ var List = {
                             }
                             title = title.toLowerCase();
                             var id=song.id;
+                            Helper.log(title + " " + _title + " " + similarity(title, _title));
                             if(similarity(title, _title) > 0.60) {
                                 List.found.push({id: parseInt(song.id)});
                                 isFound = true;
