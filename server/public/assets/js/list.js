@@ -683,7 +683,7 @@ var List = {
                             }
                             title = title.toLowerCase();
                             var id=song.id;
-                            Helper.log(title + " " + _title + " " + similarity(title, _title));
+                            Helper.log([title + " " + _title + " " + similarity(title, _title)]);
                             if(similarity(title, _title) > 0.60) {
                                 List.found.push({id: parseInt(song.id)});
                                 isFound = true;
