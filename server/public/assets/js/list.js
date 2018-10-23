@@ -628,6 +628,7 @@ var List = {
                     playlist: {
                         title: chan.toLowerCase() + " - Zoff",
                         tracks: List.found,
+                        description: "Playlist exported from https://zoff.me/" + Helper.encodeChannelName(chan.toLowerCase()),
                     }
                 }).then(function(result) {
                     for(var x = 0; x < List.not_found.length; x++) {
