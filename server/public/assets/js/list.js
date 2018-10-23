@@ -632,7 +632,7 @@ var List = {
         } else if(thisSong != undefined && i != undefined) {
             var isFound = false;
             if(thisSong.source == "soundcloud") {
-                List.found.push({id: thisSong.id});
+                List.found.push({id: parseInt(thisSong.id)});
                 List.exportToSoundCloud(full_playlist[i+1], i+1);
             } else {
                 thisSong.title = Helper.replaceForFind(thisSong.title);
@@ -655,7 +655,7 @@ var List = {
                             }
                             var id=song.id;
                             if(similarity(title, thisSong.track) > 0.60) {
-                                List.found.push({id: song.id});
+                                List.found.push({id: parseInt(song.id)});
                                 isFound = true;
                                 break;
                             }
