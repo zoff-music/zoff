@@ -607,9 +607,7 @@ var List = {
     },
 
     exportToSoundCloud: function(thisSong, i) {
-        console.log(thisSong, i);
         if(i >= full_playlist.length) {
-            console.log(result, List.found, List.not_found);
             if(List.found.length == 0) {
                 for(var x = 0; x < List.not_found.length; x++) {
                     var data = List.not_found[x];
@@ -619,6 +617,7 @@ var List = {
                     not_added_song.querySelector(".extra-add-text").setAttribute("title", data);
                     document.querySelector(".not-exported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                 }
+                Helper.removeClass(".not-exported", "hide");
                 Helper.addClass(".current_number", "hide");
                 Helper.addClass("#playlist_loader_export", "hide");
                 Helper.addClass(".exported-list-container", "hide");
@@ -631,7 +630,6 @@ var List = {
                         tracks: List.found,
                     }
                 }).then(function(result) {
-                    console.log(result, List.found, List.not_found);
                     for(var x = 0; x < List.not_found.length; x++) {
                         var data = List.not_found[x];
                         var not_added_song = document.createElement("div");
@@ -644,6 +642,7 @@ var List = {
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".exported-list-container", "hide");
                     document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
+                    Helper.removeClass(".not-exported", "hide");
                     List.found = [];
                     List.not_found = [];
                 }).catch(function(error) {
@@ -662,9 +661,10 @@ var List = {
                 List.found.push({id: parseInt(thisSong.id)});
                 List.exportToSoundCloud(full_playlist[i+1], i+1);
             } else {
-                thisSong.title = Helper.replaceForFind(thisSong.title);
+                var _title = thisSong.title;
+                _title = Helper.replaceForFind(_title);
                 SC_player.get('/tracks', {
-                    q: thisSong.title
+                    q: _title
                 }).then(function(tracks) {
                     //$("#results").append(result_html);
                     //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
@@ -682,8 +682,7 @@ var List = {
                             }
                             title = title.toLowerCase();
                             var id=song.id;
-                            console.log(title, thisSong.title, similarity(title, thisSong.title));
-                            if(similarity(title, thisSong.title) > 0.60) {
+                            if(similarity(title, _title) > 0.60) {
                                 List.found.push({id: parseInt(song.id)});
                                 isFound = true;
                                 break;
