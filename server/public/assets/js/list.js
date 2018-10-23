@@ -641,7 +641,7 @@ var List = {
                     Helper.addClass(".current_number", "hide");
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".exported-list-container", "hide");
-                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-soundcloud-list' href='" + result.permalink_url + "'>" + result.title + "</a>");
                     Helper.removeClass(".not-exported", "hide");
                     toast("List exported!");
                     List.found = [];
@@ -669,7 +669,6 @@ var List = {
                 }).then(function(tracks) {
                     //$("#results").append(result_html);
                     //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
-                    console.log(tracks.length);
                     for(var y = 0; y < tracks.length; y++) {
                         var song = tracks[y];
                         if(!song.streamable) continue;
@@ -684,7 +683,6 @@ var List = {
                             }
                             title = title.toLowerCase();
                             var id=song.id;
-                            Helper.log([title + " " + _title + " " + similarity(title, _title)]);
                             if(similarity(title, _title) > 0.60) {
                                 List.found.push({id: parseInt(song.id)});
                                 isFound = true;
@@ -868,7 +866,7 @@ var List = {
                         Helper.addClass("#playlist_loader_export", "hide");
                     }
                     if(document.querySelectorAll(".exported-spotify-list").length == 0) {
-                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
+                        document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light green lighten exported-playlist exported-spotify-list' href='https://open.spotify.com/user/" + user_id + "/playlist/"+ playlist_id + "'>" + chan + "</a>");
                     }
                     for(var i = 0; i < List.not_found.length; i++) {
                         var data = List.not_found[i];
@@ -978,7 +976,7 @@ var List = {
                 if(num == full_playlist.length - 1){
                     Helper.log(["All videoes added!"]);
                     Helper.log(["url: https://www.youtube.com/playlist?list=" + playlist_id]);
-                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
+                    document.querySelector(".exported-list").insertAdjacentHTML("beforeend", "<a target='_blank' class='btn light red exported-playlist' href='https://www.youtube.com/playlist?list=" + playlist_id + "'>" + chan + "</a>");
                     Helper.addClass("#playlist_loader_export", "hide");
                     Helper.addClass(".current_number", "hide");
                     //$(".youtube_export_button").removeClass("hide");

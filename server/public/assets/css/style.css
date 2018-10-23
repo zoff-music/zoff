@@ -394,7 +394,7 @@ li.disabled span {
     width: 76%;
 }
 
-.import-soundcloud, .import-soundcloud:active, .import-soundcloud:visited, .export-soundcloud, .export-soundcloud:visited {
+.import-soundcloud, .import-soundcloud:active, .import-soundcloud:visited, .export-soundcloud, .export-soundcloud:visited, .exported-soundcloud-list {
     background: #f96200;
 }
 
