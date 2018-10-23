@@ -54,7 +54,9 @@ window.addEventListener("load", function() {
         }
         try {
             window.opener.callback(query_parameters);
-        } catch(e) {}
+        } catch(e) {
+            window.setTimeout(window.opener.SC.connectCallback, 1);
+        }
     }
 });
 

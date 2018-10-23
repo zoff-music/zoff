@@ -1148,7 +1148,8 @@ var Player = {
             try {
                 if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                     SC_player.initialize({
-                      client_id: api_key.soundcloud
+                      client_id: api_key.soundcloud,
+                      redirect_uri: "https://zoff.me/api/oauth",
                     });
                     sc_initialized = true;
                     Player.soundcloudReady();
@@ -1170,7 +1171,8 @@ var Player = {
                         SC_player = SC;
                         if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                             SC_player.initialize({
-                              client_id: api_key.soundcloud
+                              client_id: api_key.soundcloud,
+                              redirect_uri: "https://zoff.me/api/oauth",
                             });
                             sc_initialized = true;
                             Player.soundcloudReady();
@@ -1183,7 +1185,8 @@ var Player = {
                     SC_player = SC;
                     if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                         SC_player.initialize({
-                          client_id: api_key.soundcloud
+                          client_id: api_key.soundcloud,
+                          redirect_uri: "https://zoff.me/api/oauth",
                         });
                         sc_initialized = true;
                         Player.soundcloudReady();
@@ -1202,7 +1205,8 @@ var Player = {
             try {
                 if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                     SC_player.initialize({
-                      client_id: api_key.soundcloud
+                      client_id: api_key.soundcloud,
+                      redirect_uri: "https://zoff.me/api/oauth",
                     });
                     sc_initialized = true;
                     Player.soundcloudReady();
@@ -1222,7 +1226,8 @@ var Player = {
                         SC_widget = SC;
                         if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                             SC_player.initialize({
-                              client_id: api_key.soundcloud
+                              client_id: api_key.soundcloud,
+                              redirect_uri: "https://zoff.me/api/oauth",
                             });
                             sc_initialized = true;
                             Player.soundcloudReady();
@@ -1234,7 +1239,8 @@ var Player = {
                     SC_widget = SC;
                     if(SC_player != null && SC_player != undefined && SC_widget != null && SC_widget != undefined && !sc_initialized) {
                         SC_player.initialize({
-                          client_id: api_key.soundcloud
+                          client_id: api_key.soundcloud,
+                          redirect_uri: "https://zoff.me/api/oauth",
                         });
                         sc_initialized = true;
                         Player.soundcloudReady();

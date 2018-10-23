@@ -7,6 +7,7 @@ var List = {
     uris: [],
     not_found: [],
     num_songs: 0,
+    found: [],
 
     channel_function: function(msg) {
         if(user_auth_started) {
@@ -603,6 +604,68 @@ var List = {
             }
         }
         return true;
+    },
+
+    exportToSoundCloud: function(thisSong, i) {
+        if(thisSong == undefined) {
+            if(full_playlist.length > 0) {
+                List.exportToSoundCloud(full_playlist[0], 1);
+            }
+        } else if(i != undefined && i == full_playlist.length) {
+            SC_player.post('/playlists', {
+                playlist: {
+                    title: decodeURIComponent(channel.toLowerCase()) + ' - Zoff',
+                    tracks: List.found,
+                    sharing: "public"
+                }
+            }).then(function(result) {
+                console.log(result, List.found, List.not_found);
+                List.found = [];
+                List.not_found = [];
+            });
+        } else if(thisSong != undefined && i != undefined) {
+            var isFound = false;
+            if(thisSong.source == "soundcloud") {
+                List.found.push({id: thisSong.id});
+                List.exportToSoundCloud(full_playlist[i+1], i+1);
+            } else {
+                thisSong.title = Helper.replaceForFind(thisSong.title);
+                SC_player.get('/tracks', {
+                    q: thisSong.title
+                }).then(function(tracks) {
+                    //$("#results").append(result_html);
+                    //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
+                    for(var y = 0; y < tracks.length; y++) {
+                        var song = tracks[y];
+                        if(!song.streamable) continue;
+                        var duration=Math.floor(song.duration / 1000);
+                        //var secs=Search.durationToSeconds(duration);
+                        var secs = duration;
+                        if(longsongs == undefined) longsongs = true;
+                        if((longsongs != undefined && !longsongs) || secs<720){
+                            var title=song.title;
+                            if(title.indexOf(song.user.username) == -1) {
+                                title = song.user.username +  " - " + title;
+                            }
+                            var id=song.id;
+                            if(similarity(title, thisSong.track) > 0.60) {
+                                List.found.push({id: song.id});
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!isFound) {
+                        List.not_found.push(full_playlist[i].title);
+                    }
+                    List.exportToSoundCloud(full_playlist[i+1], i+1);
+                }).catch(function(e) {
+                    List.not_found.push(full_playlist[i].title);
+                    List.exportToSoundCloud(full_playlist[i+1], i+1);
+                });
+            }
+        }
+
     },
 
     exportToSpotify: function() {

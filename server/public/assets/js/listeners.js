@@ -954,7 +954,7 @@ function addDynamicListeners() {
 
     addListener("click", ".export-soundcloud", function(event) {
         this.preventDefault();
-        var nonce = Helper.randomString(29);
+        /*var nonce = Helper.randomString(29);
         Helper.removeClass("#playlist_loader_export", "hide");
         Helper.addClass(".soundcloud_export_button", "hide");
         window.callback = function(data) {
@@ -972,8 +972,12 @@ function addDynamicListeners() {
             soundcloud_window.close();
             window.callback = "";
         };
-        soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");
-    })
+        soundcloud_window = window.open("/api/oauth#soundcloud=true&nonce=" + nonce, "", "width=600, height=600");*/
+
+        SC_player.connect({"display":"page"}).then(function() {
+            List.exportToSoundCloud();
+        });
+    });
 
     addListener("click", ".export-spotify-auth", function(event){
         this.preventDefault();
