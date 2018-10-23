@@ -609,6 +609,9 @@ var List = {
     exportToSoundCloud: function(thisSong, i) {
         console.log(thisSong, i);
         if(i >= full_playlist.length) {
+            console.log(result, List.found, List.not_found);
+            List.found = [];
+            List.not_found = [];
             SC_player.post('/playlists', {
                 playlist: {
                     title: decodeURIComponent(channel.toLowerCase()) + ' - Zoff',
@@ -619,6 +622,8 @@ var List = {
                 console.log(result, List.found, List.not_found);
                 List.found = [];
                 List.not_found = [];
+            }).catch(function(error) {
+                console.log(error);
             });
         } else if(thisSong == undefined) {
             if(full_playlist.length > 0) {
