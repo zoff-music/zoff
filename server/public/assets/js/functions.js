@@ -47,7 +47,6 @@ function resizeFunction() {
             document.querySelector("#all_chat").style.height = "";
             document.querySelector("#chat-container").style.height = "";
         } else if(window.innerWidth < 601) {
-            console.log("this");
             if(!client && !embed) {
                 var scPlaying = false;
                 var ytPlaying = false;
