@@ -167,7 +167,7 @@ var List = {
             List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
             List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
         }
-        if(List.element_height < 55.2 && !client){
+        if(List.element_height < 55.2 && !client && !embed){
             List.can_fit = List.can_fit - 1;
             List.element_height = 55.2;
             List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);

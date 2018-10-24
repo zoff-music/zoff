@@ -47,6 +47,7 @@ function resizeFunction() {
             document.querySelector("#all_chat").style.height = "";
             document.querySelector("#chat-container").style.height = "";
         } else if(window.innerWidth < 601) {
+            console.log("this");
             if(!client && !embed) {
                 var scPlaying = false;
                 var ytPlaying = false;
@@ -85,7 +86,7 @@ function resizeFunction() {
             temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71)+1;
             List.element_height = (Helper.computedStyle("#wrapper", "height") / temp_fit)-5.3;
         }
-        if(List.element_height < 55.2 && !client){
+        if(List.element_height < 55.2 && !client && !embed){
             temp_fit = temp_fit - 1;
             List.element_height = 55.2;
             temp_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
