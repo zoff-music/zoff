@@ -13,6 +13,10 @@ try {
 }
 var SC_widget;
 var scUsingWidget = false;
+var zoff_api_token = "DwpnKVkaMH2HdcpJT2YPy783SY33byF5/32rbs0+xdU=";
+if(window.location.hostname == "localhost" || window.location.hostname == "client.localhost") {
+    var zoff_api_token = "AhmC4Yg2BhaWPZBXeoWK96DAiAVfbou8TUG2IXtD3ZQ=";
+}
 var SC_player;
 var durationTimeout;
 var sc_need_initialization = true;
@@ -101,6 +105,11 @@ window.addEventListener("DOMContentLoaded", function() {
 
 });
 
+var Channel = {
+    set_title_width: function(){},
+    window_width_volume_slider: function(){}
+}
+
 function getSearch(elem) {
     var result = {};
     var search = window.location.search.split("&");
@@ -148,6 +157,7 @@ window.addEventListener("load", function() {
     document.querySelector(".channel-title").innerText = "/" + chan.toLowerCase();
 
     socket.on("get_list", function() {
+        socket_connected = true;
         setTimeout(function(){socket.emit('list', {version: VERSION, channel: chan.toLowerCase(), pass: ''});},1000);
     });
 
@@ -189,6 +199,10 @@ window.addEventListener("load", function() {
     } else {
         Hostcontroller.change_enabled(false);
     }
+});
+
+window.addEventListener("resize", function(){
+    resizeFunction();
 });
 
 function resizePlaylistPlaying(){};
@@ -362,7 +376,6 @@ function change_offline(enabled, already_offline){
         Helper.removeClass(".margin-playbar", "margin-playbar");
         Helper.addClass(".prev playbar", "margin-playbar");
         Helper.removeClass(".prev playbar", "hide");
-        Helper.removeClass(".skip playbar", "hide");
         Helper.removeClass("#offline-mode", "waves-cyan");
         Helper.addClass("#offline-mode", "cyan");
         Helper.removeClass(".delete-context-menu", "context-menu-disabled");
@@ -402,7 +415,7 @@ function change_offline(enabled, already_offline){
         Helper.addClass("#playpause", "margin-playbar");
         Helper.removeClass("#viewers", "hide");
         Helper.addClass(".prev playbar", "hide");
-        Helper.addClass(".skip playbar", "hide");
+        //Helper.addClass(".skip playbar", "hide");
         Helper.addClass("#offline-mode", "waves-cyan");
         Helper.removeClass("#offline-mode", "cyan");
         if(!Helper.mobilecheck()) {
@@ -454,6 +467,7 @@ addListener("click", ".channel-info-container", function(e) {
 addListener("click", ".vote-container", function(e) {
     var that = e;
     var id = that.getAttribute("data-video-id");
+
     List.vote(id, "pos");
 });
 
@@ -479,7 +493,7 @@ addListener("click", ".prev", function(event){
 
 addListener("click", ".skip", function(event){
     this.preventDefault();
-    if(!offline) return;
+    //if(!offline) return;
     List.skip(true);
 });
 
