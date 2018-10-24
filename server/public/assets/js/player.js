@@ -143,7 +143,7 @@ var Player = {
                 }
                 break;
             case YT.PlayerState.PLAYING:
-                if(embed) Helper.css("#song-title", "display", "none");
+                if(embed) Helper.css("#song-title", "display", "block");
                 if(videoSource == "soundcloud") {
                     Player.player.stopVideo();
                     //was_stopped = false;
@@ -675,7 +675,7 @@ var Player = {
 
             if(!client && !embed) {
                 document.getElementById("host-title").innerText = title;
-            }
+            } 
             document.getElementById("song-title").innerText = title;
             if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
             document.getElementById("song-title").setAttribute("title", title);
