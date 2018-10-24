@@ -569,6 +569,7 @@ var List = {
             "client " + client,
             "socket_connected " + socket_connected
         ]);
+
         if((client || Helper.mobilecheck()) && !socket_connected) {
             if(vote != "del") {
                 vote_ajax(id);

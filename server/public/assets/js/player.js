@@ -143,6 +143,7 @@ var Player = {
                 }
                 break;
             case YT.PlayerState.PLAYING:
+                if(embed) Helper.css("#song-title", "display", "none");
                 if(videoSource == "soundcloud") {
                     Player.player.stopVideo();
                     //was_stopped = false;
@@ -217,7 +218,7 @@ var Player = {
                         if(window.location.pathname != "/") Playercontrols.play_pause_show();
                         mobile_beginning = true;
                         if(!embed && !client && window.location.pathname != "/") {
-                            if(Helper.mobilecheck()) {
+                            if(Helper.mobilecheck() && !embed) {
                                 Helper.css("#player", "display", "none");
                                 Helper.toggleClass(".video-container", "click-through");
                                 Helper.toggleClass(".page-footer", "padding-bottom-extra");
@@ -775,6 +776,7 @@ var Player = {
         Helper.addClass("#player_loader_container", "hide");
         Helper.css("#player_overlay", "display", "block");
         Helper.addClass("#player", "hide");
+        if(embed) Helper.css("#song-title", "display", "block");
         if(videoSource == "youtube") {
             Player.soundcloud_player.pause();
         } else if(soundcloud_loading){

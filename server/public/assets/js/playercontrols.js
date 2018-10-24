@@ -28,7 +28,7 @@ var Playercontrols = {
                 document.getElementById("volume").innerHTML = "";
             }
         }catch(e){}
-        if(Helper.mobilecheck() || slider_type == "vertical") {
+        if((Helper.mobilecheck() || slider_type == "vertical") && !embed) {
             //slider_values.orientation = "vertical";
             if(!document.querySelector(".volume-container").classList.contains("hide")) {
                 Helper.toggleClass(".volume-container", "hide");
@@ -212,7 +212,7 @@ var Playercontrols = {
                 if(Player.player.getPlayerState() == YT.PlayerState.PLAYING)
                 {
                     Player.pauseVideo();
-                    if(Helper.mobilecheck() && !window.MSStream){
+                    if(Helper.mobilecheck() && !window.MSStream && !embed){
                         //if(Helper.mobilecheck() && !/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
                         //document.getElementById("player").style.display = "none";
                         Helper.css("#player", "display", "none");

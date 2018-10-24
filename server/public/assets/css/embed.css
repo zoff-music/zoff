@@ -69,11 +69,12 @@
 }
 
 #player_overlay {
-  position: absolute;
+  position: relative;
   height: calc(100% - 32px);
   top: 0px;
   left: 0px;
   width: 60vw;
+  margin-bottom: 5px;
 }
 
 .soundcloud_info_container {
@@ -615,6 +616,16 @@ body {
   padding: 0 5px;
 }
 
+#song-title {
+  position: absolute;
+  z-index: 9;
+  color: white;
+  background: rgba(0,0,0,.5);
+  font-size: 1.5rem;
+  padding: 10px;
+  width: 60vw;
+}
+
 /*
 .last_page, .last_page_hide, .first_page, .first_page_hide{
 display: none !important;
@@ -629,4 +640,45 @@ display: none !important;
   #toast-container {
     bottom: 90px;
   }
+}
+
+@media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
+    #player-container{
+        /*display: none;*/
+        position: absolute;
+        width: 100vw;
+        height: 200px;
+        bottom: 0px;
+    }
+    #controls {
+      width: 100vw;
+      margin-top: 0px;
+    }
+
+    #player {
+        width: 100vw;
+        height: 170px;
+        display: block;
+    }
+
+    #player_overlay {
+      position: relative;
+      width: 100vw;
+      margin-bottom: 0px;
+    }
+
+    #playlist {
+        width: 100vw;
+        height: calc(100vh - 208px);
+    }
+
+    #toast-container {
+      min-width: 96%;
+      bottom: auto;
+    }
+
+    #song-title {
+      width: 100vw;
+      bottom: 149px;
+    }
 }
