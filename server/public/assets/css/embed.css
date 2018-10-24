@@ -548,6 +548,11 @@ html {
   align-items: center;
 }
 
+#pageButtons a, #pageButtons span {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
 #pageNumber{
   cursor: default;
   color: white;
