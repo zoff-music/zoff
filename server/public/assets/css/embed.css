@@ -681,6 +681,7 @@ display: none !important;
 
     #song-title {
       width: 100vw;
-      bottom: 149px;
+      font-size: 1.2rem;
+      top: calc(100vh - 200px);
     }
 }
