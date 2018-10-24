@@ -133,6 +133,8 @@
 
 #pageButtons, #pageButtons a{
   color:white !important;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .prev_page, .next_page{
