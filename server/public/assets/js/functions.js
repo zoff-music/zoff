@@ -90,6 +90,11 @@ function resizeFunction() {
             List.element_height = 55.2;
             temp_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
             List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+        } else if(List.element_height < 55.2 && embed) {
+            //List.can_fit = List.can_fit - 1;
+            temp_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / temp_fit)-5;
+            temp_fit = temp_fit - 2;
         }
         if(temp_fit > List.can_fit || temp_fit < List.can_fit){
             List.dynamicContentPage(-10);

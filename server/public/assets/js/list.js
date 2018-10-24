@@ -172,6 +172,11 @@ var List = {
             List.element_height = 55.2;
             List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
             List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
+        } else if(List.element_height < 55.2 && embed) {
+            //List.can_fit = List.can_fit - 1;
+            List.can_fit = Math.round((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / 71);
+            List.element_height = ((window.innerHeight - Helper.computedStyle(".tabs", "height") - Helper.computedStyle("header", "height") - 64 - 40) / List.can_fit)-5;
+            List.can_fit = List.can_fit - 2;
         }
     },
 
