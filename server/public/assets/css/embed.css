@@ -642,7 +642,7 @@ display: none !important;
   }
 }
 
-@media only screen and (max-width: 736px) and (max-width:600px), only screen and (max-device-width: 736px)  and (orientation: landscape){
+@media only screen and (max-width: 736px) and (max-width:500px), only screen and (max-device-width: 736px)  and (orientation: landscape){
     #player-container{
         /*display: none;*/
         position: absolute;

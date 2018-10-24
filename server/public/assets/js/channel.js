@@ -130,7 +130,11 @@ var Channel = {
         });
 
         if(!client) {
-            M.Modal.init(document.getElementById("embed"));
+            M.Modal.init(document.getElementById("embed"), {
+                onCloseStart: function() {
+                    document.querySelector(".embed-preview").innerHTML = "";
+                }
+            });
         } else {
             Helper.removeElement("#embed");
             Helper.removeElement(".embed-button-footer");

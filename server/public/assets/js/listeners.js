@@ -88,7 +88,7 @@ var access_token_data = {};
 var spotify_authenticated = false;
 var not_import_html = "";
 var not_export_html = "";
-var embed_height = 300;
+var embed_height = 400;
 var embed_width = 600;
 var embed_videoonly = "&videoonly=false";
 var embed_localmode = "&localmode=false";
@@ -430,6 +430,15 @@ initializeCastApi = function() {
 };
 
 function addDynamicListeners() {
+    addListener("click", ".preview-embed", function(event) {
+        this.preventDefault();
+        if(document.querySelector(".embed-preview").innerHTML == "") {
+            document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
+        } else {
+            document.querySelector(".embed-preview").innerHTML = "";
+        }
+    });
+
     addListener("click", "#player_overlay", function(event) {
         if(chromecastAvailable) {
             Player.playPauseVideo();
@@ -1236,7 +1245,11 @@ function addDynamicListeners() {
 
     addListener("click", "#embed-button", function() {
         this.preventDefault();
-        M.Modal.init(document.getElementById("embed"));
+        M.Modal.init(document.getElementById("embed"), {
+            onCloseStart: function() {
+                document.querySelector(".embed-preview").innerHTML = "";
+            }
+        });
         ga('send', 'event', "button-click", "embed-channel", "channel-name", chan.toLowerCase());
         M.Modal.getInstance(document.getElementById("embed")).open();
     });
