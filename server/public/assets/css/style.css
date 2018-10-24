@@ -221,6 +221,10 @@ background: transparent !important;
     box-shadow: none;
 }
 
+#embed {
+    max-height: max-content !important;
+}
+
 .chan.tap-target-origin {
     display: none;
 }
