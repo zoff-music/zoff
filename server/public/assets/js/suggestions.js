@@ -38,6 +38,9 @@ var Suggestions = {
                         + Helper.pad((date.getYear()-100));
         var toSend = {id: video_id, title: video_title, length: params.duration, duration: duration, votes: addedTime, extra: "Added"};
         if(params.source) toSend.source = params.source;
+        else {
+            toSend.source = "youtube";
+        }
         if(params.thumbnail) toSend.thumbnail = params.thumbnail;
         var song 		= List.generateSong(toSend, false, false, false, true);
         var testingElem;
@@ -98,7 +101,7 @@ var Suggestions = {
                             }
 
                             try {
-                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views"}, false, false, false));
+                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views", source: "youtube"}, false, false, false));
                             } catch(e) {}
                         }
                     }

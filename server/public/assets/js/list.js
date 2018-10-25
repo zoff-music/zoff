@@ -1245,6 +1245,7 @@ var List = {
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
             song.querySelector("#list-song").setAttribute("data-video-type", "suggested");
+            song.querySelector("#list-song").setAttribute("data-video-source", "youtube");
             song.querySelector("#list-song").setAttribute("data-video-id", video_id);
             Helper.css(song.querySelector("#list-song"), "display", "inline-flex");
             song.querySelector("#list-song").setAttribute("id", "suggested-" + video_id);
