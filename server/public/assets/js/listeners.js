@@ -15,6 +15,7 @@ try {
 var SC_widget;
 var scUsingWidget = false;
 var SC_player;
+var previewing = false;
 var sc_initialized = false;
 var soundcloud_enabled = true;
 var local_new_channel = false;
@@ -433,8 +434,12 @@ function addDynamicListeners() {
     addListener("click", ".preview-embed", function(event) {
         this.preventDefault();
         if(document.querySelector(".embed-preview").innerHTML == "") {
+            document.querySelector(".preview-embed").innerText = "Stop";
+            previewing = true;
             document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         } else {
+            previewing = true;
+            document.querySelector(".preview-embed").innerText = "Preview";
             document.querySelector(".embed-preview").innerHTML = "";
         }
     });
@@ -712,12 +717,14 @@ function addDynamicListeners() {
     addListener("change", "#width_embed", function(event) {
         var that = this.target;
         embed_width = that.value;
+        if(previewing) document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
     addListener("change", "#height_embed", function(event) {
         var that = this.target;
         embed_height = that.value;
+        if(previewing) document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
@@ -1159,12 +1166,14 @@ function addDynamicListeners() {
     addListener("change", "#videoonly", function(e) {
         if(e.checked) embed_videoonly = "&videoonly=true";
         else embed_videoonly = "&videoonly=false";
+        if(previewing) document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 
     addListener("change", "#localmode", function(e) {
         if(e.checked) embed_localmode = "&localmode=true";
         else embed_localmode = "&localmode=false";
+        if(previewing) document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
     });
 

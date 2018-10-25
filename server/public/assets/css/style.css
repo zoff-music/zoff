@@ -2762,6 +2762,10 @@ nav ul li:hover, nav ul li.active {
     height: 27px;
 }
 
+.embed-preview iframe {
+    border: none;
+}
+
 .hide
 {
     display:none !important;
