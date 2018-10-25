@@ -706,9 +706,7 @@ function loaded() {
 				return;
 			}
 			removeClass(".header-api-fields", "hide");
-
 			for(var i = 0; i < response.length; i++) {
-
 				var to_add = api_token_list.cloneNode(true);
 				to_add.setAttribute("id", "element-" + response[i]._id);
 				to_add.querySelector(".api_token_name").innerText = response[i].name;
@@ -732,10 +730,7 @@ function loaded() {
 		error: function(err) {
 		}
 	});
-	try {
-		M.Toast.getInstance(document.querySelector("#toast-counter").parentNode).dismiss();
-	} catch(e){}
-	toast("<span id='toast-counter'>At list number <span id='num'>1</span> of <span id='numTotal'>?</span></span>", 100000000, "");
+
 	ajax({
 		type: "GET",
 		headers: {
@@ -749,10 +744,7 @@ function loaded() {
             }));
 			var output_pinned = '<option value="" disabled selected>Channels</option>';
 			var output_delete = '<option value="" disabled selected>Channels</option>';
-
 			for(var x = 0; x < response.length; x++){
-				document.querySelector("#num").innerText = i;
-				document.querySelector("#numTotal").innerText = response.length;
 				if(response[x].count > 2){
 					output_pinned += "<option class='" + response[x]._id + "' value='" + response[x]._id + "'>" + decodeChannelName(response[x]._id) + "</option>";
 				}
@@ -773,11 +765,6 @@ function loaded() {
 
 			addClass(".preloader-wrapper", "hide");
 			removeClass(".channel_things", "hide");
-
-			try {
-				M.Toast.getInstance(document.querySelector("#toast-counter").parentNode).dismiss();
-			} catch(e){}
-			toast("Loaded!", 4000, "green");
 		}
 	});
 
