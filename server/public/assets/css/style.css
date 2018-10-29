@@ -2036,7 +2036,7 @@ nav ul li:hover, nav ul li.active {
     transition: all .1s ease;
 }
 
-.vote-container{
+.vote-container, .deleted-vote-container{
     height: 100%;
     width: 90%;
 }
@@ -2764,6 +2764,11 @@ nav ul li:hover, nav ul li.active {
 
 .embed-preview iframe {
     border: none;
+}
+
+.disabled-vote{
+    cursor: not-allowed !important;
+    background: rgba(255,255,255,.2);
 }
 
 .hide

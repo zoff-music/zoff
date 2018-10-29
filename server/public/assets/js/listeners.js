@@ -17,6 +17,8 @@ var scUsingWidget = false;
 var SC_player;
 var previewing = false;
 var sc_initialized = false;
+var intelligentQueue = [];
+var intelligentList = true;
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = true;

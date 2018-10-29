@@ -121,6 +121,7 @@ var List = {
     insertAtIndex: function(song_info, transition, change) {
         if(document.querySelector("#wrapper") == null) return;
         var i = List.getIndexOfSong(song_info.id);
+        console.log(i, song_info);
         var display = "none";
         if(!song_info.now_playing){
             if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-flex"
@@ -397,79 +398,106 @@ var List = {
             if(document.querySelectorAll("#empty-channel-message").length > 0) {
                 document.querySelector("#empty-channel-message").remove();
             }
-            List.insertAtIndex(added, true);
-            Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
-            if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
-                Helper.css(".next_page_hide", "display", "none");
-                Helper.removeClass(".next_page", "hide");
-                Helper.css(".last_page_hide", "display", "none");
-                Helper.css(".next_page", "display", "inline-flex");
-                Helper.css(".last_page", "display", "inline-flex");
+            if(intelligentList) {
+                intelligentQueue.push({
+                    type: "add",
+                    element: added,
+                });
             } else {
-                Helper.css(".next_page_hide", "display", "inline-flex");
-                Helper.css(".next_page", "display", "none");
+                List.insertAtIndex(added, true);
+                Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
+                if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
+                    Helper.css(".next_page_hide", "display", "none");
+                    Helper.removeClass(".next_page", "hide");
+                    Helper.css(".last_page_hide", "display", "none");
+                    Helper.css(".next_page", "display", "inline-flex");
+                    Helper.css(".last_page", "display", "inline-flex");
+                } else {
+                    Helper.css(".next_page_hide", "display", "inline-flex");
+                    Helper.css(".next_page", "display", "none");
+                }
             }
         }
     },
 
-    deleted_song: function(deleted, removed) {
+    deleted_song: function(deleted, removed, intelligentSecond) {
         try{
+            console.log(deleted);
             var index              = List.getIndexOfSong(deleted);
-            //if(!removed) to_delete.style.height = 0;
-            var nextToChange;
-            if(index < List.page && document.querySelector("#wrapper").children.length - (List.page + 2) >= 0){
-                //Helper.css(document.querySelector("#wrapper").children[List.page], "height", 0 + "px");
-                nextToChange = document.querySelector("#wrapper").children[List.page];
-                //Helper.css(document.querySelector("#wrapper").children[List.page], "display", "inline-flex");
-                //Helper.css(document.querySelector("#wrapper").children[List.page], "height", List.element_height + "px");
-            } else if(document.querySelector("#wrapper").children.length > List.page + (List.can_fit)){
-                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", 0 + "px");
-                nextToChange = document.querySelector("#wrapper").children[List.page + (List.can_fit)];
-                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "display", "inline-flex");
-                //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", List.element_height + "px");
-            }
-            if(List.page >= document.querySelector("#wrapper").children.length - 1){
-                List.dynamicContentPage(-1);
-                Helper.css(".next_page_hide", "display", "inline-flex");
-                Helper.css(".next_page", "display", "none");
-                Helper.css(".last_page_hide", "display", "inline-flex");
-                Helper.css(".last_page", "display", "none");
-            } else if(List.page + List.can_fit + 1 >= document.querySelector("#wrapper").children.length - 1){
-                Helper.css(".next_page_hide", "display", "inline-flex");
-                Helper.css(".next_page", "display", "none");
-                Helper.css(".last_page_hide", "display", "inline-flex");
-                Helper.css(".last_page", "display", "none");
-            }
+            console.log("place 2");
+            if(intelligentList && !intelligentSecond) {
+                intelligentQueue.push({
+                    type: "delete",
+                    element: full_playlist[index],
+                });
+                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+                var this_element = document.getElementById(deleted);
+                Helper.addClass(this_element, "disabled-vote");
+                this_element.querySelector(".vote-span").innerText = "Deleted";
+                Helper.addClass(this_element.querySelector(".vote-container"), "deleted-vote-container");
+                Helper.removeClass(this_element.querySelector(".vote-container"), "clickable");
+                Helper.removeClass(this_element.querySelector(".vote-container"), "vote-container");
+                return;
+            } else {
+                //if(!removed) to_delete.style.height = 0;
+                var nextToChange;
+                if(index < List.page && document.querySelector("#wrapper").children.length - (List.page + 2) >= 0){
+                    //Helper.css(document.querySelector("#wrapper").children[List.page], "height", 0 + "px");
+                    nextToChange = document.querySelector("#wrapper").children[List.page];
+                    //Helper.css(document.querySelector("#wrapper").children[List.page], "display", "inline-flex");
+                    //Helper.css(document.querySelector("#wrapper").children[List.page], "height", List.element_height + "px");
+                } else if(document.querySelector("#wrapper").children.length > List.page + (List.can_fit)){
+                    //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", 0 + "px");
+                    nextToChange = document.querySelector("#wrapper").children[List.page + (List.can_fit)];
+                    //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "display", "inline-flex");
+                    //Helper.css(document.querySelector("#wrapper").children[List.page + (List.can_fit)], "height", List.element_height + "px");
+                }
+                if(List.page >= document.querySelector("#wrapper").children.length - 1){
+                    List.dynamicContentPage(-1);
+                    Helper.css(".next_page_hide", "display", "inline-flex");
+                    Helper.css(".next_page", "display", "none");
+                    Helper.css(".last_page_hide", "display", "inline-flex");
+                    Helper.css(".last_page", "display", "none");
+                } else if(List.page + List.can_fit + 1 >= document.querySelector("#wrapper").children.length - 1){
+                    Helper.css(".next_page_hide", "display", "inline-flex");
+                    Helper.css(".next_page", "display", "none");
+                    Helper.css(".last_page_hide", "display", "inline-flex");
+                    Helper.css(".last_page", "display", "none");
+                }
 
-            if(List.page <= index && List.page - List.can_fit <= index) {
-                Helper.addClass("#" + deleted, "side_away");
+                if(List.page <= index && List.page - List.can_fit <= index) {
+                    Helper.addClass("#" + deleted, "side_away");
 
-                //document.getElementById(deleted).querySelector(".mobile-delete").remove();
-                Helper.css("#" + deleted, "transform", "translateX(-100%)");
-                setTimeout(function() {
-                    Helper.removeElement("#" + deleted);
-                    /*var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
-                    if(wrapperChildren.length > List.can_fit) {
-                        Helper.css(wrapperChildren[List.can_fit], "display", "inline-flex");
-                    }*/
+                    //document.getElementById(deleted).querySelector(".mobile-delete").remove();
+                    Helper.css("#" + deleted, "transform", "translateX(-100%)");
+                    setTimeout(function() {
+                        Helper.removeElement("#" + deleted);
+                        /*var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+                        if(wrapperChildren.length > List.can_fit) {
+                            Helper.css(wrapperChildren[List.can_fit], "display", "inline-flex");
+                        }*/
+                        if(nextToChange != undefined) {
+                            Helper.css(nextToChange, "display", "inline-flex");
+                            Helper.css(nextToChange, "height", List.element_height + "px");
+                        }
+                    }, 300);
+                } else {
+                    Helper.removeElement("#"+deleted);
                     if(nextToChange != undefined) {
                         Helper.css(nextToChange, "display", "inline-flex");
                         Helper.css(nextToChange, "height", List.element_height + "px");
                     }
-                }, 300);
-            } else {
-                Helper.removeElement("#"+deleted);
-                if(nextToChange != undefined) {
-                    Helper.css(nextToChange, "display", "inline-flex");
-                    Helper.css(nextToChange, "height", List.element_height + "px");
                 }
+                var index = List.getIndexOfSong(deleted);
+                if(index != -1) full_playlist.splice(index, 1);
+                Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
+                //}
             }
-            full_playlist.splice(List.getIndexOfSong(deleted), 1);
-            Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
-            //}
 
         } catch(err) {
-            full_playlist.splice(List.getIndexOfSong(deleted), 1);
+            console.log(err);
+            var index = List.getIndexOfSong(deleted);
+            if(index != -1) full_playlist.splice(index, 1);
             if(!List.empty){
                 try {
                     document.getElementById(deleted).remove();
@@ -508,9 +536,20 @@ var List = {
         full_playlist[index_of_song].votes += 1;
         full_playlist[index_of_song].added = time;
 
-        List.sortList();
-        Helper.removeElement("#"+voted);
-        List.insertAtIndex(song_voted_on, false);
+
+        if(intelligentList) {
+            console.log(full_playlist[index_of_song].votes, full_playlist[index_of_song]);
+            document.getElementById(voted).querySelector(".list-votes").innerText = full_playlist[index_of_song].votes;
+            intelligentQueue.push({
+                type: "vote",
+                element: song_voted_on
+            });
+            List.sortList();
+        } else {
+            List.sortList();
+            Helper.removeElement("#"+voted);
+            List.insertAtIndex(song_voted_on, false);
+        }
     },
 
     song_change_prev: function(time) {
@@ -537,7 +576,7 @@ var List = {
     song_change: function(time, remove) {
         try{
             var length = full_playlist.length - 1;
-            document.querySelector("#wrapper").children[0].remove();
+
             if(full_playlist.length <= 1) {
                 List.empty = true;
                 Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
@@ -547,6 +586,19 @@ var List = {
             full_playlist[0].votes              = 0;
             full_playlist[0].guids              = [];
             full_playlist[0].added              = time;
+            var i = intelligentQueue.length
+            var deleted_elements = 0;
+            while (i--) {
+                var current = intelligentQueue[i];
+                if (current.type == "delete") {
+                    intelligentQueue.splice(i, 1);
+                    Helper.removeElement("#" + current.element.id);
+                    deleted_elements += 1;
+                }
+            }
+            try {
+                document.getElementById(full_playlist[0].id).remove();
+            } catch(e) {};
             if(!remove){
                 full_playlist[length].now_playing   = false;
             } else {
@@ -561,10 +613,14 @@ var List = {
             if(!remove){
                 List.insertAtIndex(full_playlist[document.querySelector("#wrapper").children.length], false, true);
             }
-            /*var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
-            if(wrapperChildren.length > List.can_fit) {
-                //Helper.css(wrapperChildren[List.can_fit], "display", "inline-flex");
-            }*/
+            var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+            if(wrapperChildren.length >= List.can_fit && intelligentList) {
+                console.log(wrapperChildren[List.can_fit]);
+                for(var i = 0; i < deleted_elements + 1; i++) {
+                    //Helper.css(wrapperChildren[List.can_fit - 2], "display", "inline-flex");
+                    Helper.css(wrapperChildren[List.can_fit - 1 - i], "display", "inline-flex");
+                }
+            }
         } catch(e) {}
     },
 
@@ -1276,7 +1332,6 @@ var List = {
             for(var i = 0; i < full_playlist.length; i++) {
                 if(full_playlist[i].id == id) return i;
             }
-
         } catch(e) {}
     }
 };

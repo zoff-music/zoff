@@ -611,6 +611,35 @@ function loadChromecastVideo() {
     });
 }
 
+window.clearIntelligentQueue = clearIntelligentQueue;
+
+function clearIntelligentQueue() {
+    for(var i = 0; i < intelligentQueue.length; i++) {
+        console.log(intelligentQueue[i]);
+        var currentElement = intelligentQueue[i];
+        console.log(currentElement);
+        if(currentElement.type == "vote") {
+            Helper.removeElement("#"+currentElement.element.id);
+            List.insertAtIndex(currentElement.element, false);
+        } else if(currentElement.type == "delete") {
+            List.deleted_song(currentElement.element.id, false, true);
+        } else if(currentElement.type == "add") {
+            List.insertAtIndex(currentElement.element, true);
+            Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
+            if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
+                Helper.css(".next_page_hide", "display", "none");
+                Helper.removeClass(".next_page", "hide");
+                Helper.css(".last_page_hide", "display", "none");
+                Helper.css(".next_page", "display", "inline-flex");
+                Helper.css(".last_page", "display", "inline-flex");
+            } else {
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+            }
+        }
+    }
+}
+
 function updateChromecastMetadata() {
     if(!chromecastAvailable) return;
     var image = {url:'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', heigth: 180, width: 320};
