@@ -117,9 +117,6 @@ var Channel = {
             draggable: Helper.mobilecheck(),
             onOpenStart: function(el) {
                 Helper.addClass(".hamburger-sidenav", "open");
-                try {
-                    M.Collapsible.getInstance(document.querySelector(".settings-collapsible")).open(1);
-                } catch(e) {}
             },
             onCloseStart: function(el) {
                 Helper.removeClass(".hamburger-sidenav", "open");

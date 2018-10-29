@@ -35,7 +35,7 @@ var Hostcontroller = {
 
     host_on_action: function(arr) {
         if(client) return;
-        if(enabled){
+        if(Hostcontroller.enabled){
             if(arr.type == "volume") {
                 try {
                     Playercontrols.visualVolume(arr.value);
@@ -75,9 +75,9 @@ var Hostcontroller = {
 
     change_enabled:function(val){
         if(client) return;
-        enabled = val;
+        Hostcontroller.enabled = val;
         try {
-            document.querySelector(".remote_switch_class").checked = enabled;
+            document.querySelector(".remote_switch_class").checked = Hostcontroller.enabled;
         }catch(e) {}
     }
 };

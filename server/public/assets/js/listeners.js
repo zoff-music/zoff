@@ -18,7 +18,8 @@ var SC_player;
 var previewing = false;
 var sc_initialized = false;
 var intelligentQueue = [];
-var intelligentList = true;
+var intelligentList = false;
+var deleted_elements = 0;
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = true;
@@ -904,8 +905,21 @@ function addDynamicListeners() {
 
     addListener("change", '.remote_switch_class', function()
     {
-        Hostcontroller.change_enabled(document.getElementsByName("remote_switch")[0].checked);
+        var enabled = document.getElementsByName("remote_switch")[0].checked;
+        Hostcontroller.change_enabled(enabled);
         Crypt.set_remote(enabled);
+    });
+
+    addListener("change", '.intelligent_switch_class', function()
+    {
+        var enabled = document.getElementsByName("intelligent_switch")[0].checked;
+        change_intelligent(enabled);
+        Crypt.set_intelligent_list_enabled(enabled);
+        if(enabled) {
+            toast("Enabled intelligent playlist!");
+        } else {
+            toast("Disabled intelligent playlist.");
+        }
     });
 
     addListener("change", '.offline_switch_class', function()
@@ -1855,6 +1869,31 @@ function addDynamicListeners() {
             image_timeout = setTimeout(function(){
                 that.querySelector(".card-reveal").setAttribute("style", "display: none;");
             }, 100);
+        } else if(!Helper.mobilecheck() && Crypt.get_intelligent_list_enabled()){
+            try {
+                if(event.target.id == "wrapper" && event.relatedTarget.id != "context-menu-overlay" && event.relatedTarget.className.indexOf("context-menu-list") == -1 && event.relatedTarget.className.indexOf("context-menu-item") == -1) {
+                    clearIntelligentQueue();
+                } else if(event.target.id == "context-menu-overlay" || event.relatedTarget.className.indexOf("context-menu-list") >= 0 || event.relatedTarget.className.indexOf("context-menu-item") >= 0) {
+                    var related = event.relatedTarget;
+                    if(related.id == "wrapper" || related.className.indexOf("context-menu-list") >= 0 || related.className.indexOf("context-menu-item") >= 0) {
+                        enable_intelligent_list();
+                        return;
+                    }
+                    var parent = related.parentElement;
+                    while(parent != null) {
+                        try {
+                            if(parent.id == "wrapper" || parent.className.indexOf("context-menu-list") >= 0 || parent.className.indexOf("context-menu-item") >= 0) {
+                                enable_intelligent_list();
+                                return;
+                            }
+                        } catch(e){}
+                        try {
+                            parent = parent.parentElement;
+                        } catch(e){break;}
+                    }
+                    clearIntelligentQueue();
+                }
+            } catch(e) {}
         }
     }, true);
 
@@ -1867,6 +1906,8 @@ function addDynamicListeners() {
             image_timeout = setTimeout(function(){
                 that.querySelector(".card-reveal").setAttribute("style", "display: block;transform: translateY(-100%);");
             }, 50);
+        } else if(event.target.id == "wrapper") {
+            enable_intelligent_list();
         }
     }, true);
 

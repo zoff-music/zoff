@@ -611,18 +611,26 @@ function loadChromecastVideo() {
     });
 }
 
-window.clearIntelligentQueue = clearIntelligentQueue;
+function enable_intelligent_list() {
+    if(Crypt.get_intelligent_list_enabled()) {
+        intelligentList = true;
+    }
+}
+
+function change_intelligent(enabled) {
+    document.querySelector(".intelligent_switch_class").checked = enabled;
+}
 
 function clearIntelligentQueue() {
+    intelligentList = false;
     for(var i = 0; i < intelligentQueue.length; i++) {
-        console.log(intelligentQueue[i]);
         var currentElement = intelligentQueue[i];
-        console.log(currentElement);
         if(currentElement.type == "vote") {
             Helper.removeElement("#"+currentElement.element.id);
             List.insertAtIndex(currentElement.element, false);
         } else if(currentElement.type == "delete") {
-            List.deleted_song(currentElement.element.id, false, true);
+            List.deleted_song(currentElement.element.id, false, true, currentElement.index);
+            deleted_elements += 1;
         } else if(currentElement.type == "add") {
             List.insertAtIndex(currentElement.element, true);
             Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
@@ -638,6 +646,7 @@ function clearIntelligentQueue() {
             }
         }
     }
+    intelligentQueue = [];
 }
 
 function updateChromecastMetadata() {

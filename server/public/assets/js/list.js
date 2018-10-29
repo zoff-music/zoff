@@ -121,9 +121,9 @@ var List = {
     insertAtIndex: function(song_info, transition, change) {
         if(document.querySelector("#wrapper") == null) return;
         var i = List.getIndexOfSong(song_info.id);
-        console.log(i, song_info);
-        var display = "none";
+        if(i == -1) return;
         if(!song_info.now_playing){
+            var display = "none";
             if(i >= List.page && i < List.page + (List.can_fit)) display = "inline-flex"
             var add = List.generateSong(song_info, transition, false, true, false, display, false);
             if(i === 0) {
@@ -420,17 +420,16 @@ var List = {
         }
     },
 
-    deleted_song: function(deleted, removed, intelligentSecond) {
+    deleted_song: function(deleted, removed, intelligentSecond, deleted_index) {
         try{
-            console.log(deleted);
             var index              = List.getIndexOfSong(deleted);
-            console.log("place 2");
             if(intelligentList && !intelligentSecond) {
                 intelligentQueue.push({
                     type: "delete",
                     element: full_playlist[index],
+                    index: index,
                 });
-                full_playlist.splice(List.getIndexOfSong(deleted), 1);
+                if(index != -1) full_playlist.splice(index, 1);
                 var this_element = document.getElementById(deleted);
                 Helper.addClass(this_element, "disabled-vote");
                 this_element.querySelector(".vote-span").innerText = "Deleted";
@@ -441,6 +440,7 @@ var List = {
             } else {
                 //if(!removed) to_delete.style.height = 0;
                 var nextToChange;
+                if(index == -1) index = deleted_index;
                 if(index < List.page && document.querySelector("#wrapper").children.length - (List.page + 2) >= 0){
                     //Helper.css(document.querySelector("#wrapper").children[List.page], "height", 0 + "px");
                     nextToChange = document.querySelector("#wrapper").children[List.page];
@@ -495,7 +495,6 @@ var List = {
             }
 
         } catch(err) {
-            console.log(err);
             var index = List.getIndexOfSong(deleted);
             if(index != -1) full_playlist.splice(index, 1);
             if(!List.empty){
@@ -531,6 +530,7 @@ var List = {
 
     voted_song: function(voted, time) {
         var index_of_song = List.getIndexOfSong(voted);
+        if(index_of_song == -1) return;
         var song_voted_on = full_playlist[index_of_song];
 
         full_playlist[index_of_song].votes += 1;
@@ -538,7 +538,6 @@ var List = {
 
 
         if(intelligentList) {
-            console.log(full_playlist[index_of_song].votes, full_playlist[index_of_song]);
             document.getElementById(voted).querySelector(".list-votes").innerText = full_playlist[index_of_song].votes;
             intelligentQueue.push({
                 type: "vote",
@@ -581,13 +580,13 @@ var List = {
                 List.empty = true;
                 Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
             }
-
+            var newLast = full_playlist[0];
             full_playlist[0].now_playing        = true;
             full_playlist[0].votes              = 0;
             full_playlist[0].guids              = [];
             full_playlist[0].added              = time;
             var i = intelligentQueue.length
-            var deleted_elements = 0;
+
             while (i--) {
                 var current = intelligentQueue[i];
                 if (current.type == "delete") {
@@ -611,17 +610,21 @@ var List = {
 
             full_playlist.push(full_playlist.shift());
             if(!remove){
-                List.insertAtIndex(full_playlist[document.querySelector("#wrapper").children.length], false, true);
-            }
-            var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
-            if(wrapperChildren.length >= List.can_fit && intelligentList) {
-                console.log(wrapperChildren[List.can_fit]);
-                for(var i = 0; i < deleted_elements + 1; i++) {
-                    //Helper.css(wrapperChildren[List.can_fit - 2], "display", "inline-flex");
-                    Helper.css(wrapperChildren[List.can_fit - 1 - i], "display", "inline-flex");
+                if(full_playlist.length >= 2) {
+                    var index = full_playlist.length - 2;
+                    List.insertAtIndex(full_playlist[index], false, true);
                 }
             }
-        } catch(e) {}
+            var wrapperChildren = [].slice.call(document.querySelector("#wrapper").children);
+            if(wrapperChildren.length >= List.can_fit && deleted_elements > 0) {
+                for(var i = 0; i < deleted_elements + 1; i++) {
+                    //Helper.css(wrapperChildren[List.can_fit - 2], "display", "inline-flex");
+                    Helper.css(wrapperChildren[List.page + List.can_fit - 1 - i], "display", "inline-flex");
+                }
+            }
+            deleted_elements = 0;
+        } catch(e) {
+        }
     },
 
     vote: function(id, vote) {
@@ -1332,6 +1335,7 @@ var List = {
             for(var i = 0; i < full_playlist.length; i++) {
                 if(full_playlist[i].id == id) return i;
             }
-        } catch(e) {}
+            return -1;
+        } catch(e) {return -1;}
     }
 };
