@@ -714,6 +714,7 @@ function addDynamicListeners() {
         Player.player = "";
         document.title = "Zoff - the shared YouTube based radio";
         Helper.removeElement("#closePlayer");
+        Helper.removeElement("#main-row");
     });
 
 
