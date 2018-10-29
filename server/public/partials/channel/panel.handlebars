@@ -4,7 +4,7 @@
 </div>
 <ul class="collapsible collapsible-accordion settings-collapsible">
     {{> channel/settings}}
-    <li class="no-padding">
+    <li class="no-padding active">
         <div class="collapsible-header bold waves-effect">Channel Info
             <i class="material-icons">info_outline</i>
         </div>
@@ -20,6 +20,34 @@
                 <li class="white-bg info_change_li hide">
                     <div class="row info_change_button_container">
                         <a href="#" class="info_change_button col s8 offset-s2 btn orange waves-effect">Change</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="no-padding hide-on-small-only intelligent-accordion">
+        <div class="collapsible-header bold waves-effect">Intelligent Playlist
+            <i class="material-icons">sentiment_satisfied_alt</i>
+        </div>
+        <div class="collapsible-body info_collapsible">
+            <ul>
+                <li>
+                    <span class="switch-text">
+                        Intelligent
+                    </span>
+                    <div class="switch">
+                        <label>
+                            Disabled
+                            <input name="intelligent_switch" type="checkbox" class="intelligent_switch_class" checked /><span class="lever"></span>
+                            Enabled
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col s10 offset-s1">
+                            <p class="initial-line-height">
+                                When enabling intelligent playlist, playlist elements are not updated and moved around when the playlist is in focus. If things are jumping too much around in the playlist when voting, you should enable this.
+                            </p>
+                        </div>
                     </div>
                 </li>
             </ul>

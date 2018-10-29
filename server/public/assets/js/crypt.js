@@ -20,11 +20,27 @@ var Crypt = {
         } catch(err) {
             conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
         }
-        
+
         if(window.location.pathname != "/") {
+            change_intelligent(Crypt.get_intelligent_list_enabled());
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
         }
+    },
+
+    get_intelligent_list_enabled: function() {
+        if(conf_arr.hasOwnProperty("intelligent")) {
+            return conf_arr.intelligent;
+        } else {
+            conf_arr.intelligent = false;
+            Crypt.encrypt(conf_arr, "_opt");
+            return false;
+        }
+    },
+
+    set_intelligent_list_enabled: function(enabled) {
+        conf_arr.intelligent = enabled;
+        Crypt.encrypt(conf_arr, "_opt");
     },
 
     decrypt: function(cookie, name) {

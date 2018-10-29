@@ -611,6 +611,44 @@ function loadChromecastVideo() {
     });
 }
 
+function enable_intelligent_list() {
+    if(Crypt.get_intelligent_list_enabled()) {
+        intelligentList = true;
+    }
+}
+
+function change_intelligent(enabled) {
+    document.querySelector(".intelligent_switch_class").checked = enabled;
+}
+
+function clearIntelligentQueue() {
+    intelligentList = false;
+    for(var i = 0; i < intelligentQueue.length; i++) {
+        var currentElement = intelligentQueue[i];
+        if(currentElement.type == "vote") {
+            Helper.removeElement("#"+currentElement.element.id);
+            List.insertAtIndex(currentElement.element, false);
+        } else if(currentElement.type == "delete") {
+            List.deleted_song(currentElement.element.id, false, true, currentElement.index);
+            deleted_elements += 1;
+        } else if(currentElement.type == "add") {
+            List.insertAtIndex(currentElement.element, true);
+            Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
+            if(document.querySelector("#wrapper").children.length > List.page + List.can_fit){
+                Helper.css(".next_page_hide", "display", "none");
+                Helper.removeClass(".next_page", "hide");
+                Helper.css(".last_page_hide", "display", "none");
+                Helper.css(".next_page", "display", "inline-flex");
+                Helper.css(".last_page", "display", "inline-flex");
+            } else {
+                Helper.css(".next_page_hide", "display", "inline-flex");
+                Helper.css(".next_page", "display", "none");
+            }
+        }
+    }
+    intelligentQueue = [];
+}
+
 function updateChromecastMetadata() {
     if(!chromecastAvailable) return;
     var image = {url:'https://img.youtube.com/vi/'+video_id+'/mqdefault.jpg', heigth: 180, width: 320};

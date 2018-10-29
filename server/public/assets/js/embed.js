@@ -3,6 +3,7 @@ var timed_remove_check;
 var gotten_np = false;
 var song_title = "";
 var paused = false;
+var intelligentList = false;
 var client = false;
 var _VERSION;
 try {
@@ -19,6 +20,8 @@ if(window.location.hostname == "localhost" || window.location.hostname == "clien
 }
 var SC_player;
 var durationTimeout;
+var intelligentQueue = [];
+var deleted_elements = 0;
 var sc_need_initialization = true;
 var sc_initialized = false;
 var startTime = 0;

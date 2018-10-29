@@ -34,10 +34,10 @@ var Channel = {
             if(cast_ready_connect || chromecastAvailable || chromecastReady) {
                 Helper.addClass(".volume-container", "volume-container-cast");
             }
-	    if(!embed) {
-	    	document.querySelector("#main-container").insertAdjacentHTML("beforeend", "<a id='hide-playlist' class='hide-on-small-only hide-playlist-button' href='#!'><i class='material-icons'>keyboard_arrow_right</i></div>");
-	          document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
-	    }
+    	    if(!embed) {
+    	    	document.querySelector("#main-container").insertAdjacentHTML("beforeend", "<a id='hide-playlist' class='hide-on-small-only hide-playlist-button' href='#!'><i class='material-icons'>keyboard_arrow_right</i></div>");
+    	          document.querySelector("#hide-playlist").style.left = (document.querySelector("#video-container").offsetWidth - document.querySelector("#hide-playlist").offsetWidth) + "px";
+    	    }
             //Player.soundcloud_player = document.querySelector("#soundcloud_player");
         }
         List.calculate_song_heights();
@@ -117,9 +117,6 @@ var Channel = {
             draggable: Helper.mobilecheck(),
             onOpenStart: function(el) {
                 Helper.addClass(".hamburger-sidenav", "open");
-                try {
-                    M.Collapsible.getInstance(document.querySelector(".settings-collapsible")).open(1);
-                } catch(e) {}
             },
             onCloseStart: function(el) {
                 Helper.removeClass(".hamburger-sidenav", "open");
@@ -182,6 +179,7 @@ var Channel = {
         }
         if(!Helper.mobilecheck() && (document.querySelectorAll("#alreadychannel").length === 0 || !Hostcontroller.old_id || document.getElementById("code-text").innerText.toUpperCase() == "ABBADUR")) setup_host_initialization();
         setup_suggested_listener();
+        if(!Helper.mobilecheck()) Helper.removeClass(".intelligent-accordion", "hide-on-small-only");
         if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck()){
             setup_now_playing_listener();
             get_list_listener();
