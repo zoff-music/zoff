@@ -581,7 +581,8 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     var cookie = req.cookies._uI;
     Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
         if(req.body.userpass == "") {
-            userpass = crypto.createHash('sha256').update(Functions.decrypt_string(_u), 'utf8').digest("base64");
+            //userpass = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(_u)))
+            userpass = _u;
         }
         token_db.collection("api_token").find({token: token}, function(err, token_docs) {
             var authorized = false;
