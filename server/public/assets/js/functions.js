@@ -611,6 +611,13 @@ function loadChromecastVideo() {
     });
 }
 
+function showOnSmallNotMobile() {
+    var elements = document.querySelectorAll(".hide-on-mobile-only");
+    for(var i = 0; i < elements.length; i++) {
+        Helper.removeClass(elements[i], "hide-on-small-only");
+    }
+}
+
 function enable_intelligent_list() {
     if(Crypt.get_intelligent_list_enabled()) {
         intelligentList = true;

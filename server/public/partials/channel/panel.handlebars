@@ -25,13 +25,13 @@
             </ul>
         </div>
     </li>
-    <li class="no-padding hide-on-small-only intelligent-accordion">
-        <div class="collapsible-header bold waves-effect">Intelligent Playlist
-            <i class="material-icons">sentiment_satisfied_alt</i>
+    <li class="no-padding">
+        <div class="collapsible-header bold waves-effect">Client Settings
+            <i class="material-icons">settings</i>
         </div>
         <div class="collapsible-body info_collapsible">
             <ul>
-                <li>
+                <li class="hide-on-small-only hide-on-mobile-only">
                     <span class="switch-text">
                         Intelligent
                     </span>
@@ -42,11 +42,44 @@
                             Enabled
                         </label>
                     </div>
+                </li>
+                {{#unless client}}
+                <li class="hide-on-small-only hide-on-mobile-only">
+                    <span class="switch-text">
+                        Enable Remote
+                    </span>
+                    <div class="switch">
+                        <label>
+                            Disabled
+                            <input name="remote_switch" type="checkbox" class="remote_switch_class" checked /><span class="lever"></span>
+                            Enabled
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <span class="switch-text">
+                        Local Mode
+                    </span>
+                    <div class="switch">
+                        <label>
+                            Disabled
+                            <input name="offline_switch" type="checkbox" class="offline_switch_class" /><span class="lever"></span>
+                            Enabled
+                        </label>
+                    </div>
+                </li>
+                {{/unless}}
+                <li>
                     <div class="row">
                         <div class="col s10 offset-s1">
-                            <p class="initial-line-height">
+                            <p class="initial-line-height hide-on-mobile-only hide-on-small-only">
                                 When enabling intelligent playlist, playlist elements are not updated and moved around when the playlist is in focus. If things are jumping too much around in the playlist when voting, you should enable this.
                             </p>
+                            {{#unless client}}
+                            <p class="initial-line-height">
+                                By enabling local mode, you won't receive updates in position of the currently playing song, you'll be able to vote as many times as you please, and you can skip to a specific location in the song.
+                            </p>
+                            {{/unless}}
                         </div>
                     </div>
                 </li>
@@ -61,16 +94,6 @@
         <div class="collapsible-body">
             <ul>
                 <li>
-                    <span class="switch-text">
-                        Enable Remote
-                    </span>
-                    <div class="switch">
-                        <label>
-                            Disabled
-                            <input name="remote_switch" type="checkbox" class="remote_switch_class" checked /><span class="lever"></span>
-                            Enabled
-                        </label>
-                    </div>
                     <div><a id="code-link" target="_blank">
                         <img id="code-qr" alt="QR code for control" title="Link to control this Zoff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
 
@@ -79,30 +102,6 @@
                     <p>
                         You can control this Zoff instance from another device by going to <b>https://remote.zoff.me/</b>
                     </p>
-                </li>
-            </ul>
-        </div>
-    </li>
-    <li class="no-padding offline-panel">
-        <div class="collapsible-header bold waves-effect">Local Mode
-            <i class="material-icons">visibility_off</i>
-        </div>
-        <div class="collapsible-body">
-            <ul>
-                <li>
-                    <span class="switch-text">
-                        Local Mode
-                    </span>
-                    <div class="switch">
-                        <label>
-                            Disabled
-                            <input name="offline_switch" type="checkbox" class="offline_switch_class" /><span class="lever"></span>
-                            Enabled
-                        </label>
-                    </div>
-                    <div id="offline-info">
-                        By enabling local mode, you won't receive updates in position of the currently playing song, you'll be able to vote as many times as you please, and you can skip to a specific location in the song.
-                    </div>
                 </li>
             </ul>
         </div>
