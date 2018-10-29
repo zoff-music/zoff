@@ -179,7 +179,9 @@ var Channel = {
         }
         if(!Helper.mobilecheck() && (document.querySelectorAll("#alreadychannel").length === 0 || !Hostcontroller.old_id || document.getElementById("code-text").innerText.toUpperCase() == "ABBADUR")) setup_host_initialization();
         setup_suggested_listener();
-        if(!Helper.mobilecheck()) Helper.removeClass(".intelligent-accordion", "hide-on-small-only");
+        if(!Helper.mobilecheck()) {
+            showOnSmallNotMobile();
+        }
         if(document.querySelectorAll("#alreadychannel").length === 0 || Helper.mobilecheck()){
             setup_now_playing_listener();
             get_list_listener();
