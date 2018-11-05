@@ -846,7 +846,11 @@ router.route('/api/list/:channel_name').get(function(req, res) {
     var channel_name = cleanChannelName(req.params.channel_name);
     db.collection(channel_name).aggregate([
         {
-            "$match": { }
+            "$match": {
+                "type": {
+                    "$ne": "suggested"
+                }
+            }
         },
         {
             "$project": projects.project_object
@@ -1162,7 +1166,11 @@ router.route('/api/list/:channel_name').post(function(req, res) {
                     } else {
                         db.collection(channel_name).aggregate([
                             {
-                                "$match": { }
+                                "$match": {
+                                    "type": {
+                                        "$ne": "suggested"
+                                    }
+                                }
                             },
                             { "$project": projects.project_object },
                             { "$sort" : { "now_playing" : -1, "votes": -1, "added": 1, "title": 1 } }
