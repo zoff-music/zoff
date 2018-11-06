@@ -675,7 +675,7 @@ var Player = {
 
             if(!client && !embed) {
                 document.getElementById("host-title").innerText = title;
-            } 
+            }
             document.getElementById("song-title").innerText = title;
             if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
             document.getElementById("song-title").setAttribute("title", title);
@@ -923,6 +923,10 @@ var Player = {
 
     setBGimage: function(c){
         var color = c.color;
+        if(Crypt.get_background_color() != "dynamic") {
+            Crypt.set_background_color(Crypt.get_background_color());
+            return;
+        }
         if(window.location.pathname != "/" && ((offline && c.only) || (!offline && !c.only) || (!offline && c.only))) {
             document.getElementById("main-container").style.backgroundColor = Helper.rgbToHsl(color,true);
             Helper.css("#nav", "background-color", Helper.rgbToHsl(color, true));

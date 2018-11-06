@@ -23,9 +23,41 @@ var Crypt = {
 
         if(window.location.pathname != "/") {
             change_intelligent(Crypt.get_intelligent_list_enabled());
+            if(!conf_arr.hasOwnProperty("color")) {
+                Crypt.set_background_color("dynamic", true);
+            } else {
+                document.querySelector(".backround_switch_class").checked = conf_arr.color == "dynamic";
+                if(conf_arr.color != "dynamic") {
+                    Helper.removeClass(".background_color_container", "hide");
+                    document.querySelector("#background_color_choser").value = conf_arr.color;
+                }
+            }
             Hostcontroller.change_enabled(conf_arr.remote);
             if(conf_arr.width != 100) Player.set_width(conf_arr.width);
         }
+    },
+
+    set_background_color: function(value, first) {
+        conf_arr.color = value;
+        if(value != "dynamic" && !first) {
+            Helper.css("#main-container", "background-color", value);
+            Helper.css("#nav", "background-color", value);
+            Helper.css(".title-container", "background-color", value);
+            document.querySelector("meta[name=theme-color]").setAttribute("content", value);
+            Helper.css("#controls", "background", value);
+        } else if(!first){
+            var url = 'https://img.youtube.com/vi/'+Player.np.id+'/mqdefault.jpg';
+            if(videoSource == "soundcloud") url = Player.np.thumbnail;
+            getColor(url);
+        }
+        Crypt.encrypt(conf_arr, "_opt");
+    },
+
+    get_background_color: function(value) {
+        if(!conf_arr.hasOwnProperty("color")) {
+            Crypt.set_background_color("dynamic");
+        }
+        return conf_arr.color;
     },
 
     get_intelligent_list_enabled: function() {
