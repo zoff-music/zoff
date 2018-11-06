@@ -1,0 +1,81 @@
+<li class="no-padding">
+    <div class="collapsible-header bold waves-effect">Client Settings
+        <i class="material-icons">settings</i>
+    </div>
+    <div class="collapsible-body info_collapsible">
+        <ul>
+            <li class="hide-on-small-only hide-on-mobile-only">
+                <span class="switch-text">
+                    Intelligent
+                </span>
+                <div class="switch">
+                    <label>
+                        Disabled
+                        <input name="intelligent_switch" type="checkbox" class="intelligent_switch_class" checked /><span class="lever"></span>
+                        Enabled
+                    </label>
+                </div>
+            </li>
+            {{#unless client}}
+            <li class="hide-on-small-only hide-on-mobile-only">
+                <span class="switch-text">
+                    Remote
+                </span>
+                <div class="switch">
+                    <label>
+                        Disabled
+                        <input name="remote_switch" type="checkbox" class="remote_switch_class" checked /><span class="lever"></span>
+                        Enabled
+                    </label>
+                </div>
+            </li>
+            <li>
+                <span class="switch-text">
+                    Local Mode
+                </span>
+                <div class="switch">
+                    <label>
+                        Disabled
+                        <input name="offline_switch" type="checkbox" class="offline_switch_class" /><span class="lever"></span>
+                        Enabled
+                    </label>
+                </div>
+            </li>
+            {{/unless}}
+            <li>
+                <span class="switch-text">
+                    Backgroundcolor
+                </span>
+                <div class="switch">
+                    <label>
+                        Static
+                        <input name="background_switch" type="checkbox" checked class="backround_switch_class" /><span class="lever"></span>
+                        Dynamic
+                    </label>
+                </div>
+            </li>
+            <li class="background_color_container hide">
+                <div class="row">
+                    <span class="col switch-text">Color</span>
+                    <div class="col offset-s5">
+                        <input type="color" id="background_color_choser" class="settings_embed" value="#2d2d2d" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col s10 offset-s1">
+                        <p class="initial-line-height hide-on-mobile-only hide-on-small-only">
+                            When enabling intelligent playlist, playlist elements are not updated and moved around when the playlist is in focus. If things are jumping too much around in the playlist when voting, you should enable this.
+                        </p>
+                        {{#unless client}}
+                        <p class="initial-line-height">
+                            By enabling local mode, you won't receive updates in position of the currently playing song, you'll be able to vote as many times as you please, and you can skip to a specific location in the song.
+                        </p>
+                        {{/unless}}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</li>
