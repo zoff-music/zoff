@@ -904,6 +904,24 @@ function addDynamicListeners() {
         return false;
     });
 
+
+    addListener("change", '.backround_switch_class', function(){
+        if(document.getElementsByClassName("backround_switch_class")[0].checked) {
+            Crypt.set_background_color("dynamic");
+            Helper.addClass(".background_color_container", "hide");
+        } else {
+            Crypt.set_background_color(document.querySelector("#background_color_choser").value);
+            Helper.removeClass(".background_color_container", "hide");
+        }
+    });
+
+    addListener("change", "#background_color_choser", function() {
+        var _color = document.getElementById("background_color_choser").value;
+        if(!document.getElementsByClassName("backround_switch_class")[0].checked) {
+            Crypt.set_background_color(_color);
+        }
+    });
+
     addListener("change", '.remote_switch_class', function()
     {
         var enabled = document.getElementsByName("remote_switch")[0].checked;

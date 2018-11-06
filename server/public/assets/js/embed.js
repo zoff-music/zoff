@@ -78,6 +78,9 @@ var connection_options = {
 var Crypt = {
     crypt_pass: function(pass) {
         return pass;
+    },
+    get_background_color: function() {
+        return "dynamic";
     }
 };
 
@@ -342,10 +345,6 @@ function emit() {
 }
 
 function change_offline(enabled, already_offline){
-    if(client) {
-        offline = false;
-        return;
-    }
     offline = enabled;
     socket.emit("offline", {status: enabled, channel: chan != undefined ? chan.toLowerCase() : ""});
     if(!Helper.mobilecheck()) {
@@ -373,25 +372,13 @@ function change_offline(enabled, already_offline){
     var mouseUp = function(e) {
         dragging = false;
     };
-
     if(enabled){
         Helper.addClass("#viewers", "hide");
         Helper.removeClass(".margin-playbar", "margin-playbar");
         Helper.addClass(".prev playbar", "margin-playbar");
         Helper.removeClass(".prev playbar", "hide");
-        Helper.removeClass("#offline-mode", "waves-cyan");
-        Helper.addClass("#offline-mode", "cyan");
-        Helper.removeClass(".delete-context-menu", "context-menu-disabled");
-        if(!Helper.mobilecheck()) {
-            Helper.tooltip("#offline-mode", {
-                delay: 5,
-                position: "bottom",
-                html: "Disable local mode"
-            });
-        }
 
         if(window.location.pathname != "/"){
-            socket.removeEventListener("color");
             document.getElementById("controls").addEventListener("mouseenter", mouseEnter, false);
             document.getElementById("controls").addEventListener("mouseleave", mouseLeave, false);
             document.getElementById("controls").addEventListener("mousedown", mouseDown, false);
@@ -404,45 +391,13 @@ function change_offline(enabled, already_offline){
             Helper.css("#seekToDuration", "bottom", "50px");
             Helper.addClass("#controls", "ewresize");
         }
-        if(full_playlist != undefined && !already_offline){
+        if(full_playlist != undefined && !already_offline && full_playlist.length > 0){
             for(var x = 0; x < full_playlist.length; x++){
                 full_playlist[x].votes = 0;
             }
+
             List.sortList();
             List.populate_list(full_playlist);
-        }
-    } else {
-
-        if(!Admin.logged_in) Helper.addClass(".delete-context-menu", "context-menu-disabled");
-        Helper.removeClass(".margin-playbar", "margin-playbar");
-        Helper.addClass("#playpause", "margin-playbar");
-        Helper.removeClass("#viewers", "hide");
-        Helper.addClass(".prev playbar", "hide");
-        //Helper.addClass(".skip playbar", "hide");
-        Helper.addClass("#offline-mode", "waves-cyan");
-        Helper.removeClass("#offline-mode", "cyan");
-        if(!Helper.mobilecheck()) {
-            Helper.tooltip("#offline-mode", {
-                delay: 5,
-                position: "bottom",
-                html: "Enable local mode"
-            });
-        }
-
-        if(window.location.pathname != "/"){
-            document.getElementById("controls").removeEventListener("mouseenter", mouseEnter, false);
-            document.getElementById("controls").removeEventListener("mouseleave", mouseLeave, false);
-            document.getElementById("controls").removeEventListener("mousedown", mouseDown, false);
-            document.getElementById("controls").removeEventListener("mouseup", mouseUp, false);
-            document.getElementById("controls").removeEventListener("mousemove", seekToMove);
-            document.getElementById("controls").removeEventListener("click", seekToClick);
-            Helper.removeElement("#seekToDuration");
-            socket.on("color", Player.setBGimage);
-            socket.emit("pos", {channel: chan.toLowerCase()});
-            var add = "";
-            //if(private_channel) add = Crypt.getCookie("_uI") + "_";
-            socket.emit("list", {version: parseInt(_VERSION), channel: add + chan.toLowerCase()});
-            Helper.removeClass("#controls", "ewresize");
         }
     }
 }
