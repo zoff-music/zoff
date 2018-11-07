@@ -913,6 +913,7 @@ function addDynamicListeners() {
             Crypt.set_background_color(document.querySelector("#background_color_choser").value);
             Helper.removeClass(".background_color_container", "hide");
         }
+        ga('send', 'event', "button-click", "color-change");
     });
 
     addListener("change", "#background_color_choser", function() {
