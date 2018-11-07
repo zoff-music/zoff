@@ -717,6 +717,7 @@ var List = {
                 });
             }
         } else if(thisSong == undefined) {
+            ga('send', 'event', "export", "soundcloud");
             if(full_playlist.length > 0) {
                 List.exportToSoundCloud(full_playlist[0], 0);
             }

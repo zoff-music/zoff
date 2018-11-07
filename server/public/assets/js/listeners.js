@@ -1063,6 +1063,7 @@ function addDynamicListeners() {
         this.preventDefault();
         var new_channel = document.getElementById("import_zoff").value;
         document.getElementById("import_zoff").value = "";
+        ga('send', 'event', "import", "zoff");
         if(new_channel == "") {
             M.toast({html: "It seems you've entered a invalid channel-name.", displayLength: 4000});
             return;
@@ -1087,6 +1088,7 @@ function addDynamicListeners() {
         this.preventDefault();
         Helper.removeClass(".playlist_loader_soundcloud", "hide");
         Helper.addClass("#listImportSoundCloud", "hide");
+        ga('send', 'event', "import", "soundcloud");
         Helper.ajax({
             type: "POST",
             headers: {
