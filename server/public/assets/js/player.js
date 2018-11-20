@@ -776,7 +776,7 @@ var Player = {
         Helper.addClass("#player_loader_container", "hide");
         Helper.css("#player_overlay", "display", "block");
         Helper.addClass("#player", "hide");
-        if(embed) Helper.css("#song-title", "display", "block");
+        //if(embed) Helper.css("#song-title", "display", "block");
         if(videoSource == "youtube") {
             Player.soundcloud_player.pause();
         } else if(soundcloud_loading){
