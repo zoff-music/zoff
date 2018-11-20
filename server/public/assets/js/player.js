@@ -676,7 +676,9 @@ var Player = {
             if(!client && !embed) {
                 document.getElementById("host-title").innerText = title;
             }
-            document.getElementById("song-title").innerText = title;
+            if(title != "") {
+                document.getElementById("song-title").innerText = title;
+            }
             if(!client) document.getElementById("viewers").innerHTML = outPutWord + " " + v;
             document.getElementById("song-title").setAttribute("title", title);
             //elem.title        = title;
