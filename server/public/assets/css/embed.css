@@ -122,6 +122,7 @@
 #player{
   width:60vw;
   height: calc(100vh - 32px);
+  padding-top: 51px;
 }
 
 #pageButtons{
