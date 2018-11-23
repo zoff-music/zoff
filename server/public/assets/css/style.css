@@ -1971,7 +1971,9 @@ margin-right: 52%;
 }
 
 nav ul li:hover, nav ul li.active {
-    background-color: rgba(0,0,0,0.1);
+    /* background-color: rgba(0,0,0,0.1); */
+    -webkit-filter: brightness(90%);
+    filter: brightness(90%);
 }
 
 .change_user_pass:hover, .delete-all:hover {
