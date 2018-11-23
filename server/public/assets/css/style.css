@@ -1970,7 +1970,11 @@ margin-right: 52%;
     justify-content: center;
 }
 
-nav ul li:hover {
+nav ul li:hover, nav ul li.active {
+    background-color: rgba(0,0,0,0.1);
+}
+
+.song-title:hover, .search-container:hover{
     /* background-color: rgba(0,0,0,0.1); */
     -webkit-filter: brightness(90%);
     filter: brightness(90%);
