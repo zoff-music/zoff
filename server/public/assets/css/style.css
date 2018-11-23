@@ -1970,7 +1970,7 @@ margin-right: 52%;
     justify-content: center;
 }
 
-nav ul li:hover, nav ul li.active {
+nav ul li:hover {
     /* background-color: rgba(0,0,0,0.1); */
     -webkit-filter: brightness(90%);
     filter: brightness(90%);
