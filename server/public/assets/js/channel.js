@@ -52,7 +52,9 @@ var Channel = {
         var side = Helper.mobilecheck() ? "left" : "right";
 
         if(window.location.hostname != "localhost") {
-            ga('send', 'pageview');
+            var page = window.location.pathname;
+            if(page.substring(page.length - 1) != "/") page += "/";
+            ga('send', 'pageview', page);
         }
 
         window.onpopstate = function(e){

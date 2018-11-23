@@ -7,7 +7,9 @@ window.addEventListener("DOMContentLoaded", function(e) {
     Helper.setHtml("#contact-container", "Send a mail to us: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>");
     Helper.css("#submit-contact-form", "display", "none");
 
-    ga('send', 'pageview');
+    var page = window.location.pathname;
+    if(page.substring(page.length - 1) != "/") page += "/";
+    ga('send', 'pageview', page);
 
     if(!Helper.mobilecheck()) {
         if(document.querySelector("#iframe-container")) {
