@@ -4,6 +4,9 @@ var path = require('path');
 var year = new Date().getYear()+1900;
 var path = require('path');
 var analytics = "xx";
+var google = {};
+var adsense = "xx";
+var adds = true;
 var mongojs = require('mongojs');
 var token_db = mongojs("tokens");
 var Functions = require(pathThumbnails + '/handlers/functions.js');
@@ -13,9 +16,16 @@ var db = require(pathThumbnails + '/handlers/db.js');
 //var db = require(pathThumbnails + '/handlers/db.js');
 
 try {
-    analytics = require(path.join(path.join(__dirname, '../../config/'), 'analytics.js'));
+    google = require(path.join(path.join(__dirname, '../../config/'), 'google.js'));
+    analytics = google.analytics;
 } catch(e) {
     console.log("No analytics-id found");
+}
+try {
+    adsense = google.adsense;
+} catch(e) {
+    adds = false;
+    console.log("No adsense-id found");
 }
 try {
     var Recaptcha = require('express-recaptcha');
@@ -81,6 +91,8 @@ router.route('/api/apply').get(function(req, res, next) {
         javascript_file: "token.min.js",
         captcha: res.recaptcha,
         analytics: analytics,
+        adsense: adsense,
+        adds: adds,
         type: "website",
         activated: false,
         id: "",
@@ -103,6 +115,8 @@ router.route('/api/apply/:id').get(function(req, res) {
                         javascript_file: "token.min.js",
                         captcha: res.recaptcha,
                         analytics: analytics,
+                        adsense: adsense,
+                        adds: adds,
                         activated: true,
                         type: "website",
                         token: result[0].token,
@@ -120,6 +134,8 @@ router.route('/api/apply/:id').get(function(req, res) {
                 javascript_file: "token.min.js",
                 captcha: res.recaptcha,
                 analytics: analytics,
+                adsense: adsense,
+                adds: adds,
                 activated: false,
                 token:"",
                 type: "website",
@@ -147,6 +163,8 @@ function root(req, res, next) {
                 year: year,
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha,
+                adsense: adsense,
+                adds: adds,
                 analytics: analytics,
                 type: "website",
                 stylesheet: "style.css",
@@ -162,6 +180,8 @@ function root(req, res, next) {
                 year: year,
                 javascript_file: "main.min.js",
                 captcha: res.recaptcha,
+                adsense: adsense,
+                adds: adds,
                 analytics: analytics,
                 stylesheet: "style.css",
                 type: "website",
@@ -209,6 +229,8 @@ function channel(req, res, next) {
                 year: year,
                 javascript_file: "remote.min.js",
                 captcha: res.recaptcha,
+                adsense: adsense,
+                adds: adds,
                 analytics: analytics,
                 type: "website",
                 stylesheet: "style.css",
@@ -241,6 +263,8 @@ function channel(req, res, next) {
                         year: year,
                         javascript_file: "main.min.js",
                         captcha: res.recaptcha,
+                        adsense: adsense,
+                        adds: adds,
                         analytics: analytics,
                         type: "video",
                         stylesheet: "style.css",
