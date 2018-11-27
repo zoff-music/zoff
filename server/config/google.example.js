@@ -1,6 +1,6 @@
 var google = {
     "analytics": "xxxx",
-    "adsense": "xxxx;
+    "adsense": "xxxx",
 }
 
 module.exports = google;
