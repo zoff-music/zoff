@@ -18,15 +18,11 @@ var db = require(pathThumbnails + '/handlers/db.js');
 try {
     google = require(path.join(path.join(__dirname, '../../config/'), 'google.js'));
     analytics = google.analytics;
+    adsense = google.adsense;
 } catch(e) {
     console.log("No analytics-id found");
 }
-try {
-    adsense = google.adsense;
-} catch(e) {
-    adds = false;
-    console.log("No adsense-id found");
-}
+
 try {
     var Recaptcha = require('express-recaptcha');
     var recaptcha_config = require(path.join(path.join(__dirname, '../../config/'), 'recaptcha.js'));
