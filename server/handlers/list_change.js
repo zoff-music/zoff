@@ -486,7 +486,8 @@ function add_function(arr, coll, guid, offline, socket) {
                                 }
                                 db.collection(coll).update({id: id}, {$set: suggestedAdd}, {upsert:true}, function(err, docs){
                                     socket.emit("toast", "suggested");
-                                    var toSend = {id: id, title: title, duration: duration, source: suggestedAdd.source};
+                                    var toSend = suggestedAdd;
+                                    toSend.guids = [];
                                     if(source == "soundcloud") toSend.thumbnail = arr.thumbnail;
                                     io.to(coll).emit("suggested", toSend);
                                 });
