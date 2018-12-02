@@ -4071,3 +4071,7 @@ footer > .IL_BASE ~ .IL_BASE {
 footer > .IL_BASE {
     display: flex !important;
 }
+
+.IL_BASE .IL_BASE {
+    background-color: white;
+}
