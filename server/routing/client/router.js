@@ -67,6 +67,8 @@ router.route('/api/embed').get(function(req, res, next) {
     var data = {
         year: year,
         type: "video",
+        adsense: "",
+        adds: false,
         javascript_file: "embed.min.js",
         captcha: res.recaptcha,
         analytics: analytics,
