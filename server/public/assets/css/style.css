@@ -4063,3 +4063,11 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
     -ms-user-select: all !important;      /* No support yet */
     user-select: all !important;          /* Likely future */
 }
+
+.IL_BASE {
+    display: flex;
+}
+
+.IL_BASE .IL_BASE {
+    background-color: white;
+}
