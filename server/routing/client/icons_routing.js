@@ -9,6 +9,10 @@ router.route('/favicon.ico').get(function(req, res, next) {
     res.sendFile(path.join(pathThumbnails, '/public/assets/images/favicon.ico'));
 });
 
+router.route('/ads.txt').get(function(req, res, next) {
+    res.sendFile(path.join(pathThumbnails, '/public/assets/ads.txt'));
+});
+
 router.route('/browserconfig.xml').get(function(req, res, next) {
     res.sendFile(path.join(pathThumbnails, '/public/assets/images/browserconfig.xml'));
 });
