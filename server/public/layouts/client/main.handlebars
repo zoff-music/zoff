@@ -47,15 +47,6 @@
                     }
                 }
             </script>
-            {{#if adds}}
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <script>
-                  (adsbygoogle = window.adsbygoogle || []).push({
-                    google_ad_client: "{{{ adsense }}}",
-                    enable_page_level_ads: true
-                  });
-                </script>
-            {{/if}}
         {{/unless}}
     </head>
     <body class="noselect">
@@ -95,5 +86,8 @@
         {{#unless embed}}
             <script async type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
         {{/unless}}
+            <script type="text/javascript"> var infolinks_pid = {{adsense}}; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+        {{#if adds}}
+        {{/if}}
     </body>
 </html>
