@@ -4064,10 +4064,10 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-def
     user-select: all !important;          /* Likely future */
 }
 
-.IL_BASE {
-    display: flex;
+footer > .IL_BASE ~ .IL_BASE {
+    display: inherit !important;
 }
 
-.IL_BASE .IL_BASE {
-    background-color: white;
+footer > .IL_BASE {
+    display: flex !important;
 }
