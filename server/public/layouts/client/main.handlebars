@@ -52,6 +52,7 @@
     <body class="noselect">
         {{{body}}}
         {{#unless embed}}
+            {{> footer}}
             {{#unless client}}
                 {{#unless remote}}
                     <div class="tap-target" data-target="castButton">
@@ -65,7 +66,7 @@
             {{> modal/cookie}}
             {{> contact}}
             {{> donate}}
-            {{> footer}}
+
             {{#unless remote}}
                 <textarea class="copy_video_id" style="display:none;"></textarea>
                 <ul class="context-menu-list context-menu-root hide">
