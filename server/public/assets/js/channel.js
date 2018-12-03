@@ -573,10 +573,10 @@ var Channel = {
                 if(!Helper.mobilecheck()) {
                     Helper.tooltip("#chan", "destroy");
                 }
-                var tap_1 = document.querySelectorAll(".tap-target")
+                /*var tap_1 = document.querySelectorAll(".tap-target")
                 if(tap_1.length > 0 && M.TapTarget.getInstance(tap_1[0])) {
                     M.TapTarget.getInstance(tap_1[0]).close();
-                }
+                }*/
             }
             clearTimeout(tap_target_timeout);
             //before_toast();

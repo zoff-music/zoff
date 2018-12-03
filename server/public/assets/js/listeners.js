@@ -406,10 +406,10 @@ initializeCastApi = function() {
             } catch(e){
                 _chSeen = false;
             }
-            if((!_chSeen || _chSeen != "seen") && !client) {
+            /*if((!_chSeen || _chSeen != "seen") && !client) {
                 Helper.css(".castButton", "display", "block");
                 showDiscovery = true;
-                var elem = document.querySelector('.tap-target');
+                /*var elem = document.querySelector('.tap-target');
                 var instance = M.TapTarget.init(elem);
                 instance.open();
                 tap_target_timeout = setTimeout(function() {
@@ -419,7 +419,7 @@ initializeCastApi = function() {
                     localStorage.setItem("_chSeen", "seen");
                 } catch(e){}
                 Helper.removeClass('.castButton', 'castButton-white-active');
-            }
+            }*/
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
             cast_ready_connect = false;
             Helper.removeClass(".volume-container", "volume-container-cast");
