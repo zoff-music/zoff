@@ -74,6 +74,7 @@ router.route('/api/embed').get(function(req, res, next) {
         analytics: analytics,
         stylesheet: "embed.css",
         embed: true,
+        remote: false,
         og_image: "https://zoff.me/assets/images/small-square.jpg",
     }
     res.render('layouts/client/embed', data);
@@ -94,6 +95,7 @@ router.route('/api/apply').get(function(req, res, next) {
         type: "website",
         activated: false,
         id: "",
+        remote: false,
         correct: false,
         stylesheet: "style.css",
         embed: false,
@@ -117,6 +119,7 @@ router.route('/api/apply/:id').get(function(req, res) {
                         adds: adds,
                         activated: true,
                         type: "website",
+                        remote: false,
                         token: result[0].token,
                         correct: true,
                         stylesheet: "style.css",
@@ -135,6 +138,7 @@ router.route('/api/apply/:id').get(function(req, res) {
                 adsense: adsense,
                 adds: adds,
                 activated: false,
+                remote: false,
                 token:"",
                 type: "website",
                 correct: false,
@@ -166,6 +170,7 @@ function root(req, res, next) {
                 analytics: analytics,
                 type: "website",
                 stylesheet: "style.css",
+                remote: true,
                 embed: false,
                 client: false,
                 og_image: "https://zoff.me/assets/images/small-square.jpg",
@@ -184,6 +189,7 @@ function root(req, res, next) {
                 stylesheet: "style.css",
                 type: "website",
                 embed: false,
+                remote: false,
                 client: false,
                 og_image: "https://zoff.me/assets/images/small-square.jpg",
                 channels: [],
@@ -233,6 +239,7 @@ function channel(req, res, next) {
                 type: "website",
                 stylesheet: "style.css",
                 embed: false,
+                remote: false,
                 client: false,
                 og_image: "https://zoff.me/assets/images/small-square.jpg",
             }
@@ -267,6 +274,7 @@ function channel(req, res, next) {
                         type: "video",
                         stylesheet: "style.css",
                         embed: false,
+                        remote: false,
                         client:false,
                         og_image: "https://zoff.me/assets/images/small-square.jpg"
                     }
