@@ -151,7 +151,7 @@ var Frontpage = {
             data: data,
             limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
             onAutocomplete: function(val) {
-                Frontpage.to_channel(val, false);
+                Frontpage.to_channel(Helper.encodeChannelName(val), false);
             },
         });
 
