@@ -894,13 +894,13 @@ function addDynamicListeners() {
     addListener("click", ".listen-button", function(event){
         if(document.querySelector(".room-namer").value === ""){
             this.preventDefault();
-            Frontpage.to_channel(document.querySelector(".room-namer").getAttribute("placeholder"));
+            Frontpage.to_channel(Helper.encodeChannelName(document.querySelector(".room-namer").getAttribute("placeholder")));
         }
     });
 
     addListener("submit", ".channel-finder", function(event){
         this.preventDefault();
-        Frontpage.to_channel(document.querySelector(".room-namer").value);
+        Frontpage.to_channel(Helper.encodeChannelName(document.querySelector(".room-namer").value));
         return false;
     });
 
