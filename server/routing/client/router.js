@@ -255,7 +255,8 @@ function channel(req, res, next) {
                     }*/
                     var data = {
                         title: "404: File Not Found",
-                        list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
+                        //list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
+                        list_name: capitalizeFirstLetter(req.params.channel_name),
                         year: year,
                         javascript_file: "main.min.js",
                         captcha: res.recaptcha,

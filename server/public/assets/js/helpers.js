@@ -4,6 +4,13 @@ var Helper = {
     decodeChannelName: function(str) {
         var _fn = decodeURIComponent;
         str = str.toUpperCase();
+        /*if(str.indexOf("%25") >= 0) {
+            var _percentSign = str.indexOf("%25") + 1;
+            var _before = str.substring(0, _percentSign);
+            var _after = str.substring(_percentSign);
+            str = _before + "25" + _after;
+            console.log(str);
+        }*/
         var toReturn = _fn(str.replace(/%5F/g, "_"));
         toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
         return toReturn.toLowerCase();
