@@ -46,7 +46,11 @@ var Channel = {
         number_suggested = 0;
         var no_socket = true;
 
-        chan = Helper.decodeChannelName(Helper.html("#chan"));
+        //chan = Helper.decodeChannelName(Helper.html("#chan"));
+        var _p = window.location.pathname;
+        if(_p.substring(0,1) == "/") _p = _p.substring(1);
+        if(_p.substring(_p.length - 1) == "/") _p = _p.substring(0, _p.length - 1);
+        chan = Helper.decodeChannelName(_p);
 
         mobile_beginning = Helper.mobilecheck();
         var side = Helper.mobilecheck() ? "left" : "right";
