@@ -441,7 +441,7 @@ function addDynamicListeners() {
             previewing = true;
             document.querySelector(".embed-preview").innerHTML = embed_code(embed_autoplay, embed_width, embed_height, color, embed_videoonly, embed_localmode);
         } else {
-            previewing = true;
+            previewing = false;
             document.querySelector(".preview-embed").innerText = "Preview";
             document.querySelector(".embed-preview").innerHTML = "";
         }

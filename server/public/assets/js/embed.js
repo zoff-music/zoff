@@ -140,6 +140,7 @@ window.addEventListener("load", function() {
         Helper.addClass("#player", "video_only");
         Helper.addClass("#player_overlay", "video_only");
         Helper.css("#zoffbutton", "bottom", "0px");
+        Helper.css("#song-title", "width", "100vw");
     }
 
     M.Modal.init(document.getElementById("locked_channel"), {
