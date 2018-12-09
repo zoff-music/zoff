@@ -2801,6 +2801,10 @@ nav ul li:hover, nav ul li.active {
     margin-top: -8px;
 }
 
+#join-sidebar #share-join-qr {
+    height: 25vh;
+}
+
 .apple-image-link {
     padding-left: 0 !important;
 }

@@ -181,7 +181,13 @@ var Playercontrols = {
     },
 
     fullscreen: function() {
-        var playerElement = document.getElementById("player");
+        var playerElement;
+        if(fireplace_initiated) {
+            playerElement = document.getElementById("fireplace_player");
+        } else {
+            playerElement = document.getElementById("player");
+        }
+
         var requestFullScreen = playerElement.requestFullScreen || playerElement.mozRequestFullScreen || playerElement.webkitRequestFullScreen;
         if (requestFullScreen) {
             requestFullScreen.bind(playerElement)();
