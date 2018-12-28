@@ -955,7 +955,7 @@ function decodeChannelName(str) {
   var _fn = decodeURIComponent;
   str = str.toUpperCase();
   try {
-      var toReturn = _fn(str.replace(/%5F/g, "_"));
+      var toReturn = _fn(str.replace(/%5F/g, "_").replace(/%27/g, "'"));
       return toReturn.toLowerCase();
   } catch(e) {
       return str.toLowerCase();
