@@ -21,6 +21,7 @@ function encodeChannelName(str) {
     str = filter.clean(str);
     var toReturn = _fn(str);
     toReturn = toReturn.replace(/_/g, "%5F");
+    toReturn = toReturn.replace(/'/g, "%27");
     toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
     toReturn = toReturn.toLowerCase();
     return toReturn;
@@ -29,7 +30,7 @@ function encodeChannelName(str) {
 function decodeChannelName(str) {
     var _fn = decodeURIComponent;
     str = str.toUpperCase();
-    var toReturn = _fn(str.replace(/%5F/g, "_"));
+    var toReturn = _fn(str.replace(/%5F/g, "_").replace(/%27/g, "'"));
     toReturn = filter.clean(toReturn);
     return toReturn.toLowerCase();
 }
