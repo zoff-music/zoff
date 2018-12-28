@@ -11,7 +11,7 @@ var Helper = {
             str = _before + "25" + _after;
             console.log(str);
         }*/
-        var toReturn = _fn(str.replace(/%5F/g, "_"));
+        var toReturn = _fn(str.replace(/%5F/g, "_").replace(/%27/g, "'"));
         toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
         return toReturn.toLowerCase();
     },
@@ -21,6 +21,7 @@ var Helper = {
         var toReturn = _fn(str);
         toReturn = toReturn.replace(/_/g, "%5F");
         toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
+        toReturn = toReturn.replace(/'/g, "%27");
         toReturn = toReturn.toLowerCase();
         return toReturn;
     },
