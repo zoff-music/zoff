@@ -244,7 +244,7 @@ function checkIfChatEnabled(channel, socket, callback) {
 
 function checkIfUserIsBanned(channel, socket, guid, callback, callback_error) {
     var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
-    db.collection(channel + "_banned_chat").find({connection_id: connection_id}, function(err, docs) {
+    db.collection(channel + "_banned_chat").find({$or: [{connection_id: connection_id}, {connection_id: guid}]}, function(err, docs) {
         if(docs.length == 0) callback();
         else {
             db.collection("user_names").findAndModify({query: {guid, guid}, update: {$addToSet:{channels: channel}}}, function(e, d){
@@ -339,7 +339,8 @@ function namechange(data, guid, socket, tried, callback) {
                                     var old_name = names[0].name;
                                     db.collection("user_names").update({"_id": "all_names"}, {$pull: {names: old_name}}, function() {});
                                 }
-                                var updateElement = {$set: {name: name, icon: icon}};
+                                var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
+                                var updateElement = {$set: {name: name, icon: icon, connection_id: connection_id}};
                                 if(data.hasOwnProperty("channel") && data.channel != "") {
                                     updateElement["$addToSet"] = {channels: data.channel};
                                 }
