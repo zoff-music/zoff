@@ -159,7 +159,7 @@ var Player = {
                         Helper.toggleClass(".video-container", "click-through");
                         Helper.toggleClass(".page-footer", "padding-bottom-extra");
                     }
-                    resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
+                    resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING, false);
                 }
                 if(embed && !autoplay) autoplay = true;
                 Helper.css("#player", "opacity", "1");
@@ -223,7 +223,8 @@ var Player = {
                                 Helper.toggleClass(".video-container", "click-through");
                                 Helper.toggleClass(".page-footer", "padding-bottom-extra");
                             }
-                            resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
+
+                            resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING, false);
                         }
                     }
                 }
@@ -237,7 +238,8 @@ var Player = {
                 if(small_player || !Helper.mobilecheck()) {
                     Helper.css("#player", "opacity", "1");
                 }
-                resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING);
+
+                resizePlaylistPlaying(newState.data == YT.PlayerState.PLAYING || newState.data == YT.PlayerState.BUFFERING, false);
                 break;
         }
     },
@@ -739,9 +741,9 @@ var Player = {
                     Player.soundcloud_player.isPaused(function(paused) {
                         scPlaying = !paused;
                         try {
-                            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                            resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING, false);
                         } catch(e) {
-                            resizePlaylistPlaying(scPlaying);
+                            resizePlaylistPlaying(scPlaying, false);
                         }
                     });
                 } else {
@@ -749,9 +751,9 @@ var Player = {
                         scPlaying = Player.soundcloud_player.isPlaying();
                     } catch(e){}
                     try {
-                        resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING);
+                        resizePlaylistPlaying(Player.player.getPlayerState() == YT.PlayerState.PLAYING || scPlaying || Player.player.getPlayerState() == YT.PlayerState.BUFFERING, false);
                     } catch(e) {
-                        resizePlaylistPlaying(scPlaying);
+                        resizePlaylistPlaying(scPlaying, false);
                     }
                 }
             }
@@ -812,13 +814,13 @@ var Player = {
             if(scUsingWidget) {
                 Player.soundcloud_player.isPaused(function(paused) {
                     scPlaying = !paused;
-                    resizePlaylistPlaying(scPlaying);
+                    resizePlaylistPlaying(scPlaying, false);
                 });
             } else {
                 try {
                     scPlaying = Player.soundcloud_player.isPlaying();
                 } catch(e){}
-                resizePlaylistPlaying(scPlaying);
+                resizePlaylistPlaying(scPlaying, false);
             }
         }
         Helper.removeClass("#player_overlay", "small-display-hide");

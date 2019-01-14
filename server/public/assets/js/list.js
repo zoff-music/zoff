@@ -84,13 +84,15 @@ var List = {
 
     changedValues: function(song) {
         if(song.type == "suggested") {
-            document.querySelector("#suggested-" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
-            document.querySelector("#suggested-" + song.id).querySelector(".list-title").setAttribute("title", song.title);
-            document.querySelector("#suggested-" + song.id).querySelector(".list-title").innerText =  song.title;
-            var _temp_duration = Helper.secondsToOther(song.duration);
-            document.querySelector("#suggested-" + song.id).querySelector(".card-duration").innerText =  Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
-            document.querySelector("#suggested-" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
-            document.querySelector("#suggested-" + song.id).setAttribute("id", song.new_id);
+            try {
+                document.getElementById("#suggested-" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
+                document.getElementById("#suggested-" + song.id).querySelector(".list-title").setAttribute("title", song.title);
+                document.getElementById("#suggested-" + song.id).querySelector(".list-title").innerText =  song.title;
+                var _temp_duration = Helper.secondsToOther(song.duration);
+                document.getElementById("#suggested-" + song.id).querySelector(".card-duration").innerText =  Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
+                document.getElementById("#suggested-" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+                document.getElementById("#suggested-" + song.id).setAttribute("id", song.new_id);
+            } catch(e) {}
             return;
         }
         var i = List.getIndexOfSong(song.id);
@@ -100,14 +102,15 @@ var List = {
             full_playlist[i].start = song.start;
             full_playlist[i].end = song.end;
             full_playlist[i].id = song.new_id;
-
-            document.querySelector("#" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
-            document.querySelector("#" + song.id).querySelector(".list-title").setAttribute("title", song.title);
-            document.querySelector("#" + song.id).querySelector(".list-title").innerText = song.title;
-            var _temp_duration = Helper.secondsToOther(song.duration);
-            document.querySelector("#" + song.id).querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
-            document.querySelector("#" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
-            document.querySelector("#" + song.id).setAttribute("id", song.new_id);
+            try {
+                document.getElementById("#" + song.id).querySelector(".vote-container").setAttribute("title", song.title);
+                document.getElementById("#" + song.id).querySelector(".list-title").setAttribute("title", song.title);
+                document.getElementById("#" + song.id).querySelector(".list-title").innerText = song.title;
+                var _temp_duration = Helper.secondsToOther(song.duration);
+                document.getElementById("#" + song.id).querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
+                document.getElementById("#" + song.id).querySelector(".list-image").setAttribute("style", "background-image:url('//img.youtube.com/vi/"+song.new_id+"/mqdefault.jpg');");
+                document.getElementById("#" + song.id).setAttribute("id", song.new_id);
+            } catch(e) {}
         }
     },
 
