@@ -56,7 +56,7 @@ function resizeFunction() {
                             ytPlaying = Player.player.getPlayerState() == YT.PlayerState.PLAYING || Player.player.getPlayerState() == YT.PlayerState.BUFFERING;
                         } catch(e) {}
                         scPlaying = !paused;
-                        resizePlaylistPlaying(ytPlaying || scPlaying);
+                        resizePlaylistPlaying(ytPlaying || scPlaying, true);
                         return;
                     })
                 } else {
@@ -66,7 +66,7 @@ function resizeFunction() {
                     try {
                         scPlaying = Player.soundcloud_player.isPlaying();
                     } catch(e){}
-                    resizePlaylistPlaying(ytPlaying || scPlaying);
+                    resizePlaylistPlaying(ytPlaying || scPlaying, true);
                 }
                 return;
             }
@@ -1012,7 +1012,7 @@ function seekToMove(e){
     } catch(e){}
 }
 
-function resizePlaylistPlaying(playing) {
+function resizePlaylistPlaying(playing, resizing) {
     if(document.querySelector("#wrapper") == null || embed || client) return;
     if(window.innerWidth < 601) {
         var subtract = 0;
@@ -1068,7 +1068,7 @@ function resizePlaylistPlaying(playing) {
         Helper.css(".list-song", "height", List.element_height + "px");
         Channel.set_title_width();
         var toJumpTo = page / canFit;
-        if(toJumpTo > Math.floor(full_playlist.length / List.can_fit)) {
+        if(toJumpTo > Math.floor(full_playlist.length / List.can_fit) && resizing) {
             toJumpTo = Math.floor(full_playlist.length / List.can_fit);
         }
         List.dynamicContentPageJumpTo(toJumpTo);
