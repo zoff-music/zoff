@@ -260,7 +260,7 @@ function checkIfUserIsBanned(channel, socket, guid, callback, callback_error) {
 function namechange(data, guid, socket, tried, callback) {
     checkIfChatEnabled(data.channel, socket, function(enabled) {
         if(!enabled) {
-            callback();
+            callback(false);
             return;
         }
         checkIfUserIsBanned(data.channel, socket, guid, function() {
@@ -276,7 +276,7 @@ function namechange(data, guid, socket, tried, callback) {
                     data.password = pass;
                     new_password = false;
                     if(name == "" || pass == "") {
-                        if(typeof(callback) == "function") callback();
+                        if(typeof(callback) == "function") callback(true);
                         return;
                     }
                     fetched = true;
@@ -299,7 +299,7 @@ function namechange(data, guid, socket, tried, callback) {
                 }
 
                 if(name == "") {
-                    if(typeof(callback) == "function") callback();
+                    if(typeof(callback) == "function") callback(true);
                     return;
                 }
 
@@ -309,7 +309,7 @@ function namechange(data, guid, socket, tried, callback) {
                     var icon = false;
                     if(docs.length == 0) {
                         if(new_password) {
-                            if(typeof(callback) == "function") callback();
+                            if(typeof(callback) == "function") callback(true);
                             return;
                         }
                         accepted_password = true;
@@ -358,7 +358,7 @@ function namechange(data, guid, socket, tried, callback) {
                                                 io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                                             }
                                         }
-                                        if(callback != undefined && typeof(callback) == "function") callback();
+                                        if(callback != undefined && typeof(callback) == "function") callback(true);
                                     });
                                 });
                             } else {
