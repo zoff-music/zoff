@@ -139,7 +139,9 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
                         } else {
                             io.to(coll).emit("viewers", new_doc[0].users.length);
                         }
+                        console.log(guid, "before namechange");
                         Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function() {
+                            console.log(guid, "after namechange");
                             db.collection("user_names").find({"guid": guid}, function(err, docs) {
                                 if(docs.length == 1) {
                                     var icon = "";
