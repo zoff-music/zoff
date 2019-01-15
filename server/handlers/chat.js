@@ -235,8 +235,9 @@ function checkIfChatEnabled(channel, socket, callback) {
         db.collection(channel + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].hasOwnProperty("toggleChat") && !docs[0].toggleChat)) {
                 socket.emit('chat', {from: "System", msg: ": Chat for this channel has been disabled.", icon: "https://zoff.me/assets/images/favicon-32x32.png"});
+                callback(false);
             } else {
-                callback();
+                callback(true);
             }
         });
     }
@@ -257,7 +258,11 @@ function checkIfUserIsBanned(channel, socket, guid, callback, callback_error) {
 }
 
 function namechange(data, guid, socket, tried, callback) {
-    checkIfChatEnabled(data.channel, socket, function() {
+    checkIfChatEnabled(data.channel, socket, function(enabled) {
+        if(!enabled) {
+            callback(false);
+            return;
+        }
         checkIfUserIsBanned(data.channel, socket, guid, function() {
             var pw = "";
             var new_password;
@@ -271,7 +276,7 @@ function namechange(data, guid, socket, tried, callback) {
                     data.password = pass;
                     new_password = false;
                     if(name == "" || pass == "") {
-                        if(typeof(callback) == "function") callback();
+                        if(typeof(callback) == "function") callback(true);
                         return;
                     }
                     fetched = true;
@@ -294,7 +299,7 @@ function namechange(data, guid, socket, tried, callback) {
                 }
 
                 if(name == "") {
-                    if(typeof(callback) == "function") callback();
+                    if(typeof(callback) == "function") callback(true);
                     return;
                 }
 
@@ -304,7 +309,7 @@ function namechange(data, guid, socket, tried, callback) {
                     var icon = false;
                     if(docs.length == 0) {
                         if(new_password) {
-                            if(typeof(callback) == "function") callback();
+                            if(typeof(callback) == "function") callback(true);
                             return;
                         }
                         accepted_password = true;
@@ -353,7 +358,7 @@ function namechange(data, guid, socket, tried, callback) {
                                                 io.sockets.emit('chat.all', {from: old_name , msg: " changed name to " + name, channel: data.channel});
                                             }
                                         }
-                                        if(callback != undefined && typeof(callback) == "function") callback();
+                                        if(callback != undefined && typeof(callback) == "function") callback(true);
                                     });
                                 });
                             } else {
@@ -378,7 +383,8 @@ function namechange(data, guid, socket, tried, callback) {
 
 function removename(guid, coll, socket) {
     //coll = coll.replace(/ /g,'');
-    checkIfChatEnabled(coll, socket, function() {
+    checkIfChatEnabled(coll, socket, function(enabled) {
+        if(enabled) return;
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
             if(docs.length == 1) {
                 var old_name = docs[0].name;

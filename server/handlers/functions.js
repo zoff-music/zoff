@@ -138,13 +138,15 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
                         } else {
                             io.to(coll).emit("viewers", new_doc[0].users.length);
                         }
-                        Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function() {
+                        Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function(enabled) {
                             db.collection("user_names").find({"guid": guid}, function(err, docs) {
                                 if(docs.length == 1) {
                                     var icon = "";
                                     if(docs[0].icon != undefined) icon = docs[0].icon;
                                     db.collection("user_names").update({"guid": guid}, {$addToSet:{channels: coll}}, function(err, doc){});
-                                    socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
+                                    if(enabled) {
+                                        socket.broadcast.to(coll).emit('chat', {from: docs[0].name, icon: icon, msg: " joined"});
+                                    }
                                 } else if(docs.length == 0) {
                                     //console.log("User doesn't have a name for some reason.");
                                     //console.log("guid", guid);
