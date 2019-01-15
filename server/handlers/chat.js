@@ -263,7 +263,7 @@ function namechange(data, guid, socket, tried, callback) {
             callback();
             return;
         }
-        checkIfUserIsBanned(data.channel, socket, guid, function(enabled) {
+        checkIfUserIsBanned(data.channel, socket, guid, function() {
             var pw = "";
             var new_password;
             var first = false;

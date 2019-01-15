@@ -130,7 +130,6 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
     //coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
-            console.log("connected", guid, updated);
             if(updated.nModified > 0 || updated.upserted != undefined) {
                 db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
                     db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": new_doc[0].users.length}}, function(){
@@ -139,9 +138,7 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
                         } else {
                             io.to(coll).emit("viewers", new_doc[0].users.length);
                         }
-                        console.log(guid, "before namechange");
                         Chat.namechange({initial: true, first:true, channel: coll}, guid, socket, false, function() {
-                            console.log(guid, "after namechange");
                             db.collection("user_names").find({"guid": guid}, function(err, docs) {
                                 if(docs.length == 1) {
                                     var icon = "";
