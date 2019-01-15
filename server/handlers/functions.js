@@ -130,6 +130,7 @@ function check_inlist(coll, guid, socket, offline, callback, double_check)
     //coll = coll.replace(/ /g,'');
     if(!offline && coll != undefined){
         db.collection("connected_users").update({"_id": coll}, {$addToSet:{users: guid}}, {upsert: true}, function(err, updated) {
+            console.log("connected", guid, updated);
             if(updated.nModified > 0 || updated.upserted != undefined) {
                 db.collection("connected_users").find({"_id": coll}, function(err, new_doc) {
                     db.collection("frontpage_lists").update({"_id": coll}, {$set: {"viewers": new_doc[0].users.length}}, function(){
