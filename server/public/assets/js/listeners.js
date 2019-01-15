@@ -1344,7 +1344,7 @@ function addDynamicListeners() {
                     access_token_data = {};
                     Channel.spotify_is_authenticated(false);
                     Helper.css(".spotify_authenticated", "display", "none");
-                    Helper.css(".spotify_unauthenticated", "display", "block");
+                    Helper.css(".spotify_unauthenticated", "display", "flex");
                 }, access_token_data.expires_in * 1000);
             } else {
                 access_token_data = {};
