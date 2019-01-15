@@ -180,6 +180,10 @@ function addPlaylist(arr, guid, offline, socket) {
             return;
         }
         var channel = arr.channel;//.replace(/ /g,'').toLowerCase();
+        if(arr.length == 0 || arr.songs.length == 0) {
+            socket.emit("toast", "Empty list..");
+            return;
+        }
         db.collection("frontpage_lists").find({_id: channel}, function(err, fp) {
             if(fp.length == 0) {
                 socket.emit("toast", "nolist");
@@ -201,7 +205,7 @@ function addPlaylist(arr, guid, offline, socket) {
                     var now_playing = false;
                     if(np.length == 0) now_playing = true;
                     db.collection(channel + "_settings").find({id: "config"}, function(e, conf) {
-                        if(arr.length == 0) {
+                        if(arr.length == 0 || arr.songs.length) {
                             socket.emit("toast", "Empty list..");
                             return;
                         }
