@@ -425,7 +425,7 @@ var Channel = {
         } else {
             Helper.log(["Spotify is not authenticated"]);
             Helper.css(".spotify_authenticated", "display", "none");
-            Helper.css(".spotify_unauthenticated", "display", "block");
+            Helper.css(".spotify_unauthenticated", "display", "flex");
         }
     },
 
