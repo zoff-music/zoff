@@ -235,8 +235,9 @@ function checkIfChatEnabled(channel, socket, callback) {
         db.collection(channel + "_settings").find(function(err, docs){
             if(docs.length > 0 && (docs[0].hasOwnProperty("toggleChat") && !docs[0].toggleChat)) {
                 socket.emit('chat', {from: "System", msg: ": Chat for this channel has been disabled.", icon: "https://zoff.me/assets/images/favicon-32x32.png"});
+                callback(false);
             } else {
-                callback();
+                callback(true);
             }
         });
     }
@@ -257,8 +258,12 @@ function checkIfUserIsBanned(channel, socket, guid, callback, callback_error) {
 }
 
 function namechange(data, guid, socket, tried, callback) {
-    checkIfChatEnabled(data.channel, socket, function() {
-        checkIfUserIsBanned(data.channel, socket, guid, function() {
+    checkIfChatEnabled(data.channel, socket, function(enabled) {
+        if(!enabled) {
+            callback();
+            return;
+        }
+        checkIfUserIsBanned(data.channel, socket, guid, function(enabled) {
             var pw = "";
             var new_password;
             var first = false;
@@ -378,7 +383,8 @@ function namechange(data, guid, socket, tried, callback) {
 
 function removename(guid, coll, socket) {
     //coll = coll.replace(/ /g,'');
-    checkIfChatEnabled(coll, socket, function() {
+    checkIfChatEnabled(coll, socket, function(enabled) {
+        if(enabled) return;
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
             if(docs.length == 1) {
                 var old_name = docs[0].name;
