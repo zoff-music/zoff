@@ -205,7 +205,7 @@ function addPlaylist(arr, guid, offline, socket) {
                     var now_playing = false;
                     if(np.length == 0) now_playing = true;
                     db.collection(channel + "_settings").find({id: "config"}, function(e, conf) {
-                        if(arr.length == 0 || arr.songs.length) {
+                        if(arr.length == 0 || arr.songs.length == 0) {
                             socket.emit("toast", "Empty list..");
                             return;
                         }
