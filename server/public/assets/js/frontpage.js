@@ -405,7 +405,7 @@ var Frontpage = {
                     Helper.removeElement("#closePlayer");
                     Helper.removeElement("#player_bottom_overlay");
                 }
-                document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
+                document.getElementById("search").setAttribute("placeholder", "Search...");
                 Helper.addClass(".page-footer", "padding-bottom-novideo");
                 from_frontpage = true;
                 //Player.stopInterval =true;

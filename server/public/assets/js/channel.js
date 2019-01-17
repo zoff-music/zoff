@@ -360,7 +360,7 @@ var Channel = {
         //$("#results" ).hover( function() { Helper.removeClass(".result", "hoverResults"); i = 0; }, function(){ });
         document.getElementById("search").focus();
         Helper.css("#embed-button", "display", "inline-block");
-        document.getElementById("search").setAttribute("placeholder", "Find song on YouTube...");
+        document.getElementById("search").setAttribute("placeholder", "Search...");
 
         if(!client) {
             Helper.addClass("footer", "padding-bottom-novideo");
