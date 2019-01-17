@@ -20,6 +20,7 @@ var sc_initialized = false;
 var intelligentQueue = [];
 var intelligentList = false;
 var deleted_elements = 0;
+var chromecastInfoShow = true;
 var soundcloud_enabled = true;
 var local_new_channel = false;
 var sc_need_initialization = true;
@@ -349,7 +350,8 @@ initializeCastApi = function() {
                 mobile_beginning = false;
 
                 //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
-                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "chromecastInfoShow", value: chromecastInfoShow});
                 loadChromecastVideo();
                 if(window.location.hostname.indexOf("zoff.me") > -1 && !offline && window.location.hostname.indexOf("localhost") == -1) {
                     socket.emit("get_id");
@@ -375,6 +377,7 @@ initializeCastApi = function() {
                 if(window.location.hostname.indexOf("zoff.me") > -1 && !offline && window.location.hostname.indexOf("localhost") == -1) {
                     socket.emit("get_id");
                 }
+                castSession.sendMessage("urn:x-cast:zoff.me", {type: "chromecastInfoShow", value: chromecastInfoShow});
                 loadChromecastVideo();
                 //castSession.sendMessage("urn:x-cast:zoff.me", {type: "loadVideo", start: Player.np.start, end: Player.np.end, videoId: video_id, seekTo: _seekTo, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail})
                 castSession.sendMessage("urn:x-cast:zoff.me", {type: "nextVideo", videoId: full_playlist[0].id, title: full_playlist[0].title, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail})
@@ -939,6 +942,14 @@ function addDynamicListeners() {
             toast("Enabled intelligent playlist!");
         } else {
             toast("Disabled intelligent playlist.");
+        }
+    });
+
+    addListener("change", '.chromecast_info_display_class', function()
+    {
+        chromecastInfoShow = document.getElementsByName("chromecast_info_display")[0].checked;
+        if(chromecastAvailable) {
+            castSession.sendMessage("urn:x-cast:zoff.me", {type: "chromecastInfoShow", value: chromecastInfoShow});
         }
     });
 
