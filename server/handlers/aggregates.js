@@ -11,6 +11,8 @@ var toShowConfig = {
     "userpass": 1,
     "vote": 1,
     "toggleChat": { $ifNull: [ "$toggleChat", true ] },
+    "strictSkip": { $ifNull: [ "$strictSkip", false ] },
+    "strictSkipNumber": { $ifNull: [ "$strictSkipNumber", 10 ] },
     "description": { $ifNull: [ "$description", "" ] },
     "thumbnail": { $ifNull: [ "$thumbnail", "" ] },
     "rules": { $ifNull: [ "$rules", "" ] },
