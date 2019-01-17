@@ -834,6 +834,10 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     border-bottom: transparent;
 }
 
+.strict-skip-info {
+    width: 1000px;
+}
+
 span.badge.new,
 .progress .determinate,
 .progress .indeterminate,
