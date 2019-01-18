@@ -123,7 +123,7 @@ function list(msg, guid, coll, offline, socket) {
     }
 }
 
-function skip(list, guid, coll, offline, socket) {
+function skip(list, guid, coll, offline, socket, callback) {
     var socketid = socket.zoff_id;
 
     if(list !== undefined && list !== null && list !== "")

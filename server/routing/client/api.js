@@ -271,6 +271,22 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
     });
 });
 
+router.route('/api/skip/:channel_name').post(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header({"Content-Type": "application/json"});
+
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var api_key = req.body.api_key;
+    var id = req.body.id;
+    var guid = req.body.chat_name;
+
+    //CHECK API KEY FOR ZOFFBOT
+    List.skip(list, guid, channel_name, false, undefined, function(skipped, text) {
+
+    })
+})
+
 router.route('/api/conf/:channel_name').put(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
