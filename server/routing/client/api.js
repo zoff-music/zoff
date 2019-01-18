@@ -6,6 +6,7 @@ var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
 var db = require(pathThumbnails + '/handlers/db.js');
+var secrets = require(pathThumbnails + '/config/api_key.js');
 var crypto = require('crypto');
 var List = require(pathThumbnails + '/handlers/list.js');
 var Functions = require(pathThumbnails + '/handlers/functions.js');
@@ -14,8 +15,9 @@ var Search = require(pathThumbnails + '/handlers/search.js');
 var uniqid = require('uniqid');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
+var sIO = require(path.join(__dirname, '../../apps/client.js')).socketIO;
 var projects = require(pathThumbnails + "/handlers/aggregates.js");
-
+console.log(path.join(__dirname, '../../apps/client.js'));
 var error = {
     not_found: {
         youtube: {
@@ -278,14 +280,70 @@ router.route('/api/skip/:channel_name').post(function(req, res) {
 
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var api_key = req.body.api_key;
-    var id = req.body.id;
+    //var id = req.body.id;
     var guid = req.body.chat_name;
+    var channel_name = cleanChannelName(req.params.channel_name);
+    var userpass = "";
+    if(req.body.userpass) userpass = crypto.createHash('sha256').update(Functions.decrypt_string(req.body.userpass)).digest("base64");
+    console.log(api_key, guid, channel_name, userpass);
+    if(api_key == "AhmC4Yg2BhaWPZBXeoWK96DAiAVfbou8TUG2IXtD3ZQ=") {
+        db.collection(channel_name + "_settings").find({"id": "config"}, function(err, settings) {
+            if(settings.length == 0) {
+                // LIST DOESNT EXIST
+                res.status(404).send(error.wrong_token);
+                return;
+            }
+            settings = settings[0];
+            if(!settings.strictSkip) {
+                // DONT HAVE STRICT SKIP
+                res.status(404).send(error.wrong_token);
+                return;
+            }
 
-    //CHECK API KEY FOR ZOFFBOT
-    List.skip(list, guid, channel_name, false, undefined, function(skipped, text) {
-
-    })
-})
+            if(settings.userpass == "" || (settings.userpass == userpass)) {
+                if(settings.skips.length+1 >= settings.strictSkipNumber) {
+                    Functions.checkTimeout("skip", 1, channel_name, channel_name, false, true, undefined, function() {
+                        db.collection(channel_name).find({now_playing: true}, function(err, np) {
+                            if(np.length != 1) {
+                                // NO SONG
+                                res.status(404).send(error.wrong_token);
+                                return;
+                            }
+                            List.change_song(channel_name, false, np[0].id, [settings], function() {
+                                // VOTED TO SKIP
+                                res.status(200).send(error.wrong_token);
+                                return;
+                            });
+                            console.log("hello",sIO);
+                            //sIO.to(channel_name).emit('chat', {from: guid, icon: false, msg: " skipped via API."});
+                        });
+                    }, "The channel is skipping too often, please wait ");
+                } else if(!Functions.contains(settings.skips, guid)){
+                    db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
+                        var to_skip = (strictSkipNumber) - settings.skips.length-1;
+                        console.log("ok", sIO);
+                        //sIO.to(channel_name).emit('chat', {from: guid, msg: " voted to skip via API."});
+                        // VOTED TO SKIP
+                        res.status(200).send(error.wrong_token);
+                        return;
+                    });
+                } else {
+                    //ALREADY SKIP
+                    res.status(404).send(error.wrong_token);
+                    return;
+                }
+            } else {
+                // NOT AUTHENTICATED
+                res.status(404).send(error.wrong_token);
+                return;
+            }
+        });
+    } else {
+        // WRONG API KEY
+        res.status(403).send(error.wrong_token);
+        return;
+    }
+});
 
 router.route('/api/conf/:channel_name').put(function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");

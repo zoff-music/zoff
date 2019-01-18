@@ -228,7 +228,7 @@ function skip(list, guid, coll, offline, socket, callback) {
                                             }
                                         });
                                     }, "The channel is skipping too often, please wait ");
-                                }else if(!Functions.contains(docs[0].skips, guid)){
+                                } else if(!Functions.contains(docs[0].skips, guid)){
                                     db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
                                         if(frontpage_viewers[0].viewers == 2 && !strictSkip) {
                                             to_skip = 1;
