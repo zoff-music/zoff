@@ -6,6 +6,7 @@ server/config/cert_config.js
 server/config/recaptcha.js
 server/config/analytics.js
 server/config/google.js
+server/config/allowed_api.js
 server/public/assets/dist/maps/
 server/public/assets/dist/callback.min.js
 server/public/assets/dist/token.min.js
