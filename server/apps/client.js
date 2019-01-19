@@ -87,9 +87,10 @@ app.socketIO = io;
 
 
 /* Globally needed "libraries" and files */
-var Functions = require(pathThumbnails + '/handlers/functions.js');
 var router = require(pathThumbnails + '/routing/client/router.js');
-var api = require(pathThumbnails + '/routing/client/api.js');
+var api_file = require(pathThumbnails + '/routing/client/api.js');
+var api = api_file.router;
+api_file.sIO = app.socketIO;
 var ico_router = require(pathThumbnails + '/routing/client/icons_routing.js');
 
 app.get('/robots.txt', function (req, res) {
