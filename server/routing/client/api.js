@@ -304,7 +304,7 @@ router.route('/api/skip/:channel_name').post(function(req, res) {
     var guid = req.body.chat_name;
     var channel_name = cleanChannelName(req.params.channel_name);
     var userpass = "";
-    if(req.body.userpass) userpass = crypto.createHash('sha256').update(Functions.decrypt_string(req.body.userpass)).digest("base64");
+    if(req.body.userpass && req.body.userpass != "") userpass = crypto.createHash('sha256').update(Functions.decrypt_string(req.body.userpass)).digest("base64");
     if(allowed_key.indexOf(api_key) > -1) {
         db.collection(channel_name + "_settings").find({"id": "config"}, function(err, settings) {
             if(settings.length == 0) {
@@ -357,7 +357,9 @@ router.route('/api/skip/:channel_name').post(function(req, res) {
         });
     } else {
         // WRONG API KEY
-        res.status(406).send(error.not_authenticated);
+        var toSend = error.not_authenticated;
+        toSend.status = 406;
+        res.status(406).send(toSend);
         return;
     }
 });
