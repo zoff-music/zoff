@@ -815,6 +815,7 @@ function addDynamicListeners() {
             if(!Helper.mobilecheck()) {
                 Helper.tooltip('.castButton', "destroy");
                 Helper.tooltip("#viewers", "destroy");
+                Helper.tooltip('#addToOtherList', 'destroy');
                 //$('.castButton-unactive').tooltip("destroy");
                 Helper.tooltip("#offline-mode", "destroy");
                 Helper.tooltip('#admin-lock', "destroy");

@@ -2564,12 +2564,12 @@ nav ul li:hover, nav ul li.active {
     margin-left: 5px;
 }
 
-#playpause:hover, #volume-button:hover, #fullscreen:hover
+#playpause:hover, #volume-button:hover, #fullscreen:hover, #addToOtherList
 {
     color:rgba(255,255,255,0.5);
 }
 
-#fullscreen
+#fullscreen, #addToOtherList
 {
     float:right;
     color:white;
@@ -2602,7 +2602,7 @@ nav ul li:hover, nav ul li.active {
     margin-right: 5px;
 }
 
-#play, #pause, #volume-button, #fullscreen
+#play, #pause, #volume-button, #fullscreen, #addToOtherList
 {
     font-size: 24px;
     cursor:pointer;
