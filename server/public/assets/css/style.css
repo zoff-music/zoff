@@ -824,10 +824,18 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
     width: 100%;
 }
 
-#password{
+#password, #strict-input-number{
     width: 84%;
     margin-left: 30px;
     margin-bottom: 0;
+}
+
+#strict-input-number {
+    border-bottom: transparent;
+}
+
+.strict-skip-info {
+    width: 1000px;
 }
 
 span.badge.new,
@@ -2412,7 +2420,7 @@ nav ul li:hover, nav ul li.active {
     color: lightgrey;
 }
 
-#admin-lock
+#admin-lock, #strict-skip-lock
 {
     position:absolute;
     display: flex;

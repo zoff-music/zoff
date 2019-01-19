@@ -222,6 +222,14 @@ function conf_function(params, coll, guid, offline, socket) {
                     if(params.hasOwnProperty("toggleChat") && docs[0].adminpass != "" && docs[0].adminpass != undefined && docs[0].adminpass == hash) {
                         obj.toggleChat = params.toggleChat;
                     }
+                    if(params.hasOwnProperty("strictSkip") && docs[0].adminpass != "" && docs[0].adminpass != undefined && docs[0].adminpass == hash) {
+                        obj.strictSkip = params.strictSkip;
+                    }
+                    if(params.hasOwnProperty("strictSkipNumber") && docs[0].adminpass != "" && docs[0].adminpass != undefined && docs[0].adminpass == hash) {
+                        try {
+                            obj.strictSkipNumber = parseInt(params.strictSkipNumber);
+                        } catch(e) {}
+                    }
                     if(params.userpass_changed) {
                         obj["userpass"] = userpass;
                     } else if (frontpage) {

@@ -5,14 +5,16 @@
     </div>
     <div class="collapsible-body">
         <ul>
-            <form action="#" id="adminForm" onsubmit="return false;">
 
+            <form action="#" id="adminForm" onsubmit="return false;">
                 <li class="white-bg">
                     <div class="input-field field-settings">
                         <i id="admin-lock" class="material-icons">lock</i>
                         <input placeholder="Enter admin password" id="password" type="password" class="validate" />
                     </div>
                 </li>
+            </form>
+            <form action="#" id="adminSettingsForm" onsubmit="return false;">
                 <li>
                     <span class="switch-text">
                         Add songs
@@ -25,7 +27,6 @@
                         </label>
                     </div>
                 </li>
-
                 <li>
                     <span class="switch-text">
                         Vote
@@ -51,7 +52,6 @@
                         </label>
                     </div>
                 </li>
-
                 <li>
                     <span class="switch-text">
                         Skip
@@ -64,7 +64,6 @@
                         </label>
                     </div>
                 </li>
-
                 <li>
                     <span class="switch-text">
                         Song length
@@ -77,7 +76,6 @@
                         </label>
                     </div>
                 </li>
-
                 <li>
                     <span class="switch-text">
                         Type
@@ -114,6 +112,18 @@
                         </label>
                     </div>
                 </li>
+                <li>
+                    <span class="switch-text">
+                        Strict skip
+                    </span>
+                    <div class="switch">
+                        <label>
+                            <span class="left-span">Off</span>
+                            <input name="strictSkip" type="checkbox" class="conf" /><span class="lever"></span>
+                            <span class="right-span">On</span>
+                        </label>
+                    </div>
+                </li>
                 <li class="chat-toggle-li hide">
                     <span class="switch-text">
                         Chat
@@ -139,7 +149,15 @@
                     </div>
                 </li>
             </form>
-
+            <form action="#" id="strictSkipForm" onsubmit="return false;">
+                <li class="white-bg strict-skip-input hide">
+                    <div class="input-field field-settings">
+                        <i id="strict-skip-lock" class="material-icons">queue_play_next</i>
+                        <input placeholder="Strict skip number" id="strict-input-number" type="number" class="validate" />
+                        <div class="strict-skip-info">votes needed to skip.</div>
+                    </div>
+                </li>
+            </form>
             <li class="change_user_pass hide">
                 <a href="#!" class="change_user_pass_btn btn waves-effect blue">Change password</a>
             </li>

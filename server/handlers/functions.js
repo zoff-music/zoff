@@ -438,7 +438,7 @@ function left_channel(coll, guid, short_id, in_list, socket, change, caller) {
 }
 
 
-function checkTimeout(type, timeout, channel, guid, conf_pass, this_pass, socket, callback, error_message){
+function checkTimeout(type, timeout, channel, guid, conf_pass, this_pass, socket, callback, error_message, error_callback){
     if(conf_pass != "" && conf_pass == this_pass) {
         callback();
         return;
@@ -454,7 +454,9 @@ function checkTimeout(type, timeout, channel, guid, conf_pass, this_pass, socket
 
             var retry_in = (date.getTime() - now.getTime()) / 1000;
             if(retry_in > 0) {
-                if(error_message) {
+                if(typeof(error_callback) == "function") {
+                    error_callback();
+                } else if(error_message) {
                     var sOrNot = Math.ceil(retry_in) > 1 || Math.ceil(retry_in) == 0 ? "s" : "";
                     socket.emit("toast", error_message + Math.ceil(retry_in) + " second" + sOrNot + ".");
                 } else {

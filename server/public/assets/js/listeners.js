@@ -1278,6 +1278,11 @@ function addDynamicListeners() {
         Admin.pass_save();
     });
 
+    addListener("submit", "#strictSkipForm", function(event){
+        this.preventDefault();
+        Admin.update_strict_skip(document.getElementById("strict-input-number").value);
+    });
+
     addListener("click", "#channel-share-modal", function(){
         M.Modal.getInstance(document.getElementById("channel-share-modal")).close();
     });

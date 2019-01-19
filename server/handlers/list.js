@@ -123,7 +123,7 @@ function list(msg, guid, coll, offline, socket) {
     }
 }
 
-function skip(list, guid, coll, offline, socket) {
+function skip(list, guid, coll, offline, socket, callback) {
     var socketid = socket.zoff_id;
 
     if(list !== undefined && list !== null && list !== "")
@@ -198,15 +198,20 @@ function skip(list, guid, coll, offline, socket) {
 
                     hash = adminpass;
                     //db.collection(coll + "_settings").find(function(err, docs){
-
+                    var strictSkip = false;
+                    var strictSkipNumber = 10;
+                    if(docs[0].strictSkip) strictSkip = docs[0].strictSkip;
+                    if(docs[0].strictSkipNumber) strictSkipNumber = docs[0].strictSkipNumber;
                     if(docs !== null && docs.length !== 0)
                     {
                         if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
                         {
                             db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                                if((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
-                                (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
-                                (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))
+                                if(
+                                    (strictSkip && ((docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||
+                                    (!strictSkip && ((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
+                                        (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
+                                        (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))))
                                 {
                                     Functions.checkTimeout("skip", 1, coll, coll, error, true, socket, function() {
                                         change_song(coll, error, video_id, docs);
@@ -223,14 +228,27 @@ function skip(list, guid, coll, offline, socket) {
                                             }
                                         });
                                     }, "The channel is skipping too often, please wait ");
-                                }else if(!Functions.contains(docs[0].skips, guid)){
+                                } else if(!Functions.contains(docs[0].skips, guid)){
                                     db.collection(coll + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
-                                        if(frontpage_viewers[0].viewers == 2)
-                                        to_skip = 1;
-                                        else
-                                        to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
+                                        if(frontpage_viewers[0].viewers == 2 && !strictSkip) {
+                                            to_skip = 1;
+                                        } else if(strictSkip) {
+                                            to_skip = (strictSkipNumber) - docs[0].skips.length-1;
+                                        } else {
+                                            to_skip = (Math.ceil(frontpage_viewers[0].viewers/2) - docs[0].skips.length-1);
+                                        }
                                         socket.emit("toast", to_skip + " more are needed to skip!");
-                                        socket.to(coll).emit('chat', {from: name, msg: " voted to skip"});
+                                        db.collection("user_names").find({"guid": guid}, function(err, docs) {
+                                            if(docs.length == 1) {
+                                                db.collection("registered_users").find({"_id": docs[0].name}, function(err, n) {
+                                                    var icon = false;
+                                                    if(n.length > 0 && n[0].icon) {
+                                                        icon = n[0].icon;
+                                                    }
+                                                    socket.to(coll).emit('chat', {from: docs[0].name, msg: " voted to skip"});
+                                                })
+                                            }
+                                        });
                                     });
                                 }else{
                                     socket.emit("toast", "alreadyskip");

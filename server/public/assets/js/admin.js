@@ -3,6 +3,11 @@ var Admin = {
     beginning:true,
     logged_in: false,
 
+    update_strict_skip: function(value) {
+        var form = document.getElementById("adminSettingsForm");
+        form.strictSkipNumber = value;
+        Admin.submitAdmin(form, false);
+    },
 
     pw: function(msg) {
         Admin.logged_in = msg;
@@ -16,12 +21,16 @@ var Admin = {
             if(Helper.html(".suggested-badge") != "0" && Helper.html(".suggested-badge") != "") {
                 Helper.removeClass(".suggested-badge", "hide");
             }
+            if(conf != undefined && conf.strictSkip) {
+                Helper.removeClass(".strict-skip-input", "hide");
+            }
         } else {
             Admin.hideUserSuggested();
+            Helper.addClass(".strict-skip-input", "hide");
         }
         Helper.removeClass(".delete-context-menu", "context-menu-disabled");
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle", "userpass", "toggleChat"];
+        "removeplay", "skip", "shuffle", "userpass", "toggleChat", "strictSkip"];
         //Crypt.set_pass(chan.toLowerCase(), Crypt.tmp_pass);
 
         for (var i = 0; i < names.length; i++) {
@@ -105,7 +114,7 @@ var Admin = {
         w_p       = true;
         adminpass = "";
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle", "toggleChat"];
+        "removeplay", "skip", "shuffle", "toggleChat", "strictSkip"];
         document.getElementById("password").value = "";
         Helper.addClass(".info_change_li", "hide");
         for (i = 0; i < names.length; i++) {
@@ -120,7 +129,7 @@ var Admin = {
             document.getElementById("admin-lock").innerHTML = "lock";
         }
 
-
+        Helper.addClass(".strict-skip-input", "hide");
         Helper.addClass(".user-password-li", "hide");
         Helper.addClass(".chat-toggle-li", "hide");
         Helper.addClass(".delete-all", "hide");
@@ -138,7 +147,7 @@ var Admin = {
     },
 
     save: function(userpass) {
-        Admin.submitAdmin(document.getElementById("adminForm").elements, userpass);
+        Admin.submitAdmin(document.getElementById("adminSettingsForm").elements, userpass);
     },
 
     set_conf: function(conf_array) {
@@ -146,7 +155,7 @@ var Admin = {
         music     = conf_array.allvideos;
         longsongs = conf_array.longsongs;
         names     = ["vote","addsongs","longsongs","frontpage", "allvideos",
-        "removeplay", "skip", "shuffle", "userpass", "toggleChat"];
+        "removeplay", "skip", "shuffle", "userpass", "toggleChat", "strictSkip"];
         if(!conf.hasOwnProperty("toggleChat")) conf.toggleChat = true;
         toggleChat = conf.toggleChat;
         hasadmin = conf_array.adminpass != "";
@@ -163,6 +172,7 @@ var Admin = {
                 document.getElementsByName(names[i])[0].removeAttribute("disabled");
             }
         }
+        document.getElementById("strict-input-number").value = conf.strictSkipNumber;
         if((hasadmin) && !Admin.logged_in) {
             if(Helper.html("#admin-lock") != "lock") Admin.display_logged_out();
         } else if(!hasadmin) {
@@ -172,7 +182,14 @@ var Admin = {
                 Helper.removeClass(".change_user_pass", "hide");
             }
         }
-
+        if(Admin.logged_in) {
+            if(conf != undefined && conf.strictSkip) {
+                Helper.removeClass(".strict-skip-input", "hide");
+            }
+        }
+        if(conf != undefined && !conf.strictSkip) {
+            Helper.addClass(".strict-skip-input", "hide");
+        }
         if(!document.getElementsByClassName("password_protected")[0].checked) {
             Helper.addClass(".change_user_pass", "hide");
             //Crypt.remove_userpass(chan.toLowerCase());
@@ -217,6 +234,13 @@ var Admin = {
         skipping   = form.skip.checked;
         shuffling  = form.shuffle.checked;
         toggleChat = form.toggleChat.checked;
+        strictSkip = form.strictSkip.checked;
+
+        if(form.strictSkipNumber) {
+            strictSkipNumber = form.strictSkipNumber;
+        } else {
+            strictSkipNumber = conf.strictSkipNumber;
+        }
 
         var pass_send = userpass_changed && !form.userpass.checked ? "" : userpass;
         configs = {
@@ -231,8 +255,10 @@ var Admin = {
             skipping: skipping,
             shuffling: shuffling,
             toggleChat: toggleChat,
+            strictSkip: strictSkip,
             userpass: Crypt.crypt_pass(pass_send),
-            userpass_changed: userpass_changed
+            userpass_changed: userpass_changed,
+            strictSkipNumber: strictSkipNumber
         };
 
         emit("conf", configs);

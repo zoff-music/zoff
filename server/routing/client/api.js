@@ -6,6 +6,7 @@ var ObjectId = mongojs.ObjectId;
 var token_db = mongojs("tokens");
 var cookieParser = require("cookie-parser");
 var db = require(pathThumbnails + '/handlers/db.js');
+var allowed_key = require(pathThumbnails + '/config/allowed_api.js');
 var crypto = require('crypto');
 var List = require(pathThumbnails + '/handlers/list.js');
 var Functions = require(pathThumbnails + '/handlers/functions.js');
@@ -14,6 +15,11 @@ var Search = require(pathThumbnails + '/handlers/search.js');
 var uniqid = require('uniqid');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
+
+var _exports = {
+    router: router,
+    sIO: {}
+}
 var projects = require(pathThumbnails + "/handlers/aggregates.js");
 
 var error = {
@@ -65,6 +71,24 @@ var error = {
         status: 429,
         error: "You're doing too many requests, check header-field Retry-After for the wait-time left.",
         success: false,
+        results: [],
+    },
+    settings: {
+        status: 409,
+        error: "The channel doesn't have strict skipping enabled.",
+        success: false,
+        results: [],
+    },
+    already_skip: {
+        status: 206,
+        error: false,
+        success: true,
+        results: [],
+    },
+    more_skip_needed: {
+        status: 202,
+        error: false,
+        success: true,
         results: [],
     },
     no_error: {
@@ -269,6 +293,75 @@ router.route('/api/list/:channel_name/:video_id').delete(function(req, res) {
             });
         });
     });
+});
+
+router.route('/api/skip/:channel_name').post(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header({"Content-Type": "application/json"});
+
+    var api_key = req.body.api_key;
+    var guid = req.body.chat_name;
+    var channel_name = cleanChannelName(req.params.channel_name);
+    var userpass = "";
+    if(req.body.userpass && req.body.userpass != "") userpass = crypto.createHash('sha256').update(Functions.decrypt_string(req.body.userpass)).digest("base64");
+    if(allowed_key.indexOf(api_key) > -1) {
+        db.collection(channel_name + "_settings").find({"id": "config"}, function(err, settings) {
+            if(settings.length == 0) {
+                res.status(404).send(error.not_found.list);
+                return;
+            }
+            settings = settings[0];
+            if(!settings.strictSkip) {
+                res.status(409).send(error.settings);
+                return;
+            }
+            if(settings.userpass == "" || (settings.userpass == userpass)) {
+                if(settings.skips.length+1 >= settings.strictSkipNumber && !Functions.contains(settings.skips, guid)) {
+                    Functions.checkTimeout("skip", 1, channel_name, channel_name, false, true, undefined, function() {
+                        db.collection(channel_name).find({now_playing: true}, function(err, np) {
+                            if(np.length != 1) {
+                                res.status(404).send(error.not_found.list);
+                                return;
+                            }
+                            List.change_song(channel_name, false, np[0].id, [settings], function() {
+                                res.status(200).send(error.no_error);
+                                return;
+                            });
+                            _exports.sIO.to(channel_name).emit('chat', {from: guid, icon: false, msg: " skipped via API."});
+                        });
+                    }, "", function() {
+                        res.status(429).send(error.tooMany);
+                        return;
+                    });
+                } else if(!Functions.contains(settings.skips, guid)) {
+                    db.collection(channel_name + "_settings").update({ id: "config" }, {$push:{skips:guid}}, function(err, d){
+                        var to_skip = (settings.strictSkipNumber) - settings.skips.length-1;
+                        _exports.sIO.to(channel_name).emit('chat', {from: guid, msg: " voted to skip via API."});
+                        // VOTED TO SKIP
+                        var to_send = error.more_skip_needed;
+                        to_send.results = [to_skip]
+                        res.status(202).send(to_send);
+                        return;
+                    });
+                } else {
+                    //ALREADY SKIP
+                    res.status(206).send(error.already_skip);
+                    return;
+                }
+            } else {
+                // NOT AUTHENTICATED
+                res.status(403).send(error.not_authenticated);
+                return;
+            }
+        });
+    } else {
+        // WRONG API KEY
+        var toSend = error.not_authenticated;
+        toSend.status = 406;
+        res.status(406).send(toSend);
+        return;
+    }
 });
 
 router.route('/api/conf/:channel_name').put(function(req, res) {
@@ -1492,4 +1585,4 @@ function postEnd(channel_name, configs, new_song, guid, res, authenticated, auth
     });
 }
 
-module.exports = router;
+module.exports = _exports;
