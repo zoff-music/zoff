@@ -237,16 +237,16 @@ window.addEventListener("DOMContentLoaded", function() {
     else if(!fromChannel && window.location.pathname == "/"){
         Frontpage.init();
     }
-    var okCookie;
-    try {
+    var okCookie = true;;
+    /*try {
         okCookie = localStorage.ok_cookie;
     } catch(e) {
         okCookie = false;
     }
     if(!okCookie){
         before_toast();
-        M.toast({html: "This website uses cookies! <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a><a class='waves-effect waves-light btn orange lighten' href='#cookies' id='cookieinfo' style='cursor:pointer;pointer-events:all;margin-left:10px;'> info</a>", displayLength: 10000000});
-    }
+        //M.toast({html: "This website uses cookies! <a class='waves-effect waves-light btn light-green' href='#' id='cookieok' style='cursor:pointer;pointer-events:all;margin-left:10px;'> ok</a><a class='waves-effect waves-light btn orange lighten' href='#cookies' id='cookieinfo' style='cursor:pointer;pointer-events:all;margin-left:10px;'> info</a>", displayLength: 10000000});
+    }*/
     if(window.location.hash == "#cookies") {
         M.Modal.init(document.getElementById("cookie"));
         M.Modal.getInstance(document.getElementById("cookie")).open();
@@ -409,7 +409,7 @@ initializeCastApi = function() {
             } catch(e){
                 _chSeen = false;
             }
-            if((!_chSeen || _chSeen != "seen") && !client) {
+            /*if((!_chSeen || _chSeen != "seen") && !client) {
                 Helper.css(".castButton", "display", "block");
                 showDiscovery = true;
                 var elem = document.querySelector('.tap-target');
@@ -422,7 +422,8 @@ initializeCastApi = function() {
                     localStorage.setItem("_chSeen", "seen");
                 } catch(e){}
                 Helper.removeClass('.castButton', 'castButton-white-active');
-            }
+            }*/
+            Helper.removeClass('.castButton', 'castButton-white-active');
         } else if(event.castState == "NO_DEVICES_AVAILABLE"){
             cast_ready_connect = false;
             Helper.removeClass(".volume-container", "volume-container-cast");
