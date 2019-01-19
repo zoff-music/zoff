@@ -66,10 +66,17 @@
                 <div id="volume"></div>
             </div>
             <div id="viewers" data-position="top"></div>
-            <div id="addToOtherList" class="playbar-btn">
+            <div id="addToOtherList" class="playbar-btn hide-on-small-only">
                 <i class="material-icons">playlist_add</i>
             </div>
             <div id="bar"></div>
+        </div>
+        <div id="addToListInput" class="hide">
+            <div class="input-field field-settings">
+                <form action="#" id="addToOtherListForm" onsubmit="return false;">
+                    <input placeholder="List-name" id="other-list-name-add" type="text" autocomplete="off">
+                </form>
+            </div>
         </div>
     </div>
 </div>

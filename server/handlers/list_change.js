@@ -415,8 +415,9 @@ function add_function(arr, coll, guid, offline, socket) {
             }
             db.collection(coll + "_settings").find(function(err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (arr.hasOwnProperty('pass') && docs[0].userpass == arr.pass))) {
-                    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 5");
-
+                    if((arr.hasOwnProperty("offsiteAdd") && !arr.offsiteAdd) || !arr.hasOwnProperty("offsiteAdd")) {
+                        Functions.check_inlist(coll, guid, socket, offline, undefined, "place 5");
+                    }
                     var id = arr.id + "";
                     var title = arr.title;
                     var hash = arr.adminpass;

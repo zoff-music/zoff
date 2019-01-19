@@ -2610,6 +2610,8 @@ nav ul li:hover, nav ul li.active {
     line-height: 31px;
 }
 
+
+
 .ui-slider-vertical {
     width: .8em;
     height: 100px;
@@ -2842,7 +2844,7 @@ nav ul li:hover, nav ul li.active {
     width: 100vw !important;
 }
 
-#seekToDuration{
+#seekToDuration, #addToListInput{
     position: absolute;
     background: #2d2d2d;
     color:white;
@@ -2856,6 +2858,23 @@ nav ul li:hover, nav ul li.active {
     text-align: center;
     max-width: calc(100% - 4px);
     pointer-events: none;
+}
+
+#addToListInput {
+    top: -105px;
+    right: 10px;
+    z-index: 999999;
+    pointer-events: all;
+}
+
+#addToListInput .input-field {
+    margin-right: 25px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#addToListInput .input-field input {
+    color: white;
 }
 
 .ewresize{

@@ -987,6 +987,18 @@ function addDynamicListeners() {
         Player.playVideo();
     });
 
+    addListener("click", "#addToOtherList", function(event) {
+        this.preventDefault();
+        Helper.toggleClass("#addToListInput", "hide");
+    });
+
+    addListener("submit", "#addToOtherListForm", function() {
+        this.preventDefault();
+        emit("add", {offsiteAdd: true, id: Player.np.id, start: Player.np.start, end: Player.np.end, title: Player.np.title, list: document.getElementById("other-list-name-add").value.toLowerCase(), duration: Player.np.duration, source: Player.np.source, thumbnail: Player.np.thumbnail});
+        Helper.toggleClass("#addToListInput", "hide");
+        document.getElementById("other-list-name-add").value = "";
+    });
+
     addListener("click", "#listExport", function(event){
         this.preventDefault();
         if(!youtube_authenticated){
