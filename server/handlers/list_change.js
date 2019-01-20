@@ -505,7 +505,11 @@ function add_function(arr, coll, guid, offline, socket) {
                         });
                     }
                 } else {
-                    socket.emit("auth_required");
+                    if((arr.hasOwnProperty("offsiteAdd") && !arr.offsiteAdd) || !arr.hasOwnProperty("offsiteAdd")) {
+                        socket.emit("auth_required");
+                    } else {
+                        socket.emit("toast", "listhaspass");
+                    }
                 }
             });
         });

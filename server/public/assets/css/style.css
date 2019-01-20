@@ -2580,6 +2580,11 @@ nav ul li:hover, nav ul li.active {
     padding-left: 3px;
 }
 
+#addToOtherList {
+    margin-right: 5px;
+    height: 100% !important;
+}
+
 #duration, #viewers
 {
     margin-top:5px;
@@ -3690,6 +3695,14 @@ nav ul li:hover, nav ul li.active {
 
     #user_password {
         width: 80% !important;
+    }
+
+    #addToListInput {
+        top: -60px;
+    }
+
+    #addToOtherList {
+        padding: 0 10px;
     }
 
     .result-object-slid {
