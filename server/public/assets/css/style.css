@@ -2866,7 +2866,7 @@ nav ul li:hover, nav ul li.active {
 }
 
 #addToListInput {
-    top: -105px;
+    top: -125px;
     right: 10px;
     z-index: 999999;
     pointer-events: all;
@@ -2874,8 +2874,14 @@ nav ul li:hover, nav ul li.active {
 
 #addToListInput .input-field {
     margin-right: 25px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 15px !important;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#addToListInput span {
+    color: white;
 }
 
 #addToListInput .input-field input {
@@ -3698,7 +3704,8 @@ nav ul li:hover, nav ul li.active {
     }
 
     #addToListInput {
-        top: -60px;
+        top: -85px;
+        right: 35px;
     }
 
     #addToOtherList {
