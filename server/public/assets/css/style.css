@@ -2564,12 +2564,12 @@ nav ul li:hover, nav ul li.active {
     margin-left: 5px;
 }
 
-#playpause:hover, #volume-button:hover, #fullscreen:hover
+#playpause:hover, #volume-button:hover, #fullscreen:hover, #addToOtherList
 {
     color:rgba(255,255,255,0.5);
 }
 
-#fullscreen
+#fullscreen, #addToOtherList
 {
     float:right;
     color:white;
@@ -2578,6 +2578,11 @@ nav ul li:hover, nav ul li.active {
     padding-top: 4px;
     padding-right: 3px;
     padding-left: 3px;
+}
+
+#addToOtherList {
+    margin-right: 5px;
+    height: 100% !important;
 }
 
 #duration, #viewers
@@ -2602,13 +2607,15 @@ nav ul li:hover, nav ul li.active {
     margin-right: 5px;
 }
 
-#play, #pause, #volume-button, #fullscreen
+#play, #pause, #volume-button, #fullscreen, #addToOtherList
 {
     font-size: 24px;
     cursor:pointer;
     height: 32px;
     line-height: 31px;
 }
+
+
 
 .ui-slider-vertical {
     width: .8em;
@@ -2842,7 +2849,7 @@ nav ul li:hover, nav ul li.active {
     width: 100vw !important;
 }
 
-#seekToDuration{
+#seekToDuration, #addToListInput{
     position: absolute;
     background: #2d2d2d;
     color:white;
@@ -2856,6 +2863,29 @@ nav ul li:hover, nav ul li.active {
     text-align: center;
     max-width: calc(100% - 4px);
     pointer-events: none;
+}
+
+#addToListInput {
+    top: -125px;
+    right: 10px;
+    z-index: 999999;
+    pointer-events: all;
+}
+
+#addToListInput .input-field {
+    margin-right: 25px;
+    margin-bottom: 15px !important;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#addToListInput span {
+    color: white;
+}
+
+#addToListInput .input-field input {
+    color: white;
 }
 
 .ewresize{
@@ -3671,6 +3701,15 @@ nav ul li:hover, nav ul li.active {
 
     #user_password {
         width: 80% !important;
+    }
+
+    #addToListInput {
+        top: -85px;
+        right: 35px;
+    }
+
+    #addToOtherList {
+        padding: 0 10px;
     }
 
     .result-object-slid {

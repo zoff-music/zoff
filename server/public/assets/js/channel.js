@@ -263,6 +263,12 @@ var Channel = {
                 html: "Viewers"
             });
 
+            Helper.tooltip("#addToOtherList", {
+                delay: 5,
+                position: "top",
+                html: "Add to other playlist"
+            });
+
             Helper.tooltip("#fullscreen", {
                 delay: 5,
                 position: "top",
@@ -508,6 +514,7 @@ var Channel = {
             if(!Helper.mobilecheck()) {
                 Helper.tooltip('.castButton', "destroy");
                 Helper.tooltip("#viewers", "destroy");
+                Helper.tooltip('#addToOtherList', 'destroy');
                 //$('.castButton-unactive').tooltip("destroy");
                 Helper.tooltip("#offline-mode", "destroy");
                 Helper.tooltip('#admin-lock', "destroy");
@@ -559,6 +566,7 @@ var Channel = {
             Helper.css("#embed-button", "display", "none");
             if(!Helper.mobilecheck()) {
                 Helper.tooltip(".castButton", "destroy");
+                Helper.tooltip('#addToOtherList', 'destroy');
                 Helper.tooltip("#viewers", "destroy");
                 Helper.tooltip("#offline-mode", "destroy");
                 Helper.tooltip("search-btn", "destroy");
