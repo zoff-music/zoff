@@ -450,6 +450,19 @@ function addDynamicListeners() {
         }
     });
 
+    if(Helper.mobilecheck()) {
+        addListener("click", "#refresh_mobile", function(event) {
+            this.preventDefault();
+            clearIntelligentQueue();
+            before_toast();
+        });
+        
+        addListener("click", "#dont_refresh_list", function(event) {
+            this.preventDefault();
+            before_toast();
+        });
+    }
+
     addListener("click", "#player_overlay", function(event) {
         if(chromecastAvailable) {
             Player.playPauseVideo();

@@ -21,6 +21,13 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function say_updated() {
+    setTimeout(function() {
+        before_toast();
+        M.toast({html: "The list was updated, want to refresh? <a class='waves-effect waves-light btn light-green' href='#' id='refresh_mobile' style='cursor:pointer;pointer-events:all;margin-left:10px;'> yes</a><a class='waves-effect waves-light btn red lighten' id='dont_refresh_list' style='cursor:pointer;pointer-events:all;margin-left:10px;'>no</a>", displayLength: 10000000});
+    }, 500);
+}
+
 function sendDescription() {
     emit("suggest_description", {channel: chan, description: document.getElementById("description_input").value});
     document.getElementById("description_input").value = "";
