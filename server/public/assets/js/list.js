@@ -406,6 +406,9 @@ var List = {
                     type: "add",
                     element: added,
                 });
+                if(Helper.mobilecheck()) {
+                    say_updated();
+                }
             } else {
                 List.insertAtIndex(added, true);
                 Helper.css(document.querySelector("#wrapper").children[List.page + List.can_fit], "display", "none");
@@ -432,6 +435,9 @@ var List = {
                     element: full_playlist[index],
                     index: index,
                 });
+                if(Helper.mobilecheck()) {
+                    say_updated();
+                }
                 if(index != -1) full_playlist.splice(index, 1);
                 var this_element = document.getElementById(deleted);
                 Helper.addClass(this_element, "disabled-vote");
@@ -547,6 +553,9 @@ var List = {
                 element: song_voted_on
             });
             List.sortList();
+            if(Helper.mobilecheck()) {
+                say_updated();
+            }
         } else {
             List.sortList();
             Helper.removeElement("#"+voted);
