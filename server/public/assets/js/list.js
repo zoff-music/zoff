@@ -10,6 +10,7 @@ var List = {
     found: [],
 
     channel_function: function(msg) {
+        if(Helper.mobilecheck()) socket_connected = true;
         if(user_auth_started) {
             user_auth_started = false;
             M.Modal.getInstance(document.getElementById("user_password")).close();
@@ -545,7 +546,6 @@ var List = {
         full_playlist[index_of_song].votes += 1;
         full_playlist[index_of_song].added = time;
 
-
         if(intelligentList) {
             document.getElementById(voted).querySelector(".list-votes").innerText = full_playlist[index_of_song].votes;
             intelligentQueue.push({
@@ -645,7 +645,6 @@ var List = {
             "client " + client,
             "socket_connected " + socket_connected
         ]);
-
         if((client || Helper.mobilecheck()) && !socket_connected) {
             if(vote != "del") {
                 vote_ajax(id);
@@ -654,6 +653,7 @@ var List = {
             }
             return;
         }
+
         if(!offline || (vote == "del" && (hasadmin && (!w_p && adminpass != "")))){
             /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
             if(u == undefined) u = "";*/
