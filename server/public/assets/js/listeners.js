@@ -1004,6 +1004,7 @@ function addDynamicListeners() {
     addListener("click", "#addToOtherList", function(event) {
         this.preventDefault();
         Helper.toggleClass("#addToListInput", "hide");
+        document.getElementById("other-list-name-add").focus();
     });
 
     addListener("submit", "#addToOtherListForm", function(event) {
