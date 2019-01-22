@@ -401,7 +401,9 @@ function add_function(arr, coll, guid, offline, socket) {
             socket.emit('update_required', result);
             return;
         }
-
+        if(arr.hasOwnProperty("offsiteAdd") && arr.offsiteAdd) {
+            coll = arr.list;
+        }
         Functions.getSessionAdminUser(Functions.getSession(socket), coll, function(userpass, adminpass) {
             if(adminpass != "" || arr.adminpass == undefined) {
                 arr.adminpass = Functions.hash_pass(adminpass);

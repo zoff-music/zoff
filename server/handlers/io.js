@@ -467,7 +467,7 @@ module.exports = function() {
             if(arr.hasOwnProperty("list")) {
                 arr.list = Functions.encodeChannelName(arr.list);
             }
-            if(coll !== undefined) {
+            if(coll !== undefined && ((arr.hasOwnProperty("offsiteAdd") && !arr.offsiteAdd) || !arr.hasOwnProperty("offsiteAdd"))) {
                 try {
                     coll = arr.list;//.replace(/ /g,'');
                     if(coll.length == 0) return;
@@ -478,6 +478,8 @@ module.exports = function() {
                 } catch(e) {
                     return;
                 }
+            } else if(arr.hasOwnProperty("offsiteAdd") && arr.offsiteAdd) {
+                arr.list = Functions.removeEmojis(arr.list).toLowerCase();
             }
             ListChange.add_function(arr, coll, guid, offline, socket);
         });

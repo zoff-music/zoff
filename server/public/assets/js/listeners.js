@@ -1802,6 +1802,7 @@ function addDynamicListeners() {
             } else if(event.keyCode == 32 && document.querySelector(".search-container").classList.contains("hide") && window.location.pathname != "/" &&
             document.querySelector("#text-chat-input") != document.activeElement &&
             document.querySelector("#password") != document.activeElement &&
+            document.querySelector("#other-list-name-add") != document.activeElement &&
             document.querySelector("#user-pass-input") != document.activeElement &&
             document.querySelector("#thumbnail_input") != document.activeElement &&
             document.querySelector("#rules_input") != document.activeElement &&
