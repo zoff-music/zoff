@@ -72,6 +72,9 @@ var Crypt = {
 
     set_intelligent_list_enabled: function(enabled) {
         conf_arr.intelligent = enabled;
+        if(Helper.mobilecheck()) {
+            intelligentList = enabled;
+        }
         Crypt.encrypt(conf_arr, "_opt");
     },
 

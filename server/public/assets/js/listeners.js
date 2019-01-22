@@ -457,7 +457,7 @@ function addDynamicListeners() {
             clearIntelligentQueue();
             before_toast();
         });
-        
+
         addListener("click", "#dont_refresh_list", function(event) {
             this.preventDefault();
             before_toast();
