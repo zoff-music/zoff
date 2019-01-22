@@ -1006,7 +1006,7 @@ function addDynamicListeners() {
         Helper.toggleClass("#addToListInput", "hide");
     });
 
-    addListener("submit", "#addToOtherListForm", function() {
+    addListener("submit", "#addToOtherListForm", function(event) {
         this.preventDefault();
         emit("add", {offsiteAdd: true, id: Player.np.id, start: Player.np.start, end: Player.np.end, title: Player.np.title, list: document.getElementById("other-list-name-add").value.toLowerCase(), duration: Player.np.duration, source: Player.np.source, thumbnail: Player.np.thumbnail});
         Helper.toggleClass("#addToListInput", "hide");
