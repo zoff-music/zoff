@@ -299,7 +299,7 @@ function change_song(coll, error, id, conf, callback, socket) {
             }, {
                 $limit:2
             }], function(err, now_playing_doc){
-                if((id && id == now_playing_doc[0].id) || !id) {
+                if(now_playing_doc.length > 0 && ((id && id == now_playing_doc[0].id) || !id)) {
                     if(error && now_playing_doc[0].source == "youtube"){
                         request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
                             if (err || response.statusCode == 404) {
@@ -362,7 +362,7 @@ function change_song(coll, error, id, conf, callback, socket) {
                         }
                     }
                 } else {
-                    if(now_playing_doc[0].now_playing == true && now_playing_doc.length > 1 && now_playing_doc[1].id == id) {
+                    if(now_playing_doc.length > 0 && now_playing_doc[0].now_playing == true && now_playing_doc.length > 1 && now_playing_doc[1].id == id) {
                         db.collection(coll).update({id: now_playing_doc[0].id}, {$set: {now_playing: false}}, function(e, d) {
                             change_song(coll, error, id, conf, callback, socket);
                         })
