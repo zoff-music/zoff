@@ -141,7 +141,10 @@ function skip(list, guid, coll, offline, socket, callback) {
                 return;
             }
         }
-
+        if(!list.hasOwnProperty("id") || list.id == undefined) {
+            socket.emit('toast', "The list is empty.");
+            return;
+        }
         if(!list.hasOwnProperty("id") || !list.hasOwnProperty("channel") ||
             (typeof(list.id) != "string" && typeof(list.id) != "number") || typeof(list.channel) != "string") {
                 var result = {
@@ -299,6 +302,9 @@ function change_song(coll, error, id, conf, callback, socket) {
             }, {
                 $limit:2
             }], function(err, now_playing_doc){
+                if(now_playing_doc.length == 0) {
+                    console.log("empty list", coll, callback, id, conf);
+                }
                 if(now_playing_doc.length > 0 && ((id && id == now_playing_doc[0].id) || !id)) {
                     if(error && now_playing_doc[0].source == "youtube"){
                         request('http://img.youtube.com/vi/'+now_playing_doc[0].id+'/mqdefault.jpg', function (err, response, body) {
