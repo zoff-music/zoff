@@ -678,6 +678,17 @@ function addDynamicListeners() {
         document.getElementsByClassName("context-menu-root")[0].setAttribute("data-id", "");
     });
 
+    addListener("click", ".playlist-search-button", function(e) {
+        this.preventDefault();
+        Helper.toggleClass("#find_div", "hide");
+        document.getElementById("find_input").value = "";
+        document.getElementById("find_input").blur();
+        Helper.removeClass(".highlight", "highlight");
+        found_array = [];
+        found_array_index = 0;
+        find_word = "";
+    });
+
     addListener("click", ".delete-context-menu", function(e) {
         var that = e;
         if(that.classList.contains("context-menu-disabled")) {
