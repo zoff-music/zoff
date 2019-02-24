@@ -1316,8 +1316,12 @@ var List = {
             song.querySelector(attr).setAttribute("data-video-title", video_title);
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
-            song.querySelector("#list-song").setAttribute("data-video-type", "suggested");
-            song.querySelector("#list-song").setAttribute("data-video-source", "youtube");
+            song.querySelector(attr).setAttribute("data-video-type", "suggested");
+            if(_song_info.source == "soundcloud") {
+                song.querySelector(attr).setAttribute("data-type-thumbnail", _song_info.thumbnail);
+
+            }
+            song.querySelector(attr).setAttribute("data-video-source", _song_info.source);
             song.querySelector("#list-song").setAttribute("data-video-id", video_id);
             Helper.css(song.querySelector("#list-song"), "display", "inline-flex");
             song.querySelector("#list-song").setAttribute("id", "suggested-" + video_id);

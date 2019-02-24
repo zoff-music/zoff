@@ -1654,7 +1654,13 @@ function addDynamicListeners() {
         var title 	= e.getAttribute("data-video-title");
         var length 	= e.getAttribute("data-video-length");
         var added_by = e.getAttribute("data-added-by");
-        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), "youtube");
+        var source = "youtube";
+        var thumbnail;
+        if(e.getAttribute("data-video-source") != undefined) {
+            source = "soundcloud";
+            thumbnail = e.getAttribute("data-type-thumbnail");
+        }
+        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), source, thumbnail);
         if(added_by == "user") {
             number_suggested = number_suggested - 1;
             if(number_suggested < 0) number_suggested = 0;
