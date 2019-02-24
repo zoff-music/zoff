@@ -732,6 +732,90 @@ router.route('/api/list/:channel_name/__np__').post(function(req, res) {
     });
 });
 
+
+router.route('/api/search/:channel_name/').post(function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header({"Content-Type": "application/json"});
+    try {
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var guid = Functions.hash_pass(req.get('User-Agent') + ip + req.headers["accept-language"]);
+        var channel_name = cleanChannelName(req.params.channel_name);
+        var userpass;
+        if(req.body.hasOwnProperty("userpass")) {
+            req.body.userpass = req.body.userpass == "" ? "" : crypto.createHash('sha256').update(req.body.userpass, 'utf8').digest("base64");
+            userpass = req.body.userpass;
+        } else {
+            userpass = "";
+        }
+        var searchQuery = "";
+        if(req.body.searchQuery == undefined || req.body.searchQuery == "") {
+            var to_send = error.formatting;
+            to_send.results = [result];
+            res.status(400).send(to_send);
+            return;
+        }
+        searchQuery = req.body.searchQuery;
+        var token = "";
+        if(req.body.hasOwnProperty("token")) {
+            token = req.body.token;
+        }
+    } catch(e) {
+        var result = {
+            userpass: {
+                expected: "string",
+                got: req.body.hasOwnProperty("userpass") ? typeof(req.body.userpass) : undefined
+            }
+        };
+        var to_send = error.formatting;
+        to_send.results = [result];
+        res.status(400).send(to_send);
+        return;
+    }
+    var cookie = req.cookies._uI;
+    Functions.getSessionAdminUser(cookie, channel_name, function(_u, _a) {
+        if(req.body.userpass == "") {
+            //userpass = Functions.hash_pass(Functions.hash_pass(Functions.decrypt_string(_u)))
+            userpass = _u;
+        }
+        token_db.collection("api_token").find({token: token}, function(err, token_docs) {
+            var authorized = false;
+            var origin;
+            try {
+                origin = req.headers.referer.split("/")[2];
+            } catch(e) { origin = ""; }
+            if(token_docs.length == 1 && token_docs[0].token == token && (token_docs[0].origin == "*" || origin.indexOf(token_docs[0].origin) > -1)) {
+                authorized = true;
+            }
+            checkOveruseApiToken(authorized, token_docs, res, function() {
+                checkTimeout(guid, res, authorized, "POST", function() {
+                    db.collection(channel_name + "_settings").find({ id: "config" }, function(err, conf) {
+                        if(authorized) {
+                            incrementToken(token);
+                        }
+                        if(conf.length == 0) {
+                            res.status(404).send(error.not_found.list);
+                            return;
+                        } else if(conf[0].userpass != userpass && conf[0].userpass != "" && conf[0].userpass != undefined) {
+                            res.status(403).send(error.not_authenticated);
+                            return;
+                        }
+                        db.collection(channel_name).find({tags: {$regex : ".*" + searchQuery + ".*"}}, function(e, results) {
+                            if(results.length == 0) {
+                                res.status(404).send(error.not_found.list);
+                                return;
+                            }
+                            var to_return = error.no_error;
+                            to_return.results = results;
+                            res.status(200).send(to_return);
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
 router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -770,6 +854,8 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
             var duration = parseInt(req.body.duration);
             var start_time = parseInt(req.body.start_time);
             var end_time = parseInt(req.body.end_time);
+            var tags = [];
+            if(req.body.tags != undefined) tags = req.body.tags.split(",");
             var source = req.body.source;
             if(source == "soundcloud" && !req.body.hasOwnProperty("thumbnail")) {
                 throw "Wrong format";
@@ -852,7 +938,7 @@ router.route('/api/list/:channel_name/:video_id').post(function(req,res) {
                                         if(now_playing.length == 0 && authenticated) {
                                             set_np = true;
                                         }
-                                        var new_song = {"added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
+                                        var new_song = {"tags": tags, "added": Functions.get_time(),"guids":[guid],"id":video_id,"now_playing":set_np,"title":title,"votes":1, "duration":duration, "start": parseInt(start_time), "end": parseInt(end_time), "type": song_type, "source": source};
                                         var runFunction = Search.get_correct_info;
                                         if(source == "soundcloud") {
                                             if(req.body.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || req.body.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {

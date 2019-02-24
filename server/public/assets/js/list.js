@@ -1248,7 +1248,7 @@ var List = {
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;
         var tags = "";
-        if(_song_info.tags != undefined) _song_info.tags.toLowerCase();
+        if(_song_info.tags != undefined) _song_info.tags.join(",").toLowerCase();
         var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
         if(_song_info.source == "soundcloud") {
             video_thumb_url = _song_info.thumbnail;
