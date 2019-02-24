@@ -372,6 +372,14 @@ li.disabled span {
     width: 215px;
 }
 
+.playlist-search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
 .extra-button{
     margin: 0 4px !important;
     padding: 0px !important;
@@ -1152,7 +1160,7 @@ margin:-1px;
     position: absolute;
     background: #282828;
     z-index: 2;
-    width: calc(100% - 22px);
+    width: calc(100% - 18px);
     padding: 0 15px;
     top: 0;
     color: white;
