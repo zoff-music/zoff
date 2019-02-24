@@ -802,7 +802,7 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
                         }
                         db.collection(channel_name).find({tags: {$regex : ".*" + searchQuery + ".*"}}, function(e, results) {
                             if(results.length == 0) {
-                                res.status(404).send(error.not_found.list);
+                                res.status(404).send(error.not_found.local);
                                 return;
                             }
                             var to_return = error.no_error;
