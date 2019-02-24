@@ -1461,7 +1461,7 @@ function addDynamicListeners() {
         if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
             var id 		= e.getAttribute("data-video-id");
             var title 	= e.getAttribute("data-video-title");
-            var tags    = e.getAttribute("data-video-tags").split(",");
+            var tags    = e.getAttribute("data-tags").split(",");
             var original_length = e.getAttribute("data-video-length");
             var start   = parseInt(e.querySelector(".result-start").value);
             var end     = parseInt(e.querySelector(".result-end").value);
@@ -1601,10 +1601,10 @@ function addDynamicListeners() {
         this.stopPropagation();
         var id 		= e.getAttribute("data-video-id");
         var title 	= e.getAttribute("data-video-title");
-        var tags    = e.getAttribute("data-video-tags");
+
         var original_length = e.getAttribute("data-video-length");
         var parent = e.parentElement.parentElement;
-
+        var tags    = parent.parentElement.getAttribute("data-tags").split(",");
         var start   = parseInt(parent.querySelectorAll(".result-start")[0].value);
         var end     = parseInt(parent.querySelectorAll(".result-end")[0].value);
         if(end > original_length) {
@@ -1654,13 +1654,14 @@ function addDynamicListeners() {
         var title 	= e.getAttribute("data-video-title");
         var length 	= e.getAttribute("data-video-length");
         var added_by = e.getAttribute("data-added-by");
+        var tags = e.getAttribute("data-tags");
         var source = "youtube";
         var thumbnail;
         if(e.getAttribute("data-video-source") != undefined) {
             source = "soundcloud";
             thumbnail = e.getAttribute("data-type-thumbnail");
         }
-        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), source, thumbnail);
+        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), source, thumbnail, tags);
         if(added_by == "user") {
             number_suggested = number_suggested - 1;
             if(number_suggested < 0) number_suggested = 0;

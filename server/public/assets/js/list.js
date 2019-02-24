@@ -1247,6 +1247,8 @@ var List = {
         var video_id    = _song_info.id;
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;
+        var tags = "";
+        if(_song_info.tags != undefined) _song_info.tags.toLowerCase();
         var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
         if(_song_info.source == "soundcloud") {
             video_thumb_url = _song_info.thumbnail;
@@ -1316,6 +1318,7 @@ var List = {
             song.querySelector(attr).setAttribute("data-video-title", video_title);
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
+            song.querySelector(attr).setAttribute("data-tags", tags);
             song.querySelector(attr).setAttribute("data-video-type", "suggested");
             if(_song_info.source == "soundcloud") {
                 song.querySelector(attr).setAttribute("data-type-thumbnail", _song_info.thumbnail);

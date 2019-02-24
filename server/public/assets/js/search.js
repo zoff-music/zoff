@@ -108,7 +108,8 @@ var Search = {
                                         var id=song.id;
                                         duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
                                         var thumb=song.snippet.thumbnails.medium.url;
-
+                                        var tags = "";
+                                        if(song.snippet.tags != undefined) tags = song.snippet.tags.join(",");
                                         //$("#results").append(result_html);
                                         var songs = pre_result.cloneNode(true);
                                         songs.querySelector(".search-title").innerText = title;
@@ -120,7 +121,7 @@ var Search = {
                                         songs.querySelector("#add-many").setAttribute("data-video-length", secs);
                                         //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
                                         songs.querySelector("#temp-results").setAttribute("data-video-id", id);
-                                        songs.querySelector("#temp-results").setAttribute("data-video-tags", song.snippet.tags.join(","));
+                                        songs.querySelector("#temp-results").setAttribute("data-tags", tags.toLowerCase());
                                         songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
                                         songs.querySelector("#temp-results").setAttribute("data-video-length", secs);
                                         songs.querySelector(".open-externally").setAttribute("href", "https://www.youtube.com/watch?v=" + id);
@@ -247,6 +248,7 @@ var Search = {
                     songs.querySelector("#add-many").setAttribute("data-video-title", enc_title);
                     songs.querySelector("#add-many").setAttribute("data-video-length", secs);
                     //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
+                    songs.querySelector("#temp-results").setAttribute("data-tags", song.genre.toLowerCase());
                     songs.querySelector("#temp-results").setAttribute("data-video-id", id);
                     songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
                     songs.querySelector("#temp-results").setAttribute("data-video-length", secs);

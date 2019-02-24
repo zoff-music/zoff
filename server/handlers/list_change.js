@@ -70,7 +70,8 @@ function addFromOtherList(arr, guid, offline, socket) {
                             "end": 1,
                             "type": 1,
                             "source": 1,
-                            "thumbnail": 1
+                            "thumbnail": 1,
+                            "tags": 1
                         };
                         var to_set_np = true;
                         if(np.length > 0) {
@@ -241,6 +242,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                 this_element.start = parseInt(this_element.start);
                                                 this_element.end = parseInt(this_element.end);
                                                 this_element.type = "video";
+                                                if(this_element.tags == undefined) this_element.tags = [];
                                                 this_element.duration = parseInt(this_element.duration);
                                                 if(this_element.start > this_element.end) {
                                                     this_element.start = 0;
@@ -425,6 +427,7 @@ function add_function(arr, coll, guid, offline, socket) {
                     var hash = arr.adminpass;
                     var duration = parseInt(arr.duration);
                     var source = arr.source;
+                    var tags = arr.tags;
                     conf = docs;
                     if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                     docs[0].addsongs === false)) {
@@ -439,7 +442,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                     } else {
                                         np = false;
                                     }
-                                    var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
+                                    var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"tags":tags,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
                                     if(source == "soundcloud") {
                                         if(arr.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || arr.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
                                             new_song.thumbnail = arr.thumbnail;
@@ -482,7 +485,8 @@ function add_function(arr, coll, guid, offline, socket) {
                                     "duration":duration,
                                     "start": start,
                                     "end": end,
-                                    "type":"suggested"
+                                    "type":"suggested",
+                                    "tags":tags
                                 };
                                 var source = arr.source;
                                 if(source == "soundcloud") {

@@ -63,7 +63,7 @@ var Suggestions = {
             Helper.removeClass("#suggest-song-html", "hide");
         }
         var get_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId="+id+"&type=video&key="+api_key.youtube;
-        var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,statistics&key="+api_key.youtube+"&id=";
+        var video_urls	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,statistics&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,tags,thumbnails))&key="+api_key.youtube+"&id=";
 
         Helper.ajax({
             type: "GET",
@@ -93,6 +93,7 @@ var Suggestions = {
                             duration 		= Helper.secondsToOther(Search.durationToSeconds(duration));
                             var video_id 	= song.id;
                             var video_title = song.snippet.title;
+                            var tags        = song.snippet.tags;
                             var viewCount = 0;
                             try {
                                 viewCount = song.statistics.viewCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -101,7 +102,7 @@ var Suggestions = {
                             }
 
                             try {
-                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views", source: "youtube"}, false, false, false));
+                                document.getElementById("suggest-song-html").insertAdjacentHTML("beforeend", List.generateSong({id: video_id, title: video_title, length: length, duration: duration, votes: viewCount, extra: "Views", source: "youtube", tags:tags}, false, false, false));
                             } catch(e) {}
                         }
                     }
