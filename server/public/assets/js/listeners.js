@@ -1461,6 +1461,7 @@ function addDynamicListeners() {
         if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
             var id 		= e.getAttribute("data-video-id");
             var title 	= e.getAttribute("data-video-title");
+            var tags    = e.getAttribute("data-video-tags").split(",");
             var original_length = e.getAttribute("data-video-length");
             var start   = parseInt(e.querySelector(".result-start").value);
             var end     = parseInt(e.querySelector(".result-end").value);
@@ -1480,7 +1481,7 @@ function addDynamicListeners() {
             } else {
                 try {
                     var length = parseInt(end) - parseInt(start);
-                    Search.submitAndClose(id, title, length, start, end, source, thumbnail);
+                    Search.submitAndClose(id, title, length, start, end, source, thumbnail, tags);
                 } catch(err) {
                     M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
                 }
@@ -1600,6 +1601,7 @@ function addDynamicListeners() {
         this.stopPropagation();
         var id 		= e.getAttribute("data-video-id");
         var title 	= e.getAttribute("data-video-title");
+        var tags    = e.getAttribute("data-video-tags");
         var original_length = e.getAttribute("data-video-length");
         var parent = e.parentElement.parentElement;
 
@@ -1624,7 +1626,7 @@ function addDynamicListeners() {
                 var length = parseInt(end) - parseInt(start);
 
                 e.parentElement.parentElement.parentElement.remove();
-                Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
+                Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail, tags);
             } catch(event) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }

@@ -48,11 +48,12 @@ var Search = {
             yt_url+="&q="+keyword;
             if(music)yt_url+="&videoCategoryId=10";
             if(pagination) yt_url += "&pageToken=" + pagination;
-            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
+            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,tags,thumbnails))&key="+api_key.youtube+"&id=";
             if(related) {
                 var yt_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId="+keyword+"&type=video&key="+api_key.youtube;
                 var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
             }
+            //https://www.googleapis.com/youtube/v3/videos?key={API-key}&fields=items(snippet(title,description,tags))&part=snippet&id={video_id}
 
             Helper.addClass(document.querySelector("#search-btn .material-icons"), "hide");
             Helper.removeClass("#search_loader", "hide");
@@ -90,6 +91,7 @@ var Search = {
                             dataType:"jsonp",
                             success: function(response){
                                 response = JSON.parse(response);
+                                console.log(response);
                                 var output = "";
                                 var pre_result = document.createElement("div");
                                 pre_result.innerHTML = result_html.outerHTML;
@@ -118,6 +120,7 @@ var Search = {
                                         songs.querySelector("#add-many").setAttribute("data-video-length", secs);
                                         //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
                                         songs.querySelector("#temp-results").setAttribute("data-video-id", id);
+                                        songs.querySelector("#temp-results").setAttribute("data-video-tags", song.snippet.tags.join(","));
                                         songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
                                         songs.querySelector("#temp-results").setAttribute("data-video-length", secs);
                                         songs.querySelector(".open-externally").setAttribute("href", "https://www.youtube.com/watch?v=" + id);
@@ -208,7 +211,7 @@ var Search = {
         }).then(function(tracks) {
             var pre_result = document.createElement("div");
             pre_result.innerHTML = result_html.outerHTML;
-
+            console.log(tracks);
             //$("#results").append(result_html);
             //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
             var output = "";
@@ -440,8 +443,8 @@ var Search = {
     }
 },
 
-submitAndClose: function(id,title,duration, start, end, source, thumbnail){
-    Search.submit(id,title, duration, false, 0, 1, start, end, source, thumbnail);
+submitAndClose: function(id,title,duration, start, end, source, thumbnail, tags){
+    Search.submit(id,title, duration, false, 0, 1, start, end, source, thumbnail, tags);
     Helper.setHtml("#results", '');
     Search.showSearch();
     document.getElementById("search").value = "";
@@ -644,9 +647,9 @@ addVideos: function(ids){
     });
 },
 
-submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail){
+submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail, tags){
     if((client || Helper.mobilecheck()) && !socket_connected) {
-        add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail);
+        add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail, tags);
         return;
     }
     if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
@@ -655,14 +658,37 @@ submit: function(id,title,duration, playlist, num, full_num, start, end, source,
             if(full_playlist[i].id == id) found_array.push(i);
         }
         if(found_array.length == 0){
-            List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, now_playing: false, votes: 1}});
+            List.channel_function({
+                type: "added",
+                start: start,
+                end: end,
+                value: {
+                    added: (new Date).getTime()/1000,
+                    guids: [1],
+                    id: id,
+                    title: title,
+                    duration: duration,
+                    now_playing: false,
+                    votes: 1
+                }
+            });
         } else {
             List.vote(id, "pos");
         }
     } else {
         /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
         if(u == undefined) u = "";*/
-        emit("add", {id: id, start: start, end: end, title: title, list: chan.toLowerCase(), duration: duration, source: source, thumbnail: thumbnail});
+        emit("add", {
+            id: id,
+            start: start,
+            end: end,
+            title: title,
+            list: chan.toLowerCase(),
+            duration: duration,
+            source: source,
+            thumbnail: thumbnail,
+            tags: tags
+        });
     }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
 },
 
