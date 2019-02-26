@@ -21,6 +21,37 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function filterPlaylistElements() {
+    Helper.ajax({
+        type: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        url: "/api/search/" + chan.toLowerCase(),
+        data: {
+            searchQuery: document.getElementById("filtersearch_input").value,
+            token: zoff_api_token
+        },
+        success: function(data){
+            var json = JSON.parse(data);
+            document.querySelector(".filter-results").innerHTML = "";
+            if(json.results.length > 0) {
+                for(var i = 0; i < json.results.length; i++) {
+                    document.querySelector(".filter-results").innerHTML += List.generateSong(json.results[i], false, false, true, false, "block", false, true);;
+                }
+            } else {
+                toast("Couldn't find any items with those tags..", "red");
+                document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
+            }
+        },
+        error: function() {
+            toast("Couldn't find any items with those tags..", "red");
+
+            document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
+        }
+    });
+}
+
 function say_updated() {
     setTimeout(function() {
         before_toast();

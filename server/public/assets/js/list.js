@@ -1242,13 +1242,11 @@ var List = {
         }
     },
 
-    generateSong: function(_song_info, transition, lazy, list, user, display, initial) {
+    generateSong: function(_song_info, transition, lazy, list, user, display, initial, filtered) {
         if(list_html === undefined) list_html = Helper.html("#list-song-html");
         var video_id    = _song_info.id;
         var video_title = _song_info.title;
         var video_votes = _song_info.votes;
-        var tags = "";
-        if(_song_info.tags != undefined) _song_info.tags.join(",").toLowerCase();
         var video_thumb_url = "//img.youtube.com/vi/"+video_id+"/mqdefault.jpg";
         if(_song_info.source == "soundcloud") {
             video_thumb_url = _song_info.thumbnail;
@@ -1277,8 +1275,8 @@ var List = {
         }
 
         song.querySelector(".list-image").setAttribute(image_attr,video_thumb);
-        if(list){
-            song.querySelector("#list-song")
+        if(list && !filtered){
+            //song.querySelector("#list-song")
             song.querySelector(".list-votes").innerText = video_votes;
             song.querySelector("#list-song").setAttribute("data-video-id", video_id);
             song.querySelector("#list-song").setAttribute("data-video-type", "song");
@@ -1294,7 +1292,7 @@ var List = {
 
             var _temp_duration = Helper.secondsToOther(_song_info.duration);
             song.querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
-        }else if(!list){
+        }else if(!list && !filtered){
 
             //song.querySelector(".card-duration").remove();
             //song.querySelector(".list-song").removeClass("playlist-element");
@@ -1318,7 +1316,6 @@ var List = {
             song.querySelector(attr).setAttribute("data-video-title", video_title);
             song.querySelector(attr).setAttribute("data-video-length", _song_info.length);
             song.querySelector(attr).setAttribute("data-added-by", added_by);
-            song.querySelector(attr).setAttribute("data-tags", tags);
             song.querySelector(attr).setAttribute("data-video-type", "suggested");
             if(_song_info.source == "soundcloud") {
                 song.querySelector(attr).setAttribute("data-type-thumbnail", _song_info.thumbnail);
@@ -1332,6 +1329,21 @@ var List = {
             list_image.classList.remove("list-image");
             list_image.className += " list-suggested-image";
             //song.querySelector(".list-image").setAttribute("class", song.querySelector(".list-image").getAttribute("class").replace("list-image", "list-suggested-image"));
+        } else if(filtered) {
+            song.querySelector("#list-song").className += " filtered-search-element";
+            song.querySelector(".list-votes").innerText = video_votes;
+            song.querySelector("#list-song").setAttribute("data-video-id", video_id);
+            song.querySelector("#list-song").setAttribute("data-video-type", "song");
+            song.querySelector("#list-song").setAttribute("data-video-source", _song_info.source);
+            song.querySelector("#list-song").setAttribute("id", "filtered-" + video_id);
+            song.classList.remove("hide");
+            song.className += " filtered-search-element";
+            song.querySelector(".vote-container").setAttribute("title", video_title);
+            attr     = ".vote-container";
+            del_attr = "delete_button";
+
+            var _temp_duration = Helper.secondsToOther(_song_info.duration);
+            song.querySelector(".card-duration").innerText = Helper.pad(_temp_duration[0]) + ":" + Helper.pad(_temp_duration[1]);
         }
         if(!embed) {
             song.querySelector(".mobile-delete").remove();

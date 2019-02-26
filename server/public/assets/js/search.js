@@ -48,12 +48,12 @@ var Search = {
             yt_url+="&q="+keyword;
             if(music)yt_url+="&videoCategoryId=10";
             if(pagination) yt_url += "&pageToken=" + pagination;
-            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,tags,thumbnails))&key="+api_key.youtube+"&id=";
+            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key="+api_key.youtube+"&id=";
             if(related) {
                 var yt_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId="+keyword+"&type=video&key="+api_key.youtube;
                 var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
             }
-            //https://www.googleapis.com/youtube/v3/videos?key={API-key}&fields=items(snippet(title,description,tags))&part=snippet&id={video_id}
+            //https://www.googleapis.com/youtube/v3/videos?key={API-key}&fields=items(snippet(title,description))&part=snippet&id={video_id}
 
             Helper.addClass(document.querySelector("#search-btn .material-icons"), "hide");
             Helper.removeClass("#search_loader", "hide");
@@ -108,8 +108,6 @@ var Search = {
                                         var id=song.id;
                                         duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
                                         var thumb=song.snippet.thumbnails.medium.url;
-                                        var tags = "";
-                                        if(song.snippet.tags != undefined) tags = song.snippet.tags.join(",");
                                         //$("#results").append(result_html);
                                         var songs = pre_result.cloneNode(true);
                                         songs.querySelector(".search-title").innerText = title;
@@ -121,7 +119,6 @@ var Search = {
                                         songs.querySelector("#add-many").setAttribute("data-video-length", secs);
                                         //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
                                         songs.querySelector("#temp-results").setAttribute("data-video-id", id);
-                                        songs.querySelector("#temp-results").setAttribute("data-tags", tags.toLowerCase());
                                         songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
                                         songs.querySelector("#temp-results").setAttribute("data-video-length", secs);
                                         songs.querySelector(".open-externally").setAttribute("href", "https://www.youtube.com/watch?v=" + id);
@@ -248,7 +245,6 @@ var Search = {
                     songs.querySelector("#add-many").setAttribute("data-video-title", enc_title);
                     songs.querySelector("#add-many").setAttribute("data-video-length", secs);
                     //$($(songs).querySelector("div")[0]).setAttribute("onclick", "submitAndClose('"+id+"','"+enc_title+"',"+secs+");");
-                    songs.querySelector("#temp-results").setAttribute("data-tags", song.genre.toLowerCase());
                     songs.querySelector("#temp-results").setAttribute("data-video-id", id);
                     songs.querySelector("#temp-results").setAttribute("data-video-title", enc_title);
                     songs.querySelector("#temp-results").setAttribute("data-video-length", secs);
@@ -445,8 +441,8 @@ var Search = {
     }
 },
 
-submitAndClose: function(id,title,duration, start, end, source, thumbnail, tags){
-    Search.submit(id,title, duration, false, 0, 1, start, end, source, thumbnail, tags);
+submitAndClose: function(id,title,duration, start, end, source, thumbnail){
+    Search.submit(id,title, duration, false, 0, 1, start, end, source, thumbnail);
     Helper.setHtml("#results", '');
     Search.showSearch();
     document.getElementById("search").value = "";
@@ -649,9 +645,9 @@ addVideos: function(ids){
     });
 },
 
-submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail, tags){
+submit: function(id,title,duration, playlist, num, full_num, start, end, source, thumbnail){
     if((client || Helper.mobilecheck()) && !socket_connected) {
-        add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail, tags);
+        add_ajax(id, title, duration, playlist, num, full_num, start, end, source, thumbnail);
         return;
     }
     if(offline && document.getElementsByName("addsongs")[0].checked && document.getElementsByName("addsongs")[0].disabled){
@@ -688,8 +684,7 @@ submit: function(id,title,duration, playlist, num, full_num, start, end, source,
             list: chan.toLowerCase(),
             duration: duration,
             source: source,
-            thumbnail: thumbnail,
-            tags: tags
+            thumbnail: thumbnail
         });
     }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
 },

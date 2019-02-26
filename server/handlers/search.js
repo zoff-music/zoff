@@ -3,6 +3,7 @@ var time_regex = /P((([0-9]*\.?[0-9]*)Y)?(([0-9]*\.?[0-9]*)M)?(([0-9]*\.?[0-9]*)
 try {
     var keys = require(path.join(__dirname, '../config/api_key.js'));
     var key = keys.youtube;
+    var soundcloudKey = keys.soundcloud;
 } catch(e) {
     console.log("Error - missing file");
     console.log("Seems you forgot to create the file api_key.js in /server/config/. Have a look at api_key.example.js.");
@@ -11,11 +12,30 @@ try {
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
 
+function get_genres(song, channel) {
+    console.log(song);
+    request("http://api.soundcloud.com/tracks/" + song.id + "?client_id=" + soundcloudKey, function(err, response, body) {
+        var object = JSON.parse(body);
+        var genres = object.genre + "," + object.tag_list.replace(/"/g, "");
+        genres = genres.toLowerCase().split(",");
+        genres = genres.filter(function (el) {
+          return el != null;
+        });
+        db.collection(channel).update({"id": song.id}, {
+            $set: {
+                "tags": genres
+            }
+        }, function(e,d) {
+
+        });
+    });
+}
+
 function get_correct_info(song_generated, channel, broadcast, callback) {
     //channel = channel.replace(/ /g,'');
     request({
             type: "GET",
-            url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+key+"&id=" + song_generated.id,
+            url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,topicDetails&key="+key+"&id=" + song_generated.id,
 
     }, function(error, response, body) {
         try {
@@ -23,6 +43,13 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
             if(resp.items.length == 1) {
                 var duration = parseInt(durationToSeconds(resp.items[0].contentDetails.duration));
                 var title = resp.items[0].snippet.localized.title;
+                var genre = resp.items[0].topicDetails.topicCategories;
+                genre = genre.join(",");
+                genre = genre.replace(new RegExp("https://en.wikipedia.org/wiki/", "g"), "");
+                genre = genre.replace(/_/g, " ").toLowerCase().split(",");
+                genre = genre.filter(function (el) {
+                  return el != null;
+                });
                 if(title != song_generated.title || duration < parseInt(song_generated.duration)) {
                     if(title != song_generated.title) {
                         song_generated.title = title;
@@ -38,6 +65,7 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
                             "start": song_generated.start,
                             "end": song_generated.end,
                             "title": song_generated.title,
+                            "tags": genre
                         }
                     }, function(err, docs) {
                         if(broadcast && docs.nModified == 1) {
@@ -55,9 +83,15 @@ function get_correct_info(song_generated, channel, broadcast, callback) {
                         }
                     });
                 } else {
-                    if(typeof(callback) == "function") {
-                        callback(song_generated, true);
-                    }
+                    db.collection(channel).update({"id": song_generated.id}, {
+                        $set: {
+                            "tags": genre
+                        }
+                    }, function(e,d) {
+                        if(typeof(callback) == "function") {
+                            callback(song_generated, true);
+                        }
+                    });
                 }
             } else {
                 findSimilar(song_generated, channel, broadcast, callback)
@@ -213,5 +247,6 @@ function durationToSeconds(duration) {
     return hours*60*60+minutes*60+seconds;
 }
 
+module.exports.get_genres = get_genres;
 module.exports.check_error_video = check_error_video;
 module.exports.get_correct_info = get_correct_info;

@@ -143,6 +143,11 @@ var Channel = {
             Helper.removeElement(".embed-button-footer");
             Helper.removeElement(".tabs");
         }
+        M.Modal.init(document.getElementById("advanced_filter"), {
+            onCloseEnd: function() {
+                document.querySelector(".filter-results").innerHTML = "";
+            }
+        });
         M.Modal.init(document.getElementById("help"));
         M.Modal.init(document.getElementById("contact"));
         M.Modal.init(document.getElementById("channel-share-modal"));

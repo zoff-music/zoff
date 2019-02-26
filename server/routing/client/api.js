@@ -755,7 +755,7 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
             res.status(400).send(to_send);
             return;
         }
-        searchQuery = req.body.searchQuery;
+        searchQuery = req.body.searchQuery.toLowerCase();
         var token = "";
         if(req.body.hasOwnProperty("token")) {
             token = req.body.token;

@@ -682,11 +682,26 @@ function addDynamicListeners() {
         this.preventDefault();
         Helper.toggleClass("#find_div", "hide");
         document.getElementById("find_input").value = "";
-        document.getElementById("find_input").blur();
+        document.getElementById("find_input").focus();
         Helper.removeClass(".highlight", "highlight");
         found_array = [];
         found_array_index = 0;
         find_word = "";
+    });
+
+    addListener("click", "#open_advanced_filter", function(e) {
+        this.preventDefault();
+        M.Modal.getInstance(document.getElementById("advanced_filter")).open();
+    });
+
+    addListener("submit", "#filter-form", function(e) {
+        this.preventDefault();
+        filterPlaylistElements();
+    });
+
+    addListener("click", ".submit-filter-search", function(e) {
+        this.preventDefault();
+        filterPlaylistElements();
     });
 
     addListener("click", ".delete-context-menu", function(e) {
@@ -1461,7 +1476,6 @@ function addDynamicListeners() {
         if(substr != "<i c" && !html.classList.contains("waves-effect") && !html.classList.contains("result-start") && !html.classList.contains("result-end") && !html.classList.contains("result-get-more-info")){
             var id 		= e.getAttribute("data-video-id");
             var title 	= e.getAttribute("data-video-title");
-            var tags    = e.getAttribute("data-tags").split(",");
             var original_length = e.getAttribute("data-video-length");
             var start   = parseInt(e.querySelector(".result-start").value);
             var end     = parseInt(e.querySelector(".result-end").value);
@@ -1481,7 +1495,7 @@ function addDynamicListeners() {
             } else {
                 try {
                     var length = parseInt(end) - parseInt(start);
-                    Search.submitAndClose(id, title, length, start, end, source, thumbnail, tags);
+                    Search.submitAndClose(id, title, length, start, end, source, thumbnail);
                 } catch(err) {
                     M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
                 }
@@ -1604,7 +1618,6 @@ function addDynamicListeners() {
 
         var original_length = e.getAttribute("data-video-length");
         var parent = e.parentElement.parentElement;
-        var tags    = parent.parentElement.getAttribute("data-tags").split(",");
         var start   = parseInt(parent.querySelectorAll(".result-start")[0].value);
         var end     = parseInt(parent.querySelectorAll(".result-end")[0].value);
         if(end > original_length) {
@@ -1626,7 +1639,7 @@ function addDynamicListeners() {
                 var length = parseInt(end) - parseInt(start);
 
                 e.parentElement.parentElement.parentElement.remove();
-                Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail, tags);
+                Search.submit(id, title, length, false, 0, 1, start, end, source, thumbnail);
             } catch(event) {
                 M.toast({html: "Only numbers are accepted as song start and end parameters..", displayLength: 3000, classes: "red lighten"});
             }
@@ -1654,14 +1667,13 @@ function addDynamicListeners() {
         var title 	= e.getAttribute("data-video-title");
         var length 	= e.getAttribute("data-video-length");
         var added_by = e.getAttribute("data-added-by");
-        var tags = e.getAttribute("data-tags");
         var source = "youtube";
         var thumbnail;
         if(e.getAttribute("data-video-source") != undefined) {
             source = "soundcloud";
             thumbnail = e.getAttribute("data-type-thumbnail");
         }
-        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), source, thumbnail, tags);
+        Search.submit(id, title, parseInt(length), false, 0, 1, 0, parseInt(length), source, thumbnail);
         if(added_by == "user") {
             number_suggested = number_suggested - 1;
             if(number_suggested < 0) number_suggested = 0;

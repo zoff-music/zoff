@@ -1180,7 +1180,7 @@ margin:-1px;
     padding-left: 8px;
 }
 
-#close_find_form_button {
+#close_find_form_button, #open_advanced_filter {
     display: flex;
     align-self: center;
     padding-left: 10px;
@@ -2108,6 +2108,10 @@ nav ul li:hover, nav ul li.active {
     transition:height .3s;
     height:66px;
     margin: 2.5px 0 2.5px -1px !important;
+}
+.filtered-search-element {
+    background-color: #2d2d2d;
+    display: flex;
 }
 .card:hover{
     box-shadow: 0 5px 5px 0 rgba(0,0,0,0.16), 0 5px 10px 0 rgba(0,0,0,0.12);
