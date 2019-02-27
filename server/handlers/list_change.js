@@ -319,8 +319,7 @@ function add_function(arr, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
     {
-        if(coll == "" || coll == undefined || coll == null ||
-        !arr.hasOwnProperty("start") || !arr.hasOwnProperty("end")) {
+        if(coll == "" || coll == undefined || coll == null || !arr.hasOwnProperty("duration")) {
             var result = {
                 start: {
                     expected: "number or string that can be cast to int",
@@ -336,6 +335,8 @@ function add_function(arr, coll, guid, offline, socket) {
         }
 
         try {
+            if(arr.start == undefined) arr.start = 0;
+            if(arr.end == undefined) arr.end = parseInt(arr.duration);
             var start = parseInt(arr.start);
             var end = parseInt(arr.end);
             if(start < 0) {
