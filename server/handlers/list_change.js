@@ -322,8 +322,7 @@ function add_function(arr, coll, guid, offline, socket) {
     var socketid = socket.zoff_id;
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
     {
-        if(coll == "" || coll == undefined || coll == null ||
-        !arr.hasOwnProperty("start") || !arr.hasOwnProperty("end")) {
+        if(coll == "" || coll == undefined || coll == null || !arr.hasOwnProperty("duration")) {
             var result = {
                 start: {
                     expected: "number or string that can be cast to int",
@@ -339,6 +338,8 @@ function add_function(arr, coll, guid, offline, socket) {
         }
 
         try {
+            if(arr.start == undefined) arr.start = 0;
+            if(arr.end == undefined) arr.end = parseInt(arr.duration);
             var start = parseInt(arr.start);
             var end = parseInt(arr.end);
             if(start < 0) {
@@ -357,11 +358,13 @@ function add_function(arr, coll, guid, offline, socket) {
             return;
         }
 
+        if(!arr.hasOwnProperty("source")) {
+            arr.source = "youtube";
+        }
 
         if(typeof(arr.id) != "string" || typeof(arr.start) != "number" ||
         typeof(arr.end) != "number" || typeof(arr.title) != "string" ||
         typeof(arr.list) != "string" || typeof(arr.duration) != "number" ||
-        typeof(arr.source) != "string" ||
         (arr.source == "soundcloud" && (!arr.hasOwnProperty("thumbnail") || !Functions.isUrl(arr.thumbnail)))) {
             var result = {
                 start: {

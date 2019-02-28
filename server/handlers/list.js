@@ -198,7 +198,6 @@ function skip(list, guid, coll, offline, socket, callback) {
                     }else if(err == "5" || err == "100" || err == "101" || err == "150"){
                         error = true;
                     }
-
                     hash = adminpass;
                     //db.collection(coll + "_settings").find(function(err, docs){
                     var strictSkip = false;
@@ -207,11 +206,13 @@ function skip(list, guid, coll, offline, socket, callback) {
                     if(docs[0].strictSkipNumber) strictSkipNumber = docs[0].strictSkipNumber;
                     if(docs !== null && docs.length !== 0)
                     {
+
                         if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
                         {
+
                             db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
                                 if(
-                                    (strictSkip && ((docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||
+                                    (strictSkip && (error || (docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||
                                     (!strictSkip && ((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
                                         (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
                                         (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))))
