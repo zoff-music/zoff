@@ -464,7 +464,7 @@ var Frontpage = {
             no_socket = false;
             socket = io.connect(''+add+':8080', connection_options);
             socket.on('update_required', function(msg) {
-                if(window.location.hostname == "localhost") {
+                if(window.location.hostname == "localhost" || debug == true) {
                     console.log(msg);
                     return;
                 }

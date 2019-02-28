@@ -320,6 +320,7 @@ function add_function(arr, coll, guid, offline, socket) {
     if(typeof(arr) === 'object' && arr !== undefined && arr !== null && arr !== "" && !isNaN(parseInt(arr.duration)))
     {
         if(coll == "" || coll == undefined || coll == null || !arr.hasOwnProperty("duration")) {
+            console.log(1, arr);
             var result = {
                 start: {
                     expected: "number or string that can be cast to int",
@@ -339,6 +340,7 @@ function add_function(arr, coll, guid, offline, socket) {
             if(arr.end == undefined) arr.end = parseInt(arr.duration);
             var start = parseInt(arr.start);
             var end = parseInt(arr.end);
+            console.log(2, arr);
             if(start < 0) {
                 socket.emit("toast", "faulty_start_end");
                 return;
@@ -352,6 +354,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 arr.duration = end - start;
             }
         } catch(e) {
+            console.log(3, arr);
             return;
         }
 
@@ -399,6 +402,7 @@ function add_function(arr, coll, guid, offline, socket) {
                     got: arr.hasOwnProperty("thumbnail") ? typeof(arr.thumbnail) : undefined
                 }
             };
+            console.log(4, arr);
             socket.emit('update_required', result);
             return;
         }
@@ -527,6 +531,7 @@ function add_function(arr, coll, guid, offline, socket) {
                 got: arr.hasOwnProperty("duration") ? typeof(arr.duration) : undefined,
             }
         };
+        console.log(5, arr);
         socket.emit('update_required', result);
     }
 }
