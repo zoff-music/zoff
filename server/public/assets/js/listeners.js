@@ -692,6 +692,7 @@ function addDynamicListeners() {
     addListener("click", "#open_advanced_filter", function(e) {
         this.preventDefault();
         M.Modal.getInstance(document.getElementById("advanced_filter")).open();
+        ga('send', 'event', "button-click", "advanced_filter");
     });
 
     addListener("submit", "#filter-form", function(e) {
