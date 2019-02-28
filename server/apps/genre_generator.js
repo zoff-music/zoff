@@ -20,6 +20,9 @@ var listNames = [];
 db.getCollectionNames(function(e, d) {
     for(var i = 0; i < d.length; i++) {
         if(d[i].indexOf("_") < 0) {
+            if(d[i].length > 0) {
+                if(d[i].substring(0, 1) == "." || d[i].substring(d[i].length - 1) == ".") continue;
+            }
             listNames.push(d[i]);
         }
     }
