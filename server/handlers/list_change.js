@@ -293,6 +293,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                                 _db.close();
                                                             })
                                                         }
+                                                        Search.get_genres_list_recursive(arr.songs, channel);
                                                     });
                                                 });
                                             });
@@ -459,11 +460,11 @@ function add_function(arr, coll, guid, offline, socket) {
                                             var thumbnail = arr.thumbnail != undefined ? arr.thumbnail : undefined;
                                             Frontpage.update_frontpage(coll, id, title, thumbnail, arr.source);
                                             if(source != "soundcloud") Search.get_correct_info(new_song, coll, false);
-                                            else if(source == "soundcloud") Search.get_genres(new_song, coll);
+                                            else if(source == "soundcloud") Search.get_genres_soundcloud(new_song, coll);
                                         } else {
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
                                             if(source != "soundcloud") Search.get_correct_info(new_song, coll, true);
-                                            else if(source == "soundcloud") Search.get_genres(new_song, coll);
+                                            else if(source == "soundcloud") Search.get_genres_soundcloud(new_song, coll);
                                         }
                                         db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                         List.getNextSong(coll, undefined);

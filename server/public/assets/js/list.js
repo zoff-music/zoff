@@ -1331,7 +1331,8 @@ var List = {
             //song.querySelector(".list-image").setAttribute("class", song.querySelector(".list-image").getAttribute("class").replace("list-image", "list-suggested-image"));
         } else if(filtered) {
             song.querySelector("#list-song").className += " filtered-search-element";
-            song.querySelector(".list-votes").innerText = video_votes;
+            song.querySelector(".list-votes").innerText = _song_info.tags.join(", ");
+            song.querySelector(".vote-text").remove();
             song.querySelector("#list-song").setAttribute("data-video-id", video_id);
             song.querySelector("#list-song").setAttribute("data-video-type", "song");
             song.querySelector("#list-song").setAttribute("data-video-source", _song_info.source);
