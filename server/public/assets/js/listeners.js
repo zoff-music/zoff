@@ -691,7 +691,6 @@ function addDynamicListeners() {
 
     addListener("click", "#open_advanced_filter", function(e) {
         this.preventDefault();
-        document.getElementById("filtersearch_input").focus();
         M.Modal.getInstance(document.getElementById("advanced_filter")).open();
     });
 

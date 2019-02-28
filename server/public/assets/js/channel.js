@@ -146,6 +146,11 @@ var Channel = {
         M.Modal.init(document.getElementById("advanced_filter"), {
             onCloseEnd: function() {
                 document.querySelector(".filter-results").innerHTML = "";
+                document.getElementById("filtersearch_input").value = "";
+                document.getElementById("filtersearch_input").blur();
+            },
+            onOpenEnd: function() {
+                document.getElementById("filtersearch_input").focus();
             }
         });
         M.Modal.init(document.getElementById("help"));
