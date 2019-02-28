@@ -355,11 +355,13 @@ function add_function(arr, coll, guid, offline, socket) {
             return;
         }
 
+        if(!arr.hasOwnProperty("source")) {
+            arr.source = "youtube";
+        }
 
         if(typeof(arr.id) != "string" || typeof(arr.start) != "number" ||
         typeof(arr.end) != "number" || typeof(arr.title) != "string" ||
         typeof(arr.list) != "string" || typeof(arr.duration) != "number" ||
-        typeof(arr.source) != "string" ||
         (arr.source == "soundcloud" && (!arr.hasOwnProperty("thumbnail") || !Functions.isUrl(arr.thumbnail)))) {
             var result = {
                 start: {
