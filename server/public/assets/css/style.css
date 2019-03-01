@@ -376,8 +376,11 @@ li.disabled span {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: #fff;
     cursor: pointer;
+    padding-right: 7px;
+    margin-left: -7px;
+    margin-top: 5px;
 }
 
 .extra-button{
