@@ -22,6 +22,8 @@ function removeAllListeners() {
 }
 
 function filterPlaylistElements(page) {
+    var value = document.getElementById("filtersearch_input").value;
+    if(value == "") return;
     Helper.ajax({
         type: "POST",
         headers: {
@@ -29,7 +31,7 @@ function filterPlaylistElements(page) {
         },
         url: "/api/search/" + chan.toLowerCase(),
         data: {
-            searchQuery: document.getElementById("filtersearch_input").value,
+            searchQuery: value,
             token: zoff_api_token,
             page: page
         },
