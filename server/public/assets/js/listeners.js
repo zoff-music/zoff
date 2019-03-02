@@ -682,11 +682,49 @@ function addDynamicListeners() {
         this.preventDefault();
         Helper.toggleClass("#find_div", "hide");
         document.getElementById("find_input").value = "";
-        document.getElementById("find_input").blur();
+        document.getElementById("find_input").focus();
         Helper.removeClass(".highlight", "highlight");
         found_array = [];
         found_array_index = 0;
         find_word = "";
+    });
+
+    addListener("click", "#open_advanced_filter", function(e) {
+        this.preventDefault();
+        M.Modal.getInstance(document.getElementById("advanced_filter")).open();
+        ga('send', 'event', "button-click", "advanced_filter");
+    });
+
+    addListener("submit", "#filter-form", function(e) {
+        this.preventDefault();
+        filterPlaylistElements(1);
+    });
+
+    addListener("click", ".submit-filter-search", function(e) {
+        this.preventDefault();
+        filterPlaylistElements(1);
+    });
+
+    addListener("click", ".next-filter", function(e) {
+        this.preventDefault();
+        var page = e.getAttribute("data-page");
+        page = parseInt(page);
+        if(page == undefined || isNaN(page)) return;
+        e.classList.remove("next-filter");
+        e.classList.remove("orange");
+        e.className += " disabled";
+        filterPlaylistElements(page);
+    });
+
+    addListener("click", ".prev-filter", function(e) {
+        this.preventDefault();
+        var page = e.getAttribute("data-page");
+        page = parseInt(page);
+        if(page == undefined || isNaN(page)) return;
+        e.classList.remove("prev-filter");
+        e.classList.remove("orange");
+        e.className += " disabled";
+        filterPlaylistElements(page);
     });
 
     addListener("click", ".delete-context-menu", function(e) {
@@ -1600,9 +1638,9 @@ function addDynamicListeners() {
         this.stopPropagation();
         var id 		= e.getAttribute("data-video-id");
         var title 	= e.getAttribute("data-video-title");
+
         var original_length = e.getAttribute("data-video-length");
         var parent = e.parentElement.parentElement;
-
         var start   = parseInt(parent.querySelectorAll(".result-start")[0].value);
         var end     = parseInt(parent.querySelectorAll(".result-end")[0].value);
         if(end > original_length) {

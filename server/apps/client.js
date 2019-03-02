@@ -72,7 +72,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
 }));
 app.use(cookieParser());
-app.set('json spaces', 2);
+//app.set('json spaces', 2);
 
 io = require('socket.io')({
 	pingTimeout: 25000,

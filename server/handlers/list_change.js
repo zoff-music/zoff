@@ -70,7 +70,8 @@ function addFromOtherList(arr, guid, offline, socket) {
                             "end": 1,
                             "type": 1,
                             "source": 1,
-                            "thumbnail": 1
+                            "thumbnail": 1,
+                            "tags": 1
                         };
                         var to_set_np = true;
                         if(np.length > 0) {
@@ -241,6 +242,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                 this_element.start = parseInt(this_element.start);
                                                 this_element.end = parseInt(this_element.end);
                                                 this_element.type = "video";
+                                                if(this_element.tags == undefined) this_element.tags = [];
                                                 this_element.duration = parseInt(this_element.duration);
                                                 if(this_element.start > this_element.end) {
                                                     this_element.start = 0;
@@ -291,6 +293,7 @@ function addPlaylist(arr, guid, offline, socket) {
                                                                 _db.close();
                                                             })
                                                         }
+                                                        Search.get_genres_list_recursive(arr.songs, channel);
                                                     });
                                                 });
                                             });
@@ -428,6 +431,7 @@ function add_function(arr, coll, guid, offline, socket) {
                     var hash = arr.adminpass;
                     var duration = parseInt(arr.duration);
                     var source = arr.source;
+                    var tags = arr.tags;
                     conf = docs;
                     if(docs !== null && docs.length !== 0 && ((docs[0].addsongs === true && (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
                     docs[0].addsongs === false)) {
@@ -442,7 +446,7 @@ function add_function(arr, coll, guid, offline, socket) {
                                     } else {
                                         np = false;
                                     }
-                                    var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
+                                    var new_song = {"added": added,"guids":guids,"id":id,"now_playing":np,"title":title,"tags":tags,"votes":votes, "duration":duration, "start": parseInt(start), "end": parseInt(end), "type": "video", "source": source};
                                     if(source == "soundcloud") {
                                         if(arr.thumbnail.indexOf("https://i1.sndcdn.com") > -1 || arr.thumbnail.indexOf("https://w1.sndcdn.com") > -1) {
                                             new_song.thumbnail = arr.thumbnail;
@@ -459,9 +463,11 @@ function add_function(arr, coll, guid, offline, socket) {
                                             var thumbnail = arr.thumbnail != undefined ? arr.thumbnail : undefined;
                                             Frontpage.update_frontpage(coll, id, title, thumbnail, arr.source);
                                             if(source != "soundcloud") Search.get_correct_info(new_song, coll, false);
+                                            else if(source == "soundcloud") Search.get_genres_soundcloud(new_song, coll);
                                         } else {
                                             io.to(coll).emit("channel", {type: "added", value: new_song});
                                             if(source != "soundcloud") Search.get_correct_info(new_song, coll, true);
+                                            else if(source == "soundcloud") Search.get_genres_soundcloud(new_song, coll);
                                         }
                                         db.collection("frontpage_lists").update({_id:coll}, {$inc:{count:1}, $set:{accessed: Functions.get_time()}}, {upsert:true}, function(err, docs){});
                                         List.getNextSong(coll, undefined);
@@ -485,7 +491,8 @@ function add_function(arr, coll, guid, offline, socket) {
                                     "duration":duration,
                                     "start": start,
                                     "end": end,
-                                    "type":"suggested"
+                                    "type":"suggested",
+                                    "tags":tags
                                 };
                                 var source = arr.source;
                                 if(source == "soundcloud") {

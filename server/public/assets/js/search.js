@@ -48,11 +48,12 @@ var Search = {
             yt_url+="&q="+keyword;
             if(music)yt_url+="&videoCategoryId=10";
             if(pagination) yt_url += "&pageToken=" + pagination;
-            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
+            var vid_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key="+api_key.youtube+"&id=";
             if(related) {
                 var yt_url 	= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId="+keyword+"&type=video&key="+api_key.youtube;
                 var vid_url	= "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key="+api_key.youtube+"&id=";
             }
+            //https://www.googleapis.com/youtube/v3/videos?key={API-key}&fields=items(snippet(title,description))&part=snippet&id={video_id}
 
             Helper.addClass(document.querySelector("#search-btn .material-icons"), "hide");
             Helper.removeClass("#search_loader", "hide");
@@ -90,6 +91,7 @@ var Search = {
                             dataType:"jsonp",
                             success: function(response){
                                 response = JSON.parse(response);
+                                console.log(response);
                                 var output = "";
                                 var pre_result = document.createElement("div");
                                 pre_result.innerHTML = result_html.outerHTML;
@@ -106,7 +108,6 @@ var Search = {
                                         var id=song.id;
                                         duration = duration.replace("PT","").replace("H","h ").replace("M","m ").replace("S","s");
                                         var thumb=song.snippet.thumbnails.medium.url;
-
                                         //$("#results").append(result_html);
                                         var songs = pre_result.cloneNode(true);
                                         songs.querySelector(".search-title").innerText = title;
@@ -208,7 +209,7 @@ var Search = {
         }).then(function(tracks) {
             var pre_result = document.createElement("div");
             pre_result.innerHTML = result_html.outerHTML;
-
+            console.log(tracks);
             //$("#results").append(result_html);
             //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
             var output = "";
@@ -655,14 +656,36 @@ submit: function(id,title,duration, playlist, num, full_num, start, end, source,
             if(full_playlist[i].id == id) found_array.push(i);
         }
         if(found_array.length == 0){
-            List.channel_function({type: "added", start: start, end: end, value: {added: (new Date).getTime()/1000, guids: [1], id: id, title: title, duration: duration, now_playing: false, votes: 1}});
+            List.channel_function({
+                type: "added",
+                start: start,
+                end: end,
+                value: {
+                    added: (new Date).getTime()/1000,
+                    guids: [1],
+                    id: id,
+                    title: title,
+                    duration: duration,
+                    now_playing: false,
+                    votes: 1
+                }
+            });
         } else {
             List.vote(id, "pos");
         }
     } else {
         /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
         if(u == undefined) u = "";*/
-        emit("add", {id: id, start: start, end: end, title: title, list: chan.toLowerCase(), duration: duration, source: source, thumbnail: thumbnail});
+        emit("add", {
+            id: id,
+            start: start,
+            end: end,
+            title: title,
+            list: chan.toLowerCase(),
+            duration: duration,
+            source: source,
+            thumbnail: thumbnail
+        });
     }//[id, decodeURIComponent(title), adminpass, duration, playlist]);
 },
 

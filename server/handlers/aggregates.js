@@ -35,7 +35,8 @@ var project_object = {
         $ifNull: [ "$thumbnail", {
             $concat : [ "https://img.youtube.com/vi/", "$id", "/mqdefault.jpg"]
         } ]
-    }
+    },
+    "tags": { $ifNull: [ "$tags", [] ] },
 };
 
 var toShowChannel = {
@@ -48,6 +49,7 @@ var toShowChannel = {
     duration: 1,
     type: 1,
     _id: 0,
+    tags: 1,
     now_playing: 1,
     type: 1,
     source: 1,
