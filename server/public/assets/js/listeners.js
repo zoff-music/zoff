@@ -710,6 +710,9 @@ function addDynamicListeners() {
         var page = e.getAttribute("data-page");
         page = parseInt(page);
         if(page == undefined || isNaN(page)) return;
+        e.classList.remove("next-filter");
+        e.classList.remove("orange");
+        e.className += " disabled";
         filterPlaylistElements(page);
     });
 
@@ -718,6 +721,9 @@ function addDynamicListeners() {
         var page = e.getAttribute("data-page");
         page = parseInt(page);
         if(page == undefined || isNaN(page)) return;
+        e.classList.remove("prev-filter");
+        e.classList.remove("orange");
+        e.className += " disabled";
         filterPlaylistElements(page);
     });
 

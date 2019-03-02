@@ -386,9 +386,16 @@ li.disabled span {
 .filter-pagination-container {
     display: flex;
     justify-content: space-evenly;
-    padding-top: 15px;
     width: 50%;
     margin: auto;
+}
+
+.bottom-filter-container {
+    padding-top: 15px;
+}
+
+.top-filter-container {
+    padding-bottom: 15px;
 }
 
 .extra-button{

@@ -37,22 +37,11 @@ function filterPlaylistElements(page) {
             var json = JSON.parse(data);
             document.querySelector(".filter-results").innerHTML = "";
             if(json.results.search_results.length > 0) {
+                addFilterButtons("top", json);
                 for(var i = 0; i < json.results.search_results.length; i++) {
                     document.querySelector(".filter-results").innerHTML += List.generateSong(json.results.search_results[i], false, false, true, false, "block", false, true);;
                 }
-                if(json.results.next != undefined || json.results.prev != undefined) {
-                    document.querySelector(".filter-results").innerHTML += "<div class='filter-pagination-container'></div>"
-                    if(json.results.prev != undefined) {
-                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange prev-filter' data-page='" + json.results.prev + "'>Prev</a>";
-                    } else {
-                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange disabled'>Prev</a>";
-                    }
-                    if(json.results.next != undefined) {
-                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange next-filter' data-page='" + json.results.next + "'>Next</a>";
-                    } else {
-                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange disabled'>Next</a>";
-                    }
-                }
+                addFilterButtons("bottom", json);
             } else {
                 toast("Couldn't find any items with those tags..", "red");
                 document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
@@ -64,6 +53,22 @@ function filterPlaylistElements(page) {
             document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
         }
     });
+}
+
+function addFilterButtons(position, json) {
+    if(json.results.next != undefined || json.results.prev != undefined) {
+        document.querySelector(".filter-results").innerHTML += "<div class='filter-pagination-container " + position + "-filter-container'></div>"
+        if(json.results.prev != undefined) {
+            document.querySelector("." + position + "-filter-container").innerHTML += "<a href='#' class='btn orange prev-filter' data-page='" + json.results.prev + "'>Prev</a>";
+        } else {
+            document.querySelector("." + position + "-filter-container").innerHTML += "<a href='#' class='btn orange disabled'>Prev</a>";
+        }
+        if(json.results.next != undefined) {
+            document.querySelector("." + position + "-filter-container").innerHTML += "<a href='#' class='btn orange next-filter' data-page='" + json.results.next + "'>Next</a>";
+        } else {
+            document.querySelector("." + position + "-filter-container").innerHTML += "<a href='#' class='btn orange disabled'>Next</a>";
+        }
+    }
 }
 
 function say_updated() {
