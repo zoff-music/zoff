@@ -15,6 +15,7 @@ var Search = require(pathThumbnails + '/handlers/search.js');
 var uniqid = require('uniqid');
 var Filter = require('bad-words');
 var filter = new Filter({ placeHolder: 'x'});
+var paginate = require('mongojs-paginate');
 
 var _exports = {
     router: router,
@@ -748,6 +749,10 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
         } else {
             userpass = "";
         }
+        var page = 1;
+        if(req.body.hasOwnProperty("page") && req.body.page > 0) {
+            page = req.body.page;
+        }
         var searchQuery = "";
         if(req.body.searchQuery == undefined || req.body.searchQuery == "") {
             var to_send = error.formatting;
@@ -800,13 +805,24 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
                             res.status(403).send(error.not_authenticated);
                             return;
                         }
-                        db.collection(channel_name).find({tags: {$regex : ".*" + searchQuery + ".*"}}, function(e, results) {
-                            if(results.length == 0) {
+                        var query = db.collection(channel_name).find({tags: {
+                            $regex : ".*" + searchQuery + ".*"
+                        }});
+                        paginate(query, { limit : 30, page : page }, function(err, result) {
+                            if(result.items.length == 0) {
                                 res.status(404).send(error.not_found.local);
                                 return;
                             }
-                            var to_return = error.no_error;
-                            to_return.results = results;
+                            var to_return = error.no_error
+                            to_return.results = {};
+                            if(result.hasNext) {
+                                to_return.results.next = result.page + 1;
+                            }
+                            if(result.hasPrevious) {
+                                to_return.results.prev = result.page - 1;
+                            }
+                            to_return.results.search_results = result.items;
+
                             res.status(200).send(to_return);
                         });
                     });

@@ -697,12 +697,28 @@ function addDynamicListeners() {
 
     addListener("submit", "#filter-form", function(e) {
         this.preventDefault();
-        filterPlaylistElements();
+        filterPlaylistElements(1);
     });
 
     addListener("click", ".submit-filter-search", function(e) {
         this.preventDefault();
-        filterPlaylistElements();
+        filterPlaylistElements(1);
+    });
+
+    addListener("click", ".next-filter", function(e) {
+        this.preventDefault();
+        var page = e.getAttribute("data-page");
+        page = parseInt(page);
+        if(page == undefined || isNaN(page)) return;
+        filterPlaylistElements(page);
+    });
+
+    addListener("click", ".prev-filter", function(e) {
+        this.preventDefault();
+        var page = e.getAttribute("data-page");
+        page = parseInt(page);
+        if(page == undefined || isNaN(page)) return;
+        filterPlaylistElements(page);
     });
 
     addListener("click", ".delete-context-menu", function(e) {

@@ -383,6 +383,14 @@ li.disabled span {
     margin-top: 5px;
 }
 
+.filter-pagination-container {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 15px;
+    width: 50%;
+    margin: auto;
+}
+
 .extra-button{
     margin: 0 4px !important;
     padding: 0px !important;

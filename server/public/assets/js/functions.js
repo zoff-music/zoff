@@ -21,7 +21,7 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
-function filterPlaylistElements() {
+function filterPlaylistElements(page) {
     Helper.ajax({
         type: "POST",
         headers: {
@@ -30,14 +30,28 @@ function filterPlaylistElements() {
         url: "/api/search/" + chan.toLowerCase(),
         data: {
             searchQuery: document.getElementById("filtersearch_input").value,
-            token: zoff_api_token
+            token: zoff_api_token,
+            page: page
         },
         success: function(data){
             var json = JSON.parse(data);
             document.querySelector(".filter-results").innerHTML = "";
-            if(json.results.length > 0) {
-                for(var i = 0; i < json.results.length; i++) {
-                    document.querySelector(".filter-results").innerHTML += List.generateSong(json.results[i], false, false, true, false, "block", false, true);;
+            if(json.results.search_results.length > 0) {
+                for(var i = 0; i < json.results.search_results.length; i++) {
+                    document.querySelector(".filter-results").innerHTML += List.generateSong(json.results.search_results[i], false, false, true, false, "block", false, true);;
+                }
+                if(json.results.next != undefined || json.results.prev != undefined) {
+                    document.querySelector(".filter-results").innerHTML += "<div class='filter-pagination-container'></div>"
+                    if(json.results.prev != undefined) {
+                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange prev-filter' data-page='" + json.results.prev + "'>Prev</a>";
+                    } else {
+                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange disabled'>Prev</a>";
+                    }
+                    if(json.results.next != undefined) {
+                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange next-filter' data-page='" + json.results.next + "'>Next</a>";
+                    } else {
+                        document.querySelector(".filter-pagination-container").innerHTML += "<a href='#' class='btn orange disabled'>Next</a>";
+                    }
                 }
             } else {
                 toast("Couldn't find any items with those tags..", "red");
