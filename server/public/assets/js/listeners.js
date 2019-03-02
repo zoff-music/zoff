@@ -1860,6 +1860,7 @@ function addDynamicListeners() {
             document.querySelector("#password") != document.activeElement &&
             document.querySelector("#other-list-name-add") != document.activeElement &&
             document.querySelector("#user-pass-input") != document.activeElement &&
+            document.querySelector("#filtersearch_input") != document.activeElement &&
             document.querySelector("#thumbnail_input") != document.activeElement &&
             document.querySelector("#rules_input") != document.activeElement &&
             document.querySelector("#description_input") != document.activeElement &&
