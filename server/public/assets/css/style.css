@@ -390,6 +390,10 @@ li.disabled span {
     margin: auto;
 }
 
+.category-advanced {
+    margin-top: 0px;
+}
+
 .bottom-filter-container {
     padding-top: 15px;
 }
