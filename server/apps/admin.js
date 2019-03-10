@@ -20,6 +20,7 @@ var db = mongojs(mongo_db_cred.config);
 var token_db = mongojs("tokens");
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var api = require(pathThumbnails + '/routing/admin/api.js');
 
 var User = require(pathThumbnails + '/models/user.js');
@@ -40,14 +41,12 @@ app.use(session({
   secret: mongo_db_cred.secret,
   resave: true,
   saveUninitialized: true,
-  store: new (require('express-sessions'))({
-      storage: 'mongodb',
-      instance: mongoose,
-      host: mongo_db_cred.host,
-      port: 27017,
-      collection: 'sessions',
-      expire: mongo_db_cred.expire
-  })
+  store: new MongoStore({
+       url: url,
+       useNewUrlParser: true,
+       collection: 'sessions',
+       ttl: mongo_db_cred.expire
+   })
 })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

@@ -88,9 +88,10 @@ gulp.task('callback', function () {
         .pipe(gulp.dest('server/public/assets/dist'));
 });
 
-gulp.task('build', function() {
-    return gulp.run(['css', 'css-embed', 'js', 'embed', 'remotecontroller', 'callback', 'token']);
-})
+gulp.task('build', done => {
+    gulp.series('css', 'css-embed', 'js', 'embed', 'remotecontroller', 'callback', 'token')();
+    done();
+});
 
 gulp.task('remotecontroller', function () {
     return gulp.src(['server/VERSION.js', 'server/config/api_key.js', 'server/public/assets/js/remotecontroller.js', 'server/public/assets/js/helpers.js'])
