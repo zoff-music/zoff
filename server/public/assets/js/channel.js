@@ -153,6 +153,8 @@ var Channel = {
                 document.getElementById("filtersearch_input").focus();
             }
         });
+
+        M.FormSelect.init(document.querySelector('.category-advanced-select'));
         M.Modal.init(document.getElementById("help"));
         M.Modal.init(document.getElementById("contact"));
         M.Modal.init(document.getElementById("channel-share-modal"));

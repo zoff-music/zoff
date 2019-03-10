@@ -23,6 +23,11 @@ function removeAllListeners() {
 
 function filterPlaylistElements(page) {
     var value = document.getElementById("filtersearch_input").value;
+    var search_type = document.querySelector(".category-advanced-select").value;
+    if(search_type != "category" && search_type != "title") {
+        document.querySelector(".filter-results").innerHTML = "Something went wrong with fetching data..";
+        return;
+    }
     if(value == "") return;
     Helper.ajax({
         type: "POST",
@@ -32,8 +37,8 @@ function filterPlaylistElements(page) {
         url: "/api/search/" + chan.toLowerCase(),
         data: {
             searchQuery: value,
-            token: zoff_api_token,
-            page: page
+            page: page,
+            type: search_type
         },
         success: function(data){
             var json = JSON.parse(data);
@@ -49,10 +54,14 @@ function filterPlaylistElements(page) {
                 document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
             }
         },
-        error: function() {
-            toast("Couldn't find any items with those tags..", "red");
+        error: function(e) {
+            if(e.status != 429) {
+                toast("Couldn't find any items with those tags..", "red");
 
-            document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
+                document.querySelector(".filter-results").innerHTML = "Couldn't find any items with those tags..";
+            } else {
+                toast("You are doing that too much..", "red");
+            }
         }
     });
 }

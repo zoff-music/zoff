@@ -754,6 +754,10 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
             page = req.body.page;
         }
         var searchQuery = "";
+        var searchByCategory = true;
+        if(req.body.hasOwnProperty("type")) {
+            searchByCategory = req.body.type == "category";
+        }
         if(req.body.searchQuery == undefined || req.body.searchQuery == "") {
             var to_send = error.formatting;
             to_send.results = [result];
@@ -805,9 +809,19 @@ router.route('/api/search/:channel_name/').post(function(req, res) {
                             res.status(403).send(error.not_authenticated);
                             return;
                         }
-                        var query = db.collection(channel_name).find({tags: {
+
+                        var querySubObject = {
                             $regex : ".*" + searchQuery + ".*"
-                        }});
+                        };
+                        var queryObject = {};
+                        if(searchByCategory) {
+                            queryObject.tags = querySubObject;
+                        } else {
+                            queryObject.title = querySubObject;
+                            queryObject.title.$regex = searchQuery;
+                            queryObject.title.$options = 'i';
+                        }
+                        var query = db.collection(channel_name).find(queryObject);
                         paginate(query, { limit : 30, page : page }, function(err, result) {
                             if(result.items.length == 0) {
                                 res.status(404).send(error.not_found.local);

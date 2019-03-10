@@ -1,43 +1,43 @@
 {{#unless client}}
-    <div id="embed" class="modal">
-        <div class="modal-content">
-            <h4>Embed</h4>
-            <p>Copy the code in the textarea, and paste on your website.</p>
-            <p>
-                <label>
-                    <input type="checkbox" id="autoplay" checked="checked" />
-                    <span for="autoplay" class="padding_right_26">Autoplay</span>
-                </label>
-                <label for="width_embed" class="embed-label">Width</label>
-                <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
-                <label for="height_embed" class="padding_left_6 embed-label">Height</label>
-                <input type="number" value="400" id="height_embed" class="settings_embed" min="1" />
-                <label for="color_embed" class="padding_left_6 embed-label">Color</label>
-                <input type="color" id="color_embed" class="settings_embed" value="#2d2d2d" />
-                <label>
-                    <input type="checkbox" id="videoonly" class="checkbox" />
-                    <span for="videoonly" class="padding_right_26">Video-only</span>
-                </label>
-                <label>
-                    <input type="checkbox" id="localmode" class="checkbox" />
-                    <span for="localmode" class="padding_right_26">Local-mode</span>
-                </label>
-            </p>
-            <textarea id="embed-area"></textarea>
-            <div class="embed-preview"></div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="waves-effect waves-green btn-flat preview-embed">Preview</a>
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-        </div>
+<div id="embed" class="modal">
+    <div class="modal-content">
+        <h4>Embed</h4>
+        <p>Copy the code in the textarea, and paste on your website.</p>
+        <p>
+            <label>
+                <input type="checkbox" id="autoplay" checked="checked" />
+                <span for="autoplay" class="padding_right_26">Autoplay</span>
+            </label>
+            <label for="width_embed" class="embed-label">Width</label>
+            <input type="number" value="600" id="width_embed" class="settings_embed" min="1" />
+            <label for="height_embed" class="padding_left_6 embed-label">Height</label>
+            <input type="number" value="400" id="height_embed" class="settings_embed" min="1" />
+            <label for="color_embed" class="padding_left_6 embed-label">Color</label>
+            <input type="color" id="color_embed" class="settings_embed" value="#2d2d2d" />
+            <label>
+                <input type="checkbox" id="videoonly" class="checkbox" />
+                <span for="videoonly" class="padding_right_26">Video-only</span>
+            </label>
+            <label>
+                <input type="checkbox" id="localmode" class="checkbox" />
+                <span for="localmode" class="padding_right_26">Local-mode</span>
+            </label>
+        </p>
+        <textarea id="embed-area"></textarea>
+        <div class="embed-preview"></div>
     </div>
-    <div id="channel-share-modal" class="modal">
-        <div class="modal-content">
-            <p>To join this channel, go to</p>
-            <p><span id="channel-name-join"></span></p>
-            <img id="share-join-qr" alt="QR code for joining" title="Link to join this Zoff channel" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
-        </div>
+    <div class="modal-footer">
+        <a href="#!" class="waves-effect waves-green btn-flat preview-embed">Preview</a>
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
+</div>
+<div id="channel-share-modal" class="modal">
+    <div class="modal-content">
+        <p>To join this channel, go to</p>
+        <p><span id="channel-name-join"></span></p>
+        <img id="share-join-qr" alt="QR code for joining" title="Link to join this Zoff channel" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
+    </div>
+</div>
 {{/unless}}
 <div id="advanced_filter" class="modal modal-fixed-footer">
     <div class="modal-content">
@@ -45,8 +45,16 @@
         <p>Here you can search by category. Keep in mind, this uses the category/genre/tags defined by the uploader of the video on YouTube or the song on SoundCloud</p>
         <div class="row container">
             <form id="filter-form">
-                <input type="text" class="col s8 m9" name="filtersearch_value" placeholder="Find.." id="filtersearch_input" autocomplete="off" />
-                <a href="#" class="waves-effect waves-light btn col s4 m2 orange submit-filter-search">Search</a>
+                <input type="text" class="col s4 m5" name="filtersearch_value" placeholder="Find.." id="filtersearch_input" autocomplete="off" />
+                <div class="input-field col s4 m3 category-advanced">
+                    <select class="category-advanced-select">
+                        <option value="" disabled>Type</option>
+                        <option value="category" selected>Category</option>
+                        <option value="title">Title</option>
+                    </select>
+                </div>
+                <input type="submit" class="hide" />
+                <a href="#" class="waves-effect waves-light btn col s4 m3 orange submit-filter-search">Search</a>
             </form>
         </div>
         <div class="filter-results">
