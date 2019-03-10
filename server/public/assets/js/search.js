@@ -91,7 +91,6 @@ var Search = {
                             dataType:"jsonp",
                             success: function(response){
                                 response = JSON.parse(response);
-                                console.log(response);
                                 var output = "";
                                 var pre_result = document.createElement("div");
                                 pre_result.innerHTML = result_html.outerHTML;
@@ -209,7 +208,6 @@ var Search = {
         }).then(function(tracks) {
             var pre_result = document.createElement("div");
             pre_result.innerHTML = result_html.outerHTML;
-            console.log(tracks);
             //$("#results").append(result_html);
             //Helper.css(document.querySelector(".search_results .col.s12"), "display", "block");
             var output = "";
