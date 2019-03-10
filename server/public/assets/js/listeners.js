@@ -1926,6 +1926,7 @@ function addDynamicListeners() {
         if(event.keyCode == 27 && window.location.path != "/"){
             //$("#results").html("");
             Helper.addClass("#search-wrapper", "hide");
+            Helper.css(".search_results", "display", "none");
             Helper.removeClass(".song-title", "hide");
             if(document.querySelector("#search-btn i").innerText == "close")
             {

@@ -247,7 +247,7 @@ var Frontpage = {
                         try {
                             document.querySelector(".autocomplete").setAttribute("placeholder", Helper.decodeChannelName(list[i]._id));
                         } catch(e) {
-                            console.log("This is a weird error...");
+                            console.log("This is a weird error...", e);
                         }
                     }
                 });
