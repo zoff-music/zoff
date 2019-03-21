@@ -82,6 +82,10 @@ function addFromOtherList(arr, guid, offline, socket) {
                             if(this_conf.length > 0 && (this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == otheruser)) {
                                 db.collection(channel + "_settings").find({id: "config"}, function(e, this_conf) {
                                     var hash = arr.adminpass;
+                                    if(this_conf.length == 0) {
+                                        socket.emit("toast", "nolist");
+                                        return;
+                                    }
                                     if((this_conf[0].userpass == "" || !this_conf[0].userpass || this_conf[0].userpass == arr.userpass)) {
                                         var connection_id = Functions.hash_pass(socket.handshake.headers["user-agent"] + socket.handshake.address + socket.handshake.headers["accept-language"]);
                                         Functions.checkTimeout("add_playlist", 60, channel, connection_id, this_conf[0].adminpass, hash, socket, function() {
