@@ -48,15 +48,21 @@ var bodyParser = require('body-parser');
 var cookieParser = require("cookie-parser");
 var referrerPolicy = require('referrer-policy');
 var helmet = require('helmet');
+var featurePolicy = require('feature-policy');
+app.use(featurePolicy({
+    features: {
+        fullscreen: ["'*'"],
+        vibrate: ["'none'"],
+        payment: ["'none'"],
+        microphone: ["'none'"],
+        camera: ["'none'"],
+        speaker: ["*"],
+        syncXhr: ["'self'"],
+        notifications: ["'self'"]
+    }
+}));
 app.use(helmet({
   frameguard: false,
-  features: {
-    fullscreen: ["'self'"],
-    vibrate: ["'none'"],
-    payment: ['none'],
-    syncXhr: ["'*'"],
-	notifications: ["'self'"]
-  }
 }));
 app.use(referrerPolicy({ policy: 'origin-when-cross-origin' }));
 app.enable('view cache');
