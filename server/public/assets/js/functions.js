@@ -21,6 +21,10 @@ function removeAllListeners() {
     socket.removeEventListener(id);
 }
 
+function list_last_logs() {
+    console.log(JSON.stringify(Helper.logs));
+}
+
 function filterPlaylistElements(page) {
     var value = document.getElementById("filtersearch_input").value;
     var search_type = document.querySelector(".category-advanced-select").value;

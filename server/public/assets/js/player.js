@@ -1084,6 +1084,10 @@ var Player = {
                 if(videoSource == "soundcloud") {
                     if(scUsingWidget) {
                         Player.soundcloud_player.isPaused(function(playing) {
+                            if(!playing) {
+                                Helper.removeClass("#play", "hide");
+                                Helper.addClass("#pause", "hide");
+                            }
                             playing = !playing;
                             if(Math.ceil(currDurr) + 1 > Player.np.end && playing) {
                                 end_programmatically = true;
@@ -1097,6 +1101,10 @@ var Player = {
                             }
                         })
                     } else {
+                        if(Player.soundcloud_player.isPlaying()) {
+                            Helper.removeClass("#play", "hide");
+                            Helper.addClass("#pause", "hide");
+                        }
                         if(Math.ceil(currDurr) + 1 > Player.np.end && Player.soundcloud_player.isPlaying()) {
                             end_programmatically = true;
                             if(!offline) {
@@ -1109,9 +1117,12 @@ var Player = {
                         }
                     }
                 } else {
+                    if(Player.player.getPlayerState() == 1) {
+                        Helper.removeClass("#play", "hide");
+                        Helper.addClass("#pause", "hide");
+                    }
                     if(Math.ceil(Player.player.getCurrentTime()) >= Player.np.end && (Player.player.getPlayerState() == YT.PlayerState.PLAYING)) {
                         end_programmatically = true;
-
                         if(!offline) {
                             Player.player.pauseVideo();
                             was_stopped = false;

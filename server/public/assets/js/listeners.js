@@ -177,7 +177,8 @@ try{
 
 window.zoff = {
     enable_debug: enable_debug,
-    disable_debug: disable_debug
+    disable_debug: disable_debug,
+    list_last_logs: list_last_logs
 }
 
 /*if(!Helper.mobilecheck() && (window.location.host != "localhost" && window.location.host != "client.localhost")) {

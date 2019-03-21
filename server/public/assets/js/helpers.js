@@ -40,10 +40,14 @@ var Helper = {
             }
             console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
         }
-        Helper.logs.unshift({log: to_log, date: new Date()});
-        if(Helper.logs.length > 10) {
-            Helper.logs.splice(-1, Helper.logs.length - 10);
-        }
+        try {
+            if(to_log[0] != "FULL PLAYLIST") {
+                Helper.logs.unshift({log: to_log, date: new Date()});
+                if(Helper.logs.length > 10) {
+                    Helper.logs.splice(-1, Helper.logs.length - 10);
+                }
+            }
+        } catch(e){}
     },
 
     rnd: function(arr) {
