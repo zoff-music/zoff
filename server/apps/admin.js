@@ -23,6 +23,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var api = require(pathThumbnails + '/routing/admin/api.js');
 
+var compression = require('compression');
 var User = require(pathThumbnails + '/models/user.js');
 var url = 'mongodb://' + mongo_db_cred.host + '/' + mongo_db_cred.users;
 mongoose.connect(url);
