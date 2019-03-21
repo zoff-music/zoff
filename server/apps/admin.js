@@ -30,7 +30,34 @@ mongoose.connect(url);
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+app.use(compression({filter: shouldCompress}))
+
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
 app.set('trust proxy', '127.0.0.1');
+
+var bodyParser = require('body-parser');
+var cookieParser = require("cookie-parser");
+var referrerPolicy = require('referrer-policy');
+var helmet = require('helmet');
+app.use(helmet({
+  frameguard: false,
+  features: {
+    fullscreen: ["'self'"],
+    vibrate: ["'none'"],
+    payment: ['none'],
+    syncXhr: ["'*'"],
+	notifications: ["'self'"]
+  }
+}));
+app.use(referrerPolicy({ policy: 'origin-when-cross-origin' }));
 app.enable('view cache');
 app.set('views', publicPath);
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
