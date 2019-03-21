@@ -1904,13 +1904,13 @@ function addDynamicListeners() {
         if(_kWay.substring(0, _kT.length) == _kT) {
             if(_kWay == _kT && !_kDone) {
                 _kDone = true;
-                document.getElementById("main-container").style.transition = "transform .5s, filter .5s";
+                document.getElementById("main-container").style.transition = "filter .5s";
                 setTimeout(function() {
-                    document.getElementById("main-container").style.transform = "rotate(180deg)";
+                    //document.getElementById("main-container").style.transform = "rotate(180deg)";
                     document.getElementById("main-container").style.filter = "invert(100%)";
                 }, 10);
                 _kT = "";
-                for(var i = 0; i < 20; i++) {
+                for(var i = 0; i < 4; i++) {
                     var c = "green";
                     if(i%2 == 0) c = "red"
                     M.toast({ html: "Congratulations!", displayLength: 4000, classes: c});
@@ -1918,7 +1918,7 @@ function addDynamicListeners() {
             } else if(_kWay == _kT && _kDone){
                 _kDone = false;
                 document.getElementById("main-container").style.filter = "invert(0%)";
-                document.getElementById("main-container").style.transform = "rotate(0deg)";
+                //document.getElementById("main-container").style.transform = "rotate(0deg)";
                 _kT = "";
             }
         } else {
