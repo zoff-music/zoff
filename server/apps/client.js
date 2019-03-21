@@ -68,14 +68,14 @@ var helmet = require('helmet');
 var featurePolicy = require('feature-policy');
 app.use(featurePolicy({
     features: {
-        fullscreen: ["'*'"],
-        vibrate: ["'none'"],
+        fullscreen: ["*"],
+        //vibrate: ["'none'"],
         payment: ["'none'"],
         microphone: ["'none'"],
         camera: ["'none'"],
         speaker: ["*"],
         syncXhr: ["'self'"],
-        notifications: ["'self'"]
+        //notifications: ["'self'"]
     }
 }));
 app.use(helmet({
