@@ -79,7 +79,6 @@ var Chat = {
                 var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
                  color = Helper.hexToRgb(color.substring(0,6));
                 var color_temp = Helper.rgbToHsl([color.r, color.g, color.b], false);
-
                 document.querySelector("#" + add).insertAdjacentHTML("beforeend", "<li title='Zoff''><span class='time_color'>" + time + "</span> <img class='chat-icon' src='https://zoff.me/assets/images/favicon-32x32.png' alt='System'><span style='color:" + color_temp + ";'>System</span>: </li>");
                 var in_text = document.createTextNode(help[x]);
                 document.querySelector("#" + add).children[document.querySelector("#" + add).children.length - 1].appendChild(in_text);
@@ -94,6 +93,22 @@ var Chat = {
         }
         data.value = "";
         return;
+    },
+
+    createChatElement: function(allchat, channel, time, icon, color, from, message) {
+        var liElement = document.createElement("li");
+        liElement.innerHTML += "<span class='time_color'>" + time + "</span> " + icon;
+        var nameElement = document.createElement("span");
+        nameElement.innerText = from;
+        nameElement.style.color = color;
+        liElement.appendChild(nameElement);
+        if(allchat) {
+            liElement.title = channel;
+            liElement.innerHTML += "<span class='channel-info-all-chat'> " + channel + "</span>";
+        }
+        var in_text = document.createTextNode(message);
+        liElement.appendChild(in_text);
+        return liElement;
     },
 
     allchat: function(inp, time_sent, disable_blink) {
@@ -132,9 +147,9 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        document.querySelector("#chatall").insertAdjacentHTML("beforeend", "<li title='"+Helper.decodeChannelName(inp.channel)+"'><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+inp.from+"</span><span class='channel-info-all-chat'> " + Helper.decodeChannelName(inp.channel) + "</span></li>");
-        var in_text = document.createTextNode(inp.msg);
-        document.querySelector("#chatall").children[document.querySelector("#chatall").children.length - 1].appendChild(in_text);
+        var element = Chat.createChatElement(true, Helper.decodeChannelName(inp.channel), time, icon_add, color_temp, inp.from, inp.msg);
+        //document.querySelector("#chatall").insertAdjacentHTML("beforeend", element);
+        document.querySelector("#chatall").appendChild(element);
         if(!userscroll) {
             programscroll = true;
             document.getElementById("chatall").scrollTop = document.getElementById("chatall").scrollHeight;
@@ -176,9 +191,13 @@ var Chat = {
             _time = new Date(time_sent);
         }
         var time = Helper.pad(_time.getHours()) + ":" + Helper.pad(_time.getMinutes());
-        document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
-        var in_text = document.createTextNode(data.msg);
-        document.querySelector("#chatchannel").children[document.querySelector("#chatchannel").children.length - 1].appendChild(in_text);
+        //document.querySelector("#chatchannel").insertAdjacentHTML("beforeend", "<li><span class='time_color'>" + time + "</span> " + icon_add + "<span style='color:"+color_temp+";'>"+data.from+"</span></li>");
+        //var in_text = document.createTextNode(data.msg);
+        //document.querySelector("#chatchannel").children[document.querySelector("#chatchannel").children.length - 1].appendChild(in_text);
+        var element = Chat.createChatElement(false, null, time, icon_add, color_temp, data.from, data.msg);
+        //document.querySelector("#chatall").insertAdjacentHTML("beforeend", element);
+        document.querySelector("#chatchannel").appendChild(element);
+
         if(!userscroll) {
             programscroll = true;
             document.getElementById("chatchannel").scrollTop = document.getElementById("chatchannel").scrollHeight;
