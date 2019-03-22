@@ -861,6 +861,7 @@ input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([
 }
 
 #strict-input-number {
+    width: 50px;
     border-bottom: transparent;
 }
 
