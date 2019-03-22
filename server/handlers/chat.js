@@ -384,7 +384,7 @@ function namechange(data, guid, socket, tried, callback) {
 function removename(guid, coll, socket) {
     //coll = coll.replace(/ /g,'');
     checkIfChatEnabled(coll, socket, function(enabled) {
-        if(enabled) return;
+        if(!enabled) return;
         db.collection("user_names").find({"guid": guid}, function(err, docs) {
             if(docs.length == 1) {
                 var old_name = docs[0].name;
