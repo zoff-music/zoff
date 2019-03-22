@@ -678,6 +678,18 @@ function add_to_tab(dest, resp){
 	}
 }
 
+function escapeHtml(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function increaseInfo(num) {
 	removeClass(".info-badge", "hide");
 	try {
@@ -778,9 +790,10 @@ function loaded() {
 			for(var i = 0; i < response.length; i++) {
 				var icon = "";
 				if(response[i].icon && response[i].icon != "") {
-					icon = "<img class='chat-icon' src='" + response[i].icon + "' alt='" + response[i]._id + "'>";
+					icon = "<img class='chat-icon' src='" + response[i].icon + "' alt='" + escapeHtml(response[i]._id) + "'>";
 				}
-				document.querySelector(".names-container").insertAdjacentHTML("beforeend", "<div class='col s12'><div class='name-chat col s3'>" + icon + response[i]._id + "</div><input type='text' class='" + response[i]._id + "_input col s5'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 remove_name' href='#' data-name='" + response[i]._id + "'><i class='material-icons'>close</i></a></div>");
+
+				document.querySelector(".names-container").insertAdjacentHTML("beforeend", "<div class='col s12'><div class='name-chat col s3'>" + icon + escapeHtml(response[i]._id) + "</div><input type='text' class='" + escapeHtml(response[i]._id) + "_input col s5'><a class='btn green waves-effect col s2 m1 approve_name' href='#' data-name='" + escapeHtml(response[i]._id) + "'><i class='material-icons'>check</i></a><a class='btn red waves-effect col s2 m1 remove_name' href='#' data-name='" + escapeHtml(response[i]._id) + "'><i class='material-icons'>close</i></a></div>");
 			}
 	    },
 	});
