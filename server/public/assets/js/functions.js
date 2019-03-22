@@ -814,8 +814,8 @@ function enable_host_mode(enabled) {
         document.removeEventListener('mozfullscreenchange', exitHandler, false);
         document.removeEventListener('fullscreenchange', exitHandler, false);
         document.removeEventListener('MSFullscreenChange', exitHandler, false);
-        resizeFunction();
     }
+    resizeFunction();
     List.dynamicContentPage(-10);
 }
 

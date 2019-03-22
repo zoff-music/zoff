@@ -2879,6 +2879,10 @@ nav ul li:hover, nav ul li.active {
     height: 100vh !important;
 }
 
+.host-mode-height #player_overlay {
+    height: calc(100vh - 32px);
+}
+
 .host-mode-width {
     width: 100vw !important;
 }
