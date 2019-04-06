@@ -85,13 +85,51 @@ function startSingle(clustered, redis_enabled) {
         var credentials = {
             key: privateKey,
             cert: certificate,
-            ca: ca
+            ca: ca,
+            spdy: {
+                protocols: [ 'h2', 'spdy/3.1', 'http/1.1' ],
+                plain: false,
+
+                // **optional**
+                // Parse first incoming X_FORWARDED_FOR frame and put it to the
+                // headers of every request.
+                // NOTE: Use with care! This should not be used without some proxy that
+                // will *always* send X_FORWARDED_FOR
+                'x-forwarded-for': true,
+
+                connection: {
+                  windowSize: 1024 * 1024, // Server's window size
+
+                  // **optional** if true - server will send 3.1 frames on 3.0 *plain* spdy
+                  autoSpdy31: false
+                }
+              }
         };
-        var https = require('https');
+        var https = require('spdy');
         server = https.Server(credentials, routingFunction);
     } catch(err){
+        const http = require('spdy')
         console.log("Starting without https (probably on localhost)");
-        server = http.createServer(routingFunction);
+        server = http.createServer({
+            spdy: {
+                protocols: [ 'h2', 'spdy/3.1', 'http/1.1' ],
+                plain: true,
+
+                // **optional**
+                // Parse first incoming X_FORWARDED_FOR frame and put it to the
+                // headers of every request.
+                // NOTE: Use with care! This should not be used without some proxy that
+                // will *always* send X_FORWARDED_FOR
+                'x-forwarded-for': true,
+
+                connection: {
+                  windowSize: 1024 * 1024, // Server's window size
+
+                  // **optional** if true - server will send 3.1 frames on 3.0 *plain* spdy
+                  autoSpdy31: false
+                }
+              }
+          }, routingFunction);
     }
 
     if(clustered) {
