@@ -26,14 +26,14 @@ function check_if_error_or_blocked(id, channel, errored, callback) {
         if(song_info.source != "soundcloud") {
             request({
                 type: "GET",
-                url: "https://www.googleapis.com/youtube/v3/videos?part=id,status,contentDetails&key="+key+"&id=" + song_info.id,
+                url: "https://www.googleapis.com/youtube/v3/videos?part=id,status&key="+key+"&id=" + song_info.id,
             }, function(error, response, body) {
                 try {
                     var resp = JSON.parse(body);
                     if(resp.pageInfo.totalResults == 0) {
                         callback(true);
                         return;
-                    } else if(!resp.status.embeddable) {
+                    } else if(!resp.items[0].status.embeddable) {
                         callback(true);
                         return;
                     }

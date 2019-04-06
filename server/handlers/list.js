@@ -194,12 +194,12 @@ function skip(list, guid, coll, offline, socket, callback) {
                     err       = list.error;
                     Search.check_if_error_or_blocked(video_id, coll, err == "5" || err == "100" || err == "101" || err == "150", function(trueError) {
                         var error = false;
-                        if(!trueError)
-                        {
+                        if (!trueError) {
                             adminpass = list.pass;
-                        }else if(trueError){
+                        } else if(trueError) {
                             error = true;
                         }
+                        error = false;
                         hash = adminpass;
                         //db.collection(coll + "_settings").find(function(err, docs){
                         var strictSkip = false;
@@ -208,10 +208,8 @@ function skip(list, guid, coll, offline, socket, callback) {
                         if(docs[0].strictSkipNumber) strictSkipNumber = docs[0].strictSkipNumber;
                         if(docs !== null && docs.length !== 0)
                         {
-
                             if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
                             {
-
                                 db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
                                     if(
                                         (strictSkip && (error || (docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||

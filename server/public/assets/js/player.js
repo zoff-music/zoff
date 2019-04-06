@@ -1,5 +1,4 @@
 var Player = {
-
     loaded: true,
     before_load: "",
     after_load: "",
@@ -429,7 +428,7 @@ var Player = {
     },
 
     soundcloudError: function() {
-        Player.errorHandler({data: "5"});
+        Player.errorHandler({data: 5});
     },
 
     addSCWidgetElements: function() {
@@ -1285,5 +1284,4 @@ var Player = {
             firstScriptTagSCWidget.parentNode.insertBefore(tagSCWidget, firstScriptTagSCWidget);
         }
     }
-
 };
