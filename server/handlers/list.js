@@ -199,7 +199,6 @@ function skip(list, guid, coll, offline, socket, callback) {
                         } else if(trueError) {
                             error = true;
                         }
-                        error = false;
                         hash = adminpass;
                         //db.collection(coll + "_settings").find(function(err, docs){
                         var strictSkip = false;

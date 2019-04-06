@@ -11,6 +11,7 @@ try {
 }
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
+var countryCodes = ["US", "NO", "SE", "DK", "CA", "EU", "UK"];
 
 function check_if_error_or_blocked(id, channel, errored, callback) {
     if(!errored) {
@@ -26,7 +27,7 @@ function check_if_error_or_blocked(id, channel, errored, callback) {
         if(song_info.source != "soundcloud") {
             request({
                 type: "GET",
-                url: "https://www.googleapis.com/youtube/v3/videos?part=id,status&key="+key+"&id=" + song_info.id,
+                url: "https://www.googleapis.com/youtube/v3/videos?part=id,status,contentDetails&key="+key+"&id=" + song_info.id,
             }, function(error, response, body) {
                 try {
                     var resp = JSON.parse(body);
@@ -36,7 +37,17 @@ function check_if_error_or_blocked(id, channel, errored, callback) {
                     } else if(!resp.items[0].status.embeddable) {
                         callback(true);
                         return;
-                    }
+                    } else if(resp.items[0].contentDetails.hasOwnProperty("regionRestriction") &&
+                        resp.items[0].contentDetails.regionRestriction.hasOwnProperty("blocked") &&
+                        resp.items[0].contentDetails.regionRestriction.blocked.length > 0) {
+                            var any = resp.items[0].contentDetails.blocked.some(function(element) {
+                                return countryCodes.indexOf(element) > -1;
+                            });
+                            if(any) {
+                                callback(true);
+                                return;
+                            }
+                        }
                     callback(false);
                     return;
                 } catch(e){
