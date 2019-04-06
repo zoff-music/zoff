@@ -88,7 +88,7 @@ function startSingle(clustered, redis_enabled) {
             ca: ca,
             spdy: {
                 protocols: [ 'h2', 'spdy/3.1', 'http/1.1' ],
-                plain: true,
+                plain: false,
                 ssl: true,
 
                 // **optional**
