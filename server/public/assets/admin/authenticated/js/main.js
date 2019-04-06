@@ -124,7 +124,7 @@ addListener("click", ".delete_api_token", function(event) {
 addListener("click", ".approve_name", function(event) {
 	var that = event;
 	var name = that.getAttribute("data-name");
-	var value = document.querySelector("." + name + "_input").value;
+	var value = that.parentElement.querySelector("input").value;
 	ajax({
 		type: "POST",
 		url: "/api/names",
@@ -148,7 +148,6 @@ addListener("click", ".approve_name", function(event) {
 addListener("click", ".remove_name", function(event) {
 	var that = event;
 	var name = that.getAttribute("data-name");
-	var value = document.querySelector("." + name + "_input").value;
 	ajax({
 		type: "DELETE",
 		url: "/api/names",
