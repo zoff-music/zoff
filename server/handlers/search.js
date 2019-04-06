@@ -12,6 +12,60 @@ try {
 var request = require('request');
 var db = require(pathThumbnails + '/handlers/db.js');
 
+function check_if_error_or_blocked(id, channel, errored, callback) {
+    if(!errored) {
+        callback(false);
+        return;
+    }
+    db.collection(channel).find({id: id, now_playing: true}, function(err, song) {
+        if(song.length == 0) {
+            callback(false);
+            return;
+        }
+        var song_info = song[0];
+        if(song_info.source != "soundcloud") {
+            request({
+                type: "GET",
+                url: "https://www.googleapis.com/youtube/v3/videos?part=id,status&key="+key+"&id=" + song_info.id,
+            }, function(error, response, body) {
+                try {
+                    var resp = JSON.parse(body);
+                    if(resp.pageInfo.totalResults == 0) {
+                        callback(true);
+                        return;
+                    } else if(!resp.items[0].status.embeddable) {
+                        callback(true);
+                        return;
+                    }
+                    callback(false);
+                    return;
+                } catch(e){
+                    callback(true);
+                    return;
+                }
+            });
+        } else {
+            request({
+                type: "GET",
+                url: "http://api.soundcloud.com/tracks/" + song_info.id + "?client_id=" + soundcloudKey,
+            }, function(error, response, body) {
+                try {
+                    var resp = JSON.parse(body);
+                    if(resp.sharing != "public" || resp.embeddable_by != "all") {
+                        callback(true);
+                        return;
+                    }
+                    callback(false);
+                    return;
+                } catch(e){
+                    callback(true);
+                    return;
+                }
+            });
+        }
+    });
+}
+
 function filterFunction(el) {
     return el != null &&
     el != "" &&
@@ -162,14 +216,11 @@ function get_genres_youtube_recursive(arr, channel, i, callback) {
         url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,topicDetails&key="+key+"&id=" + ids.join(","),
     }, function(error, response, body) {
         if(error) {
-            console.log(arr, channel, i, arr[i]);
-            console.log("error start 1", error, ids, "error end");
             get_genres_youtube_recursive(arr, channel, i + ids.length, callback);
             return;
         }
         var resp = JSON.parse(body);
         if(!resp.hasOwnProperty("items")) {
-            console.log("error start 2", resp, ids, "error end");
             get_genres_youtube_recursive(arr, channel, i + ids.length, callback);
             return;
         }
@@ -203,12 +254,10 @@ function get_genres_youtube(ids, channel) {
         url: "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,topicDetails&key="+key+"&id=" + ids,
     }, function(error, response, body) {
         if(error) {
-            console.log("error start", error, ids, "error end");
             return;
         }
         var resp = JSON.parse(body);
         if(!resp.hasOwnProperty("items")) {
-            console.log("error start", resp, ids, "error end");
             return;
         }
         if(resp.items.length > 0) {
@@ -445,6 +494,7 @@ function durationToSeconds(duration) {
     return hours*60*60+minutes*60+seconds;
 }
 
+module.exports.check_if_error_or_blocked = check_if_error_or_blocked;
 module.exports.get_genres_list_recursive = get_genres_list_recursive;
 module.exports.get_genres_soundcloud = get_genres_soundcloud;
 module.exports.get_genres_youtube = get_genres_youtube;

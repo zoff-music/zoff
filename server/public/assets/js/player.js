@@ -1,5 +1,4 @@
 var Player = {
-
     loaded: true,
     before_load: "",
     after_load: "",
@@ -345,6 +344,7 @@ var Player = {
                 Player.soundcloud_player.bind("finish", Player.soundcloudFinish);
                 Player.soundcloud_player.bind("pause", Player.soundcloudPause);
                 Player.soundcloud_player.bind("play", Player.soundcloudPlay);
+                Player.soundcloud_player.bind("error", Player.soundcloudError);
                 window.player = player;
                 Player.soundcloud_dead = false;
                 SC_player.get('/tracks', {
@@ -355,16 +355,19 @@ var Player = {
                     document.querySelector("#soundcloud_listen_link").href = sound.permalink_url;
                     document.querySelector(".soundcloud_info_container .green").href = sound.user.permalink_url;
                     //document.querySelector(".soundcloud_info_container .red").href = sound.user.permalink_url;
-                }).catch(function(){});
+                }).catch(function(e){});
                 if(_autoplay) {
                     player.play().then(function(){
                         Player.soundcloud_player.setVolume(embed ? 1 : Crypt.get_volume() / 100);
                         Player.soundcloud_player.seek((seekTo) * 1000);
-                    }).catch(function(e){
-                    });
+                    }).catch(function(e){});
                 }
             }).catch(function(error) {
-                Player.initializeSCWidget(_autoplay, id);
+                if(error.status == 404) {
+                    Player.errorHandler({data: 5});
+                } else {
+                    Player.initializeSCWidget(_autoplay, id);
+                }
             });
             //Player.initializeSCWidget(_autoplay, id);
             //Player.initializeSCWidget(_autoplay, id);
@@ -401,6 +404,7 @@ var Player = {
             Player.soundcloud_player.unbind("finish", Player.soundcloudFinish);
             Player.soundcloud_player.unbind("pause", Player.soundcloudPause);
             Player.soundcloud_player.unbind("play", Player.soundcloudPlay);
+            Player.soundcloud_player.unbind("error", Player.soundcloudError);
             //Player.soundcloud_player.unbind("seek", Player.soundcloudSeek);
         }catch(e){}
         var this_autoplay = "";
@@ -418,8 +422,13 @@ var Player = {
             Player.soundcloud_player.bind("finish", Player.soundcloudFinish);
             Player.soundcloud_player.bind("pause", Player.soundcloudPause);
             Player.soundcloud_player.bind("play", Player.soundcloudPlay);
+            Player.soundcloud_player.bind("error", Player.soundcloudError);
             Player.soundcloud_player.load('https://api.soundcloud.com/tracks/' + id + this_autoplay, {single_active: false});
         }
+    },
+
+    soundcloudError: function() {
+        Player.errorHandler({data: 5});
     },
 
     addSCWidgetElements: function() {
@@ -429,6 +438,7 @@ var Player = {
             Player.soundcloud_player.bind("finish", Player.soundcloudFinish);
             Player.soundcloud_player.bind("pause", Player.soundcloudPause);
             Player.soundcloud_player.bind("play", Player.soundcloudPlay);
+            Player.soundcloud_player.bind("error", Player.soundcloudError);
 
             SC_player.get('/tracks', {
                 ids: id
@@ -438,7 +448,8 @@ var Player = {
                 document.querySelector("#soundcloud_listen_link").href = sound.permalink_url;
                 document.querySelector(".soundcloud_info_container .green").href = sound.user.permalink_url;
                 //document.querySelector(".soundcloud_info_container .red").href = sound.user.permalink_url;
-            }).catch(function(){});
+            }).catch(function(e){
+            });
         } catch(e) {
             setTimeout(function() {
                 Player.addSCWidgetElements();
@@ -1273,5 +1284,4 @@ var Player = {
             firstScriptTagSCWidget.parentNode.insertBefore(tagSCWidget, firstScriptTagSCWidget);
         }
     }
-
 };
