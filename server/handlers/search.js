@@ -376,7 +376,7 @@ function check_error_video(msg, channel) {
         try {
             var resp = JSON.parse(body);
             if(resp.pageInfo.totalResults == 0) {
-                findSimilar(msg, channel, true, undefined)
+                findSimilar(msg, channel, true, undefined);
             }
         } catch(e){
             console.log(msg.id, key, e, body);
