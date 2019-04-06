@@ -1693,7 +1693,7 @@ function addDynamicListeners() {
         var added_by = e.getAttribute("data-added-by");
         var source = "youtube";
         var thumbnail;
-        if(e.getAttribute("data-video-source") != undefined) {
+        if(e.getAttribute("data-video-source") != "youtube") {
             source = "soundcloud";
             thumbnail = e.getAttribute("data-type-thumbnail");
         }
