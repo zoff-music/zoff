@@ -138,6 +138,9 @@ function routingFunction(req, res, next) {
             client(req, res, next);
         }
     } catch(e) {
-        res.status(500);
+        console.log("Bad request for " + req.headers.host + req.url, e);
+        res.statusCode = 500;
+        res.write('Bad request'); //write a response to the client
+        res.end(); //end the response
     }
 }
