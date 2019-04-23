@@ -150,7 +150,7 @@ window.addEventListener("load", function() {
     add = "https://zoff.me";
     //if(window.location.hostname == "localhost") add = "localhost";
     //add = "localhost";
-    socket = io.connect(''+add+':8080', connection_options);
+    socket = io.connect(''+add, connection_options);
 
     if(localmode) {
         change_offline(true, false);
