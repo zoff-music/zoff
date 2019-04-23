@@ -3,7 +3,7 @@ var connection_options = {
 	'secure': true,
 	'force new connection': true
 };
-var socket = io.connect(window.location.protocol + '//' + window.location.hostname + ':8080', connection_options);
+var socket = io.connect(window.location.protocol + '//' + window.location.hostname, connection_options);
 var api_token_list;
 var dynamicListeners = {};
 
