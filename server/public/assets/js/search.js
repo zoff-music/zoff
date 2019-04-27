@@ -373,6 +373,7 @@ var Search = {
                                         not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title + " - " + artist.join(" "));
                                         document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
                                         Helper.removeClass(".not-imported", "hide");
+                                        continue;
                                     }
                                     var duration = Search.durationToSeconds(data.contentDetails.duration);
                                     var not_matched = false;
@@ -637,6 +638,10 @@ addVideos: function(ids){
             }
             for(var i = 0; i < response.items.length; i++) {
                 var song = response.items[i];
+                if(song.contentDetails == undefined || song.contentDetails.duration == undefined) {
+                    Helper.log(["Song without duration", song]);
+                    continue;
+                }
                 var duration=Search.durationToSeconds(song.contentDetails.duration);
                 if((longsongs != undefined && !longsongs) || duration<720){
                     enc_title= song.snippet.title;//encodeURIComponent(song.snippet.title);
