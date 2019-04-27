@@ -359,6 +359,21 @@ var Search = {
                                     var data = response.items[y];
                                     //Helper.log(data);
                                     //var title = data.snippet.title;
+                                    if(data.contentDetails == undefined || data.contentDetails.duration == undefined) {
+                                        Search.readySubmit(false, {totalLength: totalNumber - 1});
+                                        Helper.log([
+                                            "NO MATCH FOR:",
+                                            "Spotify title: " + title + " " + artist.join(" "),
+                                            "Spotify length: " + length
+                                        ]);
+                                        var not_added_song = document.createElement("div");
+                                        not_added_song.innerHTML = not_import_html;
+                                        not_added_song.querySelector(".extra-add-text").innerText = title + " - " + artist.join(" ");
+                                        not_added_song.querySelector(".extra-add-text").setAttribute("title", title + " - " + artist.join(" "));
+                                        not_added_song.querySelector(".extra-button-search").setAttribute("data-text", title + " - " + artist.join(" "));
+                                        document.querySelector(".not-imported-container").insertAdjacentHTML("beforeend", not_added_song.innerHTML);
+                                        Helper.removeClass(".not-imported", "hide");
+                                    }
                                     var duration = Search.durationToSeconds(data.contentDetails.duration);
                                     var not_matched = false;
                                     if(similarity(data.snippet.title, artist + " - " + title) > 0.75) {
