@@ -85,8 +85,8 @@ function list(msg, guid, coll, offline, socket) {
                             socket.join(coll);
                             Functions.check_inlist(coll, guid, socket, offline, undefined, "place 10");
 
-                            if(frontpage_lists.viewers != undefined){
-                                io.to(coll).emit("viewers", frontpage_lists.viewers);
+                            if(frontpage_lists[0].viewers != undefined){
+                                io.to(coll).emit("viewers", frontpage_lists[0].viewers);
                             } else {
                                 io.to(coll).emit("viewers", 1);
                             }
