@@ -37,6 +37,10 @@ function check_if_error_or_blocked(id, channel, errored, callback) {
                     } else if(!resp.items[0].status.embeddable) {
                         callback(true);
                         return;
+                    } else if(resp.items[0].contentDetails.hasOwnProperty("licensedContent") && 
+                              !resp.items[0].contentDetails.licensedContent) {
+                        callback(true);
+                        return;
                     } else if(resp.items[0].contentDetails.hasOwnProperty("regionRestriction") &&
                         resp.items[0].contentDetails.regionRestriction.hasOwnProperty("blocked") &&
                         resp.items[0].contentDetails.regionRestriction.blocked.length > 0) {
