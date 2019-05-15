@@ -387,7 +387,7 @@ function change_song_post(coll, next_song, conf, callback, socket, removed) {
                     return;
                 }
             }
-            db.collection(coll).update({id:id},{
+            db.collection(coll).update({id:id, now_playing: false},{
                 $set:{
                     now_playing:true,
                     votes:0,
@@ -395,6 +395,11 @@ function change_song_post(coll, next_song, conf, callback, socket, removed) {
                     added:Functions.get_time()
                 }
             }, function(err, returnDocs){
+                if((returnDocs.hasOwnProperty("nModified") && returnDocs.nModified == 0) || (returnDocs.hasOwnProperty("n") && returnDocs.n == 0)) {
+                    if(!callback) return;
+                    callback();
+                    return;
+                }
                 db.collection(coll + "_settings").update({id: "config"}, {
                     $set:{
                         startTime:Functions.get_time(),
@@ -476,7 +481,7 @@ function send_list(coll, socket, send, list_send, configs, shuffled)
                                 $limit:1
                             }], function(err, now_playing_doc){
                                 if(now_playing_doc[0].now_playing == false) {
-                                    db.collection(coll).update({id:now_playing_doc[0].id}, {
+                                    db.collection(coll).update({id:now_playing_doc[0].id, now_playing: false}, {
                                         $set:{
                                             now_playing:true,
                                             votes:0,
