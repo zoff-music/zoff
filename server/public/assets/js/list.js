@@ -58,7 +58,7 @@ var List = {
                 break;
             case "song_change":
                 if((offline && msg.offline_change) || !offline) {
-                    if(window.location.pathname != "/") List.song_change(msg.time, msg.remove);
+                    if(window.location.pathname != "/") List.song_change(msg.time, msg.remove, msg.id);
                     if(full_playlist.length > 0) {
                         Player.sendNext({title: full_playlist[0].title, videoId: full_playlist[0].id, source: full_playlist[0].source, thumbnail: full_playlist[0].thumbnail});
                     }
@@ -584,13 +584,15 @@ var List = {
         List.insertAtIndex(full_playlist[0], false, true);
     },
 
-    song_change: function(time, remove) {
+    song_change: function(time, remove, id) {
         try{
             var length = full_playlist.length - 1;
-
             if(full_playlist.length <= 1) {
                 List.empty = true;
                 Helper.setHtml("#wrapper", "<span id='empty-channel-message'>The playlist is empty.</span>");
+            }
+            if(id != full_playlist[0].id) {
+                return;
             }
             var newLast = full_playlist[0];
             full_playlist[0].now_playing        = true;

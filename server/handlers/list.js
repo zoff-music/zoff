@@ -184,14 +184,14 @@ function skip(list, guid, coll, offline, socket, callback) {
                 list.userpass = crypto.createHash('sha256').update(Functions.decrypt_string(list.userpass)).digest("base64");
             }
 
-            db.collection(coll + "_settings").find(function(err, docs){
+            db.collection(coll + "_settings").find(function(_err, docs){
                 if(docs.length > 0 && (docs[0].userpass == undefined || docs[0].userpass == "" || (list.hasOwnProperty('userpass') && docs[0].userpass == list.userpass))) {
                     Functions.check_inlist(coll, guid, socket, offline, undefined, "place 12");
 
                     var video_id;
                     adminpass = "";
                     video_id  = list.id;
-                    err       = list.error;
+                    var err       = list.error;
                     Search.check_if_error_or_blocked(video_id, coll, err == "5" || err == "100" || err == "101" || err == "150" || err == 5 || err == 100 || err == 101 || err == 150, function(trueError) {
                         var error = false;
                         if (!trueError) {
@@ -210,11 +210,11 @@ function skip(list, guid, coll, offline, socket, callback) {
                             if(!docs[0].skip || (docs[0].adminpass == hash && docs[0].adminpass !== "") || error)
                             {
                                 db.collection("frontpage_lists").find({"_id": coll}, function(err, frontpage_viewers){
-                                    if(
-                                        (strictSkip && (error || (docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||
+                                    if(error ||
+                                        ((strictSkip && ((docs[0].adminpass == hash && docs[0].adminpass !== "") || (docs[0].skips.length+1 >= strictSkipNumber))) ||
                                         (!strictSkip && ((frontpage_viewers[0].viewers/2 <= docs[0].skips.length+1 && !Functions.contains(docs[0].skips, guid) && frontpage_viewers[0].viewers != 2) ||
                                             (frontpage_viewers[0].viewers == 2 && docs[0].skips.length+1 == 2 && !Functions.contains(docs[0].skips, guid)) ||
-                                            (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip))))
+                                            (docs[0].adminpass == hash && docs[0].adminpass !== "" && docs[0].skip)))))
                                     {
                                         Functions.checkTimeout("skip", 1, coll, coll, error, true, socket, function() {
                                             change_song(coll, error, video_id, docs);
@@ -403,13 +403,13 @@ function change_song_post(coll, next_song, conf, callback, socket, removed) {
                 }, function(err, returnDocs){
                     //db.collection(coll + "_settings").find({id: "config"}, function(err, conf){
                         if(!callback) {
-                            io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed});
+                            io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed, id: id});
                             send_play(coll);
                         } else {
                             if(socket == undefined) {
-                                io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed});
+                                io.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed, id: id});
                             } else {
-                                socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed});
+                                socket.to(coll).emit("channel", {type: "song_change", time: Functions.get_time(), remove: conf[0].removeplay || removed, id: id});
                             }
                             send_play(coll, socket, true);
                             callback();
