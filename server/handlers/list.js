@@ -192,7 +192,7 @@ function skip(list, guid, coll, offline, socket, callback) {
                     adminpass = "";
                     video_id  = list.id;
                     err       = list.error;
-                    Search.check_if_error_or_blocked(video_id, coll, err == "5" || err == "100" || err == "101" || err == "150", function(trueError) {
+                    Search.check_if_error_or_blocked(video_id, coll, err == "5" || err == "100" || err == "101" || err == "150" || err == 5 || err == 100 || err == 101 || err == 150, function(trueError) {
                         var error = false;
                         if (!trueError) {
                             adminpass = list.pass;
