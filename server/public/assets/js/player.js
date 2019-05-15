@@ -589,7 +589,7 @@ var Player = {
     playNext: function(){
         if(full_playlist == undefined || full_playlist.length == 0) return;
 	    var next_song = full_playlist[0];
-
+        var prev_id = Player.np.id;
         video_id   = next_song.id;
         time       = (new Date()).getTime();
         song_title = next_song.title;
@@ -620,7 +620,7 @@ var Player = {
 
             Player.loadVideoById(video_id, duration, start, end);
         }
-        List.channel_function({type:"song_change", time: time, offline_change: true});
+        List.channel_function({type:"song_change", time: time, offline_change: true, id: prev_id});
     },
 
     playPrev: function() {
