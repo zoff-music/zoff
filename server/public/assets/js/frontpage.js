@@ -8,6 +8,9 @@ var Frontpage = {
     blob_list: [],
 
     winter: (new Date()).getMonth() >= 10 ? true : false,
+    pride: function() {
+        return (new Date()).getMonth() == 5;
+    },
 
     times_rotated: 0,
 
@@ -539,6 +542,9 @@ var Frontpage = {
 
         if(!Helper.mobilecheck() && Frontpage.winter) {
             document.getElementsByClassName("mega")[0].insertAdjacentHTML("afterbegin", '<div id="snow"></div>');
+        }
+        if(Frontpage.pride()) {
+            Helper.addClass("#fp-nav", "pride-background");
         }
 
         if(Helper.mobilecheck()){
