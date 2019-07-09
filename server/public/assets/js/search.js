@@ -494,6 +494,7 @@ importPlaylist: function(pId,pageToken){
         headers: headers,
         success: function(response) {
             response = JSON.parse(response);
+            Helper.log(["Import response nr1", response]);
             if(response.error){
                 if(response.error.errors[0].reason == "playlistItemsNotAccessible"){
                     var nonce = Helper.randomString(29);
@@ -632,6 +633,8 @@ addVideos: function(ids){
         url: request_url,
         success: function(response){
             response = JSON.parse(response);
+            
+            Helper.log(["Import response, separate video nr2", response, "import response, separate video end"]);
             var x = 0;
             if(response.error) {
                 Search.submitYouTubeError = true;
