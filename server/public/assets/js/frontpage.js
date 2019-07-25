@@ -534,7 +534,6 @@ var Frontpage = {
 
     window.onpopstate = function(e) {
       var url_split = window.location.href.split("/");
-      console.log(url_split);
       if (url_split[3] !== "" && url_split[3].substring(0, 1) != "#") {
         Frontpage.to_channel(url_split[3], true);
       }
