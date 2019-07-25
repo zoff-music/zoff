@@ -22,8 +22,7 @@
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.8"
+    "gulp-uglify": "^3.0.2"
   },
   "homepage": "https://github.com/zoff-music/zoff#readme",
   "dependencies": {
