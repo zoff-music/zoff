@@ -1,5 +1,5 @@
 VERSION = 6;
 
 try {
-    module.exports = VERSION;
-} catch(e) {}
+  module.exports = VERSION;
+} catch (e) {}

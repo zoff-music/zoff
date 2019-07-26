@@ -1,943 +1,1047 @@
 var Helper = {
-    logs: [],
+  logs: [],
 
-    decodeChannelName: function(str) {
-        var _fn = decodeURIComponent;
-        str = str.toUpperCase();
-        /*if(str.indexOf("%25") >= 0) {
+  decodeChannelName: function(str) {
+    var _fn = decodeURIComponent;
+    str = str.toUpperCase();
+    /*if(str.indexOf("%25") >= 0) {
             var _percentSign = str.indexOf("%25") + 1;
             var _before = str.substring(0, _percentSign);
             var _after = str.substring(_percentSign);
             str = _before + "25" + _after;
             console.log(str);
         }*/
-        var toReturn = _fn(str.replace(/%5F/g, "_").replace(/%27/g, "'"));
-        toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
-        return toReturn.toLowerCase();
-    },
+    var toReturn = _fn(str.replace(/%5F/g, "_").replace(/%27/g, "'"));
+    toReturn = toReturn.toLowerCase().replace(/&amp;/g, "&");
+    return toReturn.toLowerCase();
+  },
 
-    encodeChannelName: function(str) {
-        var _fn = encodeURIComponent;
-        var toReturn = _fn(str);
-        toReturn = toReturn.replace(/_/g, "%5F");
-        toReturn = toReturn.replace(/%26amp%3B/g, "%26").replace(/%26amp%3b/g, "%26");
-        toReturn = toReturn.replace(/'/g, "%27");
-        toReturn = toReturn.toLowerCase();
-        return toReturn;
-    },
+  encodeChannelName: function(str) {
+    var _fn = encodeURIComponent;
+    var toReturn = _fn(str);
+    toReturn = toReturn.replace(/_/g, "%5F");
+    toReturn = toReturn
+      .replace(/%26amp%3B/g, "%26")
+      .replace(/%26amp%3b/g, "%26");
+    toReturn = toReturn.replace(/'/g, "%27");
+    toReturn = toReturn.toLowerCase();
+    return toReturn;
+  },
 
-    log: function(to_log) {
-        var _DEBUG;
-        try {
-            _DEBUG = localStorage.getItem("debug");
-        } catch(e) {
-            _DEBUG = false;
+  log: function(to_log) {
+    var _DEBUG;
+    try {
+      _DEBUG = localStorage.getItem("debug");
+    } catch (e) {
+      _DEBUG = false;
+    }
+    if (_DEBUG === "true") {
+      console.log(
+        "------------ " + new Date() + " ------------"
+      ); /*RemoveLogging:skip*/
+      for (var i = 0; i < to_log.length; i++) {
+        console.log(to_log[i]); /*RemoveLogging:skip*/
+      }
+      console.log(
+        "------------ " + new Date() + " ------------"
+      ); /*RemoveLogging:skip*/
+    }
+    try {
+      if (to_log[0] != "FULL PLAYLIST") {
+        Helper.logs.unshift({ log: to_log, date: new Date() });
+        if (Helper.logs.length > 10) {
+          Helper.logs.splice(-1, Helper.logs.length - 10);
         }
-        if(_DEBUG === "true") {
-            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
-            for(var i = 0; i < to_log.length; i++) {
-                console.log(to_log[i]);/*RemoveLogging:skip*/
-            }
-            console.log("------------ " + new Date() + " ------------");/*RemoveLogging:skip*/
-        }
-        try {
-            if(to_log[0] != "FULL PLAYLIST") {
-                Helper.logs.unshift({log: to_log, date: new Date()});
-                if(Helper.logs.length > 10) {
-                    Helper.logs.splice(-1, Helper.logs.length - 10);
-                }
-            }
-        } catch(e){}
-    },
+      }
+    } catch (e) {}
+  },
 
-    rnd: function(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    },
+  rnd: function(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  },
 
-    computedStyle: function(element, type) {
-        try {
-            return parseInt(window.getComputedStyle(document.querySelector(element), null).getPropertyValue(type).replace("px", ""))
-        } catch(e) {
-            return 0;
-        }
-    },
+  computedStyle: function(element, type) {
+    try {
+      return parseInt(
+        window
+          .getComputedStyle(document.querySelector(element), null)
+          .getPropertyValue(type)
+          .replace("px", "")
+      );
+    } catch (e) {
+      return 0;
+    }
+  },
 
-    toggleClass: function(element, className) {
-        try {
-            if(typeof(element) == "object") {
-                if(element.className.indexOf(className) == -1) {
-                    Helper.addClass(element, className);
-                } else {
-                    Helper.removeClass(element, className);
-                }
-            } else if(element.substring(0,1) == "#") {
-                var elem = document.getElementById(element.substring(1));
-                if(elem.className.indexOf(className) == -1) {
-                    Helper.addClass(elem, className);
-                } else {
-                    Helper.removeClass(elem, className);
-                }
-            } else {
-                var elements;
-                if(element.substring(0,1) == ".") {
-                    var testSplit = element.substring(1).split(" ");
-                    if(testSplit.length > 1) {
-                        var insideElement = document.getElementsByClassName(testSplit[0]);
-                        elements = [];
-                        for(var i = 0; i < insideElement.length; i++) {
-                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
-                            for(var y = 0; y < innards.length; y++) {
-                                elements.push(innards[y]);
-                            }
-                        }
-                    } else {
-                        elements = document.getElementsByClassName(element.substring(1));
-                    }
-                } else {
-                    elements = document.getElementsByTagName(element);
-                }
-                for(var i = 0; i < elements.length; i++) {
-                    if(elements[i].className.indexOf(className) == -1) {
-                        Helper.addClass(elements[i], className);
-                    }  else {
-                        Helper.removeClass(element, className);
-                    }
-                }
-            }
-        }catch(e) {
-            //console.log(e);
-        }
-    },
-
-    css: function(element, attribute, value) {
-        try {
-            if(typeof(element) == "object") {
-                try {
-                    if(element.length > 0) {
-                        for(var i = 0; i < element.length; i++) {
-                            element[i].style[attribute] = value;
-                        }
-                    } else {
-                        element.style[attribute] = value;
-                    }
-                } catch(e) {
-                    element.style[attribute] = value;
-                }
-            }
-            if(typeof(element) == "object") {
-                element.style[attribute] = value;
-            } else if(element.substring(0,1) == "#") {
-                document.getElementById(element.substring(1)).style[attribute] = value;
-            } else {
-                var elements = document.getElementsByClassName(element.substring(1));
-                for(var i = 0; i < elements.length; i++) {
-                    elements[i].style[attribute] = value;
-                }
-            }
-        } catch(e) {
-            //console.log(e);
-        }
-    },
-
-    html: function(element) {
-        try {
-            if(element.substring(0,1) == "#") {
-                return document.getElementById(element.substring(1)).innerHTML;
-            } else {
-                var elements = document.getElementsByClassName(element.substring(1));
-                for(var i = 0; i < elements.length; i++) {
-                    return elements[i].innerHTML;
-                }
-            }
-        } catch(e){
-            //console.log(e);
-        }
-    },
-
-    removeClass: function(element, className) {
-        try {
-            if(typeof(element) == "object") {
-                element.classList.remove(className);
-            } else if(element.substring(0,1) == "#") {
-                document.getElementById(element.substring(1)).classList.remove(className);
-            } else {
-                var elements = document.getElementsByClassName(element.substring(1));
-                for(var i = 0; i < elements.length; i++) {
-                    elements[i].classList.remove(className);
-                }
-            }
-        } catch(e) {
-            //console.log(e);
-        }
-    },
-
-    removeElement: function(element) {
-        try {
-            if(element.substring(0,1) == "#") {
-                var elem = document.getElementById(element.substring(1));
-                elem.remove();
-            } else {
-                var elements;
-                if(element.substring(0,1) == ".") {
-                    var testSplit = element.substring(1).split(" ");
-                    if(testSplit.length > 1) {
-                        var insideElement = document.getElementsByClassName(testSplit[0]);
-                        elements = [];
-                        for(var i = 0; i < insideElement.length; i++) {
-                            var innards = insideElement[i].querySelectorAll(testSplit[1]);
-                            for(var y = 0; y < innards.length; y++) {
-                                elements.push(innards[y]);
-                            }
-                        }
-                    } else {
-                        elements = document.getElementsByClassName(element.substring(1));
-                    }
-                } else {
-                    elements = document.getElementsByTagName(element);
-                }
-                for(var i = 0; i < elements.length; i++) {
-                    elements[i].remove();
-                }
-            }
-        } catch(e) {
-            //console.log(e);
-        }
-    },
-
-    setHtml: function(element, html) {
-        try {
-            if(typeof(element) == "object") {
-                element.innerHTML = html;
-            } else if(element.substring(0,1) == "#") {
-                var elem = document.getElementById(element.substring(1));
-                elem.innerHTML = html;
-            } else {
-                var elements;
-                if(element.substring(0,1) == ".") {
-                    elements = document.getElementsByClassName(element.substring(1));
-                } else {
-                    elements = document.getElementsByTagName(element);
-                }
-                for(var i = 0; i < elements.length; i++) {
-                    elements[i].innerHTML = html;
-                }
-            }
-        } catch(e) {
-            //console.log(e);
-        }
-    },
-
-    attr: function(element, attr, value) {
-        if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            elem.setAttribute(attr, value);
+  toggleClass: function(element, className) {
+    try {
+      if (typeof element == "object") {
+        if (element.className.indexOf(className) == -1) {
+          Helper.addClass(element, className);
         } else {
-            var elements;
-            if(element.substring(0,1) == ".") {
-                var testSplit = element.substring(1).split(" ");
-                if(testSplit.length > 1) {
-                    var insideElement = document.getElementsByClassName(testSplit[0]);
-                    elements = [];
-                    for(var i = 0; i < insideElement.length; i++) {
-                        var innards = insideElement[i].querySelectorAll(testSplit[1]);
-                        for(var y = 0; y < innards.length; y++) {
-                            elements.push(innards[y]);
-                        }
-                    }
-                } else {
-                    elements = document.getElementsByClassName(element.substring(1));
-                }
-            } else {
-                elements = document.getElementsByTagName(element);
-            }
-            for(var i = 0; i < elements.length; i++) {
-                elements[i].setAttribute(attr, value);
-            }
+          Helper.removeClass(element, className);
         }
-    },
-
-    tabs: function(element, options) {
-        if(element.substring(0,1) == "#") {
-            var elem = document.getElementById(element.substring(1));
-            if(options == "destroy") {
-                var this_element = M.Tabs.getInstance(elem);
-                if(this_element != undefined) this_element.destroy();
-            } else {
-                M.Tabs.init(elem, options);
-            }
+      } else if (element.substring(0, 1) == "#") {
+        var elem = document.getElementById(element.substring(1));
+        if (elem.className.indexOf(className) == -1) {
+          Helper.addClass(elem, className);
         } else {
-            var elements = document.getElementsByClassName(element.substring(1));
-            for(var i = 0; i < elements.length; i++) {
-                if(options == "destroy") {
-                    var this_element = M.Tabs.getInstance(elem);
-                    if(this_element != undefined) this_element.destroy();
-                } else {
-                    M.Tabs.init(elements[i], options);
-                }
-            }
+          Helper.removeClass(elem, className);
         }
-    },
+      } else {
+        var elements;
+        if (element.substring(0, 1) == ".") {
+          var testSplit = element.substring(1).split(" ");
+          if (testSplit.length > 1) {
+            var insideElement = document.getElementsByClassName(testSplit[0]);
+            elements = [];
+            for (var i = 0; i < insideElement.length; i++) {
+              var innards = insideElement[i].querySelectorAll(testSplit[1]);
+              for (var y = 0; y < innards.length; y++) {
+                elements.push(innards[y]);
+              }
+            }
+          } else {
+            elements = document.getElementsByClassName(element.substring(1));
+          }
+        } else {
+          elements = document.getElementsByTagName(element);
+        }
+        for (var i = 0; i < elements.length; i++) {
+          if (elements[i].className.indexOf(className) == -1) {
+            Helper.addClass(elements[i], className);
+          } else {
+            Helper.removeClass(element, className);
+          }
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
 
-    tooltip: function(element, options) {
+  css: function(element, attribute, value) {
+    try {
+      if (typeof element == "object") {
         try {
-            if(element.substring(0,1) == "#") {
-                var elem = document.getElementById(element.substring(1));
-                if(options == "destroy") {
-                    var this_element = M.Tooltip.getInstance(elem);
-                    if(this_element != undefined) this_element.destroy();
-                } else {
-                    M.Tooltip.init(elem, options);
-                }
-            } else {
-                var elements = document.getElementsByClassName(element.substring(1));
-                for(var i = 0; i < elements.length; i++) {
-                    if(options == "destroy") {
-                        var this_element = M.Tooltip.getInstance(elem);
-                        if(this_element != undefined) this_element.destroy();
-                    } else {
-                        M.Tooltip.init(elements[i], options);
-                    }
-                }
+          if (element.length > 0) {
+            for (var i = 0; i < element.length; i++) {
+              element[i].style[attribute] = value;
             }
-        } catch(e) {}
-    },
+          } else {
+            element.style[attribute] = value;
+          }
+        } catch (e) {
+          element.style[attribute] = value;
+        }
+      }
+      if (typeof element == "object") {
+        element.style[attribute] = value;
+      } else if (element.substring(0, 1) == "#") {
+        document.getElementById(element.substring(1)).style[attribute] = value;
+      } else {
+        var elements = document.getElementsByClassName(element.substring(1));
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].style[attribute] = value;
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
 
-    addClass: function(element, className) {
+  html: function(element) {
+    try {
+      if (element.substring(0, 1) == "#") {
+        return document.getElementById(element.substring(1)).innerHTML;
+      } else {
+        var elements = document.getElementsByClassName(element.substring(1));
+        for (var i = 0; i < elements.length; i++) {
+          return elements[i].innerHTML;
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
+
+  removeClass: function(element, className) {
+    try {
+      if (typeof element == "object") {
+        element.classList.remove(className);
+      } else if (element.substring(0, 1) == "#") {
+        document
+          .getElementById(element.substring(1))
+          .classList.remove(className);
+      } else {
+        var elements = document.getElementsByClassName(element.substring(1));
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].classList.remove(className);
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
+
+  removeElement: function(element) {
+    try {
+      if (element.substring(0, 1) == "#") {
+        var elem = document.getElementById(element.substring(1));
+        elem.remove();
+      } else {
+        var elements;
+        if (element.substring(0, 1) == ".") {
+          var testSplit = element.substring(1).split(" ");
+          if (testSplit.length > 1) {
+            var insideElement = document.getElementsByClassName(testSplit[0]);
+            elements = [];
+            for (var i = 0; i < insideElement.length; i++) {
+              var innards = insideElement[i].querySelectorAll(testSplit[1]);
+              for (var y = 0; y < innards.length; y++) {
+                elements.push(innards[y]);
+              }
+            }
+          } else {
+            elements = document.getElementsByClassName(element.substring(1));
+          }
+        } else {
+          elements = document.getElementsByTagName(element);
+        }
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].remove();
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
+
+  setHtml: function(element, html) {
+    try {
+      if (typeof element == "object") {
+        element.innerHTML = html;
+      } else if (element.substring(0, 1) == "#") {
+        var elem = document.getElementById(element.substring(1));
+        elem.innerHTML = html;
+      } else {
+        var elements;
+        if (element.substring(0, 1) == ".") {
+          elements = document.getElementsByClassName(element.substring(1));
+        } else {
+          elements = document.getElementsByTagName(element);
+        }
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].innerHTML = html;
+        }
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  },
+
+  attr: function(element, attr, value) {
+    if (element.substring(0, 1) == "#") {
+      var elem = document.getElementById(element.substring(1));
+      elem.setAttribute(attr, value);
+    } else {
+      var elements;
+      if (element.substring(0, 1) == ".") {
+        var testSplit = element.substring(1).split(" ");
+        if (testSplit.length > 1) {
+          var insideElement = document.getElementsByClassName(testSplit[0]);
+          elements = [];
+          for (var i = 0; i < insideElement.length; i++) {
+            var innards = insideElement[i].querySelectorAll(testSplit[1]);
+            for (var y = 0; y < innards.length; y++) {
+              elements.push(innards[y]);
+            }
+          }
+        } else {
+          elements = document.getElementsByClassName(element.substring(1));
+        }
+      } else {
+        elements = document.getElementsByTagName(element);
+      }
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].setAttribute(attr, value);
+      }
+    }
+  },
+
+  tabs: function(element, options) {
+    if (element.substring(0, 1) == "#") {
+      var elem = document.getElementById(element.substring(1));
+      if (options == "destroy") {
+        var this_element = M.Tabs.getInstance(elem);
+        if (this_element != undefined) this_element.destroy();
+      } else {
+        M.Tabs.init(elem, options);
+      }
+    } else {
+      var elements = document.getElementsByClassName(element.substring(1));
+      for (var i = 0; i < elements.length; i++) {
+        if (options == "destroy") {
+          var this_element = M.Tabs.getInstance(elem);
+          if (this_element != undefined) this_element.destroy();
+        } else {
+          M.Tabs.init(elements[i], options);
+        }
+      }
+    }
+  },
+
+  tooltip: function(element, options) {
+    try {
+      if (element.substring(0, 1) == "#") {
+        var elem = document.getElementById(element.substring(1));
+        if (options == "destroy") {
+          var this_element = M.Tooltip.getInstance(elem);
+          if (this_element != undefined) this_element.destroy();
+        } else {
+          M.Tooltip.init(elem, options);
+        }
+      } else {
+        var elements = document.getElementsByClassName(element.substring(1));
+        for (var i = 0; i < elements.length; i++) {
+          if (options == "destroy") {
+            var this_element = M.Tooltip.getInstance(elem);
+            if (this_element != undefined) this_element.destroy();
+          } else {
+            M.Tooltip.init(elements[i], options);
+          }
+        }
+      }
+    } catch (e) {}
+  },
+
+  addClass: function(element, className) {
+    try {
+      if (typeof element == "object") {
         try {
-            if(typeof(element) == "object") {
-                try {
-                    if(element.length > 0) {
-                        for(var i = 0; i < element.length; i++) {
-                            if(element[i].className.indexOf(className) == -1) {
-                                element[i].className += " " + className;
-                            }
-                        }
-                    } else {
-                        if(element.className.indexOf(className) == -1) {
-                            element.className += " " + className;
-                        }
-                    }
-                } catch(e) {
-                    if(element.className.indexOf(className) == -1) {
-                        element.className += " " + className;
-                    }
-                }
-            } else if(element.substring(0,1) == "#") {
-                var elem = document.getElementById(element.substring(1));
-                if(elem.className.indexOf(className) == -1) {
-                    elem.className += " " + className;
-                }
-            } else {
-                var elements;
-                if(element.substring(0,1) == ".") {
-                    elements = document.getElementsByClassName(element.substring(1));
-                } else {
-                    elements = document.getElementsByTagName(element);
-                }
-                for(var i = 0; i < elements.length; i++) {
-                    if(elements[i].className.indexOf(className) == -1) {
-                        elements[i].className += " " + className;
-                    }
-                }
+          if (element.length > 0) {
+            for (var i = 0; i < element.length; i++) {
+              if (element[i].className.indexOf(className) == -1) {
+                element[i].className += " " + className;
+              }
             }
-        }catch(e) {}
-    },
-
-    ajax: function(obj) {
-        var _async = true;
-        if(obj.async) _async = obj.async;
-        if(obj.method == undefined && obj.type != undefined) obj.method = obj.type;
-        if(obj.method == undefined) obj.method = "GET";
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                if (xmlhttp.status == 200 || xmlhttp.status == 201 || xmlhttp.status == 202) {
-                    obj.success(xmlhttp.responseText, xmlhttp);
-                }
-                else if(obj.hasOwnProperty("error")){
-                    obj.error(xmlhttp);
-                }
+          } else {
+            if (element.className.indexOf(className) == -1) {
+              element.className += " " + className;
             }
-        };
-
-        xmlhttp.open(obj.method, obj.url, _async);
-        if(obj.headers) {
-            for(header in obj.headers) {
-                xmlhttp.setRequestHeader(header, obj.headers[header]);
-            }
+          }
+        } catch (e) {
+          if (element.className.indexOf(className) == -1) {
+            element.className += " " + className;
+          }
         }
-        if(obj.data) {
-            if(typeof(obj.data) == "object") obj.data = JSON.stringify(obj.data);
-            //xmlhttp.send(sendRequest);
-            xmlhttp.send(obj.data);
+      } else if (element.substring(0, 1) == "#") {
+        var elem = document.getElementById(element.substring(1));
+        if (elem.className.indexOf(className) == -1) {
+          elem.className += " " + className;
         }
-        else xmlhttp.send();
-    },
-
-    randomString: function(length){
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_";
-        for(var i = 0; i < length; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
-    },
-
-    mobilecheck: function() {
-        var isMobile = false; //initiate as false
-        // device detection
-        if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
-        || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) isMobile = true;
-        return isMobile;
-    },
-
-    predicate: function() {
-        var fields = [],
-        n_fields = arguments.length,
-        field, name, cmp;
-
-        var default_cmp = function (a, b) {
-            if(a == undefined) a = 0;
-            if(b == undefined) b = 0;
-            if (a === b) return 0;
-            return a < b ? -1 : 1;
-        },
-        getCmpFunc = function (primer, reverse) {
-            var dfc = default_cmp,
-            // closer in scope
-            cmp = default_cmp;
-            if (primer) {
-                cmp = function (a, b) {
-                    return dfc(primer(a), primer(b));
-                };
-            }
-            if (reverse) {
-                return function (a, b) {
-                    return -1 * cmp(a, b);
-                };
-            }
-            return cmp;
-        };
-
-        // preprocess sorting options
-        for (var i = 0; i < n_fields; i++) {
-            field = arguments[i];
-            if (typeof field === 'string') {
-                name = field;
-                cmp = default_cmp;
-            } else {
-                name = field.name;
-                cmp = getCmpFunc(field.primer, field.reverse);
-            }
-            fields.push({
-                name: name,
-                cmp: cmp
-            });
-        }
-
-        // final comparison function
-        return function (A, B) {
-            var name, result;
-            for (var i = 0; i < n_fields; i++) {
-                result = 0;
-                field = fields[i];
-                name = field.name;
-
-                result = field.cmp(A[name], B[name]);
-                if (result !== 0) break;
-            }
-            return result;
-        };
-    },
-
-    hashCode: function(str) { // java String#hashCode
-        var hash = 0;
-        for (var i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        return hash;
-    },
-
-    intToARGB: function(i) {
-        return ((i>>24)&0xFF).toString(16) +
-        ((i>>16)&0xFF).toString(16) +
-        ((i>>8)&0xFF).toString(16) +
-        (i&0xFF).toString(16);
-    },
-
-    hexToRgb: function(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    },
-
-    hslToHex: function(h, s, l) {
-        h /= 360;
-        s /= 100;
-        l /= 100;
-        var r, g, b;
-        if (s === 0) {
-            r = g = b = l; // achromatic
+      } else {
+        var elements;
+        if (element.substring(0, 1) == ".") {
+          elements = document.getElementsByClassName(element.substring(1));
         } else {
-            var hue2rgb = function(p, q, t) {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1 / 6) return p + (q - p) * 6 * t;
-                if (t < 1 / 2) return q;
-                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            };
-            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            var p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
+          elements = document.getElementsByTagName(element);
         }
-        var toHex = function(x) {
-            var hex = Math.round(x * 255).toString(16);
-            return hex.length === 1 ? '0' + hex : hex;
-        };
-        return '#' + toHex(r) + "" + toHex(g) + "" + toHex(b);
-    },
-
-    hslToRgb: function(h, s, l) {
-        var r, g, b;
-
-        if (s == 0) {
-            r = g = b = l; // achromatic
-        } else {
-            function hue2rgb(p, q, t) {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1/6) return p + (q - p) * 6 * t;
-                if (t < 1/2) return q;
-                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                return p;
-            }
-
-            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            var p = 2 * l - q;
-
-            r = hue2rgb(p, q, h + 1/3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
+        for (var i = 0; i < elements.length; i++) {
+          if (elements[i].className.indexOf(className) == -1) {
+            elements[i].className += " " + className;
+          }
         }
+      }
+    } catch (e) {}
+  },
 
-        return [ r * 255, g * 255, b * 255 ];
-    },
-
-
-    pad: function(n) {
-        return n < 10 ? "0"+Math.floor(n) : Math.floor(n);
-    },
-
-
-    contains: function(a, obj) {
-        var i = a.length;
-        while (i--) {
-            if (a[i] === obj) {
-                return true;
-            }
+  ajax: function(obj) {
+    var _async = true;
+    if (obj.async) _async = obj.async;
+    if (obj.method == undefined && obj.type != undefined) obj.method = obj.type;
+    if (obj.method == undefined) obj.method = "GET";
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+        // XMLHttpRequest.DONE == 4
+        if (
+          xmlhttp.status == 200 ||
+          xmlhttp.status == 201 ||
+          xmlhttp.status == 202
+        ) {
+          obj.success(xmlhttp.responseText, xmlhttp);
+        } else if (obj.hasOwnProperty("error")) {
+          obj.error(xmlhttp);
         }
-        return false;
-    },
+      }
+    };
 
-    sample: function() {
-        if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
-            socket.removeAllListeners();
-            socket.disconnect();
-            socket.connect();
-            Player.setup_all_listeners();
+    xmlhttp.open(obj.method, obj.url, _async);
+    if (obj.headers) {
+      for (header in obj.headers) {
+        xmlhttp.setRequestHeader(header, obj.headers[header]);
+      }
+    }
+    if (obj.data) {
+      if (typeof obj.data == "object") obj.data = JSON.stringify(obj.data);
+      //xmlhttp.send(sendRequest);
+      xmlhttp.send(obj.data);
+    } else xmlhttp.send();
+  },
+
+  randomString: function(length) {
+    var text = "";
+    var possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-_";
+    for (var i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  },
+
+  mobilecheck: function() {
+    var isMobile = false; //initiate as false
+    // device detection
+    if (
+      /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(
+        navigator.userAgent
+      ) ||
+      /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(
+        navigator.userAgent.substr(0, 4)
+      )
+    )
+      isMobile = true;
+    return isMobile;
+  },
+
+  predicate: function() {
+    var fields = [],
+      n_fields = arguments.length,
+      field,
+      name,
+      cmp;
+
+    var default_cmp = function(a, b) {
+        if (a == undefined) a = 0;
+        if (b == undefined) b = 0;
+        if (a === b) return 0;
+        return a < b ? -1 : 1;
+      },
+      getCmpFunc = function(primer, reverse) {
+        var dfc = default_cmp,
+          // closer in scope
+          cmp = default_cmp;
+        if (primer) {
+          cmp = function(a, b) {
+            return dfc(primer(a), primer(b));
+          };
         }
-        lastSample = Date.now();
-        setTimeout(Helper.sample, SAMPLE_RATE);
-    },
+        if (reverse) {
+          return function(a, b) {
+            return -1 * cmp(a, b);
+          };
+        }
+        return cmp;
+      };
 
-    msieversion: function() {
-        var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE ");
+    // preprocess sorting options
+    for (var i = 0; i < n_fields; i++) {
+      field = arguments[i];
+      if (typeof field === "string") {
+        name = field;
+        cmp = default_cmp;
+      } else {
+        name = field.name;
+        cmp = getCmpFunc(field.primer, field.reverse);
+      }
+      fields.push({
+        name: name,
+        cmp: cmp
+      });
+    }
 
-        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer, return version number
+    // final comparison function
+    return function(A, B) {
+      var name, result;
+      for (var i = 0; i < n_fields; i++) {
+        result = 0;
+        field = fields[i];
+        name = field.name;
+
+        result = field.cmp(A[name], B[name]);
+        if (result !== 0) break;
+      }
+      return result;
+    };
+  },
+
+  hashCode: function(str) {
+    // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+  },
+
+  intToARGB: function(i) {
+    return (
+      ((i >> 24) & 0xff).toString(16) +
+      ((i >> 16) & 0xff).toString(16) +
+      ((i >> 8) & 0xff).toString(16) +
+      (i & 0xff).toString(16)
+    );
+  },
+
+  hexToRgb: function(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : null;
+  },
+
+  hslToHex: function(h, s, l) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    var r, g, b;
+    if (s === 0) {
+      r = g = b = l; // achromatic
+    } else {
+      var hue2rgb = function(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    var toHex = function(x) {
+      var hex = Math.round(x * 255).toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    };
+    return "#" + toHex(r) + "" + toHex(g) + "" + toHex(b);
+  },
+
+  hslToRgb: function(h, s, l) {
+    var r, g, b;
+
+    if (s == 0) {
+      r = g = b = l; // achromatic
+    } else {
+      function hue2rgb(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      }
+
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+
+    return [r * 255, g * 255, b * 255];
+  },
+
+  pad: function(n) {
+    return n < 10 ? "0" + Math.floor(n) : Math.floor(n);
+  },
+
+  contains: function(a, obj) {
+    var i = a.length;
+    while (i--) {
+      if (a[i] === obj) {
         return true;
-        else                 // If another browser, return 0
-        return false;
-    },
+      }
+    }
+    return false;
+  },
 
-    getRandomInt: function(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    },
+  sample: function() {
+    if (Date.now() - lastSample >= SAMPLE_RATE * 2) {
+      socket.removeAllListeners();
+      socket.disconnect();
+      socket.connect();
+      Player.setup_all_listeners();
+    }
+    lastSample = Date.now();
+    setTimeout(Helper.sample, SAMPLE_RATE);
+  },
 
-    secondsToOther: function(seconds) {
-        var time = seconds;
-        var minutes = Math.floor(time/60);
-        time = time - (minutes * 60);
-        return [minutes, time];
-    },
+  msieversion: function() {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
 
-    rgbToHsl: function(arr, light) {
-        r = arr[0];
-        g = arr[1];
-        b = arr[2];
-        r /= 255;
-        g /= 255;
-        b /= 255;
-        var max = Math.max(r, g, b), min = Math.min(r, g, b);
-        var h, s, l = (max + min) / 2;
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
+      // If Internet Explorer, return version number
+      return true;
+    // If another browser, return 0
+    else return false;
+  },
 
-        if(max == min){
-            h = s = 0; // achromatic
-        }else{
-            var d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch(max){
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
-            }
-            h /= 6;
+  getRandomInt: function(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  },
+
+  secondsToOther: function(seconds) {
+    var time = seconds;
+    var minutes = Math.floor(time / 60);
+    time = time - minutes * 60;
+    return [minutes, time];
+  },
+
+  rgbToHsl: function(arr, light) {
+    r = arr[0];
+    g = arr[1];
+    b = arr[2];
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    var max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
+    var h,
+      s,
+      l = (max + min) / 2;
+
+    if (max == min) {
+      h = s = 0; // achromatic
+    } else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+    if (l > 0.5 && light) l = 0.4;
+    //make sure it isnt too light
+    else if (l < 0.65 && !light) l = 0.65;
+    if (s > 0.3 && light) s = 0.3;
+    return (
+      "hsl(" +
+      Math.floor(h * 360) +
+      ", " +
+      Math.floor(s * 100) +
+      "%, " +
+      Math.floor(l * 100) +
+      "%)"
+    );
+  },
+
+  componentToHex: function(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  },
+
+  rgbToHex: function(r, g, b) {
+    return (
+      "#" +
+      Helper.componentToHex(r) +
+      Helper.componentToHex(g) +
+      Helper.componentToHex(b)
+    );
+  },
+
+  upperFirst: function(string) {
+    return (
+      string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase()
+    );
+  },
+
+  send_mail: function(from, message) {
+    if (from !== "" && message !== "") {
+      Helper.addClass("#submit-contact-form", "hide");
+      Helper.removeClass("#send-loader", "hide");
+      document
+        .getElementById("contact-form-from")
+        .setAttribute("disabled", true);
+      document
+        .getElementById("contact-form-message")
+        .setAttribute("disabled", true);
+      var captcha_response = grecaptcha.getResponse();
+      Helper.ajax({
+        type: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          from: from,
+          message: message,
+          "g-recaptcha-response": captcha_response
+        },
+        url: "/api/mail",
+        success: function(data) {
+          if (data == "success") {
+            Helper.setHtml("#contact-container", "");
+            Helper.setHtml(
+              "#contact-container",
+              "Mail has been sent, we'll be back with you shortly."
+            );
+          } else {
+            Helper.setHtml("#contact-container", "");
+            Helper.setHtml(
+              "#contact-container",
+              "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>"
+            );
+          }
+        },
+        error: function(data) {
+          if (data == "success") {
+            Helper.setHtml("#contact-container", "");
+            Helper.setHtml(
+              "#contact-container",
+              "Mail has been sent, we'll be back with you shortly."
+            );
+          } else {
+            Helper.setHtml("#contact-container", "");
+            Helper.setHtml(
+              "#contact-container",
+              "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>"
+            );
+          }
         }
-        if(l>0.5 && light)l=0.4; //make sure it isnt too light
-        else if(l<0.65 && !light)l=0.65;
-        if(s>0.3 && light)s=0.3;
-        return "hsl("+Math.floor(h*360)+", "+Math.floor(s*100)+"%, "+Math.floor(l*100)+"%)";
-    },
+      });
+    }
+  },
 
-    componentToHex: function(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    },
+  firstY: null,
+  lastY: null,
+  currentY: null,
+  vertScroll: false,
+  initAdjustment: 0,
 
-    rgbToHex: function(r, g, b) {
-        return "#" + Helper.componentToHex(r) + Helper.componentToHex(g) + Helper.componentToHex(b);
-    },
+  touchstart: function(event) {
+    Helper.lastY = Helper.currentY = Helper.firstY =
+      event.originalEvent.touches[0].pageY;
+  },
 
-    upperFirst: function(string){
-        return string.substring(0,1).toUpperCase()+string.substring(1).toLowerCase();
-    },
+  touchmove: function(event) {
+    Helper.currentY = event.originalEvent.touches[0].pageY;
+    var adjustment = Helper.lastY - Helper.currentY;
 
-    send_mail: function(from, message){
-        if(from !== "" && message !== ""){
+    // Mimic native vertical scrolling where scrolling only starts after the
+    // cursor has moved up or down from its original position by ~30 pixels.
+    if (!Helper.vertScroll && Math.abs(Helper.currentY - Helper.firstY) > 30) {
+      Helper.vertScroll = true;
+      Helper.initAdjustment = Helper.currentY - Helper.firstY;
+    }
 
-            Helper.addClass("#submit-contact-form", "hide");
-            Helper.removeClass("#send-loader", "hide");
-            document.getElementById("contact-form-from").setAttribute("disabled", true);
-            document.getElementById("contact-form-message").setAttribute("disabled", true);
-            var captcha_response = grecaptcha.getResponse();
-            Helper.ajax({
-                type: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                data: {
-                    from: from,
-                    message: message,
-                    "g-recaptcha-response": captcha_response,
-                },
-                url: "/api/mail",
-                success: function(data){
-                    if(data == "success"){
-                        Helper.setHtml("#contact-container", "");
-                        Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
-                    }else{
-                        Helper.setHtml("#contact-container", "");
-                        Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
-                    }
-                }, error: function(data) {
-                    if(data == "success"){
-                        Helper.setHtml("#contact-container", "");
-                        Helper.setHtml("#contact-container", "Mail has been sent, we'll be back with you shortly.")
-                    }else{
-                        Helper.setHtml("#contact-container", "");
-                        Helper.setHtml("#contact-container", "Something went wrong, sorry about that. You could instead try with your own mail-client: <a title='Open in client' href='mailto:contact@zoff.me?Subject=Contact%20Zoff'>contact@zoff.me</a>")
-                    }
-                }
-            });
-        }
-    },
+    // only apply the adjustment if the user has met the threshold for vertical scrolling
+    if (Helper.vertScroll) {
+      window.scrollBy(0, adjustment + Helper.initAdjustment);
+      Helper.lastY = Helper.currentY + adjustment;
+    }
+  },
 
-    firstY: null,
-    lastY: null,
-    currentY: null,
-    vertScroll: false,
-    initAdjustment: 0,
+  touchend: function(event) {
+    Helper.vertScroll = false;
+    Helper.firstY = null;
+    Helper.currentY = null;
+    Helper.vertScroll = false;
+    Helper.initAdjustment = 0;
+    Helper.currentY = null;
+  },
 
-    touchstart: function(event) {
-        Helper.lastY = Helper.currentY = Helper.firstY = event.originalEvent.touches[0].pageY;
-    },
+  invertColor: function(hex) {
+    if (hex.indexOf("#") === 0) {
+      hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+      throw new Error("Invalid HEX color.");
+    }
+    // invert color components
+    var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+      g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+      b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+    // pad each with zeros and return
+    return "#" + padZero(r) + padZero(g) + padZero(b);
+  },
 
-    touchmove: function(event) {
-        Helper.currentY = event.originalEvent.touches[0].pageY;
-        var adjustment = Helper.lastY-Helper.currentY;
+  padZero: function(str, len) {
+    len = len || 2;
+    var zeros = new Array(len).join("0");
+    return (zeros + str).slice(-len);
+  },
 
-        // Mimic native vertical scrolling where scrolling only starts after the
-        // cursor has moved up or down from its original position by ~30 pixels.
-        if (!Helper.vertScroll && Math.abs(Helper.currentY-Helper.firstY) > 30) {
-            Helper.vertScroll = true;
-            Helper.initAdjustment = Helper.currentY-Helper.firstY;
-        }
+  replaceForFind: function(str) {
+    str = str.toLowerCase();
+    if (str.startsWith("the")) {
+      str = str.replace("the", "");
+    }
+    str = str.replace(" hd", "");
+    str = str.replace("official hd video", "");
+    str = str.replace("unofficial video", "");
+    str = str.replace("studio footage", "");
+    str = str.replace("great song", "");
+    str = str.replace("-", " ");
+    str = str.replace("-", " ");
+    str = str.replace(" hq", " ");
+    str = str.replace("(explicit)", " ");
+    str = str.replace("lyric video", "");
+    str = str.replace("lyrics video", "");
+    str = str.replace("album version", "");
+    str = str.replace("drive original movie soundtrack", "");
+    str = str.replace("original movie soundtrack", "");
+    str = str.replace("live sessions", "");
+    str = str.replace("audio only", "");
+    str = str.replace("audio", "");
+    str = str.replace("(new)", "");
+    str = str.replace(" by ", " ");
+    str = str.replace(" vs ", " ");
+    str = str.replace("(full)", " ");
+    str = str.replace("(video)", " ");
+    str = str.replace("&", " ");
+    str = str.replace("with lyrics", "");
+    str = str.replace("lyrics", "");
+    str = str.replace("w/", "");
+    str = str.replace("w/", "");
+    str = str.replace("official video", "");
+    str = str.replace("studio version", "");
+    str = str.replace("official music video", "");
+    str = str.replace("music video", "");
+    str = str.replace("musicvideo", "");
+    str = str.replace("original video", "");
+    str = str.replace("full version", "");
+    str = str.replace("full song", "");
+    str = str.replace("(official)", "");
+    str = str.replace("official", "");
+    str = str.replace("(original)", "");
+    str = str.replace(/ *\[[^\]]*]/, "");
+    str = str.replace("/w download", "");
+    str = str.replace("(", " ");
+    str = str.replace(")", " ");
+    str = str.replace("vs.", " ");
+    str = str.replace("/", " ");
+    str = str.replace("long version", "");
+    str = str.replace("[]", "");
+    str = str.replace("()", "");
+    str = str.replace("|", "");
+    str = str.replace("feat.", " ");
+    str = str.replace("feat", " ");
+    str = str.replace("ft.", " ");
+    str = str.replace("[", " ");
+    str = str.replace("]", " ");
+    str = str.replace(" free ", "");
+    str = str.replace(" hd", "");
+    str = str.replace("original mix", " ");
+    str = str.replace("radio edit", " ");
+    str = str.replace("pop version", " ");
+    str = str
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ");
+    str = str.replace("(", " ");
+    str = str.replace(")", " ");
+    str = str.replace("[", " ");
+    str = str.replace("]", " ");
+    str = str.replace("-", " ");
+    str = str.replace("-", " ");
+    str = str.replace("-", " ");
+    str = str.replace("original mix", " ");
+    str = str.replace("album version", " ");
+    str = str.replace("abum version", " ");
+    str = str.replace("feat.", " ");
+    str = str.replace("feat.", " ");
+    str = str.replace("feat", " ");
+    str = str.replace("feat", " ");
+    str = str.replace("ft.", " ");
+    str = str.replace("radio edit", " ");
+    str = str.replace("pop version", " ");
+    str = str
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ");
+    str = str
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ")
+      .replace("  ", " ");
+    return str;
+  },
 
-        // only apply the adjustment if the user has met the threshold for vertical scrolling
-        if (Helper.vertScroll) {
-            window.scrollBy(0,adjustment + Helper.initAdjustment);
-            Helper.lastY = Helper.currentY + adjustment;
-        }
+  hexToComplimentary: function(hex) {
+    // Convert hex to rgb
+    // Credit to Denis http://stackoverflow.com/a/36253499/4939630
+    var rgb =
+      "rgb(" +
+      (hex = hex.replace("#", ""))
+        .match(new RegExp("(.{" + hex.length / 3 + "})", "g"))
+        .map(function(l) {
+          return parseInt(hex.length % 2 ? l + l : l, 16);
+        })
+        .join(",") +
+      ")";
 
-    },
+    // Get array of RGB values
+    rgb = rgb.replace(/[^\d,]/g, "").split(",");
 
-    touchend: function(event) {
-        Helper.vertScroll = false;
-        Helper.firstY = null;
-        Helper.currentY = null;
-        Helper.vertScroll = false;
-        Helper.initAdjustment = 0;
-        Helper.currentY = null;
-    },
+    var r = rgb[0],
+      g = rgb[1],
+      b = rgb[2];
 
-    invertColor: function(hex) {
-        if (hex.indexOf('#') === 0) {
-            hex = hex.slice(1);
-        }
-        // convert 3-digit hex to 6-digits.
-        if (hex.length === 3) {
-            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        if (hex.length !== 6) {
-            throw new Error('Invalid HEX color.');
-        }
-        // invert color components
-        var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
-        g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
-        b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
-        // pad each with zeros and return
-        return '#' + padZero(r) + padZero(g) + padZero(b);
-    },
+    // Convert RGB to HSL
+    // Adapted from answer by 0x000f http://stackoverflow.com/a/34946092/4939630
+    r /= 255.0;
+    g /= 255.0;
+    b /= 255.0;
+    var max = Math.max(r, g, b);
+    var min = Math.min(r, g, b);
+    var h,
+      s,
+      l = (max + min) / 2.0;
 
-    padZero: function(str, len) {
-        len = len || 2;
-        var zeros = new Array(len).join('0');
-        return (zeros + str).slice(-len);
-    },
+    if (max == min) {
+      h = s = 0; //achromatic
+    } else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
 
-    replaceForFind: function(str) {
-        str = str.toLowerCase();
-        if(str.startsWith("the")) {
-            str = str.replace("the", "");
-        }
-        str = str.replace(" hd", "");
-        str = str.replace("official hd video", "");
-        str = str.replace("unofficial video", "");
-        str = str.replace("studio footage", "");
-        str = str.replace("great song", "");
-        str = str.replace("-", " ");
-        str = str.replace("-", " ");
-        str = str.replace(" hq", " ");
-        str = str.replace("(explicit)", " ");
-        str = str.replace("lyric video", "");
-        str = str.replace("lyrics video", "");
-        str = str.replace("album version", "");
-        str = str.replace("drive original movie soundtrack", "");
-        str = str.replace("original movie soundtrack", "");
-        str = str.replace("live sessions", "");
-        str = str.replace("audio only", "");
-        str = str.replace("audio", "");
-        str = str.replace("(new)", "");
-        str = str.replace(" by ", " ");
-        str = str.replace(" vs ", " ");
-        str = str.replace("(full)", " ");
-        str = str.replace("(video)", " ");
-        str = str.replace("&", " ");
-        str = str.replace("with lyrics", "");
-        str = str.replace("lyrics", "");
-        str = str.replace("w/", "");
-        str = str.replace("w/", "");
-        str = str.replace("official video", "");
-        str = str.replace("studio version", "");
-        str = str.replace("official music video", "");
-        str = str.replace("music video", "");
-        str = str.replace("musicvideo", "");
-        str = str.replace("original video", "");
-        str = str.replace("full version", "");
-        str = str.replace("full song", "");
-        str = str.replace("(official)", "");
-        str = str.replace("official", "");
-        str = str.replace("(original)", "");
-        str = str.replace(/ *\[[^\]]*]/, "");
-        str = str.replace("/w download", "");
-        str = str.replace("(", " ");
-        str = str.replace(")", " ");
-        str = str.replace("vs.", " ");
-        str = str.replace("/", " ");
-        str = str.replace("long version", "");
-        str = str.replace("[]", "");
-        str = str.replace("()", "");
-        str = str.replace("|", "");
-        str = str.replace("feat.", " ");
-        str = str.replace("feat", " ");
-        str = str.replace("ft.", " ");
-        str = str.replace("[", " ");
-        str = str.replace("]", " ");
-        str = str.replace(" free ", "");
-        str = str.replace(" hd", "");
-        str = str.replace("original mix", " ");
-        str = str.replace("radio edit", " ");
-        str = str.replace("pop version", " ");
-        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
-        str = str.replace("(", " ");
-        str = str.replace(")", " ");
-        str = str.replace("[", " ");
-        str = str.replace("]", " ");
-        str = str.replace("-", " ");
-        str = str.replace("-", " ");
-        str = str.replace("-", " ");
-        str = str.replace("original mix", " ");
-        str = str.replace("album version", " ");
-        str = str.replace("abum version", " ");
-        str = str.replace("feat.", " ");
-        str = str.replace("feat.", " ");
-        str = str.replace("feat", " ");
-        str = str.replace("feat", " ");
-        str = str.replace("ft.", " ");
-        str = str.replace("radio edit", " ");
-        str = str.replace("pop version", " ");
-        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
-        str = str.replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ").replace("  ", " ");
-        return str;
-    },
+      if (max == r && g >= b) {
+        h = (1.0472 * (g - b)) / d;
+      } else if (max == r && g < b) {
+        h = (1.0472 * (g - b)) / d + 6.2832;
+      } else if (max == g) {
+        h = (1.0472 * (b - r)) / d + 2.0944;
+      } else if (max == b) {
+        h = (1.0472 * (r - g)) / d + 4.1888;
+      }
+    }
 
-    hexToComplimentary: function(hex){
+    h = (h / 6.2832) * 360.0 + 0;
 
-        // Convert hex to rgb
-        // Credit to Denis http://stackoverflow.com/a/36253499/4939630
-        var rgb = 'rgb(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16); }).join(',') + ')';
+    // Shift hue to opposite side of wheel and convert to [0-1] value
+    h += 180;
+    if (h > 360) {
+      h -= 360;
+    }
+    h /= 360;
 
-        // Get array of RGB values
-        rgb = rgb.replace(/[^\d,]/g, '').split(',');
+    // Convert h s and l values into r g and b values
+    // Adapted from answer by Mohsen http://stackoverflow.com/a/9493060/4939630
+    if (s === 0) {
+      r = g = b = l; // achromatic
+    } else {
+      var hue2rgb = function hue2rgb(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
 
-        var r = rgb[0], g = rgb[1], b = rgb[2];
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
 
-        // Convert RGB to HSL
-        // Adapted from answer by 0x000f http://stackoverflow.com/a/34946092/4939630
-        r /= 255.0;
-        g /= 255.0;
-        b /= 255.0;
-        var max = Math.max(r, g, b);
-        var min = Math.min(r, g, b);
-        var h, s, l = (max + min) / 2.0;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
 
-        if(max == min) {
-            h = s = 0;  //achromatic
-        } else {
-            var d = max - min;
-            s = (l > 0.5 ? d / (2.0 - max - min) : d / (max + min));
+    r = Math.round(r * 255);
+    g = Math.round(g * 255);
+    b = Math.round(b * 255);
 
-            if(max == r && g >= b) {
-                h = 1.0472 * (g - b) / d ;
-            } else if(max == r && g < b) {
-                h = 1.0472 * (g - b) / d + 6.2832;
-            } else if(max == g) {
-                h = 1.0472 * (b - r) / d + 2.0944;
-            } else if(max == b) {
-                h = 1.0472 * (r - g) / d + 4.1888;
-            }
-        }
-
-        h = h / 6.2832 * 360.0 + 0;
-
-        // Shift hue to opposite side of wheel and convert to [0-1] value
-        h+= 180;
-        if (h > 360) { h -= 360; }
-        h /= 360;
-
-        // Convert h s and l values into r g and b values
-        // Adapted from answer by Mohsen http://stackoverflow.com/a/9493060/4939630
-        if(s === 0){
-            r = g = b = l; // achromatic
-        } else {
-            var hue2rgb = function hue2rgb(p, q, t){
-                if(t < 0) t += 1;
-                if(t > 1) t -= 1;
-                if(t < 1/6) return p + (q - p) * 6 * t;
-                if(t < 1/2) return q;
-                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                return p;
-            };
-
-            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            var p = 2 * l - q;
-
-            r = hue2rgb(p, q, h + 1/3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
-        }
-
-        r = Math.round(r * 255);
-        g = Math.round(g * 255);
-        b = Math.round(b * 255);
-
-        // Convert r b and g values to hex
-        rgb = b | (g << 8) | (r << 16);
-        return "#" + (0x1000000 | rgb).toString(16).substring(1);
-    },
-
+    // Convert r b and g values to hex
+    rgb = b | (g << 8) | (r << 16);
+    return "#" + (0x1000000 | rgb).toString(16).substring(1);
+  }
 };
 
 Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
+  this.parentElement.removeChild(this);
 };
 
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = 0, len = this.length; i < len; i++) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
+  for (var i = 0, len = this.length; i < len; i++) {
+    if (this[i] && this[i].parentElement) {
+      this[i].parentElement.removeChild(this[i]);
     }
+  }
 };
 
 String.prototype.startsWith = function(searchString, position) {
-    position = position || 0;
-    return this.indexOf(searchString, position) === position;
+  position = position || 0;
+  return this.indexOf(searchString, position) === position;
 };
 
 function similarity(s1, s2) {
-    var longer = s1;
-    var shorter = s2;
-    if (s1.length < s2.length) {
-        longer = s2;
-        shorter = s1;
-    }
-    var longerLength = longer.length;
-    if (longerLength == 0) {
-        return 1.0;
-    }
-    return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (
+    (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength)
+  );
 }
 
 function editDistance(s1, s2) {
-    s1 = s1.toLowerCase();
-    s2 = s2.toLowerCase();
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
 
-    var costs = new Array();
-    for (var i = 0; i <= s1.length; i++) {
-        var lastValue = i;
-        for (var j = 0; j <= s2.length; j++) {
-            if (i == 0)
-            costs[j] = j;
-            else {
-                if (j > 0) {
-                    var newValue = costs[j - 1];
-                    if (s1.charAt(i - 1) != s2.charAt(j - 1))
-                    newValue = Math.min(Math.min(newValue, lastValue),
-                    costs[j]) + 1;
-                    costs[j - 1] = lastValue;
-                    lastValue = newValue;
-                }
-            }
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0) costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
         }
-        if (i > 0)
-        costs[s2.length] = lastValue;
+      }
     }
-    return costs[s2.length];
+    if (i > 0) costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
 }
