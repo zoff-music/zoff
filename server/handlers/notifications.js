@@ -38,9 +38,8 @@ function requested_change(type, string, channel) {
       }
     });
   } catch (e) {
-    console.log("Mail is not configured and wont work");
     console.log(
-      "Seems you forgot to create a mailconfig.js in /server/config/. Have a look at the mailconfig.example.js."
+      "(!) Missing file - /config/mailconfig.js Have a look at /config/mailconfig.example.js. "
     );
   }
 }
