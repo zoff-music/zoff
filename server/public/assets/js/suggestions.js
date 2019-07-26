@@ -89,7 +89,7 @@ var Suggestions = {
       "&type=video&key=" +
       api_key.youtube;
     var video_urls =
-      "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,statistics&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key=" +
+      "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,statistics&fields=pageInfo,items(id,contentDetails,statistics(viewCount),snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key=" +
       api_key.youtube +
       "&id=";
 
@@ -125,29 +125,27 @@ var Suggestions = {
               try {
                 viewCount = song.statistics.viewCount
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
               } catch (e) {}
 
               try {
-                document
-                  .getElementById("suggest-song-html")
-                  .insertAdjacentHTML(
-                    "beforeend",
-                    List.generateSong(
-                      {
-                        id: video_id,
-                        title: video_title,
-                        length: length,
-                        duration: duration,
-                        votes: viewCount,
-                        extra: "Views",
-                        source: "youtube"
-                      },
-                      false,
-                      false,
-                      false
-                    )
-                  );
+                document.getElementById("suggest-song-html").insertAdjacentHTML(
+                  "beforeend",
+                  List.generateSong(
+                    {
+                      id: video_id,
+                      title: video_title,
+                      length: length,
+                      duration: duration,
+                      votes: viewCount,
+                      extra: "Views",
+                      source: "youtube"
+                    },
+                    false,
+                    false,
+                    false
+                  )
+                );
               } catch (e) {}
             }
           }
