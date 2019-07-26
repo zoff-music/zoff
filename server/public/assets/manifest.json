@@ -1,36 +1,36 @@
 {
-    "short_name": "Zoff",
-    "name": "Zoff",
-    "description": "A free YouTube based radio, where no registration is needed for listening to channels, or creating your own channels. ",
-    "dir": "ltr",
-    "lang": "en-US",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#2D2D2D",
-    "theme_color": "#2D2D2D",
-    "orientation": "portrait",
-    "related_applications": [
-        {
-            "platform": "play",
-            "id": "zoff.me.zoff",
-            "url": "https://play.google.com/store/apps/details?id=zoff.me.zoff"
-        },
-        {
-            "platform": "itunes",
-            "id": "me.zoff.zoffnative",
-            "url": "https://itunes.apple.com/us/app/zoff/id1402037061?ls=1&mt=8"
-        }
-    ],
-    "icons": [
-        {
-            "src": "/assets/images/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/assets/images/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "short_name": "Zoff",
+  "name": "Zoff",
+  "description": "A free YouTube based radio, where no registration is needed for listening to channels, or creating your own channels. ",
+  "dir": "ltr",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2D2D2D",
+  "theme_color": "#2D2D2D",
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "zoff.me.zoff",
+      "url": "https://play.google.com/store/apps/details?id=zoff.me.zoff"
+    },
+    {
+      "platform": "itunes",
+      "id": "me.zoff.zoffnative",
+      "url": "https://itunes.apple.com/us/app/zoff/id1402037061?ls=1&mt=8"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

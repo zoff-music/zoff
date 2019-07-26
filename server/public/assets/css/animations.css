@@ -1,0 +1,63 @@
+@keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 500px 500px, 400px 400px, 300px 300px;
+  }
+}
+@-moz-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 500px 500px, 400px 400px, 300px 300px;
+  }
+}
+@-webkit-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 500px 500px, 400px 400px, 300px 300px;
+  }
+}
+@-ms-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  100% {
+    background-position: 500px 500px, 400px 400px, 300px 300px;
+  }
+}
+
+/*
+*
+*
+* Source: https://codepen.io/NickyCDK/pen/AIonk
+*
+*/
+
+#snow {
+  pointer-events: none;
+  background: none;
+  font-family: Androgyne;
+  background-image: url("/assets/images/s1.png"), url("/assets/images/s2.png"),
+    url("/assets/images/s3.png");
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  -webkit-animation: snow 10s linear infinite;
+  -moz-animation: snow 10s linear infinite;
+  -ms-animation: snow 10s linear infinite;
+  animation: snow 10s linear infinite;
+}
+
+#snow.snow-channel {
+  z-index: 9999;
+  width: calc(100% - 0.75rem);
+  height: calc(100% - 32px);
+}

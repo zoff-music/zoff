@@ -6,7 +6,13 @@ var gulp = require("gulp"),
 
 gulp.task("css", function() {
   return gulp
-    .src("server/public/assets/css/style.css")
+    .src([
+      "server/public/assets/css/style.css",
+      "server/public/assets/css/globals.css",
+      "server/public/assets/css/animations.css",
+      "server/public/assets/css/mobile.css"
+    ])
+    .pipe(concat("style.css"))
     .pipe(cleanCSS({ compatibility: "ie8" }))
     .pipe(gulp.dest("server/public/assets/dist"));
 });
