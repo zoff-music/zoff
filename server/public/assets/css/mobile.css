@@ -1,3 +1,21 @@
+@media only screen and (min-width: 993px) {
+  .toast {
+    float: left;
+  }
+
+  nav .zbrand {
+    left: 0px !important;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #wrapper {
+    padding-right: 0vh !important;
+    width: 100% !important;
+    overflow: hidden;
+  }
+}
+
 @media only screen and (max-width: 992px) {
   nav .brand-logo {
     left: 0%;

@@ -8,23 +8,6 @@
 3.3 Search
 */
 
-.material-icons {
-  display: none;
-  width: 24px;
-}
-
-html {
-  background: #2d2d2d;
-}
-
-body {
-  background: white;
-}
-
-a {
-  outline: 0 !important;
-}
-
 .pride-background {
   background: linear-gradient(
       90deg,
@@ -731,19 +714,6 @@ li.disabled span {
   border-radius: 4px;
 }
 
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  overflow-x: hidden;
-  -webkit-transition: background-color 1s;
-  -moz-transition: background-color 1s;
-  -ms-transition: background-color 1s;
-  -o-transition: background-color 1s;
-  transition: background-color 1s;
-  overflow-y: scroll !important;
-}
-
 #main-container {
   flex: auto;
   -webkit-transition: background-color 0.2s;
@@ -991,21 +961,6 @@ span.badge.new.white {
   content: "";
 }
 
-input[type="text"]:focus:not([readonly]),
-input[type="password"]:focus:not([readonly]),
-input[type="email"]:focus:not([readonly]),
-input[type="url"]:focus:not([readonly]),
-input[type="time"]:focus:not([readonly]),
-input[type="date"]:focus:not([readonly]),
-input[type="datetime-local"]:focus:not([readonly]),
-input[type="tel"]:focus:not([readonly]),
-input[type="number"]:focus:not([readonly]),
-input[type="search"]:focus:not([readonly]),
-textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #9d9d9d;
-  box-shadow: 0 1px 0 0 #9d9d9d;
-}
-
 /* End global colors */
 
 nav .brand-logo {
@@ -1179,21 +1134,6 @@ nav .zbrand {
   margin-right: 10px;
 }
 
-/*
-play mdi-av-play-arrow
-pause mdi-av-pause
-remove mdi-content-clear
-search mdi-action-search
-password mdi-communication-vpn-key
-volume mdi-av-volume-up s
-kip mdi-av-skip-next
-shuffle mdi-av-shuffle
-settings mdi-action-settings
-errors mdi-alert-warning mdi-alert-error mdi-action-info
-success mdi-action-done
-vote mdi-action-thumb-up
-hide mdi-action-visibility mdi-action-visibility-off
-*/
 /*Global style for commit container*/
 
 #latest-commit {
@@ -1721,24 +1661,6 @@ margin:-1px;
   cursor: pointer;
 }
 
-@media only screen and (min-width: 993px) {
-  .toast {
-    float: left;
-  }
-
-  nav .zbrand {
-    left: 0px !important;
-  }
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  #wrapper {
-    padding-right: 0vh !important;
-    width: 100% !important;
-    overflow: hidden;
-  }
-}
-
 #list-song-html {
   display: none;
 }
@@ -2155,11 +2077,6 @@ margin-right: 52%;
 .nav-btn:hover > .hover-text {
   display: flex;
   justify-content: center;
-}
-
-nav ul li:hover,
-nav ul li.active {
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .song-title:hover,
