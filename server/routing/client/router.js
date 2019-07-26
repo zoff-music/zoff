@@ -23,7 +23,9 @@ try {
   analytics = google.analytics;
   adsense = google.adsense;
 } catch (e) {
-  console.log("No analytics-id found");
+  console.log(
+    "(!) Missing file - /config/google.js Have a look at /config/google.example.js. This is for google analytics."
+  );
 }
 
 try {
