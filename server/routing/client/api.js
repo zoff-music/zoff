@@ -13,7 +13,7 @@ try {
 } catch (e) {
   allowed_key = ["***"];
   console.log(
-    "Allowed API-key for skipping songs from API has not been configured, so all keys are allowed by default (!). Have a look at config/allowed_api.example.js"
+    "(!) Missing file - /config/allowed_api.js Have a look at /config/allowed_api.example.js."
   );
 }
 var crypto = require("crypto");
