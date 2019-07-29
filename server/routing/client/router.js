@@ -13,7 +13,6 @@ var Functions = require(pathThumbnails + "/handlers/functions.js");
 var Frontpage = require(pathThumbnails + "/handlers/frontpage.js");
 
 var db = require(pathThumbnails + "/handlers/db.js");
-//var db = require(pathThumbnails + '/handlers/db.js');
 
 try {
   google = require(path.join(
@@ -168,10 +167,6 @@ function root(req, res, next) {
     var subdomain = req.headers["x-forwarded-host"]
       ? req.headers["x-forwarded-host"].split(".")
       : req.headers.host.split(":")[0].split(".");
-    /*if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
-            res.redirect("https://zoff.me");
-            return;
-        }*/
     if (subdomain[0] == "remote") {
       var data = {
         year: year,
@@ -228,7 +223,6 @@ function root(req, res, next) {
     }
   } catch (e) {
     console.log(e);
-    //res.redirect("https://zoff.me");
   }
 }
 
@@ -240,10 +234,6 @@ function channel(req, res, next) {
     var subdomain = req.headers["x-forwarded-host"]
       ? req.headers["x-forwarded-host"].split(".")
       : req.headers.host.split(":")[0].split(".");
-    /*if(url != "zoff.me" && url != "admin.localhost" && url != "admin.zoff.me" && url != "remote.zoff.me" && url != "fb.zoff.me" && url != "remote.localhost" && url != "localhost") {
-            res.redirect("https://zoff.me");
-            return;
-        }*/
     if (subdomain[0] == "remote") {
       var data = {
         year: year,
@@ -264,22 +254,9 @@ function channel(req, res, next) {
     } else {
       if (req.params.channel_name == "o_callback") {
         res.redirect("/api/oauth");
-        //res.sendFile(path.join(pathThumbnails, '/public/assets/html/callback.html'));
       } else {
-        /*db.collection("frontpage_lists").find({"_id": Functions.encodeChannelName(req.params.channel_name)}, function(err, docs) {
-                    console.log(docs);
-                    var og_image = "https://zoff.me/assets/images/small-square.jpg";
-                    if(docs.length == 1) {
-                        if(docs[0].hasOwnProperty("thumbnail")) {
-                            if(docs[0].thumbnail.indexOf("mqdefault.jpg") > -1) docs[0].thumbnail = docs[0].thumbnail.replace("mqdefault", "hqdefault");
-                            og_image = docs[0].thumbnail;
-                        } else {
-                            og_image = "https://img.youtube.com/vi/" + docs[0].id + "/hqdefault.jpg";
-                        }
-                    }*/
         var data = {
           title: "404: File Not Found",
-          //list_name: capitalizeFirstLetter(Functions.decodeChannelName(req.params.channel_name)),
           list_name: capitalizeFirstLetter(req.params.channel_name),
           year: year,
           javascript_file: "main.min.js",
@@ -297,7 +274,6 @@ function channel(req, res, next) {
           data.client = true;
         }
         res.render("layouts/client/channel", data);
-        //});
       }
     }
   } catch (e) {
