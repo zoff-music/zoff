@@ -296,9 +296,6 @@ function channel(req, res, next) {
         if (subdomain[0] == "client") {
           data.client = true;
         }
-        if (req.params.channel_name == "404") {
-          res.status(404);
-        }
         res.render("layouts/client/channel", data);
         //});
       }
