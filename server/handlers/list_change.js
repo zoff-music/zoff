@@ -200,70 +200,88 @@ function addFromOtherList(arr, guid, offline, socket) {
                                                             frontpage: true,
                                                             accessed: Functions.get_time()
                                                           };
-
-                                                          to_change.id =
-                                                            np[0].id;
-                                                          to_change.title =
-                                                            np[0].title;
                                                           db.collection(
-                                                            "frontpage_lists"
+                                                            new_channel
                                                           ).find(
                                                             {
-                                                              _id: new_channel
+                                                              now_playing: true
                                                             },
-                                                            function(e, doc) {
-                                                              if (
-                                                                doc.length >
-                                                                  0 &&
-                                                                ((doc[0]
-                                                                  .thumbnail !=
-                                                                  "" &&
-                                                                  doc[0]
-                                                                    .thumbnail !=
-                                                                    undefined &&
-                                                                  (doc[0].thumbnail.indexOf(
-                                                                    "https://i1.sndcdn.com"
-                                                                  ) > -1 ||
-                                                                    doc[0].thumbnail.indexOf(
-                                                                      "https://w1.sndcdn.com"
-                                                                    ) > -1)) ||
-                                                                  (doc[0]
-                                                                    .thumbnail ==
-                                                                    "" ||
-                                                                    doc[0]
-                                                                      .thumbnail ==
-                                                                      undefined))
-                                                              ) {
-                                                                to_change.thumbnail =
-                                                                  np[0].thumbnail;
-                                                              }
-
+                                                            function(
+                                                              e,
+                                                              np_docs
+                                                            ) {
+                                                              to_change.id =
+                                                                np_docs[0].id;
+                                                              to_change.title =
+                                                                np_docs[0].title;
                                                               db.collection(
                                                                 "frontpage_lists"
-                                                              ).update(
+                                                              ).find(
                                                                 {
-                                                                  _id: channel
+                                                                  _id: new_channel
                                                                 },
-                                                                {
-                                                                  $set: to_change
-                                                                },
-                                                                function(e, d) {
-                                                                  List.send_list(
-                                                                    channel,
-                                                                    undefined,
-                                                                    false,
-                                                                    true,
-                                                                    false
+                                                                function(
+                                                                  e,
+                                                                  doc
+                                                                ) {
+                                                                  if (
+                                                                    doc.length >
+                                                                      0 &&
+                                                                    ((doc[0]
+                                                                      .thumbnail !=
+                                                                      "" &&
+                                                                      doc[0]
+                                                                        .thumbnail !=
+                                                                        undefined &&
+                                                                      (doc[0].thumbnail.indexOf(
+                                                                        "https://i1.sndcdn.com"
+                                                                      ) > -1 ||
+                                                                        doc[0].thumbnail.indexOf(
+                                                                          "https://w1.sndcdn.com"
+                                                                        ) >
+                                                                          -1)) ||
+                                                                      (doc[0]
+                                                                        .thumbnail ==
+                                                                        "" ||
+                                                                        doc[0]
+                                                                          .thumbnail ==
+                                                                          undefined))
+                                                                  ) {
+                                                                    to_change.thumbnail =
+                                                                      np_docs[0].thumbnail;
+                                                                  }
+
+                                                                  db.collection(
+                                                                    "frontpage_lists"
+                                                                  ).update(
+                                                                    {
+                                                                      _id: channel
+                                                                    },
+                                                                    {
+                                                                      $set: to_change
+                                                                    },
+                                                                    function(
+                                                                      e,
+                                                                      d
+                                                                    ) {
+                                                                      List.send_list(
+                                                                        channel,
+                                                                        undefined,
+                                                                        false,
+                                                                        true,
+                                                                        false
+                                                                      );
+                                                                      List.send_play(
+                                                                        channel,
+                                                                        undefined
+                                                                      );
+                                                                      socket.emit(
+                                                                        "toast",
+                                                                        "addedplaylist"
+                                                                      );
+                                                                      _db.close();
+                                                                    }
                                                                   );
-                                                                  List.send_play(
-                                                                    channel,
-                                                                    undefined
-                                                                  );
-                                                                  socket.emit(
-                                                                    "toast",
-                                                                    "addedplaylist"
-                                                                  );
-                                                                  _db.close();
                                                                 }
                                                               );
                                                             }
