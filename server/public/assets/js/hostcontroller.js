@@ -13,11 +13,7 @@ var Hostcontroller = {
       Hostcontroller.old_id = id;
     }
     var codeURL =
-      window.location.protocol +
-      "//remote." +
-      window.location.hostname +
-      "/" +
-      id;
+      window.location.protocol + "//remote." + window.location.host + "/" + id;
     if (embed) {
       if (window.parentWindow && window.parentOrigin) {
         window.parentWindow.postMessage(

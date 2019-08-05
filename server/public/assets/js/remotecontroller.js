@@ -32,11 +32,8 @@ window.addEventListener(
     M.Modal.init(document.getElementById("about"));
     M.Modal.init(document.getElementById("contact"));
     M.Modal.init(document.getElementById("help"));
-
-    if (window.location.hostname == "remote.zoff.me") add = "https://zoff.me";
-    else add = "localhost";
     socket = io.connect(
-      add,
+      window.location.protocol + "//" + window.location.host,
       connection_options
     );
     socket.on("update_required", function() {

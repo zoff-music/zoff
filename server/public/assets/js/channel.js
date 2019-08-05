@@ -3,10 +3,6 @@ var Channel = {
     if (window.location.hash == "#small" || inIframe()) {
       small_player = true;
       document.querySelector("footer").style.display = "none";
-      //addJoinBox();
-      //hideAllExtra();
-      //document.querySelectorAll(".tab.col.s3")[1].remove();
-      //document.querySelectorAll(".tab.col.s3")[1].remove();
     }
     if (client) {
       Helper.addClass(".tabs", "hide");
@@ -25,12 +21,7 @@ var Channel = {
       Helper.addClass(".control-list", "client-control-list");
     } else {
       if (!api_key.hasOwnProperty("soundcloud")) soundcloud_enabled = false;
-      else {
-        /*SC.initialize({
-                  client_id: api_key.soundcloud
-                }, function() {
-                });*/
-      }
+
       if (cast_ready_connect || chromecastAvailable || chromecastReady) {
         Helper.addClass(".volume-container", "volume-container-cast");
       }
@@ -295,10 +286,13 @@ var Channel = {
 
     if (!client) {
       if (!Helper.mobilecheck()) {
+        var port = window.location.port;
+        if (port != "") port = ":" + port;
         var shareCodeUrl =
           window.location.protocol +
           "//client." +
           window.location.hostname +
+          port +
           "/r/" +
           btoa(encodeURIComponent(chan.toLowerCase()));
         document
@@ -312,18 +306,11 @@ var Channel = {
           "#channel-name-join",
           "client." +
             window.location.hostname +
+            port +
             "/" +
             encodeURIComponent(chan.toLowerCase())
         );
-      } /*else if(small_player) {
-                document.querySelector("#channel-share-modal .modal-content").innerHTML = "<p>To listen to this channel with more features, go to</p><p>https://zoff.me/" + encodeURIComponent(chan.toLowerCase()) + "</p><img src='/assets/images/favicon.png' height='100' width='100' alt='circle-logo-zoff'>";
-                //M.Modal.getInstance(document.getElementById("channel-share-modal")).open();
-                if(!Helper.mobilecheck()) {
-                    setTimeout(function() {
-                        M.Modal.getInstance(document.getElementById("channel-share-modal")).close();
-                    }, 10000);
-                }
-            }*/
+      }
     } else {
       Helper.removeElement(".video-container");
       Helper.removeElement(".offline-panel");
@@ -435,24 +422,6 @@ var Channel = {
         position: "top",
         html: "Cast Zoff to TV"
       });
-
-      /*$("#color_embed").spectrum({
-                color: "#808080",
-                change: function(c) {
-                    color = c.toHexString().substring(1); // #ff0000
-                    document.getElementById("embed-area").value = embed_code(embed_autoplay, embed_width, embed_height, color);
-                },
-                appendTo: "#embed",
-                containerClassName: 'polyfill-color z-depth-4',
-                show: function(color) {
-                },
-            });*/
-
-      /*Helper.addClass(".sp-choose", "hide");
-            Helper.addClass(".sp-cancel", "btn-flat waves-effect waves-red");
-            Helper.removeClass(".sp-cancel", "sp-cancel");
-            document.getElementsByClassName("sp-button-container")[0].insertAdjacentHTML("beforeend", "<a href='#' class='btn-flat waves-effect waves-green sp-choose-link'>CHOOSE</a>");
-            */
     }
 
     addListener("click", ".sp-choose-link", function(e) {
@@ -708,10 +677,6 @@ var Channel = {
         channel: add + chan.toLowerCase()
       });
     } else if (url_split[3] === "") {
-      /*if(client) {
-                var host = window.location.hostname.split(".");
-                window.location.hostname = host[host.length -1];
-            }*/
       Admin.display_logged_out();
       if (hostMode) {
         Helper.removeClass("#main-row", "fullscreened");
