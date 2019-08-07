@@ -2,6 +2,7 @@ var Functions = require(pathThumbnails + "/handlers/functions.js");
 var List = require(pathThumbnails + "/handlers/list.js");
 var Frontpage = require(pathThumbnails + "/handlers/frontpage.js");
 var Search = require(pathThumbnails + "/handlers/search.js");
+var Chat = require(pathThumbnails + "/handlers/chat.js");
 var crypto = require("crypto");
 var Filter = require("bad-words");
 var filter = new Filter({ placeHolder: "x" });
@@ -819,159 +820,167 @@ function add_function(arr, coll, guid, offline, socket) {
           var source = arr.source;
           var tags = arr.tags;
           conf = docs;
-          if (
-            docs !== null &&
-            docs.length !== 0 &&
-            ((docs[0].addsongs === true &&
-              (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
-              docs[0].addsongs === false)
-          ) {
-            db.collection(coll).find(
-              { id: id, type: { $ne: "suggested" } },
-              function(err, docs) {
-                if (docs !== null && docs.length === 0) {
-                  var guids = [guid];
-                  var added = Functions.get_time();
-                  var votes = 1;
-                  db.collection(coll).find({ now_playing: true }, function(
-                    err,
-                    docs
-                  ) {
-                    if (docs !== null && docs.length === 0) {
-                      np = true;
-                    } else {
-                      np = false;
-                    }
-                    var new_song = {
-                      added: added,
-                      guids: guids,
-                      id: id,
-                      now_playing: np,
-                      title: title,
-                      tags: tags,
-                      votes: votes,
-                      duration: duration,
-                      start: parseInt(start),
-                      end: parseInt(end),
-                      type: "video",
-                      source: source
-                    };
-                    if (source == "soundcloud") {
-                      if (
-                        arr.thumbnail.indexOf("https://i1.sndcdn.com") > -1 ||
-                        arr.thumbnail.indexOf("https://w1.sndcdn.com") > -1
-                      ) {
-                        new_song.thumbnail = arr.thumbnail;
+          Chat.getUserNameByGuid(guid, function(username) {
+            if (
+              docs !== null &&
+              docs.length !== 0 &&
+              ((docs[0].addsongs === true &&
+                (hash == docs[0].adminpass || docs[0].adminpass === "")) ||
+                docs[0].addsongs === false)
+            ) {
+              db.collection(coll).find(
+                { id: id, type: { $ne: "suggested" } },
+                function(err, docs) {
+                  if (docs !== null && docs.length === 0) {
+                    var guids = [guid];
+                    var added = Functions.get_time();
+                    var votes = 1;
+                    db.collection(coll).find({ now_playing: true }, function(
+                      err,
+                      docs
+                    ) {
+                      if (docs !== null && docs.length === 0) {
+                        np = true;
                       } else {
-                        new_song.thumbnail =
-                          "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
+                        np = false;
                       }
-                    } else if (source == "youtube")
-                      new_song.thumbnail =
-                        "https://img.youtube.com/vi/" +
-                        new_song.id +
-                        "/mqdefault.jpg";
-                    db.collection(coll).update(
-                      { id: id },
-                      new_song,
-                      { upsert: true },
-                      function(err, docs) {
-                        new_song._id = "asd";
-                        if (np) {
-                          List.send_list(coll, undefined, false, true, false);
-                          db.collection(coll + "_settings").update(
-                            { id: "config" },
-                            { $set: { startTime: Functions.get_time() } }
-                          );
-                          List.send_play(coll, undefined);
-                          var thumbnail =
-                            arr.thumbnail != undefined
-                              ? arr.thumbnail
-                              : undefined;
-                          Frontpage.update_frontpage(
-                            coll,
-                            id,
-                            title,
-                            thumbnail,
-                            arr.source
-                          );
-                          if (source != "soundcloud")
-                            Search.get_correct_info(new_song, coll, false);
-                          else if (source == "soundcloud")
-                            Search.get_genres_soundcloud(new_song, coll);
+                      var new_song = {
+                        added: added,
+                        guids: guids,
+                        id: id,
+                        now_playing: np,
+                        title: title,
+                        tags: tags,
+                        votes: votes,
+                        duration: duration,
+                        start: parseInt(start),
+                        end: parseInt(end),
+                        type: "video",
+                        source: source,
+                        added_by: username
+                      };
+                      if (source == "soundcloud") {
+                        if (
+                          arr.thumbnail.indexOf("https://i1.sndcdn.com") > -1 ||
+                          arr.thumbnail.indexOf("https://w1.sndcdn.com") > -1
+                        ) {
+                          new_song.thumbnail = arr.thumbnail;
                         } else {
-                          io.to(coll).emit("channel", {
-                            type: "added",
-                            value: new_song
-                          });
-                          if (source != "soundcloud")
-                            Search.get_correct_info(new_song, coll, true);
-                          else if (source == "soundcloud")
-                            Search.get_genres_soundcloud(new_song, coll);
+                          new_song.thumbnail =
+                            "https://img.youtube.com/vi/404_notfound/mqdefault.jpg";
                         }
-                        db.collection("frontpage_lists").update(
-                          { _id: coll },
-                          {
-                            $inc: { count: 1 },
-                            $set: { accessed: Functions.get_time() }
-                          },
-                          { upsert: true },
-                          function(err, docs) {}
-                        );
-                        List.getNextSong(coll, undefined);
-                      }
-                    );
-                    socket.emit("toast", "addedsong");
-                  });
-                } else {
-                  vote(coll, id, guid, socket);
-                }
-              }
-            );
-          } else {
-            db.collection(coll).find({ id: id }, function(err, docs) {
-              if (docs.length === 0) {
-                var suggestedAdd = {
-                  added: Functions.get_time(),
-                  guids: [guid],
-                  id: id,
-                  now_playing: false,
-                  title: title,
-                  votes: 1,
-                  duration: duration,
-                  start: start,
-                  end: end,
-                  type: "suggested",
-                  tags: tags
-                };
-                var source = arr.source;
-                if (source == "soundcloud") {
-                  suggestedAdd.thumbnail = arr.thumbnail;
-                  suggestedAdd.source = source;
-                } else {
-                  suggestedAdd.source = "youtube";
-                }
-                db.collection(coll).update(
-                  { id: id },
-                  { $set: suggestedAdd },
-                  { upsert: true },
-                  function(err, docs) {
-                    socket.emit("toast", "suggested");
-                    var toSend = suggestedAdd;
-                    toSend.guids = [];
-                    if (source == "soundcloud")
-                      toSend.thumbnail = arr.thumbnail;
-                    io.to(coll).emit("suggested", toSend);
+                      } else if (source == "youtube")
+                        new_song.thumbnail =
+                          "https://img.youtube.com/vi/" +
+                          new_song.id +
+                          "/mqdefault.jpg";
+                      db.collection(coll).update(
+                        { id: id },
+                        new_song,
+                        { upsert: true },
+                        function(err, docs) {
+                          new_song._id = "asd";
+                          if (np) {
+                            List.send_list(coll, undefined, false, true, false);
+                            db.collection(coll + "_settings").update(
+                              { id: "config" },
+                              { $set: { startTime: Functions.get_time() } }
+                            );
+                            List.send_play(coll, undefined);
+                            var thumbnail =
+                              arr.thumbnail != undefined
+                                ? arr.thumbnail
+                                : undefined;
+                            Frontpage.update_frontpage(
+                              coll,
+                              id,
+                              title,
+                              thumbnail,
+                              arr.source
+                            );
+                            if (source != "soundcloud")
+                              Search.get_correct_info(new_song, coll, false);
+                            else if (source == "soundcloud")
+                              Search.get_genres_soundcloud(new_song, coll);
+                          } else {
+                            io.to(coll).emit("channel", {
+                              type: "added",
+                              value: new_song
+                            });
+                            if (source != "soundcloud")
+                              Search.get_correct_info(new_song, coll, true);
+                            else if (source == "soundcloud")
+                              Search.get_genres_soundcloud(new_song, coll);
+                          }
+                          db.collection("frontpage_lists").update(
+                            { _id: coll },
+                            {
+                              $inc: { count: 1 },
+                              $set: { accessed: Functions.get_time() }
+                            },
+                            { upsert: true },
+                            function(err, docs) {}
+                          );
+                          List.getNextSong(coll, undefined);
+                        }
+                      );
+                      socket.emit("toast", "addedsong");
+                    });
+                  } else {
+                    vote(coll, id, guid, socket);
                   }
-                );
-              } else if (docs[0].now_playing === true) {
-                socket.emit("toast", "alreadyplay");
-              } else {
-                if (conf[0].vote === false) vote(coll, id, guid, socket);
-                else socket.emit("toast", "listhaspass");
-              }
-            });
-          }
+                }
+              );
+            } else {
+              db.collection(coll).find({ id: id }, function(err, docs) {
+                if (docs.length === 0) {
+                  var suggestedAdd = {
+                    added: Functions.get_time(),
+                    guids: [guid],
+                    id: id,
+                    now_playing: false,
+                    title: title,
+                    votes: 1,
+                    duration: duration,
+                    start: start,
+                    end: end,
+                    type: "suggested",
+                    tags: tags,
+                    added_by: username
+                  };
+                  var source = arr.source;
+                  if (source == "soundcloud") {
+                    suggestedAdd.thumbnail = arr.thumbnail;
+                    suggestedAdd.source = source;
+                  } else {
+                    suggestedAdd.source = "youtube";
+                  }
+                  db.collection(coll).update(
+                    { id: id },
+                    { $set: suggestedAdd },
+                    { upsert: true },
+                    function(err, docs) {
+                      socket.emit("toast", "suggested");
+                      var toSend = suggestedAdd;
+                      toSend.guids = [];
+                      if (source == "soundcloud")
+                        toSend.thumbnail = arr.thumbnail;
+                      io.to(coll).emit("suggested", toSend);
+                      if (source != "soundcloud")
+                        Search.get_correct_info(suggestedAdd, coll, false);
+                      else if (source == "soundcloud")
+                        Search.get_genres_soundcloud(suggestedAdd, coll);
+                    }
+                  );
+                } else if (docs[0].now_playing === true) {
+                  socket.emit("toast", "alreadyplay");
+                } else {
+                  if (conf[0].vote === false) vote(coll, id, guid, socket);
+                  else socket.emit("toast", "listhaspass");
+                }
+              });
+            }
+          });
         } else {
           if (
             (arr.hasOwnProperty("offsiteAdd") && !arr.offsiteAdd) ||

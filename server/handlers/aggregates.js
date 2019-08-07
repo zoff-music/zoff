@@ -30,6 +30,7 @@ var project_object = {
   duration: 1,
   end: 1,
   type: 1,
+  added_by: { $ifNull: ["$added_by", "Anonymous"] },
   source: { $ifNull: ["$source", "youtube"] },
   thumbnail: {
     $ifNull: [
