@@ -36,10 +36,6 @@ var Suggestions = {
     var video_title = params.title;
     var date = new Date(params.added * 1000);
     var addedTime =
-      Helper.pad(date.getHours()) +
-      ":" +
-      Helper.pad(date.getMinutes()) +
-      " - " +
       Helper.pad(date.getDate()) +
       "." +
       Helper.pad(date.getMonth()) +
@@ -53,6 +49,9 @@ var Suggestions = {
       votes: addedTime,
       extra: "Added"
     };
+    if (params.added_by != undefined) {
+      toSend.extra += " by " + params.added_by;
+    }
     if (params.source) toSend.source = params.source;
     else {
       toSend.source = "youtube";

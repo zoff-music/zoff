@@ -71,6 +71,16 @@ function getAndSendLogs(channel, all, socket, pass, query) {
     });
 }
 
+function getUserNameByGuid(guid, callback) {
+  db.collection("user_names").find({ guid: guid }, function(err, usernames) {
+    if (usernames.length == 1) {
+      callback(usernames[0].name);
+      return;
+    }
+    callback("Anonymous");
+  });
+}
+
 function chat(msg, guid, offline, socket) {
   if (
     typeof msg !== "object" ||
@@ -909,6 +919,7 @@ function get_name_generate(guid, announce_payload, first, channel) {
   });
 }
 
+module.exports.getUserNameByGuid = getUserNameByGuid;
 module.exports.get_history = get_history;
 module.exports.chat = chat;
 module.exports.all_chat = all_chat;
