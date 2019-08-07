@@ -607,7 +607,14 @@ var Player = {
         }
         try {
           if (Player.player.getVideoUrl().indexOf(id) > -1) {
-            Player.player.seekTo(seekTo);
+            if (
+              !(
+                seekTo - 5 < Player.player.getCurrentTime() &&
+                seekTo + 5 > Player.player.getCurrentTime()
+              )
+            ) {
+              Player.player.seekTo(seekTo);
+            }
           } else {
             Player.player.loadVideoById({
               videoId: id,
