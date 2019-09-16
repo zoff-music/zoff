@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "zoff",
-      "script": "./server/app.js",
+      "script": "./server/pm2.js",
       "watch": true,
       "instances": "max",
       "exec_mode": "cluster",
