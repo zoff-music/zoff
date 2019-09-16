@@ -4,16 +4,12 @@
       "name": "zoff",
       "script": "./server/app.js",
       "watch": true,
+      "instances": "max",
+      "exec_mode": "cluster",
       "ignore_watch": [
         "./node_modules",
         "./server/public/assets/images/thumbnails"
       ]
-    },
-    {
-      "name": "gulp",
-      "script": "./gulpfile.js",
-      "watch": true,
-      "ignore_watch": ["./node_modules", "./server/"]
     }
   ]
 }
