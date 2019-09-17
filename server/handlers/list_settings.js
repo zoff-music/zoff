@@ -244,9 +244,7 @@ function conf_function(params, coll, guid, offline, socket) {
       var adminpass = params.adminpass;
       var skipping = params.skipping;
       var shuffling = params.shuffling;
-
       var userpass = Functions.decrypt_string(params.userpass);
-
       if (
         (!params.userpass_changed && frontpage) ||
         (params.userpass_changed && userpass == "")

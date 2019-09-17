@@ -31,6 +31,41 @@ function now_playing(list, fn, socket) {
   });
 }
 
+function join_silent(msg, socket) {
+    if (typeof msg === "object" && msg !== undefined && msg !== null) {
+      var channelName = msg.channel;
+      var tryingPassword = false;
+      var password = "";
+      if(msg.password != "") {
+        tryingPassword = true;
+        password = Functions.decrypt_string(msg.password);
+        password = crypto
+                 .createHash("sha256")
+                 .update(password)
+                 .digest("base64");
+      }
+
+      channelName = channelName.toLowerCase(); //.replace(/ /g,'');
+      channelName = Functions.removeEmojis(channelName).toLowerCase();
+      db.collection(channelName + "_settings").find(function(err, docs) {
+        if(docs.length == 0) {
+          socket.emit("join_silent_declined", "");
+          return;
+        }
+        if(docs[0].userpass == "" || docs[0].userpass == undefined || docs[0].userpass == password) {
+          socket.join(channelName);
+          socket.emit("join_silent_accepted", "");
+
+          send_play(channelName, socket);
+        } else {
+          socket.emit("join_silent_declined", "");
+        }
+      });
+    } else {
+        return;
+    }
+}
+
 function list(msg, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
   if (typeof msg === "object" && msg !== undefined && msg !== null) {
@@ -1245,6 +1280,7 @@ function getNextSong(coll, socket, callback) {
   );
 }
 
+module.exports.join_silent = join_silent;
 module.exports.sendColor = sendColor;
 module.exports.now_playing = now_playing;
 module.exports.list = list;
