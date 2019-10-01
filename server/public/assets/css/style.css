@@ -1539,6 +1539,8 @@ margin:-1px;
 
 .channel-finder .input-field {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: 0px !important;
   width: max-content !important;
   justify-content: center;
@@ -1552,7 +1554,9 @@ margin:-1px;
 .channel-finder .input-field .prefix {
   color: white;
   font-size: 17px;
-  /*margin-left: -215px;*/
+  position: initial;
+  margin-right: -45px;
+  margin-bottom: 9px;
   left: 0;
 }
 
