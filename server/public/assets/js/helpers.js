@@ -299,6 +299,9 @@ var Helper = {
           var this_element = M.Tooltip.getInstance(elem);
           if (this_element != undefined) this_element.destroy();
         } else {
+          try {
+            elem.removeAttribute("title");
+          } catch (e) {}
           M.Tooltip.init(elem, options);
         }
       } else {
@@ -308,6 +311,9 @@ var Helper = {
             var this_element = M.Tooltip.getInstance(elem);
             if (this_element != undefined) this_element.destroy();
           } else {
+            try {
+              elements[i].removeAttribute("title");
+            } catch (e) {}
             M.Tooltip.init(elements[i], options);
           }
         }

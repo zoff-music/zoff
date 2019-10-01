@@ -1273,7 +1273,7 @@ margin:-1px;
   cursor: default;
   display: inline;
   font-size: 50px;
-  font-weight: 100;
+  /*font-weight: 100;*/
   height: auto;
   line-height: 90.069229px;
   text-align: center;
@@ -1384,7 +1384,7 @@ margin:-1px;
   display: inline;
   /* font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; */
   font-size: 18px;
-  font-weight: 300;
+  /*font-weight: 300;*/
   height: auto;
   /*line-height: 24.2857151031494px;*/
   text-align: center;
