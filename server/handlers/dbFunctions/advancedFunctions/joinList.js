@@ -2,6 +2,8 @@ var path = require("path");
 var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 var find = require(pathThumbnails + "/handlers/dbFunctions/find.js");
+var create = require(pathThumbnails + "/handlers/dbFunctions/create.js");
+var insert = require(pathThumbnails + "/handlers/dbFunctions/insert.js");
 
 async function joinSilent(msg, socket) {
   if (typeof msg === "object" && msg !== undefined && msg !== null) {
@@ -41,7 +43,7 @@ async function joinSilent(msg, socket) {
   }
 }
 
-async function list(msg, guid, coll, offline, socket) {
+async function joinList(msg, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
   if (typeof msg === "object" && msg !== undefined && msg !== null) {
     var sessionAdminUser = await Functions.getSessionAdminUser(
@@ -144,58 +146,47 @@ async function list(msg, guid, coll, offline, socket) {
         socket.emit("auth_required");
       }
     } else {
-      db.createCollection(coll, function(err, docs) {
-        db.collection(coll).createIndex({ id: 1 }, { unique: true }, function(
-          e,
-          d
-        ) {
-          var configs = {
-            addsongs: false,
-            adminpass: "",
-            allvideos: true,
-            frontpage: true,
-            longsongs: false,
-            removeplay: false,
-            shuffle: true,
-            skip: false,
-            skips: [],
-            startTime: Functions.get_time(),
-            views: [],
-            vote: false,
-            description: "",
-            thumbnail: "",
-            rules: "",
-            userpass: "",
-            id: "config",
-            toggleChat: true
-          };
-          db.collection(coll + "_settings").insert(configs, function(
-            err,
-            docs
-          ) {
-            socket.join(coll);
-            send_list(coll, socket, true, false, true);
-            db.collection("frontpage_lists").insert(
-              {
-                _id: coll,
-                count: 0,
-                frontpage: true,
-                accessed: Functions.get_time(),
-                viewers: 1
-              },
-              function(e, d) {}
-            );
-            Functions.check_inlist(
-              coll,
-              guid,
-              socket,
-              offline,
-              undefined,
-              "place 11"
-            );
-          });
-        });
+      var docs = await create.collection(coll);
+      var index = await create.index(coll, { id: 1 }, { unique: true });
+
+      var configs = {
+        addsongs: false,
+        adminpass: "",
+        allvideos: true,
+        frontpage: true,
+        longsongs: false,
+        removeplay: false,
+        shuffle: true,
+        skip: false,
+        skips: [],
+        startTime: Functions.get_time(),
+        views: [],
+        vote: false,
+        description: "",
+        thumbnail: "",
+        rules: "",
+        userpass: "",
+        id: "config",
+        toggleChat: true
+      };
+      await insert(coll + "_settings", configs);
+      socket.join(coll);
+      send_list(coll, socket, true, false, true);
+      insert("frontpage_lists", {
+        _id: coll,
+        count: 0,
+        frontpage: true,
+        accessed: Functions.get_time(),
+        viewers: 1
       });
+      Functions.check_inlist(
+        coll,
+        guid,
+        socket,
+        offline,
+        undefined,
+        "place 11"
+      );
     }
   } else {
     var result = {
@@ -207,3 +198,6 @@ async function list(msg, guid, coll, offline, socket) {
     socket.emit("update_required", result);
   }
 }
+
+module.exports.joinSilent = joinSilent;
+module.exports.joinList = joinList;
