@@ -54,14 +54,16 @@ function startClustered(redis_enabled) {
       //console.log(ip);
       var s = "";
       console.log("this is some ip shit", ip);
-      if (ip == undefined) ip = uniqid.time();
+      if (ip !== undefined) {
+        return farmhash.fingerprint32(ip) % len;
+      }
+      ip = uniqid.time();
       for (var i = 0, _len = ip.length; i < _len; i++) {
         if (!isNaN(ip[i])) {
           s += ip[i];
         }
       }
       return Number(s) % len;
-      //return farmhash.fingerprint32(ip) % len;
     };
 
     var server = net
