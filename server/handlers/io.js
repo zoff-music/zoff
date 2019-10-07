@@ -332,7 +332,7 @@ module.exports = function() {
         return;
       }
       var status = msg.status;
-      var channel = Functions.encodeChannelName(msg.channel); //.replace(/ /g,'');
+      var channel = msg.channel; //.replace(/ /g,'');
       if (status) {
         in_list = false;
         offline = true;
@@ -505,14 +505,14 @@ module.exports = function() {
     });
 
     socket.on("join_silent", function(msg) {
-        if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-          var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-          msg.channel = _list;
-        }
-        if (msg.hasOwnProperty("channel")) {
-          msg.channel = Functions.encodeChannelName(msg.channel);
+      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
+        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
+        msg.channel = _list;
+      }
+      if (msg.hasOwnProperty("channel")) {
+        msg.channel = Functions.encodeChannelName(msg.channel);
       } else {
-          return;
+        return;
       }
       List.join_silent(msg, socket);
     });
