@@ -57,7 +57,7 @@ function startClustered(redis_enabled) {
         if (!isNaN(ip[i])) {
           s += ip[i];
         }
-      }´
+      }
       return farmhash.fingerprint32(ip) % len;
     };
 
