@@ -38,6 +38,7 @@
     "express-handlebars": "^3.0.2",
     "express-recaptcha": "^3.0.1",
     "express-session": "^1.15.6",
+    "farmhash": "^3.0.0",
     "feature-policy": "^0.2.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-sourcemaps": "^2.6.5",
