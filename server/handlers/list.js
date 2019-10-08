@@ -15,6 +15,7 @@ var filter = new Filter({ placeHolder: "x" });
 var request = require("request");
 var db = require(pathThumbnails + "/handlers/db.js");
 
+// done
 function now_playing(list, fn, socket) {
   if (typeof list !== "string" || typeof fn !== "function") {
     socket.emit("update_required");

@@ -3,7 +3,7 @@ var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 var update = require(pathThumbnails + "/handlers/dbFunctions/update.js");
 
-function incrementList(collection, way) {
+async function incrementList(collection, way) {
   return update(
     collection,
     { _id: coll, count: { $gt: 0 } },

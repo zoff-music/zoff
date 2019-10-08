@@ -42,7 +42,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
       userpass: ""
     };
     await update(coll + "_settings", { id: "config" }, conf, { upsert: true });
-    send_list(coll, socket, send, list_send, configs, shuffled);
+    sendList(coll, socket, send, list_send, configs, shuffled);
   } else {
     var docs = await aggregate(coll, [
       {
@@ -134,11 +134,11 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
           { $set: { now_playing: false } },
           { multi: true }
         );
-        send_list(coll, socket, send, list_send, configs, shuffled);
+        sendList(coll, socket, send, list_send, configs, shuffled);
       } else {
         if (Functions.get_time() - conf[0].startTime > np_docs[0].duration) {
           await changeSong(coll, false, np_docs[0].id, conf, socket);
-          send_list(coll, socket, send, list_send, configs, shuffled);
+          sendList(coll, socket, send, list_send, configs, shuffled);
         } else {
           if (list_send) {
             io.to(coll).emit("channel", {
@@ -154,9 +154,9 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
             });
           }
           if (socket === undefined && send) {
-            send_play(coll);
+            sendPlay(coll);
           } else if (send) {
-            send_play(coll, socket);
+            sendPlay(coll, socket);
           }
         }
       }
@@ -175,9 +175,9 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
         });
       }
       if (socket === undefined && send) {
-        send_play(coll);
+        sendPlay(coll);
       } else if (send) {
-        send_play(coll, socket);
+        sendPlay(coll, socket);
       }
     }
     if (configs) {
