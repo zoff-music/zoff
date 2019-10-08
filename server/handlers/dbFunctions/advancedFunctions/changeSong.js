@@ -1,9 +1,12 @@
 var path = require("path");
 var db = require(pathThumbnails + "/handlers/db.js");
 var aggregate = require(pathThumbnails + "/handlers/dbFunctions/aggregate.js");
+var update = require(pathThumbnails + "/handlers/dbFunctions/update.js");
 var remove = require(pathThumbnails + "/handlers/dbFunctions/remove.js");
+
+var Helpers = require(pathThumbnails + "/handlers/helpers.js");
 var frontpage = require(pathThumbnails +
-  "/handlers/dbFunctions/frontpageUpdates.js");
+  "/handlers/dbFunctions/advancedFunctions/frontpageUpdates.js");
 var findAggregate = [
   {
     $match: {
@@ -49,12 +52,14 @@ var verifyAggregate = [
   }
 ];
 
+var sIO = require(pathThumbnails + "/apps/client.js").socketIO;
 async function changeSong(coll, error, id, conf, socket) {
+  console.log("hello");
   return pre(coll, error, id, conf, socket);
 }
 
 async function pre(coll, error, id, conf, socket) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     var startTime = conf[0].startTime;
     if (conf === null || conf.length == 0) {
       return;
@@ -72,13 +77,12 @@ async function pre(coll, error, id, conf, socket) {
           next_song = now_playing_doc[1].id;
         }
         await post(coll, next_song, conf, socket, error);
-        /*if (!callback) {
-          io.to(coll).emit("channel", {
-            type: "deleted",
-            value: now_playing_doc[0].id,
-            removed: true
-          });
-        }*/
+
+        io.to(coll).emit("channel", {
+          type: "deleted",
+          value: now_playing_doc[0].id,
+          removed: true
+        });
         if (docs.deletedCount == 1) {
           frontpage.incrementList("frontpage_lists", -1);
         }
@@ -95,9 +99,10 @@ async function pre(coll, error, id, conf, socket) {
         resolve();
         return;
       } else {
+        console.log("here 2");
         if (
           (conf[0].skipped_time != undefined &&
-            conf[0].skipped_time != Functions.get_time()) ||
+            conf[0].skipped_time != Helpers.get_time()) ||
           conf[0].skipped_time == undefined
         ) {
           var docs = await update(
@@ -112,6 +117,7 @@ async function pre(coll, error, id, conf, socket) {
             },
             { multi: true }
           );
+          console.log("update", docs);
           var next_song;
           if (now_playing_doc.length == 2) next_song = now_playing_doc[1].id;
           await post(coll, next_song, conf, socket, error);
@@ -140,7 +146,7 @@ async function pre(coll, error, id, conf, socket) {
 }
 
 async function post(coll, next_song, conf, socket, removed) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     var docs = await aggregate(coll, verifyAggregate);
     if (docs === null || docs.length == 0) {
       reject();
@@ -163,7 +169,7 @@ async function post(coll, next_song, conf, socket, removed) {
           now_playing: true,
           votes: 0,
           guids: [],
-          added: Functions.get_time()
+          added: Helpers.get_time()
         }
       },
       {}
@@ -175,12 +181,18 @@ async function post(coll, next_song, conf, socket, removed) {
       resolve();
       return;
     }
+    io.to(coll).emit("channel", {
+      type: "song_change",
+      time: Helpers.get_time(),
+      remove: conf[0].removeplay || removed,
+      id: id
+    });
     returnDocs = await update(
       coll + "_settings",
       { id: "config" },
       {
         $set: {
-          startTime: Functions.get_time(),
+          startTime: Helpers.get_time(),
           skips: []
         }
       },
@@ -190,6 +202,6 @@ async function post(coll, next_song, conf, socket, removed) {
   });
 }
 
-module.exports.changeSong = changeSong;
+module.exports = changeSong;
 module.exports.pre = pre;
 module.exports.post = post;

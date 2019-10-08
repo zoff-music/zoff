@@ -9,6 +9,10 @@ var Suggestions = require(pathThumbnails + "/handlers/suggestions.js");
 var ListSettings = require(pathThumbnails + "/handlers/list_settings.js");
 var Frontpage = require(pathThumbnails + "/handlers/frontpage.js");
 var Search = require(pathThumbnails + "/handlers/search.js");
+var Join = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/joinList.js");
+var Skip = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/skip.js");
 var crypto = require("crypto");
 var Filter = require("bad-words");
 var filter = new Filter({ placeHolder: "x" });
@@ -187,24 +191,8 @@ module.exports = function() {
     });
 
     socket.on("error_video", function(msg) {
-      try {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-        var _list = msg.channel; //.replace(/ /g,'');
-        if (_list.length == 0) return;
-        if (_list.indexOf("?") > -1) {
-          _list = _list.substring(0, _list.indexOf("?"));
-          msg.channel = _list;
-        }
-        coll = Functions.removeEmojis(_list).toLowerCase();
-        //coll = coll.replace(/_/g, "");
-
-        //coll = filter.clean(coll);
-      } catch (e) {
-        return;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Search.check_error_video(msg, coll);
     });
 
@@ -240,57 +228,32 @@ module.exports = function() {
     });
 
     socket.on("suggest_thumbnail", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Suggestions.thumbnail(msg, coll, guid, offline, socket);
     });
 
     socket.on("suggest_description", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Suggestions.description(msg, coll, guid, offline, socket);
     });
 
     socket.on("suggest_rules", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Suggestions.rules(msg, coll, guid, offline, socket);
     });
 
     socket.on("namechange", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Chat.namechange(msg, guid, socket);
     });
 
     socket.on("removename", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       if (typeof msg != "object" || !msg.hasOwnProperty("channel")) {
         var result = {
           channel: {
@@ -305,13 +268,8 @@ module.exports = function() {
     });
 
     socket.on("offline", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       if (
         !msg.hasOwnProperty("status") ||
         !msg.hasOwnProperty("channel") ||
@@ -408,13 +366,8 @@ module.exports = function() {
     });
 
     socket.on("get_history", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       if (
         !msg.hasOwnProperty("channel") ||
         !msg.hasOwnProperty("all") ||
@@ -442,46 +395,26 @@ module.exports = function() {
     });
 
     socket.on("chat", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Chat.chat(msg, guid, offline, socket);
     });
 
-    socket.on("all,chat", function(data) {
-      if (data.hasOwnProperty("channel") && data.channel.indexOf("?") > -1) {
-        var _list = data.channel.substring(0, data.channel.indexOf("?"));
-        data.channel = _list;
-      }
-      if (data.hasOwnProperty("channel")) {
-        data.channel = Functions.encodeChannelName(data.channel);
-      }
-      Chat.all_chat(data, guid, offline, socket);
+    socket.on("all,chat", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
+      Chat.all_chat(msg, guid, offline, socket);
     });
 
     socket.on("frontpage_lists", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       Frontpage.frontpage_lists(msg, socket);
     });
 
     socket.on("import_zoff", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       ListChange.addFromOtherList(msg, guid, offline, socket);
     });
 
@@ -489,42 +422,25 @@ module.exports = function() {
       List.now_playing(list, fn, socket);
     });
 
-    socket.on("id", function(arr) {
-      if (arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1) {
-        var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-        arr.channel = _list;
-      }
-      if (arr.hasOwnProperty("channel")) {
-        arr.channel = Functions.encodeChannelName(arr.channel);
-      }
-      if (typeof arr == "object")
-        io.to(arr.id).emit(arr.id.toLowerCase(), {
-          type: arr.type,
-          value: arr.value
+    socket.on("id", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
+      if (typeof msg == "object")
+        io.to(msg.id).emit(msg.id.toLowerCase(), {
+          type: msg.type,
+          value: msg.value
         });
     });
 
     socket.on("join_silent", function(msg) {
-        if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-          var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-          msg.channel = _list;
-        }
-        if (msg.hasOwnProperty("channel")) {
-          msg.channel = Functions.encodeChannelName(msg.channel);
-      } else {
-          return;
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       List.join_silent(msg, socket);
     });
 
     socket.on("list", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       try {
         //var _list = msg.channel.replace(/ /g,'');
         var _list = msg.channel;
@@ -544,7 +460,7 @@ module.exports = function() {
       if (msg.hasOwnProperty("offline") && msg.offline) {
         offline = true;
       }
-      List.list(msg, guid, coll, offline, socket);
+      Join.joinList(msg, guid, coll, offline, socket);
       Functions.get_short_id(socket);
     });
 
@@ -570,15 +486,10 @@ module.exports = function() {
       List.end(obj, coll, guid, offline, socket);
     });
 
-    socket.on("addPlaylist", function(arr) {
-      if (arr.hasOwnProperty("channel") && arr.channel.indexOf("?") > -1) {
-        var _list = arr.channel.substring(0, arr.channel.indexOf("?"));
-        arr.channel = _list;
-      }
-      if (arr.hasOwnProperty("channel")) {
-        arr.channel = Functions.encodeChannelName(arr.channel);
-      }
-      ListChange.addPlaylist(arr, guid, offline, socket);
+    socket.on("addPlaylist", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
+      ListChange.addPlaylist(msg, guid, offline, socket);
     });
 
     socket.on("add", function(arr) {
@@ -612,13 +523,8 @@ module.exports = function() {
 
     socket.on("delete_all", function(msg) {
       try {
-        if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-          var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-          msg.channel = _list;
-        }
-        if (msg.hasOwnProperty("channel")) {
-          msg.channel = Functions.encodeChannelName(msg.channel);
-        }
+        msg = middleware(msg);
+        coll = msg.channel;
         coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
         if (coll.length == 0) return;
         coll = Functions.removeEmojis(coll).toLowerCase();
@@ -633,13 +539,8 @@ module.exports = function() {
     });
 
     socket.on("vote", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       if (coll !== undefined) {
         try {
           coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
@@ -655,53 +556,30 @@ module.exports = function() {
       ListChange.voteUndecided(msg, coll, guid, offline, socket);
     });
 
-    socket.on("password", function(inp) {
-      if (inp.hasOwnProperty("channel") && inp.channel.indexOf("?") > -1) {
-        var _list = inp.channel.substring(0, inp.channel.indexOf("?"));
-        inp.channel = _list;
-      }
-      if (inp.hasOwnProperty("channel")) {
-        inp.channel = Functions.encodeChannelName(inp.channel);
-      }
+    socket.on("password", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
       //if(coll != undefined) coll.replace(/ /g,'');
-      ListSettings.password(inp, coll, guid, offline, socket);
+      ListSettings.password(msg, coll, guid, offline, socket);
     });
 
-    socket.on("skip", function(list) {
-      if (list.hasOwnProperty("channel") && list.channel.indexOf("?") > -1) {
-        var _list = list.channel.substring(0, list.channel.indexOf("?"));
-        list.channel = _list;
-        coll = list.channel;
-      }
-      if (list.hasOwnProperty("channel")) {
-        list.channel = Functions.encodeChannelName(list.channel);
-      }
+    socket.on("skip", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
       //if(coll != undefined) coll.replace(/ /g,'');
-      List.skip(list, guid, coll, offline, socket);
+      Skip.skip(msg, guid, coll, offline, socket);
     });
 
-    socket.on("conf", function(conf) {
-      if (conf.hasOwnProperty("channel") && conf.channel.indexOf("?") > -1) {
-        var _list = conf.channel.substring(0, conf.channel.indexOf("?"));
-        conf.channel = _list;
-        coll = conf.channel;
-      }
-      if (conf.hasOwnProperty("channel")) {
-        conf.channel = Functions.encodeChannelName(conf.channel);
-        coll = conf.channel;
-      }
+    socket.on("conf", function(msg) {
+      msg = middleware(msg);
+      coll = msg.channel;
       //if(coll != undefined) coll.replace(/ /g,'');
       ListSettings.conf_function(conf, coll, guid, offline, socket);
     });
 
     socket.on("shuffle", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
       try {
         coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
         if (coll.length == 0) return;
@@ -932,6 +810,17 @@ module.exports = function() {
 
   //send_ping();
 };
+
+function middleware(msg) {
+  if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
+    var _list = list.channel.substring(0, msg.channel.indexOf("?"));
+    msg.channel = _list;
+  }
+  if (msg.hasOwnProperty("channel")) {
+    msg.channel = Functions.encodeChannelName(msg.channel);
+  }
+  return msg;
+}
 
 /*
 function send_ping() {

@@ -1,3 +1,12 @@
+var path = require("path");
+var mongojs = require("mongojs");
+var db = require(pathThumbnails + "/handlers/db.js");
+var find = require(pathThumbnails + "/handlers/dbFunctions/find.js");
+
+var SessionHandler = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/sessionHandler.js");
+var Helpers = require(pathThumbnails + "/handlers/helpers.js");
+
 async function end(obj, coll, guid, offline, socket) {
   var socketid = socket.zoff_id;
   if (typeof obj !== "object") {
@@ -45,9 +54,12 @@ async function end(obj, coll, guid, offline, socket) {
       docs.length > 0 &&
       (docs[0].userpass != undefined && docs[0].userpass != "")
     ) {
-      callback_function = Functions.getSessionAdminUser;
+      callback_function = SessionHandler.getSessionAdminUser;
       authentication_needed = true;
-      var sessionAdminUser = await Functions.getSessionAdminUser(Functions.getSession(socket), coll);
+      var sessionAdminUser = await SessionHandler.getSessionAdminUser(
+        Helpers.getSession(socket),
+        coll
+      );
       obj.userpass = sessionAdminUser.userpass;
     }
 
@@ -55,52 +67,44 @@ async function end(obj, coll, guid, offline, socket) {
       obj.pass = userpass;
     } else {
       obj.pass = crypto
-      .createHash("sha256")
-      .update(Functions.decrypt_string(obj.pass))
-      .digest("base64");
+        .createHash("sha256")
+        .update(Helpers.decrypt_string(obj.pass))
+        .digest("base64");
     }
     if (
       !authentication_needed ||
       (authentication_needed &&
         obj.hasOwnProperty("pass") &&
         docs[0].userpass == obj.pass)
-      ) {
-        Functions.check_inlist(
-          coll,
-          guid,
-          socket,
-          offline,
-          undefined,
-          "place 13"
-        );
-        var np = await find(coll, { now_playing: true });
-        if (err !== null) console.log(err);
-        if (
-          np !== null &&
-          np !== undefined &&
-          np.length == 1 &&
-          np[0].id == id
-        ) {
-          var startTime = docs[0].startTime;
-          if (
-            startTime + parseInt(np[0].duration) <=
-            Functions.get_time() + 5
-          ) {
-            changeSong(coll, false, id, docs);
-          }
+    ) {
+      Functions.check_inlist(
+        coll,
+        guid,
+        socket,
+        offline,
+        undefined,
+        "place 13"
+      );
+      var np = await find(coll, { now_playing: true });
+      if (err !== null) console.log(err);
+      if (np !== null && np !== undefined && np.length == 1 && np[0].id == id) {
+        var startTime = docs[0].startTime;
+        if (startTime + parseInt(np[0].duration) <= Helpers.get_time() + 5) {
+          changeSong(coll, false, id, docs);
         }
-      } else {
-        socket.emit("auth_required");
       }
     } else {
-      var result = {
-        msg: {
-          expected: "object",
-          got: typeof obj
-        }
-      };
-      socket.emit("update_required", result);
+      socket.emit("auth_required");
     }
+  } else {
+    var result = {
+      msg: {
+        expected: "object",
+        got: typeof obj
+      }
+    };
+    socket.emit("update_required", result);
   }
+}
 
-  module.exports.end = end;
+module.exports.end = end;

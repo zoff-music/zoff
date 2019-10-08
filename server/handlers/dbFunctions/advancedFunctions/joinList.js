@@ -5,6 +5,19 @@ var find = require(pathThumbnails + "/handlers/dbFunctions/find.js");
 var create = require(pathThumbnails + "/handlers/dbFunctions/create.js");
 var insert = require(pathThumbnails + "/handlers/dbFunctions/insert.js");
 
+var sendList = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/sendList.js");
+
+var crypto = require("crypto");
+var SessionHandler = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/sessionHandler.js");
+var Inlist = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/inlistCheck.js");
+var Play = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/play.js");
+var Helpers = require(pathThumbnails + "/handlers/helpers.js");
+
+var sIO = require(pathThumbnails + "/apps/client.js").socketIO;
 async function joinSilent(msg, socket) {
   if (typeof msg === "object" && msg !== undefined && msg !== null) {
     var channelName = msg.channel;
@@ -12,7 +25,7 @@ async function joinSilent(msg, socket) {
     var password = "";
     if (msg.password != "") {
       tryingPassword = true;
-      password = Functions.decrypt_string(msg.password);
+      password = Helpers.decrypt_string(msg.password);
       password = crypto
         .createHash("sha256")
         .update(password)
@@ -20,7 +33,7 @@ async function joinSilent(msg, socket) {
     }
 
     channelName = channelName.toLowerCase(); //.replace(/ /g,'');
-    channelName = Functions.removeEmojis(channelName).toLowerCase();
+    channelName = Helpers.removeEmojis(channelName).toLowerCase();
     var docs = await find(channelName + "_settings");
     if (docs.length == 0) {
       socket.emit("join_silent_declined", "");
@@ -34,7 +47,7 @@ async function joinSilent(msg, socket) {
       socket.join(channelName);
       socket.emit("join_silent_accepted", "");
 
-      send_play(channelName, socket);
+      Play.sendPlay(channelName, socket);
     } else {
       socket.emit("join_silent_declined", "");
     }
@@ -46,8 +59,8 @@ async function joinSilent(msg, socket) {
 async function joinList(msg, guid, coll, offline, socket) {
   var socketid = socket.zoff_id;
   if (typeof msg === "object" && msg !== undefined && msg !== null) {
-    var sessionAdminUser = await Functions.getSessionAdminUser(
-      Functions.getSession(socket),
+    var sessionAdminUser = await SessionHandler.getSessionAdminUser(
+      Helpers.getSession(socket),
       coll
     );
     var userpass = sessionAdminUser.userpass;
@@ -58,10 +71,10 @@ async function joinList(msg, guid, coll, offline, socket) {
     } else {
       msg.pass = crypto
         .createHash("sha256")
-        .update(Functions.decrypt_string(msg.pass))
+        .update(Helpers.decrypt_string(msg.pass))
         .digest("base64");
     }
-    adminpass = Functions.hash_pass(adminpass);
+    adminpass = Helpers.hash_pass(adminpass);
     if (
       !msg.hasOwnProperty("version") ||
       !msg.hasOwnProperty("channel") ||
@@ -87,7 +100,7 @@ async function joinList(msg, guid, coll, offline, socket) {
       return;
     }
     coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
-    coll = Functions.removeEmojis(coll).toLowerCase();
+    coll = Helpers.removeEmojis(coll).toLowerCase();
     //coll = filter.clean(coll);
     var pass = msg.pass;
     var frontpage_lists = await find("frontpage_lists", { _id: coll });
@@ -106,15 +119,19 @@ async function joinList(msg, guid, coll, offline, socket) {
           docs[0].userpass != "" &&
           docs[0].userpass == pass
         ) {
-          Functions.setSessionUserPass(
-            Functions.getSession(socket),
+          SessionHandler.setSessionUserPass(
+            Helpers.getSession(socket),
             msg.pass,
             coll
           );
           socket.emit("auth_accepted", { value: true });
         }
         if (docs.length > 0 && docs[0].userpass != pass) {
-          Functions.setSessionUserPass(Functions.getSession(socket), "", coll);
+          SessionHandler.setSessionUserPass(
+            Helpers.getSession(socket),
+            "",
+            coll
+          );
         }
         if (
           docs.length > 0 &&
@@ -126,14 +143,7 @@ async function joinList(msg, guid, coll, offline, socket) {
         }
         in_list = true;
         socket.join(coll);
-        Functions.check_inlist(
-          coll,
-          guid,
-          socket,
-          offline,
-          undefined,
-          "place 10"
-        );
+        Inlist.check(coll, guid, socket, offline, undefined, "place 10");
 
         if (frontpage_lists[0].viewers != undefined) {
           io.to(coll).emit("viewers", frontpage_lists[0].viewers);
@@ -141,7 +151,7 @@ async function joinList(msg, guid, coll, offline, socket) {
           io.to(coll).emit("viewers", 1);
         }
 
-        send_list(coll, socket, true, false, true);
+        sendList(coll, socket, true, false, true);
       } else {
         socket.emit("auth_required");
       }
@@ -159,7 +169,7 @@ async function joinList(msg, guid, coll, offline, socket) {
         shuffle: true,
         skip: false,
         skips: [],
-        startTime: Functions.get_time(),
+        startTime: Helpers.get_time(),
         views: [],
         vote: false,
         description: "",
@@ -171,22 +181,15 @@ async function joinList(msg, guid, coll, offline, socket) {
       };
       await insert(coll + "_settings", configs);
       socket.join(coll);
-      send_list(coll, socket, true, false, true);
+      sendList(coll, socket, true, false, true);
       insert("frontpage_lists", {
         _id: coll,
         count: 0,
         frontpage: true,
-        accessed: Functions.get_time(),
+        accessed: Helpers.get_time(),
         viewers: 1
       });
-      Functions.check_inlist(
-        coll,
-        guid,
-        socket,
-        offline,
-        undefined,
-        "place 11"
-      );
+      Inlist.check(coll, guid, socket, offline, undefined, "place 11");
     }
   } else {
     var result = {

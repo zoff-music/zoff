@@ -4,6 +4,19 @@ var db = require(pathThumbnails + "/handlers/db.js");
 var find = require(pathThumbnails + "/handlers/dbFunctions/find.js");
 var update = require(pathThumbnails + "/handlers/dbFunctions/update.js");
 
+var Helpers = require(pathThumbnails + "/handlers/helpers.js");
+var SessionHandler = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/sessionHandler.js");
+var Inlist = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/inlistCheck.js");
+var Timeout = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/timeout.js");
+var changeSong = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/changeSong.js");
+var Play = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/play.js");
+var sIO = require(pathThumbnails + "/apps/client.js").socketIO;
+
 async function skip(list, guid, coll, offline, socket, callback) {
   var socketid = socket.zoff_id;
 
@@ -23,7 +36,7 @@ async function skip(list, guid, coll, offline, socket, callback) {
     try {
       coll = list.channel.toLowerCase(); //.replace(/ /g,'');
       if (coll.length == 0) return;
-      coll = Functions.removeEmojis(coll).toLowerCase();
+      coll = Helpers.removeEmojis(coll).toLowerCase();
       //coll = coll.replace(/_/g, "");
 
       //coll = filter.clean(coll);
@@ -63,18 +76,18 @@ async function skip(list, guid, coll, offline, socket, callback) {
     return;
   }
   list.id = list.id + "";
-  var sessionAdminUser = await Functions.getSessionAdminUser(
-    Functions.getSession(socket),
+  var sessionAdminUser = await SessionHandler.getSessionAdminUser(
+    Helpers.getSession(socket),
     coll
   );
   var userpass = sessionAdminUser.userpass;
   var adminpass = sessionAdminUser.adminpass;
   var gotten = sessionAdminUser.gotten;
   if (adminpass != "" || list.pass == undefined) {
-    list.pass = Functions.hash_pass(adminpass);
+    list.pass = Helpers.hash_pass(adminpass);
   } else if (list.pass != "") {
-    list.pass = Functions.hash_pass(
-      Functions.hash_pass(Functions.decrypt_string(list.pass), true)
+    list.pass = Helpers.hash_pass(
+      Helpers.hash_pass(Helpers.decrypt_string(list.pass), true)
     );
   } else {
     list.pass = "";
@@ -84,7 +97,7 @@ async function skip(list, guid, coll, offline, socket, callback) {
   } else {
     list.userpass = crypto
       .createHash("sha256")
-      .update(Functions.decrypt_string(list.userpass))
+      .update(Helpers.decrypt_string(list.userpass))
       .digest("base64");
   }
 
@@ -95,24 +108,27 @@ async function skip(list, guid, coll, offline, socket, callback) {
       docs[0].userpass == "" ||
       (list.hasOwnProperty("userpass") && docs[0].userpass == list.userpass))
   ) {
-    Functions.check_inlist(coll, guid, socket, offline, undefined, "place 12");
+    Inlist.check(coll, guid, socket, offline, undefined, "place 12");
 
     var video_id;
     adminpass = "";
     video_id = list.id;
     var err = list.error;
-    var trueError = await Search.check_if_error_or_blocked(
-      video_id,
-      coll,
-      err == "5" ||
-        err == "100" ||
-        err == "101" ||
-        err == "150" ||
-        err == 5 ||
-        err == 100 ||
-        err == 101 ||
-        err == 150
-    );
+    var trueError = false;
+    if (err) {
+      trueError = await Search.check_if_error_or_blocked(
+        video_id,
+        coll,
+        err == "5" ||
+          err == "100" ||
+          err == "101" ||
+          err == "150" ||
+          err == 5 ||
+          err == 100 ||
+          err == 101 ||
+          err == 150
+      );
+    }
     var error = false;
     if (!trueError) {
       adminpass = list.pass;
@@ -139,16 +155,17 @@ async function skip(list, guid, coll, offline, socket, callback) {
               docs[0].skips.length + 1 >= strictSkipNumber)) ||
             (!strictSkip &&
               ((frontpage_viewers[0].viewers / 2 <= docs[0].skips.length + 1 &&
-                !Functions.contains(docs[0].skips, guid) &&
+                !Helpers.contains(docs[0].skips, guid) &&
                 frontpage_viewers[0].viewers != 2) ||
                 (frontpage_viewers[0].viewers == 2 &&
                   docs[0].skips.length + 1 == 2 &&
-                  !Functions.contains(docs[0].skips, guid)) ||
+                  !Helpers.contains(docs[0].skips, guid)) ||
                 (docs[0].adminpass == hash &&
                   docs[0].adminpass !== "" &&
                   docs[0].skip))))
         ) {
-          var canContinue = await Functions.checkTimeout(
+          console.log("here");
+          var canContinue = await Timeout.check(
             "skip",
             1,
             coll,
@@ -158,10 +175,19 @@ async function skip(list, guid, coll, offline, socket, callback) {
             socket,
             "The channel is skipping too often, please wait "
           );
+          console.log("canSkip", canContinue);
           if (!canContinue) {
             return;
           }
-          change_song(coll, error, video_id, docs);
+
+          try {
+            await changeSong(coll, error, video_id, docs);
+          } catch (e) {
+            socket.emit("toast", "Something went wrong.. Please try again");
+            return;
+          }
+
+          Play.sendPlay(coll);
           socket.emit("toast", "skip");
           var docs = await find("user_names", { guid: guid });
           if (docs.length == 1) {
@@ -176,7 +202,7 @@ async function skip(list, guid, coll, offline, socket, callback) {
               msg: " skipped"
             });
           }
-        } else if (!Functions.contains(docs[0].skips, guid)) {
+        } else if (!Helpers.contains(docs[0].skips, guid)) {
           await update(
             coll + "_settings",
             { id: "config" },

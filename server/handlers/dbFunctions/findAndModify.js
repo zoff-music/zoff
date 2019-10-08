@@ -2,9 +2,9 @@ var path = require("path");
 var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
-async function insert(collection, insertObject) {
+async function findAndModify(collection, query) {
   return new Promise(async (resolve, reject) => {
-    db.collection(collection).insert(insertObject, function(err, docs) {
+    db.collection(collection).findAndModify(query, function(err, docs) {
       if (err) {
         reject(err);
         return;
@@ -14,4 +14,4 @@ async function insert(collection, insertObject) {
   });
 }
 
-module.exports = insert;
+module.exports = findAndModify;

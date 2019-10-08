@@ -2,8 +2,8 @@ var path = require("path");
 var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
-async function find(collection, searchObject, sortObject) {
-  return new Promise((resolve, reject) => {
+async function sort(collection, searchObject, sortObject) {
+  return new Promise(async (resolve, reject) => {
     db.collection(collection)
       .find(searchObject)
       .sort(sortObject, (error, result) => {
@@ -16,4 +16,4 @@ async function find(collection, searchObject, sortObject) {
   });
 }
 
-module.exports.find = find;
+module.exports = sort;

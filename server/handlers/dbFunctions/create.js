@@ -3,7 +3,7 @@ var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
 async function collection(collection) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     db.createCollection(coll, function(err, docs) {
       if (err) {
         reject(err);
@@ -15,7 +15,7 @@ async function collection(collection) {
 }
 
 async function index(collection, indexObject, extraObject) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     db.collection(collection).createIndex(indexObject, extraObject, function(
       err,
       docs

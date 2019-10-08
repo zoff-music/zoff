@@ -3,7 +3,7 @@ var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
 async function find(collection, searchObject) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     db.collection(collection).find(searchObject, (error, result) => {
       if (error) {
         reject(error);
@@ -14,4 +14,4 @@ async function find(collection, searchObject) {
   });
 }
 
-module.exports.find = find;
+module.exports = find;

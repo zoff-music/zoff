@@ -3,7 +3,7 @@ var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
 function remove(collection, removeObject) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     db.collection(collection).remove(removeObject, (error, result) => {
       if (error) {
         reject(error);
@@ -14,4 +14,4 @@ function remove(collection, removeObject) {
   });
 }
 
-module.exports.remove = remove;
+module.exports = remove;

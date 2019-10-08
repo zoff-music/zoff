@@ -7,9 +7,16 @@ var update = require(pathThumbnails + "/handlers/dbFunctions/update.js");
 var aggregate = require(pathThumbnails + "/handlers/dbFunctions/aggregate.js");
 var sort = require(pathThumbnails + "/handlers/dbFunctions/sort.js");
 
+var projects = require(pathThumbnails + "/handlers/aggregates.js");
+var Play = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/play.js");
+var changeSong = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/changeSong.js");
+var Helpers = require(pathThumbnails + "/handlers/helpers.js");
+var sIO = require(pathThumbnails + "/apps/client.js").socketIO;
 async function sendList(coll, socket, send, list_send, configs, shuffled) {
   //coll = coll.replace(/ /g,'');
-  var conf = await aggregate(coll + "_settings", [
+  var _conf = await aggregate(coll + "_settings", [
     {
       $match: {
         id: "config"
@@ -32,7 +39,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
       shuffle: true,
       skip: false,
       skips: [],
-      startTime: Functions.get_time(),
+      startTime: Helpers.get_time(),
       views: [],
       vote: false,
       description: "",
@@ -88,7 +95,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
                 now_playing: true,
                 votes: 0,
                 guids: [],
-                added: Functions.get_time()
+                added: Helpers.get_time()
               }
             }
           );
@@ -97,7 +104,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
             { id: "config" },
             {
               $set: {
-                startTime: Functions.get_time(),
+                startTime: Helpers.get_time(),
                 skips: []
               }
             }
@@ -136,7 +143,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
         );
         sendList(coll, socket, send, list_send, configs, shuffled);
       } else {
-        if (Functions.get_time() - conf[0].startTime > np_docs[0].duration) {
+        if (Helpers.get_time() - conf[0].startTime > np_docs[0].duration) {
           await changeSong(coll, false, np_docs[0].id, conf, socket);
           sendList(coll, socket, send, list_send, configs, shuffled);
         } else {
@@ -154,9 +161,9 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
             });
           }
           if (socket === undefined && send) {
-            sendPlay(coll);
+            Play.sendPlay(coll);
           } else if (send) {
-            sendPlay(coll, socket);
+            Play.sendPlay(coll, socket);
           }
         }
       }
@@ -175,9 +182,9 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
         });
       }
       if (socket === undefined && send) {
-        sendPlay(coll);
+        Play.sendPlay(coll);
       } else if (send) {
-        sendPlay(coll, socket);
+        Play.sendPlay(coll, socket);
       }
     }
     if (configs) {
@@ -199,7 +206,7 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
           shuffle: true,
           skip: false,
           skips: [],
-          startTime: Functions.get_time(),
+          startTime: Helpers.get_time(),
           views: [],
           vote: false,
           desc: "",
@@ -218,4 +225,4 @@ async function sendList(coll, socket, send, list_send, configs, shuffled) {
   }
 }
 
-module.exports.sendList = sendList;
+module.exports = sendList;

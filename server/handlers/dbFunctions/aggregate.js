@@ -3,8 +3,11 @@ var mongojs = require("mongojs");
 var db = require(pathThumbnails + "/handlers/db.js");
 
 function aggregate(collection, aggregateObject) {
-  return new Promise((resolve, reject) => {
-    db.collection(coll).aggregate(aggregateObject, function(error, results) {
+  return new Promise(async (resolve, reject) => {
+    db.collection(collection).aggregate(aggregateObject, function(
+      error,
+      results
+    ) {
       if (error) {
         reject(error);
         return;
@@ -14,4 +17,4 @@ function aggregate(collection, aggregateObject) {
   });
 }
 
-module.exports.aggregate = aggregate;
+module.exports = aggregate;
