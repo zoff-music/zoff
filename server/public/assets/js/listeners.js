@@ -458,6 +458,7 @@ initializeCastApi = function() {
       Helper.log(["cast state", event.castState]);
       if (event.castState == "NOT_CONNECTED") {
         Helper.css(".cast-button-header", "display", "inline-flex");
+        Channel.set_title_width();
         Helper.addClass(".volume-container", "volume-container-cast");
         cast_ready_connect = true;
         var _chSeen;
@@ -490,6 +491,7 @@ initializeCastApi = function() {
 
   if (context.getCastState() == "NOT_CONNECTED") {
     Helper.css(".cast-button-header", "display", "inline-flex");
+    Channel.set_title_width();
     Helper.removeClass(".castButton", "castButton-white-active");
     cast_ready_connect = true;
   }

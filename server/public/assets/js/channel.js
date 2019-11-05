@@ -452,6 +452,7 @@ var Channel = {
       !client
     ) {
       Helper.css(".cast-button-header", "display", "none");
+      Channel.set_title_width();
     }
 
     Helper.log([
