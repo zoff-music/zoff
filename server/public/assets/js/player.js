@@ -1226,7 +1226,6 @@ var Player = {
       Player.player = new YT.Player("player", {
         videoId: video_id,
         playerVars: {
-          rel: "0",
           autoplay: 1,
           wmode: "transparent",
           controls: "0",
@@ -1234,7 +1233,8 @@ var Player = {
           iv_load_policy: "3",
           theme: "light",
           color: "white",
-          showinfo: 0
+          modestbranding: "0",
+          playsinline: "1"
         },
         events: {
           onReady: Player.onPlayerReady,

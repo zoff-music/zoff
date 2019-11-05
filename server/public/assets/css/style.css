@@ -1875,7 +1875,7 @@ ul #chat-log {
   z-index: 99;
   width: 100%;
   color: white;
-  height: calc(100vh - 64px - 32px);
+  height: calc(100vh - 64px - 0px);
   transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
     opacity 1s;
   -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
@@ -2030,7 +2030,7 @@ margin-right: 52%;
 
 #player {
   height: 95%;
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
@@ -2048,7 +2048,7 @@ margin-right: 52%;
 #fireplace_player {
   z-index: 999;
   /*width: calc(100% - .75rem);*/
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: absolute;
   display: none;
   pointer-events: none;
@@ -2984,7 +2984,7 @@ margin-right: 52%;
 }
 
 .host-mode-height #player_overlay {
-  height: calc(100vh - 32px);
+  height: calc(100vh - 0px);
 }
 
 .host-mode-width {
@@ -3036,6 +3036,7 @@ margin-right: 52%;
 }
 
 #main_components {
+  display: none;
   position: absolute;
   top: calc(100% - 26px);
   width: 100%;
