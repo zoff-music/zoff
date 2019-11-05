@@ -419,7 +419,7 @@ var Channel = {
     if (!Helper.mobilecheck() && !client) {
       Helper.tooltip(".castButton", {
         delay: 5,
-        position: "top",
+        position: "bottom",
         html: "Cast Zoff to TV"
       });
     }
@@ -451,7 +451,7 @@ var Channel = {
       !Helper.mobilecheck() &&
       !client
     ) {
-      Helper.css(".castButton", "display", "none");
+      Helper.css(".cast-button-header", "display", "none");
     }
 
     Helper.log([

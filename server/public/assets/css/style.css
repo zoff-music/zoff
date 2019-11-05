@@ -1969,10 +1969,11 @@ nav .zbrand.channel-logo-container {
 
 .castButton {
   /* display: none; !important*/
-  height: 32px;
+  /*  height: 32px;
   width: 32px;
-  padding-top: 3px;
-  padding-bottom: 2px;
+*/
+  padding: 20px 0px;
+  height: 64px;
   background: transparent;
   border: none;
   float: right;
@@ -2681,8 +2682,17 @@ margin-right: 52%;
   margin-left: 10px;
 }
 
-.skip_next_client {
+.skip_next_client,
+.cast-button-header {
   float: left;
+}
+
+.cast-button-header {
+  display: none;
+  height: 64px;
+  width: 64px;
+  justify-content: center;
+  align-items: center;
 }
 
 #volume-button {
