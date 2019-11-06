@@ -1441,6 +1441,7 @@ function resizePlaylistPlaying(playing, resizing) {
   if (document.querySelector("#wrapper") == null || embed || client) return;
   if (window.innerWidth < 601) {
     var subtract = 0;
+    playing = true;
     if (playing) {
       var height = window.innerHeight - 246 - 170 - subtract;
       Helper.css("#chat-bar", "height", height + "px");
