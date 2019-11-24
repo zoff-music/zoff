@@ -350,7 +350,12 @@ temp_pass = "";
 
 initializeCastApi = function() {
   try {
-    if (cast == undefined) return;
+    if (
+      cast == undefined ||
+      chrome.cast == undefined ||
+      chrome.cast.AutoJoinPolicy == undefined
+    )
+      return;
   } catch (event) {
     return;
   }
