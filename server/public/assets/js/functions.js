@@ -501,7 +501,7 @@ function get_list_ajax() {
         List.populate_list(response.results);
       }
     },
-    error: function(response) {
+    error: function(response, xmlhttp) {
       //response = JSON.parse(response);
       if (response.status == 403) {
         start_auth();
@@ -1453,6 +1453,9 @@ function resizePlaylistPlaying(playing, resizing) {
     Helper.css(".list-song", "height", List.element_height + "px");
     Channel.set_title_width();
     var toJumpTo = page / canFit;
+    if(full_playlist == undefined) {
+      return;
+    }
     if (
       toJumpTo > Math.floor(full_playlist.length / List.can_fit) &&
       resizing

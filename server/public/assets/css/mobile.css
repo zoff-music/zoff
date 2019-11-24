@@ -115,7 +115,7 @@
   }
 
   .list-title {
-    width: 66%;
+    width: 60%;
   }
 
   .hamburger-sidenav {
@@ -174,7 +174,9 @@
   }
 
   .cast-button-header {
+    width: 50px;
     height: 56px;
+    overflow: hidden;
   }
 
   .slider-vol-mobile {
