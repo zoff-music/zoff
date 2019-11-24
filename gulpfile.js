@@ -38,13 +38,13 @@ gulp.task("js", function() {
       ])
       //.pipe(sourcemaps.init())
       .pipe(concat("main.min.js"))
-      .pipe(
+      /*.pipe(
         uglify({
           mangle: true,
           compress: true,
           enclose: true
         })
-      )
+      )*/
       //.pipe(sourcemaps.write('maps'))
       .pipe(gulp.dest("server/public/assets/dist"))
   );

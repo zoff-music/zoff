@@ -1875,7 +1875,7 @@ ul #chat-log {
   z-index: 99;
   width: 100%;
   color: white;
-  height: calc(100vh - 64px - 32px);
+  height: calc(100vh - 64px - 0px);
   transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
     opacity 1s;
   -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
@@ -1969,10 +1969,11 @@ nav .zbrand.channel-logo-container {
 
 .castButton {
   /* display: none; !important*/
-  height: 32px;
+  /*  height: 32px;
   width: 32px;
-  padding-top: 3px;
-  padding-bottom: 2px;
+*/
+  padding: 20px 0px;
+  height: 64px;
   background: transparent;
   border: none;
   float: right;
@@ -2030,7 +2031,7 @@ margin-right: 52%;
 
 #player {
   height: 95%;
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
@@ -2048,7 +2049,7 @@ margin-right: 52%;
 #fireplace_player {
   z-index: 999;
   /*width: calc(100% - .75rem);*/
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: absolute;
   display: none;
   pointer-events: none;
@@ -2100,6 +2101,7 @@ margin-right: 52%;
 .list-image,
 .list-suggested-image {
   width: 34%;
+  min-width: 120px;
   height: 100%;
   float: left;
 }
@@ -2681,8 +2683,17 @@ margin-right: 52%;
   margin-left: 10px;
 }
 
-.skip_next_client {
+.skip_next_client,
+.cast-button-header {
   float: left;
+}
+
+.cast-button-header {
+  display: none;
+  height: 64px;
+  width: 64px;
+  justify-content: center;
+  align-items: center;
 }
 
 #volume-button {
@@ -2984,7 +2995,7 @@ margin-right: 52%;
 }
 
 .host-mode-height #player_overlay {
-  height: calc(100vh - 32px);
+  height: calc(100vh - 0px);
 }
 
 .host-mode-width {
@@ -3036,6 +3047,7 @@ margin-right: 52%;
 }
 
 #main_components {
+  display: none;
   position: absolute;
   top: calc(100% - 26px);
   width: 100%;

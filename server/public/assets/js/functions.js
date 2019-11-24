@@ -148,11 +148,11 @@ function sendRules() {
 function resizeFunction() {
   if (chan && !Helper.mobilecheck()) {
     if (document.querySelector("#wrapper") == null) return;
-    if (!client && !embed)
+    /*if (!client && !embed)
       document.querySelector("#hide-playlist").style.left =
         document.querySelector("#video-container").offsetWidth -
         document.querySelector("#hide-playlist").offsetWidth +
-        "px";
+        "px";*/
     if (
       ((window.innerWidth > 600 && !embed) ||
         (window.innerWidth > 500 && embed)) &&
@@ -196,78 +196,11 @@ function resizeFunction() {
       }
     }
     var temp_fit;
-
-    if (!embed && !client) {
-      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / temp_fit - 5.3;
-    } else if (embed) {
-      temp_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / temp_fit - 4;
-    } else if (!client) {
-      temp_fit =
-        Math.round(
-          (Helper.computedStyle(".tabs", "height") -
-            Helper.computedStyle("header", "height") -
-            64 -
-            40) /
-            71
-        ) + 1;
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          temp_fit -
-        5;
-    } else {
-      temp_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 71) + 1;
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / temp_fit - 5.3;
-    }
-    if (List.element_height < 55.2 && !client && !embed) {
-      temp_fit = temp_fit - 1;
-      List.element_height = 55.2;
-      temp_fit = Math.round(
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          71
-      );
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          temp_fit -
-        5;
-    } else if (List.element_height < 55.2 && embed) {
-      //List.can_fit = List.can_fit - 1;
-      temp_fit = Math.round(
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          71
-      );
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          temp_fit -
-        5;
-      temp_fit = temp_fit - 2;
-    }
+    temp_fit = Math.round(
+      Helper.computedStyle("#wrapper", "height") / 70
+    );
+    List.element_height = 70;
+    temp_fit = temp_fit - 1;
     if (temp_fit > List.can_fit || temp_fit < List.can_fit) {
       List.dynamicContentPage(-10);
     }
@@ -295,7 +228,6 @@ function resizeFunction() {
       }
     }
     List.can_fit = temp_fit;
-    //List.element_height = (Helper.computedStyle("#wrapper", "height") / List.can_fit)-5.3;
     Helper.css(".list-song", "height", List.element_height + "px");
     Channel.set_title_width();
     if (!client) {
@@ -329,23 +261,23 @@ function fullVideo(hide) {
     document.querySelector("#video-container").classList.remove("m9");
     document.querySelector("#video-container").className += " m12";
     document.querySelector("main").style.maxWidth = "100%";
-    document.querySelector("#hide-playlist").style.left =
+    /*document.querySelector("#hide-playlist").style.left =
       document.querySelector("#video-container").offsetWidth -
       document.querySelector("#hide-playlist").offsetWidth +
       "px";
     document.querySelector("#hide-playlist .material-icons").innerText =
-      "keyboard_arrow_left";
+      "keyboard_arrow_left";*/
   } else {
     document.querySelector("#playlist").classList.remove("show-only-mobile");
     document.querySelector("#video-container").classList.remove("m12");
     document.querySelector("#video-container").className += " m9";
     document.querySelector("main").style.maxWidth = "";
-    document.querySelector("#hide-playlist").style.left =
+    /*document.querySelector("#hide-playlist").style.left =
       document.querySelector("#video-container").offsetWidth -
       document.querySelector("#hide-playlist").offsetWidth +
       "px";
     document.querySelector("#hide-playlist .material-icons").innerText =
-      "keyboard_arrow_right";
+      "keyboard_arrow_right";*/
   }
   hiddenPlaylist = hide;
 }
@@ -1113,7 +1045,6 @@ function setup_viewers_listener() {
 }
 
 function setup_admin_listener() {
-  socket.on("toast", toast);
   socket.on("pw", Admin.pw);
   socket.on("conf", Admin.conf);
 }
@@ -1441,6 +1372,7 @@ function resizePlaylistPlaying(playing, resizing) {
   if (document.querySelector("#wrapper") == null || embed || client) return;
   if (window.innerWidth < 601) {
     var subtract = 0;
+    playing = true;
     if (playing) {
       var height = window.innerHeight - 246 - 170 - subtract;
       Helper.css("#chat-bar", "height", height + "px");
@@ -1463,18 +1395,16 @@ function resizePlaylistPlaying(playing, resizing) {
     );
 
     if (!embed && !client) {
-      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 71);
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / temp_fit - 5.3;
+      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 70);
+      List.element_height = 70;
     } else {
       temp_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 71) + 1;
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / temp_fit - 5.3;
+        Math.round(Helper.computedStyle("#wrapper", "height") / 70);
+      List.element_height = 70;
     }
     if (List.element_height < 55.2 && !client) {
       temp_fit = temp_fit - 1;
-      List.element_height = 55.2;
+      List.element_height = 70;
       temp_fit = Math.round(
         (window.innerHeight -
           Helper.computedStyle(".tabs", "height") -
@@ -1483,14 +1413,7 @@ function resizePlaylistPlaying(playing, resizing) {
           40) /
           71
       );
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          temp_fit -
-        5;
+      List.element_height = 70;
     }
 
     if (temp_fit > List.can_fit || temp_fit < List.can_fit) {
@@ -1526,8 +1449,7 @@ function resizePlaylistPlaying(playing, resizing) {
       }
     }
     List.can_fit = temp_fit;
-    List.element_height =
-      Helper.computedStyle("#wrapper", "height") / List.can_fit - 5.3;
+    List.element_height = 70;
     Helper.css(".list-song", "height", List.element_height + "px");
     Channel.set_title_width();
     var toJumpTo = page / canFit;

@@ -462,7 +462,8 @@ initializeCastApi = function() {
     function(event) {
       Helper.log(["cast state", event.castState]);
       if (event.castState == "NOT_CONNECTED") {
-        Helper.css(".castButton", "display", "block");
+        Helper.css(".cast-button-header", "display", "inline-flex");
+        Channel.set_title_width();
         Helper.addClass(".volume-container", "volume-container-cast");
         cast_ready_connect = true;
         var _chSeen;
@@ -494,7 +495,8 @@ initializeCastApi = function() {
   );
 
   if (context.getCastState() == "NOT_CONNECTED") {
-    Helper.css(".castButton", "display", "block");
+    Helper.css(".cast-button-header", "display", "inline-flex");
+    Channel.set_title_width();
     Helper.removeClass(".castButton", "castButton-white-active");
     cast_ready_connect = true;
   }
@@ -545,10 +547,10 @@ function addDynamicListeners() {
     M.Modal.getInstance(document.querySelector("#channel_info")).open();
   });
 
-  addListener("click", "#hide-playlist", function(event) {
+  /*addListener("click", "#hide-playlist", function(event) {
     this.preventDefault();
     fullVideo(!hiddenPlaylist);
-  });
+  });*/
 
   addListener("click", "#bitcoin-address", function(event) {
     var copyTextarea = document.querySelector("#bitcoin-address");

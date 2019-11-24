@@ -161,6 +161,22 @@
     text-align: center;
   }
 
+  #main_components {
+    display: block;
+  }
+
+  #duration,
+  #playpause,
+  .playbar-btn.skip,
+  #volume-button,
+  #bar {
+    display: none;
+  }
+
+  .cast-button-header {
+    height: 56px;
+  }
+
   .slider-vol-mobile {
     display: none !important;
   }
@@ -299,8 +315,17 @@
 
   #player {
     height: calc(100%);
-    display: none;
+    /*display: none;*/
+    pointer-events: all !important;
+    opacity: 1 !important;
+    display: block !important;
     width: 100vw;
+  }
+
+  #search-btn {
+    position: absolute;
+    top: 56px;
+    right: 10px;
   }
 
   .pointer-events-all-mobile {
@@ -430,12 +455,6 @@
     float: right;
   }
 
-  .castButton {
-    width: 39px;
-    height: 51px;
-    padding-top: 0em;
-  }
-
   .label-for-mobile-frontpage {
     display: initial;
     width: auto !important;
@@ -552,7 +571,7 @@
     width: auto;
   }
 
-  .page-footer {
+  footer {
     padding-top: 40px !important;
   }
 
@@ -597,7 +616,7 @@
   }
 
   #player {
-    pointer-events: none;
+    /*pointer-events: none;*/
     margin-top: 7px;
   }
 

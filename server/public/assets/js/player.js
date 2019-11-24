@@ -199,9 +199,9 @@ var Player = {
         }
         if (!embed && !client && window.location.pathname != "/") {
           if (Helper.mobilecheck()) {
-            Helper.css("#player", "display", "block");
-            Helper.toggleClass(".video-container", "click-through");
-            Helper.toggleClass(".page-footer", "padding-bottom-extra");
+            /*Helper.css("#player", "display", "block");
+            Helper.toggleClass(".video-container", "click-through");*/
+            //Helper.toggleClass(".page-footer", "padding-bottom-extra");
           }
           resizePlaylistPlaying(
             newState.data == YT.PlayerState.PLAYING ||
@@ -213,8 +213,8 @@ var Player = {
         Helper.css("#player", "opacity", "1");
         Helper.css("#channel-load", "display", "none");
 
-        Helper.addClass("#player", "pointer-events-all-mobile");
-        Helper.removeClass("#video-container", "click-through");
+        //Helper.addClass("#player", "pointer-events-all-mobile");
+        //Helper.removeClass("#video-container", "click-through");
         Helper.addClass("#player", "small-display");
         Helper.css("#playpause", "visibility", "visible");
         Helper.css("#playpause", "pointer-events", "all");
@@ -266,9 +266,9 @@ var Player = {
             mobile_beginning = true;
             if (!embed && !client && window.location.pathname != "/") {
               if (Helper.mobilecheck() && !embed) {
-                Helper.css("#player", "display", "none");
+                /*Helper.css("#player", "display", "none");
                 Helper.toggleClass(".video-container", "click-through");
-                Helper.toggleClass(".page-footer", "padding-bottom-extra");
+                Helper.toggleClass(".page-footer", "padding-bottom-extra");*/
               }
 
               resizePlaylistPlaying(
@@ -279,9 +279,9 @@ var Player = {
             }
           }
         }
-        Helper.removeClass("#player", "pointer-events-all-mobile");
-        Helper.addClass("#video-container", "click-through");
-        Helper.removeClass("#player", "small-display");
+        //Helper.removeClass("#player", "pointer-events-all-mobile");
+        //Helper.addClass("#video-container", "click-through");
+        //Helper.removeClass("#player", "small-display");
         break;
       case YT.PlayerState.BUFFERING:
         //was_stopped = false;
@@ -1062,7 +1062,7 @@ var Player = {
       if (Helper.mobilecheck()) {
         /*Helper.css("#playpause", "visibility", "hidden");
                     Helper.css("#playpause", "pointer-events", "none");*/
-        Helper.css("#player", "opacity", "1");
+        //Helper.css("#player", "opacity", "1");
         if (offline) {
           setTimeout(function() {
             Helper.css("#channel-load", "display", "none");
@@ -1222,11 +1222,13 @@ var Player = {
   },
 
   onYouTubeIframeAPIReady: function() {
+    if (Helper.mobilecheck()) {
+      resizePlaylistPlaying(true, false);
+    }
     try {
       Player.player = new YT.Player("player", {
         videoId: video_id,
         playerVars: {
-          rel: "0",
           autoplay: 1,
           wmode: "transparent",
           controls: "0",
@@ -1234,7 +1236,8 @@ var Player = {
           iv_load_policy: "3",
           theme: "light",
           color: "white",
-          showinfo: 0
+          modestbranding: "0",
+          playsinline: "1"
         },
         events: {
           onReady: Player.onPlayerReady,

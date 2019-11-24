@@ -26,7 +26,7 @@ var Channel = {
         Helper.addClass(".volume-container", "volume-container-cast");
       }
       if (!embed) {
-        document
+        /*document
           .querySelector("#main-container")
           .insertAdjacentHTML(
             "beforeend",
@@ -35,7 +35,7 @@ var Channel = {
         document.querySelector("#hide-playlist").style.left =
           document.querySelector("#video-container").offsetWidth -
           document.querySelector("#hide-playlist").offsetWidth +
-          "px";
+          "px";*/
       }
       //Player.soundcloud_player = document.querySelector("#soundcloud_player");
     }
@@ -207,6 +207,8 @@ var Channel = {
         "" + add,
         connection_options
       );
+
+      socket.on("toast", toast);
       socket.on("update_required", function(msg) {
         if (window.location.hostname == "localhost") {
           console.error(msg);
@@ -419,7 +421,7 @@ var Channel = {
     if (!Helper.mobilecheck() && !client) {
       Helper.tooltip(".castButton", {
         delay: 5,
-        position: "top",
+        position: "bottom",
         html: "Cast Zoff to TV"
       });
     }
@@ -451,7 +453,8 @@ var Channel = {
       !Helper.mobilecheck() &&
       !client
     ) {
-      Helper.css(".castButton", "display", "none");
+      Helper.css(".cast-button-header", "display", "none");
+      Channel.set_title_width();
     }
 
     Helper.log([
@@ -769,7 +772,7 @@ var Channel = {
         method: "GET",
         success: function(e) {
           if (!client) {
-            document.querySelector("#hide-playlist").remove();
+            //document.querySelector("#hide-playlist").remove();
             if (hiddenPlaylist)
               document.querySelector("main").style.maxWidth = "";
             hiddenPlaylist = false;
