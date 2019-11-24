@@ -327,7 +327,7 @@
   #search-btn {
     position: absolute;
     top: 56px;
-    right: 10px;
+    right: 0px;
   }
 
   .pointer-events-all-mobile {
@@ -622,9 +622,15 @@
     margin-top: 7px;
   }
 
+  #channel-load {
+    z-index: 999999999;
+  }
+
   .search-container,
   .song-title {
     background: inherit;
+    width: calc(100%)!important;
+    padding-right: 56px !important;
   }
 
   .row .col.s12 {
