@@ -2101,6 +2101,7 @@ margin-right: 52%;
 .list-image,
 .list-suggested-image {
   width: 34%;
+  min-width: 120px;
   height: 100%;
   float: left;
 }

@@ -12,6 +12,7 @@ var Search = require(pathThumbnails + "/handlers/search.js");
 var crypto = require("crypto");
 var Filter = require("bad-words");
 var filter = new Filter({ placeHolder: "x" });
+var db = require(pathThumbnails + "/handlers/db.js");
 /*var filter = {
     clean: function(str) {
         return str;
@@ -43,6 +44,14 @@ module.exports = function() {
 
     socket.on("pinging", function() {
       socket.emit("ok");
+    });
+
+    db.collection("zoff_motd").find(function(error, motd) {
+      if(motd.length > 0 && !error) {
+        setTimeout(function(){
+          socket.emit("toast", motd[0].message);
+        }, 1500);
+      }
     });
 
     var ping_timeout;

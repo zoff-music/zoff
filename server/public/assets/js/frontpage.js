@@ -567,6 +567,8 @@ var Frontpage = {
         "" + add,
         connection_options
       );
+
+      socket.on("toast", toast);
       socket.on("update_required", function(msg) {
         if (window.location.hostname == "localhost") {
           console.log(msg);

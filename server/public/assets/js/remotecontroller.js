@@ -36,6 +36,8 @@ window.addEventListener(
       window.location.protocol + "//" + window.location.host,
       connection_options
     );
+
+    socket.on("toast", toast);
     socket.on("update_required", function() {
       window.location.reload(true);
     });

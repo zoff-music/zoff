@@ -547,10 +547,10 @@ function addDynamicListeners() {
     M.Modal.getInstance(document.querySelector("#channel_info")).open();
   });
 
-  addListener("click", "#hide-playlist", function(event) {
+  /*addListener("click", "#hide-playlist", function(event) {
     this.preventDefault();
     fullVideo(!hiddenPlaylist);
-  });
+  });*/
 
   addListener("click", "#bitcoin-address", function(event) {
     var copyTextarea = document.querySelector("#bitcoin-address");
