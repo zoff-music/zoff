@@ -1,7 +1,7 @@
 Zoff
 ====
 
-Zoff (pronounced __søff__) is a shared (free) YouTube and SoundCloud based radio service, built upon the YouTube API, and SoundCloud API, with integrated casting with Chromecast. 
+Zoff (pronounced __søff__) is a shared (free) YouTube and SoundCloud based radio service, built upon the YouTube API, and SoundCloud API, with integrated casting with Chromecast.
 
 Zoff supports importing YouTube, SoundCloud and Spotify playlists, and has functionality that (tries to) export to YouTube, SoundCloud and Spotify.
 
@@ -52,29 +52,25 @@ The team can be reached on <a href="mailto:contact@zoff.me?Subject=Contact%20Zof
 
 ![Frontpage desktop](https://puu.sh/xCI8P/bbfbdd694c.png)
 
-![Channel desktop](https://puu.sh/xCHXj/3f7d826329.png)
+![Channel desktop](https://puu.sh/EI9Dt/05dea0ae57.png)
 
-![Channel settings](https://puu.sh/BCii4/f6594fc481.png)
+![Channel settings](https://puu.sh/EI9DV/0df8e9a5b2.png)
 
-![Channel join](https://puu.sh/zf1Ap/16587c0749.png)
+![Channel join](https://puu.sh/EI9E8/6f3810fe7f.png)
 
-![Channel search desktop](https://puu.sh/AhKTR/c1e6b5d8d2.png)
+![Channel search desktop](https://puu.sh/EI9EJ/459deda44d.png)
 
-![Channel host mode desktop](https://puu.sh/AAGrK/953d11b2a7.png)
+![Channel host mode desktop](https://puu.sh/EI9Fb/6c1776230f.png)
 
 ### Embedded player:
 
-![embedded](https://puu.sh/BCQOs/9393bc5d09.png)
+![embedded](https://puu.sh/EI9HY/54434384af.png)
 
 ### Screenshots of the mobile version:
 
-<div style="text-align:center;">
-<img src="http://i.imgur.com/aWlEmIx.png" alt="frontpage" height="600px">
-<br>
-<img src="https://puu.sh/xCI6X/1aead5e1b6.png" alt="channel" height="600px">
-
-<img src="https://puu.sh/AhKUE/f93daa8a46.png" alt="channel search" height="600px">
-</div>
+![mobilefront](http://i.imgur.com/aWlEmIx.png)
+![mobile1](https://puu.sh/EI9Iz/8673bb3065.png)
+![mobile2](https://puu.sh/EI9IS/5d6c3e303a.png)
 
 ### Legal
 
