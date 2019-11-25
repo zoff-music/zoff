@@ -171,6 +171,7 @@ var Crypt = {
   },
 
   get_volume: function() {
+    return 100;
     return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").volume;
     //return conf_arr.volume;
   },

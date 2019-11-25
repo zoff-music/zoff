@@ -196,10 +196,8 @@ function resizeFunction() {
       }
     }
     var temp_fit;
-    temp_fit = Math.round(
-      Helper.computedStyle("#wrapper", "height") / 70
-    );
-    List.element_height = 70;
+    temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 90);
+    List.element_height = 90;
     temp_fit = temp_fit - 1;
     if (temp_fit > List.can_fit || temp_fit < List.can_fit) {
       List.dynamicContentPage(-10);
@@ -1395,16 +1393,15 @@ function resizePlaylistPlaying(playing, resizing) {
     );
 
     if (!embed && !client) {
-      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 70);
-      List.element_height = 70;
+      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 90);
+      List.element_height = 90;
     } else {
-      temp_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 70);
-      List.element_height = 70;
+      temp_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 90);
+      List.element_height = 90;
     }
-    if (List.element_height < 55.2 && !client) {
+    if (List.element_height < 90 && !client) {
       temp_fit = temp_fit - 1;
-      List.element_height = 70;
+      List.element_height = 90;
       temp_fit = Math.round(
         (window.innerHeight -
           Helper.computedStyle(".tabs", "height") -
@@ -1413,7 +1410,7 @@ function resizePlaylistPlaying(playing, resizing) {
           40) /
           71
       );
-      List.element_height = 70;
+      List.element_height = 90;
     }
 
     if (temp_fit > List.can_fit || temp_fit < List.can_fit) {
@@ -1449,11 +1446,11 @@ function resizePlaylistPlaying(playing, resizing) {
       }
     }
     List.can_fit = temp_fit;
-    List.element_height = 70;
+    List.element_height = 90;
     Helper.css(".list-song", "height", List.element_height + "px");
     Channel.set_title_width();
     var toJumpTo = page / canFit;
-    if(full_playlist == undefined) {
+    if (full_playlist == undefined) {
       return;
     }
     if (
