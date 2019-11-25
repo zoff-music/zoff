@@ -987,6 +987,10 @@ nav .brand-logo-navigate {
   width: 100%;
 }
 
+.nav-wrapper {
+  z-index: 9;
+}
+
 #nav-mobile .green:hover {
   background-color: #38803c !important;
 }
@@ -2980,7 +2984,11 @@ margin-right: 52%;
 }
 #bar {
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  filter: invert(1);
 }
 
 #offline-info,

@@ -36,6 +36,10 @@
   #controls {
     background: none !important;
   }
+
+  .title-container {
+    background-color: transparent !important;
+  }
 }
 
 @media only screen and (max-width: 736px) and (max-width: 600px),
@@ -629,7 +633,7 @@
   .search-container,
   .song-title {
     background: inherit;
-    width: calc(100%)!important;
+    width: calc(100%) !important;
     padding-right: 56px !important;
   }
 

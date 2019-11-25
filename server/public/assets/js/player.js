@@ -17,7 +17,7 @@ var Player = {
       return;
     }
     if (obj.np != undefined) {
-        Helper.css("#channel-load", "display", "none");
+      Helper.css("#channel-load", "display", "none");
 
       Player.np = obj.np[0];
       Player.np.start = obj.np[0].start;
