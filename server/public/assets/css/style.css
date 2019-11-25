@@ -1981,6 +1981,7 @@ nav .zbrand.channel-logo-container {
   background: transparent;
   border: none;
   float: right;
+  display: block !important;
   --disconnected-color: white;
   --connected-color: #ff9800;
 }
@@ -2216,6 +2217,8 @@ margin-right: 52%;
   -moz-transition: height 0.3s;
   -o-transition: height 0.3s;
   transition: height 0.3s;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
   height: 66px;
   margin: 2.5px 0 2.5px -1px !important;
 }
