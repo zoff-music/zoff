@@ -332,6 +332,11 @@ var Channel = {
           position: "bottom",
           html: "Show join URL"
         });
+        Helper.tooltip(".volume-container", {
+          delay: 5,
+          position: "bottom",
+          html: "Volume"
+        });
       }
 
       Helper.tooltip("#viewers", {
@@ -652,6 +657,7 @@ var Channel = {
       user_auth_avoid = true;
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
+        Helper.tooltip(".volume-container", "destroy");
         Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         //$('.castButton-unactive').tooltip("destroy");
@@ -707,6 +713,7 @@ var Channel = {
       Helper.css("#embed-button", "display", "none");
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
+        Helper.tooltip(".volume-container", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#offline-mode", "destroy");
