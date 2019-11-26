@@ -590,14 +590,14 @@ var Channel = {
   },
 
   window_width_volume_slider: function() {
-    if (window.innerWidth <= 600 && slider_type == "horizontal") {
+    /*if (window.innerWidth <= 600 && slider_type == "horizontal") {*/
       slider_type = "vertical";
       Playercontrols.initSlider();
-    } else if (window.innerWidth > 600 && slider_type == "vertical") {
+    /*} else if (window.innerWidth > 600 && slider_type == "vertical") {
       slider_type = "horizontal";
       Playercontrols.initSlider();
       Helper.removeClass(".volume-container", "hide");
-    }
+  }*/
   },
 
   listeners: function(on) {

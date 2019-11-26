@@ -17,6 +17,114 @@ mobilecheck = function() {
   return check;
 };
 
+
+function toast(msg) {
+  switch (msg) {
+    case "suggested_thumbnail":
+      if (embed) return;
+      msg = "The thumbnail has been suggested!";
+      break;
+    case "faulty_start_end":
+      if (embed) return;
+      break;
+    case "wait_longer":
+      if (embed) return;
+      break;
+    case "suggested_description":
+      if (embed) return;
+      break;
+    case "thumbnail_denied":
+      if (embed) return;
+      break;
+    case "description_denied":
+      if (embed) return;
+      break;
+    case "addedsong":
+      if (embed) return;
+      break;
+    case "addedplaylist":
+      if (embed) return;
+      break;
+    case "savedsettings":
+      if (embed) return;
+      break;
+    case "wrongpass":
+      if (embed) return;
+      break;
+    case "deleted_songs":
+      if (embed) return;
+      break;
+    case "shuffled":
+      if (embed) return;
+      break;
+    case "deletesong":
+      if (embed) return;
+      break;
+    case "voted":
+      msg = Helper.rnd([
+        "You voted!",
+        "You vote like a boss",
+        "Voting is the key to democracy",
+        "May you get your song to the very top!",
+        "I love that song! I vouch for you.",
+        "Only you vote that good",
+        "I like the way you vote...",
+        "Up the video goes!",
+        "Voted Zoff for president",
+        "Only 999 more to go!"
+      ]);
+      break;
+    case "alreadyvoted":
+      msg = Helper.rnd([
+        "You can't vote twice on that song!",
+        "I see you have voted on that song before",
+        "One vote per person!",
+        "I know you want to hear your song, but have patience!",
+        "I'm sorry, but I can't let you vote twice, Dave."
+      ]);
+      break;
+    case "skip":
+      if (embed) return;
+      break;
+    case "listhaspass":
+      if (embed) return;
+      break;
+    case "noskip":
+      if (embed) return;
+      break;
+    case "alreadyskip":
+      if (embed) return;
+      break;
+    case "notyetskip":
+      if (embed) return;
+      break;
+    case "correctpass":
+      if (embed) return;
+      break;
+    case "changedpass":
+      if (embed) return;
+      break;
+    case "suggested":
+      if (embed) return;
+      break;
+    case "alreadyplay":
+      if (embed) return;
+      break;
+  }
+  before_toast();
+  M.toast({ html: msg, displayLength: 4000 });
+}
+
+function before_toast() {
+  /*if($('.toast').length > 0) {
+    var toastElement = $('.toast').first()[0];
+    var toastInstance = toastElement.M_Toast;
+    toastInstance.remove();
+}*/
+  M.Toast.dismissAll();
+  //Materialize.Toast.removeAll();
+}
+
 window.addEventListener(
   "DOMContentLoaded",
   function() {
