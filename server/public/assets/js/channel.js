@@ -8,13 +8,6 @@ var Channel = {
       Helper.addClass(".tabs", "hide");
       Helper.removeClass("#wrapper", "tabs_height");
       Helper.addClass("#wrapper", "client-wrapper");
-      if (!Helper.mobilecheck()) {
-        Helper.tooltip(".skip_next_client", {
-          delay: 5,
-          position: "bottom",
-          html: "Skip"
-        });
-      }
       Helper.addClass("#chan", "chan-client");
       Helper.addClass("#results", "client-results-height");
       Helper.addClass(".pagination-results", "client-pagination-height");
@@ -324,7 +317,11 @@ var Channel = {
     if (no_socket || Helper.mobilecheck()) {
       emit_list();
     }
-
+    Helper.tooltip(".skip_next_client", {
+      delay: 5,
+      position: "bottom",
+      html: "Skip"
+    });
     if (!Helper.mobilecheck()) {
       if (!client) {
         Helper.tooltip("#chan", {
@@ -332,7 +329,7 @@ var Channel = {
           position: "bottom",
           html: "Show join URL"
         });
-        Helper.tooltip(".volume-container", {
+        Helper.tooltip("#volume-button", {
           delay: 5,
           position: "bottom",
           html: "Volume"
@@ -657,13 +654,15 @@ var Channel = {
       user_auth_avoid = true;
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
-        Helper.tooltip(".volume-container", "destroy");
+        Helper.tooltip("#volume-button", "destroy");
         Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         //$('.castButton-unactive').tooltip("destroy");
         Helper.tooltip("#offline-mode", "destroy");
         Helper.tooltip("#admin-lock", "destroy");
       }
+
+      Helper.tooltip("skip_next_client", "destroy");
     }
     var url_split = window.location.href.split("/");
     if (
@@ -713,7 +712,7 @@ var Channel = {
       Helper.css("#embed-button", "display", "none");
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
-        Helper.tooltip(".volume-container", "destroy");
+        Helper.tooltip("#volume-button", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#offline-mode", "destroy");
@@ -729,6 +728,8 @@ var Channel = {
         Helper.tooltip(".shuffle-btn-container", "destroy");
         Helper.tooltip("#settings", "destroy");
       }
+
+      Helper.tooltip("skip_next_client", "destroy");
       Helper.removeElement("#seekToDuration");
 
       M.Sidenav.getInstance(
