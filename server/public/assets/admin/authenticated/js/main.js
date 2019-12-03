@@ -141,7 +141,6 @@ addListener("click", "#delete_motd", function(event) {
 addListener("click", "#save_motd", function(event) {
   this.preventDefault();
   var message = document.getElementById("motd_input").value;
-  console.log(message);
   ajax({
     type: "POST",
     url: "api/motd",
@@ -866,7 +865,6 @@ function loaded() {
     },
     url: "/api/motd",
     success: function(response) {
-      console.log(response);
       if (response.length == 0) {
         return;
       }

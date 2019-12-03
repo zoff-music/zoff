@@ -121,6 +121,14 @@ app.get("/robots.txt", function(req, res) {
   res.send("User-agent: *\nAllow: /$\nDisallow: /");
 });
 
+function getOrigin(req) {
+  var origin = "*";
+  try {
+    origin = req.get("origin");
+  } catch (e) {}
+  return origin;
+}
+
 app.use(function(req, res, next) {
   var cookie = req.cookies._uI;
   var skipElements = [
@@ -129,7 +137,8 @@ app.use(function(req, res, next) {
     "/apple-touch-icon.png"
   ];
   if (skipElements.indexOf(req.originalUrl) > -1) {
-    res.header("Access-Control-Allow-Origin", "*");
+    var origin = getOrigin(req);
+    res.header("Access-Control-Allow-Origin", origin);
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
@@ -137,7 +146,8 @@ app.use(function(req, res, next) {
     next();
   } else {
     if (req.originalUrl.split("/").length > 3) {
-      res.header("Access-Control-Allow-Origin", "*");
+      var origin = getOrigin(req);
+      res.header("Access-Control-Allow-Origin", origin);
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
@@ -169,7 +179,8 @@ app.use(function(req, res, next) {
           //sameSite: true,
         });
       }
-      res.header("Access-Control-Allow-Origin", "*");
+      var origin = getOrigin(req);
+      res.header("Access-Control-Allow-Origin", origin);
       res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept"
