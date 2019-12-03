@@ -4,7 +4,9 @@ var connection_options = {
   "force new connection": true
 };
 var socket = io.connect(
-  window.location.protocol + "//" + window.location.hostname,
+  window.location.protocol +
+    "//" +
+    window.location.hostname.replace("admin.", ""),
   connection_options
 );
 var api_token_list;
