@@ -121,7 +121,6 @@ router.route("/api/help").get(function(req, res) {
 });
 
 router.route("/api/frontpages").get(function(req, res) {
-  var origin = getOrigin(req);
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
