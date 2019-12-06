@@ -27,6 +27,10 @@
   .zbrand {
     /*max-width: 35%;*/
   }
+
+  #duration {
+    left: 90px;
+  }
 }
 
 @media (min-width: 600px),
