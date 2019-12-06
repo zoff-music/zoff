@@ -2778,6 +2778,7 @@
     position: absolute;
     left: 110px;
     bottom: -15px;
+    pointer-events: none;
   }
 
   #viewers {
