@@ -169,7 +169,6 @@
     display: block;
   }
 
-  #duration,
   #playpause,
   .playbar-btn.skip,
   #volume-button,
@@ -439,11 +438,11 @@
   }
 
   #duration {
-    font-size: 20px;
+    font-size: 1rem;
     font-weight: 400;
     margin-top: 9px;
     letter-spacing: -0.7px;
-    margin-left: 10px;
+    margin-left: 0px;
   }
 
   #volume-button {

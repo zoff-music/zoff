@@ -2061,9 +2061,14 @@
   }
 
   .chan {
+    margin-top: -10px;
     padding-right: 10px;
     /*max-width:22vw;*/
     text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
+  }
+
+  .chan.client {
+    margin-top: 0px;
   }
 
   .nav-btn {
@@ -2765,6 +2770,14 @@
     font-family: "Roboto", sans-serif;
     font-weight: 300;
     margin-left: 15px;
+  }
+
+  #duration {
+    color: white;
+    font-size: 1rem;
+    position: absolute;
+    left: 110px;
+    bottom: -15px;
   }
 
   #viewers {
