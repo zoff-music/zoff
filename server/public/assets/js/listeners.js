@@ -247,7 +247,10 @@ window.addEventListener(
         localStorage.setItem("VERSION", VERSION);
       } catch (e) {}
     }
-
+    if (window.location.hash == "#privacy") {
+      M.Modal.init(document.getElementById("cookie"));
+      M.Modal.getInstance(document.getElementById("cookie")).open();
+    }
     if (!fromFront && window.location.pathname != "/") Channel.init();
     else if (!fromChannel && window.location.pathname == "/") {
       Frontpage.init();
