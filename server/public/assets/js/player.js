@@ -1233,7 +1233,7 @@ var Player = {
         playerVars: {
           autoplay: 1,
           wmode: "transparent",
-          controls: "0",
+          controls: "1",
           fs: "0",
           iv_load_policy: "3",
           theme: "light",
