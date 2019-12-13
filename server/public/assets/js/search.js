@@ -281,7 +281,7 @@ var Search = {
               "beforeend",
               "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);' class='empty-inner-results'>" +
                 '<div id="empty-results" class="valign-wrapper">' +
-                '<span class="valign">YouTube has blocked our API-access sadly..</span>' +
+                '<span class="valign">There is a problem fetching from YouTube at the moment..</span>' +
                 "</div>" +
                 "</div>"
             );
