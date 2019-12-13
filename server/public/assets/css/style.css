@@ -1050,7 +1050,7 @@
   .cardbg {
     background-repeat: no-repeat;
     background-size: 124%;
-    background-size: cover;
+    background-size: contain;
     background-position: 50% 50%;
     background-color: #171717;
     height: 120px;
@@ -2110,7 +2110,7 @@
 
   .list-image,
   .list-suggested-image {
-    width: 34%;
+    width: 120px;
     min-width: 120px;
     height: 100%;
     float: left;
@@ -2194,7 +2194,7 @@
     display: block;
     color: white;
     font-size: 1em;
-    margin-top: 8px;
+    margin-top: 0px;
     text-align: left;
     padding: 0 10px 0 10px;
     line-height: 2.6rem;

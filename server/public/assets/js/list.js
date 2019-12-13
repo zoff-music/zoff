@@ -292,8 +292,8 @@ var List = {
   },
 
   calculate_song_heights: function() {
-    List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 90);
-    List.element_height = 90;
+    List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 70);
+    List.element_height = 70;
     List.can_fit = List.can_fit - 1;
   },
 
