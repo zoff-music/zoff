@@ -1,6 +1,3 @@
-var path = require("path");
-var mongojs = require("mongojs");
-var db = require(pathThumbnails + "/handlers/db.js");
 var find = require(pathThumbnails + "/handlers/dbFunctions/find.js");
 var aggregate = require(pathThumbnails + "/handlers/dbFunctions/aggregate.js");
 
@@ -29,8 +26,8 @@ async function frontpageLists(msg, socket) {
   });
 }
 
-async function getFrontpageLists(callback) {
-  return new Promise(async (resolve, reject) => {
+async function getFrontpageLists() {
+  return new Promise(async resolve => {
     var project_object = {
       _id: 1,
       count: 1,

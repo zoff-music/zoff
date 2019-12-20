@@ -1,4 +1,3 @@
-var cookieParser = require("cookie-parser");
 var cookie = require("cookie");
 
 var Functions = require(pathThumbnails + "/handlers/functions.js");
@@ -7,21 +6,20 @@ var Chat = require(pathThumbnails + "/handlers/chat.js");
 var List = require(pathThumbnails + "/handlers/list.js");
 var Suggestions = require(pathThumbnails + "/handlers/suggestions.js");
 var ListSettings = require(pathThumbnails + "/handlers/list_settings.js");
-var Frontpage = require(pathThumbnails + "/handlers/frontpage.js");
+var Frontpage = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/frontpageLists.js");
 var Search = require(pathThumbnails + "/handlers/search.js");
+var Offline = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/offline.js");
 var Join = require(pathThumbnails +
   "/handlers/dbFunctions/advancedFunctions/joinList.js");
 var Skip = require(pathThumbnails +
   "/handlers/dbFunctions/advancedFunctions/skip.js");
+var ConnectedUsers = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/connectedUsers.js");
+var Position = require(pathThumbnails +
+  "/handlers/dbFunctions/advancedFunctions/position.js");
 var crypto = require("crypto");
-var Filter = require("bad-words");
-var filter = new Filter({ placeHolder: "x" });
-var db = require(pathThumbnails + "/handlers/db.js");
-/*var filter = {
-    clean: function(str) {
-        return str;
-    }
-}*/
 var db = require(pathThumbnails + "/handlers/db.js");
 
 module.exports = function() {
@@ -58,55 +56,42 @@ module.exports = function() {
       }
     });
 
-    var ping_timeout;
     var socketid = socket.zoff_id;
     var coll;
     var in_list = false;
-    var name = "";
     var short_id;
     Chat.get_name(guid, { announce: false, socket: socket });
     var offline = false;
-    var chromecast_object = false;
 
     socket.emit("guid", guid);
 
-    socket.on("self_ping", function(msg) {
+    socket.on("self_ping", async function(msg) {
+      msg = middleware(msg);
       var channel = msg.channel;
-      if (channel.indexOf("?") > -1) {
-        channel = channel.substring(0, channel.indexOf("?"));
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
       //channel = channel.replace(/ /g,'');
       if (offline) {
-        db.collection("connected_users").update(
-          { _id: "offline_users" },
-          { $addToSet: { users: guid } },
-          { upsert: true },
-          function(err, docs) {}
+        ConnectedUsers.addToSet(
+          "connected_users",
+          "offline_users",
+          "users",
+          guid
         );
       } else {
-        db.collection("connected_users").update(
-          { _id: channel },
-          { $addToSet: { users: guid } },
-          { upsert: true },
-          function(err, docs) {
-            db.collection("frontpage_lists").update(
-              { _id: channel },
-              { $inc: { viewers: 1 } },
-              { upsert: true },
-              function() {}
-            );
-          }
+        await ConnectedUsers.addToSet(
+          "connected_users",
+          channel,
+          "users",
+          guid
         );
+
+        Frontpage.incrementList("frontpage_lists", 1);
       }
       if (channel != "" && channel != undefined) {
-        db.collection("connected_users").update(
-          { _id: "total_users" },
-          { $addToSet: { total_users: guid + channel } },
-          { upsert: true },
-          function(err, docs) {}
+        ConnectedUsers.addToSet(
+          "connected_users",
+          "total_users",
+          "total_users",
+          guid + channel
         );
       }
     });
@@ -141,52 +126,48 @@ module.exports = function() {
       });
     });
 
-    socket.on("chromecast", function(msg) {
+    socket.on("chromecast", async function(msg) {
       try {
-        if (
-          typeof msg == "object" &&
-          msg.hasOwnProperty("guid") &&
-          msg.hasOwnProperty("socket_id") &&
-          msg.hasOwnProperty("channel") &&
-          typeof msg.guid == "string" &&
-          typeof msg.channel == "string" &&
-          typeof msg.socket_id == "string" &&
-          msg.channel != ""
-        ) {
-          if (msg.hasOwnProperty("channel")) {
-            msg.channel = Functions.encodeChannelName(msg.channel);
-          }
-          db.collection("connected_users").find({ _id: msg.channel }, function(
-            err,
-            connected_users_channel
-          ) {
-            if (
-              connected_users_channel.length > 0 &&
-              connected_users_channel[0].users.indexOf(msg.guid) > -1
-            ) {
-              coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
-              coll = Functions.removeEmojis(coll).toLowerCase();
-              //coll = filter.clean(coll);
-              if (coll.indexOf("?") > -1) {
-                coll = coll.substring(0, coll.indexOf("?"));
-              }
-              Functions.setChromecastHost(
-                socket.cookie_id,
-                msg.socket_id,
-                msg.channel,
-                function(results) {}
-              );
-              //socket.cookie_id = msg.guid;
-              guid = msg.guid;
-              socketid = msg.socket_id;
-              socket.zoff_id = socketid;
-
-              in_list = true;
-              chromecast_object = true;
-              socket.join(coll);
-            }
-          });
+        msg = middleware(msg);
+        coll = msg.channel;
+        var validated = input_validate_middleware(
+          obj,
+          [
+            { key: "guid", expected: "string" },
+            { key: "socket_id", expected: "string" },
+            { key: "channel", expected: "string" }
+          ],
+          socket
+        );
+        if (!validated) {
+          return;
         }
+
+        var connected_users_channel = await find("connected_users", {
+          _id: msg.channel
+        });
+        if (
+          connected_users_channel.length < 1 ||
+          connected_users_channel[0].users.indexOf(msg.guid) == -1
+        ) {
+          return;
+        }
+
+        coll = msg.channel;
+        Functions.setChromecastHost(
+          socket.cookie_id,
+          msg.socket_id,
+          msg.channel,
+          function() {}
+        );
+        //socket.cookie_id = msg.guid;
+        guid = msg.guid;
+        socketid = msg.socket_id;
+        socket.zoff_id = socketid;
+
+        in_list = true;
+        chromecast_object = true;
+        socket.join(coll);
       } catch (e) {
         return;
       }
@@ -205,35 +186,12 @@ module.exports = function() {
       Search.check_error_video(msg, coll);
     });
 
-    socket.on("get_spread", function() {
-      db.collection("connected_users").find({ _id: "total_users" }, function(
-        err,
-        tot
-      ) {
-        db.collection("connected_users").find(
-          { _id: "offline_users" },
-          function(err, off) {
-            db.collection("connected_users").find(
-              { _id: { $ne: "total_users" }, _id: { $ne: "offline_users" } },
-              function(err, users_list) {
-                if (tot.length > 0 && off.length == 0) {
-                  socket.emit("spread_listeners", {
-                    offline: 0,
-                    total: tot[0].total_users.length,
-                    online_users: users_list
-                  });
-                } else if (tot.length > 0 && off.length > 0) {
-                  socket.emit("spread_listeners", {
-                    offline: off[0].users.length,
-                    total: tot[0].total_users.length,
-                    online_users: users_list
-                  });
-                }
-              }
-            );
-          }
-        );
-      });
+    socket.on("get_spread", async function() {
+      var spread = await UserSpread.getSpread();
+      if (!spread) {
+        return;
+      }
+      socket.emit("spread_listeners", spread);
     });
 
     socket.on("suggest_thumbnail", function(msg) {
@@ -263,144 +221,62 @@ module.exports = function() {
     socket.on("removename", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      if (typeof msg != "object" || !msg.hasOwnProperty("channel")) {
-        var result = {
-          channel: {
-            expected: "string",
-            got: msg.hasOwnProperty("channel") ? typeof msg.channel : undefined
-          }
-        };
-        socket.emit("update_required", result);
+
+      var validated = input_validate_middleware(
+        msg,
+        [{ key: "channel", expected: "string" }],
+        socket
+      );
+      if (!validated) {
         return;
       }
+
       Chat.removename(guid, msg.channel, socket);
     });
 
     socket.on("offline", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      if (
-        !msg.hasOwnProperty("status") ||
-        !msg.hasOwnProperty("channel") ||
-        typeof msg.status != "boolean" ||
-        typeof msg.channel != "string"
-      ) {
-        var result = {
-          status: {
-            expected: "boolean",
-            got: msg.hasOwnProperty("status") ? typeof msg.status : undefined
-          },
-          channel: {
-            expected: "string",
-            got: msg.hasOwnProperty("channel") ? typeof msg.channel : undefined
-          }
-        };
-        socket.emit("update_required", result);
+
+      var validated = input_validate_middleware(
+        obj,
+        [
+          { key: "status", expected: "boolean" },
+          { key: "channel", expected: "string" }
+        ],
+        socket
+      );
+
+      if (!validated) {
         return;
       }
-      var status = msg.status;
-      var channel = msg.channel; //.replace(/ /g,'');
-      if (status) {
-        in_list = false;
-        offline = true;
-        if (channel != "") coll = channel;
-        if (coll !== undefined) {
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = filter.clean(coll);
-          db.collection("connected_users").findAndModify(
-            {
-              query: { _id: coll },
-              update: { $pull: { users: guid } },
-              upsert: true
-            },
-            function(err, updated, d) {
-              if (d.n == 1) {
-                var num = 0;
-                if (updated && updated.users) {
-                  num = updated.users.length;
-                }
-                io.to(coll).emit("viewers", num);
-                db.collection("frontpage_lists").update(
-                  { _id: coll, viewers: { $gt: 0 } },
-                  { $inc: { viewers: -1 } },
-                  function(err, docs) {}
-                );
-                db.collection("connected_users").update(
-                  { _id: "total_users" },
-                  { $pull: { total_users: guid + coll } },
-                  function(err, docs) {
-                    db.collection("connected_users").update(
-                      { _id: "offline_users" },
-                      { $addToSet: { users: guid } },
-                      { upsert: true },
-                      function(err, docs) {
-                        if (
-                          docs.nModified == 1 &&
-                          coll != undefined &&
-                          coll != ""
-                        ) {
-                          db.collection("connected_users").update(
-                            { _id: "total_users" },
-                            { $addToSet: { total_users: guid + coll } },
-                            function(err, docs) {}
-                          );
-                        }
-                      }
-                    );
-                  }
-                );
-              }
-              Functions.remove_name_from_db(guid, coll);
-            }
-          );
-        }
 
-        Functions.remove_unique_id(short_id);
+      if (status) {
+        offline = true;
       } else {
         offline = false;
-        db.collection("connected_users").update(
-          { _id: "offline_users" },
-          { $pull: { users: guid } },
-          function(err, docs) {
-            Functions.check_inlist(
-              coll,
-              guid,
-              socket,
-              offline,
-              undefined,
-              "place 3"
-            );
-          }
-        );
       }
+
+      Offline.handleOfflineUpdate(msg);
     });
 
     socket.on("get_history", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      if (
-        !msg.hasOwnProperty("channel") ||
-        !msg.hasOwnProperty("all") ||
-        typeof msg.channel != "string" ||
-        typeof msg.all != "boolean"
-      ) {
-        var result = {
-          all: {
-            expected: "boolean",
-            got: msg.hasOwnProperty("all") ? typeof msg.all : undefined
-          },
-          channel: {
-            expected: "string",
-            got: msg.hasOwnProperty("channel") ? typeof msg.channel : undefined
-          },
-          pass: {
-            expected: "string",
-            got: msg.hasOwnProperty("pass") ? typeof msg.pass : undefined
-          }
-        };
-        socket.emit("update_required", result);
+
+      var validated = input_validate_middleware(
+        msg,
+        [
+          { key: "channel", expected: "string" },
+          { key: "all", expected: "boolean" }
+        ],
+        socket
+      );
+
+      if (!validated) {
         return;
       }
+
       Chat.get_history(msg.channel, msg.all, socket);
     });
 
@@ -419,7 +295,7 @@ module.exports = function() {
     socket.on("frontpage_lists", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      Frontpage.frontpage_lists(msg, socket);
+      Frontpage.frontpageLists(msg, socket);
     });
 
     socket.on("import_zoff", function(msg) {
@@ -451,21 +327,6 @@ module.exports = function() {
     socket.on("list", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      try {
-        //var _list = msg.channel.replace(/ /g,'');
-        var _list = msg.channel;
-        if (_list.length == 0) return;
-        if (_list.indexOf("?") > -1) {
-          _list = _list.substring(0, _list.indexOf("?"));
-          msg.channel = _list;
-        }
-        coll = Functions.removeEmojis(_list).toLowerCase();
-        //coll = coll.replace(/_/g, "");
-        //
-        //coll = filter.clean(coll);
-      } catch (e) {
-        return;
-      }
 
       if (msg.hasOwnProperty("offline") && msg.offline) {
         offline = true;
@@ -488,47 +349,16 @@ module.exports = function() {
     });
 
     socket.on("add", function(arr) {
-      if (arr.hasOwnProperty("list") && arr.list.indexOf("?") > -1) {
-        var _list = arr.list.substring(0, arr.list.indexOf("?"));
-        arr.list = _list;
-      }
-      if (arr.hasOwnProperty("list")) {
-        arr.list = Functions.encodeChannelName(arr.list);
-      }
-      if (
-        coll !== undefined &&
-        ((arr.hasOwnProperty("offsiteAdd") && !arr.offsiteAdd) ||
-          !arr.hasOwnProperty("offsiteAdd"))
-      ) {
-        try {
-          coll = arr.list; //.replace(/ /g,'');
-          if (coll.length == 0) return;
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = coll.replace(/_/g, "");
-
-          //coll = filter.clean(coll);
-        } catch (e) {
-          return;
-        }
-      } else if (arr.hasOwnProperty("offsiteAdd") && arr.offsiteAdd) {
-        arr.list = Functions.removeEmojis(arr.list).toLowerCase();
+      arr = middleware(arr, "list");
+      if (arr.hasOwnProperty("offsiteAdd") && arr.offsiteAdd) {
+        coll = arr.list;
       }
       ListChange.add_function(arr, coll, guid, offline, socket);
     });
 
     socket.on("delete_all", function(msg) {
-      try {
-        msg = middleware(msg);
-        coll = msg.channel;
-        coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
-        if (coll.length == 0) return;
-        coll = Functions.removeEmojis(coll).toLowerCase();
-        //coll = coll.replace(/_/g, "");
-
-        //coll = filter.clean(coll);
-      } catch (e) {
-        return;
-      }
+      msg = middleware(msg);
+      coll = msg.channel;
 
       ListChange.delete_all(msg, coll, guid, offline, socket);
     });
@@ -536,18 +366,7 @@ module.exports = function() {
     socket.on("vote", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      if (coll !== undefined) {
-        try {
-          coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
-          if (coll.length == 0) return;
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = coll.replace(/_/g, "");
 
-          //coll = filter.clean(coll);
-        } catch (e) {
-          return;
-        }
-      }
       ListChange.voteUndecided(msg, coll, guid, offline, socket);
     });
 
@@ -575,16 +394,6 @@ module.exports = function() {
     socket.on("shuffle", function(msg) {
       msg = middleware(msg);
       coll = msg.channel;
-      try {
-        coll = msg.channel.toLowerCase(); //.replace(/ /g,'');
-        if (coll.length == 0) return;
-        coll = Functions.removeEmojis(coll).toLowerCase();
-        //coll = coll.replace(/_/g, "");
-
-        //coll = filter.clean(coll);
-      } catch (e) {
-        return;
-      }
 
       ListChange.shuffle(msg, coll, guid, offline, socket);
     });
@@ -631,23 +440,24 @@ module.exports = function() {
     socket.on("left_channel", function(msg) {
       msg = middleware(msg);
       if (
-        msg.hasOwnProperty("channel") &&
-        msg.channel != "" &&
-        typeof msg.channel == "string"
+        !msg.hasOwnProperty("channel") ||
+        msg.channel == "" ||
+        typeof msg.channel != "string"
       ) {
-        coll = msg.channel; //.replace(/ /g,'');
-        coll = Functions.removeEmojis(coll).toLowerCase();
-        //coll = filter.clean(coll);
-        Functions.left_channel(
-          coll,
-          guid,
-          short_id,
-          in_list,
-          socket,
-          false,
-          "left 4"
-        );
+        return;
       }
+      coll = msg.channel; //.replace(/ /g,'');
+      coll = Functions.removeEmojis(coll).toLowerCase();
+      //coll = filter.clean(coll);
+      Functions.left_channel(
+        coll,
+        guid,
+        short_id,
+        in_list,
+        socket,
+        false,
+        "left 4"
+      );
     });
 
     socket.on("reconnect_failed", function() {
@@ -690,70 +500,65 @@ module.exports = function() {
       obj = middleware(obj);
       coll = obj.channel;
 
-      if (!obj.hasOwnProperty("channel") || typeof obj.channel != "string") {
-        var result = {
-          channel: {
-            expected: "string",
-            got: obj.hasOwnProperty("channel") ? typeof obj.channel : undefined
-          },
-          pass: {
-            expected: "string",
-            got: obj.hasOwnProperty("pass") ? typeof obj.pass : undefined
-          }
-        };
-        socket.emit("update_required", result);
+      var validated = input_validate_middleware(
+        obj,
+        [
+          { key: "channel", expected: "string" },
+          { key: "pass", expected: "string" }
+        ],
+        socket
+      );
+
+      if (!validated) {
         return;
       }
+
       if (coll == undefined) return;
-      db.collection(coll + "_settings").find(function(err, docs) {
-        Functions.getSessionAdminUser(
-          Functions.getSession(socket),
-          coll,
-          function(userpass, adminpass) {
-            if (userpass != "" || obj.pass == undefined) {
-              obj.pass = userpass;
-            } else {
-              obj.pass = crypto
-                .createHash("sha256")
-                .update(Functions.decrypt_string(obj.pass))
-                .digest("base64");
-            }
-            if (
-              docs.length > 0 &&
-              (docs[0].userpass == undefined ||
-                docs[0].userpass == "" ||
-                (obj.hasOwnProperty("pass") && docs[0].userpass == obj.pass))
-            ) {
-              Functions.check_inlist(
-                coll,
-                guid,
-                socket,
-                offline,
-                undefined,
-                "place 4"
-              );
-              List.send_play(coll, socket);
-            } else {
-              socket.emit("auth_required");
-            }
-          }
-        );
-      });
+
+      Position.getCurrentPosition(coll, guid, offline, socket);
     });
   });
-
-  //send_ping();
 };
 
-function middleware(msg) {
-  if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-    var _list = list.channel.substring(0, msg.channel.indexOf("?"));
-    msg.channel = _list;
+function middleware(msg, selector) {
+  if (selector == undefined) {
+    selector = "channel";
   }
-  if (msg.hasOwnProperty("channel")) {
-    msg.channel = Functions.encodeChannelName(msg.channel);
+  if (msg.hasOwnProperty(selector) && msg[selector].indexOf("?") > -1) {
+    var _list = list[selector].substring(0, msg[selector].indexOf("?"));
+    msg[selector] = _list;
+  }
+  if (msg.hasOwnProperty(selector)) {
+    msg[selector] = Functions.encodeChannelName(msg[selector]);
   }
   return msg;
+}
+
+function input_validate_middleware(data, validate, socket) {
+  var missing = {};
+  for (var i = 0; i < validate.length; i++) {
+    if (!data.hasOwnProperty(validate[i].key)) {
+      missing[validate[i].key] = {
+        expected: validate[i].expected,
+        got: undefined
+      };
+    } else if (
+      data.hasOwnProperty(validate[i].key) &&
+      typeof data[validate[i].key] != validate[i].expected
+    ) {
+      missing[validate[i].key] = {
+        expected: validate[i].expected,
+        got: typeof data[validate[i].key]
+      };
+    }
+  }
+
+  if (Object.keys(missing).length > 0) {
+    socket.emit("update_required", missing);
+    return false;
+  }
+
+  return true;
 }
 
 /*
