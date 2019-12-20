@@ -163,6 +163,7 @@ window.addEventListener("load", function() {
     connection_options
   );
 
+  socket.on("toast", toast);
   if (localmode) {
     change_offline(true, false);
   }

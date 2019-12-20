@@ -292,79 +292,9 @@ var List = {
   },
 
   calculate_song_heights: function() {
-    if (!Helper.mobilecheck() && !embed && !client) {
-      List.can_fit = Math.round(
-        Helper.computedStyle("#wrapper", "height") / 71
-      );
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / List.can_fit - 5.3;
-    } else if (embed) {
-      List.can_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 91) + 1;
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / List.can_fit - 4;
-    } else if (!client) {
-      List.can_fit =
-        Math.round(
-          (Helper.computedStyle(".tabs", "height") -
-            Helper.computedStyle("header", "height") -
-            64 -
-            40) /
-            71
-        ) + 1;
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          List.can_fit -
-        5;
-    } else {
-      List.can_fit =
-        Math.round(Helper.computedStyle("#wrapper", "height") / 71) + 1;
-      List.element_height =
-        Helper.computedStyle("#wrapper", "height") / List.can_fit - 5.3;
-    }
-    if (List.element_height < 55.2 && !client && !embed) {
-      List.can_fit = List.can_fit - 1;
-      List.element_height = 55.2;
-      List.can_fit = Math.round(
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          71
-      );
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          List.can_fit -
-        5;
-    } else if (List.element_height < 55.2 && embed) {
-      //List.can_fit = List.can_fit - 1;
-      List.can_fit = Math.round(
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          71
-      );
-      List.element_height =
-        (window.innerHeight -
-          Helper.computedStyle(".tabs", "height") -
-          Helper.computedStyle("header", "height") -
-          64 -
-          40) /
-          List.can_fit -
-        5;
-      List.can_fit = List.can_fit - 2;
-    }
+    List.can_fit = Math.round(Helper.computedStyle("#wrapper", "height") / 70);
+    List.element_height = 70;
+    List.can_fit = List.can_fit - 1;
   },
 
   populate_list: function(msg, no_reset) {
@@ -1008,10 +938,7 @@ var List = {
       return;
     }
 
-    if (
-      !offline ||
-      (vote == "del" && (hasadmin && (!w_p && adminpass != "")))
-    ) {
+    if (!offline || (vote == "del" && hasadmin && !w_p && adminpass != "")) {
       /*var u = Crypt.crypt_pass(Crypt.get_userpass(chan.toLowerCase()), true);
             if(u == undefined) u = "";*/
       emit("vote", { channel: chan, id: id, type: vote });

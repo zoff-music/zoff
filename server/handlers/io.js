@@ -16,6 +16,7 @@ var Skip = require(pathThumbnails +
 var crypto = require("crypto");
 var Filter = require("bad-words");
 var filter = new Filter({ placeHolder: "x" });
+var db = require(pathThumbnails + "/handlers/db.js");
 /*var filter = {
     clean: function(str) {
         return str;
@@ -47,6 +48,14 @@ module.exports = function() {
 
     socket.on("pinging", function() {
       socket.emit("ok");
+    });
+
+    db.collection("zoff_motd").find(function(error, motd) {
+      if (motd.length > 0 && !error) {
+        setTimeout(function() {
+          socket.emit("toast", motd[0].message);
+        }, 1500);
+      }
     });
 
     var ping_timeout;
@@ -290,7 +299,7 @@ module.exports = function() {
         return;
       }
       var status = msg.status;
-      var channel = Functions.encodeChannelName(msg.channel); //.replace(/ /g,'');
+      var channel = msg.channel; //.replace(/ /g,'');
       if (status) {
         in_list = false;
         offline = true;
@@ -327,7 +336,8 @@ module.exports = function() {
                       function(err, docs) {
                         if (
                           docs.nModified == 1 &&
-                          (coll != undefined && coll != "")
+                          coll != undefined &&
+                          coll != ""
                         ) {
                           db.collection("connected_users").update(
                             { _id: "total_users" },
@@ -465,23 +475,8 @@ module.exports = function() {
     });
 
     socket.on("end", function(obj) {
-      if (obj.hasOwnProperty("channel") && obj.channel.indexOf("?") > -1) {
-        var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-        obj.channel = _list;
-      }
-      if (obj.hasOwnProperty("channel")) {
-        obj.channel = Functions.encodeChannelName(obj.channel);
-        try {
-          coll = obj.channel.toLowerCase(); //.replace(/ /g,'');
-          if (coll.length == 0) return;
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = coll.replace(/_/g, "");
-
-          //coll = filter.clean(coll);
-        } catch (e) {
-          return;
-        }
-      }
+      obj = middleware(obj);
+      coll = obj.channel;
 
       List.end(obj, coll, guid, offline, socket);
     });
@@ -595,39 +590,8 @@ module.exports = function() {
     });
 
     socket.on("change_channel", function(obj) {
-      if (obj == undefined && coll != undefined) {
-        obj = {};
-        obj.channel = coll;
-      } else if (
-        obj != undefined &&
-        obj.hasOwnProperty("channel") &&
-        obj.channel.indexOf("?") > -1
-      ) {
-        var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-        obj.channel = _list;
-      }
-      if (obj == undefined && coll == undefined) {
-        return;
-      }
-      if (obj.hasOwnProperty("channel")) {
-        obj.channel = Functions.encodeChannelName(obj.channel);
-      }
-      if (
-        coll === undefined &&
-        obj !== undefined &&
-        obj.channel !== undefined
-      ) {
-        try {
-          coll = obj.channel.toLowerCase(); //.replace(/ /g,'');
-          if (coll.length == 0) return;
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = coll.replace(/_/g, "");
-
-          //coll = filter.clean(coll);
-        } catch (e) {
-          return;
-        }
-      }
+      obj = middleware(obj);
+      coll = obj.channel;
       Functions.left_channel(
         coll,
         guid,
@@ -665,13 +629,7 @@ module.exports = function() {
     });
 
     socket.on("left_channel", function(msg) {
-      if (msg.hasOwnProperty("channel") && msg.channel.indexOf("?") > -1) {
-        var _list = msg.channel.substring(0, msg.channel.indexOf("?"));
-        msg.channel = _list;
-      }
-      if (msg.hasOwnProperty("channel")) {
-        msg.channel = Functions.encodeChannelName(msg.channel);
-      }
+      msg = middleware(msg);
       if (
         msg.hasOwnProperty("channel") &&
         msg.channel != "" &&
@@ -729,32 +687,8 @@ module.exports = function() {
     });
 
     socket.on("pos", function(obj) {
-      if (
-        obj != undefined &&
-        obj.hasOwnProperty("channel") &&
-        obj.channel.indexOf("?") > -1
-      ) {
-        var _list = obj.channel.substring(0, obj.channel.indexOf("?"));
-        obj.channel = _list;
-      }
-      if (obj != undefined && obj.hasOwnProperty("channel")) {
-        obj.channel = Functions.encodeChannelName(obj.channel);
-      }
-      if (obj == undefined && coll == undefined) {
-        return;
-      }
-      if (coll !== undefined) {
-        try {
-          coll = obj.channel.toLowerCase(); //.replace(/ /g,'');
-          if (coll.length == 0) return;
-          coll = Functions.removeEmojis(coll).toLowerCase();
-          //coll = coll.replace(/_/g, "");
-
-          //coll = filter.clean(coll);
-        } catch (e) {
-          return;
-        }
-      }
+      obj = middleware(obj);
+      coll = obj.channel;
 
       if (!obj.hasOwnProperty("channel") || typeof obj.channel != "string") {
         var result = {

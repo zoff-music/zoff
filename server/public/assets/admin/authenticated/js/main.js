@@ -116,6 +116,49 @@ addListener("click", ".update_api_token", function(event) {
   });
 });
 
+addListener("click", "#delete_motd", function(event) {
+  this.preventDefault();
+
+  ajax({
+    type: "DELETE",
+    url: "api/motd",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    success: function(response) {
+      if (response == "success") {
+        toast("Removed message of the day!", 2000, "green lighten");
+        return;
+      } else {
+        toast("Could not remove message of the day..", 2000, "green lighten");
+      }
+    }
+  });
+});
+
+addListener("click", "#save_motd", function(event) {
+  this.preventDefault();
+  var message = document.getElementById("motd_input").value;
+  ajax({
+    type: "POST",
+    url: "api/motd",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: {
+      message: document.getElementById("motd_input").value
+    },
+    success: function(response) {
+      if (response == "success") {
+        toast("Saved message of the day!", 2000, "green lighten");
+        return;
+      } else {
+        toast("Could not save message of the day..", 2000, "green lighten");
+      }
+    }
+  });
+});
+
 addListener("click", ".delete_api_token", function(event) {
   this.preventDefault();
   var that = event;
@@ -813,6 +856,20 @@ function increaseInfo(num) {
 }
 
 function loaded() {
+  ajax({
+    type: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    url: "/api/motd",
+    success: function(response) {
+      if (response.length == 0) {
+        return;
+      }
+      document.getElementById("motd_input").value = response[0].message;
+    }
+  });
+
   ajax({
     type: "GET",
     headers: {

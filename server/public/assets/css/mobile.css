@@ -27,6 +27,10 @@
   .zbrand {
     /*max-width: 35%;*/
   }
+
+  #duration {
+    left: 90px;
+  }
 }
 
 @media (min-width: 600px),
@@ -35,6 +39,10 @@
   (min-width: 1281px) {
   #controls {
     background: none !important;
+  }
+
+  .title-container {
+    background-color: transparent !important;
   }
 }
 
@@ -115,7 +123,7 @@
   }
 
   .list-title {
-    width: 66%;
+    width: auto;
   }
 
   .hamburger-sidenav {
@@ -159,6 +167,23 @@
 
   #remote-sidebar-buttons-container {
     text-align: center;
+  }
+
+  #main_components {
+    display: block;
+  }
+
+  #playpause,
+  .playbar-btn.skip,
+  #volume-button,
+  #bar {
+    display: none;
+  }
+
+  .cast-button-header {
+    width: 50px;
+    height: 56px;
+    overflow: hidden;
   }
 
   .slider-vol-mobile {
@@ -299,8 +324,17 @@
 
   #player {
     height: calc(100%);
-    display: none;
+    /*display: none;*/
+    pointer-events: all !important;
+    opacity: 1 !important;
+    display: block !important;
     width: 100vw;
+  }
+
+  #search-btn {
+    position: absolute;
+    top: 56px;
+    right: 0px;
   }
 
   .pointer-events-all-mobile {
@@ -408,11 +442,11 @@
   }
 
   #duration {
-    font-size: 20px;
+    font-size: 1rem;
     font-weight: 400;
     margin-top: 9px;
     letter-spacing: -0.7px;
-    margin-left: 10px;
+    margin-left: 0px;
   }
 
   #volume-button {
@@ -428,12 +462,6 @@
 
   #fullscreen {
     float: right;
-  }
-
-  .castButton {
-    width: 39px;
-    height: 51px;
-    padding-top: 0em;
   }
 
   .label-for-mobile-frontpage {
@@ -552,7 +580,7 @@
     width: auto;
   }
 
-  .page-footer {
+  footer {
     padding-top: 40px !important;
   }
 
@@ -597,13 +625,19 @@
   }
 
   #player {
-    pointer-events: none;
+    /*pointer-events: none;*/
     margin-top: 7px;
+  }
+
+  #channel-load {
+    z-index: 999999999;
   }
 
   .search-container,
   .song-title {
     background: inherit;
+    width: calc(100%) !important;
+    padding-right: 56px !important;
   }
 
   .row .col.s12 {

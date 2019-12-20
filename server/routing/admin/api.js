@@ -28,10 +28,10 @@ router.use(function(req, res, next) {
 router.route("/api/lists").get(function(req, res) {
   if (req.isAuthenticated()) {
     db.collection("frontpage_lists")
-      .find()
-      .sort({ count: -1 }, function(err, docs) {
-        res.json(docs);
-      });
+    .find()
+    .sort({ count: -1 }, function(err, docs) {
+      res.json(docs);
+    });
   } else {
     res.send(false);
   }
@@ -105,7 +105,7 @@ router.route("/api/approve_thumbnail").post(function(req, res) {
                         docs[0].hasOwnProperty("userpass") &&
                         docs[0].userpass != ""
                       )
-                        docs[0].userpass = true;
+                      docs[0].userpass = true;
                       else docs[0].userpass = false;
                       sIO.to(channel).emit("conf", docs);
                       res.send(true);
@@ -170,7 +170,7 @@ router.route("/api/approve_rules").post(function(req, res) {
                     docs[0].hasOwnProperty("userpass") &&
                     docs[0].userpass != ""
                   )
-                    docs[0].userpass = true;
+                  docs[0].userpass = true;
                   else docs[0].userpass = false;
                   sIO.to(channel).emit("conf", docs);
                   res.send(true);
@@ -221,7 +221,7 @@ router.route("/api/remove_rules").post(function(req, res) {
           function(err, docs) {
             if (docs[0].adminpass !== "") docs[0].adminpass = true;
             if (docs[0].hasOwnProperty("userpass") && docs[0].userpass != "")
-              docs[0].userpass = true;
+            docs[0].userpass = true;
             else docs[0].userpass = false;
             sIO.to(channel).emit("conf", docs);
             res.send(true);
@@ -271,7 +271,7 @@ router.route("/api/approve_description").post(function(req, res) {
                         docs[0].hasOwnProperty("userpass") &&
                         docs[0].userpass != ""
                       )
-                        docs[0].userpass = true;
+                      docs[0].userpass = true;
                       else docs[0].userpass = false;
                       sIO.to(channel).emit("conf", docs);
                       res.send(true);
@@ -332,7 +332,7 @@ router.route("/api/remove_thumbnail").post(function(req, res) {
                   docs[0].hasOwnProperty("userpass") &&
                   docs[0].userpass != ""
                 )
-                  docs[0].userpass = true;
+                docs[0].userpass = true;
                 else docs[0].userpass = false;
                 sIO.to(channel).emit("conf", docs);
                 res.send(true);
@@ -375,7 +375,7 @@ router.route("/api/remove_description").post(function(req, res) {
                   docs[0].hasOwnProperty("userpass") &&
                   docs[0].userpass != ""
                 )
-                  docs[0].userpass = true;
+                docs[0].userpass = true;
                 else docs[0].userpass = false;
                 sIO.to(channel).emit("conf", docs);
                 res.send(true);
@@ -444,10 +444,10 @@ router.route("/api/token").get(function(req, res) {
       } else {
         var id = new Buffer(makeid()).toString("base64");
         token_db
-          .collection("tokens")
-          .insert({ token: id }, function(err, docs) {
-            res.json({ token: id });
-          });
+        .collection("tokens")
+        .insert({ token: id }, function(err, docs) {
+          res.json({ token: id });
+        });
       }
     });
   } else {
@@ -458,10 +458,57 @@ router.route("/api/token").get(function(req, res) {
 router.route("/api/api_token").get(function(req, res) {
   if (req.isAuthenticated()) {
     token_db
-      .collection("api_token")
-      .find({ token: { $exists: true } }, function(err, all) {
-        res.json(all);
-      });
+    .collection("api_token")
+    .find({ token: { $exists: true } }, function(err, all) {
+      res.json(all);
+    });
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+router.route("/api/motd").get(function(req, res) {
+  console.log("getting");
+  if (req.isAuthenticated()) {
+    db
+    .collection("zoff_motd")
+    .find(function(err, docs) {
+      res.json(docs);
+    });
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+router.route("/api/motd").post(function(req, res) {
+  if (req.isAuthenticated()) {
+    db
+    .collection("zoff_motd")
+    .update({id: "currentMessage"}, {id: "currentMessage", message: req.body.message},
+      {upsert: true},
+      function(err, docs) {
+      if(err) {
+        res.send("failed");
+        return;
+      }
+      res.send("success");
+    });
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+router.route("/api/motd").delete(function(req, res) {
+  if (req.isAuthenticated()) {
+    db
+    .collection("zoff_motd")
+    .remove({id: "currentMessage"}, function(err, docs) {
+      if(err) {
+        res.send("failed");
+        return;
+      }
+      res.send("success");
+    });
   } else {
     res.sendStatus(403);
   }
@@ -471,14 +518,14 @@ router.route("/api/api_token").delete(function(req, res) {
   if (req.isAuthenticated()) {
     var id = req.body.id;
     token_db
-      .collection("api_token")
-      .remove({ _id: ObjectId(id) }, function(err, success) {
-        if (err) {
-          res.send("failed");
-          return;
-        }
-        res.send("success");
-      });
+    .collection("api_token")
+    .remove({ _id: ObjectId(id) }, function(err, success) {
+      if (err) {
+        res.send("failed");
+        return;
+      }
+      res.send("success");
+    });
   }
 });
 
@@ -491,17 +538,17 @@ router.route("/api/api_token").put(function(req, res) {
       return;
     }
     token_db
-      .collection("api_token")
-      .update({ _id: ObjectId(id) }, { $set: { limit: limit } }, function(
-        err,
-        success
-      ) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
-        res.sendStatus(200);
-      });
+    .collection("api_token")
+    .update({ _id: ObjectId(id) }, { $set: { limit: limit } }, function(
+      err,
+      success
+    ) {
+      if (err) {
+        res.sendStatus(500);
+        return;
+      }
+      res.sendStatus(200);
+    });
   }
 });
 
@@ -509,16 +556,16 @@ router.route("/api/api_token").post(function(req, res) {
   if (req.isAuthenticated()) {
     var name = req.body.name;
     var id = crypto
-      .createHash("sha256")
-      .update(uniqid())
-      .digest("base64");
+    .createHash("sha256")
+    .update(uniqid())
+    .digest("base64");
     token_db
-      .collection("api_token")
-      .insert({ name: name, token: id, usage: 0 }, function(err, docs) {
-        token_db.collection("api_token").find({ token: id }, function(err, d) {
-          res.json({ token: id, _id: d[0]._id });
-        });
+    .collection("api_token")
+    .insert({ name: name, token: id, usage: 0 }, function(err, docs) {
+      token_db.collection("api_token").find({ token: id }, function(err, d) {
+        res.json({ token: id, _id: d[0]._id });
       });
+    });
   } else {
     res.send(false);
   }
@@ -547,10 +594,10 @@ router.route("/api/remove_token").get(function(req, res) {
     token_db.collection("tokens").find(function(err, docs) {
       if (docs.length == 1) {
         token_db
-          .collection("tokens")
-          .remove({ token: docs[0].token }, function(err, docs) {
-            res.send(true);
-          });
+        .collection("tokens")
+        .remove({ token: docs[0].token }, function(err, docs) {
+          res.send(true);
+        });
       } else {
         res.send(false);
       }
@@ -614,10 +661,10 @@ router.route("/api/userpass").post(function(req, res) {
 function makeid() {
   var text = "";
   var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   for (var i = 0; i < 20; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  text += possible.charAt(Math.floor(Math.random() * possible.length));
 
   return text;
 }

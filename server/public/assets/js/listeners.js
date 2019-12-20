@@ -50,7 +50,8 @@ var _kDone = false;
 var music = 0;
 var was_stopped = Helper.mobilecheck() ? true : false;
 var timed_remove_check;
-var slider_type = Helper.mobilecheck() ? "vertical" : "horizontal";
+//var slider_type = Helper.mobilecheck() ? "vertical" : "horizontal";
+var slider_type = "vertical";
 var programscroll = false;
 var lastCommand;
 var tried_again = false;
@@ -246,7 +247,10 @@ window.addEventListener(
         localStorage.setItem("VERSION", VERSION);
       } catch (e) {}
     }
-
+    if (window.location.hash == "#privacy") {
+      M.Modal.init(document.getElementById("cookie"));
+      M.Modal.getInstance(document.getElementById("cookie")).open();
+    }
     if (!fromFront && window.location.pathname != "/") Channel.init();
     else if (!fromChannel && window.location.pathname == "/") {
       Frontpage.init();
@@ -350,7 +354,12 @@ temp_pass = "";
 
 initializeCastApi = function() {
   try {
-    if (cast == undefined) return;
+    if (
+      cast == undefined ||
+      chrome.cast == undefined ||
+      chrome.cast.AutoJoinPolicy == undefined
+    )
+      return;
   } catch (event) {
     return;
   }
@@ -457,7 +466,8 @@ initializeCastApi = function() {
     function(event) {
       Helper.log(["cast state", event.castState]);
       if (event.castState == "NOT_CONNECTED") {
-        Helper.css(".castButton", "display", "block");
+        Helper.css(".cast-button-header", "display", "inline-flex");
+        Channel.set_title_width();
         Helper.addClass(".volume-container", "volume-container-cast");
         cast_ready_connect = true;
         var _chSeen;
@@ -489,7 +499,8 @@ initializeCastApi = function() {
   );
 
   if (context.getCastState() == "NOT_CONNECTED") {
-    Helper.css(".castButton", "display", "block");
+    Helper.css(".cast-button-header", "display", "inline-flex");
+    Channel.set_title_width();
     Helper.removeClass(".castButton", "castButton-white-active");
     cast_ready_connect = true;
   }
@@ -540,10 +551,10 @@ function addDynamicListeners() {
     M.Modal.getInstance(document.querySelector("#channel_info")).open();
   });
 
-  addListener("click", "#hide-playlist", function(event) {
+  /*addListener("click", "#hide-playlist", function(event) {
     this.preventDefault();
     fullVideo(!hiddenPlaylist);
-  });
+  });*/
 
   addListener("click", "#bitcoin-address", function(event) {
     var copyTextarea = document.querySelector("#bitcoin-address");

@@ -378,6 +378,7 @@ var Helper = {
         ) {
           obj.success(xmlhttp.responseText, xmlhttp);
         } else if (obj.hasOwnProperty("error")) {
+          console.log("error");
           obj.error(xmlhttp);
         }
       }

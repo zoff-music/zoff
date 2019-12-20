@@ -1,19 +1,27 @@
 <header>
     <div class="navbar-fixed">
         <nav id="nav">
+            <div id="bar">
+            </div>
             <div class="nav-wrapper">
                 <div class="brand-logo zbrand channel-logo-container">
                     <a href="/" class="brand-logo brand-logo-navigate">
                         <img class="zicon" src="/assets/images/z.svg" alt="zoff-logo" title="Home" />
                     </a>
+                    {{#if client}}
+                    <span id="chan" class="chan clickable client">{{list_name}}</span>
+                    {{else}}
                     <span id="chan" class="chan clickable">{{list_name}}</span>
+                    {{/if}}
+                    <div id="duration"></div>
                 </div>
                 <ul class="title-container">
                     <li class="song-title cursor-pointer truncate" id="song-title">
                         Loading...
                     </li>
                     <li class="search-container hide" id="search-wrapper">
-                        <input id="search" class="search_input white-text" type="text" title="Search for songs..." placeholder="Search.." onsubmit="null;" autocomplete="off" />
+                        <input id="search" class="search_input white-text" type="text" title="Search for songs..."
+                            placeholder="Search.." onsubmit="null;" autocomplete="off" />
                     </li>
                 </ul>
                 <ul class="right control-list noselect">
@@ -26,9 +34,11 @@
                                         <div class="spinner-layer spinner-white-only">
                                             <div class="circle-clipper left">
                                                 <div class="circle"></div>
-                                            </div><div class="gap-patch">
+                                            </div>
+                                            <div class="gap-patch">
                                                 <div class="circle"></div>
-                                            </div><div class="circle-clipper right">
+                                            </div>
+                                            <div class="circle-clipper right">
                                                 <div class="circle"></div>
                                             </div>
                                         </div>
@@ -37,13 +47,25 @@
                             </div>
                         </div>
                     </li>
-                    {{#if client}}
-                        <li class="skip_next_client">
-                            <div class="nav-btn skip">
-                                <i class="material-icons">skip_next</i>
-                            </div>
-                        </li>
-                    {{/if}}
+                    {{#unless client}}
+                    <li class="cast-button-header">
+                        <button class="castButton playbar-btn" id="castButton" is="google-cast-button"></button>
+                    </li>
+                    <li id="volume-button" class="playbar-btn">
+                        <i id="v-mute" class="material-icons hide">volume_off</i>
+                        <i id="v-low" class="material-icons hide">volume_mute</i>
+                        <i id="v-medium" class="material-icons hide">volume_down</i>
+                        <i id="v-full" class="material-icons">volume_up</i>
+                    </li>
+                    <div class="volume-container">
+                        <div id="volume"></div>
+                    </div>
+                    {{/unless}}
+                    <li class="skip_next_client">
+                        <div class="nav-btn skip">
+                            <i class="material-icons">skip_next</i>
+                        </div>
+                    </li>
                     <li class="shuffle-btn-container">
                         <div class="nav-btn" id="shuffle">
                             <i class="material-icons">shuffle</i>

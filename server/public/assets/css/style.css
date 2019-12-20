@@ -641,11 +641,11 @@ li.disabled span {
   cursor: pointer;
   top: 0px;
   left: 0px;
-  -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -ms-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  /*-webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;*/
 }
 
 .frontpage_modified_heights {
@@ -987,6 +987,10 @@ nav .brand-logo-navigate {
   width: 100%;
 }
 
+.nav-wrapper {
+  z-index: 9;
+}
+
 #nav-mobile .green:hover {
   background-color: #38803c !important;
 }
@@ -1046,7 +1050,7 @@ nav .zbrand {
 .cardbg {
   background-repeat: no-repeat;
   background-size: 124%;
-  background-size: cover;
+  background-size: contain;
   background-position: 50% 50%;
   background-color: #171717;
   height: 120px;
@@ -1187,8 +1191,8 @@ nav .zbrand {
 }
 
 /*#nav-mobile{
-margin:-1px;
-}*/
+  margin:-1px;
+  }*/
 
 .mega {
   padding: 6% 0px;
@@ -1875,13 +1879,13 @@ ul #chat-log {
   z-index: 99;
   width: 100%;
   color: white;
-  height: calc(100vh - 64px - 32px);
-  transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
+  height: calc(100vh - 64px - 0px);
+  /*transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
     opacity 1s;
-  -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
+    -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
     height 0.5s ease-out, opacity 1s;
-  -o-transition: transform 0.5s ease-out, width 0.5s ease-out,
-    height 0.5s ease-out, opacity 1s;
+    -o-transition: transform 0.5s ease-out, width 0.5s ease-out,
+    height 0.5s ease-out, opacity 1s;*/
 }
 
 #player_overlay_text {
@@ -1969,13 +1973,15 @@ nav .zbrand.channel-logo-container {
 
 .castButton {
   /* display: none; !important*/
-  height: 32px;
-  width: 32px;
-  padding-top: 3px;
-  padding-bottom: 2px;
+  /*  height: 32px;
+    width: 32px;
+    */
+  padding: 20px 0px;
+  height: 64px;
   background: transparent;
   border: none;
   float: right;
+  display: block !important;
   --disconnected-color: white;
   --connected-color: #ff9800;
 }
@@ -2016,10 +2022,10 @@ nav .zbrand.channel-logo-container {
 }
 
 /*.castButton-active, .castButton-active:active, .castButton-active:hover, .castButton-active:focus{
-font-size: 5rem;
-margin-top: -70px;
-margin-right: 52%;
-}*/
+  font-size: 5rem;
+  margin-top: -70px;
+  margin-right: 52%;
+  }*/
 
 .chat-link {
   -webkit-transition: color 1s;
@@ -2030,34 +2036,39 @@ margin-right: 52%;
 
 #player {
   height: 95%;
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: relative;
   transform: translate(0%, 0%);
   z-index: 99;
   opacity: 0;
-  -webkit-transition: transform 0.5s ease-out, width 0.5s ease-out,
+  /*-webkit-transition: transform 0.5s ease-out, width 0.5s ease-out,
     height 0.5s ease-out, opacity 1s;
-  transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
+    transition: transform 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out,
     opacity 1s;
-  -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
+    -moz-transition: transform 0.5s ease-out, width 0.5s ease-out,
     height 0.5s ease-out, opacity 1s;
-  -o-transition: transform 0.5s ease-out, width 0.5s ease-out,
-    height 0.5s ease-out, opacity 1s;
+    -o-transition: transform 0.5s ease-out, width 0.5s ease-out,
+    height 0.5s ease-out, opacity 1s;*/
 }
 
 #fireplace_player {
   z-index: 999;
   /*width: calc(100% - .75rem);*/
-  height: calc(100% - 32px);
+  height: calc(100% - 0px);
   position: absolute;
   display: none;
   pointer-events: none;
 }
 
 .chan {
+  margin-top: -10px;
   padding-right: 10px;
   /*max-width:22vw;*/
   text-shadow: 4px 4px 9px rgba(0, 0, 0, 0.42);
+}
+
+.chan.client {
+  margin-top: 0px;
 }
 
 .nav-btn {
@@ -2099,7 +2110,8 @@ margin-right: 52%;
 
 .list-image,
 .list-suggested-image {
-  width: 34%;
+  width: 120px;
+  min-width: 120px;
   height: 100%;
   float: left;
 }
@@ -2182,6 +2194,7 @@ margin-right: 52%;
   display: block;
   color: white;
   font-size: 1em;
+  margin-top: 0px;
   text-align: left;
   padding: 0 10px 0 10px;
   line-height: 2.6rem;
@@ -2209,6 +2222,8 @@ margin-right: 52%;
   -moz-transition: height 0.3s;
   -o-transition: height 0.3s;
   transition: height 0.3s;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
   height: 66px;
   margin: 2.5px 0 2.5px -1px !important;
 }
@@ -2661,6 +2676,38 @@ margin-right: 52%;
   color: white;
 }
 
+.volume-container {
+  position: absolute;
+  right: 171px;
+  width: 37px;
+  top: 65px;
+  height: 150px;
+  background: #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.volume-container-cast {
+  transform: rotate(0deg);
+}
+
+#volume {
+  width: 10px;
+  height: 135px;
+  left: 0px;
+}
+
+#volume-button {
+  width: 50px;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  height: auto;
+  line-height: inherit;
+}
+
 .prev.playbar,
 #playpause,
 .skip.playbar {
@@ -2681,15 +2728,17 @@ margin-right: 52%;
   margin-left: 10px;
 }
 
-.skip_next_client {
+.skip_next_client,
+.cast-button-header {
   float: left;
 }
 
-#volume-button {
-  padding-top: 3px;
-  padding-left: 2px;
-  padding-right: 5px;
-  margin-left: 5px;
+.cast-button-header {
+  display: none;
+  height: 64px;
+  width: 64px;
+  justify-content: center;
+  align-items: center;
 }
 
 #playpause:hover,
@@ -2723,6 +2772,15 @@ margin-right: 52%;
   margin-left: 15px;
 }
 
+#duration {
+  color: white;
+  font-size: 1rem;
+  position: absolute;
+  left: 110px;
+  bottom: -15px;
+  pointer-events: none;
+}
+
 #viewers {
   float: right;
   height: 32px;
@@ -2739,7 +2797,6 @@ margin-right: 52%;
 
 #play,
 #pause,
-#volume-button,
 #fullscreen,
 #addToOtherList {
   font-size: 24px;
@@ -2811,7 +2868,6 @@ margin-right: 52%;
   margin-left: -0.6em;
 }
 
-#volume,
 #volume-control-remote {
   border-radius: 10px;
   cursor: pointer;
@@ -2831,9 +2887,10 @@ margin-right: 52%;
 #volume.rc,
 #volume-control-remote {
   width: 100%;
-  height: auto;
+  height: 5px;
   margin-top: 30px;
   background: darkgrey;
+  position: relative;
 }
 
 #volume.vertical {
@@ -2854,11 +2911,10 @@ margin-right: 52%;
 }
 
 #volume .volume-slid.vertical {
-  width: 100%;
+  width: 10px;
   height: 0%;
   border-radius: 0px;
   bottom: 0px;
-  position: absolute;
 }
 
 #volume .volume-handle,
@@ -2968,7 +3024,11 @@ margin-right: 52%;
 }
 #bar {
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.1);
+  filter: invert(1);
 }
 
 #offline-info,
@@ -2984,7 +3044,7 @@ margin-right: 52%;
 }
 
 .host-mode-height #player_overlay {
-  height: calc(100vh - 32px);
+  height: calc(100vh - 0px);
 }
 
 .host-mode-width {
@@ -3036,6 +3096,7 @@ margin-right: 52%;
 }
 
 #main_components {
+  display: none;
   position: absolute;
   top: calc(100% - 26px);
   width: 100%;

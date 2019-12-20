@@ -162,14 +162,13 @@ var Playercontrols = {
         });
     } else {
       var pos = pos4 - cmp_elmnt.offsetTop;
-      var pos0 = window.innerHeight - pos - 14;
-
-      if (pos0 > 64 && pos0 < 164) {
-        volume = (pos0 - 64) / 100;
-      } else if (pos0 < 65) {
-        volume = 0;
-      } else {
+      var pos0 = window.innerHeight - pos;
+      var calculatedVolume = ((pos - 66) / 137);
+      volume = calculatedVolume;
+      if(volume > 1) {
         volume = 1;
+      } else if(volume < 0) {
+        volume = 0;
       }
       slid_elmnt.style.height = volume * 100 + "%";
       Playercontrols.setVolume(volume * 100);
@@ -329,7 +328,11 @@ var Playercontrols = {
 
   mute_video: function() {
     if (Helper.mobilecheck() || slider_type == "vertical") {
-      Helper.toggleClass(".volume-container", "hide");
+        if(document.getElementsByClassName("volume-container")[0].classList.contains("hide")){
+          Helper.removeClass(".volume-container", "hide");
+        } else {
+          Helper.addClass(".volume-container", "hide");
+        }
     } else {
       if (!Player.player.isMuted()) {
         if (chromecastAvailable)

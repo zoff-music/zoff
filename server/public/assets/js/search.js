@@ -272,6 +272,30 @@ var Search = {
               }
             });
           }
+        },
+        error: function() {
+          document.getElementById("results").innerHTML = "";
+          document
+            .getElementById("results")
+            .insertAdjacentHTML(
+              "beforeend",
+              "<div style='display:block;' id='inner-results' style='height:calc(100vh - 64px);' class='empty-inner-results'>" +
+                '<div id="empty-results" class="valign-wrapper">' +
+                '<span class="valign">There is a problem fetching from YouTube at the moment..</span>' +
+                "</div>" +
+                "</div>"
+            );
+          if (
+            document.querySelector("#results_soundcloud").innerHTML.length > 0
+          ) {
+            Helper.css(".search_results", "display", "block");
+            Helper.removeClass(
+              document.querySelector("#search-btn .material-icons"),
+              "hide"
+            );
+            Helper.addClass("#search_loader", "hide");
+            Helper.removeClass(".search_loader_spinner", "active");
+          }
         }
       });
     } else {
@@ -384,6 +408,16 @@ var Search = {
             "afterbegin",
             "<div id='inner-results'>" + output + "</div>"
           );
+
+        if (document.querySelector("#results").innerHTML.length > 0) {
+          Helper.css(".search_results", "display", "block");
+          Helper.removeClass(
+            document.querySelector("#search-btn .material-icons"),
+            "hide"
+          );
+          Helper.addClass("#search_loader", "hide");
+          Helper.removeClass(".search_loader_spinner", "active");
+        }
         if (!pagination && fresh) {
           //$(".search_results").slideDown();
         }
@@ -557,12 +591,12 @@ var Search = {
                               data.snippet.title
                                 .toLowerCase()
                                 .indexOf(artist[0].toLowerCase()) == -1 &&
-                              (data.snippet.channelTitle
+                              data.snippet.channelTitle
                                 .toLowerCase()
                                 .indexOf(artist[0].toLowerCase()) == -1 &&
-                                data.snippet.channelTitle
-                                  .toLowerCase()
-                                  .indexOf("vevo") == -1)
+                              data.snippet.channelTitle
+                                .toLowerCase()
+                                .indexOf("vevo") == -1
                             ))
                         )
                       )

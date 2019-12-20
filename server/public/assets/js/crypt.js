@@ -171,6 +171,9 @@ var Crypt = {
   },
 
   get_volume: function() {
+    if(Helper.mobilecheck()) {
+        return 100;
+    }
     return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").volume;
     //return conf_arr.volume;
   },

@@ -4,7 +4,7 @@ var cluster = require("cluster"),
   //publicPath = path.join(__dirname, 'public'),
   http = require("http"),
   port = 8080,
-  //farmhash = require('farmhash'),
+  farmhash = require("farmhash"),
   uniqid = require("uniqid"),
   num_processes = require("os").cpus().length;
 
@@ -53,20 +53,22 @@ function startClustered(redis_enabled) {
     var worker_index = function(ip, len) {
       //console.log(ip);
       var s = "";
-      if (ip == undefined) ip = uniqid.time();
+      if (ip !== undefined) {
+        return farmhash.fingerprint32(ip) % len;
+      }
+      ip = uniqid.time();
       for (var i = 0, _len = ip.length; i < _len; i++) {
         if (!isNaN(ip[i])) {
           s += ip[i];
         }
       }
       return Number(s) % len;
-      //eturn farmhash.fingerprint32(ip) % len;
     };
 
     var server = net
       .createServer({ pauseOnConnect: true }, function(connection, a) {
         var worker =
-          workers[worker_index(connection.remoteAddress, num_processes)];
+          workers[worker_index(connection.address().address, num_processes)];
         worker.send("sticky-session:connection", connection);
       })
       .listen(port);

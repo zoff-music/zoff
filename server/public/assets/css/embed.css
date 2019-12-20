@@ -75,7 +75,7 @@
 
 #player_overlay {
   position: relative;
-  height: calc(100% - 32px);
+  height: calc(100%);
   top: 0px;
   left: 0px;
   width: 60vw;
@@ -126,7 +126,7 @@
 
 #player {
   width: 60vw;
-  height: calc(100vh - 32px);
+  height: calc(100vh);
   padding-top: 51px;
 }
 
@@ -681,8 +681,10 @@ display: none !important;
     height: 200px;
     bottom: 0px;
   }
+
   #controls {
     width: 100vw;
+    display: none;
     margin-top: 0px;
   }
 

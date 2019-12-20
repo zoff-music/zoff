@@ -1,7 +1,7 @@
 <div id="video-container" class="col s12 m9 video-container no-opacity click-through">
     <div id="host-title" class="hide"></div>
     {{#unless embed}}
-        <div id="fireplace_player" class="ytplayer"></div>
+    <div id="fireplace_player" class="ytplayer"></div>
     {{/unless}}
     <div id="player" class="ytplayer"></div>
     <div id="sc_player" class="scplayer"></div>
@@ -14,7 +14,8 @@
         </div>
         <div class="soundcloud_info_container hide">
             <a href="#!" id="soundcloud_listen_link" target="_blank">
-                <img src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
+                <img
+                    src="https://developers.soundcloud.com/assets/powered_by_large_white-9c2af6a93ad2b1c541f423d9e9045980.png" />
             </a>
             <a href="#!" class="btn green waves-effect waves-light" target="_blank">Artist</a>
         </div>
@@ -51,11 +52,9 @@
             <div class="playbar-btn skip playbar">
                 <i class="material-icons">skip_next</i>
             </div>
-            <div id="duration"></div>
             <div id="fullscreen" class="hide-on-small-only playbar-btn">
                 <i class="material-icons">fullscreen</i>
             </div>
-            <button class="castButton playbar-btn" id="castButton" is="google-cast-button"></button>
             <div id="volume-button" class="playbar-btn">
                 <i id="v-mute" class="material-icons">volume_off</i>
                 <i id="v-low" class="material-icons">volume_mute</i>
@@ -69,7 +68,6 @@
             <div id="addToOtherList" class="playbar-btn">
                 <i class="material-icons">playlist_add</i>
             </div>
-            <div id="bar"></div>
         </div>
         <div id="addToListInput" class="hide">
             <div class="input-field field-settings">
