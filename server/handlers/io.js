@@ -560,15 +560,3 @@ function input_validate_middleware(data, validate, socket) {
 
   return true;
 }
-
-/*
-function send_ping() {
-db.collection("connected_users").update({users: {$exists: true}}, {$set: {users: []}}, {multi: true}, function(err, docs){
-db.collection("connected_users").update({"_id": "total_users"}, {$add: {total_users: 0}}, {multi: true}, function(err, docs){
-db.collection("frontpage_lists").update({viewers: {$ne: 0}}, {$set: {"viewers": 0}}, {multi: true}, function(err, docs) {
-io.emit("self_ping");
-setTimeout(send_ping, 25000);
-});
-});
-});
-}*/
