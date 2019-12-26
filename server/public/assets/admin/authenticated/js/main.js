@@ -750,9 +750,11 @@ socket.on("spread_listeners", function(obj) {
         .querySelector("#listeners")
         .insertAdjacentHTML(
           "beforeend",
-          "<p>" +
+          "<p><a href='https://zoff.me/" +
             decodeChannelName(obj.online_users[x]._id) +
-            ": " +
+            "'>" +
+            decodeChannelName(obj.online_users[x]._id) +
+            "</a>: " +
             obj.online_users[x].users.length +
             "</p>"
         );
