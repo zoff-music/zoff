@@ -1033,7 +1033,7 @@ function addDynamicListeners() {
       user_auth_avoid = true;
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
-        Helper.tooltip("#viewers", "destroy");
+        //Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         //$('.castButton-unactive').tooltip("destroy");
         Helper.tooltip("#offline-mode", "destroy");

@@ -196,10 +196,7 @@ var Channel = {
       if (window.location.port != "") {
         add = add + ":" + window.location.port + "/";
       }
-      socket = io.connect(
-        "" + add,
-        connection_options
-      );
+      socket = io.connect("" + add, connection_options);
 
       socket.on("toast", toast);
       socket.on("update_required", function(msg) {
@@ -336,11 +333,11 @@ var Channel = {
         });
       }
 
-      Helper.tooltip("#viewers", {
+      /*Helper.tooltip("#viewers", {
         delay: 5,
         position: "top",
         html: "Viewers"
-      });
+      });*/
 
       Helper.tooltip("#addToOtherList", {
         delay: 5,
@@ -593,8 +590,8 @@ var Channel = {
 
   window_width_volume_slider: function() {
     /*if (window.innerWidth <= 600 && slider_type == "horizontal") {*/
-      slider_type = "vertical";
-      Playercontrols.initSlider();
+    slider_type = "vertical";
+    Playercontrols.initSlider();
     /*} else if (window.innerWidth > 600 && slider_type == "vertical") {
       slider_type = "horizontal";
       Playercontrols.initSlider();
@@ -655,7 +652,7 @@ var Channel = {
       if (!Helper.mobilecheck()) {
         Helper.tooltip(".castButton", "destroy");
         Helper.tooltip("#volume-button", "destroy");
-        Helper.tooltip("#viewers", "destroy");
+        //Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
         //$('.castButton-unactive').tooltip("destroy");
         Helper.tooltip("#offline-mode", "destroy");
@@ -714,7 +711,7 @@ var Channel = {
         Helper.tooltip(".castButton", "destroy");
         Helper.tooltip("#volume-button", "destroy");
         Helper.tooltip("#addToOtherList", "destroy");
-        Helper.tooltip("#viewers", "destroy");
+        //Helper.tooltip("#viewers", "destroy");
         Helper.tooltip("#offline-mode", "destroy");
         Helper.tooltip("search-btn", "destroy");
         Helper.tooltip("#fullscreen", "destroy");
