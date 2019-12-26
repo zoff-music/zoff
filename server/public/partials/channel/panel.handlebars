@@ -1,4 +1,3 @@
-
 <div class="nav-btn close-settings clickable" title="Close" id="closeSettings">
     <i class="material-icons auto-margin">close</i>
 </div>
@@ -13,7 +12,7 @@
                 <li class="channel_info_container">
                     <div id="thumbnail_image">
                     </div>
-                    <div id="description_area">
+                    <div id="description_area" class="selectable">
                         This channel doesn't have a description yet.
                     </div>
                 </li>
@@ -35,12 +34,14 @@
             <ul>
                 <li>
                     <div><a id="code-link" target="_blank">
-                        <img id="code-qr" alt="QR code for control" title="Link to control this Zoff player" src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
+                            <img id="code-qr" alt="QR code for control" title="Link to control this Zoff player"
+                                src="https://chart.googleapis.com/chart?chs=221x221&amp;cht=qr&amp;choe=UTF-8&amp;chld=L%7C1&amp;chl=http://zoff.me" />
 
-                        <h4 id="code-text">ABBADUR</h4>
-                    </a></div>
+                            <h4 id="code-text">ABBADUR</h4>
+                        </a></div>
                     <p>
-                        You can control this Zoff instance from another device by going to <b>https://remote.zoff.me/</b>
+                        You can control this Zoff instance from another device by going to
+                        <b>https://remote.zoff.me/</b>
                     </p>
                 </li>
             </ul>
@@ -59,15 +60,19 @@
                     <div class="switch">
                         <label>
                             Disabled
-                            <input name="host_switch" type="checkbox" class="host_switch_class" /><span class="lever"></span>
+                            <input name="host_switch" type="checkbox" class="host_switch_class" /><span
+                                class="lever"></span>
                             Enabled
                         </label>
                     </div>
                     <div id="host-info">
-                        By enabling host mode, the channel will go inn fullscreen, this computer can not click any of the vote buttons/remove songs, and the skip-button will be removed. The only things displayed will be the video and the playlist.
+                        By enabling host mode, the channel will go inn fullscreen, this computer can not click any of
+                        the vote buttons/remove songs, and the skip-button will be removed. The only things displayed
+                        will be the video and the playlist.
                         <br>
                         <br>
-                        This mode could be usefull when playing music from a channel at a party, and not wanting anyone to have to interact with the computer.
+                        This mode could be usefull when playing music from a channel at a party, and not wanting anyone
+                        to have to interact with the computer.
                         <br>
                         <br>
                         To exit host mode, click ESC.
@@ -87,17 +92,8 @@
                     <p id="remote_header">Control another client</p>
                     <form action="#" class="row" id="remoteform">
                         <div class="input-field col s12">
-                            <input
-                            class="input-field"
-                            type="text"
-                            id="remote_channel"
-                            name="chan"
-                            autocomplete="off"
-                            spellcheck="false"
-                            maxlength="10"
-                            data-length="10"
-                            placeholder="ID to remotecontroll"
-                            />
+                            <input class="input-field" type="text" id="remote_channel" name="chan" autocomplete="off"
+                                spellcheck="false" maxlength="10" data-length="10" placeholder="ID to remotecontroll" />
                         </div>
                     </form>
                     <div id="remote-sidebar-buttons-container">
@@ -133,7 +129,8 @@
                     <div class="input-field field-settings youtube_clicked">
                         <form action="#" id="listImport">
                             <i class="material-icons import-icon">playlist_add</i>
-                            <input title="Input YouTube-playlist url here!" placeholder="Enter YouTube-list URL" id="import" type="text" class="validate" autocomplete="off" />
+                            <input title="Input YouTube-playlist url here!" placeholder="Enter YouTube-list URL"
+                                id="import" type="text" class="validate" autocomplete="off" />
                             <div class="valign playlist_loader_padding">
                                 <div id="playlist_loader" class="preloader-wrapper small active hide">
                                     {{> spinner}}
@@ -151,7 +148,8 @@
                     <div class="input-field field-settings spotify_authenticated">
                         <form action="#" id="listImportSpotify">
                             <i class="material-icons import-icon">playlist_add</i>
-                            <input title="Input Spotify-playlist url here!" placeholder="Enter Spotify-list url" id="import_spotify" type="text" class="validate" autocomplete="off" />
+                            <input title="Input Spotify-playlist url here!" placeholder="Enter Spotify-list url"
+                                id="import_spotify" type="text" class="validate" autocomplete="off" />
                             <div id="playlist_loader_spotify" class="valign playlist_loader_padding hide">
                                 <div class="preloader-wrapper small active">
                                     {{> spinner}}
@@ -163,15 +161,18 @@
                 <li class="white-bg">
                     <div class="input-field field-settings soundcloud-import-button import-buttons">
                         <a class="waves-effect btn import-soundcloud" title="Import SoundCloud playlist">
-                            <img src="https://developers.soundcloud.com/assets/logo_big_white-65c2b096da68dd533db18b9f07d14054.png" class="left soundcloud_logo" alt="SoundCloud Logo" />
+                            <img src="https://developers.soundcloud.com/assets/logo_big_white-65c2b096da68dd533db18b9f07d14054.png"
+                                class="left soundcloud_logo" alt="SoundCloud Logo" />
                             <span>SoundCloud</span>
                         </a>
                     </div>
                     <div class="input-field field-settings soundcloud_authenticated hide">
                         <form action="#" id="listImportSoundCloud">
                             <i class="material-icons import-icon">playlist_add</i>
-                            <input title="Input SoundCloud-playlist url here!" placeholder="Enter SoundCloud-list url" id="import_soundcloud" type="text" class="validate" autocomplete="off" />
-                            <p class="soundcloud-disclaimer">If you want to add a private list, remember to add the secret token at the end!</p>
+                            <input title="Input SoundCloud-playlist url here!" placeholder="Enter SoundCloud-list url"
+                                id="import_soundcloud" type="text" class="validate" autocomplete="off" />
+                            <p class="soundcloud-disclaimer">If you want to add a private list, remember to add the
+                                secret token at the end!</p>
                         </form>
                         <div id="playlist_loader_soundcloud" class="valign playlist_loader_padding hide">
                             <div class="preloader-wrapper small active">
@@ -183,13 +184,15 @@
                 <li class="white-bg">
                     <div class="input-field field-settings import-buttons import-zoff-container">
                         <a class="waves-effect zoff-color lighten btn import-zoff" title="Import Zoff playlist">
-                            <img src="/assets/images/z.svg" class="left zoff-logo zoff-image-import" alt="Zoff Logo" />Zoff
+                            <img src="/assets/images/z.svg" class="left zoff-logo zoff-image-import"
+                                alt="Zoff Logo" />Zoff
                         </a>
                     </div>
                     <div class="input-field field-settings zoff_add_field hide">
                         <form action="#" id="listImportZoff">
                             <i class="material-icons import-icon">playlist_add</i>
-                            <input title="Input Zoff-playlist name here!" placeholder="Enter Zoff-list" id="import_zoff" type="text" class="validate" autocomplete="off" />
+                            <input title="Input Zoff-playlist name here!" placeholder="Enter Zoff-list" id="import_zoff"
+                                type="text" class="validate" autocomplete="off" />
                             <div id="playlist_loader_zoff" class="valign playlist_loader_padding hide">
                                 <div class="preloader-wrapper small active">
                                     {{> spinner}}
@@ -203,7 +206,8 @@
                     <ul class="input-field field-settings not-imported-container">
                         <li class="white-bg not-imported-element">
                             <div class="extra-add-text truncate"></div>
-                            <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
+                            <a href="#"
+                                class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
                             <a href="#" class="waves-effect green lighten btn right extra-button extra-button-search">
                                 <i class="material-icons search-extra">search</i>
                             </a>
@@ -237,7 +241,8 @@
                 <li class="white-bg">
                     <div class="input-field field-settings soundcloud-export-button export-buttons">
                         <a class="waves-effect btn export-soundcloud" title="Export to SoundCloud">
-                            <img src="https://developers.soundcloud.com/assets/logo_big_white-65c2b096da68dd533db18b9f07d14054.png" class="left soundcloud_logo" alt="SoundCloud Logo" />
+                            <img src="https://developers.soundcloud.com/assets/logo_big_white-65c2b096da68dd533db18b9f07d14054.png"
+                                class="left soundcloud_logo" alt="SoundCloud Logo" />
                             <span>SoundCloud</span>
                         </a>
                     </div>
@@ -265,7 +270,8 @@
                                     <div id="extra-export-container-text">
                                         <input class="extra-add-text truncate" readonly />
                                     </div>
-                                    <a href="#" class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
+                                    <a href="#"
+                                        class="waves-effect red lighten btn right extra-button extra-button-delete">X</a>
                                 </li>
                             </ul>
                         </li>

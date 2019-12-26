@@ -271,7 +271,7 @@ var Admin = {
       if (existingRules) existingRules.remove();
       var rules = conf_array.rules.split("\n");
       var elementToAdd =
-        "<li class='rules-container'><div class='row'><div class='col s10 offset-s1'><h4 class='center-align'>Rules</h4>";
+        "<li class='rules-container selectable'><div class='row'><div class='col s10 offset-s1'><h4 class='center-align'>Rules</h4>";
       for (var i = 0; i < rules.length; i++) {
         elementToAdd += "<p class='initial-line-height'>" + rules[i] + "</p>";
       }
