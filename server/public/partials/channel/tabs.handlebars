@@ -1,9 +1,16 @@
 <div id="playlist" class="col s12 m3">
     {{#unless client}}
     <ul class="tabs playlist-tabs-loggedIn tabs-fixed-width" style="width: 96%;">
-        <li class="tab col s3"><a class="playlist-tab-links playlist-link active truncate" href="#wrapper">Playlist</a></li>
-        <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span class="new badge white hide suggested-badge"></span></a></li>
-        <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat-container">Chat<span class="new badge white hide"></span></a></li>
+        <li class="tab col s3">
+            <a class="playlist-tab-links playlist-link active truncate" href="#wrapper">
+                Playlist
+                <div id="viewers" data-position="top"></div>
+            </a>
+        </li>
+        <li class="tab col s3"><a class="playlist-tab-links suggested-link truncate" href="#suggestions">Suggested<span
+                    class="new badge white hide suggested-badge"></span></a></li>
+        <li class="tab col s3"><a class="playlist-tab-links chat-link truncate" href="#chat-container">Chat<span
+                    class="new badge white hide"></span></a></li>
         <a href="#" class="playlist-search-button">
             <li class="">
                 <i class="material-icons">search</i>
@@ -13,7 +20,8 @@
     {{/unless}}
     <div id="find_div" class="hide">
         <form id="find_form">
-            <input type="text" name="find_value" placeholder="Find.." id="find_input" autocomplete="off" class="white-text" />
+            <input type="text" name="find_value" placeholder="Find.." id="find_input" autocomplete="off"
+                class="white-text" />
             <div class="num_of_found">
                 <span id="num_found">0</span>/<span id="of_total_found">0</span>
             </div>
@@ -23,7 +31,7 @@
     </div>
     {{> channel/playlist}}
     {{#unless client}}
-        {{> channel/suggestions}}
-        {{> channel/chat}}
+    {{> channel/suggestions}}
+    {{> channel/chat}}
     {{/unless}}
 </div>

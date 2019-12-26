@@ -1936,6 +1936,12 @@ nav .zbrand.channel-logo-container {
   left: 25%;
 }
 
+.tabs a.playlist-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .title-container li {
   height: 64px;
   height: 100%;
@@ -2792,7 +2798,8 @@ nav .zbrand.channel-logo-container {
 }
 
 #viewers .material-icons {
-  margin-right: 5px;
+  margin-left: 5px;
+  margin-right: 1px;
 }
 
 #play,

@@ -840,8 +840,9 @@ var Player = {
       if (title != "") {
         document.getElementById("song-title").innerText = title;
       }
-      if (!client)
+      if (!client) {
         document.getElementById("viewers").innerHTML = outPutWord + " " + v;
+      }
       document.getElementById("song-title").setAttribute("title", title);
       //elem.title        = title;
       if (chromecastAvailable) {
