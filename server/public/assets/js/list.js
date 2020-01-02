@@ -401,7 +401,7 @@ var List = {
           "https://www.googleapis.com/youtube/v3/videos?id=" +
           full_playlist[i].id +
           "&key=" +
-          api_key.youtube +
+          getYoutubeKey() +
           "&part=snippet",
         success: function(data) {
           data = JSON.parse(data);
@@ -1383,7 +1383,7 @@ var List = {
 
     var request_url =
       "https://www.googleapis.com/youtube/v3/playlists?part=snippet&key=" +
-      api_key.youtube;
+      getYoutubeKey();
     Helper.removeClass(".exported-list-container", "hide");
     Helper.removeClass("#playlist_loader_export", "hide");
     Helper.ajax({
@@ -1405,7 +1405,7 @@ var List = {
         var playlist_id = response.id;
         var request_url =
           "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=" +
-          api_key.youtube;
+          getYoutubeKey();
         List.addToYoutubePlaylist(
           playlist_id,
           full_playlist,
@@ -1524,7 +1524,7 @@ var List = {
     } else {
       var yt_url =
         "https://www.googleapis.com/youtube/v3/search?key=" +
-        api_key.youtube +
+        getYoutubeKey() +
         "&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10&videoCategoryId=10";
       yt_url += "&q=" + full_playlist[num].title;
       var title = full_playlist[num].title;
@@ -1532,7 +1532,7 @@ var List = {
       temptitle = temptitle.join(" ").split(" ");
       var vid_url =
         "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=" +
-        api_key.youtube +
+        getYoutubeKey() +
         "&id=";
       Helper.ajax({
         type: "GET",

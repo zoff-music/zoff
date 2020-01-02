@@ -46,24 +46,24 @@ var Search = {
       var keyword = encodeURIComponent(search_input);
       var yt_url =
         "https://www.googleapis.com/youtube/v3/search?key=" +
-        api_key.youtube +
+        getYoutubeKey() +
         "&videoEmbeddable=true&part=id&type=video&order=relevance&safeSearch=none&maxResults=25";
       yt_url += "&q=" + keyword;
       if (music) yt_url += "&videoCategoryId=10";
       if (pagination) yt_url += "&pageToken=" + pagination;
       var vid_url =
         "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&fields=pageInfo,items(id,contentDetails,snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key=" +
-        api_key.youtube +
+        getYoutubeKey() +
         "&id=";
       if (related) {
         var yt_url =
           "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=" +
           keyword +
           "&type=video&key=" +
-          api_key.youtube;
+          getYoutubeKey();
         var vid_url =
           "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=" +
-          api_key.youtube +
+          getYoutubeKey() +
           "&id=";
       }
       //https://www.googleapis.com/youtube/v3/videos?key={API-key}&fields=items(snippet(title,description))&part=snippet&id={video_id}
@@ -470,12 +470,12 @@ var Search = {
     var keyword = encodeURIComponent(title + " " + artist);
     var yt_url =
       "https://www.googleapis.com/youtube/v3/search?key=" +
-      api_key.youtube +
+      getYoutubeKey() +
       "&videoEmbeddable=true&part=id,snippet&fields=items(id,snippet)&type=video&order=relevance&safeSearch=none&maxResults=10&videoCategoryId=10";
     yt_url += "&q=" + keyword;
     var vid_url =
       "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=" +
-      api_key.youtube +
+      getYoutubeKey() +
       "&id=";
     artist = artist.split(" ");
     var temptitle = title.split("-");
@@ -719,7 +719,7 @@ var Search = {
     if (pageToken !== undefined) token = "&pageToken=" + pageToken;
     playlist_url =
       "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=49&key=" +
-      api_key.youtube +
+      getYoutubeKey() +
       "&playlistId=" +
       pId +
       token;
@@ -887,7 +887,7 @@ var Search = {
     var next_ids = [];
     var request_url =
       "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id&key=" +
-      api_key.youtube +
+      getYoutubeKey() +
       "&id=";
     for (var i = 0; i < ids.length; i++) {
       if (i > 48) {

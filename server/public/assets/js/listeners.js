@@ -165,6 +165,17 @@ var connection_options = {
 };
 var fromFront = false;
 var fromChannel = false;
+try {
+  if (getYoutubeKey == undefined) {
+    getYoutubeKey = function() {
+      return api_key.youtube;
+    };
+  }
+} catch (e) {
+  getYoutubeKey = function() {
+    return api_key.youtube;
+  };
+}
 
 try {
   if (navigator.serviceWorker && window.location.host != "zoff.dev") {

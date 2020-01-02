@@ -86,10 +86,10 @@ var Suggestions = {
       "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=" +
       id +
       "&type=video&key=" +
-      api_key.youtube;
+      getYoutubeKey();
     var video_urls =
       "https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet,id,statistics&fields=pageInfo,items(id,contentDetails,statistics(viewCount),snippet(categoryId,channelTitle,publishedAt,title,description,thumbnails))&key=" +
-      api_key.youtube +
+      getYoutubeKey() +
       "&id=";
 
     Helper.ajax({
