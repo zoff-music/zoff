@@ -386,7 +386,10 @@ var List = {
   },
 
   check_error_videos: function(i) {
+    // this should be improved before being utilized again..
+    // Maybe add a flag in the settings that says when it was last checked?
     //Helper.log("Empty-checker at " + i);
+    return;
     if (full_playlist.length == 0) return;
     else if (
       full_playlist[i].source == "soundcloud" &&
