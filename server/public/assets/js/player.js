@@ -567,7 +567,14 @@ var Player = {
     if (end) e = end;
     else e = Player.np.end;
     if (!embed) {
-      Suggestions.fetchYoutubeSuggests(id);
+      try {
+        if (
+          M.Tabs.getInstance(document.querySelector(".playlist-tabs-loggedIn"))
+            .index == 1
+        ) {
+          Suggestions.fetchYoutubeSuggests(id);
+        }
+      } catch (e) {}
     }
     if (chromecastAvailable) {
       //castSession.sendMessage("urn:x-cast:zoff.me", {start: s, end: e, type: "loadVideo", videoId: id, channel: chan.toLowerCase(), source: videoSource, thumbnail: Player.np.thumbnail, title: Player.np.title});

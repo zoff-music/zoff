@@ -82,6 +82,16 @@ var Suggestions = {
       Helper.removeClass(document.querySelector(".suggest-title-info"), "hide");
       Helper.removeClass("#suggest-song-html", "hide");
     }
+    var previousSuggest = window.localStorage.getItem("youtube-suggests");
+    if (
+      previousSuggest == id &&
+      document.getElementById("suggest-song-html").innerHTML.trim() !=
+        "Loading.."
+    ) {
+      return;
+    }
+    document.getElementById("suggest-song-html").innerHTML = "Loading...";
+    window.localStorage.setItem("youtube-suggests", id);
     var get_url =
       "https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=" +
       id +

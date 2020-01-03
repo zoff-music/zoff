@@ -103,6 +103,15 @@ var Channel = {
             Helper.css("#pageButtons", "display", "none");
             scrollChat();
             window.scrollTo(0, 0);
+          } else if (this.index == 1) {
+            if (
+              Player.np != undefined &&
+              Player.np.id != "" &&
+              Player.np.id != undefined &&
+              (Player.np.source == undefined || Player.np.source == "youtube")
+            ) {
+              Suggestions.fetchYoutubeSuggests(Player.np.id);
+            }
           }
         }
       });
