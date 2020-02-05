@@ -99,7 +99,8 @@ app.use(cookieParser());
 //app.set('json spaces', 2);
 
 io = require("socket.io")({
-  pingTimeout: 25000
+  pingTimeout: 25000,
+  cookie: false
   //path: '/zoff',
   //"origins": ("https://zoff.me:443*,https://zoff.me:8080*,zoff.me:8080*,https://remote.zoff.me:443*,https://remote.zoff.me:8080*,https://fb.zoff.me:443*,https://fb.zoff.me:8080*,https://admin.zoff.me:443*,https://admin.zoff.me:8080*, http://localhost:8080*")});
 });
@@ -167,16 +168,16 @@ app.use(function(req, res, next) {
         res.cookie("_uI", user_name, {
           maxAge: 365 * 10000 * 3600000,
           httpOnly: true,
-          secure: secure
-          //sameSite: true,
+          secure: secure,
+          sameSite: "None"
         });
       } else {
         //process.stderr.write((new Date), "couldn't fetch cookie for some reason, maybe no cookie exists?", req, "couldn't fetch cookie for some reason, maybe no cookie exists?");
         res.cookie("_uI", cookie, {
           maxAge: 365 * 10000 * 3600000,
           httpOnly: true,
-          secure: secure
-          //sameSite: true,
+          secure: secure,
+          sameSite: "None"
         });
       }
       var origin = getOrigin(req);

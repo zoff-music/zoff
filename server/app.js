@@ -117,7 +117,9 @@ function startSingle(clustered, redis_enabled) {
       console.log("No redis-server to connect to..");
     }
   }
-  socketIO.listen(server);
+  socketIO.listen(server, {
+    cookie: false
+  });
 
   process.on("message", function(message, connection) {
     if (message !== "sticky-session:connection") {

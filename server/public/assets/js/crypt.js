@@ -11,14 +11,14 @@ var Crypt = {
           chan.toLowerCase() +
           "=;path=/" +
           chan.toLowerCase() +
-          ";expires=" +
+          ";SameSite=None;expires=" +
           new Date(0).toUTCString();
       } else {
         document.cookie =
           chan.toLowerCase() +
           "=;path=/" +
           chan.toLowerCase() +
-          ";secure;expires=" +
+          ";secure;SameSite=None;expires=" +
           new Date(0).toUTCString();
       }
     }
@@ -28,6 +28,7 @@ var Crypt = {
     } catch (err) {
       conf_arr = Crypt.decrypt(Crypt.create_cookie("_opt"), "_opt");
     }
+    Crypt.encrypt(conf_arr, "_opt");
 
     if (window.location.pathname != "/") {
       change_intelligent(Crypt.get_intelligent_list_enabled());
@@ -156,7 +157,7 @@ var Crypt = {
         cookie +
         "=" +
         encrypted.toString() +
-        ";expires=" +
+        ";SameSite=None;expires=" +
         CookieDate.toGMTString() +
         ";path=/;";
     } else {
@@ -164,15 +165,15 @@ var Crypt = {
         cookie +
         "=" +
         encrypted.toString() +
-        ";secure;expires=" +
+        ";SameSite=None;secure;expires=" +
         CookieDate.toGMTString() +
         ";path=/;";
     }
   },
 
   get_volume: function() {
-    if(Helper.mobilecheck()) {
-        return 100;
+    if (Helper.mobilecheck()) {
+      return 100;
     }
     return Crypt.decrypt(Crypt.getCookie("_opt"), "_opt").volume;
     //return conf_arr.volume;
@@ -226,7 +227,7 @@ var Crypt = {
         name +
         "=" +
         encrypted.toString() +
-        ";expires=" +
+        ";SameSite=None;expires=" +
         CookieDate.toGMTString() +
         ";path=/;";
     } else {
@@ -234,7 +235,7 @@ var Crypt = {
         name +
         "=" +
         encrypted.toString() +
-        ";secure;expires=" +
+        ";SameSite=None;secure;expires=" +
         CookieDate.toGMTString() +
         ";path=/;";
     }
