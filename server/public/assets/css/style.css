@@ -2783,6 +2783,7 @@ nav .zbrand.channel-logo-container {
   font-size: 1rem;
   position: absolute;
   left: 110px;
+  width: fit-content;
   bottom: -15px;
   pointer-events: none;
 }
