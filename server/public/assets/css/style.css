@@ -2067,6 +2067,7 @@ nav .zbrand.channel-logo-container {
 }
 
 .chan {
+  text-transform: capitalize;
   margin-top: -10px;
   padding-right: 10px;
   /*max-width:22vw;*/
