@@ -538,6 +538,15 @@ li.disabled span {
   margin-right: 5px;
 }
 
+.frontpage-now-playing {
+  display: flex;
+}
+
+.frontpage-now-playing .now-playing-title {
+  flex: 1;
+  text-align: left;
+}
+
 #toast-container {
   left: 2%;
   cursor: pointer;

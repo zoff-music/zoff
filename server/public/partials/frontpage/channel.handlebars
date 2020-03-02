@@ -1,32 +1,37 @@
+<li class="chan-card col s6 m4 l4">
+    <div class="card sticky-action">
+        <a class="chan-link" href="{{_id}}/">
+            <div class="chan-bg card-image cardbg" style="background-image:url({{thumbnail}});"></div>
+            <div class="card-content">
 
-    <li class="chan-card col s6 m4 l4">
-        <div class="card sticky-action">
-            <a class="chan-link" href="{{_id}}/">
-                <div class="chan-bg card-image cardbg" style="background-image:url({{thumbnail}});"></div>
-                <div class="card-content">
+                <i class="material-icons pin"
+                    style="{{#if pinned}}display:block;{{/if}}{{#unless pinned}}display:none;{{/unless}}">star_rate</i>
 
-                        <i class="material-icons pin" style="{{#if pinned}}display:block;{{/if}}{{#unless pinned}}display:none;{{/unless}}">star_rate</i>
-
-                    <p class="left-align">
-                        <span class="chan-name flow-text truncate">{{decodeString _id}}</span>
-                        <br>
-                        <span class="highlighted">Viewers:&nbsp;</span>
-                        <span class="chan-views">{{viewers}}</span>
-                        <br>
-                        <span class="highlighted">Length:&nbsp;</span>
-                        <span class="chan-songs">{{count}}</span>
-                    </p>
-                </div>
-                <div class="card-action noselect">
-                    <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
-                </div>
-                {{#if_equal description "This list has no description"}}
-                {{else}}
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4 truncate">{{decodeString _id}}</span>
-                        <p class="description_text">{{description}}</p>
+                <p class="left-align">
+                    <span class="chan-name flow-text truncate">{{decodeString _id}}</span>
+                    <br>
+                    <span class="highlighted">Viewers:&nbsp;</span>
+                    <span class="chan-views">{{viewers}}</span>
+                    <br>
+                    <span class="highlighted">Length:&nbsp;</span>
+                    <span class="chan-songs">{{count}}</span>
+                    <br>
+                    <div class="frontpage-now-playing">
+                        <span class="highlighted">Playing:&nbsp;</span>
+                        <span class="now-playing-title truncate">{{title}}</span>
                     </div>
-                {{/if_equal}}
-            </a>
-        </div>
-    </li>
+                </p>
+            </div>
+            <div class="card-action noselect">
+                <span class="chan-link-element waves-effect waves-orange btn-flat">Listen</span>
+            </div>
+            {{#if_equal description "This list has no description"}}
+            {{else}}
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4 truncate">{{decodeString _id}}</span>
+                <p class="description_text">{{description}}</p>
+            </div>
+            {{/if_equal}}
+        </a>
+    </div>
+</li>
