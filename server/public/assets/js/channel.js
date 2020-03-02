@@ -497,6 +497,13 @@ var Channel = {
   },
 
   set_title_width: function(start) {
+    if (
+      document.getElementsByClassName("control-list").length == 0 ||
+      document.getElementsByClassName("title-container").length == 0 ||
+      document.getElementsByClassName("brand-logo").length == 0
+    ) {
+      return;
+    }
     if (window.innerWidth > 600) {
       var add_width = document.getElementsByClassName("brand-logo")[0]
         .offsetWidth;
