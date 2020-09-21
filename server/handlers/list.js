@@ -334,6 +334,10 @@ function skip(list, guid, coll, offline, socket, callback) {
             undefined,
             "place 12"
           );
+          if (Functions.contains(docs[0].skips, guid)) {
+            socket.emit("toast", "alreadyskip");
+            return;
+          }
 
           var video_id;
           adminpass = "";
