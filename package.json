@@ -56,7 +56,7 @@
     "redis": "^2.8.0",
     "referrer-policy": "^1.1.0",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "socket.io-redis": "^5.2.0",
     "sticky-session": "^1.1.2",
     "uniqid": "5.0.3"
