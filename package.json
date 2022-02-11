@@ -35,7 +35,7 @@
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-handlebars": "^3.0.2",
+    "express-handlebars": "^5.3.1",
     "express-recaptcha": "^3.0.1",
     "express-session": "^1.15.6",
     "farmhash": "^3.0.0",
